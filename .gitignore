@@ -1,0 +1,11 @@
+bin/
+obj/
+uploads/
+tests/**/bin/
+tests/**/obj/
+*.user
+*.log
+node_modules/
+.npm-cache/
+.build-check/
+.integration-check/

@@ -1,0 +1,5 @@
+@{var contacts=ViewContext.RouteData.Values["action"]?.ToString()=="LienHe";}
+<nav class="tabs" aria-label="Liên hệ và kết nối">
+    <a asp-area="KetNoi" asp-controller="KetNoi" asp-action="LienHe" class="@(contacts?"selected":"")" aria-current="@(contacts?"page":null)">Yêu cầu liên hệ</a>
+    <a asp-area="KetNoi" asp-controller="KetNoi" asp-action="Index" class="@(!contacts?"selected":"")" aria-current="@(!contacts?"page":null)">Yêu cầu kết nối</a>
+</nav>

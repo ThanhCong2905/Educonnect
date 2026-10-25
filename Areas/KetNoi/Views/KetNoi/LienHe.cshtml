@@ -1,0 +1,59 @@
+@inject NguoiDungMauService Current
+@{
+ ViewData["Title"]="Liên hệ";
+ var me=await Current.HienTaiAsync();
+ var people=await Current.DanhSachAsync();
+ var contacts=(List<YeuCauLienHe>)ViewBag.Contacts;
+ var needs=(List<NhuCauHoc>)ViewBag.Needs;
+ var subjects=(List<MonHoc>)ViewBag.Subjects;
+ var chats=(Dictionary<Guid,Guid>)ViewBag.Chats;
+}
+<h1>Liên hệ & kết nối</h1>
+
+<partial name="_KetNoiTabs"/>
+<div class="heading"><h2>Yêu cầu liên hệ <span class="muted">(@contacts.Count)</span></h2></div>
+<div class="contact-grid">
+@foreach(var contact in contacts){
+ var other=people.FirstOrDefault(x=>x.Id==(contact.GiaSuId==me.Id?contact.BenHocId:contact.GiaSuId));
+ var sent=contact.NguoiGuiId==me.Id;
+ <article class="card contact-card" id="@contact.Id">
+  <div class="contact-card-top"><span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@Rules.Label(contact.TrangThai)</span><small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small></div>
+  <div class="person"><span class="avatar" aria-hidden="true">@(other?.HoTen.FirstOrDefault().ToString()??"?")</span><div><h3>@other?.HoTen</h3><small>@Rules.Label(other?.LoaiNguoi)</small></div></div>
+  <p class="contact-message pre">@contact.LoiNhan</p>
+  <small class="contact-date">Gửi lúc @Rules.Date(contact.GuiLuc)</small>
+  <div class="contact-card-footer">
+  @if(contact.TrangThai=="ChoPhanHoi"){
+   <p class="muted">@(sent?"Đang chờ bên kia phản hồi.":"Chấp nhận lời mời để mở cuộc trò chuyện.")</p>
+   <form method="post" asp-action="PhanHoiLienHe" class="actions">
+    <input name="id" value="@contact.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(contact.RowVersion)" type="hidden">
+    @if(sent){<button class="btn btn-outline-primary" name="action" value="DaRut">Rút lời mời</button>}
+    else{<button class="btn btn-primary" name="action" value="ChapNhan">Chấp nhận</button><button class="btn quiet" name="action" value="TuChoi">Từ chối</button>}
+   </form>
+  }else if(contact.TrangThai=="ChapNhan"){
+   
+   <div class="actions">
+    @if(chats.TryGetValue(contact.Id,out var chat)){<a class="btn btn-outline-primary" href="/HocTap/TinNhan/Index?id=@chat">Nhắn tin</a>}
+    @if(me.LoaiNguoi=="GiaSu"){<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}
+    else{<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#connection-request-modal" data-contact-id="@contact.Id" data-contact-name="@other?.HoTen">Gửi yêu cầu kết nối</button>}
+   </div>
+  }else{<p class="muted">@(contact.TrangThai=="DaRut"?"Lời mời đã được rút.":"Lời mời này đã được xử lý.")</p>}
+  </div>
+ </article>
+}
+</div>
+@if(contacts.Count==0){<div class="empty"><h3>Chưa có liên hệ</h3><p>Tìm người phù hợp và gửi lời mời để bắt đầu trao đổi.</p><a class="btn btn-primary" href="/TimKiem/TimKiem/Index">Tìm kiếm</a></div>}
+@if(me.LoaiNguoi!="GiaSu"){
+<div class="modal fade" id="connection-request-modal" tabindex="-1" aria-labelledby="connection-request-title" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+  <div class="modal-header"><h2 id="connection-request-title" class="modal-title fs-5">Gửi yêu cầu kết nối</h2><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
+  <div class="modal-body">
+   <p class="muted">Trao đổi với <strong data-contact-recipient></strong> về nhu cầu và điều kiện học của bạn.</p>
+   <form method="post" asp-action="GuiYeuCau">
+    <input name="LienHeId" type="hidden">
+    <label>Nhu cầu học<select class="form-select" name="NhuCauId"><option value="">Chưa gắn nhu cầu</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id">@(subjects.FirstOrDefault(s=>s.Id==need.MonHocId)?.TenMon) · @need.KhoiLop · @need.MucTieu</option>}</select></label>
+    <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" placeholder="Môn học, lịch mong muốn và những điều bạn muốn trao đổi"></textarea></label>
+    <div class="actions"><button class="btn btn-primary">Gửi yêu cầu</button><button class="btn quiet" type="button" data-bs-dismiss="modal">Để sau</button></div>
+   </form>
+  </div>
+ </div></div>
+</div>}

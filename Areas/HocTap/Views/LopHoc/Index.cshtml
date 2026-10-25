@@ -1,0 +1,3 @@
+@model List<LopHoc>
+@{ViewData["Title"]="Lớp học của tôi";}
+<h1>Lớp học của tôi</h1><p>Lịch học, bài tập và trao đổi trong cùng một không gian.</p><div class="cards">@foreach(var c in Model){<article class="card"><span class="badge rounded-pill">@Rules.Label(c.TrangThai)</span><h2>@c.TenLop</h2><p>@c.MucTieu</p><strong class="price">@Rules.Fee(c.HocPhi,c.DonViHocPhi)</strong><p>@Rules.Label(c.HinhThucHoc) · @c.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@c.Id">Mở lớp học →</a></article>}</div>@if(Model.Count==0){<div class="empty">Chưa có lớp. Lớp được tạo khi bên học xác nhận đề xuất hợp lệ của gia sư.</div>}

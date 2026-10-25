@@ -1,0 +1,9 @@
+@model List<int>
+<fieldset class="subject-picker">
+ <legend>Môn học</legend>
+ <div class="subject-options">
+ @foreach(var subject in ((List<MonHoc>)ViewBag.Subjects).OrderBy(s=>Array.IndexOf(MonHocCatalog.PhoThong,s.TenMon)<0?99:Array.IndexOf(MonHocCatalog.PhoThong,s.TenMon))){<label class="check"><input class="form-check-input" type="checkbox" name="MonHocIds" value="@subject.Id" checked="@Model.Contains(subject.Id)"> @subject.TenMon</label>}
+ @if(ViewData["AllowOtherSubjects"] is not false){<partial name="_MonKhac"/>}
+ @if(((List<MonHoc>)ViewBag.Subjects).Count==0&&ViewData["AllowOtherSubjects"] is false){<p class="muted">Bạn chưa đăng ký môn dạy. <a href="/NhuCau/HoSoGiaSu/Sua">Cập nhật hồ sơ</a> để thêm môn học.</p>}
+ </div>
+</fieldset>

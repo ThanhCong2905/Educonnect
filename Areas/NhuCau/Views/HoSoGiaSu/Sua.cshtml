@@ -1,0 +1,17 @@
+@model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
+@{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;}
+<h1>Hồ sơ của tôi</h1>
+<form method="post" asp-action="Luu" enctype="multipart/form-data" class="card form-wide">
+ <div asp-validation-summary="All" class="validation"></div><input asp-for="RowVersion" type="hidden">
+ <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
+ @foreach(var field in new[]{("HoTen","Họ tên",Model.HoTen),("TrinhDo","Trình độ",Model.TrinhDo),("ChuyenMon","Chuyên môn",Model.ChuyenMon),("KinhNghiem","Kinh nghiệm",Model.KinhNghiem),("KhuVuc","Khu vực",Model.KhuVuc),("PhamViDay","Phạm vi dạy",Model.PhamViDay)}){<label>@field.Item2<input class="form-control" name="@field.Item1" value="@field.Item3" required maxlength="256"></label>}
+ </div>
+ <label>Giới thiệu<textarea class="form-control" asp-for="MoTa" required maxlength="5000"></textarea></label>
+ <partial name="_MonHocPicker" model="Model.MonHocIds" view-data='new ViewDataDictionary(ViewData) { ["ChonMonKhac"] = Model.ChonMonKhac, ["TenMonKhac"] = Model.TenMonKhac }'/>
+ <fieldset><legend>Bằng cấp & chứng chỉ</legend>
+ <label>Thêm tệp<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>PDF, JPG, PNG, DOCX · Tối đa 5 tệp, 10 MB/tệp · Chỉ bạn được xem.</small></label>
+ @if(certificates.Count>0){<div class="credential-list">@foreach(var file in certificates){<div class="credential-row"><div><a asp-action="BangCap" asp-route-id="@file.Id">@file.TenGoc</a><small>@((file.KichThuoc/1024d).ToString("N0")) KB</small></div><label class="check"><input class="form-check-input" type="checkbox" name="XoaTepIds" value="@file.Id" checked="@Model.XoaTepIds.Contains(file.Id)"> Xóa khi lưu</label></div>}</div>}
+ </fieldset>
+ <div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button></div>
+</form>
+

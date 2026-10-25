@@ -1,0 +1,72 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const base='http://127.0.0.1:5281';
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});
+ const context=await browser.newContext(),page=await context.newPage(),checks=[],errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ async function role(p,id){await p.goto(base);await p.locator('.preview summary').click();await p.locator('.preview select').selectOption(id);await Promise.all([p.waitForEvent('framenavigated',f=>f===p.mainFrame()),p.getByRole('button',{name:'Chuyển vai trò'}).click()]);}
+ async function submitSearch(value){await page.locator('[name="TuKhoa"]').fill(value);await page.locator('#search-filters').evaluate(form=>form.requestSubmit());await page.waitForFunction(value=>new URL(location.href).searchParams.get('TuKhoa')===value,value);}
+ try{
+  await role(page,'10000000-0000-0000-0000-000000000002');
+  await page.goto(base+'/TimKiem/TimKiem/Index');await page.evaluate(()=>window.ajaxMarker='kept');
+  await submitSearch('nothing-matches-'+Date.now());assert.equal(await page.locator('.candidate').count(),0);assert.equal(await page.evaluate(()=>window.ajaxMarker),'kept');
+  await submitSearch('');await page.locator('[name="SapXep"]').selectOption('Ten');await page.waitForFunction(()=>new URL(location.href).searchParams.get('SapXep')==='Ten');
+  assert.equal(await page.evaluate(()=>window.ajaxMarker),'kept');checks.push('Search and sorting update a Razor partial and URL without a document reload');
+  const first=page.locator('input[form="compare-form"]').first();await first.check();const id=await first.getAttribute('value');
+  const next=page.locator('.pagination a[data-page="2"]');assert.ok(await next.count());await next.click();await page.waitForFunction(()=>new URL(location.href).searchParams.get('Trang')==='2');
+  assert.equal(await page.locator('input[form="compare-form"]:checked').count(),1);assert.equal(await page.locator('input[form="compare-form"]:checked').getAttribute('value'),id);
+  await page.goBack();await page.waitForFunction(()=>!new URL(location.href).searchParams.has('Trang'));assert.equal(await page.evaluate(()=>window.ajaxMarker),'kept');
+  checks.push('Pagination and browser Back preserve URL state and comparison selection');
+  await page.route('**/TimKiem/TimKiem/Index?**',async route=>{if(new URL(route.request().url()).searchParams.get('TuKhoa')==='slow-request')await new Promise(resolve=>setTimeout(resolve,800));try{await route.continue();}catch{}});
+  await page.locator('[name="TuKhoa"]').fill('slow-request');await page.locator('#search-filters').evaluate(form=>form.requestSubmit());await page.waitForTimeout(100);
+  await submitSearch('new-request');await page.waitForTimeout(1000);assert.equal(await page.locator('[name="TuKhoa"]').inputValue(),'new-request');assert.equal(new URL(page.url()).searchParams.get('TuKhoa'),'new-request');await page.unrouteAll();
+  checks.push('An obsolete search request cannot overwrite the newest result');
+  await page.goto(base);await page.evaluate(()=>window.ajaxMarker='home');await page.getByRole('button',{name:'Cập nhật',exact:true}).click();await page.waitForFunction(()=>!document.getElementById('home-updates').hasAttribute('aria-busy'));assert.equal(await page.evaluate(()=>window.ajaxMarker),'home');
+  await page.evaluate(()=>window.EduConnect.refreshLive());const count=await context.request.get(base+'/Home/ChuaDoc');assert.equal(await page.locator('#notification-badge').innerText(),String((await count.json()).count));
+  checks.push('Home activity and unread badge refresh without reloading the document');
+  await page.locator('.notification').click();await page.locator('#notification-list').waitFor();
+  const unread=page.locator('#notification-list form.unread');const unreadBefore=await unread.count();
+  assert.ok(unreadBefore>0);const noticeForm=unread.first();
+  const noticeId=await noticeForm.locator('[name="id"]').inputValue(),token=await noticeForm.locator('[name="__RequestVerificationToken"]').inputValue();
+  const read=await context.request.post(base+'/Home/Doc',{headers:{'X-Requested-With':'XMLHttpRequest'},form:{id:noticeId,__RequestVerificationToken:token}});assert.equal(read.status(),200);
+  await page.evaluate(()=>window.EduConnect.refreshLive());
+  await page.waitForFunction(expected=>Number(document.getElementById('notification-badge').textContent)===expected,(await count.json()).count-1,{timeout:20000});
+  assert.equal(await page.locator('#notification-list form.unread').count(),unreadBefore-1);assert.equal(await page.evaluate(()=>window.ajaxMarker),'home');
+  await page.locator('#workspace-modal').getByRole('button',{name:'Đóng',exact:true}).click();await page.locator('#workspace-modal').waitFor({state:'hidden'});
+  checks.push('Unread badge and open notification panel reflect a read notification without a document reload');
+  const otherContext=await browser.newContext(),tutor=await otherContext.newPage();tutor.on('pageerror',e=>errors.push(e.message));
+  await role(tutor,'10000000-0000-0000-0000-000000000001');await tutor.goto(base+'/TimKiem/TimKiem/ChiTiet/30000000-0000-0000-0000-000000000001');
+  const chatUrl=await tutor.locator('.profile-contact a').filter({hasText:'Nhắn tin'}).getAttribute('href');assert.ok(chatUrl.includes('id='));
+  await tutor.goto(base+chatUrl);await page.goto(base+chatUrl);await page.evaluate(()=>window.ajaxMarker='chat');await tutor.evaluate(()=>window.ajaxMarker='sender');
+  await page.locator('.compose textarea').fill('Bản nháp được giữ');
+  const message='AJAX message '+Date.now();await tutor.locator('.compose textarea').fill(message);await tutor.locator('.compose button').click();
+  await tutor.waitForFunction(message=>[...document.querySelectorAll('.bubble')].some(node=>node.textContent.includes(message)),message);
+  assert.equal(await tutor.locator('.compose textarea').inputValue(),'');assert.equal(await tutor.evaluate(()=>window.ajaxMarker),'sender');
+  await page.waitForFunction(message=>[...document.querySelectorAll('.bubble')].some(node=>node.textContent.includes(message)),message,{timeout:15000});
+  assert.equal(await page.locator('.compose textarea').inputValue(),'Bản nháp được giữ');assert.equal(await page.evaluate(()=>window.ajaxMarker),'chat');
+  checks.push('Separate users send and receive persisted messages by AJAX polling while preserving the recipient draft');
+  await page.locator('.chat-stream').evaluate(stream=>{stream.style.height='90px';stream.scrollTop=0;});
+  const longId='Long message '+Date.now();const long=longId+'\n'+Array.from({length:30},(_,i)=>'Dòng '+i).join('\n');await tutor.locator('.compose textarea').fill(long);await tutor.locator('.compose button').click();
+  await page.waitForFunction(value=>document.querySelector('.chat-stream').textContent.includes(value),longId,{timeout:15000});
+  await page.locator('.chat-stream').evaluate(stream=>stream.scrollTop=0);
+  const latest='Keep scroll '+Date.now();await tutor.locator('.compose textarea').fill(latest);await tutor.locator('.compose button').click();
+  await page.waitForFunction(value=>document.querySelector('.chat-stream').textContent.includes(value),latest,{timeout:15000});
+  assert.ok(await page.locator('.chat-stream').evaluate(stream=>stream.scrollTop<40));assert.equal(await page.locator('[data-new-messages]').count(),1);
+  checks.push('Incoming messages do not force a reader away from older messages');
+  await page.locator('.compose textarea').fill('');await page.locator('[name="message"]').fill(message);await page.locator('.inline').evaluate(form=>form.requestSubmit());await page.waitForFunction(value=>new URL(location.href).searchParams.get('message')===value,message);assert.equal(await page.evaluate(()=>window.ajaxMarker),'chat');
+  checks.push('Message search updates its URL and results without reloading');
+  await tutor.goto(base+'/HocTap/LopHoc/Index');
+  const classes=await tutor.locator('a[href*="/LopHoc/ChiTiet/"]').evaluateAll(links=>links.map(link=>link.href));
+  let classChat;
+  for(const url of classes){await tutor.goto(url+'?tab=chat');if(await tutor.locator('.class-chat-frame').count()){classChat=await tutor.locator('.class-chat-frame').getAttribute('src');break;}}
+  assert.ok(classChat,'No class conversation fixture available');
+  await tutor.goto(base+classChat);await page.goto(base+classChat);
+  assert.equal(await tutor.locator('.conversation-list').count(),0);
+  await page.locator('.compose textarea').fill('Nháp chat lớp');
+  const classMessage='Class AJAX '+Date.now();await tutor.locator('.compose textarea').fill(classMessage);await tutor.locator('.compose button').click();
+  await page.waitForFunction(value=>document.querySelector('.chat-stream').textContent.includes(value),classMessage,{timeout:15000});
+  assert.equal(await page.locator('.compose textarea').inputValue(),'Nháp chat lớp');
+  checks.push('Class chat also sends and receives by AJAX while remaining separate from the private inbox');
+  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(__dirname,'../docs/qa/ajax-results.json'),JSON.stringify({passed:checks.length,checks,pageErrors:errors},null,2));console.log(checks);
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

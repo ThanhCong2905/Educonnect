@@ -1,0 +1,24 @@
+@model UngVienViewModel
+@inject NguoiDungMauService Current
+@{var me=await Current.HienTaiAsync();var contact=(YeuCauLienHe?)ViewBag.Contact;}
+<aside class="card profile-contact">
+<h2>Liên hệ & trao đổi</h2>
+@if(me.Id==Model.ChuSoHuuId){
+ @if(Model.LoaiNguoi=="GiaSu"){<p class="muted">Đây là hồ sơ của bạn.</p><a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Chỉnh sửa hồ sơ</a>}else{<p class="muted">Đây là nhu cầu của bạn.</p><a class="btn btn-outline-primary" href="/NhuCau/NhuCau/Sua/@Model.Id">Chỉnh sửa nhu cầu</a>}
+}else if(contact?.TrangThai=="ChapNhan"){
+ <span class="contact-state accepted">Đã chấp nhận liên hệ</span>
+ <p>Bạn có thể nhắn tin để trao đổi thêm trước khi thống nhất lớp học.</p>
+ <div class="actions">@if(ViewBag.ContactChat!=null){<a class="btn btn-primary" href="/HocTap/TinNhan/Index?id=@ViewBag.ContactChat">Nhắn tin</a>}<a class="btn btn-outline-primary" href="/KetNoi/KetNoi/LienHe#@contact.Id">@(me.LoaiNguoi=="GiaSu"?"Đề xuất lớp học":"Gửi yêu cầu kết nối")</a></div>
+}else if(contact?.TrangThai=="ChoPhanHoi"){
+ <span class="contact-state pending">Chờ phản hồi</span>
+ @if(contact.NguoiGuiId==me.Id){<p>Bạn đã gửi lời mời liên hệ. Bạn có thể nhắn tin sau khi bên kia chấp nhận.</p><a class="btn btn-outline-primary" href="/KetNoi/KetNoi/LienHe#@contact.Id">Xem yêu cầu đã gửi</a>}
+ else{<p>@Model.HoTen đã gửi lời mời liên hệ cho bạn. Xem lời nhắn và phản hồi để bắt đầu trao đổi.</p><a class="btn btn-primary" href="/KetNoi/KetNoi/LienHe#@contact.Id">Xem và phản hồi</a>}
+}else{
+ <p class="muted">Gửi lời mời liên hệ để trao đổi về nhu cầu học. Tin nhắn sẽ mở khi hai bên chấp nhận.</p>
+ <form method="post" action="/KetNoi/KetNoi/GuiLienHe">
+ @Html.AntiForgeryToken()<input type="hidden" name="DoiTuongId" value="@Model.ChuSoHuuId">
+ <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" placeholder="Bạn muốn trao đổi về môn học và lịch học nào?"></textarea></label>
+ <button class="btn btn-primary">Gửi lời mời liên hệ</button>
+ </form>
+}
+</aside>

@@ -1,0 +1,18 @@
+@model EduConnect.Mvc.Areas.TimKiem.ViewModels.BoLocTimKiemViewModel
+@{
+ var subjects=(List<MonHoc>)ViewBag.Subjects;
+ var labels=new Dictionary<string,string?>{
+ ["TuKhoa"]=Model.TuKhoa,["MonHocId"]=Model.MonHocId.HasValue?subjects.FirstOrDefault(x=>x.Id==Model.MonHocId)?.TenMon??"Môn đã chọn":null,
+ ["KhoiLop"]=Model.KhoiLop,["HinhThucHoc"]=string.IsNullOrEmpty(Model.HinhThucHoc)?null:Rules.Label(Model.HinhThucHoc),["KhuVuc"]=Model.KhuVuc,
+ ["HocPhiToiDa"]=Model.HocPhiToiDa.HasValue?"Tối đa "+Rules.Fee(Model.HocPhiToiDa,Model.DonViHocPhi):null,
+ ["ThuTrongTuan"]=Model.ThuTrongTuan.HasValue?(Model.ThuTrongTuan==0?"Chủ nhật":"Thứ "+(Model.ThuTrongTuan+1)):null,
+ ["GioBatDau"]=Model.GioBatDau.HasValue?"Từ "+Model.GioBatDau.Value.ToString("HH:mm"):null,
+ ["GioKetThuc"]=Model.GioKetThuc.HasValue?"Đến "+Model.GioKetThuc.Value.ToString("HH:mm"):null};
+}
+@if(labels.Any(x=>!string.IsNullOrWhiteSpace(x.Value))){
+<nav class="active-filters" aria-label="Bộ lọc đang áp dụng">
+@foreach(var filter in labels.Where(x=>!string.IsNullOrWhiteSpace(x.Value))){
+ var query=QueryString.Create(Context.Request.Query.Where(x=>x.Key!=filter.Key&&x.Key!="Trang").SelectMany(x=>x.Value.Select(value=>new KeyValuePair<string,string?>(x.Key,value))));
+ <a href="@Context.Request.Path@query" aria-label="Bỏ bộ lọc @filter.Value">@filter.Value <span aria-hidden="true">×</span></a>
+}
+</nav>}

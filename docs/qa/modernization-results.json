@@ -1,0 +1,15 @@
+{
+  "passed": 8,
+  "checks": [
+    "Need form loads as Razor partial without iframe, duplicate page heading or navigation",
+    "Dynamic form initialization supports learning mode and adding/removing availability rows",
+    "Server validation preserves values and displays a field-linked accessible error",
+    "Successful save closes modal, refreshes the same list and dismisses confirmation after 4.5 seconds",
+    "Calendar initializes inside a partial and keeps the original POST endpoint",
+    "Actionless homework form posts to its original endpoint and reports required fields in Vietnamese",
+    "Comparison opens as a partial modal without leaving search",
+    "Mobile comparison remains within the viewport with internal table scrolling"
+  ],
+  "pageErrors": [],
+  "base": "http://127.0.0.1:5281"
+}

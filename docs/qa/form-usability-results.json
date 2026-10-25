@@ -1,0 +1,14 @@
+{
+  "passed": 8,
+  "checks": [
+    "Own profile shows edit action without false pending state or disabled message button; links do not underline on hover",
+    "Accepted contact opens the specific private conversation",
+    "Required fields have a single star and new availability starts on an unused weekday",
+    "Overlapping slots are caught before a server request and the same error is not repeated in summary",
+    "Removing all availability rows from a draft does not recreate a hidden default slot after saving",
+    "Calendar starts empty and toggling a date adds/removes exactly one lesson",
+    "Invalid batch times do not create a lesson and the mobile calendar fits the viewport",
+    "Pending contact clearly distinguishes the sender from the recipient and offers the correct next action"
+  ],
+  "pageErrors": []
+}

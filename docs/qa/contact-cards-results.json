@@ -1,0 +1,10 @@
+{
+  "passed": 4,
+  "checks": [
+    "Contact cards separate summary/actions and open a correctly bound request modal with inline validation",
+    "Contact grid fits mobile without horizontal overflow",
+    "All three tutor needs appear in search, with the other two shown as complete cards in a related-needs grid",
+    "Related needs become a single-column grid on mobile"
+  ],
+  "pageErrors": []
+}

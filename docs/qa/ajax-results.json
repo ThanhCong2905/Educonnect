@@ -1,0 +1,15 @@
+{
+  "passed": 9,
+  "checks": [
+    "Search and sorting update a Razor partial and URL without a document reload",
+    "Pagination and browser Back preserve URL state and comparison selection",
+    "An obsolete search request cannot overwrite the newest result",
+    "Home activity and unread badge refresh without reloading the document",
+    "Unread badge and open notification panel reflect a read notification without a document reload",
+    "Separate users send and receive persisted messages by AJAX polling while preserving the recipient draft",
+    "Incoming messages do not force a reader away from older messages",
+    "Message search updates its URL and results without reloading",
+    "Class chat also sends and receives by AJAX while remaining separate from the private inbox"
+  ],
+  "pageErrors": []
+}
