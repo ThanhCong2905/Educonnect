@@ -4,17 +4,135 @@ using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
-public sealed class LopHocService(AppDbContext db,NguoiDungMauService current,QuyenLopHocService rights,ThongBaoService notices) {
- public async Task<List<LopHoc>> LayAsync(){var u=await current.HienTaiAsync();return await db.Set<LopHoc>().AsNoTracking().Where(c=>c.GiaSuId==u.Id||c.BenHocId==u.Id||db.Set<ThanhVienLopHoc>().Any(m=>m.LopHocId==c.Id&&m.TaiKhoanId==u.Id&&m.TrangThaiDuyet=="DaDuyet"&&m.RoiLopLuc==null)).OrderBy(c=>c.TenLop).ToListAsync();}
- public Task<LopHoc> ChiTietAsync(Guid id)=>rights.KiemTraQuyenXemAsync(id);
- public async Task<List<LichHoc>> LichAsync(Guid id){await rights.KiemTraQuyenXemAsync(id);return await db.Set<LichHoc>().AsNoTracking().Where(x=>x.LopHocId==id).OrderBy(x=>x.BatDauLuc).ToListAsync();}
- public async Task<List<LichHoc>> LocBuoiAsync(Guid id,string? month,string? state){await rights.KiemTraQuyenXemAsync(id);var q=db.Set<LichHoc>().AsNoTracking().Where(x=>x.LopHocId==id);if(!string.IsNullOrEmpty(month)){Rules.Check(DateTime.TryParseExact(month+"-01","yyyy-MM-dd",System.Globalization.CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.None,out var date),"Tháng không hợp lệ.");var from=Rules.Local(date);var to=from.AddMonths(1);q=q.Where(x=>x.BatDauLuc>=from&&x.BatDauLuc<to);}var now=DateTimeOffset.UtcNow;q=state switch{"cancelled"=>q.Where(x=>x.TrangThai=="DaHuy"),"recorded"=>q.Where(x=>db.Set<BuoiHoc>().Any(b=>b.LichHocId==x.Id)),"past"=>q.Where(x=>x.TrangThai!="DaHuy"&&x.KetThucLuc<=now&&!db.Set<BuoiHoc>().Any(b=>b.LichHocId==x.Id)),"ongoing"=>q.Where(x=>x.TrangThai!="DaHuy"&&x.BatDauLuc<=now&&x.KetThucLuc>now),"upcoming"=>q.Where(x=>x.TrangThai!="DaHuy"&&x.BatDauLuc>now),_=>q};return await q.OrderBy(x=>x.BatDauLuc).ToListAsync();}
- public async Task<List<BuoiHoc>> BuoiAsync(Guid id){await rights.KiemTraQuyenXemAsync(id);return await (from b in db.Set<BuoiHoc>() join l in db.Set<LichHoc>() on b.LichHocId equals l.Id where l.LopHocId==id select b).AsNoTracking().ToListAsync();}
- public async Task<List<ThanhVienLopHoc>> ThanhVienAsync(Guid id){await rights.KiemTraQuyenXemAsync(id);return await db.Set<ThanhVienLopHoc>().AsNoTracking().Where(x=>x.LopHocId==id).ToListAsync();}
- public async Task DeNghiAsync(Guid id,Guid person){var c=await rights.KiemTraQuyenGhiAsync(id);var u=await current.HienTaiAsync();Rules.Check(c.BenHocId==u.Id,"Chỉ bên học chính đề nghị thành viên.",403);Rules.Check(person!=c.GiaSuId&&person!=c.BenHocId&&await db.Set<NguoiThamGia>().AnyAsync(x=>x.Id==person&&x.LoaiNguoi!="GiaSu"),"Chọn người học hoặc phụ huynh khác.");Rules.Check(!await db.Set<ThanhVienLopHoc>().AnyAsync(x=>x.LopHocId==id&&x.TaiKhoanId==person&&x.RoiLopLuc==null&&x.TrangThaiDuyet!="TuChoi"),"Người này đã có đề nghị hoặc ở trong lớp.");await using var tx=await db.Database.BeginTransactionAsync();db.Add(new ThanhVienLopHoc{Id=Guid.NewGuid(),LopHocId=id,TaiKhoanId=person,NguoiDeNghiId=u.Id,TrangThaiDuyet="ChoDuyet",DeNghiLuc=DateTimeOffset.UtcNow});notices.Tao(c.GiaSuId,"ThanhVien",id,"Có đề nghị thêm thành viên.");await db.SaveChangesAsync();await tx.CommitAsync();}
- public async Task DuyetAsync(Guid member,string action,string permission,string version){var m=await db.Set<ThanhVienLopHoc>().SingleOrDefaultAsync(x=>x.Id==member)??throw new LoiNghiepVu("Không có thành viên.");var c=await rights.KiemTraQuyenGhiAsync(m.LopHocId,true);Rules.Check(m.TaiKhoanId!=c.GiaSuId&&m.TaiKhoanId!=c.BenHocId,"Không đổi quyền thành viên chính.");Rules.Check(action is "DaDuyet" or "TuChoi" or "DaRoiLop","Thao tác không hợp lệ.");Rules.Check(permission is "Xem" or "ChinhSua","Chọn đúng quyền.");Rules.Concurrency(db,m,version);m.TrangThaiDuyet=action;m.MucQuyen=action=="DaDuyet"?permission:m.MucQuyen;m.DuyetLuc=DateTimeOffset.UtcNow;if(action=="DaRoiLop")m.RoiLopLuc=DateTimeOffset.UtcNow;await using var tx=await db.Database.BeginTransactionAsync();notices.Tao(m.TaiKhoanId,"ThanhVien",c.Id,"Đề nghị/quyền thành viên lớp đã được cập nhật.");await db.SaveChangesAsync();await tx.CommitAsync();}
- public async Task KetThucAsync(Guid id,string version){var c=await rights.KiemTraQuyenXemAsync(id);var u=await current.HienTaiAsync();Rules.Check(c.TrangThai=="DangHoatDong"&&(u.Id==c.GiaSuId||u.Id==c.BenHocId),"Chỉ hai bên chính xác nhận kết thúc lớp hoạt động.",403);Rules.Concurrency(db,c,version);if(u.Id==c.GiaSuId)c.GiaSuXacNhanKetThucLuc??=DateTimeOffset.UtcNow;else c.BenHocXacNhanKetThucLuc??=DateTimeOffset.UtcNow;if(c.GiaSuXacNhanKetThucLuc!=null&&c.BenHocXacNhanKetThucLuc!=null)c.TrangThai="DaKetThuc";await using var tx=await db.Database.BeginTransactionAsync();notices.Tao(u.Id==c.GiaSuId?c.BenHocId:c.GiaSuId,"KetNoi",id,"Bên còn lại xác nhận kết thúc lớp.");await db.SaveChangesAsync();await tx.CommitAsync();}
- public async Task YeuCauHuyAsync(Guid id,string reason){var c=await rights.KiemTraQuyenXemAsync(id);var u=await current.HienTaiAsync();Rules.Check(c.TrangThai=="DangHoatDong"&&(u.Id==c.GiaSuId||u.Id==c.BenHocId),"Chỉ hai bên chính yêu cầu hủy lớp.",403);Rules.Check(!string.IsNullOrWhiteSpace(reason)&&reason.Length<=2000,"Nhập lý do hủy tối đa 2000 ký tự.");Rules.Check(!await db.Set<YeuCauHuyKetNoi>().AnyAsync(x=>x.LopHocId==id&&x.TrangThai=="ChoPhanHoi"),"Đang có yêu cầu hủy chờ phản hồi.");var now=DateTimeOffset.UtcNow;await using var tx=await db.Database.BeginTransactionAsync();db.Add(new YeuCauHuyKetNoi{Id=Guid.NewGuid(),LopHocId=id,NguoiGuiId=u.Id,LyDo=reason,TrangThai="ChoPhanHoi",GuiLuc=now,HetHanLuc=now.AddHours(72)});notices.Tao(u.Id==c.GiaSuId?c.BenHocId:c.GiaSuId,"KetNoi",id,"Có yêu cầu hủy kết nối lớp, cần phản hồi trong 72 giờ.");await db.SaveChangesAsync();await tx.CommitAsync();}
- public async Task<List<YeuCauHuyKetNoi>> HuyAsync(Guid id){await rights.KiemTraQuyenXemAsync(id);return await db.Set<YeuCauHuyKetNoi>().AsNoTracking().Where(x=>x.LopHocId==id).OrderByDescending(x=>x.GuiLuc).ToListAsync();}
- public async Task PhanHoiHuyAsync(Guid id,bool agree,string version){var u=await current.HienTaiAsync();await using var tx=await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);var r=await db.Set<YeuCauHuyKetNoi>().SingleOrDefaultAsync(x=>x.Id==id)??throw new LoiNghiepVu("Yêu cầu không tồn tại.");var c=await rights.KiemTraQuyenXemAsync(r.LopHocId);Rules.Check((u.Id==c.GiaSuId||u.Id==c.BenHocId)&&r.NguoiGuiId!=u.Id,"Không có quyền phản hồi.",403);Rules.Check(r.TrangThai=="ChoPhanHoi"&&r.HetHanLuc>DateTimeOffset.UtcNow,"Yêu cầu đã xử lý/hết hạn.",409);Rules.Concurrency(db,r,version);r.TrangThai=agree?"ChapNhan":"TuChoi";r.PhanHoiLuc=DateTimeOffset.UtcNow;if(agree)c.TrangThai="DaHuy";notices.Tao(r.NguoiGuiId,"KetNoi",c.Id,"Yêu cầu hủy: "+Rules.Label(r.TrangThai));await db.SaveChangesAsync();await tx.CommitAsync();}
+
+public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, ThongBaoService notices)
+{
+    public async Task<List<LopHoc>> LayAsync()
+    {
+        var u = await current.HienTaiAsync();
+        return await db.Set<LopHoc>().AsNoTracking().Where(c => c.GiaSuId == u.Id || c.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null)).OrderBy(c => c.TenLop).ToListAsync();
+    }
+    public Task<LopHoc> ChiTietAsync(Guid id) => rights.KiemTraQuyenXemAsync(id);
+    public async Task<List<LichHoc>> LichAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        return await db.Set<LichHoc>().AsNoTracking().Where(x => x.LopHocId == id).OrderBy(x => x.BatDauLuc).ToListAsync();
+    }
+    public async Task<List<LichHoc>> LocBuoiAsync(Guid id, string? month, string? state)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        var q = db.Set<LichHoc>().AsNoTracking().Where(x => x.LopHocId == id);
+        if (!string.IsNullOrEmpty(month))
+        {
+            Rules.Check(DateTime.TryParseExact(month + "-01", "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var date), "Tháng không hợp lệ.");
+            var from = Rules.Local(date);
+            var to = from.AddMonths(1);
+            q = q.Where(x => x.BatDauLuc >= from && x.BatDauLuc < to);
+        }
+        var now = DateTimeOffset.UtcNow;
+        q = state switch
+        {
+            "cancelled" => q.Where(x => x.TrangThai == "DaHuy"),
+            "recorded" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
+            "past" => q.Where(x => x.TrangThai != "DaHuy" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
+            "ongoing" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc <= now && x.KetThucLuc > now),
+            "upcoming" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc > now),
+            _ => q
+        };
+        return await q.OrderBy(x => x.BatDauLuc).ToListAsync();
+    }
+    public async Task<List<BuoiHoc>> BuoiAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        return await (from b in db.Set<BuoiHoc>() join l in db.Set<LichHoc>() on b.LichHocId equals l.Id where l.LopHocId == id select b).AsNoTracking().ToListAsync();
+    }
+    public async Task<List<ThanhVienLopHoc>> ThanhVienAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        return await db.Set<ThanhVienLopHoc>().AsNoTracking().Where(x => x.LopHocId == id).ToListAsync();
+    }
+    public async Task DeNghiAsync(Guid id, Guid person)
+    {
+        var c = await rights.KiemTraQuyenGhiAsync(id);
+        var u = await current.HienTaiAsync();
+        Rules.Check(c.BenHocId == u.Id, "Chỉ bên học chính đề nghị thành viên.", 403);
+        Rules.Check(person != c.GiaSuId && person != c.BenHocId && await db.Set<NguoiThamGia>().AnyAsync(x => x.Id == person && x.LoaiNguoi != "GiaSu"), "Chọn người học hoặc phụ huynh khác.");
+        Rules.Check(!await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == person && x.RoiLopLuc == null && x.TrangThaiDuyet != "TuChoi"), "Người này đã có đề nghị hoặc ở trong lớp.");
+        await using var tx = await db.Database.BeginTransactionAsync();
+        db.Add(new ThanhVienLopHoc { Id = Guid.NewGuid(), LopHocId = id, TaiKhoanId = person, NguoiDeNghiId = u.Id, TrangThaiDuyet = "ChoDuyet", DeNghiLuc = DateTimeOffset.UtcNow });
+        notices.Tao(c.GiaSuId, "ThanhVien", id, "Có đề nghị thêm thành viên.");
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
+    }
+    public async Task DuyetAsync(Guid member, string action, string permission, string version)
+    {
+        var m = await db.Set<ThanhVienLopHoc>().SingleOrDefaultAsync(x => x.Id == member) ?? throw new LoiNghiepVu("Không có thành viên.");
+        var c = await rights.KiemTraQuyenGhiAsync(m.LopHocId, true);
+        Rules.Check(m.TaiKhoanId != c.GiaSuId && m.TaiKhoanId != c.BenHocId, "Không đổi quyền thành viên chính.");
+        Rules.Check(action is "DaDuyet" or "TuChoi" or "DaRoiLop", "Thao tác không hợp lệ.");
+        Rules.Check(permission is "Xem" or "ChinhSua", "Chọn đúng quyền.");
+        Rules.Concurrency(db, m, version);
+        m.TrangThaiDuyet = action;
+        m.MucQuyen = action == "DaDuyet" ? permission : m.MucQuyen;
+        m.DuyetLuc = DateTimeOffset.UtcNow;
+        if (action == "DaRoiLop")
+            m.RoiLopLuc = DateTimeOffset.UtcNow;
+        await using var tx = await db.Database.BeginTransactionAsync();
+        notices.Tao(m.TaiKhoanId, "ThanhVien", c.Id, "Đề nghị/quyền thành viên lớp đã được cập nhật.");
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
+    }
+    public async Task KetThucAsync(Guid id, string version)
+    {
+        var c = await rights.KiemTraQuyenXemAsync(id);
+        var u = await current.HienTaiAsync();
+        Rules.Check(c.TrangThai == "DangHoatDong" && (u.Id == c.GiaSuId || u.Id == c.BenHocId), "Chỉ hai bên chính xác nhận kết thúc lớp hoạt động.", 403);
+        Rules.Concurrency(db, c, version);
+        if (u.Id == c.GiaSuId)
+            c.GiaSuXacNhanKetThucLuc ??= DateTimeOffset.UtcNow;
+        else
+            c.BenHocXacNhanKetThucLuc ??= DateTimeOffset.UtcNow;
+        if (c.GiaSuXacNhanKetThucLuc != null && c.BenHocXacNhanKetThucLuc != null)
+            c.TrangThai = "DaKetThuc";
+        await using var tx = await db.Database.BeginTransactionAsync();
+        notices.Tao(u.Id == c.GiaSuId ? c.BenHocId : c.GiaSuId, "KetNoi", id, "Bên còn lại xác nhận kết thúc lớp.");
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
+    }
+    public async Task YeuCauHuyAsync(Guid id, string reason)
+    {
+        var c = await rights.KiemTraQuyenXemAsync(id);
+        var u = await current.HienTaiAsync();
+        Rules.Check(c.TrangThai == "DangHoatDong" && (u.Id == c.GiaSuId || u.Id == c.BenHocId), "Chỉ hai bên chính yêu cầu hủy lớp.", 403);
+        Rules.Check(!string.IsNullOrWhiteSpace(reason) && reason.Length <= 2000, "Nhập lý do hủy tối đa 2000 ký tự.");
+        Rules.Check(!await db.Set<YeuCauHuyKetNoi>().AnyAsync(x => x.LopHocId == id && x.TrangThai == "ChoPhanHoi"), "Đang có yêu cầu hủy chờ phản hồi.");
+        var now = DateTimeOffset.UtcNow;
+        await using var tx = await db.Database.BeginTransactionAsync();
+        db.Add(new YeuCauHuyKetNoi { Id = Guid.NewGuid(), LopHocId = id, NguoiGuiId = u.Id, LyDo = reason, TrangThai = "ChoPhanHoi", GuiLuc = now, HetHanLuc = now.AddHours(72) });
+        notices.Tao(u.Id == c.GiaSuId ? c.BenHocId : c.GiaSuId, "KetNoi", id, "Có yêu cầu hủy kết nối lớp, cần phản hồi trong 72 giờ.");
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
+    }
+    public async Task<List<YeuCauHuyKetNoi>> HuyAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        return await db.Set<YeuCauHuyKetNoi>().AsNoTracking().Where(x => x.LopHocId == id).OrderByDescending(x => x.GuiLuc).ToListAsync();
+    }
+    public async Task PhanHoiHuyAsync(Guid id, bool agree, string version)
+    {
+        var u = await current.HienTaiAsync();
+        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+        var r = await db.Set<YeuCauHuyKetNoi>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Yêu cầu không tồn tại.");
+        var c = await rights.KiemTraQuyenXemAsync(r.LopHocId);
+        Rules.Check((u.Id == c.GiaSuId || u.Id == c.BenHocId) && r.NguoiGuiId != u.Id, "Không có quyền phản hồi.", 403);
+        Rules.Check(r.TrangThai == "ChoPhanHoi" && r.HetHanLuc > DateTimeOffset.UtcNow, "Yêu cầu đã xử lý/hết hạn.", 409);
+        Rules.Concurrency(db, r, version);
+        r.TrangThai = agree ? "ChapNhan" : "TuChoi";
+        r.PhanHoiLuc = DateTimeOffset.UtcNow;
+        if (agree)
+            c.TrangThai = "DaHuy";
+        notices.Tao(r.NguoiGuiId, "KetNoi", c.Id, "Yêu cầu hủy: " + Rules.Label(r.TrangThai));
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
+    }
 }

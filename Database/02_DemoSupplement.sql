@@ -4,7 +4,6 @@ SET QUOTED_IDENTIFIER ON;
 SET ANSI_NULLS ON;
 SET XACT_ABORT ON;
 BEGIN TRAN;
--- Repair omissions in the original demo only; do not run seeds on every app start.
 INSERT dbo.CuocHoiThoai(LoaiHoiThoai,GiaSuId,BenHocId,LienHeId)
 SELECT 'TruocKetNoi',h.GiaSuId,h.BenHocId,h.Id FROM dbo.YeuCauLienHe h WHERE h.TrangThai='ChapNhan' AND NOT EXISTS(SELECT 1 FROM dbo.CuocHoiThoai c WHERE c.LienHeId=h.Id AND c.LoaiHoiThoai='TruocKetNoi');
 IF NOT EXISTS(SELECT 1 FROM dbo.KhungGioRanh WHERE NhuCauId='30000000-0000-0000-0000-000000000002')

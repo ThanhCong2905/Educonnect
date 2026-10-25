@@ -1,4 +1,4 @@
-﻿SET QUOTED_IDENTIFIER ON;
+SET QUOTED_IDENTIFIER ON;
 GO
 USE [KLTN_4NghiepVu_V2];
 GO
@@ -51,9 +51,6 @@ BEGIN
  END TRY BEGIN CATCH IF XACT_STATE()<>0 ROLLBACK;THROW;END CATCH;
 END;
 GO
-
--- Approved change only for the principal learner, not additional members.
 UPDATE m SET MucQuyen='ChinhSua' FROM dbo.ThanhVienLopHoc m JOIN dbo.LopHoc c ON c.Id=m.LopHocId AND c.BenHocId=m.TaiKhoanId WHERE m.TrangThaiDuyet='DaDuyet' AND m.RoiLopLuc IS NULL AND m.MucQuyen='Xem';
--- Original seed has no membership rows; repair only absent principal memberships.
 INSERT dbo.ThanhVienLopHoc(LopHocId,TaiKhoanId,NguoiDeNghiId,TrangThaiDuyet,MucQuyen,DuyetLuc) SELECT c.Id,p.Id,c.GiaSuId,'DaDuyet','ChinhSua',SYSDATETIMEOFFSET() FROM dbo.LopHoc c CROSS APPLY(VALUES(c.GiaSuId),(c.BenHocId)) p(Id) WHERE NOT EXISTS(SELECT 1 FROM dbo.ThanhVienLopHoc m WHERE m.LopHocId=c.Id AND m.TaiKhoanId=p.Id AND m.RoiLopLuc IS NULL AND m.TrangThaiDuyet<>'TuChoi');
 

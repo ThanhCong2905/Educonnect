@@ -1,10 +1,8 @@
-# Ánh xạ nguồn sang mã
+# Cấu trúc ứng dụng
 
-## Thứ tự ưu tiên
+## Kiến trúc
 
-Hành vi: `D:\csdl\EduConnect.html`; trình bày: `D:\Educonnection\wwwroot` và `design-reference/figma-optimized/preview.html`; tổ chức: hai sơ đồ drawio người dùng cung cấp; lưu trữ: DB02.
-
-Dự án cũ và bản preview tối ưu có luồng “điều kiện nhận lớp” và lược bỏ bài tập/lịch. Dự án mới chỉ lấy phong cách từ các nguồn đó, giữ `NhuCauHoc.LoaiNhuCau=NhanLop`, bài tập và lịch theo HTML/DB02 mới.
+Ứng dụng gồm bốn Area nghiệp vụ, lớp Service và EF Core truy cập SQL Server. Controller xử lý yêu cầu HTTP, Service kiểm tra quyền và điều phối giao dịch, Razor View hiển thị dữ liệu.
 
 ## Package
 
@@ -21,15 +19,15 @@ Route chuẩn: `/{area}/{controller}/{action}/{id?}`; Razor tìm tại `Areas/{a
 
 Giữ tên lớp/phương thức tiếng Việt khi phù hợp: `LayDeSuaAsync`, `CapNhatAsync`, `GuiYeuCauAsync`, `GuiDeXuatAsync`, `ChapNhanAsync`, `KiemTraQuyenXemAsync`, `KiemTraQuyenGhiAsync`, `GhiNhanAsync`, `GiaoAsync`, `NopAsync`, `ChamAsync`, `GuiAsync`.
 
-## Những thay đổi cần thiết so với sơ đồ cũ
+## Quy ước triển khai
 
 | Trong sơ đồ | Bản triển khai và lý do |
 | --- | --- |
 | `TaiKhoan`, Identity và các role kế thừa | `NguoiThamGia` của DB02; `NguoiDungMauService` thay nguồn danh tính. Không triển khai xác thực ngoài phạm vi |
 | `LichDuKien: string` | `List<SlotInput>` và bảng `KhungGioDeXuat`, JSON có cấu trúc khi gọi procedure |
 | Lọc `HocPhiTu/HocPhiDen` | Một mức phí và đơn vị trên mỗi nhu cầu; lọc mức tối đa theo đúng đơn vị, không thêm khoảng giá vào Entity |
-| `ThamGia`/`QuanLy` trong HTML | Giữ `Xem`/`ChinhSua` theo DB. Bên học chính `ChinhSua` theo xác nhận người dùng; thành viên bổ sung do gia sư duyệt |
-| `LaBuoiBu`/`LichGocId` | Giữ cột hiện có nhưng luồng mới chỉ tạo lịch thường `0/NULL`; không quảng bá học bù |
+| Quyền thành viên | `Xem` hoặc `ChinhSua`. Bên học chính có `ChinhSua`; thành viên bổ sung do gia sư duyệt |
+| `LaBuoiBu`/`LichGocId` | Schema có các cột buổi bù; luồng hiện tại tạo lịch thường `0/NULL`, chưa có luồng học bù riêng |
 | `ThongBaoController` | Các action `ThongBao`, `Doc`, `ChuaDoc` trên `HomeController`; trách nhiệm lưu và lọc theo chủ sở hữu ở `ThongBaoService` |
 | `TepController` | Action tải tệp trong `BaiTapController`; kiểm tra nội dung, kho tệp và quyền ở `TepService` |
 | `XuLySuKienWorker`/Hub | Chưa triển khai gửi ngoài ứng dụng; sự kiện và thông báo nội bộ lưu trong cùng transaction, event được đánh dấu hoàn tất. Không có tuyên bố email/push đã gửi |
@@ -42,4 +40,4 @@ Procedure gốc dùng cho gửi yêu cầu/đề xuất, chấp nhận tạo l�
 
 Các kiểu công khai chỉ chứa trường cho phép; không trả nguyên Entity nhu cầu ra tìm kiếm. View không truy vấn SQL. Nguồn danh tính duy nhất là `NguoiDungMauService`; không nhận sender/owner từ biểu mẫu để quyết định người thực hiện.
 
-`tools/generate-schema.cjs` tái tạo Entity/mapping từ bản SQL gốc được giữ nguyên, đồng thời tạo script quyền dựa trên procedure gốc. Không dùng công cụ đó để tự ý chạy lại database.
+`Database/00_Original_DB02.sql` là bộ cài mới đã hợp nhất các cập nhật cho ứng dụng hiện tại. Entity và mapping được duy trì trong `Models/Entities.cs` và `Data/AppDbContext.cs`.

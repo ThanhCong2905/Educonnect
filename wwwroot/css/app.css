@@ -1,4 +1,4 @@
-/* Bootstrap owns controls and grid. This file is the single EduConnect theme. */
+/* Giao diện EduConnect dùng cùng Bootstrap. */
 .person h3,.profile-hero h1{overflow-wrap:anywhere}
 .contact-grid>.contact-card{display:flex}
 .heading>div{min-width:0}.related-needs h2{overflow-wrap:anywhere}

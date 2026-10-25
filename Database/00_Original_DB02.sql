@@ -1,12 +1,6 @@
-﻿/* Bốn nghiệp vụ đầu; chưa có đăng nhập
-Nguồn: ánh xạ Trang25 và các quyết định nghiệp vụ được xác nhận ngày 25/10/2026; bản cập nhật V2.
-Mã FR từ 34 cũ trở đi đã giảm 1 theo SRS sửa ngày 24/10/2026.
-SQL Server 2022; chạy toàn file trong SSMS hoặc sqlcmd -b -S CongVjp -E -i <file>.
-Mỗi file tạo một database RIÊNG. Không chạy 6 file vào cùng một database.
-Không DROP database/bảng. Nếu database đã có, script dừng để tránh ghi đè.
-Số bảng: 24. Tìm kiếm dùng view/procedure; không có bảng điểm kiểm tra.
-NguoiThamGia chỉ lưu định danh nghiệp vụ để thử chức năng; không có mật khẩu, Identity, phiên hay phân quyền đăng nhập.
-*/
+/* EduConnect - cài mới database KLTN_4NghiepVu_V2.
+Chạy toàn file với UTF-8. Dừng nếu database đã tồn tại.
+Dữ liệu mẫu dùng để thử nghiệp vụ, chưa có xác thực đăng nhập. */
 USE [master];
 GO
 IF DB_ID(N'KLTN_4NghiepVu_V2') IS NOT NULL
@@ -30,16 +24,12 @@ SET XACT_ABORT ON;
 GO
 BEGIN TRY
 BEGIN TRANSACTION;
-
--- Nguồn: BR-01; FR-01–02, FR-06, FR-14. Danh mục môn dùng chung để tránh cùng môn nhưng nhập tên khác nhau. Nguồn chọn của hồ sơ, nhu cầu và lớp.
 CREATE TABLE dbo.[MonHoc] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [TenMon] nvarchar(256) NOT NULL,
     [DangSuDung] bit NOT NULL CONSTRAINT [DF_MonHoc_DangSuDung] DEFAULT (1),
     CONSTRAINT [PK_MonHoc] PRIMARY KEY ([Id])
 );
-
--- Nguồn: BR-01; FR-47–48, FR-59; QT-13–14; bổ sung học phí theo yêu cầu ngày 24/10/2026. Gia sư khai chuyên môn, kinh nghiệm; quản trị duyệt. Cần giữ hồ sơ để tìm và kiểm duyệt.
 CREATE TABLE dbo.[HoSoGiaSu] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_HoSoGiaSu_Id] DEFAULT (NEWSEQUENTIALID()),
     [GiaSuId] uniqueidentifier NOT NULL,
@@ -54,16 +44,12 @@ CREATE TABLE dbo.[HoSoGiaSu] (
     CONSTRAINT [PK_HoSoGiaSu] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_HoSoGiaSu_1] CHECK ([TrangThaiDuyet] IN (N'ChoDuyet', N'DaDuyet', N'TuChoi'))
 );
-
--- Nguồn: FR-59; QT-14. Gia sư chọn môn và nhập phạm vi dạy cho từng môn. Cần bảng nối vì một hồ sơ có nhiều môn và mỗi cặp có PhamViDay riêng.
 CREATE TABLE dbo.[HoSoGiaSuMonDay] (
     [HoSoGiaSuId] uniqueidentifier NOT NULL,
     [MonHocId] int NOT NULL,
     [PhamViDay] nvarchar(256) NOT NULL,
     CONSTRAINT [PK_HoSoGiaSuMonDay] PRIMARY KEY ([HoSoGiaSuId], [MonHocId])
 );
-
--- Nguồn: FR-01–05; QT-02–05. Bên học nhập nhu cầu học; gia sư nhập nhu cầu nhận lớp. Sơ đồ chọn một entity chung với LoaiNhuCau; cần lưu để tìm và kết nối.
 CREATE TABLE dbo.[NhuCauHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_NhuCauHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [ChuSoHuuId] uniqueidentifier NOT NULL,
@@ -95,8 +81,6 @@ CREATE TABLE dbo.[NhuCauHoc] (
     CONSTRAINT [CK_NhuCauHoc_9] CHECK ([SoBuoiTuan] BETWEEN 1 AND 7),
     CONSTRAINT [CK_NhuCauHoc_10] CHECK ([TuoiNguoiHoc] BETWEEN 1 AND 120)
 );
-
--- Nguồn: FR-01–02, FR-06, FR-08. Chủ nhu cầu chọn nhiều khoảng rảnh. Tách các phần tử lặp thành bảng con để lọc giao nhau theo thứ và giờ.
 CREATE TABLE dbo.[KhungGioRanh] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_KhungGioRanh_Id] DEFAULT (NEWSEQUENTIALID()),
     [NhuCauId] uniqueidentifier NOT NULL,
@@ -107,8 +91,6 @@ CREATE TABLE dbo.[KhungGioRanh] (
     CONSTRAINT [CK_KhungGioRanh_1] CHECK ([ThuTrongTuan] BETWEEN 0 AND 6),
     CONSTRAINT [CK_KhungGioRanh_2] CHECK ([GioBatDau] < [GioKetThuc])
 );
-
--- Nguồn: BR-02; FR-14–21; QT-07; NFR-09–10. Bên học gửi lời nhắn; gia sư lập điều kiện lớp dự kiến. Cần lưu người gửi, điều kiện, thời hạn và phản hồi trước khi tạo lớp.
 CREATE TABLE dbo.[YeuCauKetNoiLopHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_YeuCauKetNoiLopHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [GiaSuId] uniqueidentifier NOT NULL,
@@ -151,8 +133,6 @@ CREATE TABLE dbo.[YeuCauKetNoiLopHoc] (
     CONSTRAINT [CK_YeuCauKetNoiLopHoc_15] CHECK ([TrangThai] NOT IN ('ChoBenHoc','DaChapNhan') OR ([NguoiDeXuatId]=[GiaSuId] AND [NguoiDeXuatId] IS NOT NULL AND [TenLopDuKien] IS NOT NULL AND LEN(LTRIM(RTRIM([TenLopDuKien])))>0 AND [MonHocId] IS NOT NULL AND [MucTieu] IS NOT NULL AND [SoBuoiTuan] IS NOT NULL AND [ThoiLuongPhut] IS NOT NULL AND [BatDauHocLuc] IS NOT NULL AND [HinhThucHoc] IS NOT NULL AND [HocPhi] IS NOT NULL AND [DonViHocPhi] IS NOT NULL)),
     CONSTRAINT [CK_YeuCauKetNoiLopHoc_16] CHECK ([NguoiGuiId]<>[BenHocId] OR ([LoiNhan] IS NOT NULL AND LEN(LTRIM(RTRIM([LoiNhan])))>0))
 );
-
--- Nguồn: FR-22–25; NFR-09–10. Một bên chính gửi lý do hủy; bên kia đồng ý/từ chối. Cần lịch sử yêu cầu vì gửi yêu cầu chưa đồng nghĩa lớp bị hủy.
 CREATE TABLE dbo.[YeuCauHuyKetNoi] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_YeuCauHuyKetNoi_Id] DEFAULT (NEWSEQUENTIALID()),
     [LopHocId] uniqueidentifier NOT NULL,
@@ -168,8 +148,6 @@ CREATE TABLE dbo.[YeuCauHuyKetNoi] (
     CONSTRAINT [CK_YeuCauHuyKetNoi_2] CHECK ([HetHanLuc] = DATEADD(hour,72,[GuiLuc])),
     CONSTRAINT [CK_YeuCauHuyKetNoi_3] CHECK ([PhanHoiLuc] IS NULL OR [PhanHoiLuc] >= [GuiLuc])
 );
-
--- Nguồn: FR-12, FR-19, FR-33; QT-08. Hệ thống tạo ngữ cảnh chat ngay cả khi chưa có yêu cầu kết nối; sau đó giữ trao đổi khi có lớp.
 CREATE TABLE dbo.[CuocHoiThoai] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_CuocHoiThoai_Id] DEFAULT (NEWSEQUENTIALID()),
     [LoaiHoiThoai] varchar(32) NOT NULL,
@@ -185,8 +163,6 @@ CREATE TABLE dbo.[CuocHoiThoai] (
     CONSTRAINT [CK_CuocHoiThoai_3] CHECK (([LoaiHoiThoai]='TruocKetNoi' AND [GiaSuId] IS NOT NULL AND [BenHocId] IS NOT NULL AND [GiaSuId]<>[BenHocId] AND [LopHocId] IS NULL AND [HoiThoaiTruocKetNoiId] IS NULL) OR ([LoaiHoiThoai]='TheoLop' AND [LopHocId] IS NOT NULL)),
     CONSTRAINT [CK_CuocHoiThoai_4] CHECK ([LoaiHoiThoai]<>'TruocKetNoi' OR [LienHeId] IS NOT NULL)
 );
-
--- Nguồn: BR-03; FR-12–13, FR-33; NFR-05, NFR-12. Người có quyền gửi nội dung; server gán người gửi và thời điểm. Cần lưu bền để xem lịch sử, không phụ thuộc kết nối SignalR.
 CREATE TABLE dbo.[TinNhan] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_TinNhan_Id] DEFAULT (NEWSEQUENTIALID()),
     [CuocHoiThoaiId] uniqueidentifier NOT NULL,
@@ -196,8 +172,6 @@ CREATE TABLE dbo.[TinNhan] (
     [MaThaoTac] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_TinNhan] PRIMARY KEY ([Id])
 );
-
--- Nguồn: FR-18–19, FR-45, FR-54; QT-02, QT-15. Hệ thống tạo đúng dữ liệu đề xuất khi bên học chấp nhận. Cần đối tượng gốc cho lịch, bài tập, thành viên và đánh giá.
 CREATE TABLE dbo.[LopHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_LopHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [YeuCauKetNoiId] uniqueidentifier NOT NULL,
@@ -233,8 +207,6 @@ CREATE TABLE dbo.[LopHoc] (
     CONSTRAINT [CK_LopHoc_12] CHECK ([TuoiNguoiHoc] BETWEEN 1 AND 120),
     CONSTRAINT [CK_LopHoc_13] CHECK (LEN(LTRIM(RTRIM([TenNguoiHoc])))>0)
 );
-
--- Nguồn: FR-35–39; QT-04, QT-06, QT-08; NFR-12. Bên học đề nghị thêm tài khoản; gia sư duyệt quyền. Bảng nối cần thuộc tính duyệt, quyền và thời điểm rời nên là entity riêng.
 CREATE TABLE dbo.[ThanhVienLopHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_ThanhVienLopHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [LopHocId] uniqueidentifier NOT NULL,
@@ -253,8 +225,6 @@ CREATE TABLE dbo.[ThanhVienLopHoc] (
     CONSTRAINT [CK_ThanhVienLopHoc_4] CHECK ([DuyetLuc] IS NULL OR [DuyetLuc] >= [DeNghiLuc]),
     CONSTRAINT [CK_ThanhVienLopHoc_5] CHECK ([RoiLopLuc] IS NULL OR [RoiLopLuc] >= [DeNghiLuc])
 );
-
--- Nguồn: FR-27–28; QT-08. Gia sư lập hoặc đổi thời gian dự kiến, tạo buổi bù. Cần tách kế hoạch khỏi ghi nhận buổi học thực tế.
 CREATE TABLE dbo.[LichHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_LichHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [LopHocId] uniqueidentifier NOT NULL,
@@ -271,8 +241,6 @@ CREATE TABLE dbo.[LichHoc] (
     CONSTRAINT [CK_LichHoc_3] CHECK ([LichGocId] IS NULL OR [LichGocId] <> [Id]),
     CONSTRAINT [CK_LichHoc_4] CHECK (([LaBuoiBu] = 1 AND [LichGocId] IS NOT NULL) OR ([LaBuoiBu] = 0 AND [LichGocId] IS NULL))
 );
-
--- Nguồn: FR-26, FR-29, FR-34, FR-42. Gia sư ghi nội dung và nhận xét sau lịch học. Cần lưu thực tế để theo dõi, đánh giá và nhắc chưa ghi nhận sau 24 giờ.
 CREATE TABLE dbo.[BuoiHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_BuoiHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [LichHocId] uniqueidentifier NOT NULL,
@@ -298,8 +266,6 @@ CREATE TABLE dbo.[BuoiHoc] (
     CONSTRAINT [CK_BuoiHoc_7] CHECK ([KetQuaBuoiHoc]<>'DaDienRa' OR ([NoiDungGiangDay] IS NOT NULL AND LEN(LTRIM(RTRIM([NoiDungGiangDay])))>0)),
     CONSTRAINT [CK_BuoiHoc_8] CHECK ([KetQuaBuoiHoc]<>'KhongDienRa' OR [TrangThaiThamDuGiaSu]<>'CoMat' OR [TrangThaiThamDuBenHoc]<>'CoMat')
 );
-
--- Nguồn: BR-03; FR-30–32; QT-09–10. Gia sư giao nội dung, hạn và tiêu chí chấm. Cần lưu đề độc lập với các lần nộp.
 CREATE TABLE dbo.[BaiTapGiao] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_BaiTapGiao_Id] DEFAULT (NEWSEQUENTIALID()),
     [LopHocId] uniqueidentifier NOT NULL,
@@ -312,8 +278,6 @@ CREATE TABLE dbo.[BaiTapGiao] (
     [RowVersion] rowversion NOT NULL,
     CONSTRAINT [PK_BaiTapGiao] PRIMARY KEY ([Id])
 );
-
--- Nguồn: FR-31–32; QT-03, QT-08–10. Bên học hoặc thành viên ChinhSua tải bài, có thể nộp thay và nộp muộn. Cần giữ từng lần nộp, khác bản ghi giao bài.
 CREATE TABLE dbo.[BaiTapNop] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_BaiTapNop_Id] DEFAULT (NEWSEQUENTIALID()),
     [BaiTapGiaoId] uniqueidentifier NOT NULL,
@@ -326,8 +290,6 @@ CREATE TABLE dbo.[BaiTapNop] (
     CONSTRAINT [PK_BaiTapNop] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_BaiTapNop_1] CHECK ([LanNop] > 0)
 );
-
--- Nguồn: FR-32; QT-10; NFR-10. Gia sư của lớp chấm lần nộp mới nhất. Tách kết quả khỏi bài nộp để có trạng thái chưa chấm và sửa kết quả có kiểm soát.
 CREATE TABLE dbo.[KetQuaChamBai] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_KetQuaChamBai_Id] DEFAULT (NEWSEQUENTIALID()),
     [BaiTapNopId] uniqueidentifier NOT NULL,
@@ -339,14 +301,10 @@ CREATE TABLE dbo.[KetQuaChamBai] (
     CONSTRAINT [PK_KetQuaChamBai] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_KetQuaChamBai_1] CHECK ([Diem] IS NULL OR [Diem] BETWEEN 0 AND 10)
 );
-
--- Nguồn: FR-57, FR-59; QT-12; lựa chọn cấu trúc của sơ đồ. Tạo hồ sơ phụ khi đăng ký gia sư. Hiện chỉ lưu khóa; giữ để bám đúng bản chung, không phải vì Identity bắt buộc.
 CREATE TABLE dbo.[GiaSu] (
     [TaiKhoanId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_GiaSu] PRIMARY KEY ([TaiKhoanId])
 );
-
--- Nguồn: FR-30–31, FR-46–48, FR-59; NFR-15, NFR-18. Server tạo metadata sau upload; file thật ở kho IFileStorage. Cần quản lý chủ sở hữu, cách ly/quét và tải theo quyền.
 CREATE TABLE dbo.[TepDinhKem] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_TepDinhKem_Id] DEFAULT (NEWSEQUENTIALID()),
     [NguoiTaiLenId] uniqueidentifier NOT NULL,
@@ -366,8 +324,6 @@ CREATE TABLE dbo.[TepDinhKem] (
     CONSTRAINT [CK_TepDinhKem_2] CHECK ([KichThuoc] BETWEEN 1 AND 10000000),
     CONSTRAINT [CK_TepDinhKem_3] CHECK (CASE WHEN [HoSoGiaSuId] IS NULL THEN 0 ELSE 1 END + CASE WHEN [BaiTapGiaoId] IS NULL THEN 0 ELSE 1 END + CASE WHEN [BaiTapNopId] IS NULL THEN 0 ELSE 1 END + CASE WHEN [TinNhanId] IS NULL THEN 0 ELSE 1 END <= 1)
 );
-
--- Nguồn: FR-25, FR-27, FR-29, FR-35, FR-40, FR-50, FR-54; NFR-04, NFR-08. Service/Worker tạo hộp thông báo từng người nhận từ sự kiện đã lưu. Cần đọc lại khi offline và đánh dấu đã đọc.
 CREATE TABLE dbo.[ThongBao] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_ThongBao_Id] DEFAULT (NEWSEQUENTIALID()),
     [NguoiNhanId] uniqueidentifier NOT NULL,
@@ -380,8 +336,6 @@ CREATE TABLE dbo.[ThongBao] (
     CONSTRAINT [PK_ThongBao] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_ThongBao_1] CHECK ([LoaiThongBao] IN (N'KetNoi', N'LichHoc', N'BaiTap', N'ThanhVien', N'NhacViec', N'QuanTri'))
 );
-
--- Nguồn: FR-25, FR-40; NFR-04–05, NFR-08–10; quyết định kỹ thuật outbox. Service ghi sự kiện cùng transaction nghiệp vụ; Worker thử lại và phát sau commit. Cần tránh mất thông báo khi app dừng giữa các bước.
 CREATE TABLE dbo.[SuKienChoXuLy] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_SuKienChoXuLy_Id] DEFAULT (NEWSEQUENTIALID()),
     [LoaiSuKien] nvarchar(256) NOT NULL,
@@ -400,8 +354,6 @@ CREATE TABLE dbo.[SuKienChoXuLy] (
     CONSTRAINT [CK_SuKienChoXuLy_3] CHECK (([LeaseId] IS NULL AND [LeaseHetHanLuc] IS NULL) OR ([LeaseId] IS NOT NULL AND [LeaseHetHanLuc] IS NOT NULL)),
     CONSTRAINT [CK_SuKienChoXuLy_4] CHECK (ISJSON([DuLieuToiThieu])=1)
 );
-
--- Nguồn: quyết định nghiệp vụ và giao diện được chủ đề tài xác nhận ngày 25/10/2026; bổ sung vào mô hình lớp và ánh xạ.
 CREATE TABLE dbo.[YeuCauLienHe] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_YeuCauLienHe_Id] DEFAULT (NEWSEQUENTIALID()),
     [GiaSuId] uniqueidentifier NOT NULL,
@@ -422,8 +374,6 @@ CREATE TABLE dbo.[YeuCauLienHe] (
     CONSTRAINT [CK_YeuCauLienHe_6] CHECK ([NguoiPhanHoiId] IS NULL OR ([NguoiPhanHoiId] IN ([GiaSuId],[BenHocId]) AND [NguoiPhanHoiId]<>[NguoiGuiId])),
     CONSTRAINT [CK_YeuCauLienHe_7] CHECK ([TrangThai] NOT IN ('ChapNhan','TuChoi') OR ([PhanHoiLuc] IS NOT NULL AND [NguoiPhanHoiId] IS NOT NULL))
 );
-
--- Nguồn: quyết định nghiệp vụ và giao diện được chủ đề tài xác nhận ngày 25/10/2026; bổ sung vào mô hình lớp và ánh xạ.
 CREATE TABLE dbo.[KhungGioDeXuat] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_KhungGioDeXuat_Id] DEFAULT (NEWSEQUENTIALID()),
     [YeuCauKetNoiId] uniqueidentifier NOT NULL,
@@ -434,8 +384,6 @@ CREATE TABLE dbo.[KhungGioDeXuat] (
     CONSTRAINT [CK_KhungGioDeXuat_1] CHECK ([ThuTrongTuan] BETWEEN 0 AND 6),
     CONSTRAINT [CK_KhungGioDeXuat_2] CHECK ([GioBatDau]<[GioKetThuc])
 );
-
--- Nguồn: quyết định nghiệp vụ và giao diện được chủ đề tài xác nhận ngày 25/10/2026; bổ sung vào mô hình lớp và ánh xạ.
 CREATE TABLE dbo.[LichSuGhiNhanBuoiHoc] (
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_LichSuGhiNhanBuoiHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [BuoiHocId] uniqueidentifier NOT NULL,
@@ -545,7 +493,7 @@ ALTER TABLE dbo.[LichSuGhiNhanBuoiHoc] WITH CHECK ADD CONSTRAINT [FK_LichSuGhiNh
 ALTER TABLE dbo.[LichSuGhiNhanBuoiHoc] WITH CHECK ADD CONSTRAINT [FK_LichSuGhiNhanBuoiHoc_NguoiGhiNhanId] FOREIGN KEY ([NguoiGhiNhanId]) REFERENCES dbo.[NguoiThamGia]([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE dbo.[LichSuGhiNhanBuoiHoc] WITH CHECK ADD CONSTRAINT [FK_LichSuGhiNhanBuoiHoc_NguoiSuaId] FOREIGN KEY ([NguoiSuaId]) REFERENCES dbo.[NguoiThamGia]([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 CREATE UNIQUE INDEX [UQ_PhienBan_LichSuGhiNhanBuoiHoc] ON dbo.[LichSuGhiNhanBuoiHoc] ([BuoiHocId], [PhienBan]);
-INSERT dbo.MonHoc(TenMon,DangSuDung) VALUES(N'Toán',1),(N'Ngữ văn',1),(N'Tiếng Anh',1),(N'Vật lý',1),(N'Hóa học',1);
+INSERT dbo.MonHoc(TenMon,DangSuDung) VALUES(N'Toán Học',1),(N'Ngữ Văn',1),(N'Tiếng Anh',1),(N'Vật Lý',1),(N'Hóa Học',1),(N'Lịch Sử',1),(N'Địa Lý',1),(N'Sinh học',1),(N'GDCD',1);
 INSERT dbo.NguoiThamGia(Id,HoTen,LoaiNguoi) VALUES
 ('10000000-0000-0000-0000-000000000001',N'Gia sư mẫu','GiaSu'),
 ('10000000-0000-0000-0000-000000000002',N'Học sinh mẫu','HocSinh'),
@@ -923,7 +871,7 @@ BEGIN
  SET @LopId=NEWID();
  INSERT dbo.LopHoc(Id,YeuCauKetNoiId,GiaSuId,BenHocId,TenLop,MonHocId,MucTieu,SoBuoiTuan,ThoiLuongPhut,HinhThucHoc,DiaDiem,HocPhi,TrangThai,DonViHocPhi,TenNguoiHoc,TuoiNguoiHoc)
  SELECT @LopId,Id,GiaSuId,BenHocId,TenLopDuKien,MonHocId,MucTieu,SoBuoiTuan,ThoiLuongPhut,HinhThucHoc,DiaDiem,HocPhi,'DangHoatDong',DonViHocPhi,@Ten,@Tuoi FROM dbo.YeuCauKetNoiLopHoc WHERE Id=@YeuCauId;
- INSERT dbo.ThanhVienLopHoc(LopHocId,TaiKhoanId,NguoiDeNghiId,TrangThaiDuyet,MucQuyen,DeNghiLuc,DuyetLuc) VALUES(@LopId,@GiaSuId,@GiaSuId,'DaDuyet','ChinhSua',@Now,@Now),(@LopId,@BenHocId,@GiaSuId,'DaDuyet','Xem',@Now,@Now);
+ INSERT dbo.ThanhVienLopHoc(LopHocId,TaiKhoanId,NguoiDeNghiId,TrangThaiDuyet,MucQuyen,DeNghiLuc,DuyetLuc) VALUES(@LopId,@GiaSuId,@GiaSuId,'DaDuyet','ChinhSua',@Now,@Now),(@LopId,@BenHocId,@GiaSuId,'DaDuyet','ChinhSua',@Now,@Now);
  INSERT dbo.CuocHoiThoai(LoaiHoiThoai,GiaSuId,BenHocId,LopHocId,LienHeId) VALUES('TheoLop',@GiaSuId,@BenHocId,@LopId,@LienHeId);
  DECLARE @Start datetimeoffset(0),@StartDate date,@Offset int,@Json nvarchar(max);
  SELECT @Start=BatDauHocLuc FROM dbo.YeuCauKetNoiLopHoc WHERE Id=@YeuCauId;
@@ -937,6 +885,34 @@ BEGIN
  COMMIT;SELECT * FROM dbo.LopHoc WHERE Id=@LopId;
  END TRY BEGIN CATCH IF XACT_STATE()<>0 ROLLBACK;THROW;END CATCH;
 END;
+GO
+UPDATE m SET MucQuyen='ChinhSua' FROM dbo.ThanhVienLopHoc m JOIN dbo.LopHoc c ON c.Id=m.LopHocId AND c.BenHocId=m.TaiKhoanId WHERE m.TrangThaiDuyet='DaDuyet' AND m.RoiLopLuc IS NULL AND m.MucQuyen='Xem';
+INSERT dbo.ThanhVienLopHoc(LopHocId,TaiKhoanId,NguoiDeNghiId,TrangThaiDuyet,MucQuyen,DuyetLuc) SELECT c.Id,p.Id,c.GiaSuId,'DaDuyet','ChinhSua',SYSDATETIMEOFFSET() FROM dbo.LopHoc c CROSS APPLY(VALUES(c.GiaSuId),(c.BenHocId)) p(Id) WHERE NOT EXISTS(SELECT 1 FROM dbo.ThanhVienLopHoc m WHERE m.LopHocId=c.Id AND m.TaiKhoanId=p.Id AND m.RoiLopLuc IS NULL AND m.TrangThaiDuyet<>'TuChoi');
+
+
+GO
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+SET XACT_ABORT ON;
+BEGIN TRAN;
+INSERT dbo.CuocHoiThoai(LoaiHoiThoai,GiaSuId,BenHocId,LienHeId)
+SELECT 'TruocKetNoi',h.GiaSuId,h.BenHocId,h.Id FROM dbo.YeuCauLienHe h WHERE h.TrangThai='ChapNhan' AND NOT EXISTS(SELECT 1 FROM dbo.CuocHoiThoai c WHERE c.LienHeId=h.Id AND c.LoaiHoiThoai='TruocKetNoi');
+IF NOT EXISTS(SELECT 1 FROM dbo.KhungGioRanh WHERE NhuCauId='30000000-0000-0000-0000-000000000002')
+INSERT dbo.KhungGioRanh(NhuCauId,ThuTrongTuan,GioBatDau,GioKetThuc) VALUES('30000000-0000-0000-0000-000000000002',2,'18:00','20:00'),('30000000-0000-0000-0000-000000000002',4,'18:00','20:00');
+IF NOT EXISTS(SELECT 1 FROM dbo.NhuCauHoc WHERE Id='30000000-0000-0000-0000-000000000003')
+BEGIN
+INSERT dbo.NhuCauHoc(Id,ChuSoHuuId,LoaiNhuCau,MonHocId,KhoiLop,MucTieu,SoBuoiTuan,HinhThucHoc,HocPhiDuKien,DonViHocPhi,TenNguoiHoc,TuoiNguoiHoc,TrangThai)
+VALUES('30000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','TimGiaSu',1,N'Lớp 8',N'Củng cố nền tảng Toán và luyện thói quen tự học',2,'TrucTuyen',150000,'VND/Gio',N'Người học của phụ huynh mẫu',13,'DangMo');
+INSERT dbo.KhungGioRanh(NhuCauId,ThuTrongTuan,GioBatDau,GioKetThuc) VALUES('30000000-0000-0000-0000-000000000003',1,'19:00','20:30'),('30000000-0000-0000-0000-000000000003',3,'19:00','20:30');
+END;
+COMMIT;
+GO
+
+INSERT dbo.CuocHoiThoai(LoaiHoiThoai,GiaSuId,BenHocId,LopHocId,LienHeId,HoiThoaiTruocKetNoiId)
+SELECT 'TheoLop',c.GiaSuId,c.BenHocId,c.Id,r.LienHeId,p.Id
+FROM dbo.LopHoc c JOIN dbo.YeuCauKetNoiLopHoc r ON r.Id=c.YeuCauKetNoiId
+LEFT JOIN dbo.CuocHoiThoai p ON p.LienHeId=r.LienHeId AND p.LoaiHoiThoai='TruocKetNoi'
+WHERE NOT EXISTS(SELECT 1 FROM dbo.CuocHoiThoai x WHERE x.LopHocId=c.Id AND x.LoaiHoiThoai='TheoLop');
 GO
 SELECT DB_NAME() AS DatabaseDaTao,COUNT(*) AS SoBang FROM sys.tables WHERE is_ms_shipped=0;
 GO

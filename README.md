@@ -1,8 +1,6 @@
 ﻿# EduConnect MVC
 
-Ứng dụng ASP.NET Core MVC .NET 10 cho bốn nghiệp vụ, lưu dữ liệu trên SQL Server. Dự án đã được chuyển từ `D:\Educonnection\EduConnect.Mvc` sang `D:\Educonnect`, độc lập với dự án cũ.
-
-Thư mục `.vscode` sẵn có tại vị trí đích được giữ nguyên. Database và các tài liệu nguồn trong `D:\csdl` không thay đổi.
+Ứng dụng ASP.NET Core MVC .NET 10 và SQL Server cho quản lý nhu cầu, tìm kiếm gia sư/người học, thỏa thuận kết nối và theo dõi học tập.
 
 ## Chạy tại máy hiện tại
 
@@ -27,7 +25,7 @@ dotnet restore .\EduConnect.Mvc.csproj --configfile .\NuGet.Config
 dotnet build .\EduConnect.Mvc.csproj --no-restore
 ```
 
-Luôn chỉ rõ project/solution mới; không build project cũ ở thư mục cha để chạy ứng dụng này.
+Chạy các lệnh từ thư mục gốc của dự án.
 
 ## Database
 
@@ -45,33 +43,33 @@ Database đang tồn tại và cần cập nhật các điều chỉnh:
 powershell -ExecutionPolicy Bypass -File .\Database\Setup.ps1 -Existing
 ```
 
-Chỉ chạy khi cài đặt hoặc có thay đổi dữ liệu/nghiệp vụ SQL, không chạy sau mỗi lần sửa giao diện. Script dùng `sqlcmd -f 65001` để đọc UTF-8. Không chạy riêng `00` lại trên database hiện có. Bộ cài mới dùng `00 + 01 + 02 + 05`; các script `03/04` là lịch sử mở rộng danh mục, không cần cho cài mới hiện tại. `06/07` chỉ sửa dữ liệu từng bị nhập sai mã hóa.
+Chỉ chạy khi cài đặt hoặc có thay đổi dữ liệu/nghiệp vụ SQL, không chạy sau mỗi lần sửa giao diện. Script dùng `sqlcmd -f 65001` để đọc UTF-8. Cài mới chỉ cần `00_Original_DB02.sql`; `Setup.ps1` mặc định cũng chỉ chạy file này. Không chạy `00` trên database hiện có.
 
 Các script trong `Database` đã được áp dụng trên máy hiện tại. Không chạy lại script `00` trên database hiện có.
 
-1. `00_Original_DB02.sql`: bản sao nguyên văn của DB02, tạo database mới và dữ liệu gốc. Có kiểm tra dừng khi database đã tồn tại.
-2. `01_MainLearnerPermission.sql`: giữ nguyên logic procedure chấp nhận đề xuất, đổi quyền bên học chính từ `Xem` sang `ChinhSua` theo xác nhận của người dùng; cập nhật thành viên chính đang tồn tại, bổ sung thành viên chính bị thiếu trong seed gốc. Không đổi quyền thành viên phụ.
+1. `00_Original_DB02.sql`: bộ cài mới đã hợp nhất cấu trúc 24 bảng, procedure hiện tại, danh mục 9 môn, ba vai trò mẫu, quyền thành viên chính, lịch rảnh, nhu cầu và hội thoại riêng/theo lớp. Có kiểm tra dừng khi database đã tồn tại. Không còn là bản sao nguyên văn của DB02.
+2. `01_MainLearnerPermission.sql`: cập nhật quyền bên học chính thành `ChinhSua` và bổ sung thành viên chính còn thiếu trong dữ liệu mẫu. Không đổi quyền thành viên phụ.
 3. `02_DemoSupplement.sql`: bổ sung hội thoại của liên hệ đã chấp nhận, lịch rảnh gia sư, nhu cầu của phụ huynh mẫu. Có kiểm tra tồn tại để không tạo trùng.
 
-Ví dụ chạy từng script cho **database mới trên máy khác**, theo đúng thứ tự:
+Các file `01`, `02`, `05`, `06`, `07` phục vụ cập nhật database cũ qua `Setup.ps1 -Existing`; không cần chạy thêm cho database được tạo bằng file `00` mới. `06/07` chỉ sửa dữ liệu từng bị nhập sai mã hóa.
+
+Ví dụ cài **database mới trên máy khác** (đổi tên SQL Server phù hợp):
 
 ```powershell
 sqlcmd -S lpc:CONGVJP -E -C -I -b -f 65001 -i Database\00_Original_DB02.sql
-sqlcmd -S lpc:CONGVJP -E -C -I -b -f 65001 -i Database\01_MainLearnerPermission.sql
-sqlcmd -S lpc:CONGVJP -E -C -I -b -f 65001 -i Database\02_DemoSupplement.sql
 ```
 
 Ứng dụng không gọi `EnsureCreated`, migration hoặc seed khi khởi động. Không có script DROP. Tệp thật lưu tại `uploads`, ngoài `wwwroot`; metadata và quyền truy cập nằm trong SQL. Sao lưu cả database và thư mục này cùng nhau.
 
 ## Kiểm thử
 
-Kết quả thực tế trong `docs/integration-results.json` và `docs/qa/browser-results.json`. Các kiểm thử tích hợp sử dụng database riêng `EduConnect_Verification_20261025`, không dùng database của dự án cũ.
+Kết quả thực tế trong `docs/integration-results.json` và `docs/qa/browser-results.json`. Các kiểm thử tích hợp sử dụng database riêng `EduConnect_Verification_20261025`, không dùng database của dự án cũ. Bộ cài một file đã vượt qua 38 kiểm thử trên database mới riêng biệt; kết quả lưu tại `docs/qa/bootstrap-integration-results.json`.
 
 ```powershell
 dotnet run --project tests\Integration\Integration.csproj --no-restore
 ```
 
-Harness từ chối database không có tiền tố `EduConnect_Verification_`. Mỗi lần chạy tạo fixture GUID mới, không xóa dữ liệu. Muốn dùng tên kiểm thử mới, chuẩn bị database từ bản sao script `00`, đổi tên database trong **bản sao**, rồi áp dụng bản sao script `01` với tên tương ứng. Đặt `EDU_TEST_CONNECTION` trước khi chạy. Các tệp `tests/fixture.sql` và `tests/permission.sql` ghi lại lần chuẩn bị kiểm thử đầu tiên.
+Harness từ chối database không có tiền tố `EduConnect_Verification_`. Mỗi lần chạy tạo fixture GUID mới, không xóa dữ liệu. Muốn dùng database kiểm thử mới, đổi tên database trong **bản sao** script `00` rồi chạy bản sao đó; không cần thêm script `01`. Đặt `EDU_TEST_CONNECTION` trước khi chạy. Các tệp `tests/fixture.sql` và `tests/permission.sql` ghi lại lần chuẩn bị kiểm thử đầu tiên.
 
 Kiểm thử trình duyệt dùng Node >=20 và Playwright, Edge cài tại đường dẫn Windows mặc định. Trước tiên chạy app trên cổng `5281` với connection string database kiểm thử; sau đó chạy `tests/browser.cjs`. Kiểm tra AJAX bằng `tests/ajax-pages.cjs`, modal và giữ dữ liệu bằng `tests/ui-modernization.cjs`; luồng học tập bằng `tests/workflow.cjs`. Có thể đặt `EDU_PLAYWRIGHT` trỏ tới package Playwright hiện có. Screenshot được lưu trong `docs/qa`. Không chạy kịch bản ghi dữ liệu trên database đang sử dụng thật.
 

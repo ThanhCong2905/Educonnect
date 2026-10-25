@@ -9,3 +9,4 @@ node_modules/
 .npm-cache/
 .build-check/
 .integration-check/
+~$*

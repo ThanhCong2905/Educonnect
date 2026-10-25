@@ -4,12 +4,50 @@ using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
+
 [Area("NhuCau")]
 [RequestSizeLimit(52000000)]
-public sealed class HoSoGiaSuController(HoSoGiaSuService service,NhuCauService needs,BangCapService certificates):BaseController {
- public async Task<IActionResult> Sua(){ViewBag.Certificates=await certificates.CuaToiAsync();ViewBag.Subjects=(await needs.MonAsync()).Concat(await needs.MonDuocChonAsync()).DistinctBy(x=>x.Id).OrderBy(x=>x.TenMon).ToList();return View(await service.LayDeSuaAsync());}
- [HttpPost]public async Task<IActionResult> Luu(HoSoInput m){if(ModelState.IsValid)try{await service.CapNhatAsync(m);Success();return RedirectToAction(nameof(Sua));}catch(LoiNghiepVu ex){ModelState.AddModelError("",ex.Message);}ViewBag.Certificates=await certificates.CuaToiAsync();ViewBag.Subjects=(await needs.MonAsync()).Concat(await needs.MonDuocChonAsync()).DistinctBy(x=>x.Id).OrderBy(x=>x.TenMon).ToList();return View("Sua",m);}
- [HttpPost]public async Task<IActionResult> TaiBangCap(List<IFormFile> files){await certificates.TaiLenAsync(files);Success("Đã tải bằng cấp lên hồ sơ.");return RedirectToAction(nameof(Sua));}
- public async Task<IActionResult> BangCap(Guid id){var (f,path)=await certificates.TaiAsync(id);Response.Headers.XContentTypeOptions="nosniff";return PhysicalFile(path,f.LoaiNoiDung,f.TenGoc);}
- [HttpPost]public async Task<IActionResult> XoaBangCap(Guid id){await certificates.XoaAsync(id);Success("Đã xóa tệp.");return RedirectToAction(nameof(Sua));}
+public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates) : BaseController
+{
+    public async Task<IActionResult> Sua()
+    {
+        ViewBag.Certificates = await certificates.CuaToiAsync();
+        ViewBag.Subjects = (await needs.MonAsync()).Concat(await needs.MonDuocChonAsync()).DistinctBy(x => x.Id).OrderBy(x => x.TenMon).ToList();
+        return View(await service.LayDeSuaAsync());
+    }
+    [HttpPost]
+    public async Task<IActionResult> Luu(HoSoInput m)
+    {
+        if (ModelState.IsValid)
+            try
+            {
+                await service.CapNhatAsync(m);
+                Success();
+                return RedirectToAction(nameof(Sua));
+            }
+            catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+        ViewBag.Certificates = await certificates.CuaToiAsync();
+        ViewBag.Subjects = (await needs.MonAsync()).Concat(await needs.MonDuocChonAsync()).DistinctBy(x => x.Id).OrderBy(x => x.TenMon).ToList();
+        return View("Sua", m);
+    }
+    [HttpPost]
+    public async Task<IActionResult> TaiBangCap(List<IFormFile> files)
+    {
+        await certificates.TaiLenAsync(files);
+        Success("Đã tải bằng cấp lên hồ sơ.");
+        return RedirectToAction(nameof(Sua));
+    }
+    public async Task<IActionResult> BangCap(Guid id)
+    {
+        var (f, path) = await certificates.TaiAsync(id);
+        Response.Headers.XContentTypeOptions = "nosniff";
+        return PhysicalFile(path, f.LoaiNoiDung, f.TenGoc);
+    }
+    [HttpPost]
+    public async Task<IActionResult> XoaBangCap(Guid id)
+    {
+        await certificates.XoaAsync(id);
+        Success("Đã xóa tệp.");
+        return RedirectToAction(nameof(Sua));
+    }
 }

@@ -2,9 +2,46 @@ using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
-public sealed class BangCapService(AppDbContext db,NguoiDungMauService current,TepService files,IWebHostEnvironment env) {
- public async Task<List<TepDinhKem>> CuaToiAsync(){var u=await current.HienTaiAsync();return await (from f in db.Set<TepDinhKem>().AsNoTracking() join h in db.Set<HoSoGiaSu>() on f.HoSoGiaSuId equals h.Id where h.GiaSuId==u.Id select f).OrderByDescending(f=>f.TaoLuc).ToListAsync();}
- public async Task TaiLenAsync(List<IFormFile> uploads){var u=await current.HienTaiAsync();Rules.Check(u.LoaiNguoi=="GiaSu","Chỉ gia sư được tải bằng cấp.",403);var h=await db.Set<HoSoGiaSu>().SingleOrDefaultAsync(x=>x.GiaSuId==u.Id)??throw new LoiNghiepVu("Hãy lưu hồ sơ trước khi tải bằng cấp.");Rules.Check(uploads.Count>0,"Chọn ít nhất một tệp.");var checkedFiles=await files.KiemTraAsync(uploads);await using var tx=await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);Rules.Check(await db.Set<TepDinhKem>().CountAsync(x=>x.HoSoGiaSuId==h.Id)+uploads.Count<=5,"Hồ sơ có tối đa 5 tệp bằng cấp.");var paths=await files.LuuAsync(checkedFiles,hoSo:h.Id);try{await db.SaveChangesAsync();await tx.CommitAsync();}catch{TepService.DonDep(paths);throw;}}
- public async Task<(TepDinhKem File,string Path)> TaiAsync(Guid id){var u=await current.HienTaiAsync();var f=await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x=>x.Id==id&&x.HoSoGiaSuId!=null&&x.TrangThaiQuet=="Sach")??throw new LoiNghiepVu("Không tìm thấy bằng cấp.",404);Rules.Check(await db.Set<HoSoGiaSu>().AnyAsync(h=>h.Id==f.HoSoGiaSuId&&h.GiaSuId==u.Id),"Chỉ chủ hồ sơ được tải bằng cấp.",403);var path=Path.Combine(env.ContentRootPath,"uploads",f.TenLuuTru);Rules.Check(File.Exists(path),"Tệp không còn trên máy chủ.",404);return(f,path);}
- public async Task XoaAsync(Guid id){var u=await current.HienTaiAsync();var f=await db.Set<TepDinhKem>().SingleOrDefaultAsync(x=>x.Id==id&&x.HoSoGiaSuId!=null&&db.Set<HoSoGiaSu>().Any(h=>h.Id==x.HoSoGiaSuId&&h.GiaSuId==u.Id))??throw new LoiNghiepVu("Không có quyền xóa tệp.",403);db.Remove(f);await db.SaveChangesAsync();TepService.DonDep([Path.Combine(env.ContentRootPath,"uploads",f.TenLuuTru)]);}
+
+public sealed class BangCapService(AppDbContext db, NguoiDungMauService current, TepService files, IWebHostEnvironment env)
+{
+    public async Task<List<TepDinhKem>> CuaToiAsync()
+    {
+        var u = await current.HienTaiAsync();
+        return await (from f in db.Set<TepDinhKem>().AsNoTracking() join h in db.Set<HoSoGiaSu>() on f.HoSoGiaSuId equals h.Id where h.GiaSuId == u.Id select f).OrderByDescending(f => f.TaoLuc).ToListAsync();
+    }
+    public async Task TaiLenAsync(List<IFormFile> uploads)
+    {
+        var u = await current.HienTaiAsync();
+        Rules.Check(u.LoaiNguoi == "GiaSu", "Chỉ gia sư được tải bằng cấp.", 403);
+        var h = await db.Set<HoSoGiaSu>().SingleOrDefaultAsync(x => x.GiaSuId == u.Id) ?? throw new LoiNghiepVu("Hãy lưu hồ sơ trước khi tải bằng cấp.");
+        Rules.Check(uploads.Count > 0, "Chọn ít nhất một tệp.");
+        var checkedFiles = await files.KiemTraAsync(uploads);
+        await using var tx = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
+        Rules.Check(await db.Set<TepDinhKem>().CountAsync(x => x.HoSoGiaSuId == h.Id) + uploads.Count <= 5, "Hồ sơ có tối đa 5 tệp bằng cấp.");
+        var paths = await files.LuuAsync(checkedFiles, hoSo: h.Id);
+        try
+        {
+            await db.SaveChangesAsync();
+            await tx.CommitAsync();
+        }
+        catch { TepService.DonDep(paths); throw; }
+    }
+    public async Task<(TepDinhKem File, string Path)> TaiAsync(Guid id)
+    {
+        var u = await current.HienTaiAsync();
+        var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.HoSoGiaSuId != null && x.TrangThaiQuet == "Sach") ?? throw new LoiNghiepVu("Không tìm thấy bằng cấp.", 404);
+        Rules.Check(await db.Set<HoSoGiaSu>().AnyAsync(h => h.Id == f.HoSoGiaSuId && h.GiaSuId == u.Id), "Chỉ chủ hồ sơ được tải bằng cấp.", 403);
+        var path = Path.Combine(env.ContentRootPath, "uploads", f.TenLuuTru);
+        Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
+        return (f, path);
+    }
+    public async Task XoaAsync(Guid id)
+    {
+        var u = await current.HienTaiAsync();
+        var f = await db.Set<TepDinhKem>().SingleOrDefaultAsync(x => x.Id == id && x.HoSoGiaSuId != null && db.Set<HoSoGiaSu>().Any(h => h.Id == x.HoSoGiaSuId && h.GiaSuId == u.Id)) ?? throw new LoiNghiepVu("Không có quyền xóa tệp.", 403);
+        db.Remove(f);
+        await db.SaveChangesAsync();
+        TepService.DonDep([Path.Combine(env.ContentRootPath, "uploads", f.TenLuuTru)]);
+    }
 }
