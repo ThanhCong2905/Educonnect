@@ -47,6 +47,12 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
         ViewBag.Conversation = id == null ? null : await service.KiemTraAsync(id.Value);
         return View(id == null ? [] : await service.LichSuAsync(id.Value, message, page));
     }
+    [HttpGet]
+    public async Task<IActionResult> DuLieu(Guid id, Guid? before, Guid? after, string? message)
+    {
+        ValidateInput();
+        return Json(await service.DuLieuAsync(id, before, after, message));
+    }
     [HttpPost]
     public async Task<IActionResult> Gui(GuiTinNhanViewModel m)
     {

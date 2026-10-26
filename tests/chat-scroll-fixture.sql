@@ -1,0 +1,16 @@
+SET XACT_ABORT ON;
+IF DB_NAME() <> 'EduConnect_Verification_20261025' THROW 51000,'Test DB only',1;
+BEGIN TRAN;
+IF NOT EXISTS(SELECT 1 FROM dbo.YeuCauLienHe WHERE Id='aaaaaaaa-3333-3333-3333-333333333333')
+INSERT dbo.YeuCauLienHe(Id,GiaSuId,BenHocId,NguoiGuiId,LoiNhan,TrangThai,GuiLuc,NguoiPhanHoiId,PhanHoiLuc) VALUES('aaaaaaaa-3333-3333-3333-333333333333','aaaaaaaa-1111-1111-1111-111111111111','aaaaaaaa-2222-2222-2222-222222222222','aaaaaaaa-1111-1111-1111-111111111111',N'scroll test','ChapNhan','2026-10-20','aaaaaaaa-2222-2222-2222-222222222222','2026-10-21');
+IF NOT EXISTS(SELECT 1 FROM dbo.CuocHoiThoai WHERE Id='aaaaaaaa-4444-4444-4444-444444444444')
+INSERT dbo.CuocHoiThoai(Id,LoaiHoiThoai,GiaSuId,BenHocId,LienHeId) VALUES('aaaaaaaa-4444-4444-4444-444444444444','TruocKetNoi','aaaaaaaa-1111-1111-1111-111111111111','aaaaaaaa-2222-2222-2222-222222222222','aaaaaaaa-3333-3333-3333-333333333333');
+DELETE dbo.TinNhan WHERE CuocHoiThoaiId='aaaaaaaa-4444-4444-4444-444444444444';
+BEGIN
+DECLARE @i int=1;
+WHILE @i<=121 BEGIN
+INSERT dbo.TinNhan(Id,CuocHoiThoaiId,NguoiGuiId,NoiDung,GuiLuc,MaThaoTac) VALUES(NEWID(),'aaaaaaaa-4444-4444-4444-444444444444','aaaaaaaa-2222-2222-2222-222222222222',CONCAT('scroll fixture ',@i),DATEADD(second,@i/3,CONVERT(datetimeoffset,'2026-10-20T08:00:00+07:00')),NEWID());
+SET @i=@i+1;
+END;
+END;
+COMMIT;

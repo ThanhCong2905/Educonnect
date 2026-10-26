@@ -19,7 +19,6 @@ window.EduConnect.markRequired=(root=document)=>{
  });
  root.querySelectorAll('[data-slot-list]').forEach(list=>{const legend=list.closest('fieldset')?.querySelector('legend');if(legend&&!legend.querySelector('.required-mark')){const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-label','Bắt buộc khi đăng');legend.append(mark);}});
  root.querySelectorAll('.subject-picker>legend').forEach(legend=>{if(legend.querySelector('.required-mark'))return;const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-label','Bắt buộc');legend.append(mark);});
- root.querySelectorAll('form').forEach(form=>{if(form.querySelector('.required-mark')&&!form.querySelector('.required-note')){const note=document.createElement('p');note.className='muted required-note';note.textContent='Các mục có dấu * là bắt buộc.';form.prepend(note);}});
 };
 window.EduConnect.validateForm=(form,submitter)=>{
  const errors={};const draft=submitter?.formNoValidate;

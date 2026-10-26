@@ -1,0 +1,50 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});
+ const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage(),base=process.env.EDU_BASE_URL||'http://127.0.0.1:5281',room='aaaaaaaa-4444-4444-4444-444444444444';
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ async function choose(p,id){await p.goto(base);await p.locator('.preview summary').click();await p.locator('.preview select').selectOption(id);await Promise.all([p.waitForEvent('framenavigated',f=>f===p.mainFrame()),p.locator('.preview button').click()]);}
+ try{
+  await choose(page,'aaaaaaaa-1111-1111-1111-111111111111');await page.goto(base+'/HocTap/TinNhan/Index?id='+room);
+  await page.waitForFunction(()=>document.querySelectorAll('[data-message-id]').length===50);
+  const first=await page.locator('[data-message-id]').first().getAttribute('data-message-id');
+  await page.locator('[data-message-id]').first().evaluate(el=>el.dataset.kept='yes');
+  await page.locator('.chat-stream').evaluate(el=>el.scrollTop=0);
+  await page.waitForFunction(()=>document.querySelectorAll('[data-message-id]').length===100);
+  assert.equal(await page.locator(`[data-message-id="${first}"]`).getAttribute('data-kept'),'yes');
+  await page.locator('.chat-stream').evaluate(el=>el.scrollTop=0);
+  await page.waitForFunction(()=>document.querySelectorAll('[data-message-id]').length===121);
+  assert.equal(await page.locator('[data-chat-older]').isVisible(),false);
+  assert.equal(await page.locator('[data-message-id]').evaluateAll(es=>new Set(es.map(e=>e.dataset.messageId)).size),121);
+  console.log('121 messages loaded without duplicates, including equal timestamps; original DOM preserved');
+  const other=await browser.newContext(),p2=await other.newPage();await choose(p2,'aaaaaaaa-2222-2222-2222-222222222222');await p2.goto(base+'/HocTap/TinNhan/Index?id='+room);
+  await page.locator('.chat-stream').evaluate(el=>el.scrollTop=300);
+  const before=await page.locator('.chat-stream').evaluate(el=>el.scrollTop);
+  await p2.locator('.compose textarea').fill('A new message <b>safe text</b>');await p2.locator('.compose textarea').press('Enter');
+  await page.waitForFunction(()=>document.querySelectorAll('[data-message-id]').length===122);
+  assert.ok(Math.abs(await page.locator('.chat-stream').evaluate(el=>el.scrollTop)-before)<2);
+  assert.equal(await page.locator('[data-new-messages]').isVisible(),true);
+  assert.equal(await page.locator('.bubble p b').count(),0);
+  assert.equal(await page.locator(`[data-message-id="${first}"]`).getAttribute('data-kept'),'yes');
+  console.log('Polling appends only new messages, keeps history and scroll position; Enter sends, text is escaped');
+  const denied=await browser.newContext(),p3=await denied.newPage();await p3.goto(base);const r=await p3.request.get(base+'/HocTap/TinNhan/DuLieu?id='+room,{headers:{'X-Requested-With':'XMLHttpRequest'}});assert.equal(r.status(),403);
+  console.log('Private message feed denies unrelated user');
+  await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  await page.screenshot({path:'C:/Users/Admin/AppData/Local/Temp/edu-chat-mobile.png',fullPage:true});
+  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'C:/Users/Admin/AppData/Local/Temp/edu-chat-desktop.png',fullPage:true});
+  assert.equal(await page.locator('.required-note').count(),0);
+  const last=await page.locator('[data-message-id]').last().getAttribute('data-message-id');
+  const {execFileSync}=require('node:child_process');
+  const sql="IF DB_NAME()<>'EduConnect_Verification_20261025' THROW 51000,'Test database only',1; INSERT dbo.TinNhan(Id,CuocHoiThoaiId,NguoiGuiId,NoiDung,GuiLuc,MaThaoTac) SELECT '00000000-0000-0000-0000-000000000001',CuocHoiThoaiId,NguoiGuiId,N'same second late arrival',GuiLuc,NEWID() FROM dbo.TinNhan WHERE Id='"+last+"';";
+  execFileSync('sqlcmd',['-S','lpc:CONGVJP','-d','EduConnect_Verification_20261025','-E','-C','-I','-b','-Q',sql]);
+  const response=await page.request.get(base+'/HocTap/TinNhan/DuLieu?id='+room+'&after='+last,{headers:{'X-Requested-With':'XMLHttpRequest'}});
+  assert.equal(response.status(),200);const data=await response.json();assert.ok(data.items.some(x=>x.text==='same second late arrival'));
+  const invalid=await page.request.get(base+'/HocTap/TinNhan/DuLieu?id='+room+'&before=00000000-0000-0000-0000-000000000099',{headers:{'X-Requested-With':'XMLHttpRequest'}});assert.equal(invalid.status(),404);
+  await choose(page,'10000000-0000-0000-0000-000000000002');
+  await page.goto(base+'/HocTap/TinNhan/Lop/60000000-0000-0000-0000-000000000001');
+  assert.ok(await page.locator('.chat-stream').count());
+  const classData=await page.request.get(base+'/HocTap/TinNhan/DuLieu?id=60000000-0000-0000-0000-000000000001',{headers:{'X-Requested-With':'XMLHttpRequest'}});assert.equal(classData.status(),200);
+  console.log('Equal-second late arrivals, invalid cursor, required-note removal and class chat feed passed');
+  assert.deepEqual(errors,[]);console.log('Mobile layout and JS runtime passed');
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

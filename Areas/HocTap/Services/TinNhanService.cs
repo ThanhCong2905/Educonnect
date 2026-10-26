@@ -39,6 +39,47 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current,
         rows.Reverse();
         return rows;
     }
+    public async Task<object> DuLieuAsync(Guid id, Guid? before, Guid? after, string? q)
+    {
+        await KiemTraAsync(id);
+        Rules.Check(before == null || after == null, "Chỉ chọn một hướng tải tin nhắn.");
+        var me = await current.HienTaiAsync();
+        IQueryable<TinNhan> query = db.Set<TinNhan>();
+        var cursor = before ?? after;
+        DateTimeOffset? overlapTime = null;
+        if (cursor.HasValue)
+        {
+            var pivot = await db.Set<TinNhan>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == cursor && x.CuocHoiThoaiId == id)
+                ?? throw new LoiNghiepVu("Mốc tin nhắn không còn tồn tại.", 404);
+            query = after.HasValue
+                ? db.Set<TinNhan>().Where(x => x.CuocHoiThoaiId == id && x.GuiLuc > pivot.GuiLuc)
+                : db.Set<TinNhan>().FromSqlInterpolated($"SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId={id} AND (GuiLuc<{pivot.GuiLuc} OR (GuiLuc={pivot.GuiLuc} AND Id<{pivot.Id}))");
+            if (after.HasValue) overlapTime = pivot.GuiLuc;
+        }
+        query = query.AsNoTracking().Where(x => x.CuocHoiThoaiId == id && (q == null || x.NoiDung.Contains(q)));
+        var ordered = after.HasValue ? query.OrderBy(x => x.GuiLuc).ThenBy(x => x.Id)
+            : query.OrderByDescending(x => x.GuiLuc).ThenByDescending(x => x.Id);
+        var rows = await ordered.Take(51).ToListAsync();
+        var hasMore = rows.Count > 50;
+        rows = rows.Take(50).ToList();
+        if (!after.HasValue) rows.Reverse();
+        // GuiLuc has second precision; include ties so a later insert with a smaller Guid is not missed.
+        if (overlapTime.HasValue)
+        {
+            var ties = await db.Set<TinNhan>().AsNoTracking()
+                .Where(x => x.CuocHoiThoaiId == id && x.GuiLuc == overlapTime && x.Id != after && (q == null || x.NoiDung.Contains(q)))
+                .OrderBy(x => x.Id).ToListAsync();
+            rows.InsertRange(0, ties);
+        }
+        var senders = rows.Select(x => x.NguoiGuiId).Distinct().ToList();
+        var names = await db.Set<NguoiThamGia>().Where(x => senders.Contains(x.Id)).ToDictionaryAsync(x => x.Id, x => x.HoTen);
+        return new
+        {
+            items = rows.Select(x => new { id = x.Id, text = x.NoiDung, sender = names.GetValueOrDefault(x.NguoiGuiId, ""), mine = x.NguoiGuiId == me.Id, time = Rules.Date(x.GuiLuc) }),
+            hasMore,
+            canSend = await CoTheGuiAsync(id)
+        };
+    }
     public async Task GuiAsync(GuiTinNhanViewModel m)
     {
         Rules.Check(m.MaThaoTac != Guid.Empty, "Mã thao tác không hợp lệ.");

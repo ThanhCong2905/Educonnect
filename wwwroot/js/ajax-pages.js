@@ -41,7 +41,7 @@
  function replace(root,fresh,url,historyMode,scroll){
   rememberDraft(root);rememberComparison(root);
   if(historyMode)history[historyMode+'State']({eduRegion:root.id},'',url);
-  root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);
+  root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
   if(scroll)fresh.querySelector('.search-results-toolbar,.chat-header')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
  }
@@ -76,38 +76,75 @@
  document.addEventListener('change',event=>{if(event.target.matches('input[form="compare-form"]'))rememberComparison(event.target.closest('[data-ajax-page]'));});
  document.addEventListener('click',event=>{if(event.target.closest('[data-compare-clear]'))selected.clear();});
  function swap(old,fresh){if(old&&fresh&&old.innerHTML!==fresh.innerHTML){old.replaceChildren(...fresh.childNodes);}}
+ const chatStates=new WeakMap();
+ function initChat(root){
+  if(!root||!root.dataset.chatId||chatStates.has(root))return;
+  const stream=root.querySelector('.chat-stream');if(!stream)return;
+  chatStates.set(root,{olderBusy:false,refresh:null});
+  requestAnimationFrame(()=>{stream.scrollTop=stream.scrollHeight;});
+  stream.addEventListener('scroll',()=>{
+   if(stream.scrollTop<60)olderMessages(root);
+   if(stream.scrollHeight-stream.scrollTop-stream.clientHeight<60)root.querySelector('[data-new-messages]').hidden=true;
+  },{passive:true});
+  root.querySelector('[data-chat-older]')?.addEventListener('click',()=>olderMessages(root));
+  root.querySelector('[data-new-messages]')?.addEventListener('click',()=>{stream.scrollTo({top:stream.scrollHeight,behavior:'smooth'});root.querySelector('[data-new-messages]').hidden=true;});
+  root.querySelector('.compose textarea')?.addEventListener('keydown',event=>{
+   if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&event.target.value.trim())form.requestSubmit(form.querySelector('button[type="submit"],button'));}
+  });
+ }
+ function messageNode(item){
+  const article=document.createElement('article');article.className='bubble'+(item.mine?' mine':'');article.dataset.messageId=item.id;
+  const sender=document.createElement('small'),body=document.createElement('p'),time=document.createElement('time');
+  sender.textContent=item.sender;body.className='pre';body.textContent=item.text;time.textContent=item.time;article.append(sender,body,time);return article;
+ }
+ async function chatData(root,direction,cursor){
+  const url=new URL(root.dataset.chatFeed,location.href);url.searchParams.set('id',root.dataset.chatId);
+  if(cursor)url.searchParams.set(direction,cursor);
+  if(root.dataset.messageQuery)url.searchParams.set('message',root.dataset.messageQuery);
+  const response=await fetch(url,{headers,cache:'no-store'}),data=await response.json();
+  if(!response.ok)throw new Error(data.message||'Chưa tải được tin nhắn. Hãy thử lại.');
+  return data;
+ }
+ async function olderMessages(root){
+  const state=chatStates.get(root),button=root.querySelector('[data-chat-older]');
+  if(!state||state.olderBusy||!button||button.hidden)return;
+  const stream=root.querySelector('.chat-stream'),list=root.querySelector('.chat-messages'),first=list.querySelector('[data-message-id]');if(!first)return;
+  state.olderBusy=true;button.disabled=true;const hint=root.querySelector('[data-chat-history-status]');hint.textContent='Đang tải…';
+  try{
+   const data=await chatData(root,'before',first.dataset.messageId);if(!root.isConnected)return;
+   const anchor=first.getBoundingClientRect().top;
+   const fragment=document.createDocumentFragment();for(const item of data.items)if(!list.querySelector(`[data-message-id="${item.id}"]`))fragment.append(messageNode(item));
+   list.prepend(fragment);button.hidden=!data.hasMore;hint.textContent=data.hasMore?'':'Đã đến đầu cuộc trò chuyện';
+   stream.scrollTop+=first.getBoundingClientRect().top-anchor;
+  }catch(error){hint.textContent=error.message;}
+  finally{state.olderBusy=false;button.disabled=false;}
+ }
  async function chatRefresh(root,url=location.href,{sent=false}={}){
-  if(root.querySelector('[data-submitting]')&&!sent)return;
-  const active=new URL(url,location.href);if(root.dataset.chatId)active.searchParams.set('id',root.dataset.chatId);url=active.href;
-  const fresh=await load(root,url,!sent);if(!fresh)return false;
-  if(root.dataset.chatId!==fresh.dataset.chatId){if(!root.dataset.chatId)replace(root,fresh,url,null,false);return true;}
-  swap(root.querySelector('.conversation-list'),fresh.querySelector('.conversation-list'));
-  const stream=root.querySelector('.chat-stream'),incoming=fresh.querySelector('.chat-stream');
-  if(stream&&incoming&&(sent||Number(root.dataset.chatPage||1)===1)&&stream.innerHTML!==incoming.innerHTML){
-   const atBottom=stream.scrollHeight-stream.scrollTop-stream.clientHeight<64,top=stream.scrollTop;
-   const anchor=[...stream.querySelectorAll('[data-message-id]')].find(node=>node.offsetTop>=stream.scrollTop);
-   const anchorOffset=anchor?anchor.offsetTop-stream.scrollTop:0,anchorId=anchor?.dataset.messageId;
-   stream.replaceChildren(...incoming.childNodes);
-   if(atBottom||sent)stream.scrollTop=stream.scrollHeight;
-   else{
-    const kept=[...stream.querySelectorAll('[data-message-id]')].find(node=>node.dataset.messageId===anchorId);
-    stream.scrollTop=kept?kept.offsetTop-anchorOffset:top;
-    if(!root.querySelector('[data-new-messages]')){const button=document.createElement('button');button.type='button';button.className='btn btn-outline-primary new-messages';button.dataset.newMessages='true';button.textContent='Có tin nhắn mới · Xem';button.addEventListener('click',()=>{stream.scrollTop=stream.scrollHeight;button.remove();});stream.before(button);}
-   }
-  }
-  const current=root.querySelector('.compose'),next=fresh.querySelector('.compose');
-  if(current&&!next){current.replaceWith(fresh.querySelector('.chat-panel>p')||document.createTextNode('Bạn không còn quyền gửi tin trong lớp này.'));}
-  else if(!current&&next){root.querySelector('.chat-panel>p')?.remove();root.querySelector('.chat-panel')?.append(next);ui.init(next.parentElement);}
-  if(sent&&current&&next){
-   root.dataset.chatPage=fresh.dataset.chatPage;
-   swap(root.querySelector('.pagination'),fresh.querySelector('.pagination'));
-   swap(root.querySelector('.inline'),fresh.querySelector('.inline'));
-   history.replaceState({...history.state,eduRegion:root.id},'',url);
-   const input=current.querySelector('textarea');if(input?.value===sent){input.value='';drafts.delete(root.dataset.chatId);}
-   const token=current.querySelector('[name="MaThaoTac"]');if(token)token.value=next.querySelector('[name="MaThaoTac"]').value;
-   root.querySelector('.ui-error-summary')?.remove();root.querySelector('[data-new-messages]')?.remove();input?.focus();
-  }
-  status(root,'');return true;
+  initChat(root);const state=chatStates.get(root);if(!state)return true;
+  if(state.refresh){await state.refresh;if(!sent)return true;}
+  state.refresh=(async()=>{
+   const stream=root.querySelector('.chat-stream'),list=root.querySelector('.chat-messages');
+   try{
+    let more=true,rounds=0;
+    while(more&&rounds++<10){
+     const last=list.querySelector('[data-message-id]:last-child'),data=await chatData(root,'after',last?.dataset.messageId);
+     if(!root.isConnected)return false;
+     const nearBottom=stream.scrollHeight-stream.scrollTop-stream.clientHeight<64;if(!last&&data.hasMore)root.querySelector('[data-chat-older]').hidden=false;
+     let added=0;for(const item of data.items){if(list.querySelector(`[data-message-id="${item.id}"]`))continue;list.querySelector('.chat-empty')?.remove();list.append(messageNode(item));added++;}
+     if(added){if(nearBottom||sent){stream.scrollTop=stream.scrollHeight;root.querySelector('[data-new-messages]').hidden=true;}else root.querySelector('[data-new-messages]').hidden=false;}
+     const compose=root.querySelector('.compose');if(compose)compose.hidden=!data.canSend;
+     const readonly=root.querySelector('.chat-readonly');if(readonly)readonly.hidden=data.canSend;
+     more=!!last&&data.hasMore;
+    }
+    if(sent){
+     const form=root.querySelector('.compose'),input=form?.querySelector('textarea');if(input?.value===sent){input.value='';drafts.delete(root.dataset.chatId);}
+     const token=form?.querySelector('[name="MaThaoTac"]');if(token)token.value=crypto.randomUUID();
+     form?.querySelectorAll('.ui-error-summary,.ui-field-error').forEach(node=>node.remove());input?.focus();
+    }
+    status(root,'');return true;
+   }catch(error){status(root,error.message);return false;}
+  })();
+  try{return await state.refresh;}finally{state.refresh=null;}
  }
  ui.afterAjaxSubmit=async(form,result,data)=>{
   if(form.hasAttribute('data-chat-send')){
@@ -141,5 +178,6 @@
  setInterval(poll,3000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll();});
  ui.refreshLive=()=>{round=0;return poll();};
+ initChat(document.querySelector('#chat-content'));
  setTimeout(poll,500);
 })();

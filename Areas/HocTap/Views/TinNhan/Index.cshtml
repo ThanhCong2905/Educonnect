@@ -1,4 +1,54 @@
 @model List<TinNhan>
 @inject NguoiDungMauService Current
-@{ViewData["Title"]="Tin nhắn";var inClass=ViewBag.InClass is true;var canSend=ViewBag.CanSend is true;var me=await Current.HienTaiAsync();var people=await Current.DanhSachAsync();var conversations=(List<CuocHoiThoai>)ViewBag.Conversations;var c=(CuocHoiThoai?)ViewBag.Conversation;}
-<div id="chat-content" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page"><h1>@(inClass?"Tin nhắn trong lớp":"Tin nhắn riêng")</h1><div class="@(inClass?"class-chat-layout":"chat-layout")">@if(!inClass){<aside class="card"><form method="get"><label>Tìm cuộc hội thoại<input class="form-control" name="q" value="@ViewBag.Query" placeholder="Tên người liên hệ"></label><button class="btn btn-outline-primary secondary">Tìm kiếm</button></form><nav class="conversation-list">@foreach(var room in conversations){<a class="@(room.Id==c?.Id?"selected":"")" asp-action="@(inClass?"Lop":"Index")" asp-route-id="@room.Id"><strong>@(room.LoaiHoiThoai=="TheoLop"?"Trao đổi trong lớp":people.FirstOrDefault(x=>x.Id==(room.GiaSuId==me.Id?room.BenHocId:room.GiaSuId))?.HoTen)</strong><small>@(room.LoaiHoiThoai=="TheoLop"?"Lớp học":"Trước kết nối")</small></a>}</nav></aside>}<section class="card chat-panel">@if(c!=null){<div class="chat-header"><h2>@(c.LoaiHoiThoai=="TheoLop"?"Trao đổi trong lớp":"Trao đổi trước kết nối")</h2>@if(c.LopHocId!=null){<a asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a>}</div><form method="get" asp-action="@(inClass?"Lop":"Index")" class="inline"><input name="id" value="@c.Id" type="hidden"><input class="form-control" name="message" value="@ViewBag.MessageQuery" aria-label="Tìm nội dung tin nhắn" placeholder="Tìm trong tin nhắn"><button class="btn btn-primary">Tìm</button></form><div class="chat-stream" role="log">@foreach(var m in Model){<article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId==me.Id?"mine":"")"><small>@people.FirstOrDefault(x=>x.Id==m.NguoiGuiId)?.HoTen</small><p class="pre">@m.NoiDung</p><time>@Rules.Date(m.GuiLuc)</time></article>}@if(Model.Count==0){<p class="muted">Chưa có tin nhắn phù hợp.</p>}</div><nav class="pagination"><a asp-action="@(inClass?"Lop":"Index")" asp-route-id="@c.Id" asp-route-message="@ViewBag.MessageQuery" asp-route-page="@((int)ViewBag.Page+1)">Tin nhắn cũ hơn</a>@if((int)ViewBag.Page>1){<a asp-action="Index" asp-route-id="@c.Id" asp-route-message="@ViewBag.MessageQuery" asp-route-page="@((int)ViewBag.Page-1)">Mới hơn</a>}</nav>@if(canSend){<form method="post" asp-action="Gui" class="compose" data-chat-send><input name="MaHoiThoai" value="@c.Id" type="hidden"><input name="MaThaoTac" value="@Guid.NewGuid()" type="hidden"><label class="grow">Nội dung<textarea class="form-control" name="NoiDung" required maxlength="10000" placeholder="Nhập tin nhắn..."></textarea></label><button class="btn btn-primary">Gửi</button></form>}else{<p class="muted p-3">Bạn có thể xem tin nhắn. Quyền gửi tin chỉ dành cho gia sư và thành viên có quyền chỉnh sửa trong lớp đang hoạt động.</p>}}else{<div class="empty">Chưa có cuộc hội thoại. Chấp nhận liên hệ trước khi trao đổi.</div>}</section></div></div>
+@{
+    ViewData["Title"] = "Tin nhắn";
+    var inClass = ViewBag.InClass is true;
+    var canSend = ViewBag.CanSend is true;
+    var me = await Current.HienTaiAsync();
+    var people = await Current.DanhSachAsync();
+    var conversations = (List<CuocHoiThoai>)ViewBag.Conversations;
+    var c = (CuocHoiThoai?)ViewBag.Conversation;
+    var partner = c == null ? "" : people.FirstOrDefault(x => x.Id == (c.GiaSuId == me.Id ? c.BenHocId : c.GiaSuId))?.HoTen ?? "Người liên hệ";
+}
+<div id="chat-content" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page" data-message-query="@ViewBag.MessageQuery" data-chat-feed="@Url.Action("DuLieu")">
+<h1>@(inClass ? "Tin nhắn trong lớp" : "Tin nhắn riêng")</h1>
+<div class="@(inClass ? "class-chat-layout" : "chat-layout")">
+@if (!inClass)
+{
+    <aside class="card chat-sidebar">
+        <form method="get" class="conversation-search"><label>Tìm người liên hệ<input class="form-control" name="q" value="@ViewBag.Query" placeholder="Nhập tên..."></label><button class="btn btn-outline-primary" aria-label="Tìm cuộc hội thoại">Tìm</button></form>
+        <nav class="conversation-list" aria-label="Cuộc hội thoại">
+        @foreach (var room in conversations)
+        {
+            var name = people.FirstOrDefault(x => x.Id == (room.GiaSuId == me.Id ? room.BenHocId : room.GiaSuId))?.HoTen ?? "Người liên hệ";
+            <a class="@(room.Id == c?.Id ? "selected" : "")" asp-action="Index" asp-route-id="@room.Id"><span class="avatar" aria-hidden="true">@name[..1]</span><span><strong>@name</strong><small>Nhắn tin riêng</small></span></a>
+        }
+        @if (conversations.Count == 0) { <p class="muted p-3">Chưa có cuộc hội thoại.</p> }
+        </nav>
+    </aside>
+}
+<section class="card chat-panel">
+@if (c != null)
+{
+    <div class="chat-header"><div class="person"><span class="avatar" aria-hidden="true">@(inClass ? "L" : partner[..1])</span><div><h2>@(inClass ? "Trao đổi trong lớp" : partner)</h2><small>@(inClass ? "Không gian trao đổi của thành viên lớp" : "Cuộc trò chuyện riêng của bạn")</small></div></div>@if (c.LopHocId != null) { <a asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a> }</div>
+    <form method="get" asp-action="@(inClass ? "Lop" : "Index")" class="inline chat-search"><input name="id" value="@c.Id" type="hidden"><input class="form-control" name="message" value="@ViewBag.MessageQuery" aria-label="Tìm nội dung tin nhắn" placeholder="Tìm trong cuộc trò chuyện"><button class="btn btn-outline-primary">Tìm</button></form>
+    <div class="chat-stream" role="log" aria-label="Nội dung cuộc trò chuyện" aria-live="off">
+        <div class="chat-history"><button type="button" class="btn quiet" data-chat-older hidden="@(Model.Count < 50)">Xem tin nhắn trước</button><span class="muted" data-chat-history-status role="status"></span></div>
+        <div class="chat-messages">
+        @foreach (var m in Model)
+        {
+            <article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId == me.Id ? "mine" : "")"><small>@people.FirstOrDefault(x => x.Id == m.NguoiGuiId)?.HoTen</small><p class="pre">@m.NoiDung</p><time>@Rules.Date(m.GuiLuc)</time></article>
+        }
+        @if (Model.Count == 0) { <div class="chat-empty"><strong>@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Bắt đầu cuộc trò chuyện" : "Không tìm thấy tin nhắn")</strong><p class="muted">@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Gửi lời chào và trao đổi về việc học tại đây." : "Thử tìm bằng từ khóa khác.")</p></div> }
+        </div>
+    </div>
+    <button type="button" class="btn btn-outline-primary new-messages" data-new-messages hidden>Tin nhắn mới ↓</button>
+
+        <form method="post" asp-action="Gui" class="compose" data-chat-send hidden="@(!canSend)"><input name="MaHoiThoai" value="@c.Id" type="hidden"><input name="MaThaoTac" value="@Guid.NewGuid()" type="hidden"><label class="grow"><span class="visually-hidden">Nội dung tin nhắn</span><textarea class="form-control" name="NoiDung" required maxlength="10000" rows="2" placeholder="Viết tin nhắn..."></textarea></label><button class="btn btn-primary">Gửi ↑</button><small class="compose-hint">Enter để gửi · Shift + Enter để xuống dòng</small></form>
+    <p class="chat-readonly muted p-3" hidden="@canSend">Bạn có thể đọc cuộc trò chuyện. Quyền gửi tin phụ thuộc quyền thành viên và trạng thái lớp.</p>
+}
+else
+{
+    <div class="empty">Chấp nhận liên hệ để bắt đầu trò chuyện riêng.</div>
+}
+</section></div></div>
