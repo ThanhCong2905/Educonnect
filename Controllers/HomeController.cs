@@ -1,4 +1,4 @@
-using EduConnect.Mvc.Areas.TimKiem.Services;
+﻿using EduConnect.Mvc.Areas.TimKiem.Services;
 using EduConnect.Mvc.Areas.HocTap.Services;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,7 @@ public sealed class HomeController(TimKiemService search, NguoiDungMauService cu
 {
     public async Task<IActionResult> Index()
     {
+        if ((await current.HienTaiAsync()).LoaiNguoi == "QuanTri") return Redirect("/QuanTri/HoSo/Index");
         var (items, has) = await search.GoiYAsync();
         ViewBag.HasNeed = has;
         ViewBag.Classes = await classes.LayAsync();
@@ -25,6 +26,7 @@ public sealed class HomeController(TimKiemService search, NguoiDungMauService cu
     public async Task<IActionResult> Doc(Guid id)
     {
         var n = await notices.DocAsync(id);
+        if (n.LoaiThongBao == "HoSo") return Redirect("/NhuCau/HoSoGiaSu/Sua");
         if (n.LoaiThongBao == "BaiTap")
             return Redirect($"/HocTap/BaiTap/ChiTiet/{n.DoiTuongId}");
         if (n.LoaiThongBao is "LichHoc" or "ThanhVien")

@@ -15,6 +15,12 @@ public sealed class MonHoc
 }
 public sealed class HoSoGiaSu
 {
+    public bool DangHienThi { get; set; }
+    public bool DayTrucTuyen { get; set; }
+    public bool DayTrucTiep { get; set; }
+    public DateTimeOffset? GuiDuyetLuc { get; set; }
+    public DateTimeOffset? DuyetLuc { get; set; }
+    public Guid? NguoiDuyetId { get; set; }
     public Guid Id
     {
         get; set;
@@ -37,6 +43,8 @@ public sealed class HoSoGiaSu
 }
 public sealed class HoSoGiaSuMonDay
 {
+    public decimal? HocPhiDeXuat { get; set; }
+    public string? DonViHocPhi { get; set; }
     public Guid HoSoGiaSuId
     {
         get; set;

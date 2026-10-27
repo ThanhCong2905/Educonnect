@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +29,7 @@ public static class Rules
     public static DateTimeOffset Local(DateTime value) => new(DateTime.SpecifyKind(value, DateTimeKind.Unspecified), TimeSpan.FromHours(7));
     public static string Date(DateTimeOffset value) => value.ToOffset(TimeSpan.FromHours(7)).ToString("dd/MM/yyyy HH:mm");
     public static string Fee(decimal? n, string? unit) => n.HasValue ? n.Value.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " đ / " + (unit == "VND/Buoi" ? "buổi" : "giờ") : "Chưa xác định";
-    public static string Label(string? x) => x switch { "DangMo" => "Đang mở", "BanNhap" => "Bản nháp", "DaDong" => "Đã đóng", "ChoPhanHoi" => "Chờ phản hồi", "ChapNhan" => "Đã chấp nhận", "TuChoi" => "Từ chối", "DaRut" => "Đã rút", "ChoGiaSu" => "Chờ gia sư", "ChoBenHoc" => "Chờ bên học", "DaChapNhan" => "Đã tạo lớp", "HetHan" => "Hết hạn", "DangHoatDong" => "Đang học", "DaKetThuc" => "Đã kết thúc", "DaHuy" => "Đã hủy", "TrucTuyen" => "Trực tuyến", "TrucTiep" => "Trực tiếp", "GiaSu" => "Gia sư", "HocSinh" => "Học sinh", "PhuHuynh" => "Phụ huynh", "DaLenLich" => "Đã lên lịch", "DaDieuChinh" => "Đã điều chỉnh", _ => x ?? "" };
+    public static string Label(string? x) => x switch { "QuanTri" => "Quản trị", "ChoDuyet" => "Chờ duyệt", "DaDuyet" => "Đã duyệt", "CanChinhSua" => "Cần chỉnh sửa", "CaHai" => "Trực tuyến và trực tiếp", "DangMo" => "Đang mở", "BanNhap" => "Bản nháp", "DaDong" => "Đã đóng", "ChoPhanHoi" => "Chờ phản hồi", "ChapNhan" => "Đã chấp nhận", "TuChoi" => "Từ chối", "DaRut" => "Đã rút", "ChoGiaSu" => "Chờ gia sư", "ChoBenHoc" => "Chờ bên học", "DaChapNhan" => "Đã tạo lớp", "HetHan" => "Hết hạn", "DangHoatDong" => "Đang học", "DaKetThuc" => "Đã kết thúc", "DaHuy" => "Đã hủy", "TrucTuyen" => "Trực tuyến", "TrucTiep" => "Trực tiếp", "GiaSu" => "Gia sư", "HocSinh" => "Học sinh", "PhuHuynh" => "Phụ huynh", "DaLenLich" => "Đã lên lịch", "DaDieuChinh" => "Đã điều chỉnh", _ => x ?? "" };
     public static void Slots(IReadOnlyList<SlotInput> slots)
     {
         Check(slots.Count is > 0 and <= 35, "Cần từ 1 đến 35 khung giờ.");

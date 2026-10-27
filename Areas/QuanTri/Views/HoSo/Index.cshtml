@@ -1,0 +1,6 @@
+﻿@model List<HoSoGiaSu>
+@{ViewData["Title"]="Kiểm duyệt hồ sơ";var people=(List<NguoiThamGia>)ViewBag.People;}
+<div class="heading"><h1>Kiểm duyệt hồ sơ gia sư</h1><span class="badge">@Model.Count hồ sơ chờ duyệt</span></div>
+<div class="cards">@foreach(var h in Model){<article class="card"><span class="badge">Chờ duyệt</span><h2>@people.FirstOrDefault(x=>x.Id==h.GiaSuId)?.HoTen</h2><p>@h.TrinhDo · @h.ChuyenMon</p><p>Gửi duyệt: @(h.GuiDuyetLuc.HasValue?Rules.Date(h.GuiDuyetLuc.Value):"")</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@h.Id">Kiểm tra toàn bộ hồ sơ</a></article>}</div>
+@if(Model.Count==0){<div class="empty">Không có hồ sơ đang chờ duyệt.</div>}
+<details class="preview"><summary>Chọn người dùng mẫu</summary><form action="/Home/Chon" method="post">@Html.AntiForgeryToken()<label>Tài khoản<select class="form-select" name="id">@foreach(var p in people){<option value="@p.Id">@Rules.Label(p.LoaiNguoi) · @p.HoTen</option>}</select></label><button class="btn btn-outline-primary">Chuyển vai trò</button></form></details>

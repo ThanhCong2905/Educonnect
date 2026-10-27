@@ -5,6 +5,8 @@ namespace EduConnect.Mvc.Areas.TimKiem.ViewModels;
 
 public sealed class BoLocTimKiemViewModel
 {
+    public List<int> MonHocIds { get; set; } = [];
+    [StringLength(256)] public string? TrinhDo { get; set; }
     [StringLength(100)]
     public string? TuKhoa
     {
@@ -47,6 +49,9 @@ public sealed class BoLocTimKiemViewModel
 // Không đưa tên, tuổi người học và địa chỉ chi tiết vào dữ liệu công khai.
 public sealed class UngVienViewModel
 {
+    public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];
+    public bool DayTrucTuyen { get; set; }
+    public bool DayTrucTiep { get; set; }
     public string? ChuyenMon
     {
         get; set;
@@ -106,6 +111,14 @@ public sealed class UngVienViewModel
         get; set;
     }
     public List<SlotInput> Slots { get; set; } = []; public List<string> LyDo { get; set; } = [];
+}
+public sealed class MonDayCongKhai
+{
+    public int MonHocId { get; set; }
+    public string TenMon { get; set; } = "";
+    public string PhamViDay { get; set; } = "";
+    public decimal? HocPhi { get; set; }
+    public string? DonVi { get; set; }
 }
 public sealed class SearchPage
 {

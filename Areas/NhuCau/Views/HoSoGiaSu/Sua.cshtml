@@ -1,17 +1,27 @@
-@model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
-@{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;}
-<h1>Hồ sơ của tôi</h1>
-<form method="post" asp-action="Luu" enctype="multipart/form-data" class="card form-wide">
- <div asp-validation-summary="All" class="validation"></div><input asp-for="RowVersion" type="hidden">
- <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
- @foreach(var field in new[]{("HoTen","Họ tên",Model.HoTen),("TrinhDo","Trình độ",Model.TrinhDo),("ChuyenMon","Chuyên môn",Model.ChuyenMon),("KinhNghiem","Kinh nghiệm",Model.KinhNghiem),("KhuVuc","Khu vực",Model.KhuVuc),("PhamViDay","Phạm vi dạy",Model.PhamViDay)}){<label>@field.Item2<input class="form-control" name="@field.Item1" value="@field.Item3" required maxlength="256"></label>}
- </div>
- <label>Giới thiệu<textarea class="form-control" asp-for="MoTa" required maxlength="5000"></textarea></label>
- <partial name="_MonHocPicker" model="Model.MonHocIds" view-data='new ViewDataDictionary(ViewData) { ["ChonMonKhac"] = Model.ChonMonKhac, ["TenMonKhac"] = Model.TenMonKhac }'/>
- <fieldset><legend>Bằng cấp & chứng chỉ</legend>
- <label>Thêm tệp<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>PDF, JPG, PNG, DOCX · Tối đa 5 tệp, 10 MB/tệp · Chỉ bạn được xem.</small></label>
- @if(certificates.Count>0){<div class="credential-list">@foreach(var file in certificates){<div class="credential-row"><div><a asp-action="BangCap" asp-route-id="@file.Id">@file.TenGoc</a><small>@((file.KichThuoc/1024d).ToString("N0")) KB</small></div><label class="check"><input class="form-check-input" type="checkbox" name="XoaTepIds" value="@file.Id" checked="@Model.XoaTepIds.Contains(file.Id)"> Xóa khi lưu</label></div>}</div>}
- </fieldset>
- <div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button></div>
-</form>
-
+﻿@model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
+@{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;var locked=Model.DangHienThi||Model.TrangThaiDuyet=="ChoDuyet";}
+<div class="heading"><div><h1>Hồ sơ của tôi</h1><p>Giới thiệu, môn dạy và mức phí tham khảo.</p></div>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="XemTruoc">Xem hồ sơ công khai</a>}</div>
+<section class="card profile-workflow"><div class="card-statuses"><span class="badge">@(Model.DangHienThi?"Đang hiển thị":"Đang ẩn")</span><span class="badge">@Rules.Label(Model.TrangThaiDuyet)</span></div>
+@if(Model.DangHienThi){<p>Ẩn hồ sơ trước khi chỉnh sửa. Các cuộc trò chuyện và lớp đang có vẫn được giữ.</p>}
+@if(Model.TrangThaiDuyet=="ChoDuyet"){<p>Hồ sơ đang được kiểm duyệt. Hủy gửi duyệt nếu bạn cần thay đổi nội dung.</p>}
+@if(!string.IsNullOrWhiteSpace(Model.LyDoTuChoi)){<div class="alert alert-warning"><strong>Nội dung cần chỉnh sửa</strong><p class="pre">@Model.LyDoTuChoi</p></div>}
+@if(Model.RowVersion!=null){<form method="post" asp-action="TrangThai" class="actions"><input name="rowVersion" value="@Model.RowVersion" type="hidden">
+@if(Model.DangHienThi){<button class="btn btn-outline-primary" name="operation" value="An" data-confirm-hide>Ẩn hồ sơ</button>}
+else if(Model.TrangThaiDuyet=="ChoDuyet"){<button class="btn btn-outline-primary" name="operation" value="HuyDuyet">Hủy gửi duyệt</button>}
+else {<button class="btn btn-primary" name="operation" value="GuiDuyet">Gửi duyệt</button>@if(Model.TrangThaiDuyet=="DaDuyet"){<button class="btn btn-outline-primary" name="operation" value="Hien">Bật hiển thị</button>}}
+</form>}</section>
+<form method="post" asp-action="Luu" enctype="multipart/form-data" class="card" data-tutor-profile>
+<div asp-validation-summary="All" class="validation"></div><input asp-for="RowVersion" type="hidden">
+<fieldset class="profile-edit-fields" disabled="@locked"><legend>Thông tin hồ sơ</legend>
+<div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
+@foreach(var f in new[]{("HoTen","Họ tên",Model.HoTen),("TrinhDo","Trình độ",Model.TrinhDo),("ChuyenMon","Chuyên môn",Model.ChuyenMon),("KinhNghiem","Kinh nghiệm",Model.KinhNghiem),("KhuVuc","Khu vực nhận dạy",Model.KhuVuc)}){<label>@f.Item2<input class="form-control" name="@f.Item1" value="@f.Item3" required maxlength="256"></label>}
+</div><label>Giới thiệu<textarea class="form-control" asp-for="MoTa" required maxlength="5000"></textarea></label>
+<p>Hình thức dạy <span class="required-mark" aria-label="Chọn ít nhất một">*</span></p><div class="teaching-modes"><label class="check"><input name="DayTrucTuyen" type="checkbox" value="true" checked="@Model.DayTrucTuyen" class="form-check-input">Trực tuyến</label><label class="check"><input name="DayTrucTiep" type="checkbox" value="true" checked="@Model.DayTrucTiep" class="form-check-input">Trực tiếp</label></div>
+<h2>Môn dạy & học phí đề xuất</h2><p class="muted">Mỗi môn có mức phí và đơn vị riêng. Học phí lớp sẽ được hai bên thỏa thuận khi kết nối.</p>
+<div data-subject-rows>@for(int i=0;i<Model.MonDay.Count;i++){@await Html.PartialAsync("_MonDayRow",Model.MonDay[i],new ViewDataDictionary(ViewData){["RowIndex"]=i.ToString()})}</div>
+<button type="button" class="btn btn-outline-primary" data-add-subject>+ Thêm môn dạy</button>
+<template data-subject-template>@await Html.PartialAsync("_MonDayRow",new EduConnect.Mvc.Areas.NhuCau.ViewModels.MonDayInput{PhamViDay="Lớp 10–12"},new ViewDataDictionary(ViewData){["RowIndex"]="__index__"})</template>
+<h2>Bằng cấp & chứng chỉ</h2><label>Thêm minh chứng<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>Tối đa 5 tệp, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem.</small></label>
+@foreach(var f in certificates){<div class="credential-row"><a asp-action="BangCap" asp-route-id="@f.Id">@f.TenGoc</a><label class="check"><input class="form-check-input" type="checkbox" name="XoaTepIds" value="@f.Id" checked="@Model.XoaTepIds.Contains(f.Id)">Xóa khi lưu</label></div>}
+@if(!locked){<div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button></div>}
+</fieldset></form>

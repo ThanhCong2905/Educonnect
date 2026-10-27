@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using System.Text.Json;
 using EduConnect.Mvc.Areas.KetNoi.ViewModels;
 using EduConnect.Mvc.Data;
@@ -37,6 +37,11 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         var tutor = u.LoaiNguoi == "GiaSu" ? u.Id : other.Id;
         var learner = u.LoaiNguoi == "GiaSu" ? other.Id : u.Id;
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+        Rules.Check((u.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh") && (other.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh"), "Vai trò không được gửi liên hệ.",403);
+        await HoSoLock.KhoaAsync(db,tutor);
+        Rules.Check(await db.Set<HoSoGiaSu>().AnyAsync(h=>h.GiaSuId==tutor&&h.DangHienThi&&h.TrangThaiDuyet=="DaDuyet"&&(h.DayTrucTuyen||h.DayTrucTiep)
+            &&db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id)
+            &&!db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id&&(d.HocPhiDeXuat==null||d.DonViHocPhi==null||!db.Set<MonHoc>().Any(m=>m.Id==d.MonHocId&&m.DangSuDung)))), "Hồ sơ gia sư đã ẩn hoặc chưa đủ điều kiện nhận liên hệ mới.",409);
         Rules.Check(!await db.Set<YeuCauLienHe>().AnyAsync(x => x.GiaSuId == tutor && x.BenHocId == learner && (x.TrangThai == "ChapNhan" || x.TrangThai == "ChoPhanHoi")), "Hai bên đã liên hệ hoặc đang chờ phản hồi.");
         var id = Guid.NewGuid();
         db.Add(new YeuCauLienHe { Id = id, GiaSuId = tutor, BenHocId = learner, NguoiGuiId = u.Id, LoiNhan = m.LoiNhan.Trim(), TrangThai = "ChoPhanHoi", GuiLuc = DateTimeOffset.UtcNow });
@@ -172,5 +177,3 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         await tx.CommitAsync();
     }
 }
-
-

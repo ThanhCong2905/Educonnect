@@ -1,9 +1,9 @@
-@model EduConnect.Mvc.Areas.TimKiem.ViewModels.BoLocTimKiemViewModel
+﻿@model EduConnect.Mvc.Areas.TimKiem.ViewModels.BoLocTimKiemViewModel
 @{
  var subjects=(List<MonHoc>)ViewBag.Subjects;
  var labels=new Dictionary<string,string?>{
  ["TuKhoa"]=Model.TuKhoa,["MonHocId"]=Model.MonHocId.HasValue?subjects.FirstOrDefault(x=>x.Id==Model.MonHocId)?.TenMon??"Môn đã chọn":null,
- ["KhoiLop"]=Model.KhoiLop,["HinhThucHoc"]=string.IsNullOrEmpty(Model.HinhThucHoc)?null:Rules.Label(Model.HinhThucHoc),["KhuVuc"]=Model.KhuVuc,
+ ["TrinhDo"]=Model.TrinhDo,["KhoiLop"]=Model.KhoiLop,["HinhThucHoc"]=string.IsNullOrEmpty(Model.HinhThucHoc)?null:Rules.Label(Model.HinhThucHoc),["KhuVuc"]=Model.KhuVuc,
  ["HocPhiToiDa"]=Model.HocPhiToiDa.HasValue?"Tối đa "+Rules.Fee(Model.HocPhiToiDa,Model.DonViHocPhi):null,
  ["ThuTrongTuan"]=Model.ThuTrongTuan.HasValue?(Model.ThuTrongTuan==0?"Chủ nhật":"Thứ "+(Model.ThuTrongTuan+1)):null,
  ["GioBatDau"]=Model.GioBatDau.HasValue?"Từ "+Model.GioBatDau.Value.ToString("HH:mm"):null,

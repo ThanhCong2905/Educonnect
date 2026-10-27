@@ -7,8 +7,19 @@ namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
 [Area("NhuCau")]
 [RequestSizeLimit(52000000)]
-public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates) : BaseController
+public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService search) : BaseController
 {
+    [HttpPost]
+    public async Task<IActionResult> TrangThai(string operation, string rowVersion)
+    {
+        await service.DoiTrangThaiAsync(operation,rowVersion);
+        Success();return RedirectToAction(nameof(Sua));
+    }
+    public async Task<IActionResult> XemTruoc()
+    {
+        ViewBag.Preview=true;ViewBag.Related=new List<EduConnect.Mvc.Areas.TimKiem.ViewModels.UngVienViewModel>();
+        return View("~/Areas/TimKiem/Views/TimKiem/ChiTiet.cshtml",await search.XemTruocAsync());
+    }
     public async Task<IActionResult> Sua()
     {
         ViewBag.Certificates = await certificates.CuaToiAsync();

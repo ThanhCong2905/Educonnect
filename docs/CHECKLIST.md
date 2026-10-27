@@ -2,12 +2,14 @@
 
 Ký hiệu: `[x]` đã có mã và luồng; mức xác minh cụ thể xem JSON kết quả. Không coi mọi chức năng đã có mã là đã được kiểm thử toàn bộ tổ hợp.
 
+Quy trình gia sư mới: [hồ sơ theo môn](profile-workflow.md), [31 kiểm thử thực tế](qa/profile-results.json). Đã kiểm tra thêm Edge desktop/mobile cho gửi duyệt–duyệt–hiển thị–ẩn và quyền truy cập. Các JSON kiểm thử cũ không phải kết quả cho quy trình mới.
+
 - [x] Trang chủ: tìm kiếm, chọn vai trò/người mẫu, gợi ý theo môn và lý do phù hợp, gợi ý tạo nhu cầu, số lớp truy vấn SQL.
 - [x] Điều hướng: tìm kiếm trước nhu cầu, breadcrumb, một menu tin nhắn, một avatar sidebar, footer, responsive.
 - [x] Nhu cầu: tạo/sửa, nháp, mở/đóng/mở lại, chọn nhiều môn và tạo một nhu cầu riêng cho mỗi môn; một mức phí/một đơn vị trên mỗi nhu cầu, lịch tuần nhiều dòng, chặn chồng lấn.
-- [x] Hồ sơ gia sư: chuyên môn và môn dạy; không có học phí; bằng cấp riêng tư, chỉ chủ hồ sơ được tải/xóa; chọn môn hồ sơ khi đăng nhu cầu; chặn bỏ môn còn nhu cầu mở.
+- [x] Hồ sơ gia sư: giá/đơn vị và phạm vi theo môn, hình thức dạy, gửi duyệt, yêu cầu sửa có lý do, tự bật hiển thị, xem trước chính chủ, minh chứng chỉ chủ/quản trị. Bỏ môn vẫn giữ lịch sử; không tạo nhu cầu nhận lớp mới.
 - [x] Phụ huynh: thông tin người học riêng tư; sao chép vào lớp qua procedure; không tạo tài khoản học sinh.
-- [x] Tìm kiếm: từ khóa, môn, lớp, hình thức, khu vực, mức phí/đơn vị, lịch rảnh, sắp xếp, phân trang và trạng thái trống.
+- [x] Tìm kiếm: một hồ sơ/gia sư, phí đúng môn/đơn vị, hồ sơ đã duyệt và hiển thị; từ khóa, phạm vi, hình thức, khu vực, trình độ, sắp xếp/phân trang. Lịch rảnh chỉ lọc nhu cầu học của người học.
 - [x] Tìm kiếm hiển thị từng nhu cầu công khai riêng, kể cả nhiều nhu cầu cùng một gia sư; phân trang/tổng số theo nhu cầu. Chi tiết có grid các nhu cầu khác của cùng người đăng, kèm học phí/lịch riêng.
 - [x] So sánh 1–3 lựa chọn có kiểm tra ở máy chủ; không có chức năng đối chiếu nhu cầu trong trang tìm kiếm.
 - [x] Liên hệ: gửi, nhận, chấp nhận, từ chối, rút; chỉ mở hội thoại sau khi chấp nhận.
@@ -46,4 +48,3 @@ Ký hiệu: `[x]` đã có mã và luồng; mức xác minh cụ thể xem JSON 
 - Danh sách buổi học có lọc tháng/trạng thái tại máy chủ; các khoảng thời gian hiển thị theo UTC+7.
 - Với JavaScript: lỗi nhập liệu được trả theo trường, giữ nguyên DOM và dữ liệu; lỗi nghiệp vụ hiện trong biểu mẫu. Toast chỉ xác nhận ngắn, tự ẩn sau 4,5 giây. Lỗi hệ thống hoặc truy cập trực tiếp bằng GET vẫn có thể dùng trang lỗi chung.
 - Chưa có kiểm thử tải, nhiều trình duyệt đồng thời, tác vụ scanner hoặc đầy ổ đĩa. Xung đột rowversion và rollback lịch đã được kiểm thử bằng SQL thật.
-

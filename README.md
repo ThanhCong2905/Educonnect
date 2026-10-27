@@ -2,6 +2,8 @@
 
 Ứng dụng ASP.NET Core MVC .NET 10 và SQL Server cho quản lý nhu cầu, tìm kiếm gia sư/người học, thỏa thuận kết nối và theo dõi học tập.
 
+Luồng hồ sơ mới, nâng cấp và kiểm chứng: [Hồ sơ theo môn](docs/profile-workflow.md). Gia sư quản lý một hồ sơ với phí theo môn, gửi quản trị duyệt rồi tự bật hiển thị; không đăng nhu cầu nhận lớp mới. Quản trị hiện là người mẫu trong session, chưa có đăng nhập thật.
+
 ## Chạy tại máy hiện tại
 
 ```powershell
@@ -51,7 +53,7 @@ Các script trong `Database` đã được áp dụng trên máy hiện tại. K
 2. `01_MainLearnerPermission.sql`: cập nhật quyền bên học chính thành `ChinhSua` và bổ sung thành viên chính còn thiếu trong dữ liệu mẫu. Không đổi quyền thành viên phụ.
 3. `02_DemoSupplement.sql`: bổ sung hội thoại của liên hệ đã chấp nhận, lịch rảnh gia sư, nhu cầu của phụ huynh mẫu. Có kiểm tra tồn tại để không tạo trùng.
 
-Các file `01`, `02`, `05`, `06`, `07` phục vụ cập nhật database cũ qua `Setup.ps1 -Existing`; không cần chạy thêm cho database được tạo bằng file `00` mới. `06/07` chỉ sửa dữ liệu từng bị nhập sai mã hóa.
+`Setup.ps1 -Existing` hiện chỉ chạy `08_ProfileWorkflow.sql`, sau sao lưu và preflight. Các file `01`, `02`, `05`, `06`, `07` là lịch sử nâng cấp, không chạy tiếp sau 08. File `00` mới đã tích hợp 08, vẫn 24 bảng; thêm quản trị, hiển thị/kiểm duyệt và phí theo môn. Lịch rảnh gia sư cũ được giữ làm lịch sử, không dùng trong hồ sơ/tìm kiếm gia sư.
 
 Ví dụ cài **database mới trên máy khác** (đổi tên SQL Server phù hợp):
 
@@ -84,5 +86,3 @@ Kiểm thử trình duyệt dùng Node >=20 và Playwright, Edge cài tại đư
 - Máy SQL từng trả lỗi bộ nhớ 701 trong một lần kiểm thử trình duyệt. Không thay đổi cấu hình bộ nhớ hay dừng các dịch vụ SQL khác của người dùng.
 
 Đối chiếu cấu trúc và chức năng: `docs/MAPPING.md`, `docs/CHECKLIST.md`.
-
-

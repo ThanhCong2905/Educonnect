@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
@@ -12,10 +12,11 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
     public async Task<List<NhuCauHoc>> LayAsync()
     {
         var u = await current.HienTaiAsync();
-        return await db.Set<NhuCauHoc>().AsNoTracking().Where(x => x.ChuSoHuuId == u.Id).OrderByDescending(x => x.TaoLuc).ToListAsync();
+        return await db.Set<NhuCauHoc>().AsNoTracking().Where(x => x.ChuSoHuuId == u.Id && x.LoaiNhuCau == "TimGiaSu").OrderByDescending(x => x.TaoLuc).ToListAsync();
     }
     public async Task<Guid> LuuAsync(NhuCauInput m)
     {
+        Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Gia sư quản lý khả năng nhận dạy trong hồ sơ, không tạo hoặc sửa nhu cầu nhận lớp.", 403);
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var subjects = m.MonHocIds.Distinct().ToList();
         if (m.ChonMonKhac)
@@ -49,6 +50,7 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
     }
     public async Task<NhuCauInput> LayDeSuaAsync(Guid? id)
     {
+        Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Mở Hồ sơ của tôi để quản lý môn dạy.", 403);
         if (id == null)
             return new();
         var me = await current.HienTaiAsync();
@@ -125,6 +127,7 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
     {
         Rules.Check(state is "DangMo" or "DaDong", "Trạng thái không hợp lệ.");
         var u = await current.HienTaiAsync();
+        Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Gia sư quản lý khả năng nhận dạy trong hồ sơ, không tạo hoặc sửa nhu cầu nhận lớp.", 403);
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var n = await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == u.Id) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
         Rules.Concurrency(db, n, version);
@@ -139,4 +142,3 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
         await tx.CommitAsync();
     }
 }
-

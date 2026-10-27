@@ -1,4 +1,4 @@
-using EduConnect.Mvc.Areas.NhuCau.Services;
+﻿using EduConnect.Mvc.Areas.NhuCau.Services;
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
@@ -19,6 +19,7 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
     }
     public async Task<IActionResult> Index()
     {
+        if ((await current.HienTaiAsync()).LoaiNguoi == "GiaSu") return RedirectToAction("Sua", "HoSoGiaSu");
         ViewBag.Subjects = await service.MonTenAsync();
         ViewBag.Linked = await service.DaKetNoiAsync();
         return View(await service.LayAsync());
@@ -55,4 +56,3 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
         return RedirectToAction(nameof(Index));
     }
 }
-

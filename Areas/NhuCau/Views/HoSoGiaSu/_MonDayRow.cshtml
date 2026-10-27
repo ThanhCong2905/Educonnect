@@ -1,0 +1,10 @@
+﻿@model EduConnect.Mvc.Areas.NhuCau.ViewModels.MonDayInput
+@{var i=(string)ViewData["RowIndex"]!;var subjects=(List<MonHoc>)ViewBag.Subjects;}
+<div class="subject-fee-row" data-subject-row>
+<label>Môn dạy<select class="form-select" name="MonDay[@i].MonHocId" data-subject-select>@foreach(var s in subjects){<option value="@s.Id" selected="@(Model.MonHocId==s.Id)">@s.TenMon</option>}<option value="0" selected="@(Model.MonHocId==0)">Khác</option></select></label>
+<label data-custom-subject hidden="@(Model.MonHocId!=0)">Tên môn khác<input class="form-control" name="MonDay[@i].TenMonKhac" value="@Model.TenMonKhac" maxlength="100" disabled="@(Model.MonHocId!=0)"></label>
+<label>Phạm vi dạy<input class="form-control" name="MonDay[@i].PhamViDay" value="@Model.PhamViDay" required maxlength="256" placeholder="Ví dụ: Lớp 10–12"></label>
+<label>Phí đề xuất (VND)<input class="form-control" name="MonDay[@i].HocPhiDeXuat" value="@Model.HocPhiDeXuat?.ToString(System.Globalization.CultureInfo.InvariantCulture)" type="number" min="0" step="0.01" required></label>
+<label>Đơn vị<select class="form-select" name="MonDay[@i].DonViHocPhi" required><option value="">Chọn đơn vị</option><option value="VND/Gio" selected="@(Model.DonViHocPhi=="VND/Gio")">VND / giờ</option><option value="VND/Buoi" selected="@(Model.DonViHocPhi=="VND/Buoi")">VND / buổi</option></select></label>
+<button type="button" class="btn quiet" data-remove-subject aria-label="Bỏ môn dạy">Bỏ môn</button>
+</div>

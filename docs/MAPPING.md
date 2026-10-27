@@ -1,8 +1,10 @@
-# Cấu trúc ứng dụng
+﻿# Cấu trúc ứng dụng
 
 ## Kiến trúc
 
-Ứng dụng gồm bốn Area nghiệp vụ, lớp Service và EF Core truy cập SQL Server. Controller xử lý yêu cầu HTTP, Service kiểm tra quyền và điều phối giao dịch, Razor View hiển thị dữ liệu.
+Thay đổi 27/10/2026: [mapping và luồng hồ sơ theo môn](profile-workflow.md), [sơ đồ lớp/dữ liệu và trạng thái](diagrams/ProfileWorkflow.drawio). Thêm Area `QuanTri`, giữ MVC + Service + EF. Các mô tả hồ sơ không có học phí/nhu cầu nhận lớp gia sư phía dưới là lịch sử trước thay đổi; quy tắc hiện tại nằm trong tài liệu mới.
+
+Ứng dụng gồm bốn Area nghiệp vụ và Area kiểm duyệt, lớp Service và EF Core truy cập SQL Server. Controller xử lý yêu cầu HTTP, Service kiểm tra quyền và điều phối giao dịch, Razor View hiển thị dữ liệu.
 
 ## Package
 

@@ -75,6 +75,12 @@ public sealed class NhuCauInput
 }
 public sealed class HoSoInput
 {
+    public bool DangHienThi { get; set; }
+    public bool DayTrucTuyen { get; set; }
+    public bool DayTrucTiep { get; set; }
+    public string TrangThaiDuyet { get; set; } = "BanNhap";
+    public string? LyDoTuChoi { get; set; }
+    public List<MonDayInput> MonDay { get; set; } = [];
     public List<IFormFile> Files { get; set; } = []; public List<Guid> XoaTepIds { get; set; } = []; public bool ChonMonKhac
     {
         get; set;
@@ -96,4 +102,12 @@ public sealed class HoSoInput
     [Required, StringLength(256)] public string KhuVuc { get; set; } = "";
     public List<int> MonHocIds { get; set; } = [];
     [Required, StringLength(256)] public string PhamViDay { get; set; } = "Lớp 6–12";
+}
+public sealed class MonDayInput
+{
+    public int MonHocId { get; set; }
+    public string? TenMonKhac { get; set; }
+    [Required, StringLength(256)] public string PhamViDay { get; set; } = "";
+    public decimal? HocPhiDeXuat { get; set; }
+    public string? DonViHocPhi { get; set; }
 }

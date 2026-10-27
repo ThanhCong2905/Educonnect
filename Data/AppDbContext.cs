@@ -17,6 +17,12 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
         b.Entity<HoSoGiaSu>(e =>
         {
             e.ToTable("HoSoGiaSu", t => t.UseSqlOutputClause(false));
+            e.Property(x => x.DangHienThi).HasColumnType("bit");
+            e.Property(x => x.DayTrucTuyen).HasColumnType("bit");
+            e.Property(x => x.DayTrucTiep).HasColumnType("bit");
+            e.Property(x => x.GuiDuyetLuc).HasColumnType("datetimeoffset(0)");
+            e.Property(x => x.DuyetLuc).HasColumnType("datetimeoffset(0)");
+            e.Property(x => x.NguoiDuyetId).HasColumnType("uniqueidentifier");
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();
             e.Property(x => x.GiaSuId).HasColumnType("uniqueidentifier").IsRequired();
@@ -32,6 +38,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
         b.Entity<HoSoGiaSuMonDay>(e =>
         {
             e.ToTable("HoSoGiaSuMonDay", t => t.UseSqlOutputClause(false));
+            e.Property(x => x.HocPhiDeXuat).HasColumnType("decimal(18,2)");
+            e.Property(x => x.DonViHocPhi).HasColumnType("varchar(16)");
             e.HasKey(x => new { x.HoSoGiaSuId, x.MonHocId });
             e.Property(x => x.HoSoGiaSuId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.MonHocId).HasColumnType("int").IsRequired();
