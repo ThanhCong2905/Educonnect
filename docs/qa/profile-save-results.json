@@ -1,9 +1,0 @@
-{
-  "passed": 3,
-  "checks": [
-    "Profile and certificate share one multipart form; a rejected file preserves typed profile data",
-    "One Save profile action persists both updated text and downloadable private certificate",
-    "Selected certificate removal is applied by the same Save profile action"
-  ],
-  "pageErrors": []
-}
