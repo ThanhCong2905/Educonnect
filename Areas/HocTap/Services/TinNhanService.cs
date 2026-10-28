@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights)
+public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, TepService files)
 {
     public async Task<bool> CoTheGuiAsync(Guid id)
     {
@@ -73,9 +73,10 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current,
         }
         var senders = rows.Select(x => x.NguoiGuiId).Distinct().ToList();
         var names = await db.Set<NguoiThamGia>().Where(x => senders.Contains(x.Id)).ToDictionaryAsync(x => x.Id, x => x.HoTen);
+        var attachments=await TepTheoTinAsync(id,rows.Select(x=>x.Id).ToList());
         return new
         {
-            items = rows.Select(x => new { id = x.Id, text = x.NoiDung, sender = names.GetValueOrDefault(x.NguoiGuiId, ""), mine = x.NguoiGuiId == me.Id, time = Rules.Date(x.GuiLuc) }),
+            items = rows.Select(x => new { id = x.Id, text = x.NoiDung, sender = names.GetValueOrDefault(x.NguoiGuiId, ""), mine = x.NguoiGuiId == me.Id, time = Rules.Date(x.GuiLuc), attachments=attachments.GetValueOrDefault(x.Id,[]).Select(f=>new{id=f.Id,name=f.TenGoc,size=f.KichThuoc,mime=f.LoaiNoiDung}) }),
             hasMore,
             canSend = await CoTheGuiAsync(id)
         };
@@ -83,21 +84,43 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current,
     public async Task GuiAsync(GuiTinNhanViewModel m)
     {
         Rules.Check(m.MaThaoTac != Guid.Empty, "Mã thao tác không hợp lệ.");
-        Rules.Check(!string.IsNullOrWhiteSpace(m.NoiDung) && m.NoiDung.Length <= 10000, "Tin nhắn từ 1 đến 10000 ký tự.");
+        var text=m.NoiDung?.Trim()??"";
+        Rules.Check(text.Length<=10000&&(text.Length>0||m.Files.Count>0), "Nhập nội dung hoặc chọn ít nhất một tệp, tối đa 10000 ký tự.");
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var c = await KiemTraAsync(m.MaHoiThoai);
         if (c.LoaiHoiThoai == "TheoLop")
             Rules.Check(await CoTheGuiAsync(c.Id), "Bạn không có quyền nhắn tin trong lớp này.", 403);
         var u = await current.HienTaiAsync();
+        var checkedFiles=await files.KiemTraAsync(m.Files);
         var old = await db.Set<TinNhan>().SingleOrDefaultAsync(x => x.NguoiGuiId == u.Id && x.MaThaoTac == m.MaThaoTac);
         if (old != null)
         {
-            Rules.Check(old.CuocHoiThoaiId == c.Id && old.NoiDung == m.NoiDung.Trim(), "Mã thao tác đã dùng cho tin nhắn khác.", 409);
+            var prior=await db.Set<TepDinhKem>().Where(f=>f.TinNhanId==old.Id).ToListAsync();
+            var expected=checkedFiles.Select(f=>f.Name+"|"+Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(f.Bytes))).Order().ToList();
+            Rules.Check(old.CuocHoiThoaiId == c.Id && old.NoiDung == text && prior.Select(f=>f.TenGoc+"|"+f.Checksum).Order().SequenceEqual(expected), "Mã thao tác đã dùng cho tin nhắn khác.", 409);
             return;
         }
-        db.Add(new TinNhan { Id = Guid.NewGuid(), CuocHoiThoaiId = c.Id, NguoiGuiId = u.Id, NoiDung = m.NoiDung.Trim(), GuiLuc = DateTimeOffset.UtcNow, MaThaoTac = m.MaThaoTac });
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        var messageId=Guid.NewGuid();List<string> written=[];
+        try
+        {
+            db.Add(new TinNhan { Id = messageId, CuocHoiThoaiId = c.Id, NguoiGuiId = u.Id, NoiDung = text, GuiLuc = DateTimeOffset.UtcNow, MaThaoTac = m.MaThaoTac });
+            await db.SaveChangesAsync();
+            written=await files.LuuAsync(checkedFiles,tinNhan:messageId);
+            await db.SaveChangesAsync();await tx.CommitAsync();
+        }
+        catch{TepService.DonDep(written);throw;}
+    }
+    public async Task<Dictionary<Guid,List<TepDinhKem>>> TepTheoTinAsync(Guid room,List<Guid> ids)
+    {
+        await KiemTraAsync(room);
+        var rows=await (from f in db.Set<TepDinhKem>().AsNoTracking() join m in db.Set<TinNhan>() on f.TinNhanId equals (Guid?)m.Id where m.CuocHoiThoaiId==room&&ids.Contains(m.Id)&&f.TrangThaiQuet=="Sach" select f).OrderBy(f=>f.TaoLuc).ThenBy(f=>f.Id).ToListAsync();
+        return rows.GroupBy(f=>f.TinNhanId!.Value).ToDictionary(g=>g.Key,g=>g.ToList());
+    }
+    public async Task<(TepDinhKem File,string Path)> TaiTepAsync(Guid id)
+    {
+        var f=await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(f=>f.Id==id&&f.TinNhanId!=null&&f.TrangThaiQuet=="Sach")??throw new LoiNghiepVu("Không tìm thấy tệp tin nhắn.",404);
+        var room=await db.Set<TinNhan>().Where(m=>m.Id==f.TinNhanId).Select(m=>m.CuocHoiThoaiId).SingleAsync();
+        await KiemTraAsync(room);return(f,files.DuongDan(f));
     }
     public async Task<Guid?> TheoLopAsync(Guid id)
     {

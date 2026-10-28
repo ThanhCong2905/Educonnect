@@ -16,7 +16,7 @@ var cs=Environment.GetEnvironmentVariable("EDU_TEST_CONNECTION")??"Server=lpc:CO
 var conn=new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs);if(!conn.InitialCatalog.StartsWith("EduConnect_Verification_"))throw new Exception("Test database only");
 AppDbContext Db()=>new(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
 using var db=Db();var http=new DefaultHttpContext{Session=new TestSession()};var current=new NguoiDungMauService(db,new TestAccessor{HttpContext=http});
-var notices=new ThongBaoService(db,current);var rights=new QuyenLopHocService(db,current);var env=new TestEnv();var files=new TepService(db,current,rights,env);var profile=new HoSoGiaSuService(db,current,new MonHocCatalog(db),files,notices);var search=new TimKiemService(db,current);var contacts=new KetNoiService(db,current,notices);var needs=new NhuCauService(db,current,new MonHocCatalog(db));var chat=new TinNhanService(db,current,rights);var caps=new BangCapService(db,current,env);
+var notices=new ThongBaoService(db,current);var rights=new QuyenLopHocService(db,current);var env=new TestEnv();var files=new TepService(db,current,rights,env);var profile=new HoSoGiaSuService(db,current,new MonHocCatalog(db),files,notices);var search=new TimKiemService(db,current);var contacts=new KetNoiService(db,current,notices);var needs=new NhuCauService(db,current,new MonHocCatalog(db));var chat=new TinNhanService(db,current,rights,files);var caps=new BangCapService(db,current,env);
 var tutor=Guid.NewGuid();var learner=Guid.NewGuid();var parent=Guid.NewGuid();var admin=Guid.NewGuid();var stranger=Guid.NewGuid();
 db.AddRange(new NguoiThamGia{Id=tutor,HoTen="Profile test tutor",LoaiNguoi="GiaSu"},new NguoiThamGia{Id=learner,HoTen="Profile test learner",LoaiNguoi="HocSinh"},new NguoiThamGia{Id=parent,HoTen="Profile test parent",LoaiNguoi="PhuHuynh"},new NguoiThamGia{Id=admin,HoTen="Profile test admin",LoaiNguoi="QuanTri"},new NguoiThamGia{Id=stranger,HoTen="Profile test outsider",LoaiNguoi="HocSinh"});await db.SaveChangesAsync();db.Add(new GiaSu{TaiKhoanId=tutor});await db.SaveChangesAsync();
 var report=new List<string>();void Check(bool ok,string why){if(!ok)throw new Exception(why);}
@@ -87,5 +87,3 @@ sealed class TestSession:ISession{readonly Dictionary<string,byte[]> data=[];pub
 sealed class TestEnv:IWebHostEnvironment{public string ApplicationName{get;set;}="ProfileWorkflow";public string EnvironmentName{get;set;}="Development";public string WebRootPath{get;set;}="";public IFileProvider WebRootFileProvider{get;set;}=new NullFileProvider();public string ContentRootPath{get;set;}=Path.Combine(Path.GetTempPath(),"EduConnectProfileTests");public IFileProvider ContentRootFileProvider{get;set;}=new NullFileProvider();}
 
 sealed class TestAccessor:IHttpContextAccessor { public HttpContext? HttpContext {get;set;} }
-
-

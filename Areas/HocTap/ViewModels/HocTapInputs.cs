@@ -91,5 +91,6 @@ public sealed class GuiTinNhanViewModel
     {
         get; set;
     }
-    public Guid MaThaoTac { get; set; } = Guid.NewGuid(); [Required, StringLength(10000)] public string NoiDung { get; set; } = "";
+    public Guid MaThaoTac { get; set; } = Guid.NewGuid(); [StringLength(10000)] public string? NoiDung { get; set; }
+    public List<IFormFile> Files { get; set; } = [];
 }

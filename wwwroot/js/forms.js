@@ -1,6 +1,7 @@
 window.EduConnect=window.EduConnect||{};
 window.EduConnect.motionBehavior=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
 window.EduConnect.formUrl=form=>new URL(form.getAttribute('action')||location.href,document.baseURI);
+window.EduConnect.fileSize=bytes=>bytes<1000?bytes+' B':bytes<1000000?(bytes/1000).toFixed(1)+' KB':(bytes/1000000).toFixed(2)+' MB';
 window.EduConnect.clearRowErrors=(form,list,prefix)=>{
  list.querySelectorAll('.ui-field-error').forEach(error=>error.remove());
  list.querySelectorAll('[aria-invalid]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
@@ -33,6 +34,13 @@ window.EduConnect.validateForm=(form,submitter)=>{
   else if(value&&(input.validity.badInput||input.validity.typeMismatch||input.validity.patternMismatch))errors[input.name]=[label+' chưa đúng định dạng.'];
  }
  const slots=[...form.querySelectorAll('[data-slot-list]>.slot-row')];
+ if(form.hasAttribute('data-chat-send')){
+  const files=[...(form.querySelector('[data-chat-files]')?.files||[])],text=form.querySelector('[name="NoiDung"]').value.trim();
+  if(!text&&!files.length)errors['NoiDung']=['Nhập nội dung hoặc chọn ít nhất một tệp.'];
+  if(files.length>5)errors['Files']=['Chọn tối đa 5 tệp mỗi lần gửi.'];
+  if(files.some(f=>f.size===0||f.size>10000000))errors['Files']=['Mỗi tệp phải có dữ liệu và không vượt quá 10 MB (10.000.000 byte).'];
+  if(files.some(f=>!(/\.(pdf|jpe?g|png|docx)$/i).test(f.name)))errors['Files']=['Chỉ nhận PDF, JPG, PNG, DOCX.'];
+ }
  if(form.querySelector('.subject-picker')&&!form.querySelector('[name="MonHocIds"]:checked')&&!form.querySelector('[name="ChonMonKhac"]:checked'))errors['MonHocIds']=['Chọn ít nhất một môn học.'];
  if(form.querySelector('[data-slot-list]')){
   if(!slots.length&&!draft)errors['']=['Thêm ít nhất một khung giờ rảnh.'];

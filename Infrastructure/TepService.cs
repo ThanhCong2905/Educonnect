@@ -59,7 +59,7 @@ public sealed class TepService(AppDbContext db, NguoiDungMauService current, Quy
         }
         catch (InvalidDataException) { return false; }
     }
-    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null)
+    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null, Guid? tinNhan = null)
     {
         var u = await current.HienTaiAsync();
         Directory.CreateDirectory(Root);
@@ -72,7 +72,7 @@ public sealed class TepService(AppDbContext db, NguoiDungMauService current, Quy
                 var path = Path.Combine(Root, key);
                 await File.WriteAllBytesAsync(path, f.Bytes);
                 written.Add(path);
-                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo });
+                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan });
             }
             return written;
         }
@@ -102,5 +102,11 @@ public sealed class TepService(AppDbContext db, NguoiDungMauService current, Quy
         var path = Path.Combine(Root, f.TenLuuTru);
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return (f, path);
+    }
+    public string DuongDan(TepDinhKem file)
+    {
+        var path=Path.Combine(Root,file.TenLuuTru);
+        Rules.Check(File.Exists(path),"Tệp không còn trên máy chủ.",404);
+        return path;
     }
 }

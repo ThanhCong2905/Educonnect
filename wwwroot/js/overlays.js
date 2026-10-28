@@ -52,7 +52,7 @@
     const list=document.createElement('ul');let index=0;const globalMessages=new Set();
     for(const [name,raw] of Object.entries(problem.errors||{'':[problem.message||'Chưa thể lưu. Vui lòng thử lại.']})){
       const messages=[...new Set(raw)];
-      const input=[...form.elements].find(input=>input.name===name);
+      const input=name?[...form.elements].find(input=>input.name===name):null;
       const item=document.createElement('li');
       if(input){
         const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());input.insertAdjacentElement('afterend',error);

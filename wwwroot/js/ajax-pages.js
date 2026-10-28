@@ -1,7 +1,7 @@
 (() => {
  'use strict';
  const ui=window.EduConnect,headers={'X-Requested-With':'XMLHttpRequest','X-Edu-Partial':'true'};
- const requests=new Map(),drafts=new Map(),selected=new Set();
+ const requests=new Map(),drafts=new Map(),fileDrafts=new Map(),selected=new Set();
  const pageRegion=()=>document.querySelector('main>[data-ajax-page],main>section[data-ajax-page]');
  function status(root,message){
   let box=root.querySelector(':scope>.ajax-status');
@@ -37,7 +37,7 @@
   const form=root.querySelector('#compare-form');
   if(form)for(const id of selected){if(visible.has(id))continue;const input=document.createElement('input');input.type='checkbox';input.hidden=true;input.name='ids';input.value=id;input.checked=true;input.setAttribute('form','compare-form');input.dataset.compareHeld='true';form.append(input);}
  }
- function rememberDraft(root){const input=root.querySelector('.compose textarea');if(input&&root.dataset.chatId)drafts.set(root.dataset.chatId,input.value);}
+ function rememberDraft(root){const input=root.querySelector('.compose textarea');if(input&&root.dataset.chatId){drafts.set(root.dataset.chatId,input.value);const files=[...(root.querySelector('[data-chat-files]')?.files||[])];if(files.length)fileDrafts.set(root.dataset.chatId,files);else fileDrafts.delete(root.dataset.chatId);}}
  function replace(root,fresh,url,historyMode,scroll){
   const active=root.contains(document.activeElement)?document.activeElement:null;
   const focusName=active?.getAttribute('name'),focusId=active?.id;
@@ -45,6 +45,7 @@
   if(historyMode)history[historyMode+'State']({eduRegion:root.id},'',url);
   root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
+  const picker=fresh.querySelector('[data-chat-files]');if(picker&&fileDrafts.has(fresh.dataset.chatId)){const transfer=new DataTransfer();for(const file of fileDrafts.get(fresh.dataset.chatId))transfer.items.add(file);picker.files=transfer.files;picker.dispatchEvent(new Event('change',{bubbles:true}));}
   const heading=fresh.querySelector('.search-results-toolbar h2,.chat-header h2');
   if(active){
    const focus=focusId?fresh.querySelector('#'+CSS.escape(focusId)):focusName?fresh.querySelector('[name="'+CSS.escape(focusName)+'"]'):heading;
@@ -97,13 +98,21 @@
   root.querySelector('[data-chat-older]')?.addEventListener('click',()=>olderMessages(root));
   root.querySelector('[data-new-messages]')?.addEventListener('click',()=>{stream.scrollTo({top:stream.scrollHeight,behavior:ui.motionBehavior()});root.querySelector('[data-new-messages]').hidden=true;});
   root.querySelector('.compose textarea')?.addEventListener('keydown',event=>{
-   if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&event.target.value.trim())form.requestSubmit(form.querySelector('button[type="submit"],button'));}
+   if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&(event.target.value.trim()||form.querySelector('[data-chat-files]')?.files.length))form.requestSubmit(form.querySelector('button[type="submit"],button:not([type])'));}
   });
+  const picker=root.querySelector('[data-chat-files]'),clear=root.querySelector('[data-clear-chat-files]'),selection=root.querySelector('[data-chat-file-selection]');
+  const selectedFiles=()=>{const files=[...(picker?.files||[])];if(selection)selection.textContent=files.map(f=>f.name+' ('+ui.fileSize(f.size)+')').join(' · ');if(clear)clear.hidden=!files.length;};
+  picker?.addEventListener('change',selectedFiles);clear?.addEventListener('click',()=>{picker.value='';picker.dispatchEvent(new Event('input',{bubbles:true}));picker.dispatchEvent(new Event('change',{bubbles:true}));picker.focus();});selectedFiles();
  }
  function messageNode(item){
   const article=document.createElement('article');article.className='bubble'+(item.mine?' mine':'');article.dataset.messageId=item.id;
   const sender=document.createElement('small'),body=document.createElement('p'),time=document.createElement('time');
-  sender.textContent=item.sender;body.className='pre';body.textContent=item.text;time.textContent=item.time;article.append(sender,body,time);return article;
+  sender.textContent=item.sender;body.className='pre';body.textContent=item.text;time.textContent=item.time;article.append(sender);if(item.text)article.append(body);
+  if(item.attachments?.length){const list=document.createElement('div');list.className='message-attachments';for(const f of item.attachments){
+   const block=document.createElement('div');block.className='message-attachment';const url='/HocTap/TinNhan/Tai/'+encodeURIComponent(f.id);
+   if(['image/png','image/jpeg'].includes(f.mime)){const view=document.createElement('a');view.href=url+'?xem=true';view.target='_blank';view.rel='noopener';view.setAttribute('aria-label','Xem ảnh '+f.name);const img=document.createElement('img');img.className='message-image';img.src=view.href;img.alt=f.name;img.loading='lazy';img.width=260;img.height=180;view.append(img);block.append(view);}
+   const link=document.createElement('a');link.href=url;link.textContent=f.name;const size=document.createElement('small');size.textContent=ui.fileSize(f.size)+' · Tải xuống';block.append(link,size);list.append(block);
+  }article.append(list);}article.append(time);return article;
  }
  async function chatData(root,direction,cursor){
   const url=new URL(root.dataset.chatFeed,location.href);url.searchParams.set('id',root.dataset.chatId);
@@ -145,9 +154,11 @@
      more=!!last&&data.hasMore;
     }
     if(sent){
-     const form=root.querySelector('.compose'),input=form?.querySelector('textarea');if(input?.value===sent){input.value='';drafts.delete(root.dataset.chatId);}
+     const form=root.querySelector('.compose'),input=form?.querySelector('textarea');if(input?.value===sent.text){input.value='';drafts.delete(root.dataset.chatId);}
+     const picker=form?.querySelector('[data-chat-files]');const keys=files=>files.map(f=>[f.name,f.size,f.lastModified].join('|')).join(';');if(picker&&keys([...picker.files])===keys(sent.files)){picker.value='';fileDrafts.delete(root.dataset.chatId);picker.dispatchEvent(new Event('change',{bubbles:true}));}
      const token=form?.querySelector('[name="MaThaoTac"]');if(token)token.value=crypto.randomUUID();
      form?.querySelectorAll('.ui-error-summary,.ui-field-error').forEach(node=>node.remove());input?.focus();
+     form?.querySelectorAll('[aria-invalid="true"]').forEach(input=>{input.classList.remove('is-invalid');input.removeAttribute('aria-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
     }
     status(root,'');return true;
    }catch(error){status(root,error.message);return false;}
@@ -156,8 +167,8 @@
  }
  ui.afterAjaxSubmit=async(form,result,data)=>{
   if(form.hasAttribute('data-chat-send')){
-   const root=form.closest('[data-ajax-page]'),text=data.get('NoiDung');
-   const ok=await chatRefresh(root,result.redirectUrl||location.href,{sent:text});
+   const root=form.closest('[data-ajax-page]');
+   const ok=await chatRefresh(root,result.redirectUrl||location.href,{sent:{text:data.get('NoiDung')||'',files:data.getAll('Files').filter(f=>f.name)}});
    if(!ok)ui.showFormErrors(form,{message:'Tin đã được gửi nhưng chưa tải được hội thoại. Thử tải lại để xem.'});
    return true;
   }

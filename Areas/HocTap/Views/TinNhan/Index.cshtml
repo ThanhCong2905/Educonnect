@@ -8,6 +8,7 @@
     var people = await Current.DanhSachAsync();
     var conversations = (List<CuocHoiThoai>)ViewBag.Conversations;
     var c = (CuocHoiThoai?)ViewBag.Conversation;
+    var attachments=(Dictionary<Guid,List<TepDinhKem>>)ViewBag.Attachments;
     var partner = c == null ? "" : people.FirstOrDefault(x => x.Id == (c.GiaSuId == me.Id ? c.BenHocId : c.GiaSuId))?.HoTen ?? "Người liên hệ";
 }
 <div id="chat-content" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page" data-message-query="@ViewBag.MessageQuery" data-chat-feed="@Url.Action("DuLieu")">
@@ -37,14 +38,14 @@
         <div class="chat-messages">
         @foreach (var m in Model)
         {
-            <article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId == me.Id ? "mine" : "")"><small>@people.FirstOrDefault(x => x.Id == m.NguoiGuiId)?.HoTen</small><p class="pre">@m.NoiDung</p><time>@Rules.Date(m.GuiLuc)</time></article>
+            <article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId == me.Id ? "mine" : "")"><small>@people.FirstOrDefault(x => x.Id == m.NguoiGuiId)?.HoTen</small>@if(!string.IsNullOrEmpty(m.NoiDung)){<p class="pre">@m.NoiDung</p>}<partial name="_Attachments" model="@(attachments.GetValueOrDefault(m.Id,[]))"/><time>@Rules.Date(m.GuiLuc)</time></article>
         }
         @if (Model.Count == 0) { <div class="chat-empty"><strong>@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Bắt đầu cuộc trò chuyện" : "Không tìm thấy tin nhắn")</strong><p class="muted">@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Gửi lời chào và trao đổi về việc học tại đây." : "Thử tìm bằng từ khóa khác.")</p></div> }
         </div>
     </div>
     <button type="button" class="btn btn-outline-primary new-messages" data-new-messages hidden>Tin nhắn mới ↓</button>
 
-        <form method="post" asp-action="Gui" class="compose" data-chat-send hidden="@(!canSend)"><input name="MaHoiThoai" value="@c.Id" type="hidden"><input name="MaThaoTac" value="@Guid.NewGuid()" type="hidden"><label class="grow"><span class="visually-hidden">Nội dung tin nhắn</span><textarea class="form-control" name="NoiDung" required maxlength="10000" rows="2" placeholder="Viết tin nhắn..."></textarea></label><button class="btn btn-primary">Gửi ↑</button><small class="compose-hint">Enter để gửi · Shift + Enter để xuống dòng</small></form>
+        <form method="post" asp-action="Gui" enctype="multipart/form-data" class="compose" data-chat-send hidden="@(!canSend)"><input name="MaHoiThoai" value="@c.Id" type="hidden"><input name="MaThaoTac" value="@Guid.NewGuid()" type="hidden"><label class="grow"><span class="visually-hidden">Nội dung tin nhắn</span><textarea class="form-control" name="NoiDung" maxlength="10000" rows="2" placeholder="Viết tin nhắn hoặc chọn tệp..."></textarea></label><button class="btn btn-primary">Gửi ↑</button><div class="chat-attachment-picker"><label>Đính kèm tệp / ảnh<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx" data-chat-files></label><button class="btn quiet" type="button" data-clear-chat-files hidden>Bỏ tệp đã chọn</button><span class="chat-file-selection muted" data-chat-file-selection role="status"></span></div><small class="compose-hint">Tối đa 5 tệp/lần, 10 MB/tệp (10.000.000 byte) · PDF, JPG, PNG, DOCX. Enter để gửi · Shift + Enter xuống dòng.</small></form>
     <p class="chat-readonly muted p-3" hidden="@canSend">Bạn có thể đọc cuộc trò chuyện. Quyền gửi tin phụ thuộc quyền thành viên và trạng thái lớp.</p>
 }
 else
