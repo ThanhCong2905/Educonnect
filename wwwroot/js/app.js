@@ -22,6 +22,14 @@ window.EduConnect.init = (root) => {
     const open = $('.sidebar').classList.toggle('open');
     event.currentTarget.setAttribute('aria-expanded', open);
   });
+  if(root===document&&!window.EduConnect.mobileMenuReady){
+    window.EduConnect.mobileMenuReady=true;
+    const sidebar=$('.sidebar'),toggle=$('.mobile-menu');
+    const close=()=>{sidebar?.classList.remove('open');toggle?.setAttribute('aria-expanded','false');};
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&sidebar?.classList.contains('open')){close();toggle?.focus();}});
+    document.addEventListener('click',event=>{if(sidebar?.classList.contains('open')&&!sidebar.contains(event.target)&&!toggle?.contains(event.target))close();});
+    sidebar?.addEventListener('focusout',()=>setTimeout(()=>{if(sidebar.classList.contains('open')&&!sidebar.contains(document.activeElement)&&document.activeElement!==toggle)close();},0));
+  }
   $('[data-search-sort]')?.addEventListener('change', event => event.target.form.requestSubmit());
   function reindex(list, prefix) {
     $$(':scope > div', list).forEach((row, i) => {
@@ -53,7 +61,8 @@ window.EduConnect.init = (root) => {
     status.replaceChildren(document.createTextNode('Đã chọn '));
     const number = document.createElement('strong');
     number.textContent = count + '/3';
-    status.append(number, document.createTextNode(limitReached ? ' đối tượng · Tối đa 3 lựa chọn' : ' đối tượng'));
+    const noun=' '+(form.dataset.compareNoun||'mục');
+    status.append(number, document.createTextNode(noun+(limitReached?' · Tối đa 3 lựa chọn':'')));
   }
   $$('input[form="compare-form"]').forEach(input => input.addEventListener('change', () => {
     const tooMany = $$('input[form="compare-form"]:checked').length > 3;
@@ -71,7 +80,7 @@ window.EduConnect.init = (root) => {
   $('#compare-form')?.addEventListener('submit', event => {
     if (!$$('input[form="compare-form"]:checked').length) {
       event.preventDefault();
-      $('#compare-status').textContent = 'Chọn ít nhất một đối tượng để so sánh.';
+      $('#compare-status').textContent = 'Chọn ít nhất một mục để so sánh.';
     }
   });
   const stream = $('.chat-stream');

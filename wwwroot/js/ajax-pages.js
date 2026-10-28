@@ -39,11 +39,19 @@
  }
  function rememberDraft(root){const input=root.querySelector('.compose textarea');if(input&&root.dataset.chatId)drafts.set(root.dataset.chatId,input.value);}
  function replace(root,fresh,url,historyMode,scroll){
+  const active=root.contains(document.activeElement)?document.activeElement:null;
+  const focusName=active?.getAttribute('name'),focusId=active?.id;
   rememberDraft(root);rememberComparison(root);
   if(historyMode)history[historyMode+'State']({eduRegion:root.id},'',url);
   root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
-  if(scroll)fresh.querySelector('.search-results-toolbar,.chat-header')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  const heading=fresh.querySelector('.search-results-toolbar h2,.chat-header h2');
+  if(active){
+   const focus=focusId?fresh.querySelector('#'+CSS.escape(focusId)):focusName?fresh.querySelector('[name="'+CSS.escape(focusName)+'"]'):heading;
+   if(focus){if(focus===heading)focus.tabIndex=-1;focus.focus({preventScroll:true});}
+  }
+  if(fresh.dataset.ajaxPage==='search'&&heading){let announcement=document.querySelector('[data-ajax-announcement]');if(!announcement){announcement=document.createElement('div');announcement.className='visually-hidden';announcement.dataset.ajaxAnnouncement='';announcement.setAttribute('role','status');announcement.setAttribute('aria-live','polite');document.body.append(announcement);}announcement.textContent='Kết quả tìm kiếm: '+heading.textContent.trim();}
+  if(scroll)fresh.querySelector('.search-results-toolbar,.chat-header')?.scrollIntoView({block:'start',behavior:ui.motionBehavior()});
  }
  async function navigate(root,url,{historyMode='push',scroll=false}={}){
   rememberComparison(root);
@@ -56,7 +64,7 @@
   if(event.defaultPrevented||form.method.toLowerCase()!=='get'||!root||root.closest('#workspace-modal'))return;
   if(root.dataset.ajaxPage!=='search'&&root.dataset.ajaxPage!=='chat')return;
   if(form.id==='compare-form')return;
-  event.preventDefault();const url=new URL(form.action||location.href,location.href);url.search=new URLSearchParams(new FormData(form)).toString();
+  event.preventDefault();const url=ui.formUrl(form);url.search=new URLSearchParams(new FormData(form)).toString();
   if(root.dataset.ajaxPage==='search')url.searchParams.delete('Trang');
   navigate(root,url.href);
  });
@@ -87,7 +95,7 @@
    if(stream.scrollHeight-stream.scrollTop-stream.clientHeight<60)root.querySelector('[data-new-messages]').hidden=true;
   },{passive:true});
   root.querySelector('[data-chat-older]')?.addEventListener('click',()=>olderMessages(root));
-  root.querySelector('[data-new-messages]')?.addEventListener('click',()=>{stream.scrollTo({top:stream.scrollHeight,behavior:'smooth'});root.querySelector('[data-new-messages]').hidden=true;});
+  root.querySelector('[data-new-messages]')?.addEventListener('click',()=>{stream.scrollTo({top:stream.scrollHeight,behavior:ui.motionBehavior()});root.querySelector('[data-new-messages]').hidden=true;});
   root.querySelector('.compose textarea')?.addEventListener('keydown',event=>{
    if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&event.target.value.trim())form.requestSubmit(form.querySelector('button[type="submit"],button'));}
   });

@@ -1,14 +1,14 @@
 ﻿@model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
 @{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;var locked=Model.DangHienThi||Model.TrangThaiDuyet=="ChoDuyet";}
 <div class="heading"><div><h1>Hồ sơ của tôi</h1><p>Giới thiệu, môn dạy và mức phí tham khảo.</p></div>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="XemTruoc">Xem hồ sơ công khai</a>}</div>
-<section class="card profile-workflow"><div class="card-statuses"><span class="badge">@(Model.DangHienThi?"Đang hiển thị":"Đang ẩn")</span><span class="badge">@Rules.Label(Model.TrangThaiDuyet)</span></div>
+<section class="card profile-workflow"><div class="card-statuses"><span class="badge">@(Model.DangHienThi?"Đang hiển thị":"Đang ẩn")</span><span class="badge @(Model.TrangThaiDuyet=="DaDuyet"?"badge-success":Model.TrangThaiDuyet is "ChoDuyet" or "CanChinhSua" or "TuChoi"?"badge-warning":"")">@Rules.Label(Model.TrangThaiDuyet)</span></div>
 @if(Model.DangHienThi){<p>Ẩn hồ sơ trước khi chỉnh sửa. Các cuộc trò chuyện và lớp đang có vẫn được giữ.</p>}
 @if(Model.TrangThaiDuyet=="ChoDuyet"){<p>Hồ sơ đang được kiểm duyệt. Hủy gửi duyệt nếu bạn cần thay đổi nội dung.</p>}
 @if(!string.IsNullOrWhiteSpace(Model.LyDoTuChoi)){<div class="alert alert-warning"><strong>Nội dung cần chỉnh sửa</strong><p class="pre">@Model.LyDoTuChoi</p></div>}
 @if(Model.RowVersion!=null){<form method="post" asp-action="TrangThai" class="actions"><input name="rowVersion" value="@Model.RowVersion" type="hidden">
 @if(Model.DangHienThi){<button class="btn btn-outline-primary" name="operation" value="An" data-confirm-hide>Ẩn hồ sơ</button>}
 else if(Model.TrangThaiDuyet=="ChoDuyet"){<button class="btn btn-outline-primary" name="operation" value="HuyDuyet">Hủy gửi duyệt</button>}
-else {<button class="btn btn-primary" name="operation" value="GuiDuyet">Gửi duyệt</button>@if(Model.TrangThaiDuyet=="DaDuyet"){<button class="btn btn-outline-primary" name="operation" value="Hien">Bật hiển thị</button>}}
+else {<button class="btn @(Model.TrangThaiDuyet=="DaDuyet"?"btn-outline-primary":"btn-primary")" name="operation" value="GuiDuyet">Gửi duyệt</button>@if(Model.TrangThaiDuyet=="DaDuyet"){<button class="btn btn-primary" name="operation" value="Hien">Bật hiển thị</button>}}
 </form>}</section>
 <form method="post" asp-action="Luu" enctype="multipart/form-data" class="card" data-tutor-profile>
 <div asp-validation-summary="All" class="validation"></div><input asp-for="RowVersion" type="hidden">

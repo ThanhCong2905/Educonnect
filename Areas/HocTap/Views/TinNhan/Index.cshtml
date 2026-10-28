@@ -21,7 +21,7 @@
         @foreach (var room in conversations)
         {
             var name = people.FirstOrDefault(x => x.Id == (room.GiaSuId == me.Id ? room.BenHocId : room.GiaSuId))?.HoTen ?? "Người liên hệ";
-            <a class="@(room.Id == c?.Id ? "selected" : "")" asp-action="Index" asp-route-id="@room.Id"><span class="avatar" aria-hidden="true">@name[..1]</span><span><strong>@name</strong><small>Nhắn tin riêng</small></span></a>
+            <a class="@(room.Id == c?.Id ? "selected" : "")" asp-action="Index" asp-route-id="@room.Id"><span class="avatar" aria-hidden="true">@name[..1]</span><span><strong>@name</strong></span></a>
         }
         @if (conversations.Count == 0) { <p class="muted p-3">Chưa có cuộc hội thoại.</p> }
         </nav>

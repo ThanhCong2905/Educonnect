@@ -8,5 +8,5 @@
 <article class="card"><h2>Giới thiệu</h2><p class="pre">@Model.MoTa</p></article>
 <article class="card public-profile-subjects"><h2>Môn dạy & mức phí tham khảo</h2>@foreach(var d in Model.MonTheoHoSo){<div class="subject-fee"><div><h3>@d.TenMon</h3><p>@d.PhamViDay</p></div><strong class="price">@Rules.Fee(d.HocPhi,d.DonVi)</strong></div>}<p class="muted">Mức phí lớp học được hai bên thống nhất trong đề xuất lớp.</p></article>
 }else{<article class="card"><h2>Nhu cầu học</h2><partial name="_Candidate" model="Model"/></article>}
-</section>@if(!preview){<partial name="_ProfileContact" model="Model"/>}else{<aside class="card"><h2>Hồ sơ công khai</h2><p>Đây là các thông tin người học sẽ nhìn thấy.</p><a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Về quản lý hồ sơ</a></aside>}</div>
+</section>@if(!preview){<partial name="_ProfileContact" model="Model"/>}else{<aside class="card"><h2>Hồ sơ công khai</h2><a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Về quản lý hồ sơ</a></aside>}</div>
 @if(Model.LoaiNguoi!="GiaSu"){<section class="related-needs"><h2>Các nhu cầu công khai liên quan</h2><div class="cards">@foreach(var n in ((List<UngVienViewModel>)ViewBag.Related).Where(n=>n.Id!=Model.Id)){<partial name="_Candidate" model="n"/>}</div></section>}

@@ -3,7 +3,7 @@
 @if(Model.LoaiNguoi=="GiaSu"){
 <div class="chips"><span>@Rules.Label(Model.HinhThucHoc)</span><span>@Model.KhuVuc</span></div><p class="candidate-intro">@Model.MoTa</p><div class="subject-fees">@foreach(var d in Model.MonTheoHoSo){<div class="subject-fee"><div><strong>@d.TenMon</strong><small>@d.PhamViDay</small></div><span class="price">@Rules.Fee(d.HocPhi,d.DonVi)</span></div>}</div>
 }else{
-<div class="chips"><span>@Model.TenMon</span>@if(!string.IsNullOrWhiteSpace(Model.KhoiLop)){<span>@Model.KhoiLop</span>}<span>@Rules.Label(Model.HinhThucHoc)</span></div><p>@Model.MucTieu</p><small>@Model.KhuVuc</small><strong class="price">@Rules.Fee(Model.HocPhiDuKien,Model.DonViHocPhi)</strong><p class="slot-text">@string.Join(" · ",Model.Slots.Select(s=>$"{(s.ThuTrongTuan==0?"CN":"T"+(s.ThuTrongTuan+1))} {s.GioBatDau:HH:mm}–{s.GioKetThuc:HH:mm}"))</p>
+<div class="chips"><span>@Model.TenMon</span>@if(!string.IsNullOrWhiteSpace(Model.KhoiLop)){<span>@(int.TryParse(Model.KhoiLop,out _)?"Lớp "+Model.KhoiLop:Model.KhoiLop)</span>}<span>@Rules.Label(Model.HinhThucHoc)</span></div><p>@Model.MucTieu</p><small>@Model.KhuVuc</small><strong class="price">@Rules.Fee(Model.HocPhiDuKien,Model.DonViHocPhi)</strong><p class="slot-text">@string.Join(" · ",Model.Slots.Select(s=>$"{(s.ThuTrongTuan==0?"CN":"T"+(s.ThuTrongTuan+1))} {s.GioBatDau:HH:mm}–{s.GioKetThuc:HH:mm}"))</p>
 }
 @if(Model.LyDo.Count>0){<p class="match">@string.Join(" · ",Model.LyDo)</p>}
 <div class="actions"><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/ChiTiet/@Model.Id">Xem chi tiết</a>@if(ViewData["Compare"] is true){<label class="check"><input class="form-check-input" type="checkbox" name="ids" value="@Model.Id" form="compare-form">So sánh</label>}</div></article>

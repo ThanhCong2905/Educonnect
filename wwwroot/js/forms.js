@@ -1,4 +1,6 @@
 window.EduConnect=window.EduConnect||{};
+window.EduConnect.motionBehavior=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+window.EduConnect.formUrl=form=>new URL(form.getAttribute('action')||location.href,document.baseURI);
 window.EduConnect.clearRowErrors=(form,list,prefix)=>{
  list.querySelectorAll('.ui-field-error').forEach(error=>error.remove());
  list.querySelectorAll('[aria-invalid]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
