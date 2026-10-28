@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4eb28ca0-595b-4432-94d2-b33cae1e984f" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-10-29 01:43:58" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-29T01:43:58.0916418+07:00" queuing="2026-10-29T01:43:58.0916422+07:00" start="2026-10-29T01:43:57.0493660+07:00" finish="2026-10-29T01:43:58.0961437+07:00" />
+  <TestSettings name="default" id="928be9b9-67da-4473-ad1c-fca71c40221d">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-10-29_01_43_58" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c7c9fa11-9bf7-4c60-a288-bf537ee7197e" testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" testName="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0133540" startTime="2026-10-29T01:43:57.9280309+07:00" endTime="2026-10-29T01:43:57.9479400+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c7c9fa11-9bf7-4c60-a288-bf537ee7197e" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="0e0f34ce-7c73-e276-8b28-f8c59e982db9">
+      <Execution id="c7c9fa11-9bf7-4c60-a288-bf537ee7197e" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.NhuCauRulesTests" name="MT1_UT_001_LichRanhRong_PhaiBaoLoi" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" executionId="c7c9fa11-9bf7-4c60-a288-bf537ee7197e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.13)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.16]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.21]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
