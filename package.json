@@ -1,1 +1,1 @@
-﻿{"name":"educonnect-mvc-browser-tests","private":true,"scripts":{"test:browser":"node tests/browser.cjs","test:workflow":"node tests/workflow.cjs"},"devDependencies":{"playwright":"1.64.1"}}
+{"name":"educonnect-mvc-browser-tests","private":true,"scripts":{"test:browser":"node tests/browser.cjs","test:workflow":"node tests/workflow.cjs"},"devDependencies":{"playwright":"1.64.1"},"dependencies":{"@microsoft/signalr":"10.0.0"}}

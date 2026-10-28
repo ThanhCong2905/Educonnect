@@ -1,6 +1,11 @@
-﻿/* EduConnect - cài mới database KLTN_4NghiepVu_V2.
-Chạy toàn file với UTF-8. Dừng nếu database đã tồn tại.
-Dữ liệu mẫu dùng để thử nghiệp vụ, chưa có xác thực đăng nhập. */
+/* EduConnect - bộ cài mới thống nhất cho code hiện tại.
+Database: KLTN_4NghiepVu_V2. Chạy TOÀN BỘ file bằng UTF-8 trong SSMS hoặc sqlcmd.
+Không cần chạy thêm các file 01, 02, 05, 06, 07, 08 khi cài mới.
+Bao gồm hồ sơ/duyệt/ẩn hiện, phí theo môn, nhu cầu, tìm kiếm, liên hệ,
+kết nối lớp, thành viên/quyền, lịch/buổi học, bài tập, tin nhắn và metadata tệp.
+Dừng nếu database đã tồn tại; đây không phải script nâng cấp database đang dùng.
+Dữ liệu mẫu dùng để thử nghiệp vụ, chưa có xác thực đăng nhập.
+Tệp tải lên nằm trong uploads của ứng dụng; SQL chỉ lưu metadata. */
 USE [master];
 GO
 IF DB_ID(N'KLTN_4NghiepVu_V2') IS NOT NULL
@@ -658,6 +663,7 @@ BEGIN
  OFFSET (CONVERT(bigint,@Trang)-1)*@KichThuocTrang ROWS FETCH NEXT @KichThuocTrang ROWS ONLY;
 END;
 GO
+
 CREATE OR ALTER PROCEDURE dbo.usp_NopBaiTap
  @BaiTapGiaoId uniqueidentifier,@NguoiNopId uniqueidentifier,@MaThaoTac uniqueidentifier,@NoiDung nvarchar(max)=NULL
 AS
@@ -914,14 +920,8 @@ FROM dbo.LopHoc c JOIN dbo.YeuCauKetNoiLopHoc r ON r.Id=c.YeuCauKetNoiId
 LEFT JOIN dbo.CuocHoiThoai p ON p.LienHeId=r.LienHeId AND p.LoaiHoiThoai='TruocKetNoi'
 WHERE NOT EXISTS(SELECT 1 FROM dbo.CuocHoiThoai x WHERE x.LopHocId=c.Id AND x.LoaiHoiThoai='TheoLop');
 GO
-SELECT DB_NAME() AS DatabaseDaTao,COUNT(*) AS SoBang FROM sys.tables WHERE is_ms_shipped=0;
-GO
-SET NOEXEC OFF;
-GO
 /* PROFILE_WORKFLOW_V1 */
-/* Nâng cấp hồ sơ. Chạy 08_ProfilePreflight.sql, sao lưu DB và uploads trước.
-   Không xóa nhu cầu cũ, không sửa yêu cầu/lớp. Phí mâu thuẫn để NULL.
-   Script dùng database đang kết nối; không có USE hoặc CREATE DATABASE. */
+/* Phần hồ sơ đã hợp nhất vào bộ cài mới; không cần chạy riêng file 08. */
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 SET XACT_ABORT ON;
@@ -1022,4 +1022,14 @@ BEGIN
  SELECT *,COUNT_BIG(*) OVER() TongKetQua FROM Results ORDER BY CASE WHEN @SapXep='Ten' THEN HoTen END,CASE WHEN @SapXep='HocPhiTang' THEN Fee END,CASE WHEN @SapXep='HocPhiGiam' THEN Fee END DESC,DuyetLuc DESC,Id
  OFFSET (CONVERT(bigint,@Trang)-1)*@KichThuocTrang ROWS FETCH NEXT @KichThuocTrang ROWS ONLY;
 END;
+GO
+-- Chỉ báo hoàn tất sau khi toàn bộ cấu trúc và phần hồ sơ đã được tạo.
+IF COL_LENGTH('dbo.HoSoGiaSu','DangHienThi') IS NULL
+ OR COL_LENGTH('dbo.HoSoGiaSuMonDay','HocPhiDeXuat') IS NULL
+ OR COL_LENGTH('dbo.TepDinhKem','TinNhanId') IS NULL
+ THROW 51210,N'Cấu trúc cài đặt chưa đầy đủ. Kiểm tra lỗi ở các batch trước.',1;
+SELECT DB_NAME() AS DatabaseDaTao,COUNT(*) AS SoBang FROM sys.tables WHERE is_ms_shipped=0;
+GO
+-- Đặt ở cuối để database đã tồn tại không chạy phần nâng cấp bên trên.
+SET NOEXEC OFF;
 GO

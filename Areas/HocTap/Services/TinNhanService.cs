@@ -23,12 +23,16 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current,
     }
     public async Task<CuocHoiThoai> KiemTraAsync(Guid id)
     {
-        var c = await db.Set<CuocHoiThoai>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Không có cuộc hội thoại.", 404);
         var u = await current.HienTaiAsync();
+        return await KiemTraAsync(id, u.Id);
+    }
+    public async Task<CuocHoiThoai> KiemTraAsync(Guid id, Guid nguoiXem)
+    {
+        var c = await db.Set<CuocHoiThoai>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Không có cuộc hội thoại.", 404);
         if (c.LoaiHoiThoai == "TheoLop")
-            await rights.KiemTraQuyenXemAsync(c.LopHocId!.Value);
+            await rights.KiemTraQuyenXemAsync(c.LopHocId!.Value, nguoiXem);
         else
-            Rules.Check((c.GiaSuId == u.Id || c.BenHocId == u.Id) && await db.Set<YeuCauLienHe>().AnyAsync(x => x.Id == c.LienHeId && x.TrangThai == "ChapNhan"), "Cần thuộc liên hệ đã được chấp nhận để đọc/gửi tin nhắn.", 403);
+            Rules.Check((c.GiaSuId == nguoiXem || c.BenHocId == nguoiXem) && await db.Set<YeuCauLienHe>().AnyAsync(x => x.Id == c.LienHeId && x.TrangThai == "ChapNhan"), "Cần thuộc liên hệ đã được chấp nhận để đọc/gửi tin nhắn.", 403);
         return c;
     }
     public async Task<List<TinNhan>> LichSuAsync(Guid id, string? q = null, int page = 1)
@@ -106,6 +110,7 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current,
             db.Add(new TinNhan { Id = messageId, CuocHoiThoaiId = c.Id, NguoiGuiId = u.Id, NoiDung = text, GuiLuc = DateTimeOffset.UtcNow, MaThaoTac = m.MaThaoTac });
             await db.SaveChangesAsync();
             written=await files.LuuAsync(checkedFiles,tinNhan:messageId);
+            db.Add(new SuKienChoXuLy { Id = Guid.NewGuid(), LoaiSuKien = "TinNhan", DuLieuToiThieu = System.Text.Json.JsonSerializer.Serialize(new { room = c.Id, target = messageId }), TaoLuc = DateTimeOffset.UtcNow, TrangThai = "ChoXuLy" });
             await db.SaveChangesAsync();await tx.CommitAsync();
         }
         catch{TepService.DonDep(written);throw;}

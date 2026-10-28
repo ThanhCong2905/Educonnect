@@ -2,6 +2,8 @@
 
 Ứng dụng ASP.NET Core MVC .NET 10 và SQL Server cho quản lý nhu cầu, tìm kiếm gia sư/người học, thỏa thuận kết nối và theo dõi học tập.
 
+SignalR cập nhật tin nhắn riêng/trong lớp, thông báo và trạng thái liên hệ/kết nối qua Outbox hiện có; không cần chạy SQL bổ sung. Xem [đối chiếu kiến trúc, luồng xử lý và kiểm thử](docs/realtime.md). Phiên hiện vẫn là tài khoản mẫu bằng Session, chưa phải ASP.NET Identity. SignalR client 10.0.0 được phục vụ tại chỗ trong `wwwroot/lib/signalr`.
+
 Luồng hồ sơ mới, nâng cấp và kiểm chứng: [Hồ sơ theo môn](docs/profile-workflow.md). Gia sư quản lý một hồ sơ với phí theo môn, gửi quản trị duyệt rồi tự bật hiển thị; không đăng nhu cầu nhận lớp mới. Quản trị hiện là người mẫu trong session, chưa có đăng nhập thật.
 
 ## Chạy tại máy hiện tại
@@ -49,7 +51,7 @@ Chỉ chạy khi cài đặt hoặc có thay đổi dữ liệu/nghiệp vụ SQ
 
 Các script trong `Database` đã được áp dụng trên máy hiện tại. Không chạy lại script `00` trên database hiện có.
 
-1. `00_Original_DB02.sql`: bộ cài mới đã hợp nhất cấu trúc 24 bảng, procedure hiện tại, danh mục 9 môn, ba vai trò mẫu, quyền thành viên chính, lịch rảnh, nhu cầu và hội thoại riêng/theo lớp. Có kiểm tra dừng khi database đã tồn tại. Không còn là bản sao nguyên văn của DB02.
+1. `00_Original_DB02.sql`: file SQL thống nhất để cài mới, gồm 24 bảng, procedure, trigger, danh mục môn, dữ liệu mẫu học sinh/phụ huynh/gia sư/quản trị, hồ sơ và duyệt/ẩn hiện, phí theo từng môn, nhu cầu, liên hệ/kết nối, lớp/thành viên, lịch/buổi học, bài tập và hội thoại riêng/theo lớp có metadata tệp. Không cần chạy thêm các script bổ sung sau file này. Không còn là bản sao nguyên văn của DB02.
 2. `01_MainLearnerPermission.sql`: cập nhật quyền bên học chính thành `ChinhSua` và bổ sung thành viên chính còn thiếu trong dữ liệu mẫu. Không đổi quyền thành viên phụ.
 3. `02_DemoSupplement.sql`: bổ sung hội thoại của liên hệ đã chấp nhận, lịch rảnh gia sư, nhu cầu của phụ huynh mẫu. Có kiểm tra tồn tại để không tạo trùng.
 

@@ -8,8 +8,12 @@ public sealed class QuyenLopHocService(AppDbContext db, NguoiDungMauService curr
     public async Task<LopHoc> KiemTraQuyenXemAsync(Guid id)
     {
         var u = await current.HienTaiAsync();
+        return await KiemTraQuyenXemAsync(id, u.Id);
+    }
+    public async Task<LopHoc> KiemTraQuyenXemAsync(Guid id, Guid nguoiXem)
+    {
         var c = await db.Set<LopHoc>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Lớp không tồn tại.", 404);
-        Rules.Check(c.GiaSuId == u.Id || c.BenHocId == u.Id || await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == u.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null), "Bạn không thuộc lớp này.", 403);
+        Rules.Check(c.GiaSuId == nguoiXem || c.BenHocId == nguoiXem || await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == nguoiXem && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null), "Bạn không thuộc lớp này.", 403);
         return c;
     }
     public async Task<LopHoc> KiemTraQuyenGhiAsync(Guid id, bool tutor = false)

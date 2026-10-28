@@ -86,7 +86,13 @@
  document.addEventListener('click',event=>{if(event.target.closest('[data-compare-clear]'))selected.clear();});
  function swap(old,fresh){if(old&&fresh&&old.innerHTML!==fresh.innerHTML){old.replaceChildren(...fresh.childNodes);}}
  const chatStates=new WeakMap();
+ let watchedRoom=null,unwatch=null;
+ function watchChat(root){
+  const id=root?.dataset.chatId||null;if(id===watchedRoom)return;
+  unwatch?.();watchedRoom=id;unwatch=window.EduRealtime?.watch(id);
+ }
  function initChat(root){
+  watchChat(root);
   if(!root||!root.dataset.chatId||chatStates.has(root))return;
   const stream=root.querySelector('.chat-stream');if(!stream)return;
   chatStates.set(root,{olderBusy:false,refresh:null});
@@ -138,7 +144,7 @@
  }
  async function chatRefresh(root,url=location.href,{sent=false}={}){
   initChat(root);const state=chatStates.get(root);if(!state)return true;
-  if(state.refresh){await state.refresh;if(!sent)return true;}
+  if(state.refresh){await state.refresh;if(!root.isConnected)return true;}
   state.refresh=(async()=>{
    const stream=root.querySelector('.chat-stream'),list=root.querySelector('.chat-messages');
    try{
@@ -178,13 +184,16 @@
   }
   return false;
  };
- let polling=false,round=0;
- async function poll(){
-  if(polling||document.hidden)return;polling=true;round++;
+ let polling=false,round=0,repoll=false;
+ async function poll(force=false){
+  if(document.hidden)return;
+  if(polling){if(force)repoll=true;return;}polling=true;round++;
   try{
    const chat=document.querySelector('#chat-content');
-   if(chat&&!document.querySelector('#workspace-modal.show'))await chatRefresh(chat);
-   if(round%5===0||round===1){
+   watchChat(chat);
+   const connected=window.EduRealtime?.connected;
+   if(chat&&(force||!connected||round%10===0)&&!document.querySelector('#workspace-modal.show'))await chatRefresh(chat);
+   if(force||round===1||round%(connected?20:5)===0){
     const badge=document.getElementById('notification-badge');
     if(badge){try{const response=await fetch('/Home/ChuaDoc',{headers,cache:'no-store'});if(response.ok){const data=await response.json();badge.textContent=data.count;badge.hidden=!data.count;badge.setAttribute('aria-label',data.count+' thông báo chưa đọc');}}catch{}}
     const notices=document.getElementById('notification-list');
@@ -192,11 +201,31 @@
    }
    const home=document.getElementById('home-updates');
    if(home&&round%10===0&&!document.querySelector('#workspace-modal.show')){const fresh=await load(home,location.href,true);if(fresh){home.replaceWith(fresh);ui.init(fresh);}}
-  }finally{polling=false;}
+  }finally{polling=false;if(repoll){repoll=false;queueMicrotask(()=>poll(true));}}
  }
  setInterval(poll,3000);
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll();});
- ui.refreshLive=()=>{round=0;return poll();};
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll(true);});
+ ui.refreshLive=()=>{round=0;return poll(true);};
+ async function refreshConnections(){
+  const region=document.getElementById('connection-content');if(!region||document.hidden)return;
+  const dirty=[...region.querySelectorAll('input,textarea,select')].some(el=>el.type==='file'?el.files.length:el.type==='checkbox'||el.type==='radio'?el.checked!==el.defaultChecked:el.tagName==='SELECT'?[...el.options].some(o=>o.selected!==o.defaultSelected):el.value!==el.defaultValue);
+  if(dirty||region.contains(document.activeElement)||document.querySelector('#workspace-modal.show')){
+   if(!region.querySelector('[data-live-changes]')){const button=document.createElement('button');button.type='button';button.className='btn btn-outline-primary mb-3';button.dataset.liveChanges='';button.textContent='Có cập nhật mới · Xem';button.addEventListener('click',async()=>{const fresh=await load(region,location.href,true);if(fresh){region.replaceWith(fresh);ui.init(fresh);}});region.prepend(button);}return;
+  }
+  const fresh=await load(region,location.href,true);if(fresh){region.replaceWith(fresh);ui.init(fresh);}
+ }
+ const unsubscribe=window.EduRealtime?.subscribe(event=>{
+  if(event.type==='state'){
+   let hint=document.querySelector('[data-realtime-status]');
+   if(!hint){hint=document.createElement('small');hint.dataset.realtimeStatus='';hint.className='text-muted ms-2';hint.setAttribute('role','status');(document.querySelector('.chat-header')||document.querySelector('.shell>header'))?.append(hint);}
+   if(hint){hint.hidden=event.connected;hint.textContent=event.stopped?'Phiên đã thay đổi. Hãy tải lại trang.':'Đang kết nối lại · vẫn có thể thao tác';}
+  }else if(event.type==='resync'){poll(true);refreshConnections();}
+  else if(event.type==='update'){
+   if(event.data.loai!=='TinNhan'||event.data.hoiThoaiId===document.querySelector('#chat-content')?.dataset.chatId)poll(true);
+   if(event.data.loai==='KetNoi')refreshConnections();
+  }
+ });
+ window.addEventListener('pagehide',event=>{if(!event.persisted){unwatch?.();unsubscribe?.();}});
  initChat(document.querySelector('#chat-content'));
  setTimeout(poll,500);
 })();

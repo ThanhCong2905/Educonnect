@@ -11,7 +11,7 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungMauService current
     {
         var ev = Guid.NewGuid();
         var now = DateTimeOffset.UtcNow;
-        db.Add(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "HoanTat", XuLyXongLuc = now });
+        db.Add(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "ChoXuLy" });
         db.Add(new ThongBao { Id = Guid.NewGuid(), NguoiNhanId = recipient, LoaiThongBao = type, DoiTuongId = target, NoiDungTomTat = text, TaoLuc = now, MaSuKien = ev });
     }
     public async Task<List<ThongBao>> LayAsync()
@@ -28,7 +28,11 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungMauService current
     {
         var me = await current.HienTaiAsync();
         var n = await db.Set<ThongBao>().SingleOrDefaultAsync(x => x.Id == id && x.NguoiNhanId == me.Id) ?? throw new LoiNghiepVu("Không tìm thấy thông báo.", 404);
-        n.DaDocLuc ??= DateTimeOffset.UtcNow;
+        if (n.DaDocLuc == null)
+        {
+            n.DaDocLuc = DateTimeOffset.UtcNow;
+            db.Add(new SuKienChoXuLy { Id = Guid.NewGuid(), LoaiSuKien = "ThongBaoDaDoc", DuLieuToiThieu = JsonSerializer.Serialize(new { recipient = me.Id, target = n.Id }), TaoLuc = DateTimeOffset.UtcNow, TrangThai = "ChoXuLy" });
+        }
         await db.SaveChangesAsync();
         return n;
     }

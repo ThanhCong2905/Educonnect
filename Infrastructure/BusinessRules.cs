@@ -51,7 +51,7 @@ public sealed class SlotInput
 {
     public byte ThuTrongTuan { get; set; } = 1; public TimeOnly GioBatDau { get; set; } = new(19, 0); public TimeOnly GioKetThuc { get; set; } = new(20, 30);
 }
-public sealed class NguoiDungMauService(AppDbContext db, IHttpContextAccessor context)
+public sealed class NguoiDungMauService(AppDbContext db, IHttpContextAccessor context, PhienCapNhat? realtime = null)
 {
     public Task<List<NguoiThamGia>> DanhSachAsync() => db.Set<NguoiThamGia>().AsNoTracking().OrderBy(x => x.LoaiNguoi).ThenBy(x => x.HoTen).ToListAsync();
     public async Task<NguoiThamGia> HienTaiAsync()
@@ -59,11 +59,15 @@ public sealed class NguoiDungMauService(AppDbContext db, IHttpContextAccessor co
         var id = context.HttpContext?.Session.GetString("participant");
         var q = db.Set<NguoiThamGia>().AsNoTracking();
         var u = Guid.TryParse(id, out var g) ? await q.SingleOrDefaultAsync(x => x.Id == g) : null;
-        return u ?? await q.OrderBy(x => x.LoaiNguoi == "HocSinh" ? 0 : 1).ThenBy(x => x.Id).FirstAsync();
+        u ??= await q.OrderBy(x => x.LoaiNguoi == "HocSinh" ? 0 : 1).ThenBy(x => x.Id).FirstAsync();
+        context.HttpContext!.Session.SetString("participant", u.Id.ToString());
+        realtime?.CapNhat(context.HttpContext.Session.Id, u.Id);
+        return u;
     }
     public async Task ChonAsync(Guid id)
     {
         Rules.Check(await db.Set<NguoiThamGia>().AnyAsync(x => x.Id == id), "Người tham gia không tồn tại.");
         context.HttpContext!.Session.SetString("participant", id.ToString());
+        realtime?.CapNhat(context.HttpContext.Session.Id, id);
     }
 }
