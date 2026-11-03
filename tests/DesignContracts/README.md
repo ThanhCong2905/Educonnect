@@ -7,7 +7,7 @@ $env:EDU_TEST_CONNECTION='Server=lpc:CONGVJP;Database=EduConnect_Verification_Un
 dotnet run --project tests/DesignContracts/DesignContracts.csproj --no-launch-profile
 ```
 
-14 nhóm kiểm tra gồm chữ ký Controller/Service đã chốt trong bảng MT1, giao dịch tạo nhiều môn, quyền người thực hiện, quyền sở hữu, rowVersion, hủy yêu cầu, dữ liệu hồ sơ công khai, hai nhánh tìm kiếm và thứ tự so sánh. Kết quả và ID fixture nằm trong `bin/Debug/net10.0/results.json`.
+18 nhóm kiểm tra gồm chữ ký Controller/Service đã chốt trong bảng MT1, CT03 theo mục 4.8.1 của FullText, giao dịch tạo nhiều môn, quyền người thực hiện, quyền sở hữu, rowVersion, hủy yêu cầu, dữ liệu hồ sơ công khai, hai nhánh tìm kiếm và thứ tự so sánh. CT03 kiểm tra tải đủ dữ liệu sửa, kết quả lỗi cho mã không tồn tại, chặn người khác/gia sư và tách tạo mới khỏi sửa. Kết quả và ID fixture nằm trong `bin/Debug/net10.0/results.json`.
 
 Để kiểm tra HTTP/biểu mẫu, chạy một bản ứng dụng riêng kết nối đúng DB kiểm thử trên cổng 5283. Không trỏ vào bản ứng dụng thường hoặc DB chính.
 
@@ -18,6 +18,6 @@ dotnet run --project EduConnect.Mvc.csproj --no-launch-profile --urls http://127
 node tests/DesignContracts/browser.cjs
 ```
 
-Trình duyệt sử dụng fixture riêng, gửi dữ liệu thật vào DB kiểm thử và kiểm tra URL cũ/mới, partial view, nhận danh sách mã so sánh, tạo/sửa bằng AJAX, giữ dữ liệu khi xung đột và phiên bản sai định dạng. Kết quả nằm trong `bin/Debug/net10.0/browser-results.json`.
+Trình duyệt sử dụng fixture riêng, gửi dữ liệu thật vào DB kiểm thử và kiểm tra URL cũ/mới, partial view, nhận danh sách mã so sánh, tạo/sửa bằng AJAX, giữ dữ liệu khi xung đột và phiên bản sai định dạng. Các ca CT03 kiểm tra GET Sua thiếu/sai mã trả 404, không xem được nhu cầu người khác, nút tạo mở modal trống và giữ nội dung khi POST tạo lỗi với JavaScript tắt. Kết quả nằm trong `bin/Debug/net10.0/browser-results.json`.
 
-CT03, CT12 và CT13 chưa có đủ chữ ký trong sơ đồ lớp để kết luận khớp thiết kế. Bộ này không tự đặt chữ ký thiết kế cho các mục đó và không thay thế kiểm thử chức năng toàn hệ thống.
+CT03 có căn cứ tại mục 4.8.1: Sua(Guid?) trả Task<IActionResult>; LayDeSuaAsync(Guid) trả Task<KetQua<NhuCauInput>>. Mã rỗng, không tồn tại hoặc không thuộc chủ sở hữu trả NotFound; mở tạo dùng GET Tao riêng. CT12 và CT13 vẫn thiếu đặc tả gửi liên hệ; bộ này không tự đặt chữ ký thiết kế cho hai mục đó và không thay thế kiểm thử chức năng toàn hệ thống.

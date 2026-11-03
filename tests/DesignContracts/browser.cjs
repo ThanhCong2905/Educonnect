@@ -45,7 +45,31 @@ const fs = require('node:fs');
     assert.ok((await page.locator('thead th').nth(2).innerText()).includes('Contract tutor'));
     pass('IReadOnlyList query binding and comparison order work');
 
-    await page.goto(base + '/NhuCau/NhuCau/Sua');
+    for (const suffix of ['', '/' + '00000000-0000-0000-0000-000000000000', '/invalid-guid', '/' + require('node:crypto').randomUUID()]) {
+      assert.equal((await page.request.get(base + '/NhuCau/NhuCau/Sua' + suffix)).status(), 404);
+    }
+    pass('CT03 missing, empty, malformed and nonexistent edit IDs return 404');
+
+    const outsider = await browser.newContext();
+    try {
+      const p = await outsider.newPage(); await p.goto(base);
+      const t = await p.locator('input[name="__RequestVerificationToken"]').first().inputValue();
+      await p.request.post(base + '/Home/Chon', { form: { id: ids.other, __RequestVerificationToken: t } });
+      assert.equal((await p.request.get(base + '/NhuCau/NhuCau/Sua/' + ids.need)).status(), 404);
+    } finally { await outsider.close(); }
+    pass('CT03 edit URL does not expose another user\'s demand');
+
+    await page.goto(base + '/NhuCau/NhuCau/Index');
+    await page.locator('.heading a[data-modal]').click();
+    const modal = page.locator('#workspace-modal'); await modal.waitFor({state: 'visible'});
+    await modal.locator('form.form-wide').waitFor();
+    assert.equal(await modal.locator('[name="MaNhuCau"]').inputValue(), '');
+    assert.equal(await modal.locator('[name="MonHocIds"]:checked').count(), 0);
+    assert.ok((await modal.locator('form.form-wide').getAttribute('action')).includes('TaoNhuCauHoc'));
+    await modal.locator('button[data-bs-dismiss="modal"]').click(); await modal.waitFor({state: 'hidden'});
+    pass('CT03 create button opens an empty create form in the existing modal');
+
+    await page.goto(base + '/NhuCau/NhuCau/Tao');
     assert.ok((await page.locator('form.form-wide').getAttribute('action')).includes('TaoNhuCauHoc'));
     await page.locator('[name="MonHocIds"][value="1"]').check();
     const goal = 'Browser contract ' + Date.now();
@@ -80,6 +104,25 @@ const fs = require('node:fs');
     });
     assert.equal(invalid.status(), 422); assert.equal((await invalid.json()).ok, false);
     pass('Malformed rowVersion returns validation feedback rather than a server error');
+
+    const noJs = await browser.newContext({ javaScriptEnabled: false });
+    try {
+      const p = await noJs.newPage(); await p.goto(base);
+      const t = await p.locator('input[name="__RequestVerificationToken"]').first().inputValue();
+      await p.request.post(base + '/Home/Chon', { form: { id: ids.learner, __RequestVerificationToken: t } });
+      await p.goto(base + '/NhuCau/NhuCau/Tao');
+      const form = p.locator('form.form-wide');
+      const action = new URL(await form.getAttribute('action'), base).href;
+      const anti = await form.locator('[name="__RequestVerificationToken"]').inputValue();
+      const response = await p.request.post(action, { form: {
+        __RequestVerificationToken: anti, MucTieu: 'Keep failed create draft', HinhThucHoc: 'TrucTuyen', BanNhap: 'true'
+      } });
+      assert.equal(response.status(), 200);
+      const html = await response.text();
+      assert.ok(html.includes('Keep failed create draft'));
+      assert.ok(html.includes('TaoNhuCauHoc'));
+    } finally { await noJs.close(); }
+    pass('CT03 failed create without JavaScript keeps the create form and entered data');
 
     assert.deepEqual(errors, []);
     fs.writeFileSync('tests/DesignContracts/bin/Debug/net10.0/browser-results.json', JSON.stringify({ passed: checks.length, checks, errors }, null, 2));

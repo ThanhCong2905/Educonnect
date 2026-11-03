@@ -77,11 +77,11 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
         var me = await current.HienTaiAsync();
         return (await (from n in db.Set<NhuCauHoc>() join r in db.Set<YeuCauKetNoiLopHoc>() on n.Id equals r.NhuCauId join c in db.Set<LopHoc>() on r.Id equals c.YeuCauKetNoiId where n.ChuSoHuuId == me.Id select n.Id).Distinct().ToListAsync()).ToHashSet();
     }
-    public async Task<NhuCauInput> LayDeSuaAsync(Guid? id)
+    public Task<KetQua<NhuCauInput>> LayDeSuaAsync(Guid id)
+        => KetQua<NhuCauInput>.ThucHienAsync(async () =>
     {
+        Rules.Check(id != Guid.Empty, "Không tìm thấy nhu cầu của bạn.", 404);
         Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Mở Hồ sơ của tôi để quản lý môn dạy.", 403);
-        if (id == null)
-            return new();
         var me = await current.HienTaiAsync();
         var n = await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id) ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
         return new()
@@ -106,7 +106,7 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
             BanNhap = n.TrangThai == "BanNhap",
             LichRanh = await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == id).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToListAsync()
         };
-    }
+    });
     private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
     {
         Rules.FeeCheck(m.HocPhiDuKien, m.DonViHocPhi);

@@ -43,6 +43,8 @@ await Pass("Audited controller/service signatures match design", () =>
 {
     Signature(typeof(NhuCauController), "TaoNhuCauHoc", typeof(Task<IActionResult>), typeof(TaoNhuCauBenHocViewModel));
     Signature(typeof(NhuCauController), "CapNhat", typeof(Task<IActionResult>), typeof(Guid), typeof(TaoNhuCauBenHocViewModel));
+    Signature(typeof(NhuCauController), "Sua", typeof(Task<IActionResult>), typeof(Guid?));
+    Signature(typeof(NhuCauService), "LayDeSuaAsync", typeof(Task<KetQua<NhuCauInput>>), typeof(Guid));
     Signature(typeof(NhuCauService), "TaoNhuCauHocAsync", typeof(Task<KetQua<Guid>>), typeof(TaoNhuCauBenHocViewModel), typeof(Guid), typeof(CancellationToken));
     Signature(typeof(NhuCauService), "CapNhatAsync", typeof(Task<KetQua<Guid>>), typeof(Guid), typeof(TaoNhuCauBenHocViewModel), typeof(byte[]), typeof(Guid), typeof(CancellationToken));
     Signature(typeof(TimKiemController), "Tim", typeof(Task<IActionResult>), typeof(BoLocTimKiemViewModel));
@@ -60,6 +62,46 @@ await Pass("Create multiple subjects atomically with schedules", async () =>
     Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "Missing subject");
     Check(await db.Set<KhungGioRanh>().AnyAsync(s => s.NhuCauId == need), "Missing schedule");
 });
+await Pass("CT03 loads owned demand with version, subject and schedule", async () =>
+{
+    var result = await needs.LayDeSuaAsync(need);
+    Check(result.ThanhCong, "Owned demand not loaded");
+    var model = result.DuLieu;
+    Check(model.Id == need && Rules.Version(model.RowVersion).Length == 8 && model.MonHocIds.Count == 1 && model.LichRanh.Count == 1, "Edit data incomplete");
+});
+await Pass("CT03 returns failed result for empty and nonexistent IDs", async () =>
+{
+    foreach (var id in new[] { Guid.Empty, Guid.NewGuid() })
+    {
+        var result = await needs.LayDeSuaAsync(id);
+        Check(!result.ThanhCong && result.MaTrangThai == 404, "Missing demand did not return 404 result");
+    }
+});
+await Pass("CT03 hides other owner's demand and rejects tutor role", async () =>
+{
+    await current.ChonAsync(other);
+    var result = await needs.LayDeSuaAsync(need);
+    Check(!result.ThanhCong && result.MaTrangThai == 404, "Other owner's demand exposed");
+    await current.ChonAsync(tutor);
+    result = await needs.LayDeSuaAsync(need);
+    Check(!result.ThanhCong && result.MaTrangThai == 403, "Tutor edited learner demand");
+    await current.ChonAsync(learner);
+});
+await Pass("CT03 controller separates new form from missing edit ID", async () =>
+{
+    var controller = new NhuCauController(needs, current)
+    {
+        ControllerContext = new ControllerContext { HttpContext = http }
+    };
+    Check(await controller.Sua(null) is NotFoundResult, "Missing ID opened create form");
+    Check(await controller.Sua(Guid.Empty) is NotFoundResult, "Empty ID not rejected");
+    Check(await controller.Sua(Guid.NewGuid()) is NotFoundResult, "Missing record not rejected");
+    var created = await controller.Tao() as ViewResult;
+    Check(created?.ViewName == "Tao" && created.Model is NhuCauInput { Id: null, RowVersion: null }, "Create form is not empty");
+    var edited = await controller.Sua(need) as ViewResult;
+    Check(edited?.Model is NhuCauInput model && model.Id == need, "Edit form not loaded");
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "GET created a demand");
+});
 await Pass("Reject forged actor without creating data", async () =>
 {
     var r = await needs.TaoNhuCauHocAsync(Input(), other, default);
@@ -75,21 +117,21 @@ await Pass("Invalid second subject rolls back entire create", async () =>
 byte[] stale = [];
 await Pass("Update with byte rowVersion preserves subject and schedule", async () =>
 {
-    var m = TaoNhuCauBenHocViewModel.FromInput(await needs.LayDeSuaAsync(need)); stale = m.RowVersion!;
+    var m = TaoNhuCauBenHocViewModel.FromInput((await needs.LayDeSuaAsync(need)).DuLieu); stale = m.RowVersion!;
     m.MucTieu = "Updated contract need " + learner;
     Check((await needs.CapNhatAsync(need, m, stale, learner, default)).DuLieu == need, "Wrong ID");
-    db.ChangeTracker.Clear(); Check((await needs.LayDeSuaAsync(need)).MucTieu == m.MucTieu, "Update lost");
+    db.ChangeTracker.Clear(); Check(((await needs.LayDeSuaAsync(need)).DuLieu).MucTieu == m.MucTieu, "Update lost");
 });
 await Pass("Stale update returns conflict without overwriting", async () =>
 {
-    var m = TaoNhuCauBenHocViewModel.FromInput(await needs.LayDeSuaAsync(need)); m.MucTieu = "Must not persist";
+    var m = TaoNhuCauBenHocViewModel.FromInput((await needs.LayDeSuaAsync(need)).DuLieu); m.MucTieu = "Must not persist";
     var r = await needs.CapNhatAsync(need, m, stale, learner, default);
     Check(!r.ThanhCong && r.MaTrangThai == 409, "Missing conflict"); db.ChangeTracker.Clear();
-    Check((await needs.LayDeSuaAsync(need)).MucTieu != m.MucTieu, "Stale overwrite");
+    Check(((await needs.LayDeSuaAsync(need)).DuLieu).MucTieu != m.MucTieu, "Stale overwrite");
 });
 await Pass("Other owner cannot update a demand", async () =>
 {
-    var m = TaoNhuCauBenHocViewModel.FromInput(await needs.LayDeSuaAsync(need)); await current.ChonAsync(other);
+    var m = TaoNhuCauBenHocViewModel.FromInput((await needs.LayDeSuaAsync(need)).DuLieu); await current.ChonAsync(other);
     var r = await needs.CapNhatAsync(need, m, m.RowVersion!, other, default);
     Check(!r.ThanhCong && r.MaTrangThai == 403, "Ownership bypass"); await current.ChonAsync(learner);
 });

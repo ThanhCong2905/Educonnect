@@ -24,9 +24,28 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
         ViewBag.Linked = await service.DaKetNoiAsync();
         return View(await service.LayAsync());
     }
+    [HttpGet]
+    public async Task<IActionResult> Tao()
+    {
+        Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Mở Hồ sơ của tôi để quản lý môn dạy.", 403);
+        var model = new NhuCauInput();
+        await MonChoBieuMauAsync(model);
+        return View("Tao", model);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Sua(Guid? id)
     {
-        var model = await service.LayDeSuaAsync(id);
+        if (!ModelState.IsValid || id == null || id == Guid.Empty)
+            return NotFound();
+        var result = await service.LayDeSuaAsync(id.Value);
+        if (!result.ThanhCong)
+        {
+            if (result.MaTrangThai == StatusCodes.Status404NotFound)
+                return NotFound();
+            return StatusCode(result.MaTrangThai, result.ThongBao);
+        }
+        var model = result.DuLieu;
         await MonChoBieuMauAsync(model);
         if (model.MonHocIds.Count > 0)
             model.ChonMonKhac = false;
@@ -61,7 +80,7 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
         }
         var model = vm.ToInput();
         await MonChoBieuMauAsync(model);
-        return View("Sua", model);
+        return View(model.Id == null ? "Tao" : "Sua", model);
     }
 
     [HttpPost]
@@ -78,7 +97,7 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
             }
             catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
         await MonChoBieuMauAsync(m);
-        return View("Sua", m);
+        return View(m.Id == null ? "Tao" : "Sua", m);
     }
     [HttpPost]
     public async Task<IActionResult> TrangThai(Guid id, string state, string rowVersion)
