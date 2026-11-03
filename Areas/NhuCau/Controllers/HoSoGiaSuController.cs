@@ -3,12 +3,24 @@ using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using EduConnect.Mvc.Areas.KetNoi.Services;
 namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
 [Area("NhuCau")]
 [RequestSizeLimit(52000000)]
-public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService search) : BaseController
+public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService search, KetNoiService contacts, NguoiDungMauService current) : BaseController
 {
+    public async Task<IActionResult> ChiTiet(Guid maHoSo)
+    {
+        var result = await service.LayHoSoAsync(maHoSo, (await current.HienTaiAsync()).Id, HttpContext.RequestAborted);
+        var profile = result.DuLieu;
+        ViewData["PublicProfile"] = true;
+        var contact = await contacts.LienHeVoiAsync(profile.ChuSoHuuId);
+        ViewBag.Contact = contact;
+        ViewBag.ContactChat = contact?.TrangThai == "ChapNhan" ? await contacts.HoiThoaiAsync(contact.Id) : null;
+        return View("~/Areas/TimKiem/Views/TimKiem/ChiTiet.cshtml", profile);
+    }
+
     [HttpPost]
     public async Task<IActionResult> TrangThai(string operation, string rowVersion)
     {

@@ -33,6 +33,38 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungMauService 
         return View(model);
     }
     [HttpPost]
+    public Task<IActionResult> TaoNhuCauHoc(TaoNhuCauBenHocViewModel vm)
+        => LuuBieuMauAsync(vm, async () => await service.TaoNhuCauHocAsync(vm,
+            (await current.HienTaiAsync()).Id, HttpContext.RequestAborted));
+
+    [HttpPost]
+    public Task<IActionResult> CapNhat(Guid maNhuCau, TaoNhuCauBenHocViewModel vm)
+    {
+        vm.MaNhuCau ??= maNhuCau;
+        return LuuBieuMauAsync(vm, async () => await service.CapNhatAsync(maNhuCau, vm,
+            vm.RowVersion ?? [], (await current.HienTaiAsync()).Id, HttpContext.RequestAborted));
+    }
+
+    private async Task<IActionResult> LuuBieuMauAsync(TaoNhuCauBenHocViewModel vm, Func<Task<KetQua<Guid>>> save)
+    {
+        if (Request.HasFormContentType && !Request.Form.Keys.Any(key => key.StartsWith("LichRanh[")))
+            vm.LichRanh = [];
+        if (ModelState.IsValid)
+        {
+            var result = await save();
+            if (result.ThanhCong)
+            {
+                Success();
+                return RedirectToAction(nameof(Index));
+            }
+            ModelState.AddModelError("", result.ThongBao!);
+        }
+        var model = vm.ToInput();
+        await MonChoBieuMauAsync(model);
+        return View("Sua", model);
+    }
+
+    [HttpPost]
     public async Task<IActionResult> Luu(NhuCauInput m)
     {
         if (Request.HasFormContentType && !Request.Form.Keys.Any(key => key.StartsWith("LichRanh[")))

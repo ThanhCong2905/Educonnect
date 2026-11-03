@@ -8,6 +8,16 @@ namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
 public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungMauService current, MonHocCatalog catalog, TepService files, ThongBaoService notices)
 {
+    public Task<KetQua<HoSoGiaSuCongKhaiViewModel>> LayHoSoAsync(Guid maHoSo, Guid? maNguoiXem, CancellationToken huy)
+        => KetQua<HoSoGiaSuCongKhaiViewModel>.ThucHienAsync(async () =>
+        {
+            await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            var query = new HoSoCongKhaiQuery(db);
+            var profile = await query.CongKhai().SingleOrDefaultAsync(x => x.Id == maHoSo, huy)
+                ?? throw new LoiNghiepVu("Hồ sơ đang ẩn, chưa được duyệt hoặc không còn công khai.", 404);
+            return (await query.LayDanhSachAsync([profile], huy)).Single();
+        });
+
     public static string ChuanHoa(string? text) => string.Join(" ", (text ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
     public static void KiemTraSua(HoSoGiaSu h)
     {

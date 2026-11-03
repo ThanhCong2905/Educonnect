@@ -53,13 +53,20 @@ public sealed class SlotInput
 }
 public sealed class NguoiDungMauService(AppDbContext db, IHttpContextAccessor context, PhienCapNhat? realtime = null)
 {
+    public async Task<NguoiThamGia> KiemTraNguoiThucHienAsync(Guid? id, CancellationToken huy)
+    {
+        huy.ThrowIfCancellationRequested();
+        var user = await HienTaiAsync(huy);
+        Rules.Check(id == null || id == user.Id, "Người thực hiện không khớp phiên hiện tại.", 403);
+        return user;
+    }
     public Task<List<NguoiThamGia>> DanhSachAsync() => db.Set<NguoiThamGia>().AsNoTracking().OrderBy(x => x.LoaiNguoi).ThenBy(x => x.HoTen).ToListAsync();
-    public async Task<NguoiThamGia> HienTaiAsync()
+    public async Task<NguoiThamGia> HienTaiAsync(CancellationToken huy = default)
     {
         var id = context.HttpContext?.Session.GetString("participant");
         var q = db.Set<NguoiThamGia>().AsNoTracking();
-        var u = Guid.TryParse(id, out var g) ? await q.SingleOrDefaultAsync(x => x.Id == g) : null;
-        u ??= await q.OrderBy(x => x.LoaiNguoi == "HocSinh" ? 0 : 1).ThenBy(x => x.Id).FirstAsync();
+        var u = Guid.TryParse(id, out var g) ? await q.SingleOrDefaultAsync(x => x.Id == g, huy) : null;
+        u ??= await q.OrderBy(x => x.LoaiNguoi == "HocSinh" ? 0 : 1).ThenBy(x => x.Id).FirstAsync(huy);
         context.HttpContext!.Session.SetString("participant", u.Id.ToString());
         realtime?.CapNhat(context.HttpContext.Session.Id, u.Id);
         return u;

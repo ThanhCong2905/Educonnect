@@ -1,5 +1,6 @@
-﻿using EduConnect.Mvc.Areas.TimKiem.ViewModels;
+using EduConnect.Mvc.Areas.TimKiem.ViewModels;
 using EduConnect.Mvc.Areas.NhuCau.Services;
+using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
@@ -8,13 +9,11 @@ namespace EduConnect.Mvc.Areas.TimKiem.Services;
 
 public sealed class TimKiemService(AppDbContext db, NguoiDungMauService current)
 {
-    public IQueryable<HoSoGiaSu> HoSoCongKhai() => db.Set<HoSoGiaSu>().AsNoTracking().Where(h=>h.DangHienThi&&h.TrangThaiDuyet=="DaDuyet"&&(h.DayTrucTuyen||h.DayTrucTiep)
-        &&db.Set<GiaSu>().Any(g=>g.TaiKhoanId==h.GiaSuId)&&db.Set<NguoiThamGia>().Any(u=>u.Id==h.GiaSuId&&u.LoaiNguoi=="GiaSu")
-        &&db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id)
-        &&!db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id&&(d.HocPhiDeXuat==null||d.DonViHocPhi==null||!db.Set<MonHoc>().Any(m=>m.Id==d.MonHocId&&m.DangSuDung))));
+    private readonly HoSoCongKhaiQuery profiles = new(db);
+    public IQueryable<HoSoGiaSu> HoSoCongKhai() => profiles.CongKhai();
     private IQueryable<UngVienViewModel> NhuCauCongKhai()=>from n in db.Set<NhuCauHoc>() join u in db.Set<NguoiThamGia>() on n.ChuSoHuuId equals u.Id join m in db.Set<MonHoc>() on n.MonHocId equals m.Id
         where n.LoaiNhuCau=="TimGiaSu"&&n.TrangThai=="DangMo"&&(u.LoaiNguoi=="HocSinh"||u.LoaiNguoi=="PhuHuynh")
-        select new UngVienViewModel{Id=n.Id,ChuSoHuuId=u.Id,HoTen=u.HoTen,LoaiNguoi=u.LoaiNguoi,TenMon=m.TenMon,MonHocId=m.Id,KhoiLop=n.KhoiLop,MucTieu=n.MucTieu,HinhThucHoc=n.HinhThucHoc,KhuVuc=n.KhuVuc,HocPhiDuKien=n.HocPhiDuKien,DonViHocPhi=n.DonViHocPhi,TaoLuc=n.TaoLuc};
+        select new NhuCauCongKhaiViewModel{Id=n.Id,ChuSoHuuId=u.Id,HoTen=u.HoTen,LoaiNguoi=u.LoaiNguoi,TenMon=m.TenMon,MonHocId=m.Id,KhoiLop=n.KhoiLop,MucTieu=n.MucTieu,HinhThucHoc=n.HinhThucHoc,KhuVuc=n.KhuVuc,HocPhiDuKien=n.HocPhiDuKien,DonViHocPhi=n.DonViHocPhi,TaoLuc=n.TaoLuc};
     private IQueryable<HoSoGiaSu> LocHoSo(BoLocTimKiemViewModel f)
     {
         var q=HoSoCongKhai();var key=HoSoGiaSuService.ChuanHoa(f.TuKhoa);var area=HoSoGiaSuService.ChuanHoa(f.KhuVuc);
@@ -31,26 +30,36 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungMauService current)
             &&(f.HocPhiToiDa==null||(d.HocPhiDeXuat<=f.HocPhiToiDa&&d.DonViHocPhi==f.DonViHocPhi))
             &&(!byPrice||(d.HocPhiDeXuat!=null&&d.DonViHocPhi==f.DonViHocPhi))));
     }
-    private async Task<List<UngVienViewModel>> HoSoRowsAsync(List<HoSoGiaSu> hs)
-    {
-        var ids=hs.Select(h=>h.Id).ToList();var owners=hs.Select(h=>h.GiaSuId).ToList();var people=await db.Set<NguoiThamGia>().Where(u=>owners.Contains(u.Id)).ToDictionaryAsync(x=>x.Id,x=>x.HoTen);
-        var subjects=await (from d in db.Set<HoSoGiaSuMonDay>() join m in db.Set<MonHoc>() on d.MonHocId equals m.Id where ids.Contains(d.HoSoGiaSuId) select new{d.HoSoGiaSuId,Row=new MonDayCongKhai{MonHocId=m.Id,TenMon=m.TenMon,PhamViDay=d.PhamViDay,HocPhi=d.HocPhiDeXuat,DonVi=d.DonViHocPhi}}).ToListAsync();
-        return hs.Select(h=>new UngVienViewModel{Id=h.Id,ChuSoHuuId=h.GiaSuId,LoaiNguoi="GiaSu",HoTen=people[h.GiaSuId],TrinhDo=h.TrinhDo,ChuyenMon=h.ChuyenMon,KinhNghiem=h.KinhNghiem,MoTa=h.MoTa,KhuVuc=h.KhuVuc,KhuVucGiaSu=h.KhuVuc,DayTrucTuyen=h.DayTrucTuyen,DayTrucTiep=h.DayTrucTiep,HinhThucHoc=h.DayTrucTuyen&&h.DayTrucTiep?"CaHai":h.DayTrucTuyen?"TrucTuyen":"TrucTiep",TaoLuc=h.DuyetLuc??DateTimeOffset.MinValue,MonTheoHoSo=subjects.Where(s=>s.HoSoGiaSuId==h.Id).Select(s=>s.Row).OrderBy(s=>s.TenMon).ToList()}).ToList();
-    }
+    private async Task<List<UngVienViewModel>> HoSoRowsAsync(List<HoSoGiaSu> hs, CancellationToken huy = default)
+        => (await profiles.LayDanhSachAsync(hs, huy)).Cast<UngVienViewModel>().ToList();
     public async Task<SearchPage> TimAsync(BoLocTimKiemViewModel f)
     {
-        var me=await current.HienTaiAsync();Rules.Check(f.Trang is >=1 and <=100000,"Trang không hợp lệ.");
+        var user = await current.HienTaiAsync();
+        var page = (await TimKiemAsync(f, user.Id, default)).DuLieu;
+        return new() { Filter = f, Items = page.Items, Total = page.Total };
+    }
+
+    public Task<KetQua<Page<UngVienViewModel>>> TimKiemAsync(BoLocTimKiemViewModel boLoc, Guid? maNguoiXem, CancellationToken huy)
+        => KetQua<Page<UngVienViewModel>>.ThucHienAsync(async () =>
+        {
+            var me = await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            return await TimDuLieuAsync(boLoc, me, huy);
+        });
+
+    private async Task<Page<UngVienViewModel>> TimDuLieuAsync(BoLocTimKiemViewModel f, NguoiThamGia me, CancellationToken huy)
+    {
+        Rules.Check(f.Trang is >=1 and <=100000,"Trang không hợp lệ.");
         Rules.Check(f.HocPhiToiDa==null||f.HocPhiToiDa>=0,"Học phí tối đa không âm.");
         Rules.Check(f.DonViHocPhi is "VND/Gio" or "VND/Buoi","Chọn đúng đơn vị học phí.");
         if(me.LoaiNguoi!="GiaSu")
         {
-            var q=LocHoSo(f);var total=await q.CountAsync();
+            var q=LocHoSo(f);var total=await q.CountAsync(huy);
             var ids=f.MonHocIds.Concat(f.MonHocId.HasValue?[f.MonHocId.Value]:Array.Empty<int>()).ToList();
             var priced=from h in q select new{h,Price=db.Set<HoSoGiaSuMonDay>().Where(d=>d.HoSoGiaSuId==h.Id&&(ids.Count==0||ids.Contains(d.MonHocId))&&(string.IsNullOrEmpty(f.KhoiLop)||EF.Functions.Collate(d.PhamViDay,"Vietnamese_100_CI_AS").Contains(f.KhoiLop))&&d.DonViHocPhi==f.DonViHocPhi&&(f.HocPhiToiDa==null||d.HocPhiDeXuat<=f.HocPhiToiDa)).Min(d=>d.HocPhiDeXuat),Name=db.Set<NguoiThamGia>().Where(u=>u.Id==h.GiaSuId).Select(u=>u.HoTen).First()};
             var ordered=f.SapXep switch{"HocPhiTang"=>priced.OrderBy(x=>x.Price).ThenBy(x=>x.h.Id),"HocPhiGiam"=>priced.OrderByDescending(x=>x.Price).ThenBy(x=>x.h.Id),"Ten"=>priced.OrderBy(x=>x.Name).ThenBy(x=>x.h.Id),_=>priced.OrderByDescending(x=>x.h.DuyetLuc).ThenBy(x=>x.h.Id)};
-            var rows=await HoSoRowsAsync(await ordered.Skip((f.Trang-1)*9).Take(9).Select(x=>x.h).ToListAsync());
+            var rows=await HoSoRowsAsync(await ordered.Skip((f.Trang-1)*9).Take(9).Select(x=>x.h).ToListAsync(huy), huy);
             if(ids.Count>0)foreach(var row in rows)row.MonTheoHoSo=row.MonTheoHoSo.Where(m=>ids.Contains(m.MonHocId)).ToList();
-            return new(){Filter=f,Items=rows,Total=total};
+            return new(){Trang=f.Trang,Items=rows,Total=total};
         }
         Rules.Check(f.ThuTrongTuan==null||f.ThuTrongTuan<=6,"Thứ không hợp lệ.");Rules.Check(f.GioBatDau==null||f.GioKetThuc==null||f.GioBatDau<f.GioKetThuc,"Giờ bắt đầu phải trước giờ kết thúc.");
         var n=NhuCauCongKhai().Where(x=>x.ChuSoHuuId!=me.Id);
@@ -62,20 +71,20 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungMauService current)
         if(f.HocPhiToiDa!=null)n=n.Where(x=>x.HocPhiDuKien<=f.HocPhiToiDa&&x.DonViHocPhi==f.DonViHocPhi);
         if(f.ThuTrongTuan!=null||f.GioBatDau!=null||f.GioKetThuc!=null)n=n.Where(x=>db.Set<KhungGioRanh>().Any(s=>s.NhuCauId==x.Id&&(f.ThuTrongTuan==null||s.ThuTrongTuan==f.ThuTrongTuan)&&(f.GioBatDau==null||s.GioBatDau<=f.GioBatDau)&&(f.GioKetThuc==null||s.GioKetThuc>=f.GioKetThuc)));
         if(f.SapXep is "HocPhiTang" or "HocPhiGiam")n=n.Where(x=>x.HocPhiDuKien!=null&&x.DonViHocPhi==f.DonViHocPhi);
-        var count=await n.CountAsync();var sorted=f.SapXep switch{"HocPhiTang"=>n.OrderBy(x=>x.HocPhiDuKien).ThenBy(x=>x.Id),"HocPhiGiam"=>n.OrderByDescending(x=>x.HocPhiDuKien).ThenBy(x=>x.Id),"Ten"=>n.OrderBy(x=>x.HoTen).ThenBy(x=>x.Id),_=>n.OrderByDescending(x=>x.TaoLuc).ThenBy(x=>x.Id)};
-        var items=await sorted.Skip((f.Trang-1)*9).Take(9).ToListAsync();await SlotsAsync(items);return new(){Filter=f,Items=items,Total=count};
+        var count=await n.CountAsync(huy);var sorted=f.SapXep switch{"HocPhiTang"=>n.OrderBy(x=>x.HocPhiDuKien).ThenBy(x=>x.Id),"HocPhiGiam"=>n.OrderByDescending(x=>x.HocPhiDuKien).ThenBy(x=>x.Id),"Ten"=>n.OrderBy(x=>x.HoTen).ThenBy(x=>x.Id),_=>n.OrderByDescending(x=>x.TaoLuc).ThenBy(x=>x.Id)};
+        var items=await sorted.Skip((f.Trang-1)*9).Take(9).ToListAsync(huy);await SlotsAsync(items, huy);return new(){Trang=f.Trang,Items=items,Total=count};
     }
-    private async Task SlotsAsync(List<UngVienViewModel> rows)
+    private async Task SlotsAsync(List<UngVienViewModel> rows, CancellationToken huy = default)
     {
-        var ids=rows.Select(x=>x.Id).ToList();var slots=await db.Set<KhungGioRanh>().Where(s=>ids.Contains(s.NhuCauId)).ToListAsync();
+        var ids=rows.Select(x=>x.Id).ToList();var slots=await db.Set<KhungGioRanh>().Where(s=>ids.Contains(s.NhuCauId)).ToListAsync(huy);
         foreach(var row in rows)row.Slots=slots.Where(s=>s.NhuCauId==row.Id).Select(s=>new SlotInput{ThuTrongTuan=s.ThuTrongTuan,GioBatDau=s.GioBatDau,GioKetThuc=s.GioKetThuc}).ToList();
     }
-    public async Task<UngVienViewModel> ChiTietAsync(Guid id)
+    public async Task<UngVienViewModel> ChiTietAsync(Guid id, CancellationToken huy = default)
     {
-        var h=await HoSoCongKhai().SingleOrDefaultAsync(x=>x.Id==id);
-        if(h!=null)return (await HoSoRowsAsync([h])).Single();
-        var n=await NhuCauCongKhai().SingleOrDefaultAsync(x=>x.Id==id)??throw new LoiNghiepVu("Hồ sơ hoặc nhu cầu đang ẩn, chưa được duyệt hoặc không còn công khai.",404);
-        await SlotsAsync([n]);return n;
+        var h=await HoSoCongKhai().SingleOrDefaultAsync(x=>x.Id==id, huy);
+        if(h!=null)return (await HoSoRowsAsync([h], huy)).Single();
+        var n=await NhuCauCongKhai().SingleOrDefaultAsync(x=>x.Id==id, huy)??throw new LoiNghiepVu("Hồ sơ hoặc nhu cầu đang ẩn, chưa được duyệt hoặc không còn công khai.",404);
+        await SlotsAsync([n], huy);return n;
     }
     public async Task<UngVienViewModel> XemTruocAsync()
     {
@@ -89,9 +98,25 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungMauService current)
     }
     public async Task<List<UngVienViewModel>> SoSanhAsync(Guid[] ids)
     {
-        Rules.Check(ids.Distinct().Count() is >=1 and <=3,"Chọn từ 1 đến 3 đối tượng.");var rows=new List<UngVienViewModel>();
-        foreach(var id in ids.Distinct())rows.Add(await ChiTietAsync(id));return rows;
+        var user = await current.HienTaiAsync();
+        return (await SoSanhAsync(ids, user.Id, default)).DuLieu.Items;
     }
+
+    public Task<KetQua<SoSanhViewModel>> SoSanhAsync(IReadOnlyList<Guid> maDoiTuong, Guid? maNguoiXem, CancellationToken huy)
+        => KetQua<SoSanhViewModel>.ThucHienAsync(async () =>
+        {
+            await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            var ids = maDoiTuong.Distinct().ToList();
+            Rules.Check(ids.Count is >= 1 and <= 3, "Chọn từ 1 đến 3 đối tượng.");
+            var rows = new List<UngVienViewModel>();
+            foreach (var id in ids) rows.Add(await ChiTietAsync(id, huy));
+            return new SoSanhViewModel
+            {
+                MaDoiTuong = ids,
+                HoSo = rows.OfType<HoSoGiaSuCongKhaiViewModel>().ToList(),
+                NhuCau = rows.OfType<NhuCauCongKhaiViewModel>().ToList()
+            };
+        });
     public async Task<(List<UngVienViewModel> Items,bool HasNeed)> GoiYAsync()
     {
         var me=await current.HienTaiAsync();var own=await db.Set<NhuCauHoc>().AsNoTracking().Where(x=>x.ChuSoHuuId==me.Id&&x.LoaiNhuCau=="TimGiaSu"&&x.TrangThai=="DangMo").ToListAsync();
