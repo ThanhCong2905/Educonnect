@@ -186,6 +186,36 @@ await Pass("Read APIs reject forged viewer and invalid criteria", async () =>
     Check((await search.TimKiemAsync(new(), other, default)).MaTrangThai == 403, "Forged search viewer");
     Check(!(await search.TimKiemAsync(new() { Trang = 0 }, learner, default)).ThanhCong, "Invalid page allowed");
 });
+await Pass("Tutor search applies multi-subject filter", async () =>
+{
+    await current.ChonAsync(tutor);
+    var page=(await search.TimKiemAsync(new(){MonHocIds=[2]},tutor,default)).DuLieu;
+    Check(page.Total>0 && page.Items.All(x=>x.MonHocId==2),"Multi-subject criteria ignored");
+    await current.ChonAsync(learner);
+});
+await Pass("Suggestions use reasons without percentage scores", async () =>
+{
+    var suggestions=await search.GoiYAsync();
+    Check(suggestions.Items.All(x=>x.LyDo.Count>0),"Suggestion has no matching reason");
+    Check(typeof(UngVienViewModel).GetProperty("DiemPhuHop")==null,"Unexpected percentage score");
+});
+await Pass("Learner without open needs has no unsupported suggestions", async () =>
+{
+    await current.ChonAsync(other);
+    var suggestions=await search.GoiYAsync();
+    Check(!suggestions.HasNeed && suggestions.Items.Count==0,"Unmatched fallback suggestions");
+    await current.ChonAsync(learner);
+});
+await Pass("Tutor without registered subjects receives no unrelated suggestions", async () =>
+{
+    var emptyTutor=Guid.NewGuid();
+    db.Add(new NguoiThamGia{Id=emptyTutor,HoTen="Empty tutor",LoaiNguoi="GiaSu"});
+    await db.SaveChangesAsync();
+    await current.ChonAsync(emptyTutor);
+    var suggestions=await search.GoiYAsync();
+    Check(!suggestions.HasNeed&&suggestions.Items.Count==0,"Unrelated tutor suggestions");
+    await current.ChonAsync(learner);
+});
 await File.WriteAllTextAsync(Path.Combine(AppContext.BaseDirectory, "results.json"), JsonSerializer.Serialize(new { passed = checks.Count, checks, database, learner, other, tutor, hid, need }, new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine(checks.Count + " checks passed");
 
