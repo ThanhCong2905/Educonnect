@@ -37,28 +37,3 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungMauService current
         return n;
     }
 }
-public sealed class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWorker> log) : BackgroundService
-{
-    protected override async Task ExecuteAsync(CancellationToken token)
-    {
-        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
-        while (!token.IsCancellationRequested)
-        {
-            try
-            {
-                using var scope = scopes.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await db.Database.ExecuteSqlRawAsync("UPDATE dbo.YeuCauKetNoiLopHoc SET TrangThai='HetHan' WHERE TrangThai IN ('ChoGiaSu','ChoBenHoc') AND HetHanLuc<=SYSDATETIMEOFFSET()", token);
-                await db.Database.ExecuteSqlRawAsync("BEGIN TRAN; UPDATE c SET TrangThai='DaHuy' FROM dbo.LopHoc c JOIN dbo.YeuCauHuyKetNoi y ON y.LopHocId=c.Id WHERE c.TrangThai='DangHoatDong' AND y.TrangThai='ChoPhanHoi' AND y.HetHanLuc<=SYSDATETIMEOFFSET(); UPDATE dbo.YeuCauHuyKetNoi SET TrangThai='TuDongChapNhan',PhanHoiLuc=SYSDATETIMEOFFSET() WHERE TrangThai='ChoPhanHoi' AND HetHanLuc<=SYSDATETIMEOFFSET(); COMMIT;", token);
-            }
-            catch (Exception ex) when (!token.IsCancellationRequested) { log.LogWarning(ex, "Bảo trì chưa hoàn tất; sẽ thử lại."); }
-            try
-            {
-                if (!await timer.WaitForNextTickAsync(token))
-                    break;
-            }
-            catch (OperationCanceledException) { break; }
-        }
-    }
-}
-

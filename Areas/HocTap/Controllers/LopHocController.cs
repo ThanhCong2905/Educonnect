@@ -56,9 +56,9 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         });
     }
     [HttpPost]
-    public async Task<IActionResult> YeuCauHuy(Guid id, string reason)
+    public async Task<IActionResult> YeuCauHuy(Guid id, string reason, string rowVersion)
     {
-        await service.YeuCauHuyAsync(id, reason);
+        await service.YeuCauHuyAsync(id, reason, rowVersion, HttpContext.RequestAborted);
         Success();
         return RedirectToAction(nameof(ChiTiet), new
         {
@@ -68,12 +68,20 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
     [HttpPost]
     public async Task<IActionResult> PhanHoiHuy(Guid id, Guid request, bool agree, string rowVersion)
     {
-        await service.PhanHoiHuyAsync(request, agree, rowVersion);
+        await service.PhanHoiHuyAsync(request, agree, rowVersion, HttpContext.RequestAborted);
         Success();
         return RedirectToAction(nameof(ChiTiet), new
         {
             id
         });
+    }
+    [HttpPost]
+    public async Task<IActionResult> XacNhanKetThuc(Guid maYeuCau, byte[] rowVersion)
+    {
+        var actor = await HttpContext.RequestServices.GetRequiredService<EduConnect.Mvc.Infrastructure.NguoiDungMauService>().HienTaiAsync(HttpContext.RequestAborted);
+        (await service.XacNhanKetThucAsync(maYeuCau, rowVersion, actor.Id, HttpContext.RequestAborted)).BaoLoiNeuThatBai();
+        Success();
+        return RedirectToAction(nameof(Index));
     }
 }
 

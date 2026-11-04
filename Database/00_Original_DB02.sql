@@ -1033,3 +1033,15 @@ GO
 -- Đặt ở cuối để database đã tồn tại không chạy phần nâng cấp bên trên.
 SET NOEXEC OFF;
 GO
+
+-- UC2: metadata kết thúc lớp.
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+IF COL_LENGTH('dbo.LopHoc','KetThucLuc') IS NULL
+    ALTER TABLE dbo.LopHoc ADD KetThucLuc datetimeoffset NULL;
+IF COL_LENGTH('dbo.LopHoc','CachKetThuc') IS NULL
+    ALTER TABLE dbo.LopHoc ADD CachKetThuc nvarchar(32) NULL;
+IF COL_LENGTH('dbo.YeuCauHuyKetNoi','NguoiPhanHoiId') IS NULL
+    ALTER TABLE dbo.YeuCauHuyKetNoi ADD NguoiPhanHoiId uniqueidentifier NULL;
+COMMIT;
+GO

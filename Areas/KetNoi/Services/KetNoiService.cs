@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using System.Text.Json;
 using EduConnect.Mvc.Areas.KetNoi.ViewModels;
 using EduConnect.Mvc.Data;
@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.KetNoi.Services;
 
-public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, ThongBaoService notices)
+public sealed partial class KetNoiService(AppDbContext db, NguoiDungMauService current, ThongBaoService notices)
 {
     public async Task<Dictionary<Guid, Guid>> HoiThoaiLienHeAsync()
     {
@@ -37,11 +37,11 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         var tutor = u.LoaiNguoi == "GiaSu" ? u.Id : other.Id;
         var learner = u.LoaiNguoi == "GiaSu" ? other.Id : u.Id;
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-        Rules.Check((u.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh") && (other.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh"), "Vai trò không được gửi liên hệ.",403);
-        await HoSoLock.KhoaAsync(db,tutor);
-        Rules.Check(await db.Set<HoSoGiaSu>().AnyAsync(h=>h.GiaSuId==tutor&&h.DangHienThi&&h.TrangThaiDuyet=="DaDuyet"&&(h.DayTrucTuyen||h.DayTrucTiep)
-            &&db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id)
-            &&!db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id&&(d.HocPhiDeXuat==null||d.DonViHocPhi==null||!db.Set<MonHoc>().Any(m=>m.Id==d.MonHocId&&m.DangSuDung)))), "Hồ sơ gia sư đã ẩn hoặc chưa đủ điều kiện nhận liên hệ mới.",409);
+        Rules.Check((u.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh") && (other.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh"), "Vai trò không được gửi liên hệ.", 403);
+        await HoSoLock.KhoaAsync(db, tutor);
+        Rules.Check(await db.Set<HoSoGiaSu>().AnyAsync(h => h.GiaSuId == tutor && h.DangHienThi && h.TrangThaiDuyet == "DaDuyet" && (h.DayTrucTuyen || h.DayTrucTiep)
+            && db.Set<HoSoGiaSuMonDay>().Any(d => d.HoSoGiaSuId == h.Id)
+            && !db.Set<HoSoGiaSuMonDay>().Any(d => d.HoSoGiaSuId == h.Id && (d.HocPhiDeXuat == null || d.DonViHocPhi == null || !db.Set<MonHoc>().Any(m => m.Id == d.MonHocId && m.DangSuDung)))), "Hồ sơ gia sư đã ẩn hoặc chưa đủ điều kiện nhận liên hệ mới.", 409);
         Rules.Check(!await db.Set<YeuCauLienHe>().AnyAsync(x => x.GiaSuId == tutor && x.BenHocId == learner && (x.TrangThai == "ChapNhan" || x.TrangThai == "ChoPhanHoi")), "Hai bên đã liên hệ hoặc đang chờ phản hồi.");
         var id = Guid.NewGuid();
         db.Add(new YeuCauLienHe { Id = id, GiaSuId = tutor, BenHocId = learner, NguoiGuiId = u.Id, LoiNhan = m.LoiNhan.Trim(), TrangThai = "ChoPhanHoi", GuiLuc = DateTimeOffset.UtcNow });
@@ -77,16 +77,17 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         Rules.Check(tutor ? u.LoaiNguoi == "GiaSu" : u.LoaiNguoi != "GiaSu", "Vai trò không được thực hiện thao tác này.", 403);
         return await db.Set<YeuCauLienHe>().SingleOrDefaultAsync(x => x.Id == id && x.TrangThai == "ChapNhan" && (tutor ? x.GiaSuId == u.Id : x.BenHocId == u.Id)) ?? throw new LoiNghiepVu("Cần liên hệ được chấp nhận trước.", 403);
     }
-    public async Task GuiYeuCauAsync(GuiYeuCauInput m)
+    public async Task<Guid> GuiYeuCauAsync(GuiYeuCauInput m, CancellationToken huy = default)
     {
         var c = await AcceptedAsync(m.LienHeId, false);
-        var u = await current.HienTaiAsync();
-        await using var tx = await db.Database.BeginTransactionAsync();
-        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiYeuCauKetNoi @LienHeId={m.LienHeId},@BenHocId={u.Id},@LoiNhan={m.LoiNhan},@NhuCauId={m.NhuCauId}");
-        var target = await db.Set<YeuCauKetNoiLopHoc>().Where(x => x.LienHeId == m.LienHeId && x.TrangThai == "ChoGiaSu").OrderByDescending(x => x.GuiLuc).Select(x => x.Id).FirstAsync();
+        var u = await current.HienTaiAsync(huy);
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
+        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiYeuCauKetNoi @LienHeId={m.LienHeId},@BenHocId={u.Id},@LoiNhan={m.LoiNhan},@NhuCauId={m.NhuCauId}", huy);
+        var target = await db.Set<YeuCauKetNoiLopHoc>().Where(x => x.LienHeId == m.LienHeId && x.TrangThai == "ChoGiaSu").OrderByDescending(x => x.GuiLuc).Select(x => x.Id).FirstAsync(huy);
         notices.Tao(c.GiaSuId, "KetNoi", target, "Có yêu cầu kết nối mới.");
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        await db.SaveChangesAsync(huy);
+        await tx.CommitAsync(huy);
+        return target;
     }
     public async Task<DeXuatLopViewModel> LayDeXuatAsync(Guid contact, Guid? id)
     {
@@ -118,10 +119,10 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
             LichRanh = slots.Count == 0 ? [new()] : slots
         };
     }
-    public async Task GuiDeXuatAsync(DeXuatLopViewModel m)
+    public async Task<Guid> GuiDeXuatAsync(DeXuatLopViewModel m, CancellationToken huy = default)
     {
         var c = await AcceptedAsync(m.LienHeId, true);
-        var u = await current.HienTaiAsync();
+        var u = await current.HienTaiAsync(huy);
         Rules.FeeCheck(m.HocPhi, m.DonViHocPhi);
         Rules.Slots(m.LichRanh);
         Rules.Check(m.LichRanh.Count == m.SoBuoiTuan && m.LichRanh.All(s => (s.GioKetThuc - s.GioBatDau).TotalMinutes == m.ThoiLuongPhut), "Số khung giờ và thời lượng phải khớp điều kiện lớp.");
@@ -132,12 +133,13 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         var json = JsonSerializer.Serialize(m.LichRanh);
         var start = Rules.Local(m.BatDauHocLuc);
         var rv = Rules.SqlVersion(m.Id == null ? null : m.RowVersion);
-        await using var tx = await db.Database.BeginTransactionAsync();
-        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiDeXuatLop @LienHeId={m.LienHeId},@GiaSuId={u.Id},@TenLop={m.TenLop},@MonHocId={m.MonHocId},@MucTieu={m.MucTieu},@SoBuoiTuan={m.SoBuoiTuan},@ThoiLuongPhut={m.ThoiLuongPhut},@BatDauHocLuc={start},@HinhThucHoc={m.HinhThucHoc},@HocPhi={m.HocPhi},@DonViHocPhi={m.DonViHocPhi},@KhungGioJson={json},@DiaDiem={m.DiaDiem},@NhuCauId={m.NhuCauId},@YeuCauId={m.Id},@RowVersionCu={rv}");
-        var target = await db.Set<YeuCauKetNoiLopHoc>().Where(x => x.LienHeId == m.LienHeId && x.TrangThai == "ChoBenHoc").OrderByDescending(x => x.DeXuatLuc).Select(x => x.Id).FirstAsync();
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
+        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiDeXuatLop @LienHeId={m.LienHeId},@GiaSuId={u.Id},@TenLop={m.TenLop},@MonHocId={m.MonHocId},@MucTieu={m.MucTieu},@SoBuoiTuan={m.SoBuoiTuan},@ThoiLuongPhut={m.ThoiLuongPhut},@BatDauHocLuc={start},@HinhThucHoc={m.HinhThucHoc},@HocPhi={m.HocPhi},@DonViHocPhi={m.DonViHocPhi},@KhungGioJson={json},@DiaDiem={m.DiaDiem},@NhuCauId={m.NhuCauId},@YeuCauId={m.Id},@RowVersionCu={rv}", huy);
+        var target = await db.Set<YeuCauKetNoiLopHoc>().Where(x => x.LienHeId == m.LienHeId && x.TrangThai == "ChoBenHoc").OrderByDescending(x => x.DeXuatLuc).Select(x => x.Id).FirstAsync(huy);
         notices.Tao(c.BenHocId, "KetNoi", target, "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.");
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        await db.SaveChangesAsync(huy);
+        await tx.CommitAsync(huy);
+        return target;
     }
     public async Task<YeuCauKetNoiLopHoc> ChiTietAsync(Guid id)
     {
@@ -145,23 +147,27 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         return await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && (x.GiaSuId == u.Id || x.BenHocId == u.Id)) ?? throw new LoiNghiepVu("Không tìm thấy yêu cầu.", 404);
     }
     public Task<List<KhungGioDeXuat>> KhungAsync(Guid id) => db.Set<KhungGioDeXuat>().Where(x => x.YeuCauKetNoiId == id).ToListAsync();
-    public async Task<Guid> ChapNhanAsync(Guid id, string version)
+    public Task<Guid> ChapNhanAsync(Guid id, string version) => ChapNhanDeXuatAsync(id, version);
+
+    public async Task<Guid> ChapNhanDeXuatAsync(Guid id, string version, CancellationToken huy = default)
     {
-        var u = await current.HienTaiAsync();
+        var u = await current.HienTaiAsync(huy);
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
+        var resource = "EduConnect:ChapNhan:" + id;
+        await db.Database.ExecuteSqlInterpolatedAsync($"DECLARE @Result int; EXEC @Result=sys.sp_getapplock @Resource={resource}, @LockMode='Exclusive', @LockOwner='Transaction', @LockTimeout=15000; IF @Result<0 THROW 51152,N'Yêu cầu đang được xử lý, hãy thử lại.',1;", huy);
         var r = await ChiTietAsync(id);
         Rules.Check(r.BenHocId == u.Id, "Chỉ bên học được chấp nhận đề xuất.", 403);
         if (r.TrangThai == "DaChapNhan")
             return await db.Set<LopHoc>().Where(x => x.YeuCauKetNoiId == id).Select(x => x.Id).SingleAsync();
-        await using var tx = await db.Database.BeginTransactionAsync();
         var rv = Rules.Version(version);
-        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_ChapNhanDeXuatTaoLop @YeuCauId={id},@BenHocId={u.Id},@RowVersionCu={rv}");
+        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_ChapNhanDeXuatTaoLop @YeuCauId={id},@BenHocId={u.Id},@RowVersionCu={rv}", huy);
         var c = await db.Set<LopHoc>().SingleAsync(x => x.YeuCauKetNoiId == id);
         notices.Tao(r.GiaSuId, "KetNoi", c.Id, "Đề xuất được chấp nhận; lớp học đã được tạo.");
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        await db.SaveChangesAsync(huy);
+        await tx.CommitAsync(huy);
         return c.Id;
     }
-    public async Task PhanHoiAsync(Guid id, string action, string version)
+    public async Task PhanHoiAsync(Guid id, string action, string version, CancellationToken huy = default)
     {
         Rules.Check(action is "DaRut" or "TuChoi", "Phản hồi không hợp lệ.");
         var u = await current.HienTaiAsync();
@@ -171,9 +177,15 @@ public sealed class KetNoiService(AppDbContext db, NguoiDungMauService current, 
         Rules.Check(action == "DaRut" ? sender == u.Id : sender != u.Id, "Không có quyền phản hồi.", 403);
         Rules.Concurrency(db, r, version);
         r.TrangThai = action;
-        await using var tx = await db.Database.BeginTransactionAsync();
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
         notices.Tao(u.Id == r.GiaSuId ? r.BenHocId : r.GiaSuId, "KetNoi", id, "Yêu cầu kết nối: " + Rules.Label(action));
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        await db.SaveChangesAsync(huy);
+        await tx.CommitAsync(huy);
     }
+
+    public Task TuChoiDeXuatAsync(Guid maYeuCau, string rowVersion) =>
+        PhanHoiAsync(maYeuCau, "TuChoi", rowVersion);
+
+    public Task RutYeuCauAsync(Guid maYeuCau, string rowVersion) =>
+        PhanHoiAsync(maYeuCau, "DaRut", rowVersion);
 }

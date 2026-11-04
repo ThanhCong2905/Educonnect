@@ -10,7 +10,7 @@ public sealed class GuiLienHeInput
     }
     [Required, StringLength(256)] public string LoiNhan { get; set; } = "";
 }
-public sealed class GuiYeuCauInput
+public class GuiYeuCauInput
 {
     public Guid LienHeId
     {
@@ -21,6 +21,43 @@ public sealed class GuiYeuCauInput
         get; set;
     }
     [Required, StringLength(256)] public string LoiNhan { get; set; } = "";
+}
+public sealed class GuiYeuCauViewModel : GuiYeuCauInput
+{
+    public Guid? MaNhuCau
+    {
+        get => NhuCauId; set => NhuCauId = value;
+    }
+    public Guid MaDoiTuong
+    {
+        get; set;
+    }
+}
+
+public sealed class ChapNhanDeXuatViewModel
+{
+    public Guid MaYeuCau
+    {
+        get; set;
+    }
+    public Guid Id
+    {
+        get => MaYeuCau; set => MaYeuCau = value;
+    }
+    public byte[] RowVersion { get; set; } = [];
+}
+
+public sealed class PhanHoiHuyViewModel
+{
+    public Guid MaYeuCauHuy
+    {
+        get; set;
+    }
+    public bool DongY
+    {
+        get; set;
+    }
+    public byte[] RowVersion { get; set; } = [];
 }
 public sealed class DeXuatLopViewModel
 {
