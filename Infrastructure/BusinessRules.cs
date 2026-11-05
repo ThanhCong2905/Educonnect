@@ -60,7 +60,7 @@ public static class Rules
     {
         Check((value == null) == string.IsNullOrEmpty(unit), "Nhập đồng thời học phí và đơn vị.");
         if (value != null)
-            Check(value >= 0 && value <= 9999999999999999m && decimal.Round(value.Value, 2) == value && (unit == "VND/Gio" || unit == "VND/Buoi"), "Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.");
+            Check(value >= 0 && value <= 9999999999999999.99m && decimal.Round(value.Value, 2) == value && (unit == "VND/Gio" || unit == "VND/Buoi"), "Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.");
     }
     public static void Concurrency(AppDbContext db, object entity, string? version) => db.Entry(entity).Property("RowVersion").OriginalValue = Version(version);
 }

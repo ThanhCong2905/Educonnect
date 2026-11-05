@@ -118,7 +118,10 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungMauService current, 
             Rules.Check(!string.IsNullOrWhiteSpace(m.MucTieu) && m.SoBuoiTuan is >= 1 and <= 7, "Cần mục tiêu và số buổi từ 1 đến 7.");
             Rules.Check(m.HinhThucHoc != "TrucTiep" || !string.IsNullOrWhiteSpace(m.KhuVuc), "Cần khu vực học trực tiếp.");
             if (u.LoaiNguoi == "PhuHuynh")
-                Rules.Check(!string.IsNullOrWhiteSpace(m.TenNguoiHoc) && m.TuoiNguoiHoc is >= 1 and <= 120, "Nhập tên và tuổi người học.");
+                Rules.Check(!string.IsNullOrWhiteSpace(m.TenNguoiHoc)
+                    && (m.TuoiNguoiHoc is >= 1 and <= 120 || !string.IsNullOrWhiteSpace(m.KhoiLop))
+                    && (m.TuoiNguoiHoc == null || m.TuoiNguoiHoc is >= 1 and <= 120),
+                    "Nhập tên người học và tuổi hoặc khối lớp.");
         }
 
         if (u.LoaiNguoi == "GiaSu")
