@@ -95,7 +95,7 @@
       event.preventDefault();const url=window.EduConnect.formUrl(form);url.search=new URLSearchParams(values).toString();open(url,'So sánh lựa chọn',event.submitter);return;
     }
     if(event.defaultPrevented||form.method.toLowerCase()!=='post')return;
-    const target=window.EduConnect.formUrl(form);if(target.origin!==location.origin)return;
+    const target=window.EduConnect.formUrl(form,event.submitter);if(target.origin!==location.origin)return;
     event.preventDefault();if(form.dataset.submitting)return;
     const clientErrors=window.EduConnect.validateForm?.(form,event.submitter)||{};
     if(Object.keys(clientErrors).length){errors(form,{errors:clientErrors});return;}

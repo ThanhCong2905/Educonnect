@@ -70,6 +70,7 @@ public sealed class NopBaiViewModel
 }
 public sealed class ChamBaiViewModel
 {
+    public Guid BaiTapGiaoId { get; set; }
     public Guid BaiTapNopId
     {
         get; set;

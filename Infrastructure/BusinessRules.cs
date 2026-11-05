@@ -10,6 +10,23 @@ public sealed class LoiNghiepVu(string message, int status = 400) : Exception(me
 }
 public static class Rules
 {
+    public static int ErrorStatus(Exception ex)
+    {
+        if (ex is LoiNghiepVu business) return business.Status;
+        if (ex is DbUpdateConcurrencyException) return 409;
+        var sql = ex as Microsoft.Data.SqlClient.SqlException ?? ex.InnerException as Microsoft.Data.SqlClient.SqlException;
+        return sql?.Number switch
+        {
+            51032 or 51035 => 404,
+            51140 or 51146 or 51160 or 51161 => 403,
+            51033 or 51034 or 51037 or 51038 or 51039 or 51141 or 51144 or 51145 or 51147 or 51149 or 51150 or 51162 or 51163 or 2601 or 2627 => 409,
+            >= 51000 => 400,
+            _ => 500
+        };
+    }
+
+    public static string ErrorMessage(Exception ex) => ex is LoiNghiepVu ? ex.Message : ex is DbUpdateConcurrencyException ? "Dữ liệu đã thay đổi. Hãy tải lại trước khi sửa." : (ex as Microsoft.Data.SqlClient.SqlException ?? ex.InnerException as Microsoft.Data.SqlClient.SqlException) is { Number: >= 51000 } sql ? sql.Message : ErrorStatus(ex) == 409 ? "Dữ liệu đã thay đổi hoặc thao tác bị trùng. Hãy tải lại." : "Chưa thể xử lý yêu cầu. Vui lòng thử lại sau.";
+
     public static Microsoft.Data.SqlClient.SqlParameter SqlVersion(string? version) => new("RowVersionValue", System.Data.SqlDbType.Binary, 8) { Value = string.IsNullOrEmpty(version) ? DBNull.Value : Version(version) };
     public static void Check(bool condition, string message, int status = 400)
     {

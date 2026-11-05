@@ -6,6 +6,18 @@ namespace EduConnect.Mvc.Infrastructure;
 
 public sealed class ThongBaoService(AppDbContext db, NguoiDungMauService current)
 {
+    public async Task TaoChoLopAsync(Guid lopHocId, string type, Guid target, string text, Guid? loaiTru = null)
+    {
+        var lop = await db.Set<LopHoc>().SingleAsync(x => x.Id == lopHocId);
+        var recipients = await db.Set<ThanhVienLopHoc>()
+            .Where(x => x.LopHocId == lopHocId && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null)
+            .Select(x => x.TaiKhoanId).ToListAsync();
+        recipients.Add(lop.GiaSuId);
+        recipients.Add(lop.BenHocId);
+        foreach (var id in recipients.Distinct().Where(id => id != loaiTru))
+            Tao(id, type, target, text);
+    }
+
     // Sự kiện và thông báo được lưu trong cùng giao dịch nghiệp vụ.
     public void Tao(Guid recipient, string type, Guid target, string text)
     {

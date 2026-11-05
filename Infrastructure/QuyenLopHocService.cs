@@ -20,8 +20,8 @@ public sealed class QuyenLopHocService(AppDbContext db, NguoiDungMauService curr
     {
         var c = await KiemTraQuyenXemAsync(id);
         var u = await current.HienTaiAsync();
-        Rules.Check(c.TrangThai == "DangHoatDong", "Lớp không còn hoạt động.");
-        Rules.Check(tutor ? c.GiaSuId == u.Id : await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == u.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua"), "Bạn không có quyền thực hiện thao tác này.", 403);
+        Rules.Check(c.TrangThai == "DangHoatDong", "Lớp không còn hoạt động.", 409);
+        Rules.Check(tutor ? c.GiaSuId == u.Id : c.BenHocId == u.Id || await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == u.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua"), "Bạn không có quyền thực hiện thao tác này.", 403);
         return c;
     }
 }

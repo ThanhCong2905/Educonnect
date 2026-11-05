@@ -1,6 +1,6 @@
 window.EduConnect=window.EduConnect||{};
 window.EduConnect.motionBehavior=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
-window.EduConnect.formUrl=form=>new URL(form.getAttribute('action')||location.href,document.baseURI);
+window.EduConnect.formUrl=(form,submitter)=>new URL(submitter?.getAttribute('formaction')||form.getAttribute('action')||location.href,document.baseURI);
 window.EduConnect.fileSize=bytes=>bytes<1000?bytes+' B':bytes<1000000?(bytes/1000).toFixed(1)+' KB':(bytes/1000000).toFixed(2)+' MB';
 window.EduConnect.clearRowErrors=(form,list,prefix)=>{
  list.querySelectorAll('.ui-field-error').forEach(error=>error.remove());

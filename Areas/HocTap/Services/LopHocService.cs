@@ -33,10 +33,11 @@ public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, 
         q = state switch
         {
             "cancelled" => q.Where(x => x.TrangThai == "DaHuy"),
+            "replaced" => q.Where(x => x.TrangThai == "DaDieuChinh"),
             "recorded" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
-            "past" => q.Where(x => x.TrangThai != "DaHuy" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
-            "ongoing" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc <= now && x.KetThucLuc > now),
-            "upcoming" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc > now),
+            "past" => q.Where(x => x.TrangThai == "DaLenLich" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
+            "ongoing" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc <= now && x.KetThucLuc > now),
+            "upcoming" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc > now),
             _ => q
         };
         return await q.OrderBy(x => x.BatDauLuc).ToListAsync();

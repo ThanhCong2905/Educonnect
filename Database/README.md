@@ -17,4 +17,8 @@ Không chạy file cài mới trên database đang sử dụng. Script phát hi�
 
 Dữ liệu người dùng mẫu dùng cơ chế chọn vai trò bằng Session của phiên bản hiện tại, không phải hệ thống tài khoản ASP.NET Identity trong sơ đồ thiết kế. SQL không tự bổ sung các tính năng chưa được lập trình.
 
+Với database đang sử dụng trước bản UC3, chạy `10_UC3Workflow.sql` trên đúng database đó để cập nhật các procedure và ràng buộc lịch gốc. Script không tạo lại database, không xóa dữ liệu và không thêm cột. Cài mới bằng file 00 đã bao gồm các thay đổi này.
+
+Tệp tải lên phải qua ClamAV cục bộ theo NFR-15. Đặt `clamscan.exe` (Windows) hoặc `clamscan` và các thư viện cần thiết tại `tools/clamav`, cơ sở chữ ký cập nhật tại `tools/clamav/database`. Thư mục này không đưa vào Git. Khi thiếu máy quét, chữ ký, phát hiện mã độc, lỗi quét hoặc quá 30 giây, ứng dụng từ chối sử dụng tệp; nội dung tệp không được gửi tới máy khác. SQL không cài đặt ClamAV.
+
 Tệp bằng cấp, ảnh và tài liệu tải lên được lưu trong thư mục `uploads`; SQL lưu metadata. Khi chuyển hệ thống có dữ liệu, cần sao lưu/khôi phục cả database SQL Server và thư mục này. Script cài mới không mang theo dữ liệu thực tế đang có.
