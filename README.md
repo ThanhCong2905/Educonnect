@@ -4,7 +4,7 @@
 
 ## Chạy ứng dụng
 
-Cài database 37 bảng theo [hướng dẫn database](Database/README.md), kiểm tra `ConnectionStrings:EduConnect`, sau đó chạy.
+Cài database 38 bảng theo [hướng dẫn database](Database/README.md), kiểm tra `ConnectionStrings:EduConnect`, sau đó chạy.
 
 ```powershell
 dotnet run --no-launch-profile --urls http://127.0.0.1:5280
@@ -12,7 +12,7 @@ dotnet run --no-launch-profile --urls http://127.0.0.1:5280
 
 Mở trang đăng ký để tạo tài khoản Học sinh, Phụ huynh hoặc Gia sư. Bản này xác thực bằng ASP.NET Identity và cookie, có phiên đăng nhập trong SQL. Database mặc định là `KLTN_Full_V2` trên `lpc:CONGVJP`, dùng Windows Authentication.
 
-Trong Development, quên mật khẩu gửi thư vào hộp thư thử tại `/TaiKhoan/HopThuThu`, chỉ xem được trên máy chạy ứng dụng. Gia sư có thể công khai hồ sơ đã hoàn thiện bằng cấu hình demo. Đặt `Authentication:PublicOrigin` đúng URL truy cập.
+Trong Development, quên mật khẩu lưu thư nội bộ trong `.local-mail` để kiểm thử. Gia sư có thể công khai hồ sơ đã hoàn thiện bằng cấu hình demo. Đặt `Authentication:PublicOrigin` đúng URL truy cập.
 
 SignalR cập nhật tin nhắn, thông báo và trạng thái nghiệp vụ. Phiên bị thu hồi khi đăng xuất hoặc đặt lại mật khẩu.
 

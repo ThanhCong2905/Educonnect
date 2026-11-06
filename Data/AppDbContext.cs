@@ -88,9 +88,17 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.MonHocId).HasColumnType("int").IsRequired();
             e.Property(x => x.PhamViDay).HasColumnType("nvarchar(256)").IsRequired();
         });
+        b.Entity<NhuCauMonHoc>(e =>
+        {
+            e.ToTable("NhuCauMonHoc");
+            e.HasKey(x => new { x.NhuCauId, x.MonHocId });
+            e.HasIndex(x => new { x.MonHocId, x.NhuCauId });
+            e.HasOne<MonHoc>().WithMany().HasForeignKey(x => x.MonHocId).OnDelete(DeleteBehavior.Restrict);
+        });
         b.Entity<NhuCauHoc>(e =>
         {
             e.ToTable("NhuCauHoc", t => t.UseSqlOutputClause(false));
+            e.HasMany(x => x.MonHocs).WithOne().HasForeignKey(x => x.NhuCauId).OnDelete(DeleteBehavior.Cascade);
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();
             e.Property(x => x.ChuSoHuuId).HasColumnType("uniqueidentifier").IsRequired();

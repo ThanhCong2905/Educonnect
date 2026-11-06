@@ -93,10 +93,10 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         Rules.Check(f.GioBatDau == null || f.GioKetThuc == null || f.GioBatDau < f.GioKetThuc, "Giờ bắt đầu phải trước giờ kết thúc.");
         var n = NhuCauCongKhai().Where(x => x.ChuSoHuuId != me.Id);
         if (!string.IsNullOrWhiteSpace(f.TuKhoa))
-            n = n.Where(x => x.HoTen.Contains(f.TuKhoa) || x.TenMon.Contains(f.TuKhoa) || (x.MucTieu != null && x.MucTieu.Contains(f.TuKhoa)));
+            n = n.Where(x => x.HoTen.Contains(f.TuKhoa) || (x.TenMon.Contains(f.TuKhoa) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && db.Set<MonHoc>().Any(m => m.Id == d.MonHocId && m.TenMon.Contains(f.TuKhoa)))) || (x.MucTieu != null && x.MucTieu.Contains(f.TuKhoa)));
         var subjectIds = f.MonHocIds.Concat(f.MonHocId.HasValue ? [f.MonHocId.Value] : Array.Empty<int>()).Distinct().ToList();
         if (subjectIds.Count > 0)
-            n = n.Where(x => subjectIds.Contains(x.MonHocId));
+            n = n.Where(x => subjectIds.Contains(x.MonHocId) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && subjectIds.Contains(d.MonHocId)));
         if (!string.IsNullOrWhiteSpace(f.KhoiLop))
             n = n.Where(x => x.KhoiLop == f.KhoiLop);
         if (!string.IsNullOrWhiteSpace(f.HinhThucHoc))
@@ -129,6 +129,25 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     private async Task SlotsAsync(List<UngVienViewModel> rows, CancellationToken huy = default)
     {
         var ids = rows.Select(x => x.Id).ToList();
+        var subjects = await (from link in db.Set<NhuCauMonHoc>()
+                              join subject in db.Set<MonHoc>() on link.MonHocId equals subject.Id
+                              where ids.Contains(link.NhuCauId)
+                              orderby subject.Id
+                              select new { link.NhuCauId, subject.Id, subject.TenMon }).ToListAsync(huy);
+        var legacyIds = rows.Where(row => !subjects.Any(x => x.NhuCauId == row.Id)).Select(row => row.MonHocId).Distinct().ToList();
+        var legacySubjects = await db.Set<MonHoc>().Where(subject => legacyIds.Contains(subject.Id)).ToListAsync(huy);
+        foreach (var row in rows)
+        {
+            var selected = subjects.Where(x => x.NhuCauId == row.Id).ToList();
+            row.MonHocIds = selected.Select(x => x.Id).ToList();
+            if (selected.Count > 0)
+                row.TenMon = string.Join(", ", selected.Select(x => x.TenMon));
+            else
+            {
+                row.MonHocIds = [row.MonHocId];
+                row.TenMon = legacySubjects.FirstOrDefault(x => x.Id == row.MonHocId)?.TenMon ?? row.TenMon;
+            }
+        }
         var slots = await db.Set<KhungGioRanh>().Where(s => ids.Contains(s.NhuCauId)).ToListAsync(huy);
         foreach (var row in rows)
             row.Slots = slots.Where(s => s.NhuCauId == row.Id).Select(s => new SlotInput { ThuTrongTuan = s.ThuTrongTuan, GioBatDau = s.GioBatDau, GioKetThuc = s.GioKetThuc }).ToList();
@@ -180,17 +199,16 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     public async Task<(List<UngVienViewModel> Items, bool HasNeed)> GoiYAsync()
     {
         var me = await current.HienTaiAsync();
-        var own = await db.Set<NhuCauHoc>().AsNoTracking().Where(x => x.ChuSoHuuId == me.Id && x.LoaiNhuCau == "TimGiaSu" && x.TrangThai == "DangMo").ToListAsync();
+        var own = await db.Set<NhuCauHoc>().AsNoTracking().Include(x => x.MonHocs).Where(x => x.ChuSoHuuId == me.Id && x.LoaiNhuCau == "TimGiaSu" && x.TrangThai == "DangMo").ToListAsync();
         if (me.LoaiNguoi == "GiaSu")
         {
             var subjects = await (from d in db.Set<HoSoGiaSuMonDay>() join h in db.Set<HoSoGiaSu>() on d.HoSoGiaSuId equals h.Id where h.GiaSuId == me.Id select d.MonHocId).ToListAsync();
             if (subjects.Count == 0)
                 return ([], false);
-            var q = NhuCauCongKhai().Where(x => subjects.Contains(x.MonHocId));
+            var q = NhuCauCongKhai().Where(x => subjects.Contains(x.MonHocId) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && subjects.Contains(d.MonHocId)));
             var rows = await q.OrderByDescending(x => x.TaoLuc).Take(3).ToListAsync();
             await SlotsAsync(rows);
             foreach (var n in rows)
-            if (subjects.Contains(n.MonHocId))
                 n.LyDo = ["Cùng môn " + n.TenMon];
             return (rows, subjects.Count > 0);
         }
@@ -199,10 +217,10 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         var candidates = await HoSoRowsAsync(await HoSoCongKhai().ToListAsync());
         foreach (var c in candidates)
         {
-            var match = own.FirstOrDefault(n => c.MonTheoHoSo.Any(m => m.MonHocId == n.MonHocId));
+            var match = own.FirstOrDefault(n => c.MonTheoHoSo.Any(m => n.CacMonHocId.Contains(m.MonHocId)));
             if (match != null)
             {
-                c.LyDo.Add("Cùng môn " + c.MonTheoHoSo.First(m => m.MonHocId == match.MonHocId).TenMon);
+                c.LyDo.Add("Cùng môn " + c.MonTheoHoSo.First(m => match.CacMonHocId.Contains(m.MonHocId)).TenMon);
                 if ((match.HinhThucHoc == "TrucTuyen" && c.DayTrucTuyen) || (match.HinhThucHoc == "TrucTiep" && c.DayTrucTiep))
                     c.LyDo.Add("Cùng hình thức học");
             }

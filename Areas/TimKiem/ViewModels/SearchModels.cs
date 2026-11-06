@@ -49,6 +49,7 @@ public sealed class BoLocTimKiemViewModel
 // Không đưa tên, tuổi người học và địa chỉ chi tiết vào dữ liệu công khai.
 public class UngVienViewModel
 {
+    public List<int> MonHocIds { get; set; } = [];
     public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];
     public bool DayTrucTuyen { get; set; }
     public bool DayTrucTiep { get; set; }

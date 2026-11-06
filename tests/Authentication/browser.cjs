@@ -25,6 +25,10 @@ function rows(query) {
     return JSON.parse(sql(query + ' FOR JSON PATH'));
 }
 
+function subjects(needId) {
+    return rows(`SELECT MonHocId FROM NhuCauMonHoc WHERE NhuCauId='${needId}' ORDER BY MonHocId`).map(x => x.MonHocId);
+}
+
 async function token(client, route) {
     const response = await client.get(base + route);
     assert.equal(response.status(), 200, route);
@@ -59,8 +63,8 @@ async function run(id, name, action) {
     const guest = await browser.newContext();
     const guestClient = guest.request;
     try {
-        await run('AUTH-01', 'Database chuẩn có 37 bảng và view tài khoản', async () => {
-            assert.equal(Number(sql('SELECT COUNT(*) FROM sys.tables WHERE is_ms_shipped=0')), 37);
+        await run('AUTH-01', 'Database chuẩn có 38 bảng và view tài khoản', async () => {
+            assert.equal(Number(sql('SELECT COUNT(*) FROM sys.tables WHERE is_ms_shipped=0')), 38);
             assert.equal(Number(sql("SELECT COUNT(*) FROM sys.views WHERE name='NguoiThamGia'")), 1);
             assert.equal(Number(sql("SELECT COUNT(*) FROM sys.tables WHERE name='NguoiThamGia'")), 0);
         });
@@ -146,16 +150,48 @@ async function run(id, name, action) {
         });
         await run('AUTH-14', 'Tạo nhu cầu lấy đúng chủ từ danh tính đăng nhập', async () => {
             const form = {
-                MonHocIds: '1', MucTieu: suffix + ' nhu cầu', KhoiLop: 'Lớp 10', SoBuoiTuan: '2', HinhThucHoc: 'TrucTuyen', BanNhap: 'false', HocPhiDuKien: '150000', DonViHocPhi: 'VND/Gio',
+                'MonHocIds[0]': '1', 'MonHocIds[1]': '2', MucTieu: suffix + ' nhu cầu', KhoiLop: 'Lớp 10', SoBuoiTuan: '2', HinhThucHoc: 'TrucTuyen', BanNhap: 'false', HocPhiDuKien: '150000', DonViHocPhi: 'VND/Gio',
                 'LichRanh[0].ThuTrongTuan': '1', 'LichRanh[0].GioBatDau': '19:00', 'LichRanh[0].GioKetThuc': '20:00', ChuSoHuuId: tutor.id
             };
             const saved = await post(learner.request, '/NhuCau/NhuCau/TaoNhuCauHoc', form, '/NhuCau/NhuCau/Tao');
             assert.equal(saved.status(), 302);
-            const need = rows(`SELECT Id,ChuSoHuuId FROM NhuCauHoc WHERE MucTieu=N'${suffix} nhu cầu'`)[0];
+            const need = rows(`SELECT Id,ChuSoHuuId,RowVersion FROM NhuCauHoc WHERE MucTieu=N'${suffix} nhu cầu'`)[0];
             assert.equal(need?.ChuSoHuuId.toLowerCase(), learner.id.toLowerCase());
             learner.needId = need.Id;
+            learner.needForm = form;
+            assert.deepEqual(subjects(need.Id), [1, 2]);
+            assert.equal(Number(sql(`SELECT COUNT(*) FROM NhuCauHoc WHERE ChuSoHuuId='${learner.id}'`)), 1);
+            for (const subject of [1, 2]) {
+                const filtered = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix + '&MonHocId=' + subject);
+                assert.equal(filtered.status(), 200);
+                assert.ok((await filtered.text()).toLowerCase().includes(need.Id.toLowerCase()));
+            }
+
             const response = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
             assert.ok((await response.text()).toLowerCase().includes(need.Id.toLowerCase()));
+        });
+        await run('NEED-MULTI', 'Sửa nhiều môn giữ một nhu cầu, chặn lưu phiên bản cũ', async () => {
+            const need = rows(`SELECT Id,RowVersion FROM NhuCauHoc WHERE Id='${learner.needId}'`)[0];
+            const form = { ...learner.needForm, 'MonHocIds[0]': '2', 'MonHocIds[1]': '3', MaNhuCau: need.Id, RowVersion: need.RowVersion };
+            const route = '/NhuCau/NhuCau/CapNhat?maNhuCau=' + need.Id;
+            const edit = '/NhuCau/NhuCau/Sua/' + need.Id;
+            const saved = await post(learner.request, route, form, edit);
+            assert.equal(saved.status(), 302);
+            assert.deepEqual(subjects(need.Id), [2, 3]);
+            assert.equal(Number(sql(`SELECT COUNT(*) FROM NhuCauHoc WHERE ChuSoHuuId='${learner.id}'`)), 1);
+            const html = await (await learner.request.get(base + edit)).text();
+            assert.ok(/name="MonHocIds"[^>]*value="2"/.test(html) || html.includes('value="2"'));
+            const stale = await post(learner.request, route, { ...form, 'MonHocIds[0]': '1' }, edit);
+            assert.equal(stale.status(), 200);
+            assert.ok((await stale.text()).includes('validation-summary-errors'));
+            assert.deepEqual(subjects(need.Id), [2, 3]);
+            const filtered = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix + '&MonHocId=3');
+            assert.ok((await filtered.text()).toLowerCase().includes(need.Id.toLowerCase()));
+            for (const [subject, expectedError] of [[2, 2627], [999999, 547]]) {
+                const error = sql(`BEGIN TRY INSERT NhuCauMonHoc(NhuCauId,MonHocId) VALUES('${need.Id}',${subject}); SELECT 0; END TRY BEGIN CATCH SELECT ERROR_NUMBER(); END CATCH`);
+                assert.equal(Number(error), expectedError);
+            }
+            assert.deepEqual(subjects(need.Id), [2, 3]);
         });
         await run('AUTH-15', 'Người khác không sửa được nhu cầu', async () => {
             assert.equal((await parent.request.get(base + '/NhuCau/NhuCau/Sua/' + learner.needId)).status(), 404);
@@ -173,15 +209,14 @@ async function run(id, name, action) {
                 assert.ok((await response.text()).includes('30 ph'));
             }
         });
-        await run('AUTH-18', 'Hộp thư Development đọc được thư đặt lại mật khẩu', async () => {
-            const page = await guest.newPage();
-            await page.goto(base + '/TaiKhoan/HopThuThu');
-            const card = page.locator('.account-mail').filter({ hasText: learner.email });
-            assert.equal(await card.count(), 1);
-            learner.resetLink = await card.locator('a').getAttribute('href');
+        await run('AUTH-18', 'Thư Development lưu nội bộ, không có trang hộp thư trên web', async () => {
+            assert.equal((await learner.request.get(base + '/TaiKhoan/HopThuThu', { maxRedirects: 0 })).status(), 404);
+            const mails = fs.readdirSync('.local-mail').filter(file => file.endsWith('.json'))
+                .map(file => JSON.parse(fs.readFileSync(path.join('.local-mail', file), 'utf8')))
+                .filter(mail => mail.Email === learner.email);
+            assert.equal(mails.length, 1);
+            learner.resetLink = mails[0].LienKet;
             assert.ok(learner.resetLink.startsWith(base));
-            await page.screenshot({ path: path.join(evidence, 'development-mailbox.png'), fullPage: true });
-            await page.close();
         });
         await run('AUTH-19', 'Đặt lại mật khẩu thu hồi cookie cũ', async () => {
             const link = new URL(learner.resetLink);
@@ -265,8 +300,20 @@ async function run(id, name, action) {
             await page.goto(base + '/TaiKhoan/DangNhap');
             assert.equal(await page.locator('h1').innerText(), 'Đăng nhập');
             assert.ok(await page.locator('button[type="submit"]').isVisible());
+            assert.equal(await page.locator('a[href="/TaiKhoan/HopThuThu"]').count(), 0);
+            await page.locator('[data-password-toggle="MatKhau"]').click();
+            assert.equal(await page.locator('#MatKhau').getAttribute('type'), 'text');
+            await page.locator('[data-password-toggle="MatKhau"]').click();
+            assert.equal(await page.locator('#MatKhau').getAttribute('type'), 'password');
             assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
             await page.screenshot({ path: path.join(evidence, 'login-mobile.png'), fullPage: true });
+            await page.goto(base + '/TaiKhoan/DangKy');
+            await page.locator('label[for="role-GiaSu"]').click();
+            assert.equal(await page.locator('input[name="VaiTro"]:checked').inputValue(), 'GiaSu');
+            await page.locator('input[name="VaiTro"]:checked').focus();
+            await page.keyboard.press('ArrowLeft');
+            assert.equal(await page.locator('input[name="VaiTro"]:checked').inputValue(), 'PhuHuynh');
+            assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
             await context.close();
         });
     } finally {

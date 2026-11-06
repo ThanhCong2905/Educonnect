@@ -1,5 +1,3 @@
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Environment
-@inject IConfiguration Configuration
 <!doctype html>
 <html lang="vi">
 <head>
@@ -8,26 +6,26 @@
     <title>@ViewData["Title"] · EduConnect</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/fonts.css">
-    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/account.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
 </head>
 <body class="account-page">
-    <main class="account-container">
+    <header class="account-header">
         <a class="account-brand" href="/TaiKhoan/DangNhap"><img src="/images/auth/logo.png" alt="EduConnect"></a>
-        <section class="account-card">
-            <h1>@ViewData["Title"]</h1>
-            @if (TempData["AccountMessage"] is string message)
-            {
-                <div class="alert alert-success" role="status">@message</div>
-            }
+        <nav class="account-nav" aria-label="Tài khoản">
+            <a href="/TaiKhoan/DangNhap" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangNhap" ? "page" : null)">Đăng nhập</a>
+            <a href="/TaiKhoan/DangKy" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangKy" ? "page" : null)">Đăng ký</a>
+        </nav>
+    </header>
+    <partial name="_Notifications" />
+    <main class="account-container">
+        <section class="account-card @(ViewContext.RouteData.Values["action"]?.ToString() == "DangKy" ? "account-card-register" : null)" aria-labelledby="account-title">
+            <h1 id="account-title">@ViewData["Title"]</h1>
             @RenderBody()
         </section>
-        @if (Environment.EnvironmentName == "Development" && Configuration.GetValue<bool>("Authentication:DevelopmentMailbox")
-            && Context.Connection.RemoteIpAddress is { } address && System.Net.IPAddress.IsLoopback(address))
-        {
-            <a class="account-mailbox" href="/TaiKhoan/HopThuThu">Hộp thư thử trên máy này</a>
-        }
     </main>
-    <script src="~/js/forms.js" asp-append-version="true" defer></script>
+    <footer class="account-site-footer">© @DateTime.Now.Year EduConnect</footer>
+    <script src="~/js/notifications.js" asp-append-version="true" defer></script>
+    <script src="~/js/account.js" asp-append-version="true" defer></script>
 </body>
 </html>

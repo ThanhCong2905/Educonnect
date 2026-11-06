@@ -12,7 +12,7 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService curre
     public async Task<List<NhuCauHoc>> LayAsync()
     {
         var u = await current.HienTaiAsync();
-        return await db.Set<NhuCauHoc>().AsNoTracking().Where(x => x.ChuSoHuuId == u.Id && x.LoaiNhuCau == "TimGiaSu").OrderByDescending(x => x.TaoLuc).ToListAsync();
+        return await db.Set<NhuCauHoc>().AsNoTracking().Include(x => x.MonHocs).Where(x => x.ChuSoHuuId == u.Id && x.LoaiNhuCau == "TimGiaSu").OrderByDescending(x => x.TaoLuc).ToListAsync();
     }
     public async Task<Guid> LuuAsync(NhuCauInput m)
     {
@@ -52,17 +52,18 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService curre
             subjects.Add(await catalog.LayHoacThemAsync(m.TenMonKhac, huy));
         subjects = subjects.Distinct().ToList();
         Rules.Check(subjects.Count > 0 && subjects.Count <= 10, "Chọn ít nhất một môn học, tối đa 10 môn.");
-        Rules.Check(m.Id == null || subjects.Count == 1, "Mỗi nhu cầu hiện có thuộc một môn. Để thêm nhiều môn, hãy tạo nhu cầu mới.");
-        Guid first = Guid.Empty;
-        foreach (var subject in subjects)
-        {
-            m.MonHocId = subject;
-            var id = await LuuMotAsync(m, user, huy);
-            if (first == Guid.Empty)
-                first = id;
-        }
+        Rules.Check(await db.Set<MonHoc>().CountAsync(x => subjects.Contains(x.Id) && x.DangSuDung, huy) == subjects.Count, "Môn học không hợp lệ.");
+        m.MonHocIds = subjects;
+        m.MonHocId = subjects[0];
+        var id = await LuuMotAsync(m, user, huy);
+        var links = await db.Set<NhuCauMonHoc>().Where(x => x.NhuCauId == id).ToListAsync(huy);
+        db.RemoveRange(links.Where(x => !subjects.Contains(x.MonHocId)));
+        var existing = links.Select(x => x.MonHocId).ToHashSet();
+        db.AddRange(subjects.Where(subject => !existing.Contains(subject))
+            .Select(subject => new NhuCauMonHoc { NhuCauId = id, MonHocId = subject }));
+        await db.SaveChangesAsync(huy);
         await tx.CommitAsync(huy);
-        return first;
+        return id;
     }
     public Task<List<MonHoc>> MonAsync() => db.Set<MonHoc>().AsNoTracking().Where(x => x.DangSuDung && MonHocCatalog.PhoThong.Contains(x.TenMon)).GroupBy(x => x.TenMon).Select(g => g.OrderBy(x => x.Id).First()).ToListAsync();
     public async Task<List<MonHoc>> MonDuocChonAsync()
@@ -83,13 +84,13 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService curre
         Rules.Check(id != Guid.Empty, "Không tìm thấy nhu cầu của bạn.", 404);
         Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Mở Hồ sơ của tôi để quản lý môn dạy.", 403);
         var me = await current.HienTaiAsync();
-        var n = await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id) ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
+        var n = await db.Set<NhuCauHoc>().AsNoTracking().Include(x => x.MonHocs).SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id) ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
         return new()
         {
             Id = n.Id,
             RowVersion = Convert.ToBase64String(n.RowVersion),
             MonHocId = n.MonHocId,
-            MonHocIds = [n.MonHocId],
+            MonHocIds = n.CacMonHocId.ToList(),
             ChonMonKhac = !await db.Set<MonHoc>().AnyAsync(x => x.Id == n.MonHocId && MonHocCatalog.PhoThong.Contains(x.TenMon)),
             TenMonKhac = await db.Set<MonHoc>().Where(x => x.Id == n.MonHocId).Select(x => x.TenMon).SingleAsync(),
             KhoiLop = n.KhoiLop,

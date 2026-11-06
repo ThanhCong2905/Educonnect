@@ -31,15 +31,4 @@ public sealed class EmailTaiKhoanService(IWebHostEnvironment environment, IConfi
         await smtp.SendMailAsync(message);
     }
 
-    public async Task<List<ThuTaiKhoan>> DocHopThuAsync()
-    {
-        if (!Directory.Exists(Inbox)) return [];
-        var mails = new List<ThuTaiKhoan>();
-        foreach (var file in Directory.EnumerateFiles(Inbox, "*.json"))
-        {
-            var mail = JsonSerializer.Deserialize<ThuTaiKhoan>(await File.ReadAllTextAsync(file));
-            if (mail != null) mails.Add(mail);
-        }
-        return mails.OrderByDescending(x => x.TaoLuc).Take(50).ToList();
-    }
 }

@@ -17,3 +17,5 @@ Máy kiểm thử dùng `sqlcmd` với Windows Authentication, server `lpc:CONGV
 Kết quả từng ca và ảnh màn hình nằm trong `.backups/login/auth-results`. Bộ ca kiểm tra ba vai trò, chống giả mạo quyền, quyền sở hữu nhu cầu, công khai hồ sơ demo, quên mật khẩu, dùng lại token, thu hồi cookie, SignalR khi đăng xuất, thời gian chờ đăng nhập sai và giao diện điện thoại.
 
 Bộ kiểm thử thao tác thời gian phiên, khóa tài khoản giả và xóa bộ đếm đăng nhập sai trong database thử. Chỉ chạy với dữ liệu kiểm thử. Các bộ fixture Session cũ cần chuyển sang tài khoản Identity trước khi dùng với schema mới.
+
+Kiểm tra thông báo tự tắt sau 5 giây, vị trí ngoài biểu mẫu, tạm dừng khi rê chuột và đóng thủ công bằng `node tests/Authentication/notifications.cjs`. Dùng `AUTH_TEST_URL` để chọn địa chỉ ứng dụng thử.

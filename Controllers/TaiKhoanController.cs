@@ -1,4 +1,3 @@
-using System.Net;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +8,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace EduConnect.Mvc.Controllers;
 
 [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-public sealed class TaiKhoanController(TaiKhoanService accounts, EmailTaiKhoanService mail, IWebHostEnvironment environment,
-    IConfiguration configuration) : Controller
+public sealed class TaiKhoanController(TaiKhoanService accounts) : Controller
 {
     [AllowAnonymous, HttpGet]
     public IActionResult DangNhap(string? returnUrl)
@@ -41,7 +39,7 @@ public sealed class TaiKhoanController(TaiKhoanService accounts, EmailTaiKhoanSe
             var result = await accounts.DangKyAsync(model);
             if (result.Succeeded)
             {
-                TempData["AccountMessage"] = "Đã tạo tài khoản. Bạn có thể đăng nhập bằng email vừa đăng ký.";
+                TempData["AccountMessage"] = "Tạo tài khoản thành công. Đăng nhập để tiếp tục.";
                 return RedirectToAction(nameof(DangNhap));
             }
             AddErrors(result);
@@ -94,14 +92,6 @@ public sealed class TaiKhoanController(TaiKhoanService accounts, EmailTaiKhoanSe
     {
         Response.StatusCode = 403;
         return View();
-    }
-
-    [AllowAnonymous, HttpGet]
-    public async Task<IActionResult> HopThuThu()
-    {
-        if (!environment.IsDevelopment() || !configuration.GetValue<bool>("Authentication:DevelopmentMailbox")
-            || HttpContext.Connection.RemoteIpAddress is not { } address || !IPAddress.IsLoopback(address)) return NotFound();
-        return View(await mail.DocHopThuAsync());
     }
 
     private void AddErrors(IdentityResult result)
