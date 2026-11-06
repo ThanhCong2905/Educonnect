@@ -1,0 +1,785 @@
+﻿KẾT QUẢ UNIT MT1
+Nguồn: MT1-unit.trx
+Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
+Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
+Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
+
+Ca Pass xác nhận assertion đã đạt. TRX không cung cấp dữ liệu trả về chi tiết cho ca Pass. Skip là chưa thực thi, không tính là Pass. Đầu vào và Expected dưới đây lấy từ kịch bản MT1, cần phân biệt với Actual của runner.
+
+MT1-UT-001 — Lịch rảnh rỗng
+Kết quả: Pass
+Đầu vào theo kịch bản: slots=[]
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0090893
+Phương thức: EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-002 — Vượt 35 khung
+Kết quả: Pass
+Đầu vào theo kịch bản: 36 khung hợp lệ: ngày 1 có 6 khung 01–02,…,06–07; ngày 2…6 mỗi ngày 5 khung 01–02,…,05–06.
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004551
+Phương thức: EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-003 — Thứ ngoài miền
+Kết quả: Pass
+Đầu vào theo kịch bản: [{ThuTrongTuan:7, GioBatDau:19:00, GioKetThuc:20:00}]
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002300
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_003
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-004 — Giờ bắt đầu bằng kết thúc
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1; 19:00–19:00
+Mong đợi theo kịch bản: LoiNghiepVu(400) về thứ/giờ không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002775
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_004
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-005 — Giờ bắt đầu sau kết thúc
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1; 20:00–19:00
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004030
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_005
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-006 — Hai khung chồng một phần
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1: 18:00–19:30 và 19:00–20:00
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003673
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_006
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-007 — Hai khung chạm biên
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1: 18:00–19:00 và 19:00–20:00
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003016
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-008 — Cùng giờ khác ngày
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1 và 2: cùng 18:00–19:00
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002975
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_008
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-009 — Một khung hợp lệ
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 0 (Chủ nhật): 00:00–01:00
+Mong đợi theo kịch bản: 
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0094984
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_009
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-010 — Đúng 35 khung hợp lệ
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 0…6, mỗi ngày 5 khung 01–02,…,05–06; tổng 35.
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002493
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_010
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-011 — Ngày mã 6 hợp lệ
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 6: 22:00–23:00
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002328
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_011
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-012 — Khung trùng hoàn toàn
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1: 18:00–19:00 xuất hiện 2 lần
+Mong đợi theo kịch bản: LoiNghiepVu(400) về chồng lấn.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003087
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_012
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-013 — Khung chứa hoàn toàn khung khác
+Kết quả: Pass
+Đầu vào theo kịch bản: Ngày mã 1: 18:00–21:00 và 19:00–20:00
+Mong đợi theo kịch bản: LoiNghiepVu(400) về chồng lấn.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002395
+Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_013
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-014 — Không nhập cả phí và đơn vị
+Kết quả: Pass
+Đầu vào theo kịch bản: value=null; unit=null
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002098
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_014
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-015 — Thiếu đơn vị
+Kết quả: Pass
+Đầu vào theo kịch bản: value=150000; unit=null
+Mong đợi theo kịch bản: LoiNghiepVu(400): Nhập đồng thời học phí và đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003261
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_015
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-016 — Thiếu số tiền
+Kết quả: Pass
+Đầu vào theo kịch bản: value=null; unit="VND/Gio"
+Mong đợi theo kịch bản: LoiNghiepVu(400): Nhập đồng thời học phí và đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004024
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-017 — Phí âm
+Kết quả: Pass
+Đầu vào theo kịch bản: value=-1; unit="VND/Gio"
+Mong đợi theo kịch bản: LoiNghiepVu(400): Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003597
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_017
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-018 — Ba số thập phân
+Kết quả: Pass
+Đầu vào theo kịch bản: value=150000.123; unit="VND/Buoi"
+Mong đợi theo kịch bản: LoiNghiepVu(400): Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002429
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_018
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-019 — Đơn vị không hỗ trợ
+Kết quả: Pass
+Đầu vào theo kịch bản: value=150000; unit="USD/Gio"
+Mong đợi theo kịch bản: LoiNghiepVu(400): Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002272
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_019
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-020 — Phí hợp lệ hai số lẻ
+Kết quả: Pass
+Đầu vào theo kịch bản: value=150000.50; unit="VND/Buoi"
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001719
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_020
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-021 — Phí bằng 0
+Kết quả: Pass
+Đầu vào theo kịch bản: value=0; unit="VND/Gio"
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001812
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_021
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-022 — Phí tối đa decimal18,2
+Kết quả: Fail
+Đầu vào theo kịch bản: value=9999999999999999.99; unit="VND/Gio"
+Mong đợi theo kịch bản: Theo decimal(18,2): chấp nhận 9999999999999999.99. Mã FeeCheck hiện chặn trên 9999999999999999 nên dự kiến phát hiện lệch; chưa chạy.
+Actual: Assert.Null() Failure: Value is not null
+Expected: null
+Actual:   EduConnect.Mvc.Infrastructure.LoiNghiepVu: Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+   at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 34
+   at EduConnect.Mvc.Infrastructure.Rules.FeeCheck(Nullable`1 value, String unit) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 63
+   at EduConnect.UnitTests.MT1.HocPhiTests.<>c__DisplayClass8_0.<MT1_UT_022>b__0() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106
+   at Xunit.Record.Exception(Action testCode) in /_/src/xunit.core/Record.cs:line 25
+Thời lượng: 00:00:00.0114211
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+Stack trace:
+at EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+
+==========================================================================================
+
+MT1-UT-023 — Vượt miền decimal18,2
+Kết quả: Pass
+Đầu vào theo kịch bản: value=10000000000000000; unit="VND/Gio"
+Mong đợi theo kịch bản: LoiNghiepVu(400): Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0090641
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_023
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-024 — Đơn vị chuỗi rỗng và phí null
+Kết quả: Pass
+Đầu vào theo kịch bản: value=null; unit=""
+Mong đợi theo kịch bản: Không ném ngoại lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001717
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_024
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-025 — Đơn vị khoảng trắng
+Kết quả: Pass
+Đầu vào theo kịch bản: value=150000; unit=" "
+Mong đợi theo kịch bản: LoiNghiepVu(400): Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004605
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_025
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-026 — Phiên bản đủ 8 byte
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=AQIDBAUGBwg=
+Mong đợi theo kịch bản: byte[]{1,2,3,4,5,6,7,8}.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002757
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_026
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-027 — Phiên bản null
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=null
+Mong đợi theo kịch bản: LoiNghiepVu(400): Phiên bản không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002751
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_027
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-028 — Base64 sai định dạng
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=@@@
+Mong đợi theo kịch bản: LoiNghiepVu(400): Phiên bản không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004529
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-029 — Base64 thiếu byte
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=AQID
+Mong đợi theo kịch bản: LoiNghiepVu(400): Phiên bản không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0090578
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_029
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-030 — Base64 rỗng
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=
+Mong đợi theo kịch bản: LoiNghiepVu(400): Phiên bản không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003160
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_030
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-031 — Số buổi bằng 0
+Kết quả: Pass
+Đầu vào theo kịch bản: SoBuoiTuan=0; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa SoBuoiTuan; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0011586
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-032 — Số buổi bằng 1
+Kết quả: Pass
+Đầu vào theo kịch bản: SoBuoiTuan=1; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001175
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_032
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-033 — Số buổi bằng 7
+Kết quả: Pass
+Đầu vào theo kịch bản: SoBuoiTuan=7; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001304
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-034 — Số buổi bằng 8
+Kết quả: Pass
+Đầu vào theo kịch bản: SoBuoiTuan=8; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa SoBuoiTuan; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001719
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_034
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-035 — Hình thức không hợp lệ
+Kết quả: Pass
+Đầu vào theo kịch bản: HinhThucHoc=Khac; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa HinhThucHoc; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002798
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-036 — Hình thức rỗng
+Kết quả: Pass
+Đầu vào theo kịch bản: HinhThucHoc=""; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa HinhThucHoc; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001481
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_036
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-037 — Mục tiêu 256 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: MucTieu="A"× 256; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001764
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_037
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-038 — Mục tiêu 257 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: MucTieu="A"× 257; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa MucTieu; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001477
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_038
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-039 — Tuổi bằng 0
+Kết quả: Pass
+Đầu vào theo kịch bản: TuoiNguoiHoc=0; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa TuoiNguoiHoc; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001898
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_039
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-040 — Tuổi bằng 1
+Kết quả: Pass
+Đầu vào theo kịch bản: TuoiNguoiHoc=1; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0003310
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_040
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-041 — Tuổi bằng 120
+Kết quả: Pass
+Đầu vào theo kịch bản: TuoiNguoiHoc=120; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0013554
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_041
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-042 — Tuổi bằng 121
+Kết quả: Pass
+Đầu vào theo kịch bản: TuoiNguoiHoc=121; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa TuoiNguoiHoc; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0142317
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_042
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-043 — Tên môn khác quá 100
+Kết quả: Pass
+Đầu vào theo kịch bản: TenMonKhac="A"× 101; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa TenMonKhac; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004310
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_043
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-044 — Tên gia sư rỗng
+Kết quả: Pass
+Đầu vào theo kịch bản: HoTen=""; các Required khác theo D03; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa HoTen; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0032079
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_044
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-045 — Từ khóa 100 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: TuKhoa="A"× 100; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: true; không có ValidationResult.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004705
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_045
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-046 — Từ khóa 101 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: TuKhoa="A"× 101; các trường còn lại hợp lệ theo D00/D03.
+Mong đợi theo kịch bản: false; ValidationResult.MemberNames chứa TuKhoa; không assert thông báo tiếng Anh/Việt mặc định.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002814
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_046
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-047 — So sánh ngoài giới hạn []
+Kết quả: Skip
+Đầu vào theo kịch bản: []
+Mong đợi theo kịch bản: LoiNghiepVu(400): Chọn từ 1 đến 3 đối tượng.; interceptor ghi 0 lệnh SQL.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_047_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-048 — So sánh ngoài giới hạn [A, B, C, D] với 4 Guid phân biệt
+Kết quả: Skip
+Đầu vào theo kịch bản: [A, B, C, D] với 4 Guid phân biệt
+Mong đợi theo kịch bản: LoiNghiepVu(400): Chọn từ 1 đến 3 đối tượng.; interceptor ghi 0 lệnh SQL.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_048_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-049 — Tìm kiếm ModelState sai
+Kết quả: Pass
+Đầu vào theo kịch bản: ModelState.AddModelError("TuKhoa","Quá dài"); filter.Trang=1
+Mong đợi theo kịch bản: Ném LoiNghiepVu chứa Quá dài; 0 lần gọi MonAsync/TimAsync.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0379210
+Phương thức: EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-050 — Lưu nhu cầu ModelState sai
+Kết quả: Skip
+Đầu vào theo kịch bản: D00; ModelState.AddModelError("HinhThucHoc","Sai")
+Mong đợi theo kịch bản: ViewResult("Sua"), cùng model; ModelState còn lỗi; LuuAsync gọi 0 lần.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_050_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-051 — Lưu nhu cầu thành công
+Kết quả: Skip
+Đầu vào theo kịch bản: D00; mock LuuAsync trả N01; Request không phải form
+Mong đợi theo kịch bản: LuuAsync cùng model 1 lần; TempData[Success] có thông báo; RedirectToAction(Index).
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_051_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-052 — Service từ chối nhu cầu
+Kết quả: Skip
+Đầu vào theo kịch bản: D00; mock LuuAsync ném LoiNghiepVu("Môn học không hợp lệ.")
+Mong đợi theo kịch bản: View("Sua", model); ModelState[""] có lỗi; không Redirect thành công.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_052_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-053 — Controller đóng nhu cầu
+Kết quả: Skip
+Đầu vào theo kịch bản: id=N01; state=DaDong; version=AQIDBAUGBwg=
+Mong đợi theo kịch bản: TrangThaiAsync nhận đúng 3 tham số, gọi 1 lần; TempData có Success; Redirect Index.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_053_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-054 — Hồ sơ ModelState sai
+Kết quả: Skip
+Đầu vào theo kịch bản: D03; ModelState.AddModelError("HoTen","Thiếu")
+Mong đợi theo kịch bản: CapNhatAsync 0 lần; View Sua với model, có danh mục và bằng cấp mock.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_054_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-055 — Hồ sơ lưu thành công
+Kết quả: Skip
+Đầu vào theo kịch bản: D03; mock CapNhatAsync hoàn tất
+Mong đợi theo kịch bản: CapNhatAsync đúng model 1 lần; Redirect Sua và Success.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_055_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-056 — Hồ sơ lỗi nghiệp vụ
+Kết quả: Skip
+Đầu vào theo kịch bản: D03; mock ném LoiNghiepVu("Dữ liệu hồ sơ không hợp lệ.")
+Mong đợi theo kịch bản: View Sua; ModelState có lỗi chung; không coi đây là kiểm thử rowversion thật.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_056_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-057 — Chuyển nguyên SearchPage
+Kết quả: Skip
+Đầu vào theo kịch bản: filter.Trang=2; mock SearchPage Total=12, Items=[P1, P2]
+Mong đợi theo kịch bản: View.Model cùng SearchPage; filter chuyển nguyên; TimAsync gọi 1 lần. Không kiểm toán phân trang trong ca mock.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_057_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-058 — Chuyển kết quả so sánh
+Kết quả: Skip
+Đầu vào theo kịch bản: ids=[P1, P2]; mock trả 2 ứng viên
+Mong đợi theo kịch bản: View.Model đúng 2 phần tử; SoSanhAsync(ids) gọi 1 lần.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_058_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-059 — Mở form sửa nhu cầu
+Kết quả: Skip
+Đầu vào theo kịch bản: id=N01; model có MonHocIds=[101], ChonMonKhac=true
+Mong đợi theo kịch bản: LayDeSuaAsync(N01) gọi 1 lần; View.Model là model; ChonMonKhac=false; có danh mục.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_059_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-060 — Mở form hồ sơ
+Kết quả: Skip
+Đầu vào theo kịch bản: mock LayDeSuaAsync=D03; môn Toán và 1 bằng cấp PDF
+Mong đợi theo kịch bản: View.Model đúng D03; ViewBag.Subjects và Certificates có dữ liệu.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_060_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-061 — Form không gửi lịch
+Kết quả: Skip
+Đầu vào theo kịch bản: Request.Form có MucTieu, không có khóa LichRanh[; model mặc định chứa 1 slot; ModelState hợp lệ
+Mong đợi theo kịch bản: Trước khi gọi Service, model.LichRanh trở thành danh sách rỗng; không tự dùng slot mặc định.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_061_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-062 — Danh sách nhu cầu thuộc bên học
+Kết quả: Skip
+Đầu vào theo kịch bản: mock người hiện tại HS-A; LayAsync=[N01]; MonTenAsync và DaKetNoiAsync có giá trị
+Mong đợi theo kịch bản: View với [N01]; đúng danh mục và tập Linked; không tự lọc thay Service.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_062_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-063 — Chi tiết có liên hệ đã chấp nhận
+Kết quả: Skip
+Đầu vào theo kịch bản: id=P1; owner=GS-A; LienHeVoiAsync trả C01/ChapNhan; HoiThoaiAsync trả R01; Related=[N01]
+Mong đợi theo kịch bản: View.Model=P1; Contact=C01, ContactChat=R01, Related=[N01]; đúng Id truyền qua dependency.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-064 — Chi tiết liên hệ chưa chấp nhận
+Kết quả: Skip
+Đầu vào theo kịch bản: id=P1; LienHeVoiAsync=C01/ChoPhanHoi
+Mong đợi theo kịch bản: ContactChat=null; HoiThoaiAsync 0 lần; vẫn trả chi tiết công khai.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_064_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-065 — Hồi quy logic gợi ý của demo
+Kết quả: Skip
+Đầu vào theo kịch bản: D00 và D04. Chọn các hồ sơ có số lý do khớp khác nhau theo dữ liệu thực tế của demo.
+Mong đợi theo kịch bản: Kết quả khớp quy tắc tạo lý do và thứ tự đã xác nhận trên commit demo.
+Actual: Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-066 — Hồi quy logic gợi ý của demo
+Kết quả: Skip
+Đầu vào theo kịch bản: D03 và D05. Dùng thứ tự tạo từ fixture đã có.
+Mong đợi theo kịch bản: Kết quả khớp giới hạn và thứ tự đã xác nhận trên commit demo.
+Actual: Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_066_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-067 — Lý do gợi ý phản ánh dữ liệu
+Kết quả: Skip
+Đầu vào theo kịch bản: D08 dẫn chiếu D00 và D04.
+Mong đợi theo kịch bản: Lý do hiển thị khớp dữ liệu và quy tắc được mô tả ở P02. Không tính hoặc hiển thị điểm phần trăm. Không phát sinh yêu cầu liên hệ, yêu cầu kết nối hoặc lớp chỉ từ thao tác xem gợi ý.
+Actual: Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-068 — Lời nhắn liên hệ dài 0 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: DoiTuongId=GS-A; LoiNhan="A"×0.
+Mong đợi theo kịch bản: false; lỗi ở MemberNames LoiNhan.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0005170
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_068
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-069 — Lời nhắn liên hệ dài 256 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: DoiTuongId=GS-A; LoiNhan="A"×256.
+Mong đợi theo kịch bản: true; không lỗi.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0002554
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+
+==========================================================================================
+
+MT1-UT-070 — Lời nhắn liên hệ dài 257 ký tự
+Kết quả: Pass
+Đầu vào theo kịch bản: DoiTuongId=GS-A; LoiNhan="A"×257.
+Mong đợi theo kịch bản: false; lỗi ở MemberNames LoiNhan.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0001592
+Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_070
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.

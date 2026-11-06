@@ -21,7 +21,9 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
         ViewBag.Conversation = room;
         ViewBag.MessageQuery = message;
         ViewBag.Page = page;
-        return View("Index", await service.LichSuAsync(id, message, page));
+        var messages=await service.LichSuAsync(id,message,page);
+        ViewBag.Attachments=await service.TepTheoTinAsync(id,messages.Select(m=>m.Id).ToList());
+        return View("Index", messages);
     }
     public async Task<IActionResult> Index(Guid? id, string? q, string? message, int page = 1)
     {
@@ -45,7 +47,9 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
         if (id == null)
             id = cs.FirstOrDefault()?.Id;
         ViewBag.Conversation = id == null ? null : await service.KiemTraAsync(id.Value);
-        return View(id == null ? [] : await service.LichSuAsync(id.Value, message, page));
+        var messages=id==null?new List<EduConnect.Mvc.Models.TinNhan>():await service.LichSuAsync(id.Value,message,page);
+        ViewBag.Attachments=id==null?new Dictionary<Guid,List<EduConnect.Mvc.Models.TepDinhKem>>():await service.TepTheoTinAsync(id.Value,messages.Select(m=>m.Id).ToList());
+        return View(messages);
     }
     [HttpGet]
     public async Task<IActionResult> DuLieu(Guid id, Guid? before, Guid? after, string? message)
@@ -54,6 +58,7 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
         return Json(await service.DuLieuAsync(id, before, after, message));
     }
     [HttpPost]
+    [RequestSizeLimit(52000000)]
     public async Task<IActionResult> Gui(GuiTinNhanViewModel m)
     {
         ValidateInput();
@@ -63,5 +68,14 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
         {
             id = m.MaHoiThoai
         });
+    }
+    [HttpGet]
+    public async Task<IActionResult> Tai(Guid id,bool xem=false)
+    {
+        var (file,path)=await service.TaiTepAsync(id);
+        Response.Headers.XContentTypeOptions="nosniff";
+        Response.Headers.CacheControl="private, no-store";
+        if(xem&&file.LoaiNoiDung is "image/jpeg" or "image/png")return PhysicalFile(path,file.LoaiNoiDung);
+        return PhysicalFile(path,file.LoaiNoiDung,file.TenGoc);
     }
 }

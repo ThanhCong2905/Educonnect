@@ -1,0 +1,15 @@
+﻿KẾT QUẢ UNIT MT1
+Nguồn: MT1-unit.trx
+Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
+Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
+Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
+
+==========================================================================================
+MT1-UT-067 — Lý do gợi ý phản ánh dữ liệu
+Kết quả: Skip
+Đầu vào theo kịch bản: D08 dẫn chiếu D00 và D04.
+Mong đợi theo kịch bản: Lý do hiển thị khớp dữ liệu và quy tắc được mô tả ở P02. Không tính hoặc hiển thị điểm phần trăm. Không phát sinh yêu cầu liên hệ, yêu cầu kết nối hoặc lớp chỉ từ thao tác xem gợi ý.
+Actual: Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.

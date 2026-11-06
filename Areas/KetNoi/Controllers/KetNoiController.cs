@@ -43,10 +43,12 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         return RedirectToAction(nameof(LienHe));
     }
     [HttpPost]
-    public async Task<IActionResult> GuiYeuCau(GuiYeuCauInput m)
+    public async Task<IActionResult> GuiYeuCau(GuiYeuCauViewModel m)
     {
         ValidateInput();
-        await service.GuiYeuCauAsync(m);
+        var result = await service.GuiYeuCauAsync(m, await ActorAsync(), HttpContext.RequestAborted);
+        if (!result.ThanhCong)
+            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
         Success();
         return RedirectToAction(nameof(Index));
     }
@@ -64,14 +66,17 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         return View(m);
     }
     [HttpPost]
-    public async Task<IActionResult> DeXuat(DeXuatLopViewModel m)
+    [ActionName("DeXuat")]
+    public async Task<IActionResult> GuiDeXuat(DeXuatLopViewModel m)
     {
         if (Request.HasFormContentType && !Request.Form.Keys.Any(key => key.StartsWith("LichRanh[")))
             m.LichRanh = [];
         if (ModelState.IsValid)
             try
             {
-                await service.GuiDeXuatAsync(m);
+                var result = await service.GuiDeXuatAsync(m, await ActorAsync(), HttpContext.RequestAborted);
+                if (!result.ThanhCong)
+                    throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
                 Success("Đã gửi đề xuất để bên học xác nhận.");
                 return RedirectToAction(nameof(Index));
             }
@@ -86,18 +91,56 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         return View(r);
     }
     [HttpPost]
-    public async Task<IActionResult> ChapNhan(Guid id, string rowVersion)
+    public async Task<IActionResult> ChapNhan(ChapNhanDeXuatViewModel vm)
     {
-        var c = await service.ChapNhanAsync(id, rowVersion);
+        var result = await service.ChapNhanDeXuatAsync(vm.MaYeuCau, vm.RowVersion, await ActorAsync(), HttpContext.RequestAborted);
+        if (!result.ThanhCong)
+            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+        var c = result.DuLieu;
         Success("Lớp đã được tạo. Bạn có thể tiếp tục mở hoặc đóng nhu cầu tại mục Nhu cầu.");
         return Redirect($"/HocTap/LopHoc/ChiTiet/{c}");
     }
     [HttpPost]
     public async Task<IActionResult> PhanHoi(Guid id, string action, string rowVersion)
     {
-        await service.PhanHoiAsync(id, action, rowVersion);
+        Rules.Check(action is "TuChoi" or "DaRut", "Phản hồi không hợp lệ.");
+        return action == "TuChoi" ? await TuChoi(id, "", Rules.Version(rowVersion)) : await Rut(id, Rules.Version(rowVersion));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> TuChoi(Guid maYeuCau, string lyDo, byte[] rowVersion)
+    {
+        (await service.TuChoiDeXuatAsync(maYeuCau, lyDo, rowVersion, await ActorAsync(), HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Rut(Guid maYeuCau, byte[] rowVersion)
+    {
+        (await service.RutYeuCauAsync(maYeuCau, rowVersion, await ActorAsync(), HttpContext.RequestAborted)).BaoLoiNeuThatBai();
+        Success();
+        return RedirectToAction(nameof(Index));
+    }
+    private async Task<Guid> ActorAsync() => (await HttpContext.RequestServices.GetRequiredService<NguoiDungMauService>().HienTaiAsync(HttpContext.RequestAborted)).Id;
+
+    [HttpPost]
+    public async Task<IActionResult> HuyKetNoi(Guid maLop, string lyDo, byte[] rowVersion)
+    {
+        var result = await service.TaoYeuCauHuyAsync(maLop, lyDo, rowVersion, await ActorAsync(), HttpContext.RequestAborted);
+        if (!result.ThanhCong)
+            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+        Success("Đã gửi yêu cầu kết thúc lớp.");
+        return Redirect($"/HocTap/LopHoc/ChiTiet/{maLop}");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PhanHoiHuy(PhanHoiHuyViewModel vm)
+    {
+        ValidateInput();
+        (await service.PhanHoiHuyAsync(vm.MaYeuCauHuy, vm.DongY, vm.RowVersion, await ActorAsync(), HttpContext.RequestAborted)).BaoLoiNeuThatBai();
+        Success();
+        return Redirect("/HocTap/LopHoc");
     }
 }
 

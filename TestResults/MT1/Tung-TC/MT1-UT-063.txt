@@ -1,0 +1,15 @@
+﻿KẾT QUẢ UNIT MT1
+Nguồn: MT1-unit.trx
+Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
+Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
+Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
+
+==========================================================================================
+MT1-UT-063 — Chi tiết có liên hệ đã chấp nhận
+Kết quả: Skip
+Đầu vào theo kịch bản: id=P1; owner=GS-A; LienHeVoiAsync trả C01/ChapNhan; HoiThoaiAsync trả R01; Related=[N01]
+Mong đợi theo kịch bản: View.Model=P1; Contact=C01, ContactChat=R01, Related=[N01]; đúng Id truyền qua dependency.
+Actual: Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.
+Thời lượng: 00:00:00.0010000
+Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.

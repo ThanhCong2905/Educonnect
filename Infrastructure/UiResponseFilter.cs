@@ -16,8 +16,8 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
         var sql = ex as SqlException ?? ex.InnerException as SqlException;
         if (ex is not LoiNghiepVu && ex is not DbUpdateConcurrencyException && sql is not { Number: >= 51000 })
             return;
-        var status = ex is LoiNghiepVu business ? business.Status : ex is DbUpdateConcurrencyException ? 409 : 400;
-        var message = ex is LoiNghiepVu ? ex.Message : ex is DbUpdateConcurrencyException ? "Dữ liệu vừa được cập nhật. Hãy tải lại trước khi lưu." : sql?.Number >= 51000 ? sql.Message : "Chưa thể lưu thay đổi.";
+        var status = Rules.ErrorStatus(ex);
+        var message = Rules.ErrorMessage(ex);
         context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { "", [message] } } }) { StatusCode = status };
         context.ExceptionHandled = true;
     }
@@ -29,7 +29,7 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
             var controller = context.Controller as Controller;
             if (!context.ModelState.IsValid)
             {
-                context.Result = new JsonResult(new { ok = false, message = "Kiểm tra lại thông tin đã nhập.", errors = context.ModelState.Where(x => x.Value?.Errors.Count > 0).ToDictionary(x => x.Key, x => x.Value!.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? "Giá trị chưa đúng định dạng." : e.ErrorMessage).ToArray()) }) { StatusCode = 422 };
+                context.Result = new JsonResult(new { ok = false, message = "Kiểm tra lại thông tin đã nhập.", errors = context.ModelState.Where(x => x.Value?.Errors.Count > 0).ToDictionary(x => x.Key, x => x.Value!.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? "Giá trị chưa đúng định dạng." : e.ErrorMessage).ToArray()) }) { StatusCode = context.HttpContext.Response.StatusCode >= 400 ? context.HttpContext.Response.StatusCode : 422 };
             }
             else if (context.Result is RedirectToActionResult or RedirectResult or RedirectToRouteResult)
             {

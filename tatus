@@ -1,0 +1,154 @@
+ .gitignore                                         |   3 [32m+[m
+ Areas/HocTap/Controllers/BaiTapController.cs       |  36 [32m+[m[31m-[m
+ Areas/HocTap/Controllers/LichHocController.cs      |  38 [32m+[m[31m-[m
+ Areas/HocTap/Controllers/LopHocController.cs       |  14 [32m+[m[31m-[m
+ Areas/HocTap/Controllers/TinNhanController.cs      |  18 [32m+[m[31m-[m
+ Areas/HocTap/Services/BaiTapService.cs             |  28 [32m+[m[31m-[m
+ Areas/HocTap/Services/LichHocService.cs            |  66 [32m++[m[31m-[m
+ Areas/HocTap/Services/LopHocService.cs             |  71 [32m+[m[31m--[m
+ Areas/HocTap/Services/TinNhanService.cs            |  48 [32m+[m[31m-[m
+ Areas/HocTap/ViewModels/HocTapInputs.cs            |   4 [32m+[m[31m-[m
+ Areas/HocTap/Views/BaiTap/ChiTiet.cshtml           |  66 [32m++[m[31m-[m
+ Areas/HocTap/Views/LichHoc/Buoi.cshtml             |   4 [32m+[m[31m-[m
+ Areas/HocTap/Views/LichHoc/Sua.cshtml              |  30 [32m+[m[31m-[m
+ Areas/HocTap/Views/LopHoc/ChiTiet.cshtml           |   6 [32m+[m[31m-[m
+ Areas/HocTap/Views/TinNhan/Index.cshtml            |   5 [32m+[m[31m-[m
+ Areas/HocTap/Views/TinNhan/_Attachments.cshtml     |  12 [32m+[m
+ Areas/KetNoi/Controllers/KetNoiController.cs       |  57 [32m++[m[31m-[m
+ Areas/KetNoi/Services/KetNoiService.KetThuc.cs     |  82 [32m++++[m
+ Areas/KetNoi/Services/KetNoiService.YeuCau.cs      |  58 [32m+++[m
+ Areas/KetNoi/Services/KetNoiService.cs             |  74 [32m+[m[31m--[m
+ Areas/KetNoi/ViewModels/KetNoiInput.cs             |  39 [32m+[m[31m-[m
+ Areas/KetNoi/Views/KetNoi/Index.cshtml             |   3 [32m+[m[31m-[m
+ Areas/KetNoi/Views/KetNoi/LienHe.cshtml            |   4 [32m+[m[31m-[m
+ Areas/NhuCau/Controllers/HoSoGiaSuController.cs    |  14 [32m+[m[31m-[m
+ Areas/NhuCau/Controllers/NhuCauController.cs       |  55 [32m++[m[31m-[m
+ Areas/NhuCau/Services/HoSoCongKhaiQuery.cs         |  33 [32m++[m
+ Areas/NhuCau/Services/HoSoGiaSuService.cs          |  10 [32m+[m
+ Areas/NhuCau/Services/NhuCauService.cs             |  60 [32m++[m[31m-[m
+ .../ViewModels/HoSoGiaSuCongKhaiViewModel.cs       |  10 [32m+[m
+ .../NhuCau/ViewModels/TaoNhuCauBenHocViewModel.cs  |  48 [32m++[m
+ Areas/NhuCau/Views/NhuCau/Index.cshtml             |   6 [32m+[m[31m-[m
+ Areas/NhuCau/Views/NhuCau/Sua.cshtml               |   4 [32m+[m[31m-[m
+ Areas/NhuCau/Views/NhuCau/Tao.cshtml               |   5 [32m+[m
+ Areas/NhuCau/Views/NhuCau/_BieuMau.cshtml          |   6 [32m+[m
+ Areas/TimKiem/Controllers/TimKiemController.cs     |  20 [32m+[m[31m-[m
+ Areas/TimKiem/Services/TimKiemService.cs           | 246 [32m+++++++[m[31m---[m
+ Areas/TimKiem/ViewModels/SearchModels.cs           |   2 [32m+[m[31m-[m
+ Areas/TimKiem/ViewModels/SoSanhViewModel.cs        |  12 [32m+[m
+ Areas/TimKiem/Views/TimKiem/SoSanh.cshtml          |   4 [32m+[m[31m-[m
+ Database/00_Original_DB02.sql                      |  81 [32m+++[m[31m-[m
+ Database/09_UC2Workflow.sql                        |  10 [32m+[m
+ Database/10_UC3Workflow.sql                        | 156 [32m+++++++[m
+ Database/README.md                                 |  24 [32m+[m
+ Infrastructure/BaoTriWorker.cs                     |  97 [32m++++[m
+ Infrastructure/BusinessRules.cs                    |  36 [32m+[m[31m-[m
+ Infrastructure/CapNhatThoiGianThucHub.cs           |  46 [32m++[m
+ Infrastructure/KetQua.cs                           |  56 [32m+++[m
+ Infrastructure/KetQuaKhongDuLieu.cs                |  41 [32m++[m
+ Infrastructure/LoiNghiepVuMiddleware.cs            |   7 [32m+[m[31m-[m
+ Infrastructure/MonHocCatalog.cs                    |   6 [32m+[m[31m-[m
+ Infrastructure/PhienCapNhat.cs                     |  53 [32m+++[m
+ Infrastructure/QuyenLopHocService.cs               |  10 [32m+[m[31m-[m
+ Infrastructure/TepService.cs                       |  56 [32m++[m[31m-[m
+ Infrastructure/ThongBaoService.cs                  |  45 [32m+[m[31m-[m
+ Infrastructure/UiResponseFilter.cs                 |   6 [32m+[m[31m-[m
+ Infrastructure/XuLySuKienWorker.cs                 | 132 [32m++++++[m
+ Models/Entities.cs                                 |   3 [32m+[m
+ Program.cs                                         |  18 [32m+[m[31m-[m
+ README.md                                          |   4 [32m+[m[31m-[m
+ Views/Home/Index.cshtml                            |   4 [32m+[m[31m-[m
+ Views/Shared/_Candidate.cshtml                     |   7 [32m+[m[31m-[m
+ Views/Shared/_Layout.cshtml                        |   8 [32m+[m[31m-[m
+ docs/CHECKLIST.md                                  |  50 [31m--[m
+ .../EduConnect-GiaiThichChiTiet-LuongXuLy-MVC.docx | Bin [31m270299[m -> [32m0[m bytes
+ docs/Giai-thich-co-so-du-lieu-EduConnect.docx      | Bin [31m9864[m -> [32m0[m bytes
+ docs/MAPPING.md                                    |  45 [31m--[m
+ docs/ajax.md                                       |  13 [31m-[m
+ docs/diagrams/EduConnect-UC1.1-LuongNhuCau.drawio  | 517 [31m---------------------[m
+ docs/diagrams/EduConnect-UC1.2-TimKiem.drawio      | 270 [31m-----------[m
+ docs/diagrams/EduConnect-UC2.1-DeXuatLop.drawio    | 314 [31m-------------[m
+ docs/diagrams/ProfileWorkflow.drawio               |   2 [31m-[m
+ docs/diagrams/UC1.1.png                            | Bin [31m291904[m -> [32m0[m bytes
+ docs/diagrams/UC1.2.png                            | Bin [31m122517[m -> [32m0[m bytes
+ docs/diagrams/UC2.1.png                            | Bin [31m163408[m -> [32m0[m bytes
+ docs/integration-results.json                      |  44 [31m--[m
+ docs/profile-workflow.md                           |  72 [31m---[m
+ docs/qa/GiaSu-home-1440.png                        | Bin [31m101510[m -> [32m0[m bytes
+ docs/qa/GiaSu-home-390.png                         | Bin [31m96350[m -> [32m0[m bytes
+ docs/qa/GiaSu-home-768.png                         | Bin [31m90999[m -> [32m0[m bytes
+ docs/qa/GiaSu-search-1440.png                      | Bin [31m164190[m -> [32m0[m bytes
+ docs/qa/GiaSu-search-390.png                       | Bin [31m192858[m -> [32m0[m bytes
+ docs/qa/GiaSu-search-768.png                       | Bin [31m169466[m -> [32m0[m bytes
+ docs/qa/HocSinh-home-1440.png                      | Bin [31m106219[m -> [32m0[m bytes
+ docs/qa/HocSinh-home-390.png                       | Bin [31m113240[m -> [32m0[m bytes
+ docs/qa/HocSinh-home-768.png                       | Bin [31m102551[m -> [32m0[m bytes
+ docs/qa/HocSinh-search-1440.png                    | Bin [31m198264[m -> [32m0[m bytes
+ docs/qa/HocSinh-search-390.png                     | Bin [31m228997[m -> [32m0[m bytes
+ docs/qa/HocSinh-search-768.png                     | Bin [31m208692[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-home-1440.png                     | Bin [31m111518[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-home-390.png                      | Bin [31m102661[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-home-768.png                      | Bin [31m99863[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-search-1440.png                   | Bin [31m197616[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-search-390.png                    | Bin [31m228524[m -> [32m0[m bytes
+ docs/qa/PhuHuynh-search-768.png                    | Bin [31m208200[m -> [32m0[m bytes
+ docs/qa/ajax-results.json                          |  15 [31m-[m
+ docs/qa/bootstrap-integration-results.json         |  44 [31m--[m
+ docs/qa/browser-results.json                       |  35 [31m--[m
+ docs/qa/calendar-usability-390.png                 | Bin [31m39782[m -> [32m0[m bytes
+ docs/qa/calendar.png                               | Bin [31m143881[m -> [32m0[m bytes
+ docs/qa/compare-modal-390.png                      | Bin [31m39649[m -> [32m0[m bytes
+ docs/qa/connection-request-modal-1440.png          | Bin [31m114629[m -> [32m0[m bytes
+ docs/qa/contact-cards-results.json                 |  10 [31m-[m
+ docs/qa/contact-pending-1440.png                   | Bin [31m79382[m -> [32m0[m bytes
+ docs/qa/contacts-grid-1440.png                     | Bin [31m76788[m -> [32m0[m bytes
+ docs/qa/contacts-grid-390.png                      | Bin [31m46868[m -> [32m0[m bytes
+ docs/qa/form-usability-results.json                |  14 [31m-[m
+ docs/qa/homework.png                               | Bin [31m68373[m -> [32m0[m bytes
+ docs/qa/modal-validation-1440.png                  | Bin [31m130529[m -> [32m0[m bytes
+ docs/qa/modernization-results.json                 |  15 [31m-[m
+ docs/qa/profile-results.json                       |  41 [31m--[m
+ docs/qa/profile-save-results.json                  |   9 [31m-[m
+ docs/qa/related-needs-grid-1440.png                | Bin [31m88911[m -> [32m0[m bytes
+ docs/qa/tutor-profile.png                          | Bin [31m91882[m -> [32m0[m bytes
+ docs/qa/ux-polish-results.json                     |  42 [31m--[m
+ docs/qa/verification.md                            |  25 [31m-[m
+ docs/qa/workflow-homework.png                      | Bin [31m80281[m -> [32m0[m bytes
+ docs/qa/workflow-results.json                      |  10 [31m-[m
+ docs/unicode.md                                    |  33 [31m--[m
+ docs/ux-polish.md                                  |  40 [31m--[m
+ package-lock.json                                  | 299 [32m++++++++++++[m
+ package.json                                       |   2 [32m+[m[31m-[m
+ tests/ChatAttachments/ChatAttachments.csproj       |   1 [32m+[m
+ tests/ChatAttachments/Program.cs                   |  49 [32m++[m
+ tests/ChatAttachments/README.md                    |  14 [32m+[m
+ tests/DesignContracts/DesignContracts.csproj       |   4 [32m+[m
+ tests/DesignContracts/Program.cs                   | 243 [32m++++++++++[m
+ tests/DesignContracts/README.md                    |  23 [32m+[m
+ tests/DesignContracts/browser.cjs                  | 130 [32m++++++[m
+ tests/Integration/Program.cs                       |  12 [32m+[m[31m-[m
+ tests/ProfileWorkflow/Program.cs                   |   4 [32m+[m[31m-[m
+ tests/Realtime/Program.cs                          | 108 [32m+++++[m
+ tests/Realtime/Realtime.csproj                     |   1 [32m+[m
+ tests/UC2/Program.cs                               |  73 [32m+++[m
+ tests/UC2/README.md                                |  18 [32m+[m
+ tests/UC2/UC2.csproj                               |   1 [32m+[m
+ tests/UC3/Program.cs                               | 209 [32m+++++++++[m
+ tests/UC3/README.md                                |  23 [32m+[m
+ tests/UC3/ScannerStub/Program.cs                   |   4 [32m+[m
+ tests/UC3/ScannerStub/ScannerStub.csproj           |   3 [32m+[m
+ tests/UC3/UC3.csproj                               |   4 [32m+[m
+ tests/UC3/browser.cjs                              |  59 [32m+++[m
+ tests/browser.cjs                                  |   4 [32m+[m[31m-[m
+ tests/chat-attachments.cjs                         |  21 [32m+[m
+ tests/fixture.sql                                  |  10 [32m+[m[31m-[m
+ tests/realtime.cjs                                 |  52 [32m+++[m
+ wwwroot/css/app.css                                |   2 [32m+[m
+ wwwroot/js/ajax-pages.js                           |  72 [32m++[m[31m-[m
+ wwwroot/js/forms.js                                |  10 [32m+[m[31m-[m
+ wwwroot/js/overlays.js                             |   4 [32m+[m[31m-[m
+ wwwroot/js/realtime.js                             |  46 [32m++[m
+ wwwroot/lib/signalr/LICENSE.txt                    |  23 [32m+[m
+ wwwroot/lib/signalr/signalr.min.js                 |   2 [32m+[m
+ wwwroot/lib/signalr/signalr.min.js.map             |   1 [32m+[m
+ 153 files changed, 3358 insertions(+), 2040 deletions(-)

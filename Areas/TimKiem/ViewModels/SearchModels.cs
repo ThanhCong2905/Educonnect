@@ -47,7 +47,7 @@ public sealed class BoLocTimKiemViewModel
     public string SapXep { get; set; } = "MoiNhat"; public int Trang { get; set; } = 1;
 }
 // Không đưa tên, tuổi người học và địa chỉ chi tiết vào dữ liệu công khai.
-public sealed class UngVienViewModel
+public class UngVienViewModel
 {
     public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];
     public bool DayTrucTuyen { get; set; }

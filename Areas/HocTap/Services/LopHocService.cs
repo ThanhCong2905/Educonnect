@@ -5,7 +5,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, ThongBaoService notices)
+public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, ThongBaoService notices, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections)
 {
     public async Task<List<LopHoc>> LayAsync()
     {
@@ -33,10 +33,11 @@ public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, 
         q = state switch
         {
             "cancelled" => q.Where(x => x.TrangThai == "DaHuy"),
+            "replaced" => q.Where(x => x.TrangThai == "DaDieuChinh"),
             "recorded" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
-            "past" => q.Where(x => x.TrangThai != "DaHuy" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
-            "ongoing" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc <= now && x.KetThucLuc > now),
-            "upcoming" => q.Where(x => x.TrangThai != "DaHuy" && x.BatDauLuc > now),
+            "past" => q.Where(x => x.TrangThai == "DaLenLich" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
+            "ongoing" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc <= now && x.KetThucLuc > now),
+            "upcoming" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc > now),
             _ => q
         };
         return await q.OrderBy(x => x.BatDauLuc).ToListAsync();
@@ -82,57 +83,31 @@ public sealed class LopHocService(AppDbContext db, NguoiDungMauService current, 
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
-    public async Task KetThucAsync(Guid id, string version)
+    private EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService KetNoi => connections;
+
+    public Task<KetQua> XacNhanKetThucAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy) =>
+        KetNoi.PhanHoiHuyAsync(maYeuCau, true, rowVersion, maNguoiThucHien, huy);
+
+    public Task KetThucAsync(Guid id, string version) =>
+        Task.FromException(new LoiNghiepVu("Hãy phản hồi yêu cầu kết thúc bằng phiên bản yêu cầu đang hiển thị.", 409));
+
+    public async Task YeuCauHuyAsync(Guid id, string reason, string? rowVersion = null, CancellationToken huy = default)
     {
-        var c = await rights.KiemTraQuyenXemAsync(id);
-        var u = await current.HienTaiAsync();
-        Rules.Check(c.TrangThai == "DangHoatDong" && (u.Id == c.GiaSuId || u.Id == c.BenHocId), "Chỉ hai bên chính xác nhận kết thúc lớp hoạt động.", 403);
-        Rules.Concurrency(db, c, version);
-        if (u.Id == c.GiaSuId)
-            c.GiaSuXacNhanKetThucLuc ??= DateTimeOffset.UtcNow;
-        else
-            c.BenHocXacNhanKetThucLuc ??= DateTimeOffset.UtcNow;
-        if (c.GiaSuXacNhanKetThucLuc != null && c.BenHocXacNhanKetThucLuc != null)
-            c.TrangThai = "DaKetThuc";
-        await using var tx = await db.Database.BeginTransactionAsync();
-        notices.Tao(u.Id == c.GiaSuId ? c.BenHocId : c.GiaSuId, "KetNoi", id, "Bên còn lại xác nhận kết thúc lớp.");
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
-    }
-    public async Task YeuCauHuyAsync(Guid id, string reason)
-    {
-        var c = await rights.KiemTraQuyenXemAsync(id);
-        var u = await current.HienTaiAsync();
-        Rules.Check(c.TrangThai == "DangHoatDong" && (u.Id == c.GiaSuId || u.Id == c.BenHocId), "Chỉ hai bên chính yêu cầu hủy lớp.", 403);
-        Rules.Check(!string.IsNullOrWhiteSpace(reason) && reason.Length <= 2000, "Nhập lý do hủy tối đa 2000 ký tự.");
-        Rules.Check(!await db.Set<YeuCauHuyKetNoi>().AnyAsync(x => x.LopHocId == id && x.TrangThai == "ChoPhanHoi"), "Đang có yêu cầu hủy chờ phản hồi.");
-        var now = DateTimeOffset.UtcNow;
-        await using var tx = await db.Database.BeginTransactionAsync();
-        db.Add(new YeuCauHuyKetNoi { Id = Guid.NewGuid(), LopHocId = id, NguoiGuiId = u.Id, LyDo = reason, TrangThai = "ChoPhanHoi", GuiLuc = now, HetHanLuc = now.AddHours(72) });
-        notices.Tao(u.Id == c.GiaSuId ? c.BenHocId : c.GiaSuId, "KetNoi", id, "Có yêu cầu hủy kết nối lớp, cần phản hồi trong 72 giờ.");
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        var user = await current.HienTaiAsync();
+        var lop = await rights.KiemTraQuyenXemAsync(id);
+        var version = rowVersion == null ? lop.RowVersion : Rules.Version(rowVersion);
+        var result = await KetNoi.TaoYeuCauHuyAsync(id, reason, version, user.Id, huy);
+        if (!result.ThanhCong)
+            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
     }
     public async Task<List<YeuCauHuyKetNoi>> HuyAsync(Guid id)
     {
         await rights.KiemTraQuyenXemAsync(id);
         return await db.Set<YeuCauHuyKetNoi>().AsNoTracking().Where(x => x.LopHocId == id).OrderByDescending(x => x.GuiLuc).ToListAsync();
     }
-    public async Task PhanHoiHuyAsync(Guid id, bool agree, string version)
+    public async Task PhanHoiHuyAsync(Guid id, bool agree, string version, CancellationToken huy = default)
     {
-        var u = await current.HienTaiAsync();
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-        var r = await db.Set<YeuCauHuyKetNoi>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Yêu cầu không tồn tại.");
-        var c = await rights.KiemTraQuyenXemAsync(r.LopHocId);
-        Rules.Check((u.Id == c.GiaSuId || u.Id == c.BenHocId) && r.NguoiGuiId != u.Id, "Không có quyền phản hồi.", 403);
-        Rules.Check(r.TrangThai == "ChoPhanHoi" && r.HetHanLuc > DateTimeOffset.UtcNow, "Yêu cầu đã xử lý/hết hạn.", 409);
-        Rules.Concurrency(db, r, version);
-        r.TrangThai = agree ? "ChapNhan" : "TuChoi";
-        r.PhanHoiLuc = DateTimeOffset.UtcNow;
-        if (agree)
-            c.TrangThai = "DaHuy";
-        notices.Tao(r.NguoiGuiId, "KetNoi", c.Id, "Yêu cầu hủy: " + Rules.Label(r.TrangThai));
-        await db.SaveChangesAsync();
-        await tx.CommitAsync();
+        var user = await current.HienTaiAsync();
+        (await KetNoi.PhanHoiHuyAsync(id, agree, Rules.Version(version), user.Id, huy)).BaoLoiNeuThatBai();
     }
 }

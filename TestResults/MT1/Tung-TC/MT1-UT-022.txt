@@ -1,0 +1,25 @@
+﻿KẾT QUẢ UNIT MT1
+Nguồn: MT1-unit.trx
+Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
+Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
+Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
+
+==========================================================================================
+MT1-UT-022 — Phí tối đa decimal18,2
+Kết quả: Fail
+Đầu vào theo kịch bản: value=9999999999999999.99; unit="VND/Gio"
+Mong đợi theo kịch bản: Theo decimal(18,2): chấp nhận 9999999999999999.99. Mã FeeCheck hiện chặn trên 9999999999999999 nên dự kiến phát hiện lệch; chưa chạy.
+Actual: Assert.Null() Failure: Value is not null
+Expected: null
+Actual:   EduConnect.Mvc.Infrastructure.LoiNghiepVu: Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.
+   at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 34
+   at EduConnect.Mvc.Infrastructure.Rules.FeeCheck(Nullable`1 value, String unit) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 63
+   at EduConnect.UnitTests.MT1.HocPhiTests.<>c__DisplayClass8_0.<MT1_UT_022>b__0() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106
+   at Xunit.Record.Exception(Action testCode) in /_/src/xunit.core/Record.cs:line 25
+Thời lượng: 00:00:00.0114211
+Phương thức: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+Stack trace:
+at EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)

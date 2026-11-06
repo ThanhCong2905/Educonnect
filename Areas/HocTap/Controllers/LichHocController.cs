@@ -27,13 +27,14 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                     tab = "schedule"
                 });
             }
-            catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
         ViewBag.Class = await classes.ChiTietAsync(m.LopHocId);
         return View(m);
     }
     public async Task<IActionResult> Sua(Guid id)
     {
         var s = await service.LayAsync(id);
+        ViewBag.Schedule = s;
         return View(new SuaLichInput { Id = id, RowVersion = Convert.ToBase64String(s.RowVersion), Lich = new() { TieuDe = s.TieuDe, BatDauLuc = s.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).DateTime, KetThucLuc = s.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).DateTime } });
     }
     [HttpPost]
@@ -51,8 +52,24 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                     tab = "schedule"
                 });
             }
-            catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+        ViewBag.Schedule = await service.LayAsync(m.Id);
         return View(m);
+    }
+    [HttpPost]
+    public async Task<IActionResult> TaoBuoiBu(SuaLichInput m)
+    {
+        if (ModelState.IsValid)
+            try
+            {
+                var s = await service.LayAsync(m.Id);
+                await service.TaoBuoiBuAsync(m);
+                Success("Đã thêm buổi học bù.");
+                return RedirectToAction("ChiTiet", "LopHoc", new { id = s.LopHocId, tab = "schedule" });
+            }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+        ViewBag.Schedule = await service.LayAsync(m.Id);
+        return View("Sua", m);
     }
     public async Task<IActionResult> Buoi(Guid id)
     {
@@ -67,12 +84,15 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
     [HttpPost]
     public async Task<IActionResult> GhiNhan(GhiNhanBuoiHocViewModel m)
     {
-        ValidateInput();
-        await service.GhiNhanAsync(m);
-        Success();
-        return RedirectToAction(nameof(Buoi), new
-        {
-            id = m.LichHocId
-        });
+        if (ModelState.IsValid)
+            try
+            {
+                await service.GhiNhanAsync(m);
+                Success();
+                return RedirectToAction(nameof(Buoi), new { id = m.LichHocId });
+            }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+        await Buoi(m.LichHocId);
+        return View("Buoi", m);
     }
 }

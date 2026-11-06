@@ -1,6 +1,6 @@
-param(
+﻿param(
     [Parameter(Mandatory=$true)][string]$Script,
-    [string]$Server='lpc:CONGVJP',
+    [string]$Server='LAPTOP-3L2V1AFT\SQLEXPRESS',
     [string]$Database='KLTN_4NghiepVu_V2'
 )
 $ErrorActionPreference='Stop'

@@ -232,6 +232,7 @@ public sealed class YeuCauKetNoiLopHoc
 }
 public sealed class YeuCauHuyKetNoi
 {
+    public Guid? NguoiPhanHoiId { get; set; }
     public Guid Id
     {
         get; set;
@@ -318,6 +319,8 @@ public sealed class TinNhan
 }
 public sealed class LopHoc
 {
+    public DateTimeOffset? KetThucLuc { get; set; }
+    public string? CachKetThuc { get; set; }
     public Guid Id
     {
         get; set;

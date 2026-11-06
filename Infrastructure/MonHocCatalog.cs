@@ -6,11 +6,11 @@ namespace EduConnect.Mvc.Infrastructure;
 public sealed class MonHocCatalog(AppDbContext db)
 {
     public static readonly string[] PhoThong = ["Toán Học", "Ngữ Văn", "Tiếng Anh", "Lịch Sử", "Địa Lý", "Sinh học", "Hóa Học", "Vật Lý", "GDCD"];
-    public async Task<int> LayHoacThemAsync(string? ten)
+    public async Task<int> LayHoacThemAsync(string? ten, CancellationToken huy = default)
     {
         ten = ten?.Trim();
         Rules.Check(!string.IsNullOrWhiteSpace(ten) && ten.Length <= 100, "Nhập tên môn khác (tối đa 100 ký tự).");
-        var existing = await db.Set<MonHoc>().OrderBy(x => x.Id).FirstOrDefaultAsync(x => x.TenMon == ten);
+        var existing = await db.Set<MonHoc>().OrderBy(x => x.Id).FirstOrDefaultAsync(x => x.TenMon == ten, huy);
         if (existing != null)
         {
             Rules.Check(existing.DangSuDung, "Môn học này đang ngừng sử dụng.");
@@ -18,7 +18,7 @@ public sealed class MonHocCatalog(AppDbContext db)
         }
         var subject = new MonHoc { TenMon = ten!, DangSuDung = true };
         db.Add(subject);
-        await db.SaveChangesAsync();
+        await db.SaveChangesAsync(huy);
         return subject.Id;
     }
 }

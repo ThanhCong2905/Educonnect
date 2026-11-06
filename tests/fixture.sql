@@ -1,12 +1,4 @@
-﻿/* Bốn nghiệp vụ đầu; chưa có đăng nhập
-Nguồn: ánh xạ Trang25 và các quyết định nghiệp vụ được xác nhận ngày 25/10/2026; bản cập nhật V2.
-Mã FR từ 34 cũ trở đi đã giảm 1 theo SRS sửa ngày 24/10/2026.
-SQL Server 2022; chạy toàn file trong SSMS hoặc sqlcmd -b -S CongVjp -E -i <file>.
-Mỗi file tạo một database RIÊNG. Không chạy 6 file vào cùng một database.
-Không DROP database/bảng. Nếu database đã có, script dừng để tránh ghi đè.
-Số bảng: 24. Tìm kiếm dùng view/procedure; không có bảng điểm kiểm tra.
-NguoiThamGia chỉ lưu định danh nghiệp vụ để thử chức năng; không có mật khẩu, Identity, phiên hay phân quyền đăng nhập.
-*/
+﻿
 USE [master];
 GO
 IF DB_ID(N'EduConnect_Verification_20261025') IS NOT NULL

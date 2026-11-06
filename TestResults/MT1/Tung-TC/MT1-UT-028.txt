@@ -1,0 +1,15 @@
+﻿KẾT QUẢ UNIT MT1
+Nguồn: MT1-unit.trx
+Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
+Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
+Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
+
+==========================================================================================
+MT1-UT-028 — Base64 sai định dạng
+Kết quả: Pass
+Đầu vào theo kịch bản: RowVersion=@@@
+Mong đợi theo kịch bản: LoiNghiepVu(400): Phiên bản không hợp lệ.
+Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
+Thời lượng: 00:00:00.0004529
+Phương thức: EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028
+Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
