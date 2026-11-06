@@ -199,20 +199,176 @@
     const notices=document.getElementById('notification-list');
     if(notices&&!notices.querySelector('[data-submitting]')){const fresh=await load(notices,'/Home/ThongBao',true);if(fresh){const parent=notices.closest('.modal-body'),top=parent?.scrollTop;swap(notices,fresh);ui.markRequired(notices);if(parent)parent.scrollTop=top;}}
    }
+   if(round%(connected?10:5)===0)await refreshConnections();
    const home=document.getElementById('home-updates');
    if(home&&round%10===0&&!document.querySelector('#workspace-modal.show')){const fresh=await load(home,location.href,true);if(fresh){home.replaceWith(fresh);ui.init(fresh);}}
   }finally{polling=false;if(repoll){repoll=false;queueMicrotask(()=>poll(true));}}
  }
  setInterval(poll,3000);
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll(true);});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden){poll(true);refreshConnections();}});
  ui.refreshLive=()=>{round=0;return poll(true);};
- async function refreshConnections(){
-  const region=document.getElementById('connection-content');if(!region||document.hidden)return;
-  const dirty=[...region.querySelectorAll('input,textarea,select')].some(el=>el.type==='file'?el.files.length:el.type==='checkbox'||el.type==='radio'?el.checked!==el.defaultChecked:el.tagName==='SELECT'?[...el.options].some(o=>o.selected!==o.defaultSelected):el.value!==el.defaultValue);
-  if(dirty||region.contains(document.activeElement)||document.querySelector('#workspace-modal.show')){
-   if(!region.querySelector('[data-live-changes]')){const button=document.createElement('button');button.type='button';button.className='btn btn-outline-primary mb-3';button.dataset.liveChanges='';button.textContent='Có cập nhật mới · Xem';button.addEventListener('click',async()=>{const fresh=await load(region,location.href,true);if(fresh){region.replaceWith(fresh);ui.init(fresh);}});region.prepend(button);}return;
+ let refreshingConnections = false;
+ let connectionsAgain = false;
+ const liveDisabledButtons = new WeakSet();
+
+ function validateConnectionForms(region) {
+  const contacts = new Map([...region.querySelectorAll('[data-contact-state]')]
+   .map(node => [node.dataset.contactState, node.dataset.state]));
+  const requestStates = [...region.querySelectorAll('[data-request-state]')];
+
+  document.querySelectorAll('#workspace-modal form, #connection-request-modal form').forEach(form => {
+   const contact = form.querySelector('[name="LienHeId"]')?.value;
+   if (!contact || form.dataset.submitting) return;
+
+   const id = form.querySelector('[name="Id"]')?.value;
+   const request = id ? requestStates.find(node => node.dataset.requestState === id) : null;
+   const version = form.querySelector('[name="RowVersion"]')?.value;
+   const changed = contacts.get(contact) !== 'ChapNhan' || (id
+    ? !request || request.dataset.pending !== 'true' || request.dataset.version !== version
+    : requestStates.some(node => node.dataset.contact === contact && node.dataset.pending === 'true'));
+   const active = form.contains(document.activeElement) ? document.activeElement : null;
+   const top = active?.getBoundingClientRect().top;
+   const body = form.closest('.modal-body');
+   let warning = form.querySelector('[data-live-form-warning]');
+
+   if (changed) {
+    form.dataset.liveStale = 'true';
+    if (!warning) {
+     warning = document.createElement('p');
+     warning.className = 'alert alert-warning';
+     warning.dataset.liveFormWarning = '';
+     warning.setAttribute('role', 'status');
+     warning.textContent = 'Yêu cầu đã thay đổi. Nội dung bạn nhập vẫn được giữ. Hãy đóng biểu mẫu và mở lại để xem thông tin mới.';
+     form.prepend(warning);
+    }
+   } else {
+    delete form.dataset.liveStale;
+    warning?.remove();
+   }
+
+   form.querySelectorAll('button[type="submit"], button:not([type]), input[type="submit"]').forEach(button => {
+    if (changed && !button.disabled) {
+     liveDisabledButtons.add(button);
+     button.disabled = true;
+    } else if (!changed && liveDisabledButtons.has(button)) {
+     liveDisabledButtons.delete(button);
+     button.disabled = false;
+    }
+   });
+   if (active && body) body.scrollTop += active.getBoundingClientRect().top - top;
+  });
+ }
+
+ function updateConnectionList(region, fresh) {
+  const list = region.querySelector('[data-connection-list]');
+  const incoming = fresh.querySelector('[data-connection-list]');
+  if (!list || !incoming) return;
+
+  const active = document.activeElement;
+  const anchor = region.contains(active) ? active : [...list.querySelectorAll('[data-connection-card]')]
+   .find(card => card.getBoundingClientRect().bottom > 0);
+  const top = anchor?.getBoundingClientRect().top;
+  const cards = new Map([...list.querySelectorAll(':scope > [data-connection-card]')].map(card => [card.id, card]));
+  const freshCards = [...incoming.querySelectorAll(':scope > [data-connection-card]')];
+  const ids = new Set(freshCards.map(card => card.id));
+  list.querySelector(':scope > .empty')?.remove();
+  let cursor = list.firstElementChild;
+
+  for (const next of freshCards) {
+   let card = cards.get(next.id);
+   const busy = card?.querySelector('[data-submitting]');
+   const changed = card && (card.dataset.liveVersion !== next.dataset.liveVersion
+    || card.dataset.liveState !== next.dataset.liveState
+    || card.dataset.liveActionable !== next.dataset.liveActionable);
+
+   if (!card) {
+    card = next.cloneNode(true);
+    ui.init(card);
+   } else if (changed && !busy) {
+    const focused = card.contains(active);
+    const name = active?.getAttribute('name');
+    const value = active?.getAttribute('value');
+    const replacement = next.cloneNode(true);
+    card.replaceWith(replacement);
+    if (cursor === card) cursor = replacement;
+    card = replacement;
+    ui.init(card);
+
+    if (focused) {
+     const target = name ? card.querySelector('[name="' + CSS.escape(name) + '"][value="' + CSS.escape(value || '') + '"]') : null;
+     if (target) target.focus({preventScroll: true});
+     else {
+      card.tabIndex = -1;
+      card.focus({preventScroll: true});
+     }
+    }
+   }
+   if (card === cursor) cursor = cursor.nextElementSibling;
+   else list.insertBefore(card, cursor);
   }
-  const fresh=await load(region,location.href,true);if(fresh){region.replaceWith(fresh);ui.init(fresh);}
+
+  for (const [id, card] of cards) {
+   if (!ids.has(id) && !card.querySelector('[data-submitting]')) card.remove();
+  }
+  if (!freshCards.length && !list.children.length) {
+   const empty = incoming.querySelector(':scope > .empty');
+   if (empty) list.append(empty.cloneNode(true));
+  }
+
+  const count = region.querySelector('[data-connection-count]');
+  const freshCount = fresh.querySelector('[data-connection-count]');
+  if (count && freshCount) count.textContent = freshCount.textContent;
+  const snapshot = region.querySelector('[data-connection-state]');
+  const freshSnapshot = fresh.querySelector('[data-connection-state]');
+  if (snapshot && freshSnapshot) snapshot.replaceChildren(...freshSnapshot.childNodes);
+  validateConnectionForms(region);
+
+  if (active?.isConnected && document.activeElement !== active && list.contains(active)) active.focus({preventScroll: true});
+  if (anchor?.isConnected && top !== undefined) window.scrollBy(0, anchor.getBoundingClientRect().top - top);
+ }
+
+ async function refreshConnections() {
+  if (refreshingConnections) {
+   connectionsAgain = true;
+   return;
+  }
+  const region = document.getElementById('connection-content');
+  if (!region || document.hidden) return;
+  refreshingConnections = true;
+
+  try {
+   do {
+    connectionsAgain = false;
+    const url = location.href;
+    const fresh = await load(region, url, true);
+    if (fresh && region.isConnected && location.href === url) {
+     status(region, '');
+     updateConnectionList(region, fresh);
+    }
+   } while (connectionsAgain && region.isConnected && !document.hidden);
+  } finally {
+   refreshingConnections = false;
+  }
+ }
+
+ document.addEventListener('show.bs.modal', () => refreshConnections());
+ document.addEventListener('submit', event => {
+  if (event.target.dataset.liveStale !== 'true') return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const warning = event.target.querySelector('[data-live-form-warning]');
+  if (warning) {
+   warning.tabIndex = -1;
+   warning.focus();
+  }
+ }, true);
+
+ const connectionRegion = document.getElementById('connection-content');
+ if (connectionRegion) {
+  const submissions = new MutationObserver(changes => {
+   if (changes.some(change => !change.target.hasAttribute('data-submitting'))) refreshConnections();
+  });
+  submissions.observe(connectionRegion, {subtree: true, attributes: true, attributeFilter: ['data-submitting']});
  }
  const unsubscribe=window.EduRealtime?.subscribe(event=>{
   if(event.type==='state'){

@@ -14,6 +14,15 @@ public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService curre
         var u = await current.HienTaiAsync();
         return await db.Set<NhuCauHoc>().AsNoTracking().Include(x => x.MonHocs).Where(x => x.ChuSoHuuId == u.Id && x.LoaiNhuCau == "TimGiaSu").OrderByDescending(x => x.TaoLuc).ToListAsync();
     }
+    public async Task<List<KhungGioRanh>> LichRanhAsync()
+    {
+        var user = await current.HienTaiAsync();
+        return await (from slot in db.Set<KhungGioRanh>()
+                      join need in db.Set<NhuCauHoc>() on slot.NhuCauId equals need.Id
+                      where need.ChuSoHuuId == user.Id && need.LoaiNhuCau == "TimGiaSu"
+                      orderby slot.ThuTrongTuan, slot.GioBatDau
+                      select slot).AsNoTracking().ToListAsync();
+    }
     public async Task<Guid> LuuAsync(NhuCauInput m)
     {
         var user = await current.HienTaiAsync();

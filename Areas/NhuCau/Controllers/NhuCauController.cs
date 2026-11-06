@@ -23,6 +23,7 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiServ
         if ((await current.HienTaiAsync()).LoaiNguoi == "GiaSu") return RedirectToAction("Sua", "HoSoGiaSu");
         ViewBag.Subjects = await service.MonTenAsync();
         ViewBag.Linked = await service.DaKetNoiAsync();
+        ViewBag.Slots = await service.LichRanhAsync();
         return View(await service.LayAsync());
     }
     [HttpGet]

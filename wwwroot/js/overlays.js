@@ -13,12 +13,13 @@
     if(!changed)return;
     event.preventDefault();
     const existing=element.querySelector('[data-discard-warning]');if(existing){existing.querySelector('button')?.focus();return;}
-    const previous=document.activeElement,warning=document.createElement('div');warning.className='alert alert-warning discard-warning';warning.dataset.discardWarning='';warning.setAttribute('role','alert');
-    const text=document.createElement('p');text.textContent='Bạn có thay đổi chưa lưu. Đóng biểu mẫu sẽ bỏ những thay đổi này.';
+    const previous=document.activeElement,warning=document.createElement('div');warning.className='discard-warning';warning.dataset.discardWarning='';warning.setAttribute('role','alert');
+    const title=document.createElement('strong');title.textContent='Đóng biểu mẫu?';
+    const text=document.createElement('p');text.textContent='Những thay đổi chưa lưu sẽ bị mất.';
     const actions=document.createElement('div');actions.className='actions';
-    const keep=document.createElement('button');keep.type='button';keep.className='btn btn-primary';keep.textContent='Tiếp tục nhập';keep.addEventListener('click',()=>{warning.remove();if(previous?.isConnected)previous.focus();});
-    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-danger';discard.textContent='Bỏ thay đổi và đóng';discard.addEventListener('click',()=>{discardAllowed.add(element);bootstrap.Modal.getInstance(element)?.hide();});
-    actions.append(keep,discard);warning.append(text,actions);element.querySelector('.modal-body').prepend(warning);keep.focus();warning.scrollIntoView({block:'nearest',behavior:window.EduConnect.motionBehavior()});
+    const keep=document.createElement('button');keep.type='button';keep.className='btn btn-primary';keep.textContent='Tiếp tục chỉnh sửa';keep.addEventListener('click',()=>{warning.remove();if(previous?.isConnected)previous.focus();});
+    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-danger';discard.textContent='Đóng và bỏ thay đổi';discard.addEventListener('click',()=>{discardAllowed.add(element);bootstrap.Modal.getInstance(element)?.hide();});
+    actions.append(keep,discard);warning.append(title,text,actions);element.querySelector('.modal-body').prepend(warning);keep.focus();warning.scrollIntoView({block:'nearest',behavior:window.EduConnect.motionBehavior()});
   }
   function pendingLabel(button){
     if(button?.dataset.loadingText)return button.dataset.loadingText;

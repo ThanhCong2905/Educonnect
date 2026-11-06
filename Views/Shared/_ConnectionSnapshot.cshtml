@@ -1,0 +1,14 @@
+@{
+    var contacts = (List<YeuCauLienHe>)ViewBag.Contacts;
+    var requests = (List<YeuCauKetNoiLopHoc>)ViewBag.Requests;
+}
+<div data-connection-state hidden>
+    @foreach (var contact in contacts)
+    {
+        <span data-contact-state="@contact.Id" data-state="@contact.TrangThai"></span>
+    }
+    @foreach (var request in requests)
+    {
+        <span data-request-state="@request.Id" data-contact="@request.LienHeId" data-state="@request.TrangThai" data-version="@Convert.ToBase64String(request.RowVersion)" data-pending="@((request.TrangThai is "ChoGiaSu" or "ChoBenHoc") && request.HetHanLuc > DateTimeOffset.UtcNow ? "true" : "false")"></span>
+    }
+</div>

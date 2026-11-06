@@ -8,15 +8,16 @@
  var subjects=(List<MonHoc>)ViewBag.Subjects;
  var chats=(Dictionary<Guid,Guid>)ViewBag.Chats;
 }
-<section id="connection-content"><h1>Liên hệ & kết nối</h1>
+<section id="connection-content">
+<partial name="_ConnectionSnapshot"/><h1>Liên hệ & kết nối</h1>
 
 <partial name="_KetNoiTabs"/>
-<div class="heading"><h2>Yêu cầu liên hệ <span class="muted">(@contacts.Count)</span></h2></div>
-<div class="contact-grid">
+<div class="heading"><h2>Yêu cầu liên hệ <span class="muted">(<span data-connection-count>@contacts.Count</span>)</span></h2></div>
+<div class="contact-grid" data-connection-list>
 @foreach(var contact in contacts){
  var other=people.FirstOrDefault(x=>x.Id==(contact.GiaSuId==me.Id?contact.BenHocId:contact.GiaSuId));
  var sent=contact.NguoiGuiId==me.Id;
- <article class="card contact-card" id="@contact.Id">
+ <article class="card contact-card" id="@contact.Id" data-connection-card data-live-version="@Convert.ToBase64String(contact.RowVersion)" data-live-state="@contact.TrangThai">
   <div class="contact-card-top"><span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@Rules.Label(contact.TrangThai)</span><small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small></div>
   <div class="person"><span class="avatar" aria-hidden="true">@(other?.HoTen.FirstOrDefault().ToString()??"?")</span><div><h3>@other?.HoTen</h3><small>@Rules.Label(other?.LoaiNguoi)</small></div></div>
   <p class="contact-message pre">@contact.LoiNhan</p>
@@ -40,8 +41,8 @@
   </div>
  </article>
 }
-</div>
 @if(contacts.Count==0){<div class="empty"><h3>Chưa có liên hệ</h3><p>Tìm người phù hợp và gửi lời mời để bắt đầu trao đổi.</p><a class="btn btn-primary" href="/TimKiem/TimKiem/Index">Tìm kiếm</a></div>}
+</div>
 @if(me.LoaiNguoi!="GiaSu"){
 <div class="modal fade" id="connection-request-modal" tabindex="-1" aria-labelledby="connection-request-title" aria-hidden="true">
  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
