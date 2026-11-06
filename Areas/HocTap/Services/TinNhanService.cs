@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class TinNhanService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, TepService files)
+public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, TepService files)
 {
     public async Task<bool> CoTheGuiAsync(Guid id)
     {

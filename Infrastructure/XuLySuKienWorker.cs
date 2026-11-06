@@ -33,9 +33,10 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
         using var scope = scopes.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         var messages = scope.ServiceProvider.GetRequiredService<TinNhanService>();
+        var sessions = scope.ServiceProvider.GetRequiredService<PhienDangNhapService>();
         if (DateTimeOffset.UtcNow - lanKiemTraQuyen > TimeSpan.FromSeconds(5))
         {
-            await KiemTraKetNoiAsync(messages, token);
+            await KiemTraKetNoiAsync(messages, sessions, token);
             lanKiemTraQuyen = DateTimeOffset.UtcNow;
         }
         var lease = Guid.NewGuid();
@@ -66,7 +67,7 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
                     WHERE Id={ev.Id} AND LeaseId={lease} AND TrangThai='DangXuLy' AND LeaseHetHanLuc>SYSDATETIMEOFFSET()
                     """, token);
                 if (owned == 0) continue;
-                await PhatCapNhatAsync(ev, db, messages, token);
+                await PhatCapNhatAsync(ev, db, messages, sessions, token);
                 await db.Database.ExecuteSqlInterpolatedAsync($"""
                     UPDATE dbo.SuKienChoXuLy SET TrangThai='HoanTat',XuLyXongLuc=SYSDATETIMEOFFSET(),
                       ThuLaiLuc=NULL,LeaseId=NULL,LeaseHetHanLuc=NULL WHERE Id={ev.Id} AND LeaseId={lease}
@@ -84,11 +85,13 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
             }
         }
     }
-    private async Task KiemTraKetNoiAsync(TinNhanService messages, CancellationToken token)
+    private async Task KiemTraKetNoiAsync(TinNhanService messages, PhienDangNhapService sessions, CancellationToken token)
     {
         foreach (var c in phien.DanhSach())
         {
-            if (!phien.HopLe(c)) { phien.Xoa(c.Id, true); continue; }
+            if (!phien.HopLe(c) || !Guid.TryParse(c.PhienId, out var session)
+                || !await sessions.HopLeAsync(session, c.Nguoi, false, token))
+            { phien.Xoa(c.Id, true); continue; }
             foreach (var room in c.HoiThoai.Keys)
             {
                 try { await messages.KiemTraAsync(room, c.Nguoi); }
@@ -100,7 +103,7 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
             }
         }
     }
-    private async Task PhatCapNhatAsync(SuKienChoXuLy ev, AppDbContext db, TinNhanService messages, CancellationToken token)
+    private async Task PhatCapNhatAsync(SuKienChoXuLy ev, AppDbContext db, TinNhanService messages, PhienDangNhapService sessions, CancellationToken token)
     {
         using var json = JsonDocument.Parse(ev.DuLieuToiThieu);
         var data = json.RootElement;
@@ -111,7 +114,9 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
         {
             if (!phien.HopLe(c)) { phien.Xoa(c.Id, true); continue; }
             if (room.HasValue ? !c.HoiThoai.ContainsKey(room.Value) : c.Nguoi != recipient) continue;
-            if (!await db.Set<NguoiThamGia>().AnyAsync(x => x.Id == c.Nguoi, token)) { phien.Xoa(c.Id, true); continue; }
+            if (!Guid.TryParse(c.PhienId, out var session)
+                || !await sessions.HopLeAsync(session, c.Nguoi, false, token))
+            { phien.Xoa(c.Id, true); continue; }
             if (room.HasValue)
             {
                 try { await messages.KiemTraAsync(room.Value, c.Nguoi); }

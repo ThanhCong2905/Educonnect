@@ -16,3 +16,4 @@ node_modules/
 .uc3-build/
 tools/clamav/
 /docs/
+.local-mail/

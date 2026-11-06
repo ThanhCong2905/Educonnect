@@ -1,11 +1,54 @@
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace EduConnect.Mvc.Data;
 
-public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<TaiKhoan, VaiTro, Guid>(options)
 {
     protected override void OnModelCreating(ModelBuilder b)
     {
+        base.OnModelCreating(b);
+        b.Ignore<IdentityUserPasskey<Guid>>();
+        b.Entity<TaiKhoan>(e =>
+        {
+            e.ToTable("AspNetUsers", t => t.UseSqlOutputClause(false));
+            e.Property(x => x.HoTen).HasMaxLength(256).IsRequired();
+            e.Property(x => x.AnhDaiDien).HasMaxLength(512);
+            e.Property(x => x.TrangThai).HasColumnType("varchar(32)").IsRequired();
+            e.Property(x => x.PhoneNumber).HasMaxLength(32);
+            e.Property(x => x.Email).IsRequired();
+            e.Property(x => x.NormalizedEmail).IsRequired();
+            e.HasIndex(x => x.NormalizedEmail).IsUnique();
+        });
+        b.Entity<IdentityUserRole<Guid>>().HasIndex(x => x.UserId).IsUnique();
+        b.Entity<IdentityUserLogin<Guid>>().Property(x => x.LoginProvider).HasMaxLength(128);
+        b.Entity<IdentityUserLogin<Guid>>().Property(x => x.ProviderKey).HasMaxLength(128);
+        b.Entity<IdentityUserToken<Guid>>().Property(x => x.LoginProvider).HasMaxLength(128);
+        b.Entity<IdentityUserToken<Guid>>().Property(x => x.Name).HasMaxLength(128);
+        b.Entity<HocSinh>().HasKey(x => x.TaiKhoanId);
+        b.Entity<HocSinh>().ToTable("HocSinh");
+        b.Entity<PhuHuynh>().HasKey(x => x.TaiKhoanId);
+        b.Entity<PhuHuynh>().ToTable("PhuHuynh");
+        b.Entity<PhienDangNhap>(e =>
+        {
+            e.ToTable("PhienDangNhap", t => t.UseSqlOutputClause(false));
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedNever();
+            e.Property(x => x.RowVersion).IsRowVersion();
+            e.Property(x => x.LyDoThuHoi).HasMaxLength(2000);
+            e.Property(x => x.TaoLuc).HasColumnType("datetimeoffset(0)");
+            e.Property(x => x.HoatDongCuoiLuc).HasColumnType("datetimeoffset(0)");
+            e.Property(x => x.ThuHoiLuc).HasColumnType("datetimeoffset(0)");
+        });
+        b.Entity<TrangThaiThuDangNhap>(e =>
+        {
+            e.ToTable("TrangThaiThuDangNhap", t => t.UseSqlOutputClause(false));
+            e.HasKey(x => new { x.LoaiKhoa, x.GiaTriKhoa });
+            e.Property(x => x.LoaiKhoa).HasColumnType("varchar(32)");
+            e.Property(x => x.GiaTriKhoa).HasMaxLength(256);
+            e.Property(x => x.RowVersion).IsRowVersion();
+        });
         b.Entity<MonHoc>(e =>
         {
             e.ToTable("MonHoc", t => t.UseSqlOutputClause(false));
@@ -353,7 +396,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
         });
         b.Entity<NguoiThamGia>(e =>
         {
-            e.ToTable("NguoiThamGia", t => t.UseSqlOutputClause(false));
+            e.ToView("NguoiThamGia");
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();
             e.Property(x => x.HoTen).HasColumnType("nvarchar(256)").IsRequired();

@@ -1,0 +1,14 @@
+@model EduConnect.Mvc.ViewModels.DatLaiMatKhauInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Đặt lại mật khẩu"; }
+<form asp-action="DatLaiMatKhau" method="post">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <input asp-for="Email" type="hidden">
+    <input asp-for="Ma" type="hidden">
+    <label class="form-label" for="MatKhau">Mật khẩu mới</label>
+    <input asp-for="MatKhau" class="form-control" type="password" value="" autocomplete="new-password" required autofocus>
+    <small class="text-secondary">Dùng 15–64 ký tự. Bạn có thể chọn một câu dễ nhớ có khoảng trắng.</small>
+    <label class="form-label" for="XacNhanMatKhau">Nhập lại mật khẩu mới</label>
+    <input asp-for="XacNhanMatKhau" class="form-control" type="password" value="" autocomplete="new-password" required>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Lưu mật khẩu mới</button>
+</form>
+<p class="account-footer"><a asp-action="QuenMatKhau">Yêu cầu liên kết mới</a></p>

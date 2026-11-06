@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class LichHocService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, ThongBaoService notices)
+public sealed class LichHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices)
 {
     public async Task ThemHangLoatAsync(LichHangLoatInput m)
     {

@@ -1,0 +1,11 @@
+@model EduConnect.Mvc.ViewModels.QuenMatKhauInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Quên mật khẩu"; }
+<p class="text-secondary">Nhập email đã đăng ký để nhận liên kết đặt lại mật khẩu.</p>
+<form asp-action="QuenMatKhau" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <label class="form-label" for="Email">Email</label>
+    <input asp-for="Email" class="form-control" autocomplete="email" inputmode="email" required autofocus>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Gửi liên kết</button>
+</form>
+<p class="account-footer"><a asp-action="DangNhap">Quay lại đăng nhập</a></p>

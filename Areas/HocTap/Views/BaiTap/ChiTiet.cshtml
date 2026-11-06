@@ -1,5 +1,5 @@
 @model BaiTapGiao
-@inject NguoiDungMauService Current
+@inject NguoiDungHienTaiService Current
 @{
     ViewData["Title"] = Model.TieuDe;
     var me = await Current.HienTaiAsync();

@@ -10,7 +10,7 @@ var cs=Environment.GetEnvironmentVariable("EDU_TEST_CONNECTION") ?? throw new Ex
 if(!new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs).InitialCatalog.StartsWith("EduConnect_Verification_"))throw new Exception("Test database only");
 AppDbContext Db()=>new(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
 var tutor=Guid.Parse("10000000-0000-0000-0000-000000000001");var learner=Guid.Parse("10000000-0000-0000-0000-000000000002");
-KetNoiService Service(AppDbContext db,Guid actor){var http=new DefaultHttpContext{Session=new TestSession()};http.Session.SetString("participant",actor.ToString());var user=new NguoiDungMauService(db,new HttpContextAccessor{HttpContext=http});return new(db,user,new ThongBaoService(db,user));}
+KetNoiService Service(AppDbContext db,Guid actor){var http=new DefaultHttpContext{Session=new TestSession()};http.Session.SetString("participant",actor.ToString());var user=new NguoiDungHienTaiService(db,new HttpContextAccessor{HttpContext=http});return new(db,user,new ThongBaoService(db,user));}
 var count=0;void Check(bool value,string name){if(!value)throw new Exception(name);Console.WriteLine("PASS "+name);count++;}
 using var fixture=Db();var original=await fixture.Set<LopHoc>().SingleAsync(x=>x.Id==Guid.Parse("50000000-0000-0000-0000-000000000001"));
 var req=await fixture.Set<YeuCauKetNoiLopHoc>().SingleAsync(x=>x.Id==original.YeuCauKetNoiId);var copy=(YeuCauKetNoiLopHoc)fixture.Entry(req).CurrentValues.ToObject();copy.Id=Guid.NewGuid();copy.RowVersion=[];fixture.Add(copy);await fixture.SaveChangesAsync();
@@ -40,7 +40,7 @@ var expired=await Prepare();
 using(var db=Db())await db.Database.ExecuteSqlInterpolatedAsync($"UPDATE dbo.YeuCauHuyKetNoi SET GuiLuc=DATEADD(hour,-73,SYSDATETIMEOFFSET()),HetHanLuc=DATEADD(hour,-1,SYSDATETIMEOFFSET()) WHERE Id={expired.Request.Id}");
 using(var db=Db()){var latest=await db.Set<YeuCauHuyKetNoi>().AsNoTracking().SingleAsync(x=>x.Id==expired.Request.Id);Check(!(await Service(db,learner).PhanHoiHuyAsync(latest.Id,true,latest.RowVersion,learner,default)).ThanhCong,"Late response denied");}
 var services=new Microsoft.Extensions.DependencyInjection.ServiceCollection();
-services.AddDbContext<AppDbContext>(o=>o.UseSqlServer(cs));services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());services.AddScoped<NguoiDungMauService>();services.AddScoped<ThongBaoService>();
+services.AddDbContext<AppDbContext>(o=>o.UseSqlServer(cs));services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());services.AddScoped<NguoiDungHienTaiService>();services.AddScoped<ThongBaoService>();
 using var provider=services.BuildServiceProvider();var worker=new BaoTriWorker(provider.GetRequiredService<IServiceScopeFactory>(),Microsoft.Extensions.Logging.Abstractions.NullLogger<BaoTriWorker>.Instance);
 async Task Sweep()=>await (Task)typeof(BaoTriWorker).GetMethod("XuLyTuHuyKetNoiAsync",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)!.Invoke(worker,[DateTimeOffset.UtcNow,CancellationToken.None])!;
 await Sweep();int notifications;

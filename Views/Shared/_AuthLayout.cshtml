@@ -1,0 +1,33 @@
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Environment
+@inject IConfiguration Configuration
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] · EduConnect</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/fonts.css">
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true">
+</head>
+<body class="account-page">
+    <main class="account-container">
+        <a class="account-brand" href="/TaiKhoan/DangNhap"><img src="/images/auth/logo.png" alt="EduConnect"></a>
+        <section class="account-card">
+            <h1>@ViewData["Title"]</h1>
+            @if (TempData["AccountMessage"] is string message)
+            {
+                <div class="alert alert-success" role="status">@message</div>
+            }
+            @RenderBody()
+        </section>
+        @if (Environment.EnvironmentName == "Development" && Configuration.GetValue<bool>("Authentication:DevelopmentMailbox")
+            && Context.Connection.RemoteIpAddress is { } address && System.Net.IPAddress.IsLoopback(address))
+        {
+            <a class="account-mailbox" href="/TaiKhoan/HopThuThu">Hộp thư thử trên máy này</a>
+        }
+    </main>
+    <script src="~/js/forms.js" asp-append-version="true" defer></script>
+</body>
+</html>

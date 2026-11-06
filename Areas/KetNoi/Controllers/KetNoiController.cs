@@ -122,7 +122,7 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         Success();
         return RedirectToAction(nameof(Index));
     }
-    private async Task<Guid> ActorAsync() => (await HttpContext.RequestServices.GetRequiredService<NguoiDungMauService>().HienTaiAsync(HttpContext.RequestAborted)).Id;
+    private async Task<Guid> ActorAsync() => (await HttpContext.RequestServices.GetRequiredService<NguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted)).Id;
 
     [HttpPost]
     public async Task<IActionResult> HuyKetNoi(Guid maLop, string lyDo, byte[] rowVersion)

@@ -1,0 +1,19 @@
+.account-page { min-height: 100vh; margin: 0; background: var(--bg, #f6f7fa); }
+.account-container { width: min(100% - 32px, 500px); margin: 0 auto; padding: 40px 0; }
+.account-brand { display: block; width: 215px; margin: 0 auto 24px; }
+.account-brand img { display: block; width: 100%; height: auto; }
+.account-card { padding: 30px; background: #fff; border: 1px solid #e1e5ed; border-radius: 18px; }
+.account-card h1 { font-size: 1.75rem; margin-bottom: 18px; }
+.account-card form { display: block; max-width: none; margin: 0; }
+.account-card .form-label { display: block; margin: 18px 0 7px; font-weight: 600; }
+.account-card .form-control, .account-card .form-select { width: 100%; min-height: 46px; }
+.account-card .text-danger { display: block; margin-top: 6px; font-size: .9rem; }
+.account-card .validation-summary-valid { display: none; }
+.account-card .validation-summary-errors { border-left: 3px solid #b42318; padding: 12px; background: #fff7f7; border-radius: 8px; }
+.account-forgot { text-align: right; margin: 14px 0 22px; }
+.account-submit { margin-top: 24px; }
+.account-footer { text-align: center; margin: 24px 0 0; }
+.account-mailbox { display: block; text-align: center; margin-top: 20px; font-size: .9rem; }
+.account-mail { padding: 18px 0; border-top: 1px solid #e1e5ed; overflow-wrap: anywhere; }
+.account-mail h2 { font-size: 1.05rem; }
+@media (max-width: 480px) { .account-container { padding: 24px 0; } .account-card { padding: 22px; } }

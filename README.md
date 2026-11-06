@@ -1,69 +1,24 @@
-﻿# EduConnect MVC
+# EduConnect MVC
 
-Ứng dụng ASP.NET Core MVC .NET 10 và SQL Server cho quản lý nhu cầu, tìm kiếm gia sư/người học, thỏa thuận kết nối và theo dõi học tập.
+Ứng dụng ASP.NET Core MVC, Razor View, Bootstrap, .NET 10 và SQL Server.
 
-SignalR cập nhật tin nhắn riêng/trong lớp, thông báo và trạng thái liên hệ/kết nối qua Outbox hiện có; không cần chạy SQL bổ sung. Xem [đối chiếu kiến trúc, luồng xử lý và kiểm thử](docs/realtime.md). Phiên hiện vẫn là tài khoản mẫu bằng Session, chưa phải ASP.NET Identity. SignalR client 10.0.0 được phục vụ tại chỗ trong `wwwroot/lib/signalr`.
+## Chạy ứng dụng
 
-Luồng hồ sơ mới, nâng cấp và kiểm chứng: [Hồ sơ theo môn](docs/profile-workflow.md). Gia sư quản lý một hồ sơ với phí theo môn, gửi quản trị duyệt rồi tự bật hiển thị; không đăng nhu cầu nhận lớp mới. Quản trị hiện là người mẫu trong session, chưa có đăng nhập thật.
-
-## Chạy tại máy hiện tại
+Cài database 37 bảng theo [hướng dẫn database](Database/README.md), kiểm tra `ConnectionStrings:EduConnect`, sau đó chạy.
 
 ```powershell
-cd D:\Educonnect
 dotnet run --no-launch-profile --urls http://127.0.0.1:5280
 ```
 
-Mở http://127.0.0.1:5280. Trang chủ có mục **Xem trước theo vai trò** để chọn học sinh, phụ huynh hoặc gia sư mẫu. Đây là chế độ thử nghiệm, không phải cơ chế đăng nhập. Chỉ chạy trên máy phát triển, bind loopback như lệnh trên.
+Mở trang đăng ký để tạo tài khoản Học sinh, Phụ huynh hoặc Gia sư. Bản này xác thực bằng ASP.NET Identity và cookie, có phiên đăng nhập trong SQL. Database mặc định là `KLTN_Full_V2` trên `lpc:CONGVJP`, dùng Windows Authentication.
 
-Đã tạo database `KLTN_4NghiepVu_V2` trên `CONGVJP`, sử dụng Windows Authentication. Chuỗi mặc định dùng `lpc:CONGVJP` (Shared Memory trên cùng máy), không chứa mật khẩu. Nếu dùng máy SQL khác, cấu hình qua biến môi trường, không sửa credential vào Git:
+Trong Development, quên mật khẩu gửi thư vào hộp thư thử tại `/TaiKhoan/HopThuThu`, chỉ xem được trên máy chạy ứng dụng. Gia sư có thể công khai hồ sơ đã hoàn thiện bằng cấu hình demo. Đặt `Authentication:PublicOrigin` đúng URL truy cập.
 
-```powershell
-$env:ConnectionStrings__EduConnect='Server=TEN_MAY;Database=KLTN_4NghiepVu_V2;Integrated Security=True;Encrypt=True;TrustServerCertificate=True'
-dotnet run --no-launch-profile --urls http://127.0.0.1:5280
-```
+SignalR cập nhật tin nhắn, thông báo và trạng thái nghiệp vụ. Phiên bị thu hồi khi đăng xuất hoặc đặt lại mật khẩu.
 
-Trên máy hiện tại .NET SDK là `10.0.402`. Restore khi cần:
+## Kiểm thử phiên bản Identity
 
-```powershell
-dotnet restore .\EduConnect.Mvc.csproj --configfile .\NuGet.Config
-dotnet build .\EduConnect.Mvc.csproj --no-restore
-```
-
-Chạy các lệnh từ thư mục gốc của dự án.
-
-## Database
-
-Quy tắc ngăn lỗi mã hóa và cách kiểm chứng: [Unicode](docs/unicode.md). Chạy SQL bổ sung qua `tools/Invoke-SqlUtf8.ps1`, không dựa vào code page mặc định của máy.
-
-Lệnh cài đặt khuyến nghị cho máy mới (database chưa tồn tại):
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\Database\Setup.ps1
-```
-
-Database đang tồn tại và cần cập nhật các điều chỉnh:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\Database\Setup.ps1 -Existing
-```
-
-Chỉ chạy khi cài đặt hoặc có thay đổi dữ liệu/nghiệp vụ SQL, không chạy sau mỗi lần sửa giao diện. Script dùng `sqlcmd -f 65001` để đọc UTF-8. Cài mới chỉ cần `00_Original_DB02.sql`; `Setup.ps1` mặc định cũng chỉ chạy file này. Không chạy `00` trên database hiện có.
-
-Các script trong `Database` đã được áp dụng trên máy hiện tại. Không chạy lại script `00` trên database hiện có.
-
-1. `00_Original_DB02.sql`: file SQL thống nhất để cài mới, gồm 24 bảng, procedure, trigger, danh mục môn, dữ liệu mẫu học sinh/phụ huynh/gia sư/quản trị, hồ sơ và duyệt/ẩn hiện, phí theo từng môn, nhu cầu, liên hệ/kết nối, lớp/thành viên, lịch/buổi học, bài tập và hội thoại riêng/theo lớp có metadata tệp. Không cần chạy thêm các script bổ sung sau file này. Không còn là bản sao nguyên văn của DB02.
-2. `01_MainLearnerPermission.sql`: cập nhật quyền bên học chính thành `ChinhSua` và bổ sung thành viên chính còn thiếu trong dữ liệu mẫu. Không đổi quyền thành viên phụ.
-3. `02_DemoSupplement.sql`: bổ sung hội thoại của liên hệ đã chấp nhận, lịch rảnh gia sư, nhu cầu của phụ huynh mẫu. Có kiểm tra tồn tại để không tạo trùng.
-
-`Setup.ps1 -Existing` hiện chỉ chạy `08_ProfileWorkflow.sql`, sau sao lưu và preflight. Các file `01`, `02`, `05`, `06`, `07` là lịch sử nâng cấp, không chạy tiếp sau 08. File `00` mới đã tích hợp 08, vẫn 24 bảng; thêm quản trị, hiển thị/kiểm duyệt và phí theo môn. Lịch rảnh gia sư cũ được giữ làm lịch sử, không dùng trong hồ sơ/tìm kiếm gia sư.
-
-Ví dụ cài **database mới trên máy khác** (đổi tên SQL Server phù hợp):
-
-```powershell
-sqlcmd -S lpc:CONGVJP -E -C -I -b -f 65001 -i Database\00_Original_DB02.sql
-```
-
-Ứng dụng không gọi `EnsureCreated`, migration hoặc seed khi khởi động. Không có script DROP. Tệp thật lưu tại `uploads`, ngoài `wwwroot`; metadata và quyền truy cập nằm trong SQL. Sao lưu cả database và thư mục này cùng nhau.
+Xem [cách chạy kiểm thử tài khoản](tests/Authentication/README.md). Các bộ kiểm thử dùng người dùng mẫu Session bên dưới thuộc phiên bản trước, cần chuyển fixture sang Identity trước khi chạy với database mới.
 
 ## Kiểm thử
 

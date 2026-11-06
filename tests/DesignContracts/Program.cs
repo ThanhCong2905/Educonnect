@@ -19,7 +19,7 @@ var database = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs).Initi
 if (!database.StartsWith("EduConnect_Verification_")) throw new Exception("Verification DB only");
 using var db = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
 var http = new DefaultHttpContext { Session = new TestSession() };
-var current = new NguoiDungMauService(db, new HttpContextAccessor { HttpContext = http });
+var current = new NguoiDungHienTaiService(db, new HttpContextAccessor { HttpContext = http });
 var needs = new NhuCauService(db, current, new MonHocCatalog(db));
 var rights = new QuyenLopHocService(db, current);
 var profile = new HoSoGiaSuService(db, current, new MonHocCatalog(db), new TepService(db, current, rights, new TestEnv()), new ThongBaoService(db, current));

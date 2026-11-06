@@ -1,4 +1,4 @@
-﻿using EduConnect.Mvc.Areas.NhuCau.Services;
+using EduConnect.Mvc.Areas.NhuCau.Services;
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
 [Area("NhuCau")]
-public sealed class NhuCauController(NhuCauService service, NguoiDungMauService current) : BaseController
+[Microsoft.AspNetCore.Authorization.Authorize(Roles = "HocSinh,PhuHuynh")]
+public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiService current) : BaseController
 {
     private async Task MonChoBieuMauAsync(NhuCauInput model)
     {

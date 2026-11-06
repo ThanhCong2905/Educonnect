@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.TimKiem.Services;
 
-public sealed class TimKiemService(AppDbContext db, NguoiDungMauService current)
+public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService current)
 {
     private readonly HoSoCongKhaiQuery profiles = new(db);
     public IQueryable<HoSoGiaSu> HoSoCongKhai() => profiles.CongKhai();

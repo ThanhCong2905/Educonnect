@@ -1,0 +1,27 @@
+@model EduConnect.Mvc.ViewModels.DangKyInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Tạo tài khoản"; }
+<form asp-action="DangKy" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <label class="form-label" for="HoTen">Họ tên</label>
+    <input asp-for="HoTen" class="form-control" autocomplete="name" maxlength="256" required autofocus>
+    <span asp-validation-for="HoTen" class="text-danger"></span>
+    <label class="form-label" for="Email">Email</label>
+    <input asp-for="Email" class="form-control" autocomplete="email" inputmode="email" maxlength="256" required>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <label class="form-label" for="VaiTro">Bạn tham gia với vai trò</label>
+    <select asp-for="VaiTro" class="form-select">
+        <option value="HocSinh">Học sinh</option>
+        <option value="PhuHuynh">Phụ huynh</option>
+        <option value="GiaSu">Gia sư</option>
+    </select>
+    <span asp-validation-for="VaiTro" class="text-danger"></span>
+    <label class="form-label" for="MatKhau">Mật khẩu</label>
+    <input asp-for="MatKhau" class="form-control" type="password" value="" autocomplete="new-password" required aria-describedby="password-help">
+    <small id="password-help" class="text-secondary">Dùng 15–64 ký tự. Bạn có thể chọn một câu dễ nhớ có khoảng trắng.</small>
+    <span asp-validation-for="MatKhau" class="text-danger"></span>
+    <label class="form-label" for="XacNhanMatKhau">Nhập lại mật khẩu</label>
+    <input asp-for="XacNhanMatKhau" class="form-control" type="password" value="" autocomplete="new-password" required>
+    <span asp-validation-for="XacNhanMatKhau" class="text-danger"></span>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Đăng ký</button>
+</form>
+<p class="account-footer">Đã có tài khoản? <a asp-action="DangNhap">Đăng nhập</a></p>

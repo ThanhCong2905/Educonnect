@@ -1,24 +1,17 @@
-﻿using EduConnect.Mvc.Areas.TimKiem.Services;
+using EduConnect.Mvc.Areas.TimKiem.Services;
 using EduConnect.Mvc.Areas.HocTap.Services;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Controllers;
 
-public sealed class HomeController(TimKiemService search, NguoiDungMauService current, ThongBaoService notices, LopHocService classes, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections) : BaseController
+public sealed class HomeController(TimKiemService search, ThongBaoService notices, LopHocService classes, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections) : BaseController
 {
     public async Task<IActionResult> Index()
     {
-        if ((await current.HienTaiAsync()).LoaiNguoi == "QuanTri") return Redirect("/QuanTri/HoSo/Index");
         var (items, has) = await search.GoiYAsync();
         ViewBag.HasNeed = has;
         ViewBag.Classes = await classes.LayAsync();
         return View(items);
-    }
-    [HttpPost]
-    public async Task<IActionResult> Chon(Guid id)
-    {
-        await current.ChonAsync(id);
-        return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> ThongBao() => View(await notices.LayAsync());
     public async Task<IActionResult> ChuaDoc() => Json(new { count = await notices.ChuaDocAsync() });
