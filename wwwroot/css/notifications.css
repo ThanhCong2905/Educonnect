@@ -1,0 +1,51 @@
+.notification-rail {
+    min-height: 96px;
+    width: 100%;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.notification-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    max-width: 600px;
+    padding: 10px 12px 10px 16px;
+    border: 1px solid #d5e8dc;
+    border-radius: 10px;
+    background: #f7fcf9;
+    color: #24543a;
+    box-shadow: 0 2px 8px #18223008;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.notification-message[hidden] { display: none; }
+.notification-text { overflow-wrap: anywhere; }
+.notification-close {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+.notification-close:hover { background: #e7f3eb; }
+.notification-close:focus-visible { outline: 2px solid #24543a; outline-offset: 2px; }
+.shell > main > .notification-rail { padding-top: 0; }
+@media (prefers-reduced-motion: no-preference) {
+    .notification-message { animation: notification-enter .15s ease-out; }
+    @keyframes notification-enter { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (max-width: 575px) {
+    .notification-rail { padding-inline: 12px; }
+    .notification-message { font-size: 13px; padding-left: 12px; }
+}

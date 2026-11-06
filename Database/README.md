@@ -1,24 +1,34 @@
-# Cài đặt cơ sở dữ liệu
+# Database EduConnect
 
-Chỉ dùng **00_Original_DB02.sql** khi cài mới. File đã hợp nhất các thay đổi cần cho tính năng hiện tại, kể cả quy trình hồ sơ, duyệt/ẩn hiện, phí theo môn và metadata tệp tin nhắn. Các file SQL khác là script nâng cấp hoặc sửa dữ liệu cũ, không phải database riêng và không cần chạy thêm khi cài mới.
+Bản đăng nhập Identity dùng `00_EduConnect_Full.sql`, tạo database `KLTN_Full_V2` với 38 bảng. File hợp nhất cấu trúc tài khoản từ SQL được cung cấp với procedure, ràng buộc và nghiệp vụ hiện có. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
-1. Kết nối SQL Server trong SSMS.
-2. Mở `00_Original_DB02.sql` với encoding UTF-8 và chạy toàn bộ file. Database mặc định là `KLTN_4NghiepVu_V2`; nếu đổi tên, thay tất cả tên database trong file trước khi chạy.
-3. Cập nhật `ConnectionStrings:EduConnect` trong cấu hình ứng dụng để trỏ tới đúng server và database vừa tạo. Kiểm tra cả cấu hình Development hoặc biến môi trường nếu có ghi đè.
-4. Chạy ứng dụng bằng `dotnet run`.
-
-Có thể dùng dòng lệnh thay SSMS:
+## Cài mới
 
 ```powershell
-sqlcmd -S TEN_SERVER -d master -E -C -I -b -f 65001 -i .\Database\00_Original_DB02.sql
+sqlcmd -S lpc:CONGVJP -d master -E -C -I -b -f 65001 -i Database\00_EduConnect_Full.sql
 ```
 
-Không chạy file cài mới trên database đang sử dụng. Script phát hiện database đã tồn tại; với sqlcmd phải giữ `-b` để dừng ngay khi có lỗi. Trong SSMS, các batch DDL vẫn có thể báo lỗi biên dịch sau thông báo database đã tồn tại; không tiếp tục chạy từng đoạn để vượt qua kiểm tra này.
+Hoặc chạy `Database\Setup.ps1 -Server TEN_SERVER`. Script dừng nếu database đã tồn tại. Đổi server trong `ConnectionStrings:EduConnect` cho đúng máy trước khi chạy ứng dụng. SQL tạo danh mục môn và vai trò. Người dùng tạo tài khoản qua trang đăng ký.
 
-Dữ liệu người dùng mẫu dùng cơ chế chọn vai trò bằng Session của phiên bản hiện tại, không phải hệ thống tài khoản ASP.NET Identity trong sơ đồ thiết kế. SQL không tự bổ sung các tính năng chưa được lập trình.
+Các file `00_Original_DB02.sql` và script đánh số cũ phục vụ phiên bản trước Identity. Bản cài mới tạo database độc lập. Chuyển dữ liệu cũ sang bản mới cần ánh xạ tài khoản riêng.
 
-Với database đang sử dụng trước bản UC3, chạy `10_UC3Workflow.sql` trên đúng database đó để cập nhật các procedure và ràng buộc lịch gốc. Script không tạo lại database, không xóa dữ liệu và không thêm cột. Cài mới bằng file 00 đã bao gồm các thay đổi này.
+## Cấu hình tài khoản
 
-Tệp tải lên phải qua ClamAV cục bộ theo NFR-15. Đặt `clamscan.exe` (Windows) hoặc `clamscan` và các thư viện cần thiết tại `tools/clamav`, cơ sở chữ ký cập nhật tại `tools/clamav/database`. Thư mục này không đưa vào Git. Khi thiếu máy quét, chữ ký, phát hiện mã độc, lỗi quét hoặc quá 30 giây, ứng dụng từ chối sử dụng tệp; nội dung tệp không được gửi tới máy khác. SQL không cài đặt ClamAV.
+- Đăng ký cấp một vai trò Học sinh, Phụ huynh hoặc Gia sư. Quyền Quản trị không được cấp qua đăng ký.
+- Development lưu thư trong `.local-mail`, ngoài thư mục web và Git. Liên kết đặt mật khẩu hết hạn sau 30 phút.
+- `Authentication:PublicOrigin` phải đúng địa chỉ người dùng truy cập để liên kết đặt lại mật khẩu hoạt động.
+- Development bật `Authentication:DemoPublishProfiles` để gia sư công khai hồ sơ đã hoàn thiện. Khi tắt, hệ thống áp dụng điều kiện duyệt hồ sơ.
+- Khi triển khai, cấu hình SMTP qua biến môi trường `Smtp__Host`, `Smtp__Port`, `Smtp__From`, `Smtp__Username`, `Smtp__Password` và dùng HTTPS. Giữ thông tin bí mật ngoài Git.
+- Có thể bổ sung danh sách mật khẩu bị lộ qua `Authentication:PasswordBlocklistFile`, mỗi dòng một mật khẩu. Danh sách phổ biến đi kèm hiện có phạm vi hạn chế.
 
-Tệp bằng cấp, ảnh và tài liệu tải lên được lưu trong thư mục `uploads`; SQL lưu metadata. Khi chuyển hệ thống có dữ liệu, cần sao lưu/khôi phục cả database SQL Server và thư mục này. Script cài mới không mang theo dữ liệu thực tế đang có.
+Role SQL `KLTN_App` chứa quyền của ứng dụng. Người vận hành gán role này cho database user khi cấu hình tài khoản SQL chạy ứng dụng. Chuỗi kết nối hiện dùng Windows Authentication.
+
+## Tệp tải lên
+
+ClamAV và chữ ký phải có tại `tools/clamav`. Khi không quét được tệp, ứng dụng từ chối sử dụng tệp. Nội dung tải lên nằm trong `uploads`, SQL lưu metadata. Sao lưu cả database và thư mục này.
+
+## Nhu cầu nhiều môn
+
+`NhuCauMonHoc` liên kết nhu cầu với các môn bằng khóa chính ghép `(NhuCauId, MonHocId)` và hai khóa ngoại. Một nhu cầu dùng chung mục tiêu, học phí, lịch. Cột `NhuCauHoc.MonHocId` giữ môn đại diện để tương thích các procedure và dữ liệu cũ, danh sách môn nằm trong bảng liên kết.
+
+Database đã cài chạy `11_MultiSubjectNeeds.sql` trên đúng database hiện tại. Script chuyển cả môn đại diện và danh sách JSON cũ trong một giao dịch, kiểm tra đủ dữ liệu rồi mới bỏ cột JSON. Script chạy lại không tạo liên kết trùng. File cài mới 00 đã tích hợp, tạo đủ 38 bảng. Các nhu cầu cũ được giữ riêng.

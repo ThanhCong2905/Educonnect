@@ -55,8 +55,16 @@ public sealed class HoSoGiaSuMonDay
     }
     public string PhamViDay { get; set; } = "";
 }
+public sealed class NhuCauMonHoc
+{
+    public Guid NhuCauId { get; set; }
+    public int MonHocId { get; set; }
+}
 public sealed class NhuCauHoc
 {
+    public List<NhuCauMonHoc> MonHocs { get; set; } = [];
+    [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+    public IEnumerable<int> CacMonHocId => MonHocs.Select(x => x.MonHocId).Append(MonHocId).Distinct();
     public Guid Id
     {
         get; set;

@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.KetNoi.Services;
 
-public sealed partial class KetNoiService(AppDbContext db, NguoiDungMauService current, ThongBaoService notices)
+public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiService current, ThongBaoService notices)
 {
     public async Task<Dictionary<Guid, Guid>> HoiThoaiLienHeAsync()
     {

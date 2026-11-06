@@ -1,5 +1,5 @@
 @model UngVienViewModel
-@inject NguoiDungMauService Current
+@inject NguoiDungHienTaiService Current
 @{var me=await Current.HienTaiAsync();var contact=(YeuCauLienHe?)ViewBag.Contact;}
 <aside class="card profile-contact">
 <h2>Liên hệ & trao đổi</h2>

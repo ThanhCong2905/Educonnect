@@ -18,6 +18,19 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
             return;
         var status = Rules.ErrorStatus(ex);
         var message = Rules.ErrorMessage(ex);
+        if (HttpMethods.IsPost(context.HttpContext.Request.Method) && !context.ModelState.IsValid)
+        {
+            context.Result = new JsonResult(new
+            {
+                ok = false,
+                message = "Kiểm tra lại thông tin đã nhập.",
+                errors = context.ModelState.Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(x => x.Key, x => x.Value!.Errors.Select(e =>
+                        string.IsNullOrEmpty(e.ErrorMessage) ? "Giá trị chưa đúng định dạng." : e.ErrorMessage).ToArray())
+            }) { StatusCode = StatusCodes.Status422UnprocessableEntity };
+            context.ExceptionHandled = true;
+            return;
+        }
         context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { "", [message] } } }) { StatusCode = status };
         context.ExceptionHandled = true;
     }

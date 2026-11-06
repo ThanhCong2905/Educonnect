@@ -1,0 +1,46 @@
+@model EduConnect.Mvc.ViewModels.DangKyInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Đăng ký tài khoản"; }
+<p class="account-intro">Kết nối gia sư, học sinh và phụ huynh</p>
+<form asp-action="DangKy" method="post">
+    <div asp-validation-summary="ModelOnly" class="account-errors" role="alert"></div>
+    <fieldset class="account-roles">
+        <legend>Bạn là ai? <span class="required-mark" aria-hidden="true">*</span></legend>
+        <div class="account-role-options">
+            @foreach (var role in new[] { ("HocSinh", "Học sinh"), ("PhuHuynh", "Phụ huynh"), ("GiaSu", "Gia sư") })
+            {
+                <div class="account-role">
+                    <input asp-for="VaiTro" type="radio" value="@role.Item1" id="role-@role.Item1" class="btn-check" required>
+                    <label for="role-@role.Item1">@role.Item2</label>
+                </div>
+            }
+        </div>
+        <span asp-validation-for="VaiTro" class="text-danger"></span>
+    </fieldset>
+    <label class="form-label" for="HoTen">Họ tên <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="HoTen" class="form-control" placeholder="Nhập họ và tên" autocomplete="name" maxlength="256" required>
+    <span asp-validation-for="HoTen" class="text-danger"></span>
+    <label class="form-label" for="Email">Email <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="Email" class="form-control" type="email" placeholder="Nhập địa chỉ email" autocomplete="email" inputmode="email" maxlength="256" required>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <div class="row gx-3">
+        <div class="col-sm-6">
+            <label class="form-label" for="MatKhau">Mật khẩu <span class="required-mark" aria-hidden="true">*</span></label>
+            <div class="account-password">
+                <input asp-for="MatKhau" class="form-control" type="password" value="" autocomplete="new-password" required aria-describedby="password-help MatKhau-error">
+                <button type="button" class="password-toggle" data-password-toggle="MatKhau" aria-controls="MatKhau" aria-label="Hiện mật khẩu" aria-pressed="false" hidden>Hiện</button>
+            </div>
+            <span asp-validation-for="MatKhau" id="MatKhau-error" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <label class="form-label" for="XacNhanMatKhau">Nhập lại mật khẩu <span class="required-mark" aria-hidden="true">*</span></label>
+            <div class="account-password">
+                <input asp-for="XacNhanMatKhau" class="form-control" type="password" value="" autocomplete="new-password" required aria-describedby="password-help XacNhanMatKhau-error">
+                <button type="button" class="password-toggle" data-password-toggle="XacNhanMatKhau" aria-controls="XacNhanMatKhau" aria-label="Hiện mật khẩu" aria-pressed="false" hidden>Hiện</button>
+            </div>
+            <span asp-validation-for="XacNhanMatKhau" id="XacNhanMatKhau-error" class="text-danger"></span>
+        </div>
+    </div>
+    <small id="password-help" class="text-secondary">Mật khẩu từ 15–64 ký tự, có thể chứa khoảng trắng.</small>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Tạo tài khoản</button>
+</form>
+<p class="account-footer">Đã có tài khoản? <a asp-action="DangNhap">Đăng nhập</a></p>

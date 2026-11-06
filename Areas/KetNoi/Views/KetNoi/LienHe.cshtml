@@ -1,4 +1,4 @@
-@inject NguoiDungMauService Current
+@inject NguoiDungHienTaiService Current
 @{
  ViewData["Title"]="Liên hệ";
  var me=await Current.HienTaiAsync();
@@ -50,7 +50,7 @@
    <p class="muted">Trao đổi với <strong data-contact-recipient></strong> về nhu cầu và điều kiện học của bạn.</p>
    <form method="post" asp-action="GuiYeuCau">
     <input name="LienHeId" type="hidden">
-    <label>Nhu cầu học<select class="form-select" name="NhuCauId"><option value="">Chưa gắn nhu cầu</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id">@(subjects.FirstOrDefault(s=>s.Id==need.MonHocId)?.TenMon) · @need.KhoiLop · @need.MucTieu</option>}</select></label>
+    <label>Nhu cầu học<select class="form-select" name="NhuCauId"><option value="">Chưa gắn nhu cầu</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id">@string.Join(", ", subjects.Where(s=>need.CacMonHocId.Contains(s.Id)).Select(s=>s.TenMon)) · @need.KhoiLop · @need.MucTieu</option>}</select></label>
     <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" placeholder="Môn học, lịch mong muốn và những điều bạn muốn trao đổi"></textarea></label>
     <div class="actions"><button class="btn btn-primary">Gửi yêu cầu</button><button class="btn quiet" type="button" data-bs-dismiss="modal">Để sau</button></div>
    </form>

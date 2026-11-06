@@ -16,7 +16,7 @@
   const controller=new AbortController();requests.set(key,controller);
   if(!quiet){root.setAttribute('aria-busy','true');root.classList.add('ajax-loading');status(root,'Đang cập nhật…');}
   try{
-   const response=await fetch(target,{headers,signal:controller.signal,cache:'no-store'});
+   const response=await fetch(target,{headers:quiet?{...headers,'X-Edu-Background':'true'}:headers,signal:controller.signal,cache:'no-store'});
    if(!response.ok){const problem=await response.json().catch(()=>({}));throw new Error(problem.message||'Chưa thể cập nhật. Bạn có thể thử lại; nội dung hiện tại vẫn được giữ.');}
    const html=await response.text();
    if(requests.get(key)!==controller)return null;

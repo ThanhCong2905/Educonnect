@@ -1,5 +1,5 @@
-﻿@model SearchPage
-@inject NguoiDungMauService Current
+@model SearchPage
+@inject NguoiDungHienTaiService Current
 @{ViewData["Title"]="Tìm kiếm";ViewData["Compare"]=true;var f=Model.Filter;var tutor=(await Current.HienTaiAsync()).LoaiNguoi=="GiaSu";}
 <div id="search-content" data-ajax-page="search"><h1>@(tutor?"Tìm nhu cầu học":"Tìm gia sư")</h1><p>@(tutor?"Chọn nhu cầu học để trao đổi và đề xuất lớp.":"Mỗi gia sư có một hồ sơ, nhiều môn và mức phí riêng.")</p>
 <form method="get" id="search-filters"><div class="searchbox search-keyword"><input class="form-control" name="TuKhoa" value="@f.TuKhoa" aria-label="Từ khóa" placeholder="Tên, môn học hoặc chuyên môn"><button class="btn btn-primary">Tìm kiếm</button></div>

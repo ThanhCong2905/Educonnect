@@ -1,4 +1,4 @@
-@inject NguoiDungMauService Current
+@inject NguoiDungHienTaiService Current
 @{var compareNoun=(await Current.HienTaiAsync()).LoaiNguoi=="GiaSu"?"nhu cầu":"hồ sơ";}
 <form id="compare-form" asp-area="TimKiem" asp-controller="TimKiem" asp-action="SoSanh" method="get" class="compare-bar" hidden aria-label="So sánh lựa chọn" data-compare-noun="@compareNoun">
     <p id="compare-status" role="status" aria-live="polite" aria-atomic="true">Đã chọn <strong data-compare-count>0/3</strong> @compareNoun</p>

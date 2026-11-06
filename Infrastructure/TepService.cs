@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TepService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null)
+public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null)
 {
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
     public void DonDepDaXoa(IEnumerable<string> keys)

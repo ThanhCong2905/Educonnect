@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class BaiTapService(AppDbContext db, NguoiDungMauService current, QuyenLopHocService rights, ThongBaoService notices, TepService files)
+public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, TepService files)
 {
     public async Task<List<BaiTapGiao>> LayAsync(Guid lop)
     {

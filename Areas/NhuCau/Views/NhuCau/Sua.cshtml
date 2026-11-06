@@ -1,5 +1,5 @@
 @model EduConnect.Mvc.Areas.NhuCau.ViewModels.NhuCauInput
-@inject NguoiDungMauService Current
+@inject NguoiDungHienTaiService Current
 @{ViewData["Title"]=Model.Id==null?"Tạo nhu cầu":"Chỉnh sửa nhu cầu";var me=await Current.HienTaiAsync();}
 <h1>@ViewData["Title"]</h1>
 <partial name="_BieuMau" model="Model"/>

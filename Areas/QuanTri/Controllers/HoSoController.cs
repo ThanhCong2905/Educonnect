@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.QuanTri.Controllers;
 
 [Area("QuanTri")]
+[Microsoft.AspNetCore.Authorization.Authorize(Roles = "QuanTri")]
 public sealed class HoSoController(HoSoGiaSuService service,AppDbContext db):BaseController
 {
     public async Task<IActionResult> Index(){var rows=await service.ChoDuyetAsync();ViewBag.People=await db.Set<NguoiThamGia>().AsNoTracking().ToListAsync();return View(rows);}

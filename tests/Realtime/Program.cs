@@ -22,7 +22,7 @@ var tutor=fixture.GetProperty("tutor").GetGuid();var learner=fixture.GetProperty
 var accessor=new Accessor{HttpContext=new DefaultHttpContext{Session=new Session()}};
 accessor.HttpContext.Session.SetString("participant",tutor.ToString());
 var services=new ServiceCollection();services.AddLogging();services.AddSingleton<IHttpContextAccessor>(accessor);
-services.AddDbContext<AppDbContext>(o=>o.UseSqlServer(cs));services.AddScoped<NguoiDungMauService>();
+services.AddDbContext<AppDbContext>(o=>o.UseSqlServer(cs));services.AddScoped<NguoiDungHienTaiService>();
 services.AddScoped<QuyenLopHocService>();services.AddScoped<TepService>();services.AddScoped<TinNhanService>();
 services.AddSingleton<IWebHostEnvironment>(new Env());
 using var provider=services.BuildServiceProvider();using var scope=provider.CreateScope();
@@ -56,7 +56,7 @@ await Pass("Rollback after message insert leaves no message or event",async()=>{
  await worker.XuLySuKienDenHanAsync(100,default);Check(!hub.Sent.Any(),"Rollback published update");
 });
 await Pass("Notification is not published before commit and targets personal group",async()=>{
- var notices=new ThongBaoService(db,scope.ServiceProvider.GetRequiredService<NguoiDungMauService>());var target=Guid.NewGuid();
+ var notices=new ThongBaoService(db,scope.ServiceProvider.GetRequiredService<NguoiDungHienTaiService>());var target=Guid.NewGuid();
  await using(var tx=await db.Database.BeginTransactionAsync()){
   notices.Tao(learner,"KetNoi",target,"Private notification");await db.SaveChangesAsync();
   await worker.XuLySuKienDenHanAsync(100,default);Check(!hub.Sent.Any(),"Uncommitted notification published");await tx.CommitAsync();

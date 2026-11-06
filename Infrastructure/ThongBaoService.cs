@@ -4,7 +4,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class ThongBaoService(AppDbContext db, NguoiDungMauService current)
+public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService current)
 {
     public async Task TaoChoLopAsync(Guid lopHocId, string type, Guid target, string text, Guid? loaiTru = null)
     {

@@ -27,7 +27,7 @@ var reader = Guid.NewGuid(); var editor = Guid.NewGuid(); var outsider = Guid.Ne
 {
     var http = new DefaultHttpContext { Session = new TestSession() };
     http.Session.SetString("participant", actor.ToString());
-    var user = new NguoiDungMauService(db, new HttpContextAccessor { HttpContext = http });
+    var user = new NguoiDungHienTaiService(db, new HttpContextAccessor { HttpContext = http });
     var rights = new QuyenLopHocService(db, user); var notices = new ThongBaoService(db, user);
     var files = new TepService(db, user, rights, new TestEnvironment(root));
     return (new(db, user, rights, notices), new(db, user, rights, notices, files), notices, files, rights, new(db, user, rights, notices, new KetNoiService(db, user, notices)));
@@ -161,7 +161,7 @@ using (var db = Db())
     await Denied(() => fs.KiemTraAsync([FileOf("x.png", png.Concat(Encoding.UTF8.GetBytes("SCAN_ERROR")).ToArray())]), 400, "Từ chối khi máy quét trả lỗi");
     var boundary = new byte[10000000]; png.CopyTo(boundary, 0);
     Check((await fs.KiemTraAsync([FileOf("boundary.png", boundary)])).Count == 1, "Chấp nhận đúng biên 10.000.000 byte");
-    var missingScanner = new TepService(db, new NguoiDungMauService(db, new HttpContextAccessor()), new QuyenLopHocService(db, new NguoiDungMauService(db, new HttpContextAccessor())), new TestEnvironment(root + "-missing"));
+    var missingScanner = new TepService(db, new NguoiDungHienTaiService(db, new HttpContextAccessor()), new QuyenLopHocService(db, new NguoiDungHienTaiService(db, new HttpContextAccessor())), new TestEnvironment(root + "-missing"));
     await Denied(() => missingScanner.KiemTraAsync([FileOf("x.png")]), 400, "Không dùng tệp khi chưa cài máy quét");
     Check(!Directory.EnumerateFiles(Path.Combine(root, "uploads", ".quarantine")).Any(), "Dọn vùng cách ly sau kiểm tra thành công/lỗi");
 }
@@ -176,7 +176,7 @@ try
 finally { using var db = Db(); await db.Database.ExecuteSqlRawAsync("DROP TRIGGER dbo.tr_UC3_TestFailure;"); }
 using (var db = Db()) Check(!await db.Set<BaiTapGiao>().AnyAsync(x => x.TieuDe == rollbackTitle) && Directory.GetFiles(Path.Combine(root, "uploads")).Length == filesBefore, "Rollback cả bài tập và dọn tệp đã ghi");
 var due = await Schedule(DateTimeOffset.UtcNow.AddHours(-27)); var notDue = await Schedule(DateTimeOffset.UtcNow.AddHours(-2));
-var services = new ServiceCollection(); services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connection)); services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor()); services.AddScoped<NguoiDungMauService>(); services.AddScoped<ThongBaoService>();
+var services = new ServiceCollection(); services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connection)); services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor()); services.AddScoped<NguoiDungHienTaiService>(); services.AddScoped<ThongBaoService>();
 using var provider = services.BuildServiceProvider();
 var worker = new BaoTriWorker(provider.GetRequiredService<IServiceScopeFactory>(), NullLogger<BaoTriWorker>.Instance);
 var remind = typeof(BaoTriWorker).GetMethod("XuLyNhacHocTapAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;

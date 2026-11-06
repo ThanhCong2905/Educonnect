@@ -29,21 +29,7 @@
     if(/Lưu/.test(label))return 'Đang lưu…';
     return 'Đang xử lý…';
   }
-  function toast(message) {
-    if (!message) return;
-    const container = document.createElement('div'); container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-    const element = document.createElement('div'); element.className = 'toast app-toast'; element.setAttribute('role','status'); element.setAttribute('aria-live','polite');
-    const body = document.createElement('div'); body.className = 'toast-body';
-    const mark = document.createElement('span'); mark.className = 'toast-mark'; mark.textContent = '✓'; mark.setAttribute('aria-hidden','true');
-    const text = document.createElement('span'); text.textContent = message;
-    const close = document.createElement('button'); close.type='button';close.className='btn-close';close.dataset.bsDismiss='toast';close.setAttribute('aria-label','Đóng thông báo');
-    body.append(mark,text,close);element.append(body);container.append(element);document.body.append(container);
-    element.addEventListener('hidden.bs.toast',()=>container.remove());
-    bootstrap.Toast.getOrCreateInstance(element,{delay:4500}).show();
-  }
-  document.querySelectorAll('.app-toast').forEach(element=>bootstrap.Toast.getOrCreateInstance(element).show());
-  const pending=sessionStorage.getItem('educonnect:toast');
-  if(pending){sessionStorage.removeItem('educonnect:toast');toast(pending);}
+  const toast = window.EduConnect.toast;
   function errors(form, problem) {
     form.querySelectorAll('.ui-field-error,.ui-error-summary').forEach(node=>node.remove());
     form.querySelectorAll('[aria-invalid="true"]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});

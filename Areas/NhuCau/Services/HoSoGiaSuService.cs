@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
@@ -6,8 +6,11 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
-public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungMauService current, MonHocCatalog catalog, TepService files, ThongBaoService notices)
+public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog, TepService files, ThongBaoService notices,
+    IWebHostEnvironment? environment = null, IConfiguration? configuration = null)
 {
+    private bool DemoPublish => environment?.EnvironmentName == "Development"
+        && configuration?.GetValue<bool>("Authentication:DemoPublishProfiles") == true;
     public Task<KetQua<HoSoGiaSuCongKhaiViewModel>> LayHoSoAsync(Guid maHoSo, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<HoSoGiaSuCongKhaiViewModel>.ThucHienAsync(async () =>
         {
@@ -78,7 +81,7 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungMauService curren
             h.MoTa=m.MoTa.Trim();h.KhuVuc=ChuanHoa(m.KhuVuc);h.DayTrucTuyen=m.DayTrucTuyen;h.DayTrucTiep=m.DayTrucTiep;
             h.TrangThaiDuyet="BanNhap";h.DangHienThi=false;h.NguoiDuyetId=null;h.DuyetLuc=null;
             db.Entry(h).Property(x=>x.TrinhDo).IsModified=true;
-            var person=await db.Set<NguoiThamGia>().SingleAsync(x=>x.Id==u.Id);person.HoTen=ChuanHoa(m.HoTen);
+            var person=await db.Users.SingleAsync(x=>x.Id==u.Id);person.HoTen=ChuanHoa(m.HoTen);
             await db.SaveChangesAsync();
             var old=await db.Set<HoSoGiaSuMonDay>().Where(x=>x.HoSoGiaSuId==h.Id).ToListAsync();
             db.RemoveRange(old.Where(x=>!ids.Contains(x.MonHocId)));
@@ -105,8 +108,20 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungMauService curren
         {
             case "An":h.DangHienThi=false;break;
             case "Hien":
-                Rules.Check(h.TrangThaiDuyet=="DaDuyet","Hồ sơ phải được duyệt trước khi bật hiển thị.");
-                await DuDieuKienAsync(h);h.DangHienThi=true;break;
+                if (DemoPublish)
+                {
+                    KiemTraSua(h);
+                    await DuDieuKienAsync(h);
+                    h.TrangThaiDuyet = "DaDuyet";
+                    h.DuyetLuc = DateTimeOffset.UtcNow;
+                }
+                else
+                {
+                    Rules.Check(h.TrangThaiDuyet == "DaDuyet", "Hồ sơ phải được duyệt trước khi bật hiển thị.");
+                    await DuDieuKienAsync(h);
+                }
+                h.DangHienThi = true;
+                break;
             case "GuiDuyet":
                 KiemTraSua(h);await DuDieuKienAsync(h);h.TrangThaiDuyet="ChoDuyet";h.GuiDuyetLuc=DateTimeOffset.UtcNow;h.LyDoTuChoi=null;break;
             case "HuyDuyet":

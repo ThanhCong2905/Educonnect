@@ -1,0 +1,19 @@
+@model EduConnect.Mvc.ViewModels.DangNhapInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Đăng nhập"; }
+<p class="account-intro">Chào mừng bạn quay lại với EduConnect</p>
+<form asp-action="DangNhap" method="post">
+    <div asp-validation-summary="ModelOnly" class="account-errors" role="alert"></div>
+    <input asp-for="ReturnUrl" type="hidden">
+    <label class="form-label" for="Email">Email <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="Email" class="form-control" type="email" placeholder="Nhập email đã đăng ký" autocomplete="username" inputmode="email" required>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <label class="form-label" for="MatKhau">Mật khẩu <span class="required-mark" aria-hidden="true">*</span></label>
+    <div class="account-password">
+        <input asp-for="MatKhau" class="form-control" type="password" value="" autocomplete="current-password" required>
+        <button type="button" class="password-toggle" data-password-toggle="MatKhau" aria-controls="MatKhau" aria-label="Hiện mật khẩu" aria-pressed="false" hidden>Hiện</button>
+    </div>
+    <span asp-validation-for="MatKhau" class="text-danger"></span>
+    <div class="account-forgot"><a asp-action="QuenMatKhau">Quên mật khẩu?</a></div>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Đăng nhập</button>
+</form>
+<p class="account-footer">Chưa có tài khoản? <a asp-action="DangKy">Đăng ký ngay</a></p>
