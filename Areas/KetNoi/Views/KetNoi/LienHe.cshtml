@@ -22,7 +22,13 @@
  var connected=classes.GetValueOrDefault(contact.Id);
  var pending=requests.FirstOrDefault(r=>r.LienHeId==contact.Id&&(r.TrangThai is "ChoGiaSu" or "ChoBenHoc")&&r.HetHanLuc>DateTimeOffset.UtcNow);
  <article class="card contact-card" id="@contact.Id" data-connection-card data-live-version="@Convert.ToBase64String(contact.RowVersion)" data-live-state="@contact.TrangThai" data-live-actionable="@(connected?.Id.ToString() ?? pending?.Id.ToString() ?? "new")">
-  <div class="contact-card-top"><span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@Rules.Label(contact.TrangThai)</span><small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small></div>
+  <div class="contact-card-top">
+   <div class="contact-statuses">
+    <span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@Rules.Label(contact.TrangThai)</span>
+    @if(connected!=null){<span class="contact-state contact-connected">Đã kết nối</span>}
+   </div>
+   <small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small>
+  </div>
   <div class="person"><span class="avatar" aria-hidden="true">@(other?.HoTen.FirstOrDefault().ToString()??"?")</span><div><h3>@other?.HoTen</h3><small>@Rules.Label(other?.LoaiNguoi)</small></div></div>
   <p class="contact-message pre">@contact.LoiNhan</p>
   <small class="contact-date">Gửi lúc @Rules.Date(contact.GuiLuc)</small>
@@ -38,7 +44,7 @@
    
    <div class="actions">
     @if(chats.TryGetValue(contact.Id,out var chat)){<a class="btn btn-outline-primary" href="/HocTap/TinNhan/Index?id=@chat">Nhắn tin</a>}
-    @if(connected!=null){<span class="contact-connected">Đã kết nối</span><a class="btn btn-primary" asp-area="HocTap" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@connected.Id">Vào lớp học</a>}
+    @if(connected!=null){<a class="btn btn-primary" asp-area="HocTap" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@connected.Id">Vào lớp học</a>}
     else if(pending!=null){<a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@pending.Id">Xem yêu cầu đang chờ</a>}
     else if(me.LoaiNguoi=="GiaSu"){<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}
     else{<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#connection-request-modal" data-contact-id="@contact.Id" data-contact-name="@other?.HoTen">Gửi yêu cầu kết nối</button>}

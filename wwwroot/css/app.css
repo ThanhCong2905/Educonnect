@@ -126,7 +126,8 @@ body{font-family:var(--bs-body-font-family);font-size:15px;line-height:1.6;color
 .member-permissions { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--line); margin-top: 20px; padding-top: 16px; }
 .member-permissions label { flex: 1 1 180px; margin: 0; }
 .member-permissions .actions { margin: 0; }
-.contact-connected { color: #24543a; font-size: 13px; font-weight: 600; }
+.contact-statuses { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.contact-connected { color: #24543a; background: #eff8f3; }
 @media(max-width:560px) {
     .member-invite-controls { flex-direction: column; align-items: stretch; }
     .class-invitation { flex-direction: column; align-items: stretch; }
