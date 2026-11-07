@@ -3,7 +3,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService current, IWebHostEnvironment env)
+public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService current, IWebHostEnvironment env) : IBangCapService
 {
     public async Task<List<TepDinhKem>> CuaToiAsync()
     {

@@ -1,0 +1,1070 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="3328b3e7-0fe2-46ed-a049-539bd4352121" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-07 09:37:38" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-07T09:37:38.9885592+07:00" queuing="2026-11-07T09:37:38.9885597+07:00" start="2026-11-07T09:37:35.3423553+07:00" finish="2026-11-07T09:38:11.5557474+07:00" />
+  <TestSettings name="default" id="ab0dd4c5-9772-4a33-a9ca-b22627a4bd3d">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-07_09_37_38" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c0827ee4-1127-48f4-9112-3c333c9f03b0" testId="739248e2-f793-5658-2b46-794c31ed3401" testName="MT1-IT-025 · Phụ huynh có tên và lớp nhưng thiếu tuổi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2726968" startTime="2026-11-07T09:37:45.4892807+07:00" endTime="2026-11-07T09:37:45.4892808+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c0827ee4-1127-48f4-9112-3c333c9f03b0">
+      <Output>
+        <StdOut>MT1-IT-025: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c5b6a757-26b8-43f3-ae5a-0bd3b7086151" testId="3e34fd72-2836-e321-ffa4-e72f1dfddbca" testName="MT1-IT-019 · Trực tuyến:quy tắc xử lý địa chỉ và dữ liệu công khai" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-07T09:38:01.0713935+07:00" endTime="2026-11-07T09:38:01.0713935+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5b6a757-26b8-43f3-ae5a-0bd3b7086151">
+      <Output>
+        <ErrorInfo>
+          <Message>Chưa đặc tả quy tắc giữ/xóa địa chỉ trực tuyến; chưa thể kết luận toàn bộ ca.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d6a9fa66-f2a1-41ab-866a-f47b7c7840b0" testId="9fc46259-347c-1de7-0c65-9ead07e00c2c" testName="MT1-IT-044 · Gia sư tìm nhu cầu đang mở" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4976838" startTime="2026-11-07T09:38:06.7410753+07:00" endTime="2026-11-07T09:38:06.7410757+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d6a9fa66-f2a1-41ab-866a-f47b7c7840b0">
+      <Output>
+        <StdOut>MT1-IT-044: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2a4edd1c-73a7-4284-8631-685926f9ba06" testId="8c772378-ee8f-c858-003a-3c91ce61e975" testName="MT1-IT-063 · Trang0 qua middleware" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5079081" startTime="2026-11-07T09:37:57.3371650+07:00" endTime="2026-11-07T09:37:57.3371650+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a4edd1c-73a7-4284-8631-685926f9ba06">
+      <Output>
+        <StdOut>MT1-IT-063: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c95d4a0e-0a89-4de3-ba79-cfc49f8aa4e5" testId="c9697313-a35f-df75-63ba-ca5df50290c2" testName="MT1-IT-031 · Cập nhật danh sách môn của nhu cầu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2675710" startTime="2026-11-07T09:37:56.8295093+07:00" endTime="2026-11-07T09:37:56.8295094+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c95d4a0e-0a89-4de3-ba79-cfc49f8aa4e5">
+      <Output>
+        <StdOut>MT1-IT-031: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 2&#xD;
+Actual:   3</Message>
+          <StackTrace>   at IntegrationTests.AssertSelectedSubjects(Mt1Case c, Guid id, IReadOnlyCollection`1 expectedSubjects, TaoNhuCauBenHocViewModel sent) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 627&#xD;
+   at IntegrationTests.AssertSelectedSubjects(Mt1Case c, Guid id, IReadOnlyCollection`1 expectedSubjects, TaoNhuCauBenHocViewModel sent) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 637&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 832&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 1125&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 414&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 447&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef54271b-e2e5-46ba-bee2-1191c09481ad" testId="49bcd94f-1425-c9a9-305e-dd2433247b14" testName="MT1-IT-038 · Rollback khi môn thứ hai sai" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2397186" startTime="2026-11-07T09:37:57.5772050+07:00" endTime="2026-11-07T09:37:57.5772052+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef54271b-e2e5-46ba-bee2-1191c09481ad">
+      <Output>
+        <StdOut>MT1-IT-038: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7f617aae-c4f5-4567-908f-ed7eb2ffe28a" testId="d7e06050-cd91-0c54-4304-06d069825a9a" testName="MT1-IT-024 · Phụ huynh thiếu tên" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3600423" startTime="2026-11-07T09:38:07.1015583+07:00" endTime="2026-11-07T09:38:07.1015586+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f617aae-c4f5-4567-908f-ed7eb2ffe28a">
+      <Output>
+        <StdOut>MT1-IT-024: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6b8c8bd6-4c2a-4f3b-bd67-0d813c97bd07" testId="a383deec-c329-02b4-22f1-13a7efc4d57d" testName="MT1-IT-042 · Lịch chồng bị chặn ở Service" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3795323" startTime="2026-11-07T09:38:06.2429509+07:00" endTime="2026-11-07T09:38:06.2429511+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b8c8bd6-4c2a-4f3b-bd67-0d813c97bd07">
+      <Output>
+        <StdOut>MT1-IT-042: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8e3bf19e-5757-4ad4-a22c-04a77e2b95e5" testId="205b4241-886e-0fce-826d-3715d9bb93c2" testName="MT1-IT-033 · Đọc form của người khác" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3719905" startTime="2026-11-07T09:38:05.3411563+07:00" endTime="2026-11-07T09:38:05.3411566+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e3bf19e-5757-4ad4-a22c-04a77e2b95e5">
+      <Output>
+        <StdOut>MT1-IT-033: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f82211de-cc4d-4b5f-96eb-a86784633f74" testId="f3288c5e-5386-277b-520f-a27c060d57ee" testName="MT1-IT-062 · Model binding lọc môn" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.7019533" startTime="2026-11-07T09:37:52.3284692+07:00" endTime="2026-11-07T09:37:52.3284698+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f82211de-cc4d-4b5f-96eb-a86784633f74">
+      <Output>
+        <StdOut>MT1-IT-062: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3d0ea35c-e021-4afc-bc07-90b4b6ad7f94" testId="1fd5136d-3f72-8e5c-7446-74c76e625dc1" testName="MT1-IT-077 · Liên hệ chính mình" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2580266" startTime="2026-11-07T09:37:53.2645210+07:00" endTime="2026-11-07T09:37:53.2645213+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d0ea35c-e021-4afc-bc07-90b4b6ad7f94">
+      <Output>
+        <StdOut>MT1-IT-077: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="40c15bba-977a-4dde-b2da-0d59ffa0be60" testId="1112edb4-f049-6721-1fdf-d033ba31c889" testName="MT1-IT-072 · AJAX tìm kiếm partial" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.0806197" startTime="2026-11-07T09:37:50.8326780+07:00" endTime="2026-11-07T09:37:50.8326782+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40c15bba-977a-4dde-b2da-0d59ffa0be60">
+      <Output>
+        <StdOut>MT1-IT-072: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ddb32c4e-3297-4414-86ef-ac26f0899391" testId="667fd4df-8287-2bb5-6d51-e0533218243a" testName="MT1-IT-041 · Không mở bản nháp bằng đổi trạng thái" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2543303" startTime="2026-11-07T09:37:59.1393099+07:00" endTime="2026-11-07T09:37:59.1393102+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ddb32c4e-3297-4414-86ef-ac26f0899391">
+      <Output>
+        <StdOut>MT1-IT-041: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0682eb10-579c-41d6-a231-a9c93102af1f" testId="c554d60a-4f2b-3c19-d711-83ebaf2a18ae" testName="MT1-IT-059 · Khoảng học phí từ–đến theo thiết kế" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-07T09:37:57.8399650+07:00" endTime="2026-11-07T09:37:57.8399651+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0682eb10-579c-41d6-a231-a9c93102af1f">
+      <Output>
+        <ErrorInfo>
+          <Message>Chưa thống nhất bộ lọc HocPhiTu/HocPhiDen với HocPhiToiDa.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dd8f4f0c-8945-4fb6-ab22-57dc1626fb03" testId="4e79400b-9e1e-f7f3-6d67-bc8cfb9b0d37" testName="MT1-IT-020 · Đăng thiếu mục tiêu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3969380" startTime="2026-11-07T09:38:08.8235410+07:00" endTime="2026-11-07T09:38:08.8235412+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd8f4f0c-8945-4fb6-ab22-57dc1626fb03">
+      <Output>
+        <StdOut>MT1-IT-020: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="be740ab2-5d07-41bc-845b-4f4ed8b64b83" testId="5535f211-d108-c661-2338-377e8535891a" testName="MT1-IT-065 · POST thiếu token" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4924738" startTime="2026-11-07T09:38:11.4477909+07:00" endTime="2026-11-07T09:38:11.4477910+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="be740ab2-5d07-41bc-845b-4f4ed8b64b83">
+      <Output>
+        <StdOut>MT1-IT-065: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dbeef150-a49a-4f62-90c8-6b5c43e944a7" testId="37887577-ef53-c972-a5d6-ea4b680ee3f9" testName="MT1-IT-030 · Vượt 10 môn" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.1931432" startTime="2026-11-07T09:37:38.3845991+07:00" endTime="2026-11-07T09:37:38.3846321+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbeef150-a49a-4f62-90c8-6b5c43e944a7">
+      <Output>
+        <StdOut>MT1-IT-030: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ffee694f-6ff2-43c4-86fc-167c58cbac26" testId="338788a5-b3f0-a21f-dbcd-c68af26deafc" testName="MT1-IT-021 · Đăng thiếu số buổi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2562285" startTime="2026-11-07T09:38:10.4109714+07:00" endTime="2026-11-07T09:38:10.4109717+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ffee694f-6ff2-43c4-86fc-167c58cbac26">
+      <Output>
+        <StdOut>MT1-IT-021: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a2524e1b-7cf8-4dcf-b135-5f373ad4e5af" testId="c541379e-0383-1c29-dfc0-8f587302d6c8" testName="MT1-IT-076 · Gửi lời mời liên hệ hợp lệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3449799" startTime="2026-11-07T09:38:03.3449006+07:00" endTime="2026-11-07T09:38:03.3449007+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2524e1b-7cf8-4dcf-b135-5f373ad4e5af">
+      <Output>
+        <StdOut>MT1-IT-076: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="086cee3a-045e-4237-be55-da4e104cba6d" testId="e8067b2c-0d19-8108-8b6d-8692b3494a41" testName="MT1-IT-069 · Bind đủ tên trường lịch" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.9119459" startTime="2026-11-07T09:37:40.2981283+07:00" endTime="2026-11-07T09:37:40.2981287+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="086cee3a-045e-4237-be55-da4e104cba6d">
+      <Output>
+        <StdOut>MT1-IT-069: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a0242052-fd67-4068-a08e-de84af0664ca" testId="b08db3d7-086c-c690-c9c1-79babacc9f99" testName="MT1-IT-039 · Đóng nhu cầu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3299918" startTime="2026-11-07T09:37:48.8933251+07:00" endTime="2026-11-07T09:37:48.8933253+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a0242052-fd67-4068-a08e-de84af0664ca">
+      <Output>
+        <StdOut>MT1-IT-039: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d2b640c8-e44d-4a7d-9345-878337c158d0" testId="b281741d-67d3-f2df-979f-42a71488ce57" testName="MT1-IT-035 · Sửa bằng phiên bản cũ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2731766" startTime="2026-11-07T09:37:55.5455926+07:00" endTime="2026-11-07T09:37:55.5455929+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d2b640c8-e44d-4a7d-9345-878337c158d0">
+      <Output>
+        <StdOut>MT1-IT-035: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+        <ErrorInfo>
+          <Message>Assert.IsType() Failure: Value is not the exact type&#xD;
+Expected: typeof(Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)&#xD;
+Actual:   typeof(EduConnect.Mvc.Infrastructure.LoiNghiepVu)</Message>
+          <StackTrace>   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 887&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 887&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 1125&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 414&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 447&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ba214893-bb30-4dda-9be7-468b59b69266" testId="77ebe622-1cf4-ac75-0079-f1fe808c7e5a" testName="MT1-IT-015 · Phụ huynh mô tả người học" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2617099" startTime="2026-11-07T09:38:04.4135162+07:00" endTime="2026-11-07T09:38:04.4135165+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba214893-bb30-4dda-9be7-468b59b69266">
+      <Output>
+        <StdOut>MT1-IT-015: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7b221a29-1447-46f8-bca5-a0a2b9c45c34" testId="b5fc0a06-6c24-25b4-fecf-df270ee326c5" testName="MT1-IT-023 · Nháp vẫn kiểm học phí" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2487193" startTime="2026-11-07T09:37:58.8845222+07:00" endTime="2026-11-07T09:37:58.8845226+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7b221a29-1447-46f8-bca5-a0a2b9c45c34">
+      <Output>
+        <StdOut>MT1-IT-023: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="03f5cfe3-37c5-4389-939b-62436abf9364" testId="1e36cf60-f038-3793-5bb1-6d967951758f" testName="MT1-IT-082 · Chặn hai thao tác khi người nhận bị khóa" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5208963" startTime="2026-11-07T09:38:05.8641589+07:00" endTime="2026-11-07T09:38:05.8641590+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03f5cfe3-37c5-4389-939b-62436abf9364">
+      <Output>
+        <StdOut>MT1-IT-082: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+        <ErrorInfo>
+          <Message>Assert.NotNull() Failure: Value is null</Message>
+          <StackTrace>   at IntegrationTests.ContactCases(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 489&#xD;
+   at IntegrationTests.ContactCases(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 492&#xD;
+   at IntegrationTests.ContactCases(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 606&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 1122&#xD;
+   at IntegrationTests.Service(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 1125&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 414&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 447&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8980f443-2b80-45eb-a35b-6f44a4e9e656" testId="57f05ef5-ca75-2531-6b36-822b9aaaa209" testName="MT1-IT-081 · Rollback thông báo khi lưu lỗi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3192803" startTime="2026-11-07T09:37:54.9918739+07:00" endTime="2026-11-07T09:37:54.9918748+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8980f443-2b80-45eb-a35b-6f44a4e9e656">
+      <Output>
+        <StdOut>MT1-IT-081: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8a01de9b-6955-43af-a5c6-8ac626b77bd9" testId="8afb7bee-79fc-fbc3-ab08-ed8f35e3b864" testName="MT1-IT-048 · Lọc hình thức và khu vực" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.7019234" startTime="2026-11-07T09:37:46.1917273+07:00" endTime="2026-11-07T09:37:46.1917276+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a01de9b-6955-43af-a5c6-8ac626b77bd9">
+      <Output>
+        <StdOut>MT1-IT-048: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="519cbf4f-fa07-4d69-a8f1-b06cc65c28ab" testId="d28af91e-06ed-0afe-4405-3024ee09c61c" testName="MT1-IT-057 · So sánh Id lặp" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.6772985" startTime="2026-11-07T09:37:53.0061235+07:00" endTime="2026-11-07T09:37:53.0061238+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="519cbf4f-fa07-4d69-a8f1-b06cc65c28ab">
+      <Output>
+        <StdOut>MT1-IT-057: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d0deb5f6-1ce9-4c73-a9cb-62c125a0f79a" testId="0159573b-9fc6-8ee8-7ca6-9e587ed2c18e" testName="MT1-IT-068 · POST thường validation lỗi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5608962" startTime="2026-11-07T09:38:00.4148373+07:00" endTime="2026-11-07T09:38:00.4148373+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d0deb5f6-1ce9-4c73-a9cb-62c125a0f79a">
+      <Output>
+        <StdOut>MT1-IT-068: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+        <ErrorInfo>
+          <Message>Assert.DoesNotContain() Failure: Sub-string found&#xD;
+                                    ↓ (pos 3103)&#xD;
+String: ···"cầu&lt;/span&gt;&lt;/nav&gt;\r\n\r\n&lt;h1&gt;Tạo nhu cầu&lt;/h1&gt;\r"···&#xD;
+Found:  "&lt;h1&gt;Tạo nhu cầu"</Message>
+          <StackTrace>   at IntegrationTests.Http(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\HttpIntegrationTests.cs:line 208&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 414&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 447&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="22aa8658-795d-4c66-9824-7fc9b3db43ab" testId="38c9da54-ad38-adbd-ead0-d0576d363a62" testName="MT1-IT-037 · Rollback sau lần ghi nhu cầu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2957096" startTime="2026-11-07T09:38:09.5375067+07:00" endTime="2026-11-07T09:38:09.5375073+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22aa8658-795d-4c66-9824-7fc9b3db43ab">
+      <Output>
+        <StdOut>MT1-IT-037: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="32510d35-b07c-469f-8724-35d0a077a8ba" testId="c492d315-4dbf-b3ea-b9b8-247a7c7b9270" testName="MT1-IT-052 · Trang không hợp lệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2577447" startTime="2026-11-07T09:37:49.7516073+07:00" endTime="2026-11-07T09:37:49.7516077+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32510d35-b07c-469f-8724-35d0a077a8ba">
+      <Output>
+        <StdOut>MT1-IT-052: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dbee659e-fa21-4eb3-9d36-b1b39d0c4a1e" testId="d7527a91-3d14-efe3-70d8-3b3b3dfb827c" testName="MT1-IT-080 · Gửi liên hệ trùng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4287740" startTime="2026-11-07T09:38:08.4262394+07:00" endTime="2026-11-07T09:38:08.4262395+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbee659e-fa21-4eb3-9d36-b1b39d0c4a1e">
+      <Output>
+        <StdOut>MT1-IT-080: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dbb71a5b-3b4c-441e-ba2a-567ecad82be6" testId="c4bd7a95-87cb-2361-1dbf-ea05cb3f9644" testName="MT1-IT-055 · Chi tiết đã ẩn hoặc nhu cầu đóng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3182735" startTime="2026-11-07T09:37:47.6933657+07:00" endTime="2026-11-07T09:37:47.6933661+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbb71a5b-3b4c-441e-ba2a-567ecad82be6">
+      <Output>
+        <StdOut>MT1-IT-055: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cde2de6c-5e00-46bf-861e-041e8540837a" testId="c2c5b4d4-6f3f-e8fc-a71e-6d07dc93acee" testName="MT1-IT-064 · POST nhu cầu thường hợp lệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5271531" startTime="2026-11-07T09:37:53.7920388+07:00" endTime="2026-11-07T09:37:53.7920389+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cde2de6c-5e00-46bf-861e-041e8540837a">
+      <Output>
+        <StdOut>MT1-IT-064: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3296d88c-9eef-4ee1-a43c-692f52727f26" testId="a7ae42f4-6616-0653-3e59-e889163ce4a4" testName="MT1-IT-054 · Chi tiết công khai không lộ thông tin trẻ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2800393" startTime="2026-11-07T09:37:58.3800150+07:00" endTime="2026-11-07T09:37:58.3800152+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3296d88c-9eef-4ee1-a43c-692f52727f26">
+      <Output>
+        <StdOut>MT1-IT-054: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a9387127-f754-4f53-ba1b-6502580e4734" testId="9d468fb4-cbe9-7f8f-8c04-1812b44cabc1" testName="MT1-IT-022 · Lưu nháp chưa có mục tiêu/lịch" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2706509" startTime="2026-11-07T09:37:54.4175769+07:00" endTime="2026-11-07T09:37:54.4175772+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9387127-f754-4f53-ba1b-6502580e4734">
+      <Output>
+        <StdOut>MT1-IT-022: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0a765276-b513-499f-9e63-77b49474b16c" testId="cae84735-f418-f507-4cab-0b0b6ddf6bd6" testName="MT1-IT-040 · Mở lại nhu cầu đã đóng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2619703" startTime="2026-11-07T09:37:57.8395782+07:00" endTime="2026-11-07T09:37:57.8395785+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a765276-b513-499f-9e63-77b49474b16c">
+      <Output>
+        <StdOut>MT1-IT-040: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d7eea2f8-24be-4ea7-905a-fa9ccc4ceacf" testId="647cfc72-7646-f75c-6caf-9116535ce93c" testName="MT1-IT-049 · Từ khóa và dấu tiếng Việt" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-07T09:37:38.3898185+07:00" endTime="2026-11-07T09:37:38.3898188+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d7eea2f8-24be-4ea7-905a-fa9ccc4ceacf">
+      <Output>
+        <ErrorInfo>
+          <Message>Chưa chốt quy tắc tìm từ khóa/dấu/hoa thường.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f794142d-21c7-4ddb-834f-1034c333de1b" testId="8e31c909-c7d5-99da-7f4d-f6fd3762a20f" testName="MT1-IT-046 · Lọc đúng môn và học phí cùng dòng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.6607248" startTime="2026-11-07T09:38:01.0710453+07:00" endTime="2026-11-07T09:38:01.0710455+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f794142d-21c7-4ddb-834f-1034c333de1b">
+      <Output>
+        <StdOut>MT1-IT-046: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5fd5ca89-5816-4934-be6a-9a2e9aeae23f" testId="55238382-c004-87a5-70ed-ec61f1fefd6b" testName="MT1-IT-070 · Base64 phiên bản sai" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.6163168" startTime="2026-11-07T09:38:10.1543280+07:00" endTime="2026-11-07T09:38:10.1543282+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5fd5ca89-5816-4934-be6a-9a2e9aeae23f">
+      <Output>
+        <StdOut>MT1-IT-070: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b46c9c95-5674-4925-923f-4255dfada184" testId="5760cbd8-3204-009a-08c7-6f8e4f0740c0" testName="MT1-IT-045 · Phân trang trang2" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3802580" startTime="2026-11-07T09:37:55.9244024+07:00" endTime="2026-11-07T09:37:55.9244026+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b46c9c95-5674-4925-923f-4255dfada184">
+      <Output>
+        <StdOut>MT1-IT-045: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="67362ecd-6131-4f10-8bd3-ce8c45d0036d" testId="c6c05dc1-6004-83bf-146b-302f39bb00bb" testName="MT1-IT-036 · Chỉ thay lịch cũng kiểm phiên bản" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2549128" startTime="2026-11-07T09:37:58.6352943+07:00" endTime="2026-11-07T09:37:58.6352945+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="67362ecd-6131-4f10-8bd3-ce8c45d0036d">
+      <Output>
+        <StdOut>MT1-IT-036: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6be2088e-f99d-41ac-9a39-96974f487725" testId="74afa493-175e-9c6c-729d-41ed74b22ffc" testName="MT1-IT-086 · Bind sai định dạng tham số tìm kiếm" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4836569" startTime="2026-11-07T09:38:04.1513406+07:00" endTime="2026-11-07T09:38:04.1513407+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6be2088e-f99d-41ac-9a39-96974f487725">
+      <Output>
+        <StdOut>MT1-IT-086: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cd7c2c4a-d02c-42c2-8493-5a62255ee3d8" testId="84511e96-8d18-e06d-5b85-551175c1664e" testName="MT1-IT-067 · POST AJAX validation lỗi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5548585" startTime="2026-11-07T09:38:04.9687482+07:00" endTime="2026-11-07T09:38:04.9687482+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd7c2c4a-d02c-42c2-8493-5a62255ee3d8">
+      <Output>
+        <StdOut>MT1-IT-067: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1fddb19b-638c-484e-a6a7-b02865220737" testId="f3be9f08-c8de-9181-c41e-599fac590db8" testName="MT1-IT-071 · Xung đột phiên bản thật qua HTTP" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.8665301" startTime="2026-11-07T09:37:48.5688042+07:00" endTime="2026-11-07T09:37:48.5688045+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fddb19b-638c-484e-a6a7-b02865220737">
+      <Output>
+        <StdOut>MT1-IT-071: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: Conflict&#xD;
+Actual:   UnprocessableEntity</Message>
+          <StackTrace>   at IntegrationTests.Http(Mt1Case c, Int32 n) in C:\Khóa luận TN\Educonnect\tests\MT1\HttpIntegrationTests.cs:line 158&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 414&#xD;
+   at IntegrationTests.Run(String id, Func`2 test) in C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs:line 447&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="008973b1-1368-4b37-a36b-3b6787fb574f" testId="11df9680-fbc1-0d3b-da89-881afab33bc6" testName="MT1-IT-050 · Lọc lịch chứa trọn khoảng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3381196" startTime="2026-11-07T09:37:49.4934571+07:00" endTime="2026-11-07T09:37:49.4934576+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="008973b1-1368-4b37-a36b-3b6787fb574f">
+      <Output>
+        <StdOut>MT1-IT-050: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fc414349-c7b5-4249-be3a-c2e5c649d08c" testId="ed4a68e6-65e7-5a94-4c53-3e8b91f8285f" testName="MT1-IT-053 · Không tìm thấy và trang vượt kết quả" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3218455" startTime="2026-11-07T09:38:03.6672076+07:00" endTime="2026-11-07T09:38:03.6672078+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc414349-c7b5-4249-be3a-c2e5c649d08c">
+      <Output>
+        <StdOut>MT1-IT-053: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6411d1bd-c343-4929-ab1d-edbdc5806b2f" testId="0a1bc882-6b7a-a0ad-cde9-c6698359a7c8" testName="MT1-IT-079 · Hồ sơ gia sư ẩn" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2692296" startTime="2026-11-07T09:38:10.9549907+07:00" endTime="2026-11-07T09:38:10.9549908+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6411d1bd-c343-4929-ab1d-edbdc5806b2f">
+      <Output>
+        <StdOut>MT1-IT-079: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cbb72501-b498-46e3-b0f3-c4ef343ef932" testId="eff46a96-d99a-4132-9364-a8d3ba31bff2" testName="MT1-IT-085 · AJAX liên hệ ModelState sai theo sơ đồ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5657346" startTime="2026-11-07T09:37:42.7798131+07:00" endTime="2026-11-07T09:37:42.7798133+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbb72501-b498-46e3-b0f3-c4ef343ef932">
+      <Output>
+        <StdOut>MT1-IT-085: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7231822d-75d3-4d11-92fc-61318196c8a2" testId="3b23d35c-165e-5b2d-ba66-ff5a85036ba3" testName="MT1-IT-056 · So sánh 3 Id phân biệt" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.6354355" startTime="2026-11-07T09:37:56.5602530+07:00" endTime="2026-11-07T09:37:56.5602532+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7231822d-75d3-4d11-92fc-61318196c8a2">
+      <Output>
+        <StdOut>MT1-IT-056: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0faa5696-24f8-426b-9015-8797e368497d" testId="417baf66-4d0f-927c-342c-f0d91df0e71a" testName="MT1-IT-029 · Lưu đầy đủ danh sách 10 môn hợp lệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2642849" startTime="2026-11-07T09:38:02.0591800+07:00" endTime="2026-11-07T09:38:02.0591803+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0faa5696-24f8-426b-9015-8797e368497d">
+      <Output>
+        <StdOut>MT1-IT-029: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d1474b95-2d6a-4bae-9ae2-7be79a8e8744" testId="1a7eaf6b-1408-f73b-7e25-16882527feee" testName="MT1-IT-073 · AJAX so sánh modal" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.0139806" startTime="2026-11-07T09:37:44.1092188+07:00" endTime="2026-11-07T09:37:44.1092191+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d1474b95-2d6a-4bae-9ae2-7be79a8e8744">
+      <Output>
+        <StdOut>MT1-IT-073: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="36af1936-9dac-4bb0-80d4-7aa41699bd49" testId="53374902-b96c-07d2-96ec-559307207a96" testName="MT1-IT-060 · Gợi ý và lý do trên dữ liệu thực" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.7228340" startTime="2026-11-07T09:38:01.7944438+07:00" endTime="2026-11-07T09:38:01.7944442+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36af1936-9dac-4bb0-80d4-7aa41699bd49">
+      <Output>
+        <StdOut>MT1-IT-060: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ebf0c715-f50b-4a56-9984-f4854915c46c" testId="fbe29201-b36b-8ad6-dec6-653c58f04bff" testName="MT1-IT-027 · Trùng Id môn được chuẩn hóa" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2737183" startTime="2026-11-07T09:37:44.3833548+07:00" endTime="2026-11-07T09:37:44.3833549+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ebf0c715-f50b-4a56-9984-f4854915c46c">
+      <Output>
+        <StdOut>MT1-IT-027: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dbdf34bb-5c73-4669-8104-dfde0ffa8569" testId="31c3efa1-0d4d-a6ba-850e-2ec50504c194" testName="MT1-IT-075 · Phiên chưa xác thực" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3541114" startTime="2026-11-07T09:37:54.1465569+07:00" endTime="2026-11-07T09:37:54.1465572+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbdf34bb-5c73-4669-8104-dfde0ffa8569">
+      <Output>
+        <StdOut>MT1-IT-075: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="87c60d6d-2570-48d3-9a1f-b39a4635274d" testId="08cf8a63-e70d-776c-74fb-c342c3d81cc8" testName="MT1-IT-083 · Nhắn tin trước kết nối sau khi chấp nhận liên hệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.5760748" startTime="2026-11-07T09:37:44.9598690+07:00" endTime="2026-11-07T09:37:44.9598694+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87c60d6d-2570-48d3-9a1f-b39a4635274d">
+      <Output>
+        <StdOut>MT1-IT-083: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0029242b-525d-4d26-9fe1-0dad817346b9" testId="6a2f6941-2dde-ba98-9188-59f01b9ff985" testName="MT1-IT-014 · Lưu nhu cầu học sinh trực tuyến" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4173534" startTime="2026-11-07T09:38:09.2413112+07:00" endTime="2026-11-07T09:38:09.2413119+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0029242b-525d-4d26-9fe1-0dad817346b9">
+      <Output>
+        <StdOut>MT1-IT-014: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1e5bdcb1-7426-4fd2-8738-5395ef426ebe" testId="0ce134d0-6c02-709b-b38c-00fc6a364ac6" testName="MT1-IT-051 · Sắp xếp phí cùng đơn vị" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.7929551" startTime="2026-11-07T09:37:51.6261043+07:00" endTime="2026-11-07T09:37:51.6261047+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e5bdcb1-7426-4fd2-8738-5395ef426ebe">
+      <Output>
+        <StdOut>MT1-IT-051: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2c85f813-0f45-4ba5-9bbb-8ae609bdeac4" testId="bcf84a3d-b2b1-b8a6-0058-b21253d75a36" testName="MT1-IT-017 · Đăng học trực tiếp có khu vực" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2596678" startTime="2026-11-07T09:37:58.0996381+07:00" endTime="2026-11-07T09:37:58.0996382+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2c85f813-0f45-4ba5-9bbb-8ae609bdeac4">
+      <Output>
+        <StdOut>MT1-IT-017: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="10d70225-d2ab-4c40-b9a5-b6ea248b0ca9" testId="654fa06b-2dca-c74e-4992-d314c647f72f" testName="MT1-IT-084 · Gửi lại tin sau lỗi không tạo trùng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2610543" startTime="2026-11-07T09:37:49.1549265+07:00" endTime="2026-11-07T09:37:49.1549266+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10d70225-d2ab-4c40-b9a5-b6ea248b0ca9">
+      <Output>
+        <StdOut>MT1-IT-084: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="bf37361e-148a-4f27-bd88-081fcaf5911e" testId="cc17c7b6-d329-c70c-1fa7-ee0205846280" testName="MT1-IT-043 · Học sinh tìm hồ sơ gia sư" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.8384081" startTime="2026-11-07T09:37:41.8037629+07:00" endTime="2026-11-07T09:37:41.8037633+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bf37361e-148a-4f27-bd88-081fcaf5911e">
+      <Output>
+        <StdOut>MT1-IT-043: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8ad97044-a134-44ed-8f37-7519f54e59bf" testId="9d986f32-55fc-9f79-f897-be0a3dd1aea0" testName="MT1-IT-061 · GET tìm kiếm HTML" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.9399829" startTime="2026-11-07T09:38:02.9995341+07:00" endTime="2026-11-07T09:38:02.9995344+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ad97044-a134-44ed-8f37-7519f54e59bf">
+      <Output>
+        <StdOut>MT1-IT-061: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ce86b894-e23e-4aae-b786-a7f76f9de2bd" testId="cf7a5a75-7f35-53ff-c8ae-24957f8bf50b" testName="MT1-IT-028 · Không chọn môn" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2773784" startTime="2026-11-07T09:37:55.2697083+07:00" endTime="2026-11-07T09:37:55.2697087+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ce86b894-e23e-4aae-b786-a7f76f9de2bd">
+      <Output>
+        <StdOut>MT1-IT-028: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cd098104-bd71-4977-98a6-a6ed91c6e251" testId="91949d78-c3d8-3545-59ed-0fb7ff941a07" testName="MT1-IT-066 · POST AJAX thành công" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.6663498" startTime="2026-11-07T09:37:40.9647710+07:00" endTime="2026-11-07T09:37:40.9647713+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd098104-bd71-4977-98a6-a6ed91c6e251">
+      <Output>
+        <StdOut>MT1-IT-066: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4645309c-b7e4-4a04-8d03-5d1936b8e6e4" testId="31f239ef-deb1-6805-0c5b-5720afcd7f4a" testName="MT1-IT-018 · Học trực tiếp thiếu khu vực" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2559930" startTime="2026-11-07T09:37:45.2162367+07:00" endTime="2026-11-07T09:37:45.2162370+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4645309c-b7e4-4a04-8d03-5d1936b8e6e4">
+      <Output>
+        <StdOut>MT1-IT-018: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="40c9feae-d007-4e77-b09f-77473d48faee" testId="8c2cd26b-c638-43f5-3ed0-2d9c9639aa26" testName="MT1-IT-016 · Gia sư bị từ chối tạo nhu cầu học" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2542070" startTime="2026-11-07T09:37:54.6721697+07:00" endTime="2026-11-07T09:37:54.6721700+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40c9feae-d007-4e77-b09f-77473d48faee">
+      <Output>
+        <StdOut>MT1-IT-016: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a1da0c8a-4a9c-40bd-9ae4-8273b7dc488c" testId="2bde5a2e-0595-6625-318e-78d92a9776c6" testName="MT1-IT-074 · AJAX so sánh 4 đối tượng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.8847818" startTime="2026-11-07T09:37:47.3745741+07:00" endTime="2026-11-07T09:37:47.3745744+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1da0c8a-4a9c-40bd-9ae4-8273b7dc488c">
+      <Output>
+        <StdOut>MT1-IT-074: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5f2076d0-0c81-489e-bb09-42cbf3f6b85a" testId="6d649922-1f91-61f2-7696-56ccfb9e050b" testName="MT1-IT-032 · Sửa đúng chủ và lịch" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.3144583" startTime="2026-11-07T09:37:43.0948145+07:00" endTime="2026-11-07T09:37:43.0948149+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f2076d0-0c81-489e-bb09-42cbf3f6b85a">
+      <Output>
+        <StdOut>MT1-IT-032: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="315641dc-835b-47ab-baa3-38fa9685377b" testId="f9fa2198-f09b-8da2-b551-b82d7c484e6a" testName="MT1-IT-026 · Lưu và đọc lại nhu cầu có hai môn" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2972101" startTime="2026-11-07T09:37:46.4893432+07:00" endTime="2026-11-07T09:37:46.4893434+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="315641dc-835b-47ab-baa3-38fa9685377b">
+      <Output>
+        <StdOut>MT1-IT-026: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fad5ea62-c955-4fb6-953a-1848dfa1378e" testId="5f85eeef-4c62-4fe6-ed01-5ac4b7fb56fd" testName="MT1-IT-058 · So sánh chứa đối tượng vừa đóng" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.8950257" startTime="2026-11-07T09:38:07.9970941+07:00" endTime="2026-11-07T09:38:07.9970943+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fad5ea62-c955-4fb6-953a-1848dfa1378e">
+      <Output>
+        <StdOut>MT1-IT-058: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8bbd8e80-c938-4129-8eba-6c07f071a0cf" testId="e3096a79-d8d9-290d-0c00-cf9d20037281" testName="MT1-IT-078 · Hai bên đều là học sinh" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2740568" startTime="2026-11-07T09:38:10.6854202+07:00" endTime="2026-11-07T09:38:10.6854204+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8bbd8e80-c938-4129-8eba-6c07f071a0cf">
+      <Output>
+        <StdOut>MT1-IT-078: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="75f9fbe0-cb2e-43e3-9476-a1d11cbb1bb8" testId="726b8e31-5709-32b8-f11c-ff1aa8b6669a" testName="MT1-IT-034 · Ghi nhu cầu của người khác" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.4094366" startTime="2026-11-07T09:37:42.2136476+07:00" endTime="2026-11-07T09:37:42.2136478+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="75f9fbe0-cb2e-43e3-9476-a1d11cbb1bb8">
+      <Output>
+        <StdOut>MT1-IT-034: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7c73107f-7332-4ad7-a2e5-edd780ab4955" testId="8272244c-1e18-e0a2-c0a0-b330e99d6b68" testName="MT1-IT-047 · Lọc nhiều môn" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.7087246" startTime="2026-11-07T09:37:59.8484122+07:00" endTime="2026-11-07T09:37:59.8484123+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c73107f-7332-4ad7-a2e5-edd780ab4955">
+      <Output>
+        <StdOut>MT1-IT-047: Pass. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MT1-IT-047 · Lọc nhiều môn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="8272244c-1e18-e0a2-c0a0-b330e99d6b68">
+      <Execution id="7c73107f-7332-4ad7-a2e5-edd780ab4955" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_047" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-063 · Trang0 qua middleware" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="8c772378-ee8f-c858-003a-3c91ce61e975">
+      <Execution id="2a4edd1c-73a7-4284-8631-685926f9ba06" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_063" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-015 · Phụ huynh mô tả người học" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="77ebe622-1cf4-ac75-0079-f1fe808c7e5a">
+      <Execution id="ba214893-bb30-4dda-9be7-468b59b69266" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_015" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-039 · Đóng nhu cầu" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="b08db3d7-086c-c690-c9c1-79babacc9f99">
+      <Execution id="a0242052-fd67-4068-a08e-de84af0664ca" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_039" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-080 · Gửi liên hệ trùng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="d7527a91-3d14-efe3-70d8-3b3b3dfb827c">
+      <Execution id="dbee659e-fa21-4eb3-9d36-b1b39d0c4a1e" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_080" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-032 · Sửa đúng chủ và lịch" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="6d649922-1f91-61f2-7696-56ccfb9e050b">
+      <Execution id="5f2076d0-0c81-489e-bb09-42cbf3f6b85a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_032" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-042 · Lịch chồng bị chặn ở Service" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="a383deec-c329-02b4-22f1-13a7efc4d57d">
+      <Execution id="6b8c8bd6-4c2a-4f3b-bd67-0d813c97bd07" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_042" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-075 · Phiên chưa xác thực" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="31c3efa1-0d4d-a6ba-850e-2ec50504c194">
+      <Execution id="dbdf34bb-5c73-4669-8104-dfde0ffa8569" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_075" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-052 · Trang không hợp lệ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c492d315-4dbf-b3ea-b9b8-247a7c7b9270">
+      <Execution id="32510d35-b07c-469f-8724-35d0a077a8ba" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_052" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-038 · Rollback khi môn thứ hai sai" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="49bcd94f-1425-c9a9-305e-dd2433247b14">
+      <Execution id="ef54271b-e2e5-46ba-bee2-1191c09481ad" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_038" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-019 · Trực tuyến:quy tắc xử lý địa chỉ và dữ liệu công khai" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="3e34fd72-2836-e321-ffa4-e72f1dfddbca">
+      <Execution id="c5b6a757-26b8-43f3-ae5a-0bd3b7086151" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_019" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-035 · Sửa bằng phiên bản cũ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="b281741d-67d3-f2df-979f-42a71488ce57">
+      <Execution id="d2b640c8-e44d-4a7d-9345-878337c158d0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_035" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-077 · Liên hệ chính mình" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="1fd5136d-3f72-8e5c-7446-74c76e625dc1">
+      <Execution id="3d0ea35c-e021-4afc-bc07-90b4b6ad7f94" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_077" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-083 · Nhắn tin trước kết nối sau khi chấp nhận liên hệ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="08cf8a63-e70d-776c-74fb-c342c3d81cc8">
+      <Execution id="87c60d6d-2570-48d3-9a1f-b39a4635274d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_083" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-029 · Lưu đầy đủ danh sách 10 môn hợp lệ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="417baf66-4d0f-927c-342c-f0d91df0e71a">
+      <Execution id="0faa5696-24f8-426b-9015-8797e368497d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_029" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-031 · Cập nhật danh sách môn của nhu cầu" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c9697313-a35f-df75-63ba-ca5df50290c2">
+      <Execution id="c95d4a0e-0a89-4de3-ba79-cfc49f8aa4e5" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_031" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-050 · Lọc lịch chứa trọn khoảng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="11df9680-fbc1-0d3b-da89-881afab33bc6">
+      <Execution id="008973b1-1368-4b37-a36b-3b6787fb574f" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_050" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-065 · POST thiếu token" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="5535f211-d108-c661-2338-377e8535891a">
+      <Execution id="be740ab2-5d07-41bc-845b-4f4ed8b64b83" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_065" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-051 · Sắp xếp phí cùng đơn vị" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="0ce134d0-6c02-709b-b38c-00fc6a364ac6">
+      <Execution id="1e5bdcb1-7426-4fd2-8738-5395ef426ebe" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_051" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-061 · GET tìm kiếm HTML" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="9d986f32-55fc-9f79-f897-be0a3dd1aea0">
+      <Execution id="8ad97044-a134-44ed-8f37-7519f54e59bf" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_061" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-071 · Xung đột phiên bản thật qua HTTP" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="f3be9f08-c8de-9181-c41e-599fac590db8">
+      <Execution id="1fddb19b-638c-484e-a6a7-b02865220737" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_071" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-030 · Vượt 10 môn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="37887577-ef53-c972-a5d6-ea4b680ee3f9">
+      <Execution id="dbeef150-a49a-4f62-90c8-6b5c43e944a7" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_030" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-070 · Base64 phiên bản sai" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="55238382-c004-87a5-70ed-ec61f1fefd6b">
+      <Execution id="5fd5ca89-5816-4934-be6a-9a2e9aeae23f" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_070" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-076 · Gửi lời mời liên hệ hợp lệ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c541379e-0383-1c29-dfc0-8f587302d6c8">
+      <Execution id="a2524e1b-7cf8-4dcf-b135-5f373ad4e5af" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_076" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-014 · Lưu nhu cầu học sinh trực tuyến" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="6a2f6941-2dde-ba98-9188-59f01b9ff985">
+      <Execution id="0029242b-525d-4d26-9fe1-0dad817346b9" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_014" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-085 · AJAX liên hệ ModelState sai theo sơ đồ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="eff46a96-d99a-4132-9364-a8d3ba31bff2">
+      <Execution id="cbb72501-b498-46e3-b0f3-c4ef343ef932" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_085" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-043 · Học sinh tìm hồ sơ gia sư" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="cc17c7b6-d329-c70c-1fa7-ee0205846280">
+      <Execution id="bf37361e-148a-4f27-bd88-081fcaf5911e" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_043" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-081 · Rollback thông báo khi lưu lỗi" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="57f05ef5-ca75-2531-6b36-822b9aaaa209">
+      <Execution id="8980f443-2b80-45eb-a35b-6f44a4e9e656" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_081" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-027 · Trùng Id môn được chuẩn hóa" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="fbe29201-b36b-8ad6-dec6-653c58f04bff">
+      <Execution id="ebf0c715-f50b-4a56-9984-f4854915c46c" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_027" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-086 · Bind sai định dạng tham số tìm kiếm" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="74afa493-175e-9c6c-729d-41ed74b22ffc">
+      <Execution id="6be2088e-f99d-41ac-9a39-96974f487725" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_086" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-016 · Gia sư bị từ chối tạo nhu cầu học" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="8c2cd26b-c638-43f5-3ed0-2d9c9639aa26">
+      <Execution id="40c9feae-d007-4e77-b09f-77473d48faee" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_016" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-025 · Phụ huynh có tên và lớp nhưng thiếu tuổi" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="739248e2-f793-5658-2b46-794c31ed3401">
+      <Execution id="c0827ee4-1127-48f4-9112-3c333c9f03b0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_025" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-062 · Model binding lọc môn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="f3288c5e-5386-277b-520f-a27c060d57ee">
+      <Execution id="f82211de-cc4d-4b5f-96eb-a86784633f74" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_062" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-020 · Đăng thiếu mục tiêu" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="4e79400b-9e1e-f7f3-6d67-bc8cfb9b0d37">
+      <Execution id="dd8f4f0c-8945-4fb6-ab22-57dc1626fb03" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_020" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-036 · Chỉ thay lịch cũng kiểm phiên bản" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c6c05dc1-6004-83bf-146b-302f39bb00bb">
+      <Execution id="67362ecd-6131-4f10-8bd3-ce8c45d0036d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_036" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-068 · POST thường validation lỗi" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="0159573b-9fc6-8ee8-7ca6-9e587ed2c18e">
+      <Execution id="d0deb5f6-1ce9-4c73-a9cb-62c125a0f79a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_068" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-079 · Hồ sơ gia sư ẩn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="0a1bc882-6b7a-a0ad-cde9-c6698359a7c8">
+      <Execution id="6411d1bd-c343-4929-ab1d-edbdc5806b2f" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_079" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-059 · Khoảng học phí từ–đến theo thiết kế" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c554d60a-4f2b-3c19-d711-83ebaf2a18ae">
+      <Execution id="0682eb10-579c-41d6-a231-a9c93102af1f" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_059" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-023 · Nháp vẫn kiểm học phí" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="b5fc0a06-6c24-25b4-fecf-df270ee326c5">
+      <Execution id="7b221a29-1447-46f8-bca5-a0a2b9c45c34" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_023" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-054 · Chi tiết công khai không lộ thông tin trẻ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="a7ae42f4-6616-0653-3e59-e889163ce4a4">
+      <Execution id="3296d88c-9eef-4ee1-a43c-692f52727f26" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_054" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-064 · POST nhu cầu thường hợp lệ" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c2c5b4d4-6f3f-e8fc-a71e-6d07dc93acee">
+      <Execution id="cde2de6c-5e00-46bf-861e-041e8540837a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_064" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-028 · Không chọn môn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="cf7a5a75-7f35-53ff-c8ae-24957f8bf50b">
+      <Execution id="ce86b894-e23e-4aae-b786-a7f76f9de2bd" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_028" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-053 · Không tìm thấy và trang vượt kết quả" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="ed4a68e6-65e7-5a94-4c53-3e8b91f8285f">
+      <Execution id="fc414349-c7b5-4249-be3a-c2e5c649d08c" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_053" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-048 · Lọc hình thức và khu vực" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="8afb7bee-79fc-fbc3-ab08-ed8f35e3b864">
+      <Execution id="8a01de9b-6955-43af-a5c6-8ac626b77bd9" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_048" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-044 · Gia sư tìm nhu cầu đang mở" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="9fc46259-347c-1de7-0c65-9ead07e00c2c">
+      <Execution id="d6a9fa66-f2a1-41ab-866a-f47b7c7840b0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_044" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-082 · Chặn hai thao tác khi người nhận bị khóa" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="1e36cf60-f038-3793-5bb1-6d967951758f">
+      <Execution id="03f5cfe3-37c5-4389-939b-62436abf9364" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_082" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-074 · AJAX so sánh 4 đối tượng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="2bde5a2e-0595-6625-318e-78d92a9776c6">
+      <Execution id="a1da0c8a-4a9c-40bd-9ae4-8273b7dc488c" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_074" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-046 · Lọc đúng môn và học phí cùng dòng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="8e31c909-c7d5-99da-7f4d-f6fd3762a20f">
+      <Execution id="f794142d-21c7-4ddb-834f-1034c333de1b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_046" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-058 · So sánh chứa đối tượng vừa đóng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="5f85eeef-4c62-4fe6-ed01-5ac4b7fb56fd">
+      <Execution id="fad5ea62-c955-4fb6-953a-1848dfa1378e" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_058" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-026 · Lưu và đọc lại nhu cầu có hai môn" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="f9fa2198-f09b-8da2-b551-b82d7c484e6a">
+      <Execution id="315641dc-835b-47ab-baa3-38fa9685377b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_026" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-073 · AJAX so sánh modal" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="1a7eaf6b-1408-f73b-7e25-16882527feee">
+      <Execution id="d1474b95-2d6a-4bae-9ae2-7be79a8e8744" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_073" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-067 · POST AJAX validation lỗi" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="84511e96-8d18-e06d-5b85-551175c1664e">
+      <Execution id="cd7c2c4a-d02c-42c2-8493-5a62255ee3d8" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_067" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-066 · POST AJAX thành công" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="91949d78-c3d8-3545-59ed-0fb7ff941a07">
+      <Execution id="cd098104-bd71-4977-98a6-a6ed91c6e251" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_066" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-057 · So sánh Id lặp" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="d28af91e-06ed-0afe-4405-3024ee09c61c">
+      <Execution id="519cbf4f-fa07-4d69-a8f1-b06cc65c28ab" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_057" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-018 · Học trực tiếp thiếu khu vực" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="31f239ef-deb1-6805-0c5b-5720afcd7f4a">
+      <Execution id="4645309c-b7e4-4a04-8d03-5d1936b8e6e4" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_018" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-078 · Hai bên đều là học sinh" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="e3096a79-d8d9-290d-0c00-cf9d20037281">
+      <Execution id="8bbd8e80-c938-4129-8eba-6c07f071a0cf" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_078" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-069 · Bind đủ tên trường lịch" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="e8067b2c-0d19-8108-8b6d-8692b3494a41">
+      <Execution id="086cee3a-045e-4237-be55-da4e104cba6d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_069" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-037 · Rollback sau lần ghi nhu cầu" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="38c9da54-ad38-adbd-ead0-d0576d363a62">
+      <Execution id="22aa8658-795d-4c66-9824-7fc9b3db43ab" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_037" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-072 · AJAX tìm kiếm partial" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="1112edb4-f049-6721-1fdf-d033ba31c889">
+      <Execution id="40c15bba-977a-4dde-b2da-0d59ffa0be60" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_072" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-017 · Đăng học trực tiếp có khu vực" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="bcf84a3d-b2b1-b8a6-0058-b21253d75a36">
+      <Execution id="2c85f813-0f45-4ba5-9bbb-8ae609bdeac4" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_017" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-021 · Đăng thiếu số buổi" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="338788a5-b3f0-a21f-dbcd-c68af26deafc">
+      <Execution id="ffee694f-6ff2-43c4-86fc-167c58cbac26" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_021" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-060 · Gợi ý và lý do trên dữ liệu thực" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="53374902-b96c-07d2-96ec-559307207a96">
+      <Execution id="36af1936-9dac-4bb0-80d4-7aa41699bd49" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_060" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-024 · Phụ huynh thiếu tên" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="d7e06050-cd91-0c54-4304-06d069825a9a">
+      <Execution id="7f617aae-c4f5-4567-908f-ed7eb2ffe28a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_024" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-055 · Chi tiết đã ẩn hoặc nhu cầu đóng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="c4bd7a95-87cb-2361-1dbf-ea05cb3f9644">
+      <Execution id="dbb71a5b-3b4c-441e-ba2a-567ecad82be6" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_055" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-034 · Ghi nhu cầu của người khác" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="726b8e31-5709-32b8-f11c-ff1aa8b6669a">
+      <Execution id="75f9fbe0-cb2e-43e3-9476-a1d11cbb1bb8" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_034" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-049 · Từ khóa và dấu tiếng Việt" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="647cfc72-7646-f75c-6caf-9116535ce93c">
+      <Execution id="d7eea2f8-24be-4ea7-905a-fa9ccc4ceacf" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_049" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-041 · Không mở bản nháp bằng đổi trạng thái" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="667fd4df-8287-2bb5-6d51-e0533218243a">
+      <Execution id="ddb32c4e-3297-4414-86ef-ac26f0899391" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_041" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-045 · Phân trang trang2" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="5760cbd8-3204-009a-08c7-6f8e4f0740c0">
+      <Execution id="b46c9c95-5674-4925-923f-4255dfada184" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_045" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-084 · Gửi lại tin sau lỗi không tạo trùng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="654fa06b-2dca-c74e-4992-d314c647f72f">
+      <Execution id="10d70225-d2ab-4c40-b9a5-b6ea248b0ca9" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_084" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-040 · Mở lại nhu cầu đã đóng" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="cae84735-f418-f507-4cab-0b0b6ddf6bd6">
+      <Execution id="0a765276-b513-499f-9e63-77b49474b16c" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_040" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-056 · So sánh 3 Id phân biệt" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="3b23d35c-165e-5b2d-ba66-ff5a85036ba3">
+      <Execution id="7231822d-75d3-4d11-92fc-61318196c8a2" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_056" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-022 · Lưu nháp chưa có mục tiêu/lịch" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="9d468fb4-cbe9-7f8f-8c04-1812b44cabc1">
+      <Execution id="a9387127-f754-4f53-ba1b-6502580e4734" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_022" />
+    </UnitTest>
+    <UnitTest name="MT1-IT-033 · Đọc form của người khác" storage="c:\khóa luận tn\educonnect\tests\mt1\bin\debug\net10.0\mt1.dll" id="205b4241-886e-0fce-826d-3715d9bb93c2">
+      <Execution id="8e3bf19e-5757-4ad4-a22c-04a77e2b95e5" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\MT1\bin\Debug\net10.0\MT1.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="MT1_IT_033" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="739248e2-f793-5658-2b46-794c31ed3401" executionId="c0827ee4-1127-48f4-9112-3c333c9f03b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3e34fd72-2836-e321-ffa4-e72f1dfddbca" executionId="c5b6a757-26b8-43f3-ae5a-0bd3b7086151" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9fc46259-347c-1de7-0c65-9ead07e00c2c" executionId="d6a9fa66-f2a1-41ab-866a-f47b7c7840b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8c772378-ee8f-c858-003a-3c91ce61e975" executionId="2a4edd1c-73a7-4284-8631-685926f9ba06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9697313-a35f-df75-63ba-ca5df50290c2" executionId="c95d4a0e-0a89-4de3-ba79-cfc49f8aa4e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49bcd94f-1425-c9a9-305e-dd2433247b14" executionId="ef54271b-e2e5-46ba-bee2-1191c09481ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d7e06050-cd91-0c54-4304-06d069825a9a" executionId="7f617aae-c4f5-4567-908f-ed7eb2ffe28a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a383deec-c329-02b4-22f1-13a7efc4d57d" executionId="6b8c8bd6-4c2a-4f3b-bd67-0d813c97bd07" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="205b4241-886e-0fce-826d-3715d9bb93c2" executionId="8e3bf19e-5757-4ad4-a22c-04a77e2b95e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3288c5e-5386-277b-520f-a27c060d57ee" executionId="f82211de-cc4d-4b5f-96eb-a86784633f74" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1fd5136d-3f72-8e5c-7446-74c76e625dc1" executionId="3d0ea35c-e021-4afc-bc07-90b4b6ad7f94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1112edb4-f049-6721-1fdf-d033ba31c889" executionId="40c15bba-977a-4dde-b2da-0d59ffa0be60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="667fd4df-8287-2bb5-6d51-e0533218243a" executionId="ddb32c4e-3297-4414-86ef-ac26f0899391" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c554d60a-4f2b-3c19-d711-83ebaf2a18ae" executionId="0682eb10-579c-41d6-a231-a9c93102af1f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e79400b-9e1e-f7f3-6d67-bc8cfb9b0d37" executionId="dd8f4f0c-8945-4fb6-ab22-57dc1626fb03" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5535f211-d108-c661-2338-377e8535891a" executionId="be740ab2-5d07-41bc-845b-4f4ed8b64b83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="37887577-ef53-c972-a5d6-ea4b680ee3f9" executionId="dbeef150-a49a-4f62-90c8-6b5c43e944a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="338788a5-b3f0-a21f-dbcd-c68af26deafc" executionId="ffee694f-6ff2-43c4-86fc-167c58cbac26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c541379e-0383-1c29-dfc0-8f587302d6c8" executionId="a2524e1b-7cf8-4dcf-b135-5f373ad4e5af" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e8067b2c-0d19-8108-8b6d-8692b3494a41" executionId="086cee3a-045e-4237-be55-da4e104cba6d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b08db3d7-086c-c690-c9c1-79babacc9f99" executionId="a0242052-fd67-4068-a08e-de84af0664ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b281741d-67d3-f2df-979f-42a71488ce57" executionId="d2b640c8-e44d-4a7d-9345-878337c158d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77ebe622-1cf4-ac75-0079-f1fe808c7e5a" executionId="ba214893-bb30-4dda-9be7-468b59b69266" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b5fc0a06-6c24-25b4-fecf-df270ee326c5" executionId="7b221a29-1447-46f8-bca5-a0a2b9c45c34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1e36cf60-f038-3793-5bb1-6d967951758f" executionId="03f5cfe3-37c5-4389-939b-62436abf9364" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="57f05ef5-ca75-2531-6b36-822b9aaaa209" executionId="8980f443-2b80-45eb-a35b-6f44a4e9e656" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8afb7bee-79fc-fbc3-ab08-ed8f35e3b864" executionId="8a01de9b-6955-43af-a5c6-8ac626b77bd9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d28af91e-06ed-0afe-4405-3024ee09c61c" executionId="519cbf4f-fa07-4d69-a8f1-b06cc65c28ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0159573b-9fc6-8ee8-7ca6-9e587ed2c18e" executionId="d0deb5f6-1ce9-4c73-a9cb-62c125a0f79a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38c9da54-ad38-adbd-ead0-d0576d363a62" executionId="22aa8658-795d-4c66-9824-7fc9b3db43ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c492d315-4dbf-b3ea-b9b8-247a7c7b9270" executionId="32510d35-b07c-469f-8724-35d0a077a8ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d7527a91-3d14-efe3-70d8-3b3b3dfb827c" executionId="dbee659e-fa21-4eb3-9d36-b1b39d0c4a1e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4bd7a95-87cb-2361-1dbf-ea05cb3f9644" executionId="dbb71a5b-3b4c-441e-ba2a-567ecad82be6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c2c5b4d4-6f3f-e8fc-a71e-6d07dc93acee" executionId="cde2de6c-5e00-46bf-861e-041e8540837a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7ae42f4-6616-0653-3e59-e889163ce4a4" executionId="3296d88c-9eef-4ee1-a43c-692f52727f26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d468fb4-cbe9-7f8f-8c04-1812b44cabc1" executionId="a9387127-f754-4f53-ba1b-6502580e4734" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cae84735-f418-f507-4cab-0b0b6ddf6bd6" executionId="0a765276-b513-499f-9e63-77b49474b16c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="647cfc72-7646-f75c-6caf-9116535ce93c" executionId="d7eea2f8-24be-4ea7-905a-fa9ccc4ceacf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e31c909-c7d5-99da-7f4d-f6fd3762a20f" executionId="f794142d-21c7-4ddb-834f-1034c333de1b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="55238382-c004-87a5-70ed-ec61f1fefd6b" executionId="5fd5ca89-5816-4934-be6a-9a2e9aeae23f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5760cbd8-3204-009a-08c7-6f8e4f0740c0" executionId="b46c9c95-5674-4925-923f-4255dfada184" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c6c05dc1-6004-83bf-146b-302f39bb00bb" executionId="67362ecd-6131-4f10-8bd3-ce8c45d0036d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74afa493-175e-9c6c-729d-41ed74b22ffc" executionId="6be2088e-f99d-41ac-9a39-96974f487725" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="84511e96-8d18-e06d-5b85-551175c1664e" executionId="cd7c2c4a-d02c-42c2-8493-5a62255ee3d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3be9f08-c8de-9181-c41e-599fac590db8" executionId="1fddb19b-638c-484e-a6a7-b02865220737" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11df9680-fbc1-0d3b-da89-881afab33bc6" executionId="008973b1-1368-4b37-a36b-3b6787fb574f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ed4a68e6-65e7-5a94-4c53-3e8b91f8285f" executionId="fc414349-c7b5-4249-be3a-c2e5c649d08c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0a1bc882-6b7a-a0ad-cde9-c6698359a7c8" executionId="6411d1bd-c343-4929-ab1d-edbdc5806b2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eff46a96-d99a-4132-9364-a8d3ba31bff2" executionId="cbb72501-b498-46e3-b0f3-c4ef343ef932" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3b23d35c-165e-5b2d-ba66-ff5a85036ba3" executionId="7231822d-75d3-4d11-92fc-61318196c8a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="417baf66-4d0f-927c-342c-f0d91df0e71a" executionId="0faa5696-24f8-426b-9015-8797e368497d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1a7eaf6b-1408-f73b-7e25-16882527feee" executionId="d1474b95-2d6a-4bae-9ae2-7be79a8e8744" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53374902-b96c-07d2-96ec-559307207a96" executionId="36af1936-9dac-4bb0-80d4-7aa41699bd49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fbe29201-b36b-8ad6-dec6-653c58f04bff" executionId="ebf0c715-f50b-4a56-9984-f4854915c46c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31c3efa1-0d4d-a6ba-850e-2ec50504c194" executionId="dbdf34bb-5c73-4669-8104-dfde0ffa8569" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08cf8a63-e70d-776c-74fb-c342c3d81cc8" executionId="87c60d6d-2570-48d3-9a1f-b39a4635274d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a2f6941-2dde-ba98-9188-59f01b9ff985" executionId="0029242b-525d-4d26-9fe1-0dad817346b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0ce134d0-6c02-709b-b38c-00fc6a364ac6" executionId="1e5bdcb1-7426-4fd2-8738-5395ef426ebe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bcf84a3d-b2b1-b8a6-0058-b21253d75a36" executionId="2c85f813-0f45-4ba5-9bbb-8ae609bdeac4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="654fa06b-2dca-c74e-4992-d314c647f72f" executionId="10d70225-d2ab-4c40-b9a5-b6ea248b0ca9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc17c7b6-d329-c70c-1fa7-ee0205846280" executionId="bf37361e-148a-4f27-bd88-081fcaf5911e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d986f32-55fc-9f79-f897-be0a3dd1aea0" executionId="8ad97044-a134-44ed-8f37-7519f54e59bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cf7a5a75-7f35-53ff-c8ae-24957f8bf50b" executionId="ce86b894-e23e-4aae-b786-a7f76f9de2bd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="91949d78-c3d8-3545-59ed-0fb7ff941a07" executionId="cd098104-bd71-4977-98a6-a6ed91c6e251" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31f239ef-deb1-6805-0c5b-5720afcd7f4a" executionId="4645309c-b7e4-4a04-8d03-5d1936b8e6e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8c2cd26b-c638-43f5-3ed0-2d9c9639aa26" executionId="40c9feae-d007-4e77-b09f-77473d48faee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2bde5a2e-0595-6625-318e-78d92a9776c6" executionId="a1da0c8a-4a9c-40bd-9ae4-8273b7dc488c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d649922-1f91-61f2-7696-56ccfb9e050b" executionId="5f2076d0-0c81-489e-bb09-42cbf3f6b85a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9fa2198-f09b-8da2-b551-b82d7c484e6a" executionId="315641dc-835b-47ab-baa3-38fa9685377b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f85eeef-4c62-4fe6-ed01-5ac4b7fb56fd" executionId="fad5ea62-c955-4fb6-953a-1848dfa1378e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e3096a79-d8d9-290d-0c00-cf9d20037281" executionId="8bbd8e80-c938-4129-8eba-6c07f071a0cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="726b8e31-5709-32b8-f11c-ff1aa8b6669a" executionId="75f9fbe0-cb2e-43e3-9476-a1d11cbb1bb8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8272244c-1e18-e0a2-c0a0-b330e99d6b68" executionId="7c73107f-7332-4ad7-a2e5-edd780ab4955" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="73" executed="70" passed="65" failed="5" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: MT1&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  MT1&#xD;
+[xUnit.net 00:00:00.15]   Starting:    MT1&#xD;
+[xUnit.net 00:00:02.40]       Chưa chốt quy tắc tìm từ khóa/dấu/hoa thường.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+Test 'MT1-IT-049 · Từ khóa và dấu tiếng Việt' was skipped in the test run.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:12.57]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:12.57]       Expected: Conflict&#xD;
+[xUnit.net 00:00:12.57]       Actual:   UnprocessableEntity&#xD;
+[xUnit.net 00:00:12.58]       Stack Trace:&#xD;
+[xUnit.net 00:00:12.58]         C:\Khóa luận TN\Educonnect\tests\MT1\HttpIntegrationTests.cs(158,0): at IntegrationTests.Http(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:12.58]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(414,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:12.58]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(447,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:12.58]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:12.58]       Output:&#xD;
+[xUnit.net 00:00:12.58]         MT1-IT-071: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:19.55]       Assert.IsType() Failure: Value is not the exact type&#xD;
+[xUnit.net 00:00:19.55]       Expected: typeof(Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)&#xD;
+[xUnit.net 00:00:19.55]       Actual:   typeof(EduConnect.Mvc.Infrastructure.LoiNghiepVu)&#xD;
+[xUnit.net 00:00:19.55]       Stack Trace:&#xD;
+[xUnit.net 00:00:19.55]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(887,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:19.55]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(887,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:19.55]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(1125,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:19.55]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(414,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:19.55]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(447,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:19.55]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:19.55]       Output:&#xD;
+[xUnit.net 00:00:19.55]         MT1-IT-035: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a&#xD;
+[xUnit.net 00:00:20.84]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:20.84]       Expected: 2&#xD;
+[xUnit.net 00:00:20.84]       Actual:   3&#xD;
+[xUnit.net 00:00:20.84]       Stack Trace:&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(627,0): at IntegrationTests.AssertSelectedSubjects(Mt1Case c, Guid id, IReadOnlyCollection`1 expectedSubjects, TaoNhuCauBenHocViewModel sent)&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(637,0): at IntegrationTests.AssertSelectedSubjects(Mt1Case c, Guid id, IReadOnlyCollection`1 expectedSubjects, TaoNhuCauBenHocViewModel sent)&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(832,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(1125,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(414,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:20.84]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(447,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:20.84]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:20.84]       Output:&#xD;
+[xUnit.net 00:00:20.84]         MT1-IT-031: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+warn: EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware[0]&#xD;
+      Request failed /TimKiem/TimKiem/Index&#xD;
+      EduConnect.Mvc.Infrastructure.LoiNghiepVu: Trang kh�ng h?p l?.&#xD;
+         at EduConnect.Mvc.Infrastructure.KetQua`1.get_DuLieu() in C:\Kh�a lu?n TN\Educonnect\Infrastructure\KetQua.cs:line 18&#xD;
+         at EduConnect.Mvc.Areas.TimKiem.Controllers.TimKiemController.Tim(BoLocTimKiemViewModel boLoc) in C:\Kh�a lu?n TN\Educonnect\Areas\TimKiem\Controllers\TimKiemController.cs:line 20&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeActionMethodAsync&gt;g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeNextActionFilterAsync&gt;g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeInnerFilterAsync&gt;g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextExceptionFilterAsync&gt;g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextResourceFilter&gt;g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeFilterPipelineAsync&gt;g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Program.&lt;&gt;c.&lt;&lt;&lt;Main&gt;$&gt;b__0_16&gt;d.MoveNext() in C:\Kh�a lu?n TN\Educonnect\Program.cs:line 108&#xD;
+      --- End of stack trace from previous location ---&#xD;
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware.InvokeAsync(HttpContext c) in C:\Kh�a lu?n TN\Educonnect\Infrastructure\LoiNghiepVuMiddleware.cs:line 9&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:21.85]       Chưa thống nhất bộ lọc HocPhiTu/HocPhiDen với HocPhiToiDa.&#xD;
+Test 'MT1-IT-059 · Khoảng học phí từ–đến theo thiết kế' was skipped in the test run.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:24.42]       Assert.DoesNotContain() Failure: Sub-string found&#xD;
+[xUnit.net 00:00:24.42]                                           ↓ (pos 3103)&#xD;
+[xUnit.net 00:00:24.42]       String: ···"cầu&lt;/span&gt;&lt;/nav&gt;\r\n\r\n&lt;h1&gt;Tạo nhu cầu&lt;/h1&gt;\r"···&#xD;
+[xUnit.net 00:00:24.42]       Found:  "&lt;h1&gt;Tạo nhu cầu"&#xD;
+[xUnit.net 00:00:24.42]       Stack Trace:&#xD;
+[xUnit.net 00:00:24.42]         C:\Khóa luận TN\Educonnect\tests\MT1\HttpIntegrationTests.cs(208,0): at IntegrationTests.Http(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:24.42]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(414,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:24.42]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(447,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:24.42]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:24.42]       Output:&#xD;
+[xUnit.net 00:00:24.42]         MT1-IT-068: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a&#xD;
+[xUnit.net 00:00:25.08]       Chưa đặc tả quy tắc giữ/xóa địa chỉ trực tuyến; chưa thể kết luận toàn bộ ca.&#xD;
+Test 'MT1-IT-019 · Trực tuyến:quy tắc xử lý địa chỉ và dữ liệu công khai' was skipped in the test run.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:29.87]       Assert.NotNull() Failure: Value is null&#xD;
+[xUnit.net 00:00:29.87]       Stack Trace:&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(489,0): at IntegrationTests.ContactCases(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(492,0): at IntegrationTests.ContactCases(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(606,0): at IntegrationTests.ContactCases(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(1122,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(1125,0): at IntegrationTests.Service(Mt1Case c, Int32 n)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(414,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:29.87]         C:\Khóa luận TN\Educonnect\tests\MT1\IntegrationTests.cs(447,0): at IntegrationTests.Run(String id, Func`2 test)&#xD;
+[xUnit.net 00:00:29.87]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:29.87]       Output:&#xD;
+[xUnit.net 00:00:29.87]         MT1-IT-082: Fail. Chi tiết: integration-details.jsonl; RunId=78bba496-73a4-4b36-ac28-e3be7fec0b8a&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\Educonnect&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:35.46]   Finished:    MT1&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-07T09:37:38.3893616+07:00">
+        <Text>[xUnit.net 00:00:02.40]     MT1-IT-049 · Từ khóa và dấu tiếng Việt [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-07T09:37:48.5654886+07:00">
+        <Text>[xUnit.net 00:00:12.57]     MT1-IT-071 · Xung đột phiên bản thật qua HTTP [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-07T09:37:55.5442829+07:00">
+        <Text>[xUnit.net 00:00:19.55]     MT1-IT-035 · Sửa bằng phiên bản cũ [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-07T09:37:56.8292108+07:00">
+        <Text>[xUnit.net 00:00:20.84]     MT1-IT-031 · Cập nhật danh sách môn của nhu cầu [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-07T09:37:57.8399899+07:00">
+        <Text>[xUnit.net 00:00:21.85]     MT1-IT-059 · Khoảng học phí từ–đến theo thiết kế [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-07T09:38:00.4102780+07:00">
+        <Text>[xUnit.net 00:00:24.42]     MT1-IT-068 · POST thường validation lỗi [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-07T09:38:01.0714344+07:00">
+        <Text>[xUnit.net 00:00:25.08]     MT1-IT-019 · Trực tuyến:quy tắc xử lý địa chỉ và dữ liệu công khai [SKIP]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-07T09:38:05.8633350+07:00">
+        <Text>[xUnit.net 00:00:29.87]     MT1-IT-082 · Chặn hai thao tác khi người nhận bị khóa [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
-public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog)
+public sealed class NhuCauService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog) : INhuCauService
 {
     public Task<List<MonHoc>> MonTenAsync() => db.Set<MonHoc>().AsNoTracking().ToListAsync();
     public async Task<List<NhuCauHoc>> LayAsync()

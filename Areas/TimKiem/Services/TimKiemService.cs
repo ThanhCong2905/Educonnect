@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.TimKiem.Services;
 
-public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService current)
+public sealed class TimKiemService(AppDbContext db, INguoiDungHienTaiService current) : ITimKiemService
 {
     private readonly HoSoCongKhaiQuery profiles = new(db);
     public IQueryable<HoSoGiaSu> HoSoCongKhai() => profiles.CongKhai();
@@ -205,8 +205,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
             var subjects = await (from d in db.Set<HoSoGiaSuMonDay>() join h in db.Set<HoSoGiaSu>() on d.HoSoGiaSuId equals h.Id where h.GiaSuId == me.Id select d.MonHocId).ToListAsync();
             if (subjects.Count == 0)
                 return ([], false);
-            var q = NhuCauCongKhai().Where(x => subjects.Contains(x.MonHocId) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && subjects.Contains(d.MonHocId)));
-            var rows = await q.OrderByDescending(x => x.TaoLuc).Take(3).ToListAsync();
+            var rows = await GoiYRules.ChoGiaSu(NhuCauCongKhai(), subjects, db.Set<NhuCauMonHoc>()).ToListAsync();
             await SlotsAsync(rows);
             foreach (var n in rows)
                 n.LyDo = ["Cùng môn " + n.TenMon];
@@ -215,16 +214,6 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         if (own.Count == 0)
             return ([], false);
         var candidates = await HoSoRowsAsync(await HoSoCongKhai().ToListAsync());
-        foreach (var c in candidates)
-        {
-            var match = own.FirstOrDefault(n => c.MonTheoHoSo.Any(m => n.CacMonHocId.Contains(m.MonHocId)));
-            if (match != null)
-            {
-                c.LyDo.Add("Cùng môn " + c.MonTheoHoSo.First(m => match.CacMonHocId.Contains(m.MonHocId)).TenMon);
-                if ((match.HinhThucHoc == "TrucTuyen" && c.DayTrucTuyen) || (match.HinhThucHoc == "TrucTiep" && c.DayTrucTiep))
-                    c.LyDo.Add("Cùng hình thức học");
-            }
-        }
-        return (candidates.Where(x => x.LyDo.Count > 0).OrderByDescending(x => x.LyDo.Count).ThenByDescending(x => x.TaoLuc).ThenBy(x => x.Id).Take(3).ToList(), own.Count > 0);
+        return (GoiYRules.ChoBenHoc(own, candidates), own.Count > 0);
     }
 }

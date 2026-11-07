@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.TimKiem.Controllers;
 
 [Area("TimKiem")]
-public sealed class TimKiemController(TimKiemService service, NhuCauService needs, KetNoiService contacts, NguoiDungHienTaiService current) : BaseController
+public sealed class TimKiemController(ITimKiemService service, INhuCauService needs, IKetNoiService contacts, INguoiDungHienTaiService current) : BaseController
 {
     public Task<IActionResult> Index(BoLocTimKiemViewModel f) => Tim(f);
 

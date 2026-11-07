@@ -1,15 +1,6 @@
-﻿KẾT QUẢ UNIT MT1
-Nguồn: MT1-unit.trx
-Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
-Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
-Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
-
-==========================================================================================
-MT1-UT-007 — Hai khung chạm biên
+MT1-UT-007
 Kết quả: Pass
-Đầu vào theo kịch bản: Ngày mã 1: 18:00–19:00 và 19:00–20:00
-Mong đợi theo kịch bản: 
-Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
-Thời lượng: 00:00:00.0003016
-Phương thức: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007
-Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+Test: EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007
+Thời lượng: 00:00:00.0003888
+Actual: Assertion đạt: Không ném ngoại lệ; chạm biên được chấp nhận.
+TRX: TestResults/MT1/MT1-unit.trx

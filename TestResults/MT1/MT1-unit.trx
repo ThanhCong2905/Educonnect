@@ -1,702 +1,448 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="c9321c95-9658-469c-8406-9515e8462ef5" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-05 12:21:33" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2026-11-05T12:21:33.7864008+07:00" queuing="2026-11-05T12:21:33.7864009+07:00" start="2026-11-05T12:21:32.5052366+07:00" finish="2026-11-05T12:21:33.9704970+07:00" />
-  <TestSettings name="default" id="93645d8c-3b99-4ca4-8dae-052c1f0bcc6d">
-    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-05_12_21_33" />
+<TestRun id="438443ed-ea0d-4f5a-9bb9-44f16e4c5270" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-06 21:53:14" runUser="LAPTOP-3L2V1AFT\CodexSandboxOffline" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-06T21:53:14.8820215+07:00" queuing="2026-11-06T21:53:14.8820217+07:00" start="2026-11-06T21:53:13.8020649+07:00" finish="2026-11-06T21:53:14.9627295+07:00" />
+  <TestSettings name="default" id="06d091b3-f97c-4931-a3a3-c63d412625d9">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-06_21_53_14" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="9f4a3841-44bb-4153-9f54-0b23b3f47574" testId="77f6bc65-0eae-2c5e-1217-a069e8dac8ec" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_025" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004605" startTime="2026-11-05T12:21:33.8096036+07:00" endTime="2026-11-05T12:21:33.8140900+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f4a3841-44bb-4153-9f54-0b23b3f47574" />
-    <UnitTestResult executionId="edb0e24d-7a0f-42a1-9b8e-c9d3476ed174" testId="00f394a4-4a32-e46c-1fef-c2640d328909" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_008" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002975" startTime="2026-11-05T12:21:33.7978999+07:00" endTime="2026-11-05T12:21:33.8013455+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="edb0e24d-7a0f-42a1-9b8e-c9d3476ed174" />
-    <UnitTestResult executionId="15f9548c-a494-43c3-ace6-29e549fbb83c" testId="19396dd0-4357-088e-08f1-fbb9f2bc57be" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_070" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001592" startTime="2026-11-05T12:21:33.8433006+07:00" endTime="2026-11-05T12:21:33.8433342+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15f9548c-a494-43c3-ace6-29e549fbb83c" />
-    <UnitTestResult executionId="dc6270bf-6ada-4b52-9877-1dec7ad23d99" testId="9df3a260-9919-3e74-c210-1da079449295" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_059_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7720623+07:00" endTime="2026-11-05T12:21:33.7720784+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dc6270bf-6ada-4b52-9877-1dec7ad23d99">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="fcf079fe-bf37-4145-a145-3bc2cafdf021" testId="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_030" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003160" startTime="2026-11-05T12:21:33.7955571+07:00" endTime="2026-11-05T12:21:33.7996372+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fcf079fe-bf37-4145-a145-3bc2cafdf021" />
-    <UnitTestResult executionId="83fe850e-abe6-49f9-9b64-6e8340223370" testId="2ae25742-4208-b866-45cb-6582ee867cbc" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_003" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002300" startTime="2026-11-05T12:21:33.8140480+07:00" endTime="2026-11-05T12:21:33.8157435+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="83fe850e-abe6-49f9-9b64-6e8340223370" />
-    <UnitTestResult executionId="9623c19e-c49d-4e74-914a-83ab6f297ffd" testId="b2065a7c-95c4-87da-e63c-cfae8a3f9eae" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_053_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7616328+07:00" endTime="2026-11-05T12:21:33.7616621+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9623c19e-c49d-4e74-914a-83ab6f297ffd">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="b2e49db9-4a7e-4cb8-90df-70cc14a31b42" testId="159deef8-6717-eb49-37cc-39939aff8544" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_021" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001812" startTime="2026-11-05T12:21:33.8597025+07:00" endTime="2026-11-05T12:21:33.8597481+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2e49db9-4a7e-4cb8-90df-70cc14a31b42" />
-    <UnitTestResult executionId="73ceefe9-dfa3-4080-be5e-42009ab31687" testId="60886b96-c462-b01f-2f2e-a5b7de8a0279" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_010" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002493" startTime="2026-11-05T12:21:33.8185386+07:00" endTime="2026-11-05T12:21:33.8185764+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73ceefe9-dfa3-4080-be5e-42009ab31687" />
-    <UnitTestResult executionId="705e296f-8673-4f8b-bf6b-df5251d81b5c" testId="39bc5e86-3a9f-cdc7-f4b4-60da351c5802" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003016" startTime="2026-11-05T12:21:33.7918128+07:00" endTime="2026-11-05T12:21:33.7956030+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="705e296f-8673-4f8b-bf6b-df5251d81b5c" />
-    <UnitTestResult executionId="1c7f5bd3-8029-428e-8386-b3ba3beb9e92" testId="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002798" startTime="2026-11-05T12:21:33.8314336+07:00" endTime="2026-11-05T12:21:33.8314676+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c7f5bd3-8029-428e-8386-b3ba3beb9e92" />
-    <UnitTestResult executionId="b36c7711-2e5e-4fb5-9136-8bf7e7a41572" testId="1f46c88b-ba21-7259-6bb4-b78ffa4d730f" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004529" startTime="2026-11-05T12:21:33.7891964+07:00" endTime="2026-11-05T12:21:33.7930242+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b36c7711-2e5e-4fb5-9136-8bf7e7a41572" />
-    <UnitTestResult executionId="32abbff1-ddf7-4764-82a2-b78f5699b65e" testId="adfad597-ee4b-4b0d-9029-dd2d6cc1a153" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7222519+07:00" endTime="2026-11-05T12:21:33.7222919+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32abbff1-ddf7-4764-82a2-b78f5699b65e">
-      <Output>
-        <ErrorInfo>
-          <Message>Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="4e2914f6-5562-4a7c-b2aa-3fecd3f5e75d" testId="6b0f7294-4a2b-6460-57b7-3cf57af648dc" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_068" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005170" startTime="2026-11-05T12:21:33.8337987+07:00" endTime="2026-11-05T12:21:33.8338313+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4e2914f6-5562-4a7c-b2aa-3fecd3f5e75d" />
-    <UnitTestResult executionId="35dd4da4-af6b-4cd3-9405-10b2dcdbbd9e" testId="97e00f17-5927-f2b6-656c-142e23e24224" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_026" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002757" startTime="2026-11-05T12:21:33.8043689+07:00" endTime="2026-11-05T12:21:33.8096654+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35dd4da4-af6b-4cd3-9405-10b2dcdbbd9e" />
-    <UnitTestResult executionId="b352a406-0fe2-4660-96b3-bebef740d980" testId="981b7598-21ca-72ee-a244-40b2361f7271" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_062_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7542560+07:00" endTime="2026-11-05T12:21:33.7542754+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b352a406-0fe2-4660-96b3-bebef740d980">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="63c40f25-d06d-4740-b4ad-95776d7730ae" testId="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_039" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001898" startTime="2026-11-05T12:21:33.8379658+07:00" endTime="2026-11-05T12:21:33.8380013+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63c40f25-d06d-4740-b4ad-95776d7730ae" />
-    <UnitTestResult executionId="cbcd43ee-8f65-4036-bdf7-9f3b06d4e515" testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" testName="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0090893" startTime="2026-11-05T12:21:33.7016833+07:00" endTime="2026-11-05T12:21:33.7844354+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbcd43ee-8f65-4036-bdf7-9f3b06d4e515" />
-    <UnitTestResult executionId="492422d3-e4fc-48af-b43e-667a5517baf9" testId="ab576258-0743-fde1-e2c5-8d0929734512" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_034" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001719" startTime="2026-11-05T12:21:33.8350409+07:00" endTime="2026-11-05T12:21:33.8350761+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="492422d3-e4fc-48af-b43e-667a5517baf9" />
-    <UnitTestResult executionId="05d56fc2-7680-47fa-b9ea-e327759dbbf7" testId="84195a3f-40a1-3eaa-692c-a555db29f7f5" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_042" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0142317" startTime="2026-11-05T12:21:33.7017398+07:00" endTime="2026-11-05T12:21:33.8217511+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05d56fc2-7680-47fa-b9ea-e327759dbbf7" />
-    <UnitTestResult executionId="3b3488b3-af17-4a10-810f-5c11bb80af94" testId="c18c02dc-9124-06f6-0bfe-1e225e82581b" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_024" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001717" startTime="2026-11-05T12:21:33.8549883+07:00" endTime="2026-11-05T12:21:33.8550362+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b3488b3-af17-4a10-810f-5c11bb80af94" />
-    <UnitTestResult executionId="c82defb1-584c-4c68-bdec-b923df72064f" testId="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_011" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002328" startTime="2026-11-05T12:21:33.8210810+07:00" endTime="2026-11-05T12:21:33.8211176+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c82defb1-584c-4c68-bdec-b923df72064f" />
-    <UnitTestResult executionId="1f46ad81-345c-4c55-bbd5-79c9b1dcd70f" testId="31886a0d-1a94-dd07-1f4d-c903ee236296" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_041" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0013554" startTime="2026-11-05T12:21:33.8251925+07:00" endTime="2026-11-05T12:21:33.8252313+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1f46ad81-345c-4c55-bbd5-79c9b1dcd70f" />
-    <UnitTestResult executionId="180c3935-9d41-41d6-877d-6a86d66d81aa" testId="8eda09f9-7cf1-6071-e4b8-629084788e6e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_038" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001477" startTime="2026-11-05T12:21:33.8444734+07:00" endTime="2026-11-05T12:21:33.8445063+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="180c3935-9d41-41d6-877d-6a86d66d81aa" />
-    <UnitTestResult executionId="19d51373-4475-4080-818e-f8dbde171184" testId="930dabba-8a00-73e6-dd83-3a76a6f954ab" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_054_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7421819+07:00" endTime="2026-11-05T12:21:33.7422106+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="19d51373-4475-4080-818e-f8dbde171184">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="0acab65e-cd0e-4d70-8361-3bd424425253" testId="4e207fbe-b5d3-b47d-885e-628e81fde6cb" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_058_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7511605+07:00" endTime="2026-11-05T12:21:33.7511790+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0acab65e-cd0e-4d70-8361-3bd424425253">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="07af911a-2612-443d-9dc6-a106e12cf534" testId="3c40620f-9028-8057-0dd9-2f18cd15f607" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_044" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0032079" startTime="2026-11-05T12:21:33.8302210+07:00" endTime="2026-11-05T12:21:33.8302543+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07af911a-2612-443d-9dc6-a106e12cf534" />
-    <UnitTestResult executionId="24120247-0ff8-4e67-9b72-30b307aceb6a" testId="65e08581-a790-7db2-bc11-f4a01c94d414" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_027" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002751" startTime="2026-11-05T12:21:33.8012967+07:00" endTime="2026-11-05T12:21:33.8029753+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24120247-0ff8-4e67-9b72-30b307aceb6a" />
-    <UnitTestResult executionId="28029ce7-f797-4960-8404-804916939c31" testId="fc45fef3-467c-20f0-d327-2d48e303b232" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_014" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002098" startTime="2026-11-05T12:21:33.8056974+07:00" endTime="2026-11-05T12:21:33.8057339+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="28029ce7-f797-4960-8404-804916939c31" />
-    <UnitTestResult executionId="b2844f43-f733-44ab-9471-df772a0f4c83" testId="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f" testName="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004551" startTime="2026-11-05T12:21:33.7892090+07:00" endTime="2026-11-05T12:21:33.7919248+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2844f43-f733-44ab-9471-df772a0f4c83" />
-    <UnitTestResult executionId="ae48e656-7536-4d17-9358-4b8a73a22be2" testId="6c2659a6-28b9-fae5-c288-362ab6c489be" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_004" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002775" startTime="2026-11-05T12:21:33.8096517+07:00" endTime="2026-11-05T12:21:33.8104957+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae48e656-7536-4d17-9358-4b8a73a22be2" />
-    <UnitTestResult executionId="c69ba38f-ed30-492d-ae9b-e5afb6deaaa6" testId="9e1849c4-718a-1dc0-6030-dfb90753c80e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001304" startTime="2026-11-05T12:21:33.8395355+07:00" endTime="2026-11-05T12:21:33.8395732+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c69ba38f-ed30-492d-ae9b-e5afb6deaaa6" />
-    <UnitTestResult executionId="619bb666-932d-4e5f-a422-5f6f2a57bc68" testId="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e" testName="EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0379210" startTime="2026-11-05T12:21:33.7017130+07:00" endTime="2026-11-05T12:21:33.8636939+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="619bb666-932d-4e5f-a422-5f6f2a57bc68" />
-    <UnitTestResult executionId="8b03854a-d682-4ef4-a485-1846d4681463" testId="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_032" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001175" startTime="2026-11-05T12:21:33.8456466+07:00" endTime="2026-11-05T12:21:33.8456794+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b03854a-d682-4ef4-a485-1846d4681463" />
-    <UnitTestResult executionId="4617380f-e997-4f11-8563-b198e56bc56a" testId="d64eae7a-7869-5a83-b19e-07e298a025f4" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_050_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7441237+07:00" endTime="2026-11-05T12:21:33.7441442+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4617380f-e997-4f11-8563-b198e56bc56a">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="a3f93c94-9a39-46cc-bb16-bc85ee4fd736" testId="49090e66-65ed-d6cb-99f4-4ae2ca269e96" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_012" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003087" startTime="2026-11-05T12:21:33.8029315+07:00" endTime="2026-11-05T12:21:33.8064014+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3f93c94-9a39-46cc-bb16-bc85ee4fd736" />
-    <UnitTestResult executionId="991b4f72-47ff-48bf-a6ed-c4cc4638d32b" testId="bbc3d5ec-34e4-d99b-00cc-808a3195e29c" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_057_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7004390+07:00" endTime="2026-11-05T12:21:33.7027547+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="991b4f72-47ff-48bf-a6ed-c4cc4638d32b">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="aabebe6a-edc9-45f8-8a32-1a21f1de6ae3" testId="5a4a7a40-97b3-f236-92fb-0cc4f411a9c8" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_066_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7787450+07:00" endTime="2026-11-05T12:21:33.7787649+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aabebe6a-edc9-45f8-8a32-1a21f1de6ae3">
-      <Output>
-        <ErrorInfo>
-          <Message>Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="f4af8117-eb62-4e8e-847b-078b97c87d2f" testId="e1168294-3f41-f79b-c224-2352b78aab7e" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_048_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7687385+07:00" endTime="2026-11-05T12:21:33.7687651+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4af8117-eb62-4e8e-847b-078b97c87d2f">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="da9e4398-85b3-4148-8c4a-1f467762e62a" testId="6df6f245-41ed-7bd6-b7f2-a021bacdad5b" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_055_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7255693+07:00" endTime="2026-11-05T12:21:33.7255929+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da9e4398-85b3-4148-8c4a-1f467762e62a">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="8ed069df-3005-452e-9356-3b02ac001a7a" testId="b2aa7525-af71-bf34-0dfc-90982e5be477" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_013" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002395" startTime="2026-11-05T12:21:33.8198337+07:00" endTime="2026-11-05T12:21:33.8198690+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ed069df-3005-452e-9356-3b02ac001a7a" />
-    <UnitTestResult executionId="539b88ff-1ca7-4760-8bbd-c694e8d131f6" testId="7cc80d00-0d79-8775-59c6-e3a006e07887" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_006" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003673" startTime="2026-11-05T12:21:33.8171967+07:00" endTime="2026-11-05T12:21:33.8172358+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="539b88ff-1ca7-4760-8bbd-c694e8d131f6" />
-    <UnitTestResult executionId="e0742044-3189-4922-8319-4436c60ffc21" testId="4d83d81c-dd4f-12d0-0d83-cf1c5501d717" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_009" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0094984" startTime="2026-11-05T12:21:33.7016456+07:00" endTime="2026-11-05T12:21:33.7815852+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e0742044-3189-4922-8319-4436c60ffc21" />
-    <UnitTestResult executionId="2a09e4a2-45c8-4e7b-9c2e-cc0ffa8cf061" testId="0cf1ccb6-ceb8-d5b1-6628-238176be961b" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_017" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003597" startTime="2026-11-05T12:21:33.7918476+07:00" endTime="2026-11-05T12:21:33.7979678+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a09e4a2-45c8-4e7b-9c2e-cc0ffa8cf061" />
-    <UnitTestResult executionId="69ea44d8-0648-47ca-82f7-d900c4deb10a" testId="b3183957-291c-2cff-8ead-6f77f28e8cfa" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_056_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7735115+07:00" endTime="2026-11-05T12:21:33.7735297+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="69ea44d8-0648-47ca-82f7-d900c4deb10a">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="c5f105a6-df6b-47c6-a44c-a95071912fb1" testId="fa0f7507-41f9-838c-0621-5469c70766e5" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0011586" startTime="2026-11-05T12:21:33.8237636+07:00" endTime="2026-11-05T12:21:33.8238032+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5f105a6-df6b-47c6-a44c-a95071912fb1" />
-    <UnitTestResult executionId="15776c39-f8f5-4fee-9b71-a8c52cdd478c" testId="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_045" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004705" startTime="2026-11-05T12:21:33.8408867+07:00" endTime="2026-11-05T12:21:33.8409225+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15776c39-f8f5-4fee-9b71-a8c52cdd478c" />
-    <UnitTestResult executionId="17e9030d-3494-4dcd-849c-739ef08c31b1" testId="67a36389-3f22-ff34-03ed-92b92fc50c0c" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_052_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7458836+07:00" endTime="2026-11-05T12:21:33.7459050+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="17e9030d-3494-4dcd-849c-739ef08c31b1">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="74f4e703-6946-470c-a3c2-0b878d8f5696" testId="db8216dc-a689-839f-76f9-80bcdd742a05" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_037" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001764" startTime="2026-11-05T12:21:33.8421068+07:00" endTime="2026-11-05T12:21:33.8421411+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74f4e703-6946-470c-a3c2-0b878d8f5696" />
-    <UnitTestResult executionId="e81e7c94-e55a-425e-ab2d-c7b6f274c68e" testId="7de47bd8-6fa6-a79a-0470-3b8c1a1dd8e4" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_061_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7478707+07:00" endTime="2026-11-05T12:21:33.7479032+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e81e7c94-e55a-425e-ab2d-c7b6f274c68e">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="e3e73ad4-54d5-4423-8cb4-92e4f36d27d4" testId="6ec5a730-6dc6-f81e-65a8-4011d03b78f6" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7496494+07:00" endTime="2026-11-05T12:21:33.7496702+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e3e73ad4-54d5-4423-8cb4-92e4f36d27d4">
-      <Output>
-        <ErrorInfo>
-          <Message>Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="da3f8e04-a189-4c91-b933-891c9a129d4f" testId="cf68aa47-b85c-bea0-e437-d11bb1ad54ad" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_060_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7749319+07:00" endTime="2026-11-05T12:21:33.7749497+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da3f8e04-a189-4c91-b933-891c9a129d4f">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="715fadb5-793e-44d8-b19f-595482d771d1" testId="b5c39caa-2817-b93a-eb30-0302f8b3afad" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_047_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7526569+07:00" endTime="2026-11-05T12:21:33.7526756+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="715fadb5-793e-44d8-b19f-595482d771d1">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="c8cf90c6-3ac9-40f8-9920-3eceb2687634" testId="7118b8da-b0e5-0eb9-6137-4fad21f5edb1" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_064_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7706850+07:00" endTime="2026-11-05T12:21:33.7707041+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8cf90c6-3ac9-40f8-9920-3eceb2687634">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="6f24455f-beab-41e9-9de7-2cf1d4a97630" testId="6cf486c7-a4e6-a5e0-ef54-cce517028ad9" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_020" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001719" startTime="2026-11-05T12:21:33.8629777+07:00" endTime="2026-11-05T12:21:33.8630125+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f24455f-beab-41e9-9de7-2cf1d4a97630" />
-    <UnitTestResult executionId="793a6b15-7622-4563-8cc1-e7df7e78db9b" testId="e6ba44ff-7b2c-4599-80ee-1bdc7c920e99" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_051_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7584577+07:00" endTime="2026-11-05T12:21:33.7584773+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="793a6b15-7622-4563-8cc1-e7df7e78db9b">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="4bc1770e-e1a3-46f4-8a38-999f5c577bf8" testId="e06d7758-494c-e48d-667c-b9df6789f76e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_036" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001481" startTime="2026-11-05T12:21:33.8326289+07:00" endTime="2026-11-05T12:21:33.8326608+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bc1770e-e1a3-46f4-8a38-999f5c577bf8" />
-    <UnitTestResult executionId="43fb0a5b-10e2-4942-bff6-27d635ec4bea" testId="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_019" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002272" startTime="2026-11-05T12:21:33.8612555+07:00" endTime="2026-11-05T12:21:33.8612915+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="43fb0a5b-10e2-4942-bff6-27d635ec4bea" />
-    <UnitTestResult executionId="3f19f78a-152b-4449-b871-e195643388d0" testId="83280f9c-db54-a3aa-32c5-aab0b2127dc8" testName="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010000" startTime="2026-11-05T12:21:33.7764827+07:00" endTime="2026-11-05T12:21:33.7765180+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3f19f78a-152b-4449-b871-e195643388d0">
-      <Output>
-        <ErrorInfo>
-          <Message>Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="e76953e2-aace-4767-8ade-a1025e99f28a" testId="860c4abb-7b4e-2e99-0724-3daa58362e08" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_015" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003261" startTime="2026-11-05T12:21:33.8005320+07:00" endTime="2026-11-05T12:21:33.8044096+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e76953e2-aace-4767-8ade-a1025e99f28a" />
-    <UnitTestResult executionId="e358e3e5-f957-41cc-8c6a-3cfe2d798cac" testId="febf550c-2508-8236-fb1f-0fdef0664ff6" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_046" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002814" startTime="2026-11-05T12:21:33.8468185+07:00" endTime="2026-11-05T12:21:33.8468502+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e358e3e5-f957-41cc-8c6a-3cfe2d798cac" />
-    <UnitTestResult executionId="682fc9bc-e182-45e2-a707-5277ce228e82" testId="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0114211" startTime="2026-11-05T12:21:33.8157051+07:00" endTime="2026-11-05T12:21:33.8480746+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="682fc9bc-e182-45e2-a707-5277ce228e82">
-      <Output>
-        <ErrorInfo>
-          <Message>Assert.Null() Failure: Value is not null&#xD;
-Expected: null&#xD;
-Actual:   EduConnect.Mvc.Infrastructure.LoiNghiepVu: Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.&#xD;
-   at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 34&#xD;
-   at EduConnect.Mvc.Infrastructure.Rules.FeeCheck(Nullable`1 value, String unit) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 63&#xD;
-   at EduConnect.UnitTests.MT1.HocPhiTests.&lt;&gt;c__DisplayClass8_0.&lt;MT1_UT_022&gt;b__0() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106&#xD;
-   at Xunit.Record.Exception(Action testCode) in /_/src/xunit.core/Record.cs:line 25</Message>
-          <StackTrace>   at EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106&#xD;
-   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="a22c2320-2a19-4992-9d4e-7ab65cd541dc" testId="c5776116-a4fd-9a6b-97b3-874b208f9e77" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_018" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002429" startTime="2026-11-05T12:21:33.8572012+07:00" endTime="2026-11-05T12:21:33.8572560+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a22c2320-2a19-4992-9d4e-7ab65cd541dc" />
-    <UnitTestResult executionId="554b4e88-ee0f-4cc0-ae8c-0b967aa36184" testId="add69410-03d9-6ff2-2fa8-1ab25983a731" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_029" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0090578" startTime="2026-11-05T12:21:33.7016994+07:00" endTime="2026-11-05T12:21:33.7822612+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="554b4e88-ee0f-4cc0-ae8c-0b967aa36184" />
-    <UnitTestResult executionId="5d4d374c-bc87-456c-b450-33488d661569" testId="cacc215c-659a-0433-7418-90942d7e6600" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002554" startTime="2026-11-05T12:21:33.8367407+07:00" endTime="2026-11-05T12:21:33.8367765+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d4d374c-bc87-456c-b450-33488d661569" />
-    <UnitTestResult executionId="acb4638b-9c61-4c30-a787-639ff208b089" testId="5cc2db29-b743-b114-54d9-6331265342ad" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_005" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004030" startTime="2026-11-05T12:21:33.7891760+07:00" endTime="2026-11-05T12:21:33.7893034+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acb4638b-9c61-4c30-a787-639ff208b089" />
-    <UnitTestResult executionId="b2e4435f-28f3-4814-9710-1371dbbbd985" testId="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_043" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004310" startTime="2026-11-05T12:21:33.8264368+07:00" endTime="2026-11-05T12:21:33.8264715+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2e4435f-28f3-4814-9710-1371dbbbd985" />
-    <UnitTestResult executionId="f923572d-5461-4596-aaa0-0135d1ecaf3d" testId="669d32b3-3f1e-85b1-d0db-2280f668d740" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004024" startTime="2026-11-05T12:21:33.7892217+07:00" endTime="2026-11-05T12:21:33.7893283+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f923572d-5461-4596-aaa0-0135d1ecaf3d" />
-    <UnitTestResult executionId="3a06f5d3-9712-4afb-9032-55e091b5c234" testId="4d6f7de2-57b9-333a-5729-b657cfc7a2ef" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_040" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003310" startTime="2026-11-05T12:21:33.8276594+07:00" endTime="2026-11-05T12:21:33.8276933+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a06f5d3-9712-4afb-9032-55e091b5c234" />
-    <UnitTestResult executionId="1c552d38-c95d-41e4-8815-c1450fa74239" testId="58ebe41e-bd49-1446-2482-f0163f72ee83" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_023" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0090641" startTime="2026-11-05T12:21:33.7017268+07:00" endTime="2026-11-05T12:21:33.7860845+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c552d38-c95d-41e4-8815-c1450fa74239" />
+    <UnitTestResult executionId="ea529baf-8368-486a-a809-355c356fa93d" testId="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002605" startTime="2026-11-06T21:53:14.8270066+07:00" endTime="2026-11-06T21:53:14.8270363+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea529baf-8368-486a-a809-355c356fa93d" />
+    <UnitTestResult executionId="d8d4429a-9cd6-4256-9a2e-6a39db26ece1" testId="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003480" startTime="2026-11-06T21:53:14.8233128+07:00" endTime="2026-11-06T21:53:14.8234690+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d8d4429a-9cd6-4256-9a2e-6a39db26ece1" />
+    <UnitTestResult executionId="82268d22-665b-40ea-b82e-927674966609" testId="36402b30-58c9-b8e3-2925-1aa51e08acd4" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_054" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0017570" startTime="2026-11-06T21:53:14.8618297+07:00" endTime="2026-11-06T21:53:14.8628093+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="82268d22-665b-40ea-b82e-927674966609" />
+    <UnitTestResult executionId="df287c1f-4022-4ea9-93d0-cc69b1d505c8" testId="4d6f7de2-57b9-333a-5729-b657cfc7a2ef" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_040" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003036" startTime="2026-11-06T21:53:14.8267814+07:00" endTime="2026-11-06T21:53:14.8268163+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df287c1f-4022-4ea9-93d0-cc69b1d505c8" />
+    <UnitTestResult executionId="6f8d2147-c93c-43b8-ac27-4a5e6b9554b2" testId="fc45fef3-467c-20f0-d327-2d48e303b232" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_014" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005765" startTime="2026-11-06T21:53:14.8210213+07:00" endTime="2026-11-06T21:53:14.8212068+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f8d2147-c93c-43b8-ac27-4a5e6b9554b2" />
+    <UnitTestResult executionId="1bbccbf5-54a1-40a6-a4c1-c165202a2f08" testId="c5776116-a4fd-9a6b-97b3-874b208f9e77" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_018" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003756" startTime="2026-11-06T21:53:14.8253843+07:00" endTime="2026-11-06T21:53:14.8254226+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bbccbf5-54a1-40a6-a4c1-c165202a2f08" />
+    <UnitTestResult executionId="f8db063b-2345-4caf-a87b-a37fcba5a6e4" testId="9c2f4c7f-6a56-458c-53d3-af0f43070a11" testName="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_066_GiaSu_GoiYNhuCauTheoMonDaDangKy" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0288458" startTime="2026-11-06T21:53:14.8359727+07:00" endTime="2026-11-06T21:53:14.8396966+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f8db063b-2345-4caf-a87b-a37fcba5a6e4" />
+    <UnitTestResult executionId="6e50984e-e9c7-485d-a068-3963c6433b84" testId="84195a3f-40a1-3eaa-692c-a555db29f7f5" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_042" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0167128" startTime="2026-11-06T21:53:14.7573662+07:00" endTime="2026-11-06T21:53:14.8245702+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6e50984e-e9c7-485d-a068-3963c6433b84" />
+    <UnitTestResult executionId="c63ee813-e511-413c-90d7-54a52aad8850" testId="49090e66-65ed-d6cb-99f4-4ae2ca269e96" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_012" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006141" startTime="2026-11-06T21:53:14.8208093+07:00" endTime="2026-11-06T21:53:14.8210537+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c63ee813-e511-413c-90d7-54a52aad8850" />
+    <UnitTestResult executionId="c023c6b3-732e-470c-98da-2105033d0086" testId="7088238e-dc25-700f-37c1-965ac9bceda8" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_064" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0019174" startTime="2026-11-06T21:53:14.8592099+07:00" endTime="2026-11-06T21:53:14.8610194+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c023c6b3-732e-470c-98da-2105033d0086" />
+    <UnitTestResult executionId="a365a1fd-aa52-43bd-aa0b-75847ca8e151" testId="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_032" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001591" startTime="2026-11-06T21:53:14.8346669+07:00" endTime="2026-11-06T21:53:14.8346949+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a365a1fd-aa52-43bd-aa0b-75847ca8e151" />
+    <UnitTestResult executionId="5bc2ceb5-273f-4a28-8e20-39690e89da51" testId="65e08581-a790-7db2-bc11-f4a01c94d414" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_027" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004707" startTime="2026-11-06T21:53:14.8204866+07:00" endTime="2026-11-06T21:53:14.8208401+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5bc2ceb5-273f-4a28-8e20-39690e89da51" />
+    <UnitTestResult executionId="d033630c-5455-46e6-bd06-3cd4960b8514" testId="10aaa073-55e7-ce34-6364-e41d13ec53cf" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_059" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0023059" startTime="2026-11-06T21:53:14.8716518+07:00" endTime="2026-11-06T21:53:14.8737988+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d033630c-5455-46e6-bd06-3cd4960b8514" />
+    <UnitTestResult executionId="595de377-658b-4cc3-b795-fdfc719f7055" testId="9e1849c4-718a-1dc0-6030-dfb90753c80e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001834" startTime="2026-11-06T21:53:14.8334524+07:00" endTime="2026-11-06T21:53:14.8334808+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="595de377-658b-4cc3-b795-fdfc719f7055" />
+    <UnitTestResult executionId="eab956bb-83ca-49fa-ba97-728ec7218515" testId="710c941f-d330-9226-61ac-3f72dd75f4f5" testName="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_067_LyDoPhanAnhDuLieu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0107623" startTime="2026-11-06T21:53:14.8355896+07:00" endTime="2026-11-06T21:53:14.8357462+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eab956bb-83ca-49fa-ba97-728ec7218515" />
+    <UnitTestResult executionId="52659614-8949-4a69-a37e-3e11267184b8" testId="58ebe41e-bd49-1446-2482-f0163f72ee83" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_023" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0128076" startTime="2026-11-06T21:53:14.7582854+07:00" endTime="2026-11-06T21:53:14.7896211+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="52659614-8949-4a69-a37e-3e11267184b8" />
+    <UnitTestResult executionId="d4ff1e57-aedf-4f74-8004-d0ab5d5d28a6" testId="64664be4-779e-9337-69c4-b33f1fed0d0a" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_053" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010008" startTime="2026-11-06T21:53:14.8629189+07:00" endTime="2026-11-06T21:53:14.8638794+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d4ff1e57-aedf-4f74-8004-d0ab5d5d28a6" />
+    <UnitTestResult executionId="f7b8cbbb-61c6-4ea6-ace8-db989a2739a0" testId="00f394a4-4a32-e46c-1fef-c2640d328909" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_008" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004418" startTime="2026-11-06T21:53:14.8184781+07:00" endTime="2026-11-06T21:53:14.8207262+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f7b8cbbb-61c6-4ea6-ace8-db989a2739a0" />
+    <UnitTestResult executionId="6524437b-8852-4839-959d-0360d99dbba2" testId="2ae25742-4208-b866-45cb-6582ee867cbc" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_003" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005019" startTime="2026-11-06T21:53:14.8230440+07:00" endTime="2026-11-06T21:53:14.8230869+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6524437b-8852-4839-959d-0360d99dbba2" />
+    <UnitTestResult executionId="ad627374-40b7-47fe-b264-22f94d03adab" testId="d001496d-71fa-d924-7e93-57778e1e37a8" testName="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_047" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0351196" startTime="2026-11-06T21:53:14.7572623+07:00" endTime="2026-11-06T21:53:14.8349096+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ad627374-40b7-47fe-b264-22f94d03adab" />
+    <UnitTestResult executionId="ec21262b-12fe-4dc3-ae44-913215d7ef7a" testId="279e1155-1a09-0c96-aaf9-c935f5456a3e" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_061" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0411812" startTime="2026-11-06T21:53:14.7572907+07:00" endTime="2026-11-06T21:53:14.8356264+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec21262b-12fe-4dc3-ae44-913215d7ef7a" />
+    <UnitTestResult executionId="ed326fa1-fa3a-411d-a4a4-32560ba04493" testId="bbff64c5-3b09-b117-75ec-8c5c7ccb4935" testName="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_048" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0011561" startTime="2026-11-06T21:53:14.8349811+07:00" endTime="2026-11-06T21:53:14.8350103+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed326fa1-fa3a-411d-a4a4-32560ba04493" />
+    <UnitTestResult executionId="c099f7e2-bbfd-4f62-a997-300838b7c77f" testId="77f6bc65-0eae-2c5e-1217-a069e8dac8ec" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_025" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010357" startTime="2026-11-06T21:53:14.8212788+07:00" endTime="2026-11-06T21:53:14.8232337+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c099f7e2-bbfd-4f62-a997-300838b7c77f" />
+    <UnitTestResult executionId="f9fbf930-104b-4f3e-91d0-282274ea5407" testId="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_011" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003010" startTime="2026-11-06T21:53:14.8255755+07:00" endTime="2026-11-06T21:53:14.8257350+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9fbf930-104b-4f3e-91d0-282274ea5407" />
+    <UnitTestResult executionId="014375d2-4ecb-4e8f-9be1-a8d063fe89a0" testId="39bc5e86-3a9f-cdc7-f4b4-60da351c5802" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003888" startTime="2026-11-06T21:53:14.8181100+07:00" endTime="2026-11-06T21:53:14.8184057+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="014375d2-4ecb-4e8f-9be1-a8d063fe89a0" />
+    <UnitTestResult executionId="2e64eee8-8518-407d-bf75-528a5215f2e9" testId="c18c02dc-9124-06f6-0bfe-1e225e82581b" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_024" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003814" startTime="2026-11-06T21:53:14.8235809+07:00" endTime="2026-11-06T21:53:14.8247450+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e64eee8-8518-407d-bf75-528a5215f2e9" />
+    <UnitTestResult executionId="c5200f54-25ef-4d35-a50d-3b0b778ebfe8" testId="023fbe8f-37d3-3da2-870c-3823635b39eb" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_060" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0060735" startTime="2026-11-06T21:53:14.8530744+07:00" endTime="2026-11-06T21:53:14.8590608+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5200f54-25ef-4d35-a50d-3b0b778ebfe8" />
+    <UnitTestResult executionId="feacbe57-3ab6-464a-b9b3-494a3623e366" testId="8eda09f9-7cf1-6071-e4b8-629084788e6e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_038" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002755" startTime="2026-11-06T21:53:14.8345720+07:00" endTime="2026-11-06T21:53:14.8345995+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="feacbe57-3ab6-464a-b9b3-494a3623e366" />
+    <UnitTestResult executionId="98139ebc-6ef5-4241-a467-2b2af2d02829" testId="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f" testName="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005233" startTime="2026-11-06T21:53:14.8179577+07:00" endTime="2026-11-06T21:53:14.8183544+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="98139ebc-6ef5-4241-a467-2b2af2d02829" />
+    <UnitTestResult executionId="7a834315-0c11-4f08-b56b-88090cd8e980" testId="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e" testName="EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0294900" startTime="2026-11-06T21:53:14.7573405+07:00" endTime="2026-11-06T21:53:14.8348534+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a834315-0c11-4f08-b56b-88090cd8e980" />
+    <UnitTestResult executionId="86812ad5-e012-45fd-a125-03bf4d36506a" testId="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_043" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003295" startTime="2026-11-06T21:53:14.8261621+07:00" endTime="2026-11-06T21:53:14.8261905+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="86812ad5-e012-45fd-a125-03bf4d36506a" />
+    <UnitTestResult executionId="114a3d53-3720-4275-b8f1-03e3912547dd" testId="b2aa7525-af71-bf34-0dfc-90982e5be477" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_013" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005213" startTime="2026-11-06T21:53:14.8246637+07:00" endTime="2026-11-06T21:53:14.8254578+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="114a3d53-3720-4275-b8f1-03e3912547dd" />
+    <UnitTestResult executionId="b6f40b58-fcda-4d8d-a43b-8d5d8b466cce" testId="860c4abb-7b4e-2e99-0724-3daa58362e08" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_015" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004748" startTime="2026-11-06T21:53:14.8206928+07:00" endTime="2026-11-06T21:53:14.8209478+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b6f40b58-fcda-4d8d-a43b-8d5d8b466cce" />
+    <UnitTestResult executionId="cb73780a-d868-4f0b-bb65-4b9b5c3fba61" testId="b8a16326-9239-0543-052a-7f3fcd737d51" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_058" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0150670" startTime="2026-11-06T21:53:14.8357170+07:00" endTime="2026-11-06T21:53:14.8360014+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cb73780a-d868-4f0b-bb65-4b9b5c3fba61" />
+    <UnitTestResult executionId="1b13be2c-1998-44af-ad99-26bf813ebd28" testId="5cc2db29-b743-b114-54d9-6331265342ad" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_005" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003357" startTime="2026-11-06T21:53:14.7895304+07:00" endTime="2026-11-06T21:53:14.8179923+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b13be2c-1998-44af-ad99-26bf813ebd28" />
+    <UnitTestResult executionId="30e6088e-87ca-4888-b858-1f62275bf8b6" testId="febf550c-2508-8236-fb1f-0fdef0664ff6" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_046" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003646" startTime="2026-11-06T21:53:14.8347609+07:00" endTime="2026-11-06T21:53:14.8347880+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="30e6088e-87ca-4888-b858-1f62275bf8b6" />
+    <UnitTestResult executionId="9d025440-30c8-4ca5-934a-ec78525a5577" testId="0f7280ef-5705-bb5d-4dbe-337fb11fbbb2" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_056" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0008115" startTime="2026-11-06T21:53:14.8739363+07:00" endTime="2026-11-06T21:53:14.8746331+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9d025440-30c8-4ca5-934a-ec78525a5577" />
+    <UnitTestResult executionId="079fa054-3274-44df-9094-c42eb44c7821" testId="3c40620f-9028-8057-0dd9-2f18cd15f607" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_044" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0014373" startTime="2026-11-06T21:53:14.8269024+07:00" endTime="2026-11-06T21:53:14.8269314+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="079fa054-3274-44df-9094-c42eb44c7821" />
+    <UnitTestResult executionId="3f67757d-523e-4dcc-987e-828e84abec45" testId="3f32f9e1-6ff0-5443-7709-5c2da17b08b5" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_052" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0015858" startTime="2026-11-06T21:53:14.8699259+07:00" endTime="2026-11-06T21:53:14.8715002+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3f67757d-523e-4dcc-987e-828e84abec45" />
+    <UnitTestResult executionId="e0979ddf-6a4b-4c69-9829-e5f7b83f6ecf" testId="1f46c88b-ba21-7259-6bb4-b78ffa4d730f" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004036" startTime="2026-11-06T21:53:14.8178954+07:00" endTime="2026-11-06T21:53:14.8181588+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e0979ddf-6a4b-4c69-9829-e5f7b83f6ecf" />
+    <UnitTestResult executionId="d5a73144-7a0b-4373-a9bd-1edfbfb5dc86" testId="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_030" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003133" startTime="2026-11-06T21:53:14.8182889+07:00" endTime="2026-11-06T21:53:14.8185088+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5a73144-7a0b-4373-a9bd-1edfbfb5dc86" />
+    <UnitTestResult executionId="0da58279-3007-4650-b909-c8f3ed4a856a" testId="b53f747e-2869-96d5-df2b-1543145828cd" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_050" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0019912" startTime="2026-11-06T21:53:14.8677427+07:00" endTime="2026-11-06T21:53:14.8697130+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0da58279-3007-4650-b909-c8f3ed4a856a" />
+    <UnitTestResult executionId="5eb22aba-c436-4e48-879d-3eab5ab049b1" testId="6cf486c7-a4e6-a5e0-ef54-cce517028ad9" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_020" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003366" startTime="2026-11-06T21:53:14.8258704+07:00" endTime="2026-11-06T21:53:14.8258997+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5eb22aba-c436-4e48-879d-3eab5ab049b1" />
+    <UnitTestResult executionId="e4d59528-14d9-48a3-b64f-b239384ac826" testId="4a3470ec-fe85-89e5-219e-085b441b8508" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_062" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0036907" startTime="2026-11-06T21:53:14.8639561+07:00" endTime="2026-11-06T21:53:14.8676527+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e4d59528-14d9-48a3-b64f-b239384ac826" />
+    <UnitTestResult executionId="50294763-cf72-4be1-b5b7-6605ca857f07" testId="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_019" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002847" startTime="2026-11-06T21:53:14.8257059+07:00" endTime="2026-11-06T21:53:14.8257985+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="50294763-cf72-4be1-b5b7-6605ca857f07" />
+    <UnitTestResult executionId="80102994-7602-4df7-bd8e-e418ffb62d50" testId="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_045" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006619" startTime="2026-11-06T21:53:14.8342340+07:00" endTime="2026-11-06T21:53:14.8342763+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="80102994-7602-4df7-bd8e-e418ffb62d50" />
+    <UnitTestResult executionId="27977011-36c8-4cc6-9265-8d6f51d86d9b" testId="b32835fa-e1fa-500b-acf2-648abb578718" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_055" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005349" startTime="2026-11-06T21:53:14.8753894+07:00" endTime="2026-11-06T21:53:14.8757887+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="27977011-36c8-4cc6-9265-8d6f51d86d9b" />
+    <UnitTestResult executionId="6faac718-df3b-43b6-8e38-113900b3433b" testId="ab576258-0743-fde1-e2c5-8d0929734512" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_034" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002782" startTime="2026-11-06T21:53:14.8331640+07:00" endTime="2026-11-06T21:53:14.8331931+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6faac718-df3b-43b6-8e38-113900b3433b" />
+    <UnitTestResult executionId="ba0cae88-b071-48a8-86df-1ecedf9c4001" testId="fa0f7507-41f9-838c-0621-5469c70766e5" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0019131" startTime="2026-11-06T21:53:14.8247136+07:00" endTime="2026-11-06T21:53:14.8259591+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba0cae88-b071-48a8-86df-1ecedf9c4001" />
+    <UnitTestResult executionId="0011e1be-d1e8-42eb-b6c4-6a85addff452" testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" testName="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0128401" startTime="2026-11-06T21:53:14.7572140+07:00" endTime="2026-11-06T21:53:14.7906500+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0011e1be-d1e8-42eb-b6c4-6a85addff452" />
+    <UnitTestResult executionId="edc0f7fd-436d-485e-9b84-f58711b8075b" testId="4d83d81c-dd4f-12d0-0d83-cf1c5501d717" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_009" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0096346" startTime="2026-11-06T21:53:14.7573162+07:00" endTime="2026-11-06T21:53:14.7751812+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="edc0f7fd-436d-485e-9b84-f58711b8075b" />
+    <UnitTestResult executionId="3a3e259f-7d64-4e93-a34c-f0df7a7cc90b" testId="7cc80d00-0d79-8775-59c6-e3a006e07887" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_006" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004750" startTime="2026-11-06T21:53:14.8232012+07:00" endTime="2026-11-06T21:53:14.8233472+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a3e259f-7d64-4e93-a34c-f0df7a7cc90b" />
+    <UnitTestResult executionId="783fecca-717d-4058-8976-40327105a1c5" testId="97e00f17-5927-f2b6-656c-142e23e24224" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_026" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004073" startTime="2026-11-06T21:53:14.8209151+07:00" endTime="2026-11-06T21:53:14.8210678+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="783fecca-717d-4058-8976-40327105a1c5" />
+    <UnitTestResult executionId="ff3949e0-653d-4a6f-9528-e3d7979553ab" testId="e06d7758-494c-e48d-667c-b9df6789f76e" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_036" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002028" startTime="2026-11-06T21:53:14.8271073+07:00" endTime="2026-11-06T21:53:14.8328830+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff3949e0-653d-4a6f-9528-e3d7979553ab" />
+    <UnitTestResult executionId="99599361-8251-4aa4-bc7a-75500f8c58a2" testId="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_039" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002842" startTime="2026-11-06T21:53:14.8333588+07:00" endTime="2026-11-06T21:53:14.8333862+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="99599361-8251-4aa4-bc7a-75500f8c58a2" />
+    <UnitTestResult executionId="bd4f3551-a5a5-4e4a-b489-0d9625ac4756" testId="19396dd0-4357-088e-08f1-fbb9f2bc57be" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_070" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002205" startTime="2026-11-06T21:53:14.8344756+07:00" endTime="2026-11-06T21:53:14.8345036+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bd4f3551-a5a5-4e4a-b489-0d9625ac4756" />
+    <UnitTestResult executionId="35b850dc-f7d1-4be9-8223-828bde4f1102" testId="585d5060-905c-0119-53db-c176c8e4dbb1" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_051" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005167" startTime="2026-11-06T21:53:14.8747173+07:00" endTime="2026-11-06T21:53:14.8752526+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35b850dc-f7d1-4be9-8223-828bde4f1102" />
+    <UnitTestResult executionId="d7bb3803-d213-4f35-b07e-0a3b9292cf0b" testId="60886b96-c462-b01f-2f2e-a5b7de8a0279" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_010" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004646" startTime="2026-11-06T21:53:14.8234211+07:00" endTime="2026-11-06T21:53:14.8244933+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d7bb3803-d213-4f35-b07e-0a3b9292cf0b" />
+    <UnitTestResult executionId="fae341a4-a7ad-4b2e-822b-108256f88ce4" testId="add69410-03d9-6ff2-2fa8-1ab25983a731" testName="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_029" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0128321" startTime="2026-11-06T21:53:14.7555120+07:00" endTime="2026-11-06T21:53:14.7897265+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fae341a4-a7ad-4b2e-822b-108256f88ce4" />
+    <UnitTestResult executionId="ff57c392-9d30-44ed-8106-b752a2c6535d" testId="0cf1ccb6-ceb8-d5b1-6628-238176be961b" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_017" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003989" startTime="2026-11-06T21:53:14.8183026+07:00" endTime="2026-11-06T21:53:14.8205543+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff57c392-9d30-44ed-8106-b752a2c6535d" />
+    <UnitTestResult executionId="f1c9f793-f4e3-4d1a-bd6d-2ef6e9255fa0" testId="7101e05d-a9ad-0c77-6fe9-87f099910133" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_057" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0281448" startTime="2026-11-06T21:53:14.8360819+07:00" endTime="2026-11-06T21:53:14.8446341+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f1c9f793-f4e3-4d1a-bd6d-2ef6e9255fa0" />
+    <UnitTestResult executionId="c787ed50-d44a-4591-9d18-d09c4ff845a4" testId="b9a46f33-6929-acd3-8146-d81df59cc231" testName="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_065_BenHoc_LyDoTheoMonHinhThuc_KhongDungLichGiaSu" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006165" startTime="2026-11-06T21:53:14.8358398+07:00" endTime="2026-11-06T21:53:14.8358695+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c787ed50-d44a-4591-9d18-d09c4ff845a4" />
+    <UnitTestResult executionId="6d523411-971b-484d-ac01-c38749306c47" testId="6c2659a6-28b9-fae5-c288-362ab6c489be" testName="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_004" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004663" startTime="2026-11-06T21:53:14.8211769+07:00" endTime="2026-11-06T21:53:14.8222592+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6d523411-971b-484d-ac01-c38749306c47" />
+    <UnitTestResult executionId="06874b8b-3a03-46a4-9d35-cd2539590f72" testId="31886a0d-1a94-dd07-1f4d-c903ee236296" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_041" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0018305" startTime="2026-11-06T21:53:14.8260322+07:00" endTime="2026-11-06T21:53:14.8260607+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06874b8b-3a03-46a4-9d35-cd2539590f72" />
+    <UnitTestResult executionId="c495846f-b173-4079-be1d-8bf9072c09d0" testId="da2042ab-540a-254e-5a03-3134c213b087" testName="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_063" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0081599" startTime="2026-11-06T21:53:14.8448209+07:00" endTime="2026-11-06T21:53:14.8529135+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c495846f-b173-4079-be1d-8bf9072c09d0" />
+    <UnitTestResult executionId="6579b519-0a3f-4b80-aaa2-052cb0334fb6" testId="669d32b3-3f1e-85b1-d0db-2280f668d740" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004036" startTime="2026-11-06T21:53:14.8178755+07:00" endTime="2026-11-06T21:53:14.8181422+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6579b519-0a3f-4b80-aaa2-052cb0334fb6" />
+    <UnitTestResult executionId="3a21de03-7cfa-4b94-9801-e7aff9e1daba" testId="159deef8-6717-eb49-37cc-39939aff8544" testName="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_021" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002573" startTime="2026-11-06T21:53:14.8255891+07:00" endTime="2026-11-06T21:53:14.8256348+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a21de03-7cfa-4b94-9801-e7aff9e1daba" />
+    <UnitTestResult executionId="ecf36353-b814-4b80-9f78-bd72d513f763" testId="6b0f7294-4a2b-6460-57b7-3cf57af648dc" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_068" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0008074" startTime="2026-11-06T21:53:14.8330465+07:00" endTime="2026-11-06T21:53:14.8330789+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ecf36353-b814-4b80-9f78-bd72d513f763" />
+    <UnitTestResult executionId="fed3a36d-5231-4149-9388-c0c2527ef131" testId="cacc215c-659a-0433-7418-90942d7e6600" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003508" startTime="2026-11-06T21:53:14.8332629+07:00" endTime="2026-11-06T21:53:14.8332908+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fed3a36d-5231-4149-9388-c0c2527ef131" />
+    <UnitTestResult executionId="41c2d14c-6c42-44ce-8bd3-53d8afa0380b" testId="db8216dc-a689-839f-76f9-80bcdd742a05" testName="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_037" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002470" startTime="2026-11-06T21:53:14.8343728+07:00" endTime="2026-11-06T21:53:14.8344014+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41c2d14c-6c42-44ce-8bd3-53d8afa0380b" />
   </Results>
   <TestDefinitions>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_046" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="febf550c-2508-8236-fb1f-0fdef0664ff6">
-      <Execution id="e358e3e5-f957-41cc-8c6a-3cfe2d798cac" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_046" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_040" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4d6f7de2-57b9-333a-5729-b657cfc7a2ef">
-      <Execution id="3a06f5d3-9712-4afb-9032-55e091b5c234" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_040" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="0e0f34ce-7c73-e276-8b28-f8c59e982db9">
-      <Execution id="cbcd43ee-8f65-4036-bdf7-9f3b06d4e515" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.NhuCauRulesTests" name="MT1_UT_001_LichRanhRong_PhaiBaoLoi" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="cacc215c-659a-0433-7418-90942d7e6600">
-      <Execution id="5d4d374c-bc87-456c-b450-33488d661569" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_069" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_060_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="cf68aa47-b85c-bea0-e437-d11bb1ad54ad">
-      <Execution id="da3f8e04-a189-4c91-b933-891c9a129d4f" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_060_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_053_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="b2065a7c-95c4-87da-e63c-cfae8a3f9eae">
-      <Execution id="9623c19e-c49d-4e74-914a-83ab6f297ffd" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_053_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_011" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f">
-      <Execution id="c82defb1-584c-4c68-bdec-b923df72064f" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_011" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_039" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99">
-      <Execution id="63c40f25-d06d-4740-b4ad-95776d7730ae" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_039" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f">
-      <Execution id="b2844f43-f733-44ab-9471-df772a0f4c83" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.NhuCauRulesTests" name="MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_059_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9df3a260-9919-3e74-c210-1da079449295">
-      <Execution id="dc6270bf-6ada-4b52-9877-1dec7ad23d99" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_059_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="83280f9c-db54-a3aa-32c5-aab0b2127dc8">
-      <Execution id="3f19f78a-152b-4449-b871-e195643388d0" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_063_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="669d32b3-3f1e-85b1-d0db-2280f668d740">
-      <Execution id="f923572d-5461-4596-aaa0-0135d1ecaf3d" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_016" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_015" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="860c4abb-7b4e-2e99-0724-3daa58362e08">
-      <Execution id="e76953e2-aace-4767-8ade-a1025e99f28a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_015" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_052_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="67a36389-3f22-ff34-03ed-92b92fc50c0c">
-      <Execution id="17e9030d-3494-4dcd-849c-739ef08c31b1" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_052_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_070" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="19396dd0-4357-088e-08f1-fbb9f2bc57be">
-      <Execution id="15f9548c-a494-43c3-ace6-29e549fbb83c" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_070" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_029" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="add69410-03d9-6ff2-2fa8-1ab25983a731">
-      <Execution id="554b4e88-ee0f-4cc0-ae8c-0b967aa36184" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_029" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="fa0f7507-41f9-838c-0621-5469c70766e5">
-      <Execution id="c5f105a6-df6b-47c6-a44c-a95071912fb1" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_031" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_013" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="b2aa7525-af71-bf34-0dfc-90982e5be477">
-      <Execution id="8ed069df-3005-452e-9356-3b02ac001a7a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_013" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_056_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="b3183957-291c-2cff-8ead-6f77f28e8cfa">
-      <Execution id="69ea44d8-0648-47ca-82f7-d900c4deb10a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_056_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_057_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="bbc3d5ec-34e4-d99b-00cc-808a3195e29c">
-      <Execution id="991b4f72-47ff-48bf-a6ed-c4cc4638d32b" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_057_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_005" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5cc2db29-b743-b114-54d9-6331265342ad">
-      <Execution id="acb4638b-9c61-4c30-a787-639ff208b089" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_005" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_061_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="7de47bd8-6fa6-a79a-0470-3b8c1a1dd8e4">
-      <Execution id="e81e7c94-e55a-425e-ab2d-c7b6f274c68e" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_061_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_045" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565">
-      <Execution id="15776c39-f8f5-4fee-9b71-a8c52cdd478c" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_045" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1f46c88b-ba21-7259-6bb4-b78ffa4d730f">
-      <Execution id="b36c7711-2e5e-4fb5-9136-8bf7e7a41572" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_028" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_047_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="b5c39caa-2817-b93a-eb30-0302f8b3afad">
-      <Execution id="715fadb5-793e-44d8-b19f-595482d771d1" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_047_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_068" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6b0f7294-4a2b-6460-57b7-3cf57af648dc">
-      <Execution id="4e2914f6-5562-4a7c-b2aa-3fecd3f5e75d" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_068" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_058_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4e207fbe-b5d3-b47d-885e-628e81fde6cb">
-      <Execution id="0acab65e-cd0e-4d70-8361-3bd424425253" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_058_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_003" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="2ae25742-4208-b866-45cb-6582ee867cbc">
-      <Execution id="83fe850e-abe6-49f9-9b64-6e8340223370" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_003" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_044" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="3c40620f-9028-8057-0dd9-2f18cd15f607">
-      <Execution id="07af911a-2612-443d-9dc6-a106e12cf534" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_044" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_037" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="db8216dc-a689-839f-76f9-80bcdd742a05">
-      <Execution id="74f4e703-6946-470c-a3c2-0b878d8f5696" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_037" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_066_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5a4a7a40-97b3-f236-92fb-0cc4f411a9c8">
-      <Execution id="aabebe6a-edc9-45f8-8a32-1a21f1de6ae3" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_066_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_032" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a">
-      <Execution id="8b03854a-d682-4ef4-a485-1846d4681463" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_032" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_054_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="930dabba-8a00-73e6-dd83-3a76a6f954ab">
-      <Execution id="19d51373-4475-4080-818e-f8dbde171184" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_054_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_034" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ab576258-0743-fde1-e2c5-8d0929734512">
-      <Execution id="492422d3-e4fc-48af-b43e-667a5517baf9" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_034" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_020" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6cf486c7-a4e6-a5e0-ef54-cce517028ad9">
-      <Execution id="6f24455f-beab-41e9-9de7-2cf1d4a97630" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_020" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6ec5a730-6dc6-f81e-65a8-4011d03b78f6">
-      <Execution id="e3e73ad4-54d5-4423-8cb4-92e4f36d27d4" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_067_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_036" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="e06d7758-494c-e48d-667c-b9df6789f76e">
-      <Execution id="4bc1770e-e1a3-46f4-8a38-999f5c577bf8" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_036" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_024" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="c18c02dc-9124-06f6-0bfe-1e225e82581b">
-      <Execution id="3b3488b3-af17-4a10-810f-5c11bb80af94" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_024" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_050_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="d64eae7a-7869-5a83-b19e-07e298a025f4">
-      <Execution id="4617380f-e997-4f11-8563-b198e56bc56a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_050_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_012" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="49090e66-65ed-d6cb-99f4-4ae2ca269e96">
-      <Execution id="a3f93c94-9a39-46cc-bb16-bc85ee4fd736" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_012" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_055_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6df6f245-41ed-7bd6-b7f2-a021bacdad5b">
-      <Execution id="da9e4398-85b3-4148-8c4a-1f467762e62a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_055_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_051_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="e6ba44ff-7b2c-4599-80ee-1bdc7c920e99">
-      <Execution id="793a6b15-7622-4563-8cc1-e7df7e78db9b" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_051_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_030" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa">
-      <Execution id="fcf079fe-bf37-4145-a145-3bc2cafdf021" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_030" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="39bc5e86-3a9f-cdc7-f4b4-60da351c5802">
-      <Execution id="705e296f-8673-4f8b-bf6b-df5251d81b5c" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_007" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_018" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="c5776116-a4fd-9a6b-97b3-874b208f9e77">
-      <Execution id="a22c2320-2a19-4992-9d4e-7ab65cd541dc" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_018" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_042" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="84195a3f-40a1-3eaa-692c-a555db29f7f5">
-      <Execution id="05d56fc2-7680-47fa-b9ea-e327759dbbf7" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_042" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_064_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="7118b8da-b0e5-0eb9-6137-4fad21f5edb1">
-      <Execution id="c8cf90c6-3ac9-40f8-9920-3eceb2687634" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_064_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_017" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="0cf1ccb6-ceb8-d5b1-6628-238176be961b">
-      <Execution id="2a09e4a2-45c8-4e7b-9c2e-cc0ffa8cf061" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_017" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a">
-      <Execution id="1c7f5bd3-8029-428e-8386-b3ba3beb9e92" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_035" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_048_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="e1168294-3f41-f79b-c224-2352b78aab7e">
-      <Execution id="f4af8117-eb62-4e8e-847b-078b97c87d2f" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_048_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_038" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="8eda09f9-7cf1-6071-e4b8-629084788e6e">
-      <Execution id="180c3935-9d41-41d6-877d-6a86d66d81aa" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_038" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e">
-      <Execution id="619bb666-932d-4e5f-a422-5f6f2a57bc68" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemControllerTests" name="MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_014" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="fc45fef3-467c-20f0-d327-2d48e303b232">
-      <Execution id="28029ce7-f797-4960-8404-804916939c31" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_014" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_009" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4d83d81c-dd4f-12d0-0d83-cf1c5501d717">
-      <Execution id="e0742044-3189-4922-8319-4436c60ffc21" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_009" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_027" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="65e08581-a790-7db2-bc11-f4a01c94d414">
-      <Execution id="24120247-0ff8-4e67-9b72-30b307aceb6a" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_027" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_008" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="00f394a4-4a32-e46c-1fef-c2640d328909">
-      <Execution id="edb0e24d-7a0f-42a1-9b8e-c9d3476ed174" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_008" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_019" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1">
-      <Execution id="43fb0a5b-10e2-4942-bff6-27d635ec4bea" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_019" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_010" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="60886b96-c462-b01f-2f2e-a5b7de8a0279">
-      <Execution id="73ceefe9-dfa3-4080-be5e-42009ab31687" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_010" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_021" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="159deef8-6717-eb49-37cc-39939aff8544">
-      <Execution id="b2e49db9-4a7e-4cb8-90df-70cc14a31b42" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_021" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_004" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6c2659a6-28b9-fae5-c288-362ab6c489be">
-      <Execution id="ae48e656-7536-4d17-9358-4b8a73a22be2" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_004" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_025" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="77f6bc65-0eae-2c5e-1217-a069e8dac8ec">
-      <Execution id="9f4a3841-44bb-4153-9f54-0b23b3f47574" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_025" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692">
-      <Execution id="682fc9bc-e182-45e2-a707-5277ce228e82" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_022" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_026" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="97e00f17-5927-f2b6-656c-142e23e24224">
-      <Execution id="35dd4da4-af6b-4cd3-9405-10b2dcdbbd9e" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_026" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_023" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="58ebe41e-bd49-1446-2482-f0163f72ee83">
-      <Execution id="1c552d38-c95d-41e4-8815-c1450fa74239" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_023" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_062_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="981b7598-21ca-72ee-a244-40b2361f7271">
-      <Execution id="b352a406-0fe2-4660-96b3-bebef740d980" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_062_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_043" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc">
-      <Execution id="b2e4435f-28f3-4814-9710-1371dbbbd985" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_043" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_006" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="7cc80d00-0d79-8775-59c6-e3a006e07887">
-      <Execution id="539b88ff-1ca7-4760-8bbd-c694e8d131f6" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_006" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="adfad597-ee4b-4b0d-9029-dd2d6cc1a153">
-      <Execution id="32abbff1-ddf7-4764-82a2-b78f5699b65e" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests" name="MT1_UT_065_Blocked" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9e1849c4-718a-1dc0-6030-dfb90753c80e">
-      <Execution id="c69ba38f-ed30-492d-ae9b-e5afb6deaaa6" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_033" />
-    </UnitTest>
-    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_041" storage="c:\khóa luận tn\educonnect\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="31886a0d-1a94-dd07-1f4d-c903ee236296">
-      <Execution id="1f46ad81-345c-4c55-bbd5-79c9b1dcd70f" />
-      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_041" />
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_046" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="febf550c-2508-8236-fb1f-0fdef0664ff6">
+      <Execution id="30e6088e-87ca-4888-b858-1f62275bf8b6" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_046" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_060" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="023fbe8f-37d3-3da2-870c-3823635b39eb">
+      <Execution id="c5200f54-25ef-4d35-a50d-3b0b778ebfe8" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_060" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_040" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="4d6f7de2-57b9-333a-5729-b657cfc7a2ef">
+      <Execution id="df287c1f-4022-4ea9-93d0-cc69b1d505c8" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_040" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_001_LichRanhRong_PhaiBaoLoi" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="0e0f34ce-7c73-e276-8b28-f8c59e982db9">
+      <Execution id="0011e1be-d1e8-42eb-b6c4-6a85addff452" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.NhuCauRulesTests" name="MT1_UT_001_LichRanhRong_PhaiBaoLoi" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="cacc215c-659a-0433-7418-90942d7e6600">
+      <Execution id="fed3a36d-5231-4149-9388-c0c2527ef131" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_069" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_011" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f">
+      <Execution id="f9fbf930-104b-4f3e-91d0-282274ea5407" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_011" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_039" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99">
+      <Execution id="99599361-8251-4aa4-bc7a-75500f8c58a2" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_039" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f">
+      <Execution id="98139ebc-6ef5-4241-a467-2b2af2d02829" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.NhuCauRulesTests" name="MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_059" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="10aaa073-55e7-ce34-6364-e41d13ec53cf">
+      <Execution id="d033630c-5455-46e6-bd06-3cd4960b8514" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_059" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="669d32b3-3f1e-85b1-d0db-2280f668d740">
+      <Execution id="6579b519-0a3f-4b80-aaa2-052cb0334fb6" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_016" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_015" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="860c4abb-7b4e-2e99-0724-3daa58362e08">
+      <Execution id="b6f40b58-fcda-4d8d-a43b-8d5d8b466cce" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_015" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_047" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="d001496d-71fa-d924-7e93-57778e1e37a8">
+      <Execution id="ad627374-40b7-47fe-b264-22f94d03adab" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests" name="MT1_UT_047" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_064" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="7088238e-dc25-700f-37c1-965ac9bceda8">
+      <Execution id="c023c6b3-732e-470c-98da-2105033d0086" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_064" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_070" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="19396dd0-4357-088e-08f1-fbb9f2bc57be">
+      <Execution id="bd4f3551-a5a5-4e4a-b489-0d9625ac4756" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_070" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_029" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="add69410-03d9-6ff2-2fa8-1ab25983a731">
+      <Execution id="fae341a4-a7ad-4b2e-822b-108256f88ce4" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_029" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="fa0f7507-41f9-838c-0621-5469c70766e5">
+      <Execution id="ba0cae88-b071-48a8-86df-1ecedf9c4001" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_031" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_013" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="b2aa7525-af71-bf34-0dfc-90982e5be477">
+      <Execution id="114a3d53-3720-4275-b8f1-03e3912547dd" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_013" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_067_LyDoPhanAnhDuLieu" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="710c941f-d330-9226-61ac-3f72dd75f4f5">
+      <Execution id="eab956bb-83ca-49fa-ba97-728ec7218515" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests" name="MT1_UT_067_LyDoPhanAnhDuLieu" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_005" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="5cc2db29-b743-b114-54d9-6331265342ad">
+      <Execution id="1b13be2c-1998-44af-ad99-26bf813ebd28" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_005" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_056" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="0f7280ef-5705-bb5d-4dbe-337fb11fbbb2">
+      <Execution id="9d025440-30c8-4ca5-934a-ec78525a5577" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_056" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_053" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="64664be4-779e-9337-69c4-b33f1fed0d0a">
+      <Execution id="d4ff1e57-aedf-4f74-8004-d0ab5d5d28a6" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_053" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_045" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565">
+      <Execution id="80102994-7602-4df7-bd8e-e418ffb62d50" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_045" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_028" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="1f46c88b-ba21-7259-6bb4-b78ffa4d730f">
+      <Execution id="e0979ddf-6a4b-4c69-9829-e5f7b83f6ecf" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_028" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_061" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="279e1155-1a09-0c96-aaf9-c935f5456a3e">
+      <Execution id="ec21262b-12fe-4dc3-ae44-913215d7ef7a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_061" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_063" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="da2042ab-540a-254e-5a03-3134c213b087">
+      <Execution id="c495846f-b173-4079-be1d-8bf9072c09d0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_063" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_051" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="585d5060-905c-0119-53db-c176c8e4dbb1">
+      <Execution id="35b850dc-f7d1-4be9-8223-828bde4f1102" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_051" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_068" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="6b0f7294-4a2b-6460-57b7-3cf57af648dc">
+      <Execution id="ecf36353-b814-4b80-9f78-bd72d513f763" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_068" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_003" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="2ae25742-4208-b866-45cb-6582ee867cbc">
+      <Execution id="6524437b-8852-4839-959d-0360d99dbba2" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_003" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_044" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="3c40620f-9028-8057-0dd9-2f18cd15f607">
+      <Execution id="079fa054-3274-44df-9094-c42eb44c7821" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_044" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_062" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="4a3470ec-fe85-89e5-219e-085b441b8508">
+      <Execution id="e4d59528-14d9-48a3-b64f-b239384ac826" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_062" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_037" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="db8216dc-a689-839f-76f9-80bcdd742a05">
+      <Execution id="41c2d14c-6c42-44ce-8bd3-53d8afa0380b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_037" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_032" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a">
+      <Execution id="a365a1fd-aa52-43bd-aa0b-75847ca8e151" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_032" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_034" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="ab576258-0743-fde1-e2c5-8d0929734512">
+      <Execution id="6faac718-df3b-43b6-8e38-113900b3433b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_034" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_020" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="6cf486c7-a4e6-a5e0-ef54-cce517028ad9">
+      <Execution id="5eb22aba-c436-4e48-879d-3eab5ab049b1" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_020" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_048" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="bbff64c5-3b09-b117-75ec-8c5c7ccb4935">
+      <Execution id="ed326fa1-fa3a-411d-a4a4-32560ba04493" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests" name="MT1_UT_048" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_036" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="e06d7758-494c-e48d-667c-b9df6789f76e">
+      <Execution id="ff3949e0-653d-4a6f-9528-e3d7979553ab" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_036" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_024" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="c18c02dc-9124-06f6-0bfe-1e225e82581b">
+      <Execution id="2e64eee8-8518-407d-bf75-528a5215f2e9" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_024" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_065_BenHoc_LyDoTheoMonHinhThuc_KhongDungLichGiaSu" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="b9a46f33-6929-acd3-8146-d81df59cc231">
+      <Execution id="c787ed50-d44a-4591-9d18-d09c4ff845a4" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests" name="MT1_UT_065_BenHoc_LyDoTheoMonHinhThuc_KhongDungLichGiaSu" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_050" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="b53f747e-2869-96d5-df2b-1543145828cd">
+      <Execution id="0da58279-3007-4650-b909-c8f3ed4a856a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_050" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_054" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="36402b30-58c9-b8e3-2925-1aa51e08acd4">
+      <Execution id="82268d22-665b-40ea-b82e-927674966609" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_054" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_012" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="49090e66-65ed-d6cb-99f4-4ae2ca269e96">
+      <Execution id="c63ee813-e511-413c-90d7-54a52aad8850" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_012" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_058" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="b8a16326-9239-0543-052a-7f3fcd737d51">
+      <Execution id="cb73780a-d868-4f0b-bb65-4b9b5c3fba61" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_058" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_030" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa">
+      <Execution id="d5a73144-7a0b-4373-a9bd-1edfbfb5dc86" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_030" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_007" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="39bc5e86-3a9f-cdc7-f4b4-60da351c5802">
+      <Execution id="014375d2-4ecb-4e8f-9be1-a8d063fe89a0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_007" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_018" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="c5776116-a4fd-9a6b-97b3-874b208f9e77">
+      <Execution id="1bbccbf5-54a1-40a6-a4c1-c165202a2f08" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_018" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_042" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="84195a3f-40a1-3eaa-692c-a555db29f7f5">
+      <Execution id="6e50984e-e9c7-485d-a068-3963c6433b84" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_042" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_055" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="b32835fa-e1fa-500b-acf2-648abb578718">
+      <Execution id="27977011-36c8-4cc6-9265-8d6f51d86d9b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_055" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_017" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="0cf1ccb6-ceb8-d5b1-6628-238176be961b">
+      <Execution id="ff57c392-9d30-44ed-8106-b752a2c6535d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_017" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a">
+      <Execution id="ea529baf-8368-486a-a809-355c356fa93d" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_035" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_038" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="8eda09f9-7cf1-6071-e4b8-629084788e6e">
+      <Execution id="feacbe57-3ab6-464a-b9b3-494a3623e366" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_038" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e">
+      <Execution id="7a834315-0c11-4f08-b56b-88090cd8e980" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemControllerTests" name="MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_014" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="fc45fef3-467c-20f0-d327-2d48e303b232">
+      <Execution id="6f8d2147-c93c-43b8-ac27-4a5e6b9554b2" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_014" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_009" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="4d83d81c-dd4f-12d0-0d83-cf1c5501d717">
+      <Execution id="edc0f7fd-436d-485e-9b84-f58711b8075b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_009" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_027" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="65e08581-a790-7db2-bc11-f4a01c94d414">
+      <Execution id="5bc2ceb5-273f-4a28-8e20-39690e89da51" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_027" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_008" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="00f394a4-4a32-e46c-1fef-c2640d328909">
+      <Execution id="f7b8cbbb-61c6-4ea6-ace8-db989a2739a0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_008" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_019" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1">
+      <Execution id="50294763-cf72-4be1-b5b7-6605ca857f07" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_019" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_010" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="60886b96-c462-b01f-2f2e-a5b7de8a0279">
+      <Execution id="d7bb3803-d213-4f35-b07e-0a3b9292cf0b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_010" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_021" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="159deef8-6717-eb49-37cc-39939aff8544">
+      <Execution id="3a21de03-7cfa-4b94-9801-e7aff9e1daba" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_021" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_004" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="6c2659a6-28b9-fae5-c288-362ab6c489be">
+      <Execution id="6d523411-971b-484d-ac01-c38749306c47" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_004" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_025" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="77f6bc65-0eae-2c5e-1217-a069e8dac8ec">
+      <Execution id="c099f7e2-bbfd-4f62-a997-300838b7c77f" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_025" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692">
+      <Execution id="d8d4429a-9cd6-4256-9a2e-6a39db26ece1" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_022" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.PhienBanTests.MT1_UT_026" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="97e00f17-5927-f2b6-656c-142e23e24224">
+      <Execution id="783fecca-717d-4058-8976-40327105a1c5" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.PhienBanTests" name="MT1_UT_026" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_023" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="58ebe41e-bd49-1446-2482-f0163f72ee83">
+      <Execution id="52659614-8949-4a69-a37e-3e11267184b8" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.HocPhiTests" name="MT1_UT_023" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_043" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc">
+      <Execution id="86812ad5-e012-45fd-a125-03bf4d36506a" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_043" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.LichRanhTests.MT1_UT_006" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="7cc80d00-0d79-8775-59c6-e3a006e07887">
+      <Execution id="3a3e259f-7d64-4e93-a34c-f0df7a7cc90b" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.LichRanhTests" name="MT1_UT_006" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="9e1849c4-718a-1dc0-6030-dfb90753c80e">
+      <Execution id="595de377-658b-4cc3-b795-fdfc719f7055" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_033" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_041" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="31886a0d-1a94-dd07-1f4d-c903ee236296">
+      <Execution id="06874b8b-3a03-46a4-9d35-cd2539590f72" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.InputValidationTests" name="MT1_UT_041" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_052" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="3f32f9e1-6ff0-5443-7709-5c2da17b08b5">
+      <Execution id="3f67757d-523e-4dcc-987e-828e84abec45" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_052" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_057" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="7101e05d-a9ad-0c77-6fe9-87f099910133">
+      <Execution id="f1c9f793-f4e3-4d1a-bd6d-2ef6e9255fa0" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.ControllerIsolationTests" name="MT1_UT_057" />
+    </UnitTest>
+    <UnitTest name="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_066_GiaSu_GoiYNhuCauTheoMonDaDangKy" storage="c:\khóa luận tn\educonnect\tests\unit\bin\mt1-validation\educonnect.unittests.dll" id="9c2f4c7f-6a56-458c-53d3-af0f43070a11">
+      <Execution id="f8db063b-2345-4caf-a87b-a37fcba5a6e4" />
+      <TestMethod codeBase="C:\Khóa luận TN\Educonnect\tests\Unit\bin\MT1-validation\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests" name="MT1_UT_066_GiaSu_GoiYNhuCauTheoMonDaDangKy" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="77f6bc65-0eae-2c5e-1217-a069e8dac8ec" executionId="9f4a3841-44bb-4153-9f54-0b23b3f47574" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="00f394a4-4a32-e46c-1fef-c2640d328909" executionId="edb0e24d-7a0f-42a1-9b8e-c9d3476ed174" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="19396dd0-4357-088e-08f1-fbb9f2bc57be" executionId="15f9548c-a494-43c3-ace6-29e549fbb83c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="9df3a260-9919-3e74-c210-1da079449295" executionId="dc6270bf-6ada-4b52-9877-1dec7ad23d99" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa" executionId="fcf079fe-bf37-4145-a145-3bc2cafdf021" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2ae25742-4208-b866-45cb-6582ee867cbc" executionId="83fe850e-abe6-49f9-9b64-6e8340223370" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b2065a7c-95c4-87da-e63c-cfae8a3f9eae" executionId="9623c19e-c49d-4e74-914a-83ab6f297ffd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="159deef8-6717-eb49-37cc-39939aff8544" executionId="b2e49db9-4a7e-4cb8-90df-70cc14a31b42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="60886b96-c462-b01f-2f2e-a5b7de8a0279" executionId="73ceefe9-dfa3-4080-be5e-42009ab31687" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="39bc5e86-3a9f-cdc7-f4b4-60da351c5802" executionId="705e296f-8673-4f8b-bf6b-df5251d81b5c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a" executionId="1c7f5bd3-8029-428e-8386-b3ba3beb9e92" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="1f46c88b-ba21-7259-6bb4-b78ffa4d730f" executionId="b36c7711-2e5e-4fb5-9136-8bf7e7a41572" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="adfad597-ee4b-4b0d-9029-dd2d6cc1a153" executionId="32abbff1-ddf7-4764-82a2-b78f5699b65e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6b0f7294-4a2b-6460-57b7-3cf57af648dc" executionId="4e2914f6-5562-4a7c-b2aa-3fecd3f5e75d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="97e00f17-5927-f2b6-656c-142e23e24224" executionId="35dd4da4-af6b-4cd3-9405-10b2dcdbbd9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="981b7598-21ca-72ee-a244-40b2361f7271" executionId="b352a406-0fe2-4660-96b3-bebef740d980" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99" executionId="63c40f25-d06d-4740-b4ad-95776d7730ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" executionId="cbcd43ee-8f65-4036-bdf7-9f3b06d4e515" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ab576258-0743-fde1-e2c5-8d0929734512" executionId="492422d3-e4fc-48af-b43e-667a5517baf9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="84195a3f-40a1-3eaa-692c-a555db29f7f5" executionId="05d56fc2-7680-47fa-b9ea-e327759dbbf7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="c18c02dc-9124-06f6-0bfe-1e225e82581b" executionId="3b3488b3-af17-4a10-810f-5c11bb80af94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f" executionId="c82defb1-584c-4c68-bdec-b923df72064f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="31886a0d-1a94-dd07-1f4d-c903ee236296" executionId="1f46ad81-345c-4c55-bbd5-79c9b1dcd70f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="8eda09f9-7cf1-6071-e4b8-629084788e6e" executionId="180c3935-9d41-41d6-877d-6a86d66d81aa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="930dabba-8a00-73e6-dd83-3a76a6f954ab" executionId="19d51373-4475-4080-818e-f8dbde171184" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="4e207fbe-b5d3-b47d-885e-628e81fde6cb" executionId="0acab65e-cd0e-4d70-8361-3bd424425253" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="3c40620f-9028-8057-0dd9-2f18cd15f607" executionId="07af911a-2612-443d-9dc6-a106e12cf534" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="65e08581-a790-7db2-bc11-f4a01c94d414" executionId="24120247-0ff8-4e67-9b72-30b307aceb6a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="fc45fef3-467c-20f0-d327-2d48e303b232" executionId="28029ce7-f797-4960-8404-804916939c31" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f" executionId="b2844f43-f733-44ab-9471-df772a0f4c83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6c2659a6-28b9-fae5-c288-362ab6c489be" executionId="ae48e656-7536-4d17-9358-4b8a73a22be2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="9e1849c4-718a-1dc0-6030-dfb90753c80e" executionId="c69ba38f-ed30-492d-ae9b-e5afb6deaaa6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e" executionId="619bb666-932d-4e5f-a422-5f6f2a57bc68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a" executionId="8b03854a-d682-4ef4-a485-1846d4681463" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="d64eae7a-7869-5a83-b19e-07e298a025f4" executionId="4617380f-e997-4f11-8563-b198e56bc56a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="49090e66-65ed-d6cb-99f4-4ae2ca269e96" executionId="a3f93c94-9a39-46cc-bb16-bc85ee4fd736" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="bbc3d5ec-34e4-d99b-00cc-808a3195e29c" executionId="991b4f72-47ff-48bf-a6ed-c4cc4638d32b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="5a4a7a40-97b3-f236-92fb-0cc4f411a9c8" executionId="aabebe6a-edc9-45f8-8a32-1a21f1de6ae3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e1168294-3f41-f79b-c224-2352b78aab7e" executionId="f4af8117-eb62-4e8e-847b-078b97c87d2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6df6f245-41ed-7bd6-b7f2-a021bacdad5b" executionId="da9e4398-85b3-4148-8c4a-1f467762e62a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b2aa7525-af71-bf34-0dfc-90982e5be477" executionId="8ed069df-3005-452e-9356-3b02ac001a7a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7cc80d00-0d79-8775-59c6-e3a006e07887" executionId="539b88ff-1ca7-4760-8bbd-c694e8d131f6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="4d83d81c-dd4f-12d0-0d83-cf1c5501d717" executionId="e0742044-3189-4922-8319-4436c60ffc21" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="0cf1ccb6-ceb8-d5b1-6628-238176be961b" executionId="2a09e4a2-45c8-4e7b-9c2e-cc0ffa8cf061" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b3183957-291c-2cff-8ead-6f77f28e8cfa" executionId="69ea44d8-0648-47ca-82f7-d900c4deb10a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="fa0f7507-41f9-838c-0621-5469c70766e5" executionId="c5f105a6-df6b-47c6-a44c-a95071912fb1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565" executionId="15776c39-f8f5-4fee-9b71-a8c52cdd478c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="67a36389-3f22-ff34-03ed-92b92fc50c0c" executionId="17e9030d-3494-4dcd-849c-739ef08c31b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="db8216dc-a689-839f-76f9-80bcdd742a05" executionId="74f4e703-6946-470c-a3c2-0b878d8f5696" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7de47bd8-6fa6-a79a-0470-3b8c1a1dd8e4" executionId="e81e7c94-e55a-425e-ab2d-c7b6f274c68e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6ec5a730-6dc6-f81e-65a8-4011d03b78f6" executionId="e3e73ad4-54d5-4423-8cb4-92e4f36d27d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="cf68aa47-b85c-bea0-e437-d11bb1ad54ad" executionId="da3f8e04-a189-4c91-b933-891c9a129d4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b5c39caa-2817-b93a-eb30-0302f8b3afad" executionId="715fadb5-793e-44d8-b19f-595482d771d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7118b8da-b0e5-0eb9-6137-4fad21f5edb1" executionId="c8cf90c6-3ac9-40f8-9920-3eceb2687634" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6cf486c7-a4e6-a5e0-ef54-cce517028ad9" executionId="6f24455f-beab-41e9-9de7-2cf1d4a97630" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e6ba44ff-7b2c-4599-80ee-1bdc7c920e99" executionId="793a6b15-7622-4563-8cc1-e7df7e78db9b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e06d7758-494c-e48d-667c-b9df6789f76e" executionId="4bc1770e-e1a3-46f4-8a38-999f5c577bf8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1" executionId="43fb0a5b-10e2-4942-bff6-27d635ec4bea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="83280f9c-db54-a3aa-32c5-aab0b2127dc8" executionId="3f19f78a-152b-4449-b871-e195643388d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="860c4abb-7b4e-2e99-0724-3daa58362e08" executionId="e76953e2-aace-4767-8ade-a1025e99f28a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="febf550c-2508-8236-fb1f-0fdef0664ff6" executionId="e358e3e5-f957-41cc-8c6a-3cfe2d798cac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692" executionId="682fc9bc-e182-45e2-a707-5277ce228e82" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="c5776116-a4fd-9a6b-97b3-874b208f9e77" executionId="a22c2320-2a19-4992-9d4e-7ab65cd541dc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="add69410-03d9-6ff2-2fa8-1ab25983a731" executionId="554b4e88-ee0f-4cc0-ae8c-0b967aa36184" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="cacc215c-659a-0433-7418-90942d7e6600" executionId="5d4d374c-bc87-456c-b450-33488d661569" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="5cc2db29-b743-b114-54d9-6331265342ad" executionId="acb4638b-9c61-4c30-a787-639ff208b089" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc" executionId="b2e4435f-28f3-4814-9710-1371dbbbd985" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="669d32b3-3f1e-85b1-d0db-2280f668d740" executionId="f923572d-5461-4596-aaa0-0135d1ecaf3d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="4d6f7de2-57b9-333a-5729-b657cfc7a2ef" executionId="3a06f5d3-9712-4afb-9032-55e091b5c234" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="58ebe41e-bd49-1446-2482-f0163f72ee83" executionId="1c552d38-c95d-41e4-8815-c1450fa74239" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30d9d1b0-fa3b-d38b-ab7c-5c9f398ced2a" executionId="ea529baf-8368-486a-a809-355c356fa93d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3001ca5f-ebbc-e5e0-ea63-9ceb63c9a692" executionId="d8d4429a-9cd6-4256-9a2e-6a39db26ece1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36402b30-58c9-b8e3-2925-1aa51e08acd4" executionId="82268d22-665b-40ea-b82e-927674966609" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d6f7de2-57b9-333a-5729-b657cfc7a2ef" executionId="df287c1f-4022-4ea9-93d0-cc69b1d505c8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fc45fef3-467c-20f0-d327-2d48e303b232" executionId="6f8d2147-c93c-43b8-ac27-4a5e6b9554b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5776116-a4fd-9a6b-97b3-874b208f9e77" executionId="1bbccbf5-54a1-40a6-a4c1-c165202a2f08" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9c2f4c7f-6a56-458c-53d3-af0f43070a11" executionId="f8db063b-2345-4caf-a87b-a37fcba5a6e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="84195a3f-40a1-3eaa-692c-a555db29f7f5" executionId="6e50984e-e9c7-485d-a068-3963c6433b84" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49090e66-65ed-d6cb-99f4-4ae2ca269e96" executionId="c63ee813-e511-413c-90d7-54a52aad8850" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7088238e-dc25-700f-37c1-965ac9bceda8" executionId="c023c6b3-732e-470c-98da-2105033d0086" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a25e7a1-aff3-d657-e89d-9b17a9b65e7a" executionId="a365a1fd-aa52-43bd-aa0b-75847ca8e151" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65e08581-a790-7db2-bc11-f4a01c94d414" executionId="5bc2ceb5-273f-4a28-8e20-39690e89da51" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10aaa073-55e7-ce34-6364-e41d13ec53cf" executionId="d033630c-5455-46e6-bd06-3cd4960b8514" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9e1849c4-718a-1dc0-6030-dfb90753c80e" executionId="595de377-658b-4cc3-b795-fdfc719f7055" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="710c941f-d330-9226-61ac-3f72dd75f4f5" executionId="eab956bb-83ca-49fa-ba97-728ec7218515" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="58ebe41e-bd49-1446-2482-f0163f72ee83" executionId="52659614-8949-4a69-a37e-3e11267184b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="64664be4-779e-9337-69c4-b33f1fed0d0a" executionId="d4ff1e57-aedf-4f74-8004-d0ab5d5d28a6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="00f394a4-4a32-e46c-1fef-c2640d328909" executionId="f7b8cbbb-61c6-4ea6-ace8-db989a2739a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ae25742-4208-b866-45cb-6582ee867cbc" executionId="6524437b-8852-4839-959d-0360d99dbba2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d001496d-71fa-d924-7e93-57778e1e37a8" executionId="ad627374-40b7-47fe-b264-22f94d03adab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="279e1155-1a09-0c96-aaf9-c935f5456a3e" executionId="ec21262b-12fe-4dc3-ae44-913215d7ef7a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bbff64c5-3b09-b117-75ec-8c5c7ccb4935" executionId="ed326fa1-fa3a-411d-a4a4-32560ba04493" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77f6bc65-0eae-2c5e-1217-a069e8dac8ec" executionId="c099f7e2-bbfd-4f62-a997-300838b7c77f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a5526fd-fd77-7b2c-c9ec-c11b63aaa84f" executionId="f9fbf930-104b-4f3e-91d0-282274ea5407" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39bc5e86-3a9f-cdc7-f4b4-60da351c5802" executionId="014375d2-4ecb-4e8f-9be1-a8d063fe89a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c18c02dc-9124-06f6-0bfe-1e225e82581b" executionId="2e64eee8-8518-407d-bf75-528a5215f2e9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="023fbe8f-37d3-3da2-870c-3823635b39eb" executionId="c5200f54-25ef-4d35-a50d-3b0b778ebfe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8eda09f9-7cf1-6071-e4b8-629084788e6e" executionId="feacbe57-3ab6-464a-b9b3-494a3623e366" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c4ca7d5-78e3-661f-8ec2-0bdfc496b98f" executionId="98139ebc-6ef5-4241-a467-2b2af2d02829" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9ac6fb4e-c1da-5fbb-f262-d8c98ecba74e" executionId="7a834315-0c11-4f08-b56b-88090cd8e980" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6e84827-d30a-8e94-a9f6-a6735fe3c0bc" executionId="86812ad5-e012-45fd-a125-03bf4d36506a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b2aa7525-af71-bf34-0dfc-90982e5be477" executionId="114a3d53-3720-4275-b8f1-03e3912547dd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="860c4abb-7b4e-2e99-0724-3daa58362e08" executionId="b6f40b58-fcda-4d8d-a43b-8d5d8b466cce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8a16326-9239-0543-052a-7f3fcd737d51" executionId="cb73780a-d868-4f0b-bb65-4b9b5c3fba61" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5cc2db29-b743-b114-54d9-6331265342ad" executionId="1b13be2c-1998-44af-ad99-26bf813ebd28" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="febf550c-2508-8236-fb1f-0fdef0664ff6" executionId="30e6088e-87ca-4888-b858-1f62275bf8b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f7280ef-5705-bb5d-4dbe-337fb11fbbb2" executionId="9d025440-30c8-4ca5-934a-ec78525a5577" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c40620f-9028-8057-0dd9-2f18cd15f607" executionId="079fa054-3274-44df-9094-c42eb44c7821" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f32f9e1-6ff0-5443-7709-5c2da17b08b5" executionId="3f67757d-523e-4dcc-987e-828e84abec45" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f46c88b-ba21-7259-6bb4-b78ffa4d730f" executionId="e0979ddf-6a4b-4c69-9829-e5f7b83f6ecf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee2cc9c6-1d24-8ea7-cfa6-ec373d176ffa" executionId="d5a73144-7a0b-4373-a9bd-1edfbfb5dc86" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b53f747e-2869-96d5-df2b-1543145828cd" executionId="0da58279-3007-4650-b909-c8f3ed4a856a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6cf486c7-a4e6-a5e0-ef54-cce517028ad9" executionId="5eb22aba-c436-4e48-879d-3eab5ab049b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4a3470ec-fe85-89e5-219e-085b441b8508" executionId="e4d59528-14d9-48a3-b64f-b239384ac826" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7b21a80d-c0f8-88ce-6eb6-0c167e99d4f1" executionId="50294763-cf72-4be1-b5b7-6605ca857f07" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ea0a0ea-4b73-fbcc-981a-1a1c424eb565" executionId="80102994-7602-4df7-bd8e-e418ffb62d50" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b32835fa-e1fa-500b-acf2-648abb578718" executionId="27977011-36c8-4cc6-9265-8d6f51d86d9b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab576258-0743-fde1-e2c5-8d0929734512" executionId="6faac718-df3b-43b6-8e38-113900b3433b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa0f7507-41f9-838c-0621-5469c70766e5" executionId="ba0cae88-b071-48a8-86df-1ecedf9c4001" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e0f34ce-7c73-e276-8b28-f8c59e982db9" executionId="0011e1be-d1e8-42eb-b6c4-6a85addff452" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d83d81c-dd4f-12d0-0d83-cf1c5501d717" executionId="edc0f7fd-436d-485e-9b84-f58711b8075b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7cc80d00-0d79-8775-59c6-e3a006e07887" executionId="3a3e259f-7d64-4e93-a34c-f0df7a7cc90b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="97e00f17-5927-f2b6-656c-142e23e24224" executionId="783fecca-717d-4058-8976-40327105a1c5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e06d7758-494c-e48d-667c-b9df6789f76e" executionId="ff3949e0-653d-4a6f-9528-e3d7979553ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d20fee0f-3ecf-27a4-db21-1bcd75ef4a99" executionId="99599361-8251-4aa4-bc7a-75500f8c58a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="19396dd0-4357-088e-08f1-fbb9f2bc57be" executionId="bd4f3551-a5a5-4e4a-b489-0d9625ac4756" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="585d5060-905c-0119-53db-c176c8e4dbb1" executionId="35b850dc-f7d1-4be9-8223-828bde4f1102" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60886b96-c462-b01f-2f2e-a5b7de8a0279" executionId="d7bb3803-d213-4f35-b07e-0a3b9292cf0b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="add69410-03d9-6ff2-2fa8-1ab25983a731" executionId="fae341a4-a7ad-4b2e-822b-108256f88ce4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0cf1ccb6-ceb8-d5b1-6628-238176be961b" executionId="ff57c392-9d30-44ed-8106-b752a2c6535d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7101e05d-a9ad-0c77-6fe9-87f099910133" executionId="f1c9f793-f4e3-4d1a-bd6d-2ef6e9255fa0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b9a46f33-6929-acd3-8146-d81df59cc231" executionId="c787ed50-d44a-4591-9d18-d09c4ff845a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c2659a6-28b9-fae5-c288-362ab6c489be" executionId="6d523411-971b-484d-ac01-c38749306c47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31886a0d-1a94-dd07-1f4d-c903ee236296" executionId="06874b8b-3a03-46a4-9d35-cd2539590f72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da2042ab-540a-254e-5a03-3134c213b087" executionId="c495846f-b173-4079-be1d-8bf9072c09d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="669d32b3-3f1e-85b1-d0db-2280f668d740" executionId="6579b519-0a3f-4b80-aaa2-052cb0334fb6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="159deef8-6717-eb49-37cc-39939aff8544" executionId="3a21de03-7cfa-4b94-9801-e7aff9e1daba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b0f7294-4a2b-6460-57b7-3cf57af648dc" executionId="ecf36353-b814-4b80-9f78-bd72d513f763" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cacc215c-659a-0433-7418-90942d7e6600" executionId="fed3a36d-5231-4149-9388-c0c2527ef131" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="db8216dc-a689-839f-76f9-80bcdd742a05" executionId="41c2d14c-6c42-44ce-8bd3-53d8afa0380b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
-  <ResultSummary outcome="Failed">
-    <Counters total="70" executed="50" passed="49" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  <ResultSummary outcome="Completed">
+    <Counters total="70" executed="70" passed="70" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.14)&#xD;
-[xUnit.net 00:00:00.09]   Discovering: EduConnect.UnitTests&#xD;
-[xUnit.net 00:00:00.14]   Discovered:  EduConnect.UnitTests&#xD;
-[xUnit.net 00:00:00.17]   Starting:    EduConnect.UnitTests&#xD;
-[xUnit.net 00:00:00.24]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.26]       Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.&#xD;
-[xUnit.net 00:00:00.27]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_057_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_055_Blocked' was skipped in the test run.&#xD;
-[xUnit.net 00:00:00.28]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.28]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.29]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.29]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.29]       Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.&#xD;
-[xUnit.net 00:00:00.29]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.29]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.29]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.30]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_054_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_050_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_052_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_061_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_058_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_047_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_062_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_051_Blocked' was skipped in the test run.&#xD;
-[xUnit.net 00:00:00.30]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.31]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.31]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.31]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.31]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.31]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.32]       Service và người dùng hiện tại là sealed, truy cập AppDbContext trực tiếp; chưa có interface để cô lập ca này.&#xD;
-[xUnit.net 00:00:00.32]       Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_053_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_048_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_064_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_059_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_056_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_060_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked' was skipped in the test run.&#xD;
-Test 'EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_066_Blocked' was skipped in the test run.&#xD;
-[xUnit.net 00:00:00.39]       Assert.Null() Failure: Value is not null&#xD;
-[xUnit.net 00:00:00.39]       Expected: null&#xD;
-[xUnit.net 00:00:00.39]       Actual:   EduConnect.Mvc.Infrastructure.LoiNghiepVu: Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.&#xD;
-[xUnit.net 00:00:00.39]          at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 34&#xD;
-[xUnit.net 00:00:00.39]          at EduConnect.Mvc.Infrastructure.Rules.FeeCheck(Nullable`1 value, String unit) in C:\Khóa luận TN\Educonnect\Infrastructure\BusinessRules.cs:line 63&#xD;
-[xUnit.net 00:00:00.39]          at EduConnect.UnitTests.MT1.HocPhiTests.&lt;&gt;c__DisplayClass8_0.&lt;MT1_UT_022&gt;b__0() in C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs:line 106&#xD;
-[xUnit.net 00:00:00.39]          at Xunit.Record.Exception(Action testCode) in /_/src/xunit.core/Record.cs:line 25&#xD;
-[xUnit.net 00:00:00.39]       Stack Trace:&#xD;
-[xUnit.net 00:00:00.39]         C:\Khóa luận TN\Educonnect\tests\Unit\MT1\HocPhiTests.cs(106,0): at EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022()&#xD;
-[xUnit.net 00:00:00.39]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
-[xUnit.net 00:00:00.39]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:00.41]   Finished:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.10]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.15]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.33]   Finished:    EduConnect.UnitTests&#xD;
 </StdOut>
     </Output>
-    <RunInfos>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7039944+07:00">
-        <Text>[xUnit.net 00:00:00.24]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_057_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7227358+07:00">
-        <Text>[xUnit.net 00:00:00.26]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7259430+07:00">
-        <Text>[xUnit.net 00:00:00.27]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_055_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7912337+07:00">
-        <Text>[xUnit.net 00:00:00.28]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_054_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7912540+07:00">
-        <Text>[xUnit.net 00:00:00.28]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_050_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7912722+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_052_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7912896+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_061_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7913079+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_067_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7913260+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_058_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7913436+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_047_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7913614+07:00">
-        <Text>[xUnit.net 00:00:00.29]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_062_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7913894+07:00">
-        <Text>[xUnit.net 00:00:00.30]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_051_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7918988+07:00">
-        <Text>[xUnit.net 00:00:00.30]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_053_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7919455+07:00">
-        <Text>[xUnit.net 00:00:00.31]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_048_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7920257+07:00">
-        <Text>[xUnit.net 00:00:00.31]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_064_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7920794+07:00">
-        <Text>[xUnit.net 00:00:00.31]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_059_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7921157+07:00">
-        <Text>[xUnit.net 00:00:00.31]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_056_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7921695+07:00">
-        <Text>[xUnit.net 00:00:00.31]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_060_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7922131+07:00">
-        <Text>[xUnit.net 00:00:00.32]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_063_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.7922575+07:00">
-        <Text>[xUnit.net 00:00:00.32]     EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_066_Blocked [SKIP]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-05T12:21:33.8499134+07:00">
-        <Text>[xUnit.net 00:00:00.39]     EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_022 [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Warning" timestamp="2026-11-05T12:21:33.9225721+07:00">
-        <Text>Data collector 'Blame' message: All tests finished running, Sequence file will not be generated.</Text>
-      </RunInfo>
-    </RunInfos>
   </ResultSummary>
 </TestRun>

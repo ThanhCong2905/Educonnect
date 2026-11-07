@@ -1,15 +1,6 @@
-﻿KẾT QUẢ UNIT MT1
-Nguồn: MT1-unit.trx
-Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
-Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
-Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
-
-==========================================================================================
-MT1-UT-033 — Số buổi bằng 7
+MT1-UT-033
 Kết quả: Pass
-Đầu vào theo kịch bản: SoBuoiTuan=7; các trường còn lại hợp lệ theo D00/D03.
-Mong đợi theo kịch bản: true; không có ValidationResult.
-Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
-Thời lượng: 00:00:00.0001304
-Phương thức: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033
-Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+Test: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_033
+Thời lượng: 00:00:00.0001834
+Actual: Assertion đạt: true; không có ValidationResult.
+TRX: TestResults/MT1/MT1-unit.trx

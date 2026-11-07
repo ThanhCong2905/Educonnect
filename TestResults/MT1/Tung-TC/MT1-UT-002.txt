@@ -1,15 +1,6 @@
-﻿KẾT QUẢ UNIT MT1
-Nguồn: MT1-unit.trx
-Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
-Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
-Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
-
-==========================================================================================
-MT1-UT-002 — Vượt 35 khung
+MT1-UT-002
 Kết quả: Pass
-Đầu vào theo kịch bản: 36 khung hợp lệ: ngày 1 có 6 khung 01–02,…,06–07; ngày 2…6 mỗi ngày 5 khung 01–02,…,05–06.
-Mong đợi theo kịch bản: 
-Actual: Test đã chạy và tất cả assertion trong phương thức đều đạt. TRX không ghi lại từng giá trị trả về của ca Pass.
-Thời lượng: 00:00:00.0004551
-Phương thức: EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi
-Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+Test: EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi
+Thời lượng: 00:00:00.0005233
+Actual: Assertion đạt: LoiNghiepVu(400): Cần từ 1 đến 35 khung giờ.
+TRX: TestResults/MT1/MT1-unit.trx

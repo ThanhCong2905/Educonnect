@@ -1,24 +1,30 @@
-# Kết quả Unit MT1
+# Kết quả Unit MT1 ngày 06/11/2026
 
-Đã chạy xUnit trên project tests/Unit/EduConnect.UnitTests.csproj, không SQL Server và không connection string.
+Toàn bộ MT1: **70 ca, 70 Pass, 0 Fail, 0 Skip**. 20 ca trước đây Skip đều đã thực thi và Pass.
 
-70 mã TC được nhận diện. 50 ca có mã thực thi: 49 Pass, 1 Fail. 20 mã còn lại là Skip có lý do, chưa có triển khai cô lập.
+## Căn cứ UT-065 và UT-066
 
-Fail MT1-UT-022: kịch bản dùng decimal(18,2) tối đa 9999999999999999.99, nhưng Rules.FeeCheck ở Infrastructure/BusinessRules.cs dòng 63 so với 9999999999999999. Test giữ Expected và ghi lỗi thực tế.
+- KHTN1262717_BC2_Xaydunghethonghotroketnoigiasuvahocsinh.docx: mục 4.8 UC1.2 mô tả luồng tìm kiếm, mục 5.2–5.4 yêu cầu lấy Expected từ yêu cầu/thiết kế trước khi chạy.
+- SRS-Software Requirements Specification (2).docx: P02, FR-06 và FR-07 yêu cầu gợi ý theo tiêu chí có dữ liệu, hiển thị lý do phù hợp; không dùng lịch rảnh gia sư, không tính/hiển thị điểm phần trăm.
+- Tài liệu không quy định top 3, thứ tự theo ngày tạo hay phải có đúng lý do Cùng khối lớp. Không dùng những giả định đó làm tiêu chí Pass/Fail.
 
-Các mã chưa có triển khai cô lập: UT-047, UT-048, UT-050–067. Service và người dùng hiện tại dùng lớp sealed và truy vấn AppDbContext trực tiếp. Các ca Controller cần điểm thay thế/fake; UT-065–067 cần logic gợi ý có thể gọi độc lập và dữ liệu/Expected cụ thể. Các test Skip hiện chỉ dùng để báo danh sách thiếu trong runner.
+## Phạm vi đã kiểm
 
-Tổ chức
-- NhuCauRulesTests: hai ca sẵn có.
-- LichRanhTests: UT-003–013.
-- HocPhiTests: UT-014–025.
-- PhienBanTests: UT-026–030.
-- InputValidationTests: UT-031–046, UT-068–070.
-- TimKiemControllerTests: UT-049.
-- ChuaCoDieuKienCoLapTests: danh sách Skip.
-- README: hướng dẫn chạy tại repo.
+UT-065 kiểm chiều bên học: môn/hình thức và không dùng lịch gia sư. P1 cùng môn/hình thức được gợi ý dù không có lịch; P2 cùng môn khác hình thức không bị gán lý do hình thức; P3 khác môn bị loại. Không có lý do lịch hoặc điểm %.
 
-Tệp minh chứng: MT1-Unit-results/MT1-unit-verified.trx.
+UT-066 kiểm chiều gia sư: môn đăng ký khớp môn đại diện hoặc môn liên kết của nhu cầu. Môn 101 trả N1/N2, loại N3; môn 103 hoặc không có môn trả rỗng. Bộ lọc cùng môn được tách nguyên trạng từ service để kiểm trong bộ nhớ.
 
-Lệnh chạy tại gốc repo:
-dotnet test tests/Unit/EduConnect.UnitTests.csproj --filter FullyQualifiedName~MT1 --results-directory TestResults/MT1 --logger "trx;LogFileName=MT1-unit.trx"
+Đây là kiểm thử hai quy tắc cụ thể, không xác nhận đầy đủ FR-06 về phạm vi dạy, khu vực, học phí theo đơn vị, lọc công khai/trạng thái, hay tính đúng của truy vấn SQL. Những nội dung đó cần các case riêng ở cấp phù hợp. UT-067 vẫn kiểm phần tính lý do, không thay IT-060.
+
+## Điều chỉnh kết luận trước
+
+Kết luận UT-065 Fail và UT-066 Pass dựa trên commit demo trước đây không được dùng để đánh giá tuân thủ thiết kế. Đã thay TC và Expected bằng các quy tắc có căn cứ ở hai tài liệu người dùng xác nhận, chạy lại toàn bộ MT1 và ghi kết quả mới. Không sửa chức năng để ép test Pass; phép trích bộ lọc không thay đổi quy tắc chạy.
+
+## Minh chứng và tái hiện
+
+TRX: MT1-unit.trx. Log từng case: Tung-TC/MT1-UT-xxx.txt. CSV/HTML/TXT được cập nhật tại thư mục hiện có. File Excel (3) được cập nhật trực tiếp, gồm TC và sheet Kết quả Unit.
+
+Lệnh:
+dotnet test tests/Unit/EduConnect.UnitTests.csproj --no-restore -p:UseAppHost=false -p:OutputPath=bin/MT1-validation/ --filter FullyQualifiedName~MT1 --results-directory TestResults/MT1 --logger "trx;LogFileName=MT1-unit.trx"
+
+Không dùng SQL Server trong lần chạy Unit này.

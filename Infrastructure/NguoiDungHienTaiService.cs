@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class NguoiDungHienTaiService(AppDbContext db, IHttpContextAccessor context)
+public sealed class NguoiDungHienTaiService(AppDbContext db, IHttpContextAccessor context) : INguoiDungHienTaiService
 {
     public async Task<NguoiThamGia> HienTaiAsync(CancellationToken huy = default)
     {

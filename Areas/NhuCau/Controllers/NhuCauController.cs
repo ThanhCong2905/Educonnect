@@ -7,7 +7,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
 [Area("NhuCau")]
 [Microsoft.AspNetCore.Authorization.Authorize(Roles = "HocSinh,PhuHuynh")]
-public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiService current) : BaseController
+public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiService current) : BaseController
 {
     private async Task MonChoBieuMauAsync(NhuCauInput model)
     {

@@ -1,4 +1,4 @@
-﻿param([string]$Server='LAPTOP-3L2V1AFT\SQLEXPRESS',[switch]$Existing)
+param([string]$Server='LAPTOP-3L2V1AFT\SQLEXPRESS',[switch]$Existing)
 $ErrorActionPreference='Stop'
 # Every SQL input is UTF-8. Never run the original CREATE script on an existing DB.
 $scripts=if($Existing){@('08_ProfileWorkflow.sql')}else{@('00_Original_DB02.sql')}

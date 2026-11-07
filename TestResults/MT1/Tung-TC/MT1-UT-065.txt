@@ -1,15 +1,8 @@
-﻿KẾT QUẢ UNIT MT1
-Nguồn: MT1-unit.trx
-Thời gian bắt đầu: 2026-11-05T12:21:32.5052366+07:00
-Thời gian kết thúc: 2026-11-05T12:21:33.9704970+07:00
-Tổng: 70 TC — 49 Pass, 1 Fail, 20 Skip
-
-==========================================================================================
-MT1-UT-065 — Hồi quy logic gợi ý của demo
-Kết quả: Skip
-Đầu vào theo kịch bản: D00 và D04. Chọn các hồ sơ có số lý do khớp khác nhau theo dữ liệu thực tế của demo.
-Mong đợi theo kịch bản: Kết quả khớp quy tắc tạo lý do và thứ tự đã xác nhận trên commit demo.
-Actual: Cần tách logic gợi ý khỏi truy vấn SQL và chốt đầu vào/Expected cụ thể.
-Thời lượng: 00:00:00.0010000
-Phương thức: EduConnect.UnitTests.MT1.ChuaCoDieuKienCoLapTests.MT1_UT_065_Blocked
-Minh chứng gốc: MT1-unit.trx; tra testName ở trên.
+MT1-UT-065
+Kết quả: Pass
+Test: EduConnect.UnitTests.MT1.TimKiemServiceIsolationTests.MT1_UT_065_BenHoc_LyDoTheoMonHinhThuc_KhongDungLichGiaSu
+Thời lượng: 00:00:00.0006165
+Actual: P1/P2 được gợi ý; P3 bị loại. P1 có lý do môn + hình thức, P2 chỉ môn; không có lý do lịch hoặc %.
+TRX: TestResults/MT1/MT1-unit.trx
+Căn cứ: SRS-Software Requirements Specification (2).docx, P02/FR-06/07; BC2 mục 4.8, 5.4.
+Expected: P1/P2 được gợi ý theo môn 101, P3 không khớp bị loại. P1 có lý do môn và hình thức; P2 không được gán lý do hình thức. Không phụ thuộc lịch rảnh gia sư, không có điểm %.

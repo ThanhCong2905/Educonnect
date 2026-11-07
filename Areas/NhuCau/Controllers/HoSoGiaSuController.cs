@@ -8,7 +8,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
 [Area("NhuCau")]
 [RequestSizeLimit(52000000)]
-public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService search, KetNoiService contacts, NguoiDungHienTaiService current) : BaseController
+public sealed class HoSoGiaSuController(IHoSoGiaSuService service, INhuCauService needs, IBangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.ITimKiemService search, IKetNoiService contacts, INguoiDungHienTaiService current) : BaseController
 {
     public async Task<IActionResult> ChiTiet(Guid maHoSo)
     {

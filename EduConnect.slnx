@@ -2,6 +2,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/ChatAttachments/ChatAttachments.csproj" />
     <Project Path="tests/DesignContracts/DesignContracts.csproj" />
+    <Project Path="tests/MT1/MT1.csproj" />
     <Project Path="tests/ProfileWorkflow/ProfileWorkflow.csproj" />
     <Project Path="tests/UC2/UC2.csproj" />
   </Folder>

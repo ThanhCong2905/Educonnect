@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
 public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog, TepService files, ThongBaoService notices,
-    IWebHostEnvironment? environment = null, IConfiguration? configuration = null)
+    IWebHostEnvironment? environment = null, IConfiguration? configuration = null) : IHoSoGiaSuService
 {
     private bool DemoPublish => environment?.EnvironmentName == "Development"
         && configuration?.GetValue<bool>("Authentication:DemoPublishProfiles") == true;

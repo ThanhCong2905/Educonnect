@@ -1,18 +1,23 @@
-/* EduConnect. Cài mới 38 bảng, Identity và nghiệp vụ hiện tại.
-Nguồn tài khoản: 01_HoanChinh_TaiKhoan_BaoMat_CapNhat (1).sql.
-NguoiThamGia là view đọc tài khoản và vai trò từ Identity.
-Chạy toàn bộ trên database mới. Tạo tài khoản bằng chức năng đăng ký. */
+/* EduConnect: cài mới vào database Educonnect.
+   Mở file trong SSMS, bỏ vùng chọn và chạy toàn bộ bằng F5.
+   Cho phép database đã tồn tại nhưng chưa có bảng người dùng.
+   Dừng nếu đã có bảng; không xóa hoặc ghi đè dữ liệu. */
+SET NOEXEC OFF;
+GO
 USE [master];
 GO
-IF DB_ID(N'KLTN_Full_V2') IS NOT NULL
+IF DB_ID(N'Educonnect') IS NULL
 BEGIN
-    RAISERROR(N'Database KLTN_Full_V2 đã tồn tại. Hãy dùng database mới hoặc đổi tên trong file; không ghi đè.',16,1);
-    SET NOEXEC ON;
+    EXEC(N'CREATE DATABASE [Educonnect];');
 END;
 GO
-CREATE DATABASE [KLTN_Full_V2];
+USE [Educonnect];
 GO
-USE [KLTN_Full_V2];
+IF EXISTS (SELECT 1 FROM sys.tables WHERE is_ms_shipped = 0)
+BEGIN
+    RAISERROR(N'Database Educonnect đã có bảng. Script này chỉ dùng cài mới vào database trống; không xóa dữ liệu hiện có.', 16, 1);
+    SET NOEXEC ON;
+END;
 GO
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
