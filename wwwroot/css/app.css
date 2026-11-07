@@ -127,6 +127,15 @@ body{font-family:var(--bs-body-font-family);font-size:15px;line-height:1.6;color
 .member-permissions label { flex: 1 1 180px; margin: 0; }
 .member-permissions .actions { margin: 0; }
 .contact-statuses { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.certificate-selection { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.certificate-selection:empty { display: none; }
+.certificate-selected-file { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 12px; background: #f7f8fa; border: 1px solid var(--line); border-radius: 8px; }
+.certificate-selected-file > span, .credential-name { min-width: 0; overflow-wrap: anywhere; }
+.certificate-remove { flex-shrink: 0; min-width: 44px; }
+.certificate-save-hint { margin: 12px 0; font-size: 12px; }
+.credential-name small { display: block; margin-top: 4px; font-size: 12px; }
+.credential-row.is-pending-removal .credential-name > a { text-decoration: line-through; color: var(--muted); }
+.certificate-removal-note { color: var(--error); }
 .contact-connected { color: #24543a; background: #eff8f3; }
 @media(max-width:560px) {
     .member-invite-controls { flex-direction: column; align-items: stretch; }

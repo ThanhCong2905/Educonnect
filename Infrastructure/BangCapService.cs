@@ -3,7 +3,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService current, IWebHostEnvironment env)
+public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService current, IWebHostEnvironment env, IConfiguration? configuration = null)
 {
     public async Task<List<TepDinhKem>> CuaToiAsync()
     {
@@ -14,7 +14,8 @@ public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService curr
     public async Task<(TepDinhKem File, string Path)> TaiAsync(Guid id)
     {
         var u = await current.HienTaiAsync();
-        var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.HoSoGiaSuId != null && x.TrangThaiQuet == "Sach") ?? throw new LoiNghiepVu("Không tìm thấy bằng cấp.", 404);
+        var allowUnscanned = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedCertificates") == true;
+        var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.HoSoGiaSuId != null && (x.TrangThaiQuet == "Sach" || (allowUnscanned && x.TrangThaiQuet == "ChoQuet"))) ?? throw new LoiNghiepVu("Không tìm thấy bằng cấp khả dụng.", 404);
         Rules.Check(u.LoaiNguoi == "QuanTri" || await db.Set<HoSoGiaSu>().AnyAsync(h => h.Id == f.HoSoGiaSuId && h.GiaSuId == u.Id), "Chỉ chủ hồ sơ được tải bằng cấp.", 403);
         var path = Path.Combine(env.ContentRootPath, "uploads", f.TenLuuTru);
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);

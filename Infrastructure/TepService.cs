@@ -6,8 +6,9 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null)
+public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null, IConfiguration? configuration = null)
 {
+    private bool ChoPhepBangCapChuaQuet { get; } = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedCertificates") == true;
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
     public void DonDepDaXoa(IEnumerable<string> keys)
     {
@@ -18,7 +19,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { logger?.LogWarning(ex, "Unable to remove retired file {Key}", key); }
     }
-    public async Task<List<(string Name, string Mime, byte[] Bytes)>> KiemTraAsync(List<IFormFile> files)
+    public async Task<List<(string Name, string Mime, byte[] Bytes)>> KiemTraAsync(List<IFormFile> files, bool bangCap = false)
     {
         Rules.Check(files.Count <= 5, "Tối đa 5 tệp.");
         Rules.Check(files.Sum(f => f.Length) <= 50000000, "Tổng dung lượng tối đa 50 MB.");
@@ -42,7 +43,8 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             Rules.Check(signature, "Nội dung tệp không khớp định dạng.");
             var name = Path.GetFileName(f.FileName);
             Rules.Check(name.Length <= 256, "Tên tệp quá dài.");
-            await QuetMaDocAsync(bytes);
+            if (!bangCap || !ChoPhepBangCapChuaQuet)
+                await QuetMaDocAsync(bytes);
             result.Add((name, ext switch
             {
                 ".pdf" => "application/pdf",
@@ -118,7 +120,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
                 var path = Path.Combine(Root, key);
                 await File.WriteAllBytesAsync(path, f.Bytes);
                 written.Add(path);
-                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan });
+                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = hoSo != null && ChoPhepBangCapChuaQuet ? "ChoQuet" : "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan });
             }
             return written;
         }
