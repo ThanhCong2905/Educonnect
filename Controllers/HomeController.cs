@@ -22,7 +22,11 @@ public sealed class HomeController(TimKiemService search, ThongBaoService notice
         if (n.LoaiThongBao == "HoSo") return Redirect("/NhuCau/HoSoGiaSu/Sua");
         if (n.LoaiThongBao == "BaiTap")
             return Redirect($"/HocTap/BaiTap/ChiTiet/{n.DoiTuongId}");
-        if (n.LoaiThongBao is "LichHoc" or "ThanhVien")
+        if (n.LoaiThongBao == "LoiMoiLop")
+            return Redirect($"/HocTap/LopHoc/LoiMoi/{n.DoiTuongId}");
+        if (n.LoaiThongBao == "ThanhVien")
+            return Redirect($"/HocTap/LopHoc/ThanhVien/{n.DoiTuongId}");
+        if (n.LoaiThongBao == "LichHoc")
             return Redirect($"/HocTap/LopHoc/ChiTiet/{n.DoiTuongId}");
         var cs = await classes.LayAsync();
         if (cs.Any(x => x.Id == n.DoiTuongId))

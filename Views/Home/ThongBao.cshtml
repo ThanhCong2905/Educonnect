@@ -1,3 +1,18 @@
 @model List<ThongBao>
-@{ViewData["Title"]="Thông báo";}
-<h1>Thông báo của bạn</h1><section class="stack" id="notification-list" data-ajax-page="notices">@foreach(var n in Model){<form method="post" action="/Home/Doc" class="card @(n.DaDocLuc==null?"unread":"")">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@n.Id"><small>@Rules.Date(n.TaoLuc) · @(n.DaDocLuc==null?"Chưa đọc":"Đã đọc")</small><h3>@n.NoiDungTomTat</h3><button class="btn quiet">Xem chi tiết →</button></form>}@if(Model.Count==0){<div class="empty">Bạn chưa có thông báo.</div>}</section>
+@{ ViewData["Title"] = "Thông báo"; var unread = Model.Count(x => x.DaDocLuc == null); }
+<h1>Thông báo của bạn</h1>
+<section class="notice-list" id="notification-list" data-ajax-page="notices" aria-label="Danh sách thông báo">
+    <p class="muted notice-count">@(unread > 0 ? $"{unread} thông báo chưa đọc" : Model.Count > 0 ? "Bạn đã đọc tất cả thông báo." : "")</p>
+    @foreach(var notice in Model)
+    {
+        var isUnread = notice.DaDocLuc == null;
+        <form method="post" action="/Home/Doc" class="notice-item @(isUnread ? "notice-unread" : "notice-read")">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@notice.Id">
+            <div class="notice-top"><span class="notice-read-state"><span class="notice-dot" aria-hidden="true"></span>@(isUnread ? "Chưa đọc" : "Đã đọc")</span><time datetime="@notice.TaoLuc.ToString("O")">@Rules.Date(notice.TaoLuc)</time></div>
+            <h3>@notice.NoiDungTomTat</h3>
+            <button class="notice-open" type="submit">Xem chi tiết <span aria-hidden="true">→</span></button>
+        </form>
+    }
+    @if(Model.Count == 0){<div class="empty">Bạn chưa có thông báo.</div>}
+</section>

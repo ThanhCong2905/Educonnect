@@ -1,3 +1,26 @@
 @model List<LopHoc>
-@{ViewData["Title"]="Lớp học của tôi";}
-<h1>Lớp học của tôi</h1><p>Lịch học, bài tập và trao đổi trong cùng một không gian.</p><div class="cards">@foreach(var c in Model){<article class="card"><span class="badge rounded-pill">@Rules.Label(c.TrangThai)</span><h2>@c.TenLop</h2><p>@c.MucTieu</p><strong class="price">@Rules.Fee(c.HocPhi,c.DonViHocPhi)</strong><p>@Rules.Label(c.HinhThucHoc) · @c.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@c.Id">Mở lớp học →</a></article>}</div>@if(Model.Count==0){<div class="empty">Chưa có lớp. Lớp được tạo khi bên học xác nhận đề xuất hợp lệ của gia sư.</div>}
+@{
+    ViewData["Title"] = "Lớp học của tôi";
+    var invitations = (List<EduConnect.Mvc.Areas.HocTap.ViewModels.LoiMoiThanhVienViewModel>)ViewBag.Invitations;
+}
+<h1>Lớp học của tôi</h1>
+@if(invitations.Count > 0)
+{
+    <section class="class-invitations" aria-label="Lời mời tham gia lớp">
+        <h2>Lời mời tham gia lớp</h2>
+        @foreach(var invitation in invitations)
+        {
+            <article class="card class-invitation">
+                <div><h3>@invitation.TenLop</h3><p class="muted">@invitation.NguoiMoi mời bạn tham gia.</p><span class="badge rounded-pill">@(invitation.TrangThaiLop != "DangHoatDong" ? "Lớp đã kết thúc" : invitation.DongYThamGiaLuc != null ? "Chờ gia sư duyệt" : "Chờ bạn phản hồi")</span></div>
+                <a data-modal class="btn btn-outline-primary" asp-action="LoiMoi" asp-route-id="@invitation.Id">Xem lời mời</a>
+            </article>
+        }
+    </section>
+}
+<div class="cards">
+@foreach(var lop in Model)
+{
+    <article class="card"><span class="badge rounded-pill">@Rules.Label(lop.TrangThai)</span><h2>@lop.TenLop</h2><p>@lop.MucTieu</p><strong class="price">@Rules.Fee(lop.HocPhi,lop.DonViHocPhi)</strong><p>@Rules.Label(lop.HinhThucHoc) · @lop.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Mở lớp học →</a></article>
+}
+</div>
+@if(Model.Count == 0){<div class="empty">Các lớp bạn tham gia sẽ xuất hiện ở đây sau khi hoàn tất xác nhận.</div>}

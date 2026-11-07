@@ -14,6 +14,7 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         var (cs, rs) = await service.LayAsync();
         ViewBag.Contacts = cs;
         ViewBag.Requests = rs;
+        ViewBag.ConnectedClasses = await service.LopTheoLienHeAsync();
         ViewBag.Needs = await needs.LayAsync();
         return View();
     }
@@ -24,6 +25,7 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         ViewBag.Subjects = await needs.MonTenAsync();
         ViewBag.Contacts = cs;
         ViewBag.Requests = rs;
+        ViewBag.ConnectedClasses = await service.LopTheoLienHeAsync();
         ViewBag.Needs = await needs.LayAsync();
         return View();
     }

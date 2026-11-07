@@ -27,6 +27,10 @@ Role SQL `KLTN_App` chứa quyền của ứng dụng. Người vận hành gán
 
 ClamAV và chữ ký phải có tại `tools/clamav`. Khi không quét được tệp, ứng dụng từ chối sử dụng tệp. Nội dung tải lên nằm trong `uploads`, SQL lưu metadata. Sao lưu cả database và thư mục này.
 
+## Lời mời thành viên lớp
+
+Bên học chính mời bằng email tài khoản. Người nhận đồng ý trước khi gia sư duyệt quyền. Cột `ThanhVienLopHoc.DongYThamGiaLuc` lưu thời điểm đồng ý. Bản cài mới 00 đã có cột này. Database đang sử dụng chạy `12_ClassMemberInvitations.sql` một lần, script cũng cho phép chạy lại. Thành viên đã được duyệt giữ quyền hiện tại. Đề nghị chưa được duyệt cần người nhận xác nhận trong mục Lớp học.
+
 ## Nhu cầu nhiều môn
 
 `NhuCauMonHoc` liên kết nhu cầu với các môn bằng khóa chính ghép `(NhuCauId, MonHocId)` và hai khóa ngoại. Một nhu cầu dùng chung mục tiêu, học phí, lịch. Cột `NhuCauHoc.MonHocId` giữ môn đại diện để tương thích các procedure và dữ liệu cũ, danh sách môn nằm trong bảng liên kết.

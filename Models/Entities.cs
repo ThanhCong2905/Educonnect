@@ -387,6 +387,7 @@ public sealed class LopHoc
 }
 public sealed class ThanhVienLopHoc
 {
+    public DateTimeOffset? DongYThamGiaLuc { get; set; }
     public Guid Id
     {
         get; set;

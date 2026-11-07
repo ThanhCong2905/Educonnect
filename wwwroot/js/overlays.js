@@ -76,6 +76,16 @@
   });
   document.addEventListener('submit',async event=>{
     const form=event.target;
+    if(form.hasAttribute('data-modal-form') && form.method.toLowerCase()==='get'){
+      if(event.defaultPrevented)return;
+      event.preventDefault();
+      const validation=window.EduConnect.validateForm?.(form,event.submitter)||{};
+      if(Object.keys(validation).length){errors(form,{errors:validation});return;}
+      const url=window.EduConnect.formUrl(form);
+      url.search=new URLSearchParams(new FormData(form)).toString();
+      open(url,'Xác nhận người được mời',event.submitter);
+      return;
+    }
     if(form.id==='compare-form'){
       if(event.defaultPrevented)return;
       const values=new FormData(form);if(!values.getAll('ids').length)return;

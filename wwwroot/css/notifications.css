@@ -1,3 +1,17 @@
+.notice-list { display: grid; gap: 12px; }
+.notice-count { margin: 0 0 4px; font-size: 13px; }
+.notice-item { margin: 0; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.notice-unread { background: #faf6f8; }
+.notice-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; font-size: 12px; color: var(--muted); }
+.notice-read-state { display: inline-flex; align-items: center; gap: 8px; }
+.notice-unread .notice-read-state { color: var(--accent); font-weight: 600; }
+.notice-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: var(--accent); }
+.notice-read .notice-dot { background: transparent; border: 1px solid var(--muted); }
+.notice-item h3 { margin: 12px 0 16px; font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
+.notice-read h3 { font-weight: 500; }
+.notice-open { display: inline-flex; gap: 8px; align-items: center; background: transparent; border: 0; padding: 4px 0; color: var(--accent); font-weight: 600; font-size: 13px; }
+.notice-open:hover { color: var(--ink); }
+.notice-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
 .notification-rail {
     position: fixed;
     top: 80px;

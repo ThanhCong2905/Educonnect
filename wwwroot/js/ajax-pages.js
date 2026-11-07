@@ -213,7 +213,7 @@
 
  function validateConnectionForms(region) {
   const contacts = new Map([...region.querySelectorAll('[data-contact-state]')]
-   .map(node => [node.dataset.contactState, node.dataset.state]));
+   .map(node => [node.dataset.contactState, node]));
   const requestStates = [...region.querySelectorAll('[data-request-state]')];
 
   document.querySelectorAll('#workspace-modal form, #connection-request-modal form').forEach(form => {
@@ -223,7 +223,8 @@
    const id = form.querySelector('[name="Id"]')?.value;
    const request = id ? requestStates.find(node => node.dataset.requestState === id) : null;
    const version = form.querySelector('[name="RowVersion"]')?.value;
-   const changed = contacts.get(contact) !== 'ChapNhan' || (id
+   const contactState = contacts.get(contact);
+   const changed = contactState?.dataset.state !== 'ChapNhan' || contactState?.dataset.connected === 'true' || (id
     ? !request || request.dataset.pending !== 'true' || request.dataset.version !== version
     : requestStates.some(node => node.dataset.contact === contact && node.dataset.pending === 'true'));
    const active = form.contains(document.activeElement) ? document.activeElement : null;

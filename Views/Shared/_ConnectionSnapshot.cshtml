@@ -1,11 +1,12 @@
 @{
     var contacts = (List<YeuCauLienHe>)ViewBag.Contacts;
     var requests = (List<YeuCauKetNoiLopHoc>)ViewBag.Requests;
+    var classes = ViewBag.ConnectedClasses as Dictionary<Guid, LopHoc>;
 }
 <div data-connection-state hidden>
     @foreach (var contact in contacts)
     {
-        <span data-contact-state="@contact.Id" data-state="@contact.TrangThai"></span>
+        <span data-contact-state="@contact.Id" data-state="@contact.TrangThai" data-connected="@(classes?.ContainsKey(contact.Id) == true ? "true" : "false")"></span>
     }
     @foreach (var request in requests)
     {

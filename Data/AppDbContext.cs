@@ -221,6 +221,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         });
         b.Entity<ThanhVienLopHoc>(e =>
         {
+            e.Property(x => x.DongYThamGiaLuc).HasColumnType("datetimeoffset(0)");
             e.ToTable("ThanhVienLopHoc", t => t.UseSqlOutputClause(false));
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();

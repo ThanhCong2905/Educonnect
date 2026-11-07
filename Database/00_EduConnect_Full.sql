@@ -209,6 +209,7 @@ CREATE TABLE dbo.[LopHoc] (
     CONSTRAINT [CK_LopHoc_13] CHECK (LEN(LTRIM(RTRIM([TenNguoiHoc])))>0)
 );
 CREATE TABLE dbo.[ThanhVienLopHoc] (
+    [DongYThamGiaLuc] datetimeoffset(0) NULL,
     [Id] uniqueidentifier NOT NULL CONSTRAINT [DF_ThanhVienLopHoc_Id] DEFAULT (NEWSEQUENTIALID()),
     [LopHocId] uniqueidentifier NOT NULL,
     [TaiKhoanId] uniqueidentifier NOT NULL,
@@ -1081,7 +1082,7 @@ GO
 SET XACT_ABORT ON;
 BEGIN TRAN;
 IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE name='CK_ThongBao_1') ALTER TABLE dbo.ThongBao DROP CONSTRAINT CK_ThongBao_1;
-IF NOT EXISTS(SELECT 1 FROM sys.check_constraints WHERE name='CK_ThongBao_Profile') ALTER TABLE dbo.ThongBao WITH CHECK ADD CONSTRAINT CK_ThongBao_Profile CHECK(LoaiThongBao IN('KetNoi','LichHoc','BaiTap','ThanhVien','NhacViec','QuanTri','HoSo'));
+IF NOT EXISTS(SELECT 1 FROM sys.check_constraints WHERE name='CK_ThongBao_Profile') ALTER TABLE dbo.ThongBao WITH CHECK ADD CONSTRAINT CK_ThongBao_Profile CHECK(LoaiThongBao IN('KetNoi','LichHoc','BaiTap','ThanhVien','NhacViec','QuanTri','HoSo','LoiMoiLop'));
 IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE name='CK_HoSoGiaSu_1') ALTER TABLE dbo.HoSoGiaSu DROP CONSTRAINT CK_HoSoGiaSu_1;
 IF NOT EXISTS(SELECT 1 FROM sys.check_constraints WHERE name='CK_HoSo_Workflow')
  ALTER TABLE dbo.HoSoGiaSu WITH CHECK ADD CONSTRAINT CK_HoSo_Workflow CHECK(TrangThaiDuyet IN ('BanNhap','ChoDuyet','DaDuyet','CanChinhSua','TuChoi'));
