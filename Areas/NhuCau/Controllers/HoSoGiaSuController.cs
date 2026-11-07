@@ -48,7 +48,7 @@ public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService 
                 Success();
                 return RedirectToAction(nameof(Sua));
             }
-            catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+            catch (LoiNghiepVu ex) { ModelState.AddModelError(ex.Truong ?? "", ex.Message); }
         ViewBag.Certificates = await certificates.CuaToiAsync();
         ViewBag.Subjects = (await needs.MonAsync()).Concat(await needs.MonDuocChonAsync()).DistinctBy(x => x.Id).OrderBy(x => x.TenMon).ToList();
         return View("Sua", m);

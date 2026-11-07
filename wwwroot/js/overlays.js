@@ -35,7 +35,7 @@
     form.querySelectorAll('.ui-field-error,.ui-error-summary').forEach(node=>node.remove());
     form.querySelectorAll('[aria-invalid="true"]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
     const summary=document.createElement('div');summary.className='ui-error-summary';summary.setAttribute('role','alert');summary.tabIndex=-1;
-    const title=document.createElement('strong');title.textContent='Kiểm tra các mục được đánh dấu bên dưới.';summary.append(title);
+    const title=document.createElement('strong');title.textContent='Chưa lưu được';summary.append(title);
     const list=document.createElement('ul');let index=0;const globalMessages=new Set();
     for(const [name,raw] of Object.entries(problem.errors||{'':[problem.message||'Chưa thể lưu. Vui lòng thử lại.']})){
       const messages=[...new Set(raw)];

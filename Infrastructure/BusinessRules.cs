@@ -6,6 +6,7 @@ namespace EduConnect.Mvc.Infrastructure;
 
 public sealed class LoiNghiepVu(string message, int status = 400) : Exception(message)
 {
+    public string? Truong { get; init; }
     public int Status { get; } = status;
 }
 public static class Rules
@@ -28,10 +29,10 @@ public static class Rules
     public static string ErrorMessage(Exception ex) => ex is LoiNghiepVu ? ex.Message : ex is DbUpdateConcurrencyException ? "Dữ liệu đã thay đổi. Hãy tải lại trước khi sửa." : (ex as Microsoft.Data.SqlClient.SqlException ?? ex.InnerException as Microsoft.Data.SqlClient.SqlException) is { Number: >= 51000 } sql ? sql.Message : ErrorStatus(ex) == 409 ? "Dữ liệu đã thay đổi hoặc thao tác bị trùng. Hãy tải lại." : "Chưa thể xử lý yêu cầu. Vui lòng thử lại sau.";
 
     public static Microsoft.Data.SqlClient.SqlParameter SqlVersion(string? version) => new("RowVersionValue", System.Data.SqlDbType.Binary, 8) { Value = string.IsNullOrEmpty(version) ? DBNull.Value : Version(version) };
-    public static void Check(bool condition, string message, int status = 400)
+    public static void Check(bool condition, string message, int status = 400, string? field = null)
     {
         if (!condition)
-            throw new LoiNghiepVu(message, status);
+            throw new LoiNghiepVu(message, status) { Truong = field };
     }
     public static byte[] Version(string? value)
     {

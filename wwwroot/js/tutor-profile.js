@@ -3,28 +3,6 @@
  function renumber(form){form.querySelectorAll('[data-subject-row]').forEach((row,i)=>row.querySelectorAll('[name]').forEach(input=>input.name=input.name.replace(/MonDay\[[^\]]+\]/,`MonDay[${i}]`)));}
  function custom(select){const field=select.closest('[data-subject-row]').querySelector('[data-custom-subject]');field.hidden=select.value!=='0';field.querySelector('input').disabled=field.hidden;field.querySelector('input').required=!field.hidden;}
  function add(form){const fragment=form.querySelector('template').content.cloneNode(true);form.querySelector('[data-subject-rows]').append(fragment);renumber(form);form.querySelectorAll('[data-subject-select]').forEach(custom);ui.markRequired(form);}
- function certificatePicker(form){
-  const picker=form.querySelector('[data-certificate-picker] input[type="file"]');
-  const list=form.querySelector('[data-certificate-selection]');
-  if(!picker||!list)return;
-  function render(){
-   list.replaceChildren();
-   [...picker.files].forEach((file,index)=>{
-    const row=document.createElement('li');row.className='certificate-selected-file';
-    const info=document.createElement('span');info.textContent=file.name+' · '+ui.fileSize(file.size);
-    const remove=document.createElement('button');remove.type='button';remove.className='btn quiet certificate-remove';remove.textContent='×';remove.setAttribute('aria-label','Bỏ tệp '+file.name);
-    remove.addEventListener('click',()=>{
-     const transfer=new DataTransfer();
-     [...picker.files].filter((_,i)=>i!==index).forEach(remaining=>transfer.items.add(remaining));
-     picker.files=transfer.files;
-     picker.dispatchEvent(new Event('input',{bubbles:true}));picker.dispatchEvent(new Event('change',{bubbles:true}));
-     (list.children[index]?.querySelector('button')||list.lastElementChild?.querySelector('button')||picker).focus();
-    });
-    row.append(info,remove);list.append(row);
-   });
-  }
-  picker.addEventListener('change',render);render();
- }
  function certificateRemoval(row){
   const input=row.querySelector('[name="XoaTepIds"]');
   const button=row.querySelector('[data-certificate-remove]');
@@ -44,7 +22,6 @@
    form.dataset.profileReady='true';
    if(!form.querySelector('[data-subject-row]')&&!form.querySelector('fieldset').disabled)add(form);
    form.querySelectorAll('[data-subject-select]').forEach(custom);
-   certificatePicker(form);
    form.querySelectorAll('[data-stored-certificate]').forEach(certificateRemoval);
   });
  }

@@ -28,7 +28,7 @@ public sealed class BaiTapController(BaiTapService service, LopHocService classe
                     tab = "assignments"
                 });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError((ex as LoiNghiepVu)?.Truong ?? "", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
         ViewBag.Class = await classes.ChiTietAsync(m.LopHocId);
         return View(m);
     }
@@ -52,7 +52,7 @@ public sealed class BaiTapController(BaiTapService service, LopHocService classe
                 Success("Đã lưu bài nộp.");
                 return RedirectToAction(nameof(ChiTiet), new { id = m.BaiTapGiaoId });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError((ex as LoiNghiepVu)?.Truong ?? "", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
         ViewBag.NopInput = m;
         return await ChiTiet(m.BaiTapGiaoId);
     }

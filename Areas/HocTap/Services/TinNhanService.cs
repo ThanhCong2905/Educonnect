@@ -118,12 +118,12 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService curr
     public async Task<Dictionary<Guid,List<TepDinhKem>>> TepTheoTinAsync(Guid room,List<Guid> ids)
     {
         await KiemTraAsync(room);
-        var rows=await (from f in db.Set<TepDinhKem>().AsNoTracking() join m in db.Set<TinNhan>() on f.TinNhanId equals (Guid?)m.Id where m.CuocHoiThoaiId==room&&ids.Contains(m.Id)&&f.TrangThaiQuet=="Sach" select f).OrderBy(f=>f.TaoLuc).ThenBy(f=>f.Id).ToListAsync();
+        var rows=await (from f in db.Set<TepDinhKem>().AsNoTracking() join m in db.Set<TinNhan>() on f.TinNhanId equals (Guid?)m.Id where m.CuocHoiThoaiId==room&&ids.Contains(m.Id)&&(f.TrangThaiQuet=="Sach"||(files.ChoPhepTepChuaQuet&&f.TrangThaiQuet=="ChoQuet")) select f).OrderBy(f=>f.TaoLuc).ThenBy(f=>f.Id).ToListAsync();
         return rows.GroupBy(f=>f.TinNhanId!.Value).ToDictionary(g=>g.Key,g=>g.ToList());
     }
     public async Task<(TepDinhKem File,string Path)> TaiTepAsync(Guid id)
     {
-        var f=await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(f=>f.Id==id&&f.TinNhanId!=null&&f.TrangThaiQuet=="Sach")??throw new LoiNghiepVu("Không tìm thấy tệp tin nhắn.",404);
+        var f=await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(f=>f.Id==id&&f.TinNhanId!=null&&(f.TrangThaiQuet=="Sach"||(files.ChoPhepTepChuaQuet&&f.TrangThaiQuet=="ChoQuet")))??throw new LoiNghiepVu("Không tìm thấy tệp tin nhắn.",404);
         var room=await db.Set<TinNhan>().Where(m=>m.Id==f.TinNhanId).Select(m=>m.CuocHoiThoaiId).SingleAsync();
         await KiemTraAsync(room);return(f,files.DuongDan(f));
     }

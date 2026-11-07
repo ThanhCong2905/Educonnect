@@ -1,5 +1,17 @@
 window.EduConnect=window.EduConnect||{};
 window.EduConnect.initScheduling=(root=document)=>{
+ root.querySelectorAll('[data-schedule-edit]').forEach(form=>{
+  if(form.dataset.timePreviewReady)return;
+  form.dataset.timePreviewReady='true';
+  const start=form.querySelector('[name="Lich.BatDauLuc"]'),end=form.querySelector('[name="Lich.KetThucLuc"]');
+  const preview=form.querySelector('[data-schedule-time-preview]');
+  const format=new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+  function update(){
+   const from=new Date(start.value+'+07:00'),to=new Date(end.value+'+07:00');
+   preview.textContent=Number.isNaN(from.getTime())||Number.isNaN(to.getTime())?'Ngày giờ tính theo giờ Việt Nam.':format.format(from)+' – '+format.format(to)+' (giờ Việt Nam)';
+  }
+  start.addEventListener('input',update);end.addEventListener('input',update);update();
+ });
  const reindex=(list,prefix)=>[...list.children].forEach((row,index)=>row.querySelectorAll('[name]').forEach(input=>input.name=input.name.replace(new RegExp(prefix+'\\[\\d+\\]'),prefix+'['+index+']')));
  root.querySelectorAll('[data-slot-list]').forEach(list=>{
   if(list.dataset.ready)return;list.dataset.ready='true';

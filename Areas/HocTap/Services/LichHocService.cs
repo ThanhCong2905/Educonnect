@@ -9,13 +9,22 @@ namespace EduConnect.Mvc.Areas.HocTap.Services;
 
 public sealed class LichHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices)
 {
+    private static void KiemTraLichMoi(LichInput lich, string prefix)
+    {
+        Rules.Check(!string.IsNullOrWhiteSpace(lich.TieuDe), "Nhập tên buổi học.", field: prefix + ".TieuDe");
+        Rules.Check(lich.TieuDe.Length <= 256, "Tên buổi học tối đa 256 ký tự.", field: prefix + ".TieuDe");
+        var start = Rules.Local(lich.BatDauLuc);
+        var end = Rules.Local(lich.KetThucLuc);
+        Rules.Check(start > DateTimeOffset.UtcNow, "Giờ bắt đầu đã qua. Chọn thời gian sau hiện tại (giờ Việt Nam).", field: prefix + ".BatDauLuc");
+        Rules.Check(end > start, "Giờ kết thúc phải sau giờ bắt đầu.", field: prefix + ".KetThucLuc");
+    }
     public async Task ThemHangLoatAsync(LichHangLoatInput m)
     {
         var c = await rights.KiemTraQuyenGhiAsync(m.LopHocId, true);
         var u = await current.HienTaiAsync();
         Rules.Check(m.Buoi.Count is > 0 and <= 100, "Chọn từ 1 đến 100 buổi.");
-        foreach (var b in m.Buoi)
-            Rules.Check(b.BatDauLuc < b.KetThucLuc && Rules.Local(b.BatDauLuc) > DateTimeOffset.UtcNow && !string.IsNullOrWhiteSpace(b.TieuDe) && b.TieuDe.Length <= 256, "Giờ học không hợp lệ hoặc đã qua.");
+        for (var i = 0; i < m.Buoi.Count; i++)
+            KiemTraLichMoi(m.Buoi[i], $"Buoi[{i}]");
         var json = JsonSerializer.Serialize(m.Buoi.Select(b => new { b.TieuDe, BatDauLuc = Rules.Local(b.BatDauLuc), KetThucLuc = Rules.Local(b.KetThucLuc) }));
         await using var tx = await db.Database.BeginTransactionAsync();
         await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_ThemLichHocHangLoat @LopHocId={m.LopHocId},@GiaSuId={u.Id},@DanhSachBuoiJson={json}");
@@ -54,7 +63,7 @@ public sealed class LichHocService(AppDbContext db, NguoiDungHienTaiService curr
         {
             var start = Rules.Local(m.Lich.BatDauLuc);
             var end = Rules.Local(m.Lich.KetThucLuc);
-            Rules.Check(start < end && start > DateTimeOffset.UtcNow && !string.IsNullOrWhiteSpace(m.Lich.TieuDe) && m.Lich.TieuDe.Length <= 256, "Tiêu đề hoặc giờ học không hợp lệ.");
+            KiemTraLichMoi(m.Lich, "Lich");
             Rules.Check(!await (from l in db.Set<LichHoc>() join cl in db.Set<LopHoc>() on l.LopHocId equals cl.Id where l.Id != s.Id && l.TrangThai == "DaLenLich" && cl.TrangThai == "DangHoatDong" && (cl.GiaSuId == c.GiaSuId || cl.BenHocId == c.BenHocId) && l.BatDauLuc < end && start < l.KetThucLuc select l).AnyAsync(), "Lịch bị chồng lấn.", 409);
             db.Add(new LichHoc { Id = Guid.NewGuid(), LopHocId = c.Id, LichGocId = s.Id, LaBuoiBu = s.LaBuoiBu, TrangThai = "DaLenLich", TieuDe = m.Lich.TieuDe.Trim(), BatDauLuc = start, KetThucLuc = end });
         }
@@ -71,7 +80,7 @@ public sealed class LichHocService(AppDbContext db, NguoiDungHienTaiService curr
         var u = await current.HienTaiAsync();
         var start = Rules.Local(m.Lich.BatDauLuc);
         var end = Rules.Local(m.Lich.KetThucLuc);
-        Rules.Check(start < end && start > DateTimeOffset.UtcNow && !string.IsNullOrWhiteSpace(m.Lich.TieuDe) && m.Lich.TieuDe.Length <= 256, "Tiêu đề hoặc giờ học bù không hợp lệ.");
+        KiemTraLichMoi(m.Lich, "Lich");
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await db.Database.ExecuteSqlInterpolatedAsync($"""
             DECLARE @first uniqueidentifier = CASE WHEN {c.GiaSuId} < {c.BenHocId} THEN {c.GiaSuId} ELSE {c.BenHocId} END;

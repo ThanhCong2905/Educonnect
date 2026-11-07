@@ -31,7 +31,8 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
             context.ExceptionHandled = true;
             return;
         }
-        context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { "", [message] } } }) { StatusCode = status };
+        var field = (ex as LoiNghiepVu)?.Truong ?? "";
+        context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { field, [message] } } }) { StatusCode = status };
         context.ExceptionHandled = true;
     }
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)

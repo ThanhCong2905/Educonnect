@@ -8,6 +8,12 @@ namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 [Area("HocTap")]
 public sealed class LichHocController(LichHocService service, LopHocService classes) : BaseController
 {
+    private void ThemLoi(Exception ex)
+    {
+        var field = (ex as LoiNghiepVu)?.Truong ?? "";
+        ModelState.AddModelError(field, Rules.ErrorMessage(ex));
+        Response.StatusCode = Rules.ErrorStatus(ex);
+    }
     public async Task<IActionResult> Them(Guid id)
     {
         ViewBag.Class = await classes.ChiTietAsync(id);
@@ -27,7 +33,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                     tab = "schedule"
                 });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Class = await classes.ChiTietAsync(m.LopHocId);
         return View(m);
     }
@@ -40,6 +46,12 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
     [HttpPost]
     public async Task<IActionResult> Sua(SuaLichInput m)
     {
+        if (m.TrangThai == "DaHuy")
+        {
+            ModelState.Remove("Lich.TieuDe");
+            ModelState.Remove("Lich.BatDauLuc");
+            ModelState.Remove("Lich.KetThucLuc");
+        }
         if (ModelState.IsValid)
             try
             {
@@ -52,7 +64,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                     tab = "schedule"
                 });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Schedule = await service.LayAsync(m.Id);
         return View(m);
     }
@@ -67,7 +79,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                 Success("Đã thêm buổi học bù.");
                 return RedirectToAction("ChiTiet", "LopHoc", new { id = s.LopHocId, tab = "schedule" });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Schedule = await service.LayAsync(m.Id);
         return View("Sua", m);
     }
@@ -91,7 +103,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
                 Success();
                 return RedirectToAction(nameof(Buoi), new { id = m.LichHocId });
             }
-            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError("", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }
+            catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         await Buoi(m.LichHocId);
         return View("Buoi", m);
     }

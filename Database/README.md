@@ -25,7 +25,7 @@ Role SQL `KLTN_App` chứa quyền của ứng dụng. Người vận hành gán
 
 ## Tệp tải lên
 
-ClamAV và chữ ký phải có tại `tools/clamav`. Khi không quét được tệp, ứng dụng từ chối sử dụng tệp. Nội dung tải lên nằm trong `uploads`, SQL lưu metadata. Sao lưu cả database và thư mục này.
+Development hiện bật `FileScanning:AllowUnscannedUploads` để thử tải tệp khi chưa dùng ClamAV. Tệp được lưu ở trạng thái `ChoQuet`, vẫn kiểm tra định dạng, dung lượng và quyền truy cập. Ngoài Development, ứng dụng yêu cầu ClamAV và dữ liệu nhận diện tại `tools/clamav`, chỉ cho sử dụng tệp đã quét sạch. Nội dung tải lên nằm trong `uploads`, SQL lưu metadata. Sao lưu cả database và thư mục này.
 
 ## Lời mời thành viên lớp
 

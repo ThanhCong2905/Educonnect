@@ -107,7 +107,7 @@
    if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&(event.target.value.trim()||form.querySelector('[data-chat-files]')?.files.length))form.requestSubmit(form.querySelector('button[type="submit"],button:not([type])'));}
   });
   const picker=root.querySelector('[data-chat-files]'),clear=root.querySelector('[data-clear-chat-files]'),selection=root.querySelector('[data-chat-file-selection]');
-  const selectedFiles=()=>{const files=[...(picker?.files||[])];if(selection)selection.textContent=files.map(f=>f.name+' ('+ui.fileSize(f.size)+')').join(' · ');if(clear)clear.hidden=!files.length;};
+  const selectedFiles=()=>{const files=[...(picker?.files||[])];if(selection)selection.textContent=files.length?files.length+' tệp đã chọn':'';if(clear)clear.hidden=!files.length;};
   picker?.addEventListener('change',selectedFiles);clear?.addEventListener('click',()=>{picker.value='';picker.dispatchEvent(new Event('input',{bubbles:true}));picker.dispatchEvent(new Event('change',{bubbles:true}));picker.focus();});selectedFiles();
  }
  function messageNode(item){

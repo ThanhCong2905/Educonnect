@@ -53,7 +53,7 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
         var u=await GiaSuAsync();
         Rules.Check(new[]{m.HoTen,m.TrinhDo,m.ChuyenMon,m.KinhNghiem,m.KhuVuc}.All(x=>!string.IsNullOrWhiteSpace(x)&&x.Length<=256),"Hoàn thiện thông tin hồ sơ, tối đa 256 ký tự mỗi trường.");
         Rules.Check(!string.IsNullOrWhiteSpace(m.MoTa)&&m.MoTa.Length<=5000,"Nhập giới thiệu tối đa 5000 ký tự.");
-        var uploads=await files.KiemTraAsync(m.Files, bangCap: true);
+        var uploads=await files.KiemTraAsync(m.Files);
         var written=new List<string>(); var retired=new List<string>();
         await using var tx=await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await HoSoLock.KhoaAsync(db,u.Id);
