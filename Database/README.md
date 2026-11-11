@@ -72,3 +72,8 @@ Quản trị có quyền `XemNhatKy` xem tại **Hệ thống → Nhật ký h�
 Database đã cài bản 48 bảng chạy `15_NhatKyAnToan.sql` một lần để bổ sung bảng. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Role `KLTN_App` chỉ được đọc và thêm nhật ký, bị từ chối sửa hoặc xóa. Cần chạy ứng dụng bằng database user được gán role này để giới hạn có hiệu lực, tài khoản `sysadmin` có quyền cao hơn.
 
 Nhật ký HTTP được ghi bằng kết nối riêng sau xử lý yêu cầu. Nếu ghi database thất bại, ứng dụng ghi lỗi cùng mã yêu cầu vào hệ thống logging của máy chủ để người vận hành kiểm tra. Cần sao lưu và kiểm tra dung lượng nhật ký trong quá trình vận hành.
+
+
+## Bổ sung procedure đăng nhập cho database hiện có
+
+Nếu đăng nhập báo thiếu `usp_GhiNhanDangNhapSai`, `usp_DangNhapThanhCong` hoặc `usp_KiemTraPhien`, chạy `16_AuthenticationProcedures.sql` trên đúng database của ứng dụng. Script chỉ tạo hoặc cập nhật ba procedure xác thực và quyền thực thi của `KLTN_App`, không tạo lại database hay xóa tài khoản. Bản cài mới `00_EduConnect_Full.sql` đã chứa các procedure này.

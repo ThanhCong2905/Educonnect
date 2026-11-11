@@ -139,7 +139,8 @@ BEGIN
 END;
 GO
 /* ==================== PHẦN CHỌN CA ==================== */
-DECLARE @OnlyTC nvarchar(16)=NULL; 
+--DECLARE @OnlyTC nvarchar(16)=NULL; 
+DECLARE @OnlyTC nvarchar(16) = N'MT1-IT-002';
 DECLARE @RunId uniqueidentifier=NEWID();
 IF DB_NAME()<>N'EduConnect_Verification_MT1'
     THROW 51000,N'Chọn EduConnect_Verification_MT1 trong dropdown SSMS rồi chạy lại toàn bộ file.',1;
@@ -191,11 +192,11 @@ BEGIN
       AND EXISTS(SELECT 1 FROM sys.index_columns k JOIN sys.columns c ON c.object_id=k.object_id AND c.column_id=k.column_id WHERE k.object_id=i.object_id AND k.index_id=i.index_id AND k.key_ordinal=1 AND c.name=N'GiaSuId');
     SET @UniqueGS=COALESCE(@UniqueGS,N'UQ_GiaSu_HoSoGiaSu');
     SET @SQL=N'
-SELECT @TC AS MaTC,@Variant AS BienThe,Id,GiaSuId FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS;
-IF (SELECT COUNT(*) FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS)<>1 THROW 51020,N''Fixture phải có đúng hồ sơ thứ nhất.'',1;
-INSERT dbo.HoSoGiaSu(Id,GiaSuId,TrinhDo,ChuyenMon,KinhNghiem,MoTa,KhuVuc,TrangThaiDuyet)
-VALUES(@P2,@GS,N''Đại học'',N''Toán'',N''3 năm'',N''Gia sư Toán THCS'',N''Thủ Đức'',''DaDuyet'');';
-    EXEC #MT1_Run @RunId,N'MT1-IT-002',N'A — P2 khác Id, cùng GiaSuId',
+		SELECT @TC AS MaTC,@Variant AS BienThe,Id,GiaSuId FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS;
+		IF (SELECT COUNT(*) FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS)<>1 THROW 51020,N''Fixture phải có đúng hồ sơ thứ nhất.'',1;
+		INSERT dbo.HoSoGiaSu(Id,GiaSuId,TrinhDo,ChuyenMon,KinhNghiem,MoTa,KhuVuc,TrangThaiDuyet)
+		VALUES(@P2,@GS,N''Đại học'',N''Toán'',N''3 năm'',N''Gia sư Toán THCS'',N''Thủ Đức'',''DaDuyet'');';
+			EXEC #MT1_Run @RunId,N'MT1-IT-002',N'A — P2 khác Id, cùng GiaSuId',
       @Prepare=@Profile,@Act=@SQL,@ExpectedErrors='2601,2627',@Constraint=@UniqueGS,
       @AfterError=N'SELECT @TC AS MaTC,@Variant AS BienThe,Id,GiaSuId FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS; IF (SELECT COUNT(*) FROM dbo.HoSoGiaSu WHERE GiaSuId=@GS)<>1 OR EXISTS(SELECT 1 FROM dbo.HoSoGiaSu WHERE Id=@P2) THROW 51021,N''Phải chỉ còn P1 trước rollback.'',1;',
       @Expected=N'INSERT P1 thành công; P2 bị UNIQUE GiaSuId chặn (không phải trùng PK Id). Rollback cả fixture sau ghi minh chứng.';
