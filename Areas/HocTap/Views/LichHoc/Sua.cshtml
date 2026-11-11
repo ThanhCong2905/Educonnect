@@ -2,26 +2,32 @@
 @{
     ViewData["Title"] = "Điều chỉnh lịch và học bù";
     var schedule = (LichHoc)ViewBag.Schedule;
+    var lesson = (BuoiHoc?)ViewBag.Record;
     var canChange = schedule.TrangThai == "DaLenLich" && schedule.BatDauLuc > DateTimeOffset.UtcNow;
 }
 <h1>Điều chỉnh lịch và học bù</h1>
 <p>Lịch gốc: @Rules.Date(schedule.BatDauLuc) – @Rules.Date(schedule.KetThucLuc)</p>
-<form method="post" class="card form-wide">
+<form method="post" class="card form-wide" data-schedule-edit>
     <div asp-validation-summary="All" class="validation"></div>
     <input asp-for="Id" type="hidden">
     <input asp-for="RowVersion" type="hidden">
-    <label>Tên buổi học<input class="form-control" asp-for="Lich.TieuDe" required maxlength="256"></label>
-    <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
-        <label>Bắt đầu<input class="form-control" asp-for="Lich.BatDauLuc" type="datetime-local" required></label>
-        <label>Kết thúc<input class="form-control" asp-for="Lich.KetThucLuc" type="datetime-local" required></label>
+    <label>Tên buổi học<input class="form-control" asp-for="Lich.TieuDe" required maxlength="256"><span asp-validation-for="Lich.TieuDe"></span></label>
+    <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid" data-schedule-times>
+        <label>Bắt đầu<input class="form-control" asp-for="Lich.BatDauLuc" type="datetime-local" required><span asp-validation-for="Lich.BatDauLuc"></span></label>
+        <label>Kết thúc<input class="form-control" asp-for="Lich.KetThucLuc" type="datetime-local" required><span asp-validation-for="Lich.KetThucLuc"></span></label>
     </div>
+    <p class="muted schedule-time-preview" data-schedule-time-preview role="status"></p>
+    @if (canChange)
+    {
+        <label>Lý do đổi lịch<textarea class="form-control" asp-for="LyDo" rows="2" maxlength="2000"></textarea><span asp-validation-for="LyDo"></span></label>
+    }
     <div class="actions">
         @if (canChange)
         {
-            <button class="btn btn-primary" asp-action="Sua" name="TrangThai" value="DaDieuChinh">Lưu lịch thay thế</button>
+            <button class="btn btn-primary" asp-action="Sua" name="TrangThai" value="DaDieuChinh">Lưu thay đổi</button>
             <button class="btn btn-outline-danger" asp-action="Sua" name="TrangThai" value="DaHuy" formnovalidate>Hủy lịch gốc</button>
         }
-        @if (schedule.TrangThai != "DaDieuChinh")
+        @if (lesson?.TrangThai == "DaNghi" && lesson.CanHocBu)
         {
             <button class="btn btn-outline-primary" asp-action="TaoBuoiBu">Thêm buổi học bù</button>
         }

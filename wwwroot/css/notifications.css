@@ -1,17 +1,35 @@
+.notice-list { display: grid; gap: 12px; }
+.notice-count { margin: 0 0 4px; font-size: 13px; }
+.notice-item { margin: 0; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.notice-unread { background: #faf6f8; }
+.notice-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; font-size: 12px; color: var(--muted); }
+.notice-read-state { display: inline-flex; align-items: center; gap: 8px; }
+.notice-unread .notice-read-state { color: var(--accent); font-weight: 600; }
+.notice-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: var(--accent); }
+.notice-read .notice-dot { background: transparent; border: 1px solid var(--muted); }
+.notice-item h3 { margin: 12px 0 16px; font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
+.notice-read h3 { font-weight: 500; }
+.notice-open { width: fit-content; }
 .notification-rail {
-    min-height: 96px;
-    width: 100%;
-    padding: 8px 16px;
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    z-index: 1080;
+    width: min(380px, calc(100vw - 48px));
+    padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-end;
+    pointer-events: none;
 }
+.notification-rail[hidden] { display: none; }
+.account-page > .notification-rail { top: 88px; }
 .notification-message {
     display: flex;
     align-items: center;
     gap: 12px;
     width: fit-content;
-    max-width: 600px;
+    max-width: 100%;
+    pointer-events: auto;
     padding: 10px 12px 10px 16px;
     border: 1px solid #d5e8dc;
     border-radius: 10px;
@@ -22,7 +40,7 @@
     line-height: 1.5;
 }
 .notification-message[hidden] { display: none; }
-.notification-text { overflow-wrap: anywhere; }
+.notification-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .notification-close {
     display: grid;
     place-items: center;
@@ -40,12 +58,11 @@
 }
 .notification-close:hover { background: #e7f3eb; }
 .notification-close:focus-visible { outline: 2px solid #24543a; outline-offset: 2px; }
-.shell > main > .notification-rail { padding-top: 0; }
 @media (prefers-reduced-motion: no-preference) {
     .notification-message { animation: notification-enter .15s ease-out; }
     @keyframes notification-enter { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 }
 @media (max-width: 575px) {
-    .notification-rail { padding-inline: 12px; }
+    .notification-rail, .account-page > .notification-rail { top: 76px; right: 12px; width: calc(100vw - 24px); }
     .notification-message { font-size: 13px; padding-left: 12px; }
 }

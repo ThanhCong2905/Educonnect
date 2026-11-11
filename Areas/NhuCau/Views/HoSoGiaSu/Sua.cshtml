@@ -23,7 +23,20 @@ else {@if(!demoPublish){<button class="btn @(Model.TrangThaiDuyet=="DaDuyet"?"bt
 <div data-subject-rows>@for(int i=0;i<Model.MonDay.Count;i++){@await Html.PartialAsync("_MonDayRow",Model.MonDay[i],new ViewDataDictionary(ViewData){["RowIndex"]=i.ToString()})}</div>
 <button type="button" class="btn btn-outline-primary" data-add-subject>+ Thêm môn dạy</button>
 <template data-subject-template>@await Html.PartialAsync("_MonDayRow",new EduConnect.Mvc.Areas.NhuCau.ViewModels.MonDayInput{PhamViDay="Lớp 10–12"},new ViewDataDictionary(ViewData){["RowIndex"]="__index__"})</template>
-<h2>Bằng cấp & chứng chỉ</h2><label>Thêm minh chứng<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>Tối đa 5 tệp, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem.</small></label>
-@foreach(var f in certificates){<div class="credential-row"><a asp-action="BangCap" asp-route-id="@f.Id">@f.TenGoc</a><label class="check"><input class="form-check-input" type="checkbox" name="XoaTepIds" value="@f.Id" checked="@Model.XoaTepIds.Contains(f.Id)">Xóa khi lưu</label></div>}
+<h2>Bằng cấp & chứng chỉ</h2>
+<div data-certificate-picker>
+    <label>Thêm minh chứng<input class="form-control" type="file" name="Files" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>Tối đa 5 tệp, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem.</small></label>
+    <ul class="upload-selection" data-certificate-selection aria-label="Tệp mới chọn"></ul>
+</div>
+<p class="muted certificate-save-hint">Tệp mới và thay đổi xóa tệp được áp dụng khi bấm Lưu hồ sơ.</p>
+@foreach(var file in certificates)
+{
+    var removed = Model.XoaTepIds.Contains(file.Id);
+    <div class="credential-row" data-stored-certificate data-file-name="@file.TenGoc">
+        <div class="credential-name"><a asp-action="BangCap" asp-route-id="@file.Id">@file.TenGoc</a>@if(file.TrangThaiQuet == "ChoQuet"){<small class="muted">Chưa quét mã độc</small>}<small class="certificate-removal-note" data-certificate-removal-note hidden="@(!removed)">Sẽ xóa khi lưu hồ sơ</small></div>
+        <input type="checkbox" name="XoaTepIds" value="@file.Id" checked="@removed" hidden>
+        <button class="btn quiet certificate-remove" type="button" data-certificate-remove aria-pressed="@(removed ? "true" : "false")" aria-label="Xóa @file.TenGoc">×</button>
+    </div>
+}
 @if(!locked){<div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button></div>}
 </fieldset></form>

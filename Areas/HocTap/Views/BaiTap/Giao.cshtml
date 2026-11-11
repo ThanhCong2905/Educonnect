@@ -1,3 +1,39 @@
 @model EduConnect.Mvc.Areas.HocTap.ViewModels.GiaoBaiTapViewModel
-@{ViewData["Title"]="Giao bài tập";}
-<h1>Giao bài tập</h1><form method="post" enctype="multipart/form-data" class="card form-wide"><div asp-validation-summary="All" class="validation"></div><input asp-for="LopHocId" type="hidden"><label>Tên bài tập<input class="form-control" asp-for="TieuDe" required maxlength="256"></label><label>Nội dung<textarea class="form-control" asp-for="NoiDung" required maxlength="10000"></textarea></label><label>Hạn nộp (giờ Việt Nam)<input class="form-control" asp-for="HanNopLuc" type="datetime-local" required></label><label>Tiêu chí chấm<textarea class="form-control" asp-for="TieuChiCham" maxlength="5000"></textarea></label><label>Tệp đính kèm<input class="form-control" asp-for="Files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.docx"><small>Tối đa 5 tệp · 10 MB/tệp · PDF, JPG, PNG, DOCX</small></label><button class="btn btn-primary">Giao bài tập</button></form>
+@{ ViewData["Title"] = "Giao bài tập"; }
+
+<h1>Giao bài tập</h1>
+<form method="post" enctype="multipart/form-data" class="card form-wide">
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+    <input asp-for="LopHocId" type="hidden">
+    <label>Buổi học <span class="required-mark">*</span>
+        <select class="form-select" asp-for="BuoiHocId" asp-items="ViewBag.Lessons" required>
+            <option value="">Chọn buổi học</option>
+        </select>
+        <span asp-validation-for="BuoiHocId"></span>
+    </label>
+    <label>Tên bài tập <span class="required-mark">*</span>
+        <input class="form-control" asp-for="TieuDe" required maxlength="256">
+        <span asp-validation-for="TieuDe"></span>
+    </label>
+    <label>Nội dung <span class="required-mark">*</span>
+        <textarea class="form-control" asp-for="NoiDung" required maxlength="10000"></textarea>
+        <span asp-validation-for="NoiDung"></span>
+    </label>
+    <label>Hạn nộp (giờ Việt Nam) <span class="required-mark">*</span>
+        <input class="form-control" asp-for="HanNopLuc" type="datetime-local" required>
+        <span asp-validation-for="HanNopLuc"></span>
+    </label>
+    <label>Tiêu chí chấm
+        <textarea class="form-control" asp-for="TieuChiCham" maxlength="5000"></textarea>
+        <span asp-validation-for="TieuChiCham"></span>
+    </label>
+    <label>Tệp đính kèm
+        <input class="form-control" asp-for="Files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.docx">
+        <small>Tối đa 5 tệp · 10 MB/tệp · PDF, JPG, PNG, DOCX</small>
+        <span asp-validation-for="Files"></span>
+    </label>
+    <div class="actions">
+        <button class="btn btn-primary" name="LuuNhap" value="false">Giao bài tập</button>
+        <button class="btn btn-outline-primary" name="LuuNhap" value="true">Lưu nháp</button>
+    </div>
+</form>

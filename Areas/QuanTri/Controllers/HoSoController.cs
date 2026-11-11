@@ -2,6 +2,7 @@
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
+using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.QuanTri.Controllers;
@@ -10,7 +11,13 @@ namespace EduConnect.Mvc.Areas.QuanTri.Controllers;
 [Microsoft.AspNetCore.Authorization.Authorize(Roles = "QuanTri")]
 public sealed class HoSoController(HoSoGiaSuService service,AppDbContext db):BaseController
 {
-    public async Task<IActionResult> Index(){var rows=await service.ChoDuyetAsync();ViewBag.People=await db.Set<NguoiThamGia>().AsNoTracking().ToListAsync();return View(rows);}
+    public async Task<IActionResult> Index(int trang=1,string state="ChoDuyet",string? q=null)
+    {
+        var page=await service.LayDanhSachDuyetAsync(trang,state,q);
+        var owners=page.Items.Select(x=>x.GiaSuId).ToList();
+        ViewBag.People=await db.Users.Where(x=>owners.Contains(x.Id)).ToDictionaryAsync(x=>x.Id,x=>x.HoTen);
+        return View(page);
+    }
     public async Task<IActionResult> ChiTiet(Guid id)
     {
         var model=await service.XemDuyetAsync(id);
@@ -20,9 +27,20 @@ public sealed class HoSoController(HoSoGiaSuService service,AppDbContext db):Bas
         return View(model);
     }
     [HttpPost]
-    public async Task<IActionResult> Duyet(Guid id,string rowVersion,bool approve,string? reason)
+    public async Task<IActionResult> Duyet(Guid id,string rowVersion,bool approve,string? reason,string? quyetDinh=null)
     {
-        await service.DuyetAsync(id,rowVersion,approve,reason);Success();return RedirectToAction(nameof(Index));
+        try
+        {
+            await service.DuyetAsync(id,rowVersion,approve,reason,quyetDinh=="TuChoi");
+            Success();
+            return RedirectToAction(nameof(Index));
+        }
+        catch(LoiNghiepVu ex)
+        {
+            ModelState.AddModelError(ex.Truong??"",ex.Message);
+            ViewBag.Reason=reason;
+            return await ChiTiet(id);
+        }
     }
 }
 

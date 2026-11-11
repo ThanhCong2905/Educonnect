@@ -9,6 +9,25 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
+        NhatKyAnToanMapping.Configure(b);
+        DanhGiaQuanTriMapping.Configure(b);
+        b.Entity<TinNhan>().HasQueryFilter(x=>!Set<BienPhapQuanTri>().Any(m=>m.LoaiDoiTuong=="TinNhan"&&m.DoiTuongId==x.Id&&m.Loai=="AnNoiDung"&&m.GoLuc==null));
+        b.Entity<LichSuDieuChinhLich>().ToTable("LichSuDieuChinhLich");
+        b.Entity<LuotDangNhuCau>(e =>
+        {
+            e.ToTable("LuotDangNhuCau");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.HanhDong).HasMaxLength(16).IsUnicode(false);
+            e.HasIndex(x => new { x.TaiKhoanId, x.MaThaoTac }).IsUnique();
+            e.HasIndex(x => new { x.TaiKhoanId, x.NgayDang });
+        });
+        b.Entity<LienKetPhuHuynhHocSinh>(e =>
+        {
+            e.ToTable("LienKetPhuHuynhHocSinh");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.TrangThai).HasMaxLength(32).IsUnicode(false);
+            e.Property(x => x.RowVersion).IsRowVersion();
+        });
         b.Ignore<IdentityUserPasskey<Guid>>();
         b.Entity<TaiKhoan>(e =>
         {
@@ -192,7 +211,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.CuocHoiThoaiId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.NguoiGuiId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.NoiDung).HasColumnType("nvarchar(max)").IsRequired();
-            e.Property(x => x.GuiLuc).HasColumnType("datetimeoffset(0)").IsRequired();
+            e.Property(x => x.GuiLuc).HasColumnType("datetimeoffset(7)").IsRequired();
             e.Property(x => x.MaThaoTac).HasColumnType("uniqueidentifier").IsRequired();
         });
         b.Entity<LopHoc>(e =>
@@ -221,6 +240,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         });
         b.Entity<ThanhVienLopHoc>(e =>
         {
+            e.Property(x => x.DongYThamGiaLuc).HasColumnType("datetimeoffset(7)");
             e.ToTable("ThanhVienLopHoc", t => t.UseSqlOutputClause(false));
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();
@@ -229,9 +249,9 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.NguoiDeNghiId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.TrangThaiDuyet).HasColumnType("varchar(32)").IsRequired();
             e.Property(x => x.MucQuyen).HasColumnType("varchar(32)");
-            e.Property(x => x.DeNghiLuc).HasColumnType("datetimeoffset(0)").IsRequired();
-            e.Property(x => x.DuyetLuc).HasColumnType("datetimeoffset(0)");
-            e.Property(x => x.RoiLopLuc).HasColumnType("datetimeoffset(0)");
+            e.Property(x => x.DeNghiLuc).HasColumnType("datetimeoffset(7)").IsRequired();
+            e.Property(x => x.DuyetLuc).HasColumnType("datetimeoffset(7)");
+            e.Property(x => x.RoiLopLuc).HasColumnType("datetimeoffset(7)");
             e.Property(x => x.RowVersion).IsRowVersion();
         });
         b.Entity<LichHoc>(e =>
@@ -256,14 +276,14 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.LichHocId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.TieuDe).HasColumnType("nvarchar(256)").IsRequired();
             e.Property(x => x.NoiDungGiangDay).HasColumnType("nvarchar(max)");
-            e.Property(x => x.NhanXet).HasColumnType("nvarchar(2000)").IsRequired();
-            e.Property(x => x.TrangThaiThamDu).HasColumnType("varchar(32)").IsRequired();
-            e.Property(x => x.GhiNhanLuc).HasColumnType("datetimeoffset(0)").IsRequired();
-            e.Property(x => x.NguoiGhiNhanId).HasColumnType("uniqueidentifier").IsRequired();
+            e.Property(x => x.NhanXet).HasColumnType("nvarchar(2000)").IsRequired(false);
+            e.Property(x => x.TrangThaiThamDu).HasColumnType("varchar(32)").IsRequired(false);
+            e.Property(x => x.GhiNhanLuc).HasColumnType("datetimeoffset(0)").IsRequired(false);
+            e.Property(x => x.NguoiGhiNhanId).HasColumnType("uniqueidentifier").IsRequired(false);
             e.Property(x => x.RowVersion).IsRowVersion();
-            e.Property(x => x.TrangThaiThamDuGiaSu).HasColumnType("varchar(32)").IsRequired();
-            e.Property(x => x.TrangThaiThamDuBenHoc).HasColumnType("varchar(32)").IsRequired();
-            e.Property(x => x.KetQuaBuoiHoc).HasColumnType("varchar(32)").IsRequired();
+            e.Property(x => x.TrangThaiThamDuGiaSu).HasColumnType("varchar(32)").IsRequired(false);
+            e.Property(x => x.TrangThaiThamDuBenHoc).HasColumnType("varchar(32)").IsRequired(false);
+            e.Property(x => x.KetQuaBuoiHoc).HasColumnType("varchar(32)").IsRequired(false);
             e.Property(x => x.CapNhatLuc).HasColumnType("datetimeoffset(0)").IsRequired();
             e.Property(x => x.PhienBan).HasColumnType("int").IsRequired();
         });

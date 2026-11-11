@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWorker> log) : BackgroundService
+public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWorker> log) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken huy)
     {
@@ -18,6 +18,8 @@ public sealed class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWork
                 await XuLyHetHanYeuCauAsync(now, huy);
                 await XuLyTuHuyKetNoiAsync(now, huy);
                 await XuLyNhacHocTapAsync(huy);
+                await XuLyHieuLucNhuCauAsync(huy);
+                await XuLyDongDotPhanHoiAsync(huy);
             }
             catch (OperationCanceledException) when (huy.IsCancellationRequested) { break; }
             catch (Exception ex) { log.LogWarning(ex, "Bảo trì chưa hoàn tất; sẽ thử lại."); }
@@ -50,12 +52,20 @@ public sealed class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWork
         var due = await (from s in db.Set<LichHoc>()
                          join c in db.Set<LopHoc>() on s.LopHocId equals c.Id
                          where s.TrangThai == "DaLenLich" && c.TrangThai == "DangHoatDong" && s.KetThucLuc <= cutoff
-                         && !db.Set<BuoiHoc>().Any(b => b.LichHocId == s.Id)
+                         && !db.Set<BuoiHoc>().Any(b => b.LichHocId == s.Id && b.GhiNhanLuc != null)
                          && !db.Set<ThongBao>().Any(n => n.LoaiThongBao == "NhacViec" && n.DoiTuongId == s.Id && n.NguoiNhanId == c.GiaSuId && n.NoiDungTomTat == message)
                          orderby s.KetThucLuc
                          select new { s.Id, c.GiaSuId }).Take(200).ToListAsync(huy);
         foreach (var item in due)
             notices.Tao(item.GiaSuId, "NhacViec", item.Id, message);
+        const string overdueMessage="Bài tập đã quá hạn và chưa có bài nộp.";
+        var overdue=await (from a in db.Set<BaiTapGiao>() join c in db.Set<LopHoc>() on a.LopHocId equals c.Id
+            where a.TrangThai=="DaGiao"&&c.TrangThai=="DangHoatDong"&&a.HanNopLuc<now
+                &&!db.Set<BaiTapNop>().Any(n=>n.BaiTapGiaoId==a.Id)
+                &&!db.Set<ThongBao>().Any(n=>n.DoiTuongId==a.Id&&n.NoiDungTomTat==overdueMessage)
+            orderby a.HanNopLuc select new { a.Id,a.LopHocId }).Take(100).ToListAsync(huy);
+        foreach(var item in overdue)
+            await notices.TaoChoLopAsync(item.LopHocId,"BaiTap",item.Id,overdueMessage);
         await db.SaveChangesAsync(huy);
         await tx.CommitAsync(huy);
     }

@@ -1,0 +1,14 @@
+@model EduConnect.Mvc.ViewModels.DoiMatKhauInput
+@{ViewData["Title"]="Đổi mật khẩu";}
+<h1>Đổi mật khẩu</h1>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <label asp-for="MatKhauHienTai">Mật khẩu hiện tại <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="MatKhauHienTai" type="password" class="form-control" autocomplete="current-password" required>
+    <label asp-for="MatKhau" class="mt-3">Mật khẩu mới <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="MatKhau" type="password" class="form-control" autocomplete="new-password" required maxlength="128">
+    <small class="muted">Dùng từ 15 đến 64 ký tự.</small>
+    <label asp-for="XacNhanMatKhau" class="mt-3">Nhập lại mật khẩu mới <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="XacNhanMatKhau" type="password" class="form-control" autocomplete="new-password" required maxlength="128">
+    <div class="actions mt-4"><button class="btn btn-primary">Đổi mật khẩu</button><a class="btn btn-outline-primary" asp-action="HoSo">Quay lại</a></div>
+</form>

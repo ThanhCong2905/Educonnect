@@ -5,26 +5,26 @@ namespace EduConnect.Mvc.Areas.TimKiem.ViewModels;
 
 public sealed class BoLocTimKiemViewModel
 {
-    public List<int> MonHocIds { get; set; } = [];
+    [MaxLength(10, ErrorMessage = "Chọn tối đa 10 môn học.")] public List<int> MonHocIds { get; set; } = [];
     [StringLength(256)] public string? TrinhDo { get; set; }
-    [StringLength(100)]
+    [StringLength(100, ErrorMessage = "Từ khóa tối đa 100 ký tự.")]
     public string? TuKhoa
     {
         get; set;
     }
-    public int? MonHocId
+    [Range(1, int.MaxValue, ErrorMessage = "Môn học không hợp lệ.")] public int? MonHocId
     {
         get; set;
     }
-    public string? KhoiLop
+    [StringLength(256, ErrorMessage = "Khối lớp hoặc phạm vi dạy tối đa 256 ký tự.")] public string? KhoiLop
     {
         get; set;
     }
-    public string? HinhThucHoc
+    [RegularExpression("TrucTuyen|TrucTiep", ErrorMessage = "Chọn hình thức học trong danh sách.")] public string? HinhThucHoc
     {
         get; set;
     }
-    public string? KhuVuc
+    [StringLength(256, ErrorMessage = "Khu vực tối đa 256 ký tự.")] public string? KhuVuc
     {
         get; set;
     }
@@ -44,11 +44,14 @@ public sealed class BoLocTimKiemViewModel
     {
         get; set;
     }
-    public string SapXep { get; set; } = "MoiNhat"; public int Trang { get; set; } = 1;
+    [Required(ErrorMessage = "Chọn cách sắp xếp."), RegularExpression("MoiNhat|Ten|HocPhiTang|HocPhiGiam", ErrorMessage = "Chọn cách sắp xếp trong danh sách.")]
+    public string SapXep { get; set; } = "MoiNhat";
+    [Range(1, 100000, ErrorMessage = "Số trang phải từ 1 đến 100000.")] public int Trang { get; set; } = 1;
 }
 // Không đưa tên, tuổi người học và địa chỉ chi tiết vào dữ liệu công khai.
 public class UngVienViewModel
 {
+    public string? AnhDaiDienUrl { get; set; }
     public List<int> MonHocIds { get; set; } = [];
     public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];
     public bool DayTrucTuyen { get; set; }

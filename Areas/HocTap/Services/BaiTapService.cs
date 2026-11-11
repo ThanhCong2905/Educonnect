@@ -6,17 +6,19 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, TepService files)
+public sealed partial class BaiTapService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, TepService files)
 {
     public async Task<List<BaiTapGiao>> LayAsync(Guid lop)
     {
-        await rights.KiemTraQuyenXemAsync(lop);
-        return await db.Set<BaiTapGiao>().AsNoTracking().Where(x => x.LopHocId == lop).OrderByDescending(x => x.HanNopLuc).ToListAsync();
+        var c = await rights.KiemTraQuyenXemAsync(lop);
+        var me = await current.HienTaiAsync();
+        return await db.Set<BaiTapGiao>().AsNoTracking().Where(x => x.LopHocId == lop && (x.TrangThai == "DaGiao" || c.GiaSuId == me.Id)).OrderByDescending(x => x.HanNopLuc).ToListAsync();
     }
     public async Task<BaiTapGiao> ChiTietAsync(Guid id)
     {
         var a = await db.Set<BaiTapGiao>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Bài tập không tồn tại.", 404);
-        await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        var c = await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        Rules.Check(a.TrangThai == "DaGiao" || c.GiaSuId == (await current.HienTaiAsync()).Id, "Bài tập chưa được giao.", 404);
         return a;
     }
     public async Task<List<BaiTapNop>> BaiNopAsync(Guid id)
@@ -31,8 +33,13 @@ public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService curre
     }
     public async Task GiaoAsync(GiaoBaiTapViewModel m)
     {
+        Rules.ValidateInput(m);
         var c = await rights.KiemTraQuyenGhiAsync(m.LopHocId, true);
         var u = await current.HienTaiAsync();
+        Rules.Check(m.BuoiHocId.HasValue && m.BuoiHocId != Guid.Empty, "Chọn buổi học cho bài tập.", field: "BuoiHocId");
+        var lesson = await db.Set<BuoiHoc>().SingleOrDefaultAsync(x => x.Id == m.BuoiHocId);
+        Rules.Check(lesson != null && (lesson.TrangThai is "DuKien" or "DangDienRa" or "DaHoc"), "Buổi học không còn cho phép giao bài.", 409);
+        Rules.Check(m.LuuNhap || lesson!.TrangThai is "DangDienRa" or "DaHoc", "Buổi chưa diễn ra chỉ được lưu bài nháp.", 409);
         Rules.Check(Rules.Local(m.HanNopLuc) > DateTimeOffset.UtcNow, "Hạn nộp phải ở tương lai.");
         Rules.Check(!string.IsNullOrWhiteSpace(m.TieuDe) && m.TieuDe.Length <= 256 && !string.IsNullOrWhiteSpace(m.NoiDung) && m.NoiDung.Length <= 10000 && (m.TieuChiCham?.Length ?? 0) <= 5000, "Tiêu đề, nội dung hoặc tiêu chí chấm không hợp lệ.");
         if (m.BuoiHocId != null)
@@ -45,11 +52,15 @@ public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService curre
             await db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.LopHoc WITH(UPDLOCK,HOLDLOCK) WHERE Id={c.Id}");
             await db.Entry(c).ReloadAsync();
             Rules.Check(c.TrangThai == "DangHoatDong", "Lớp không còn hoạt động.", 409);
+            await db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.BuoiHoc WITH(UPDLOCK,HOLDLOCK) WHERE Id={m.BuoiHocId}");
+            await db.Entry(lesson!).ReloadAsync();
+            Rules.Check(lesson!.TrangThai is "DuKien" or "DangDienRa" or "DaHoc", "Buổi học không còn cho phép giao bài.", 409);
+            Rules.Check(m.LuuNhap || lesson.TrangThai is "DangDienRa" or "DaHoc", "Buổi chưa diễn ra chỉ được lưu bài nháp.", 409);
             var id = Guid.NewGuid();
-            db.Add(new BaiTapGiao { Id = id, LopHocId = c.Id, BuoiHocId = m.BuoiHocId, NguoiGiaoId = u.Id, TieuDe = m.TieuDe, NoiDung = m.NoiDung, HanNopLuc = Rules.Local(m.HanNopLuc), TieuChiCham = m.TieuChiCham });
+            db.Add(new BaiTapGiao { Id = id, LopHocId = c.Id, BuoiHocId = m.BuoiHocId, TrangThai = m.LuuNhap ? "BanNhap" : "DaGiao", NguoiGiaoId = u.Id, TieuDe = m.TieuDe, NoiDung = m.NoiDung, HanNopLuc = Rules.Local(m.HanNopLuc), TieuChiCham = m.TieuChiCham });
             await db.SaveChangesAsync();
             written = await files.LuuAsync(checkedFiles, giao: id);
-            await notices.TaoChoLopAsync(c.Id, "BaiTap", id, "Có bài tập mới.", u.Id);
+            if (!m.LuuNhap) await notices.TaoChoLopAsync(c.Id, "BaiTap", id, "Có bài tập mới.", u.Id);
             await db.SaveChangesAsync();
             await tx.CommitAsync();
         }
@@ -57,10 +68,14 @@ public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService curre
     }
     public async Task NopAsync(NopBaiViewModel m)
     {
+        Rules.ValidateInput(m);
         var a = await ChiTietAsync(m.BaiTapGiaoId);
         var c = await rights.KiemTraQuyenGhiAsync(a.LopHocId);
         var u = await current.HienTaiAsync();
         Rules.Check(u.Id != c.GiaSuId, "Gia sư không nộp bài của lớp mình.", 403);
+        Rules.Check(a.TrangThai == "DaGiao", "Bài tập chưa được giao.", 409);
+        if (u.Id != c.BenHocId)
+            Rules.Check(await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == c.Id && x.TaiKhoanId == u.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua" && x.ChoPhepNopBai), "Bạn chưa được cấp quyền nộp bài thay.", 403);
         Rules.Check(m.MaThaoTac != Guid.Empty, "Mã thao tác không hợp lệ.");
         Rules.Check(!string.IsNullOrWhiteSpace(m.NoiDung) || m.Files.Count > 0, "Cần nội dung hoặc tệp bài làm.");
         Rules.Check((m.NoiDung?.Length ?? 0) <= 10000, "Nội dung bài làm tối đa 10000 ký tự.");
@@ -92,6 +107,7 @@ public sealed class BaiTapService(AppDbContext db, NguoiDungHienTaiService curre
     }
     public async Task ChamAsync(ChamBaiViewModel m)
     {
+        Rules.ValidateInput(m);
         var n = await db.Set<BaiTapNop>().SingleOrDefaultAsync(x => x.Id == m.BaiTapNopId) ?? throw new LoiNghiepVu("Không có bài nộp.", 404);
         var a = await ChiTietAsync(n.BaiTapGiaoId);
         Rules.Check(m.BaiTapGiaoId == Guid.Empty || m.BaiTapGiaoId == a.Id, "Bài nộp không thuộc bài tập đang mở.");

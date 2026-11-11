@@ -23,6 +23,7 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
         if ((await current.HienTaiAsync()).LoaiNguoi == "GiaSu") return RedirectToAction("Sua", "HoSoGiaSu");
         ViewBag.Subjects = await service.MonTenAsync();
         ViewBag.Linked = await service.DaKetNoiAsync();
+        ViewBag.Slots = await service.LichRanhAsync();
         return View(await service.LayAsync());
     }
     [HttpGet]
@@ -100,6 +101,14 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
         await MonChoBieuMauAsync(m);
         return View(m.Id == null ? "Tao" : "Sua", m);
     }
+    [HttpPost]
+    public async Task<IActionResult> XacNhanConNhuCau(Guid id, string rowVersion)
+    {
+        await service.XacNhanConNhuCauAsync(id, rowVersion);
+        Success("Đã xác nhận bạn còn tìm gia sư.");
+        return RedirectToAction(nameof(Index));
+    }
+
     [HttpPost]
     public async Task<IActionResult> TrangThai(Guid id, string state, string rowVersion)
     {

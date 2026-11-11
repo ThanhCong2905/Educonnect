@@ -1,7 +1,7 @@
 @{
     var message = TempData["AccountMessage"] as string ?? TempData["Success"] as string;
 }
-<div class="notification-rail" data-notification-rail>
+<div class="notification-rail" data-notification-rail hidden="@(string.IsNullOrWhiteSpace(message))">
     <div class="notification-message" data-notification hidden="@(string.IsNullOrWhiteSpace(message))">
         <span class="notification-text" role="status" aria-live="polite" aria-atomic="true" data-notification-text>@message</span>
         <button type="button" class="notification-close" data-notification-close aria-label="Đóng thông báo">×</button>

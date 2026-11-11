@@ -1,0 +1,11 @@
+@model TaiKhoanQuanTriChiTiet
+@inject QuyenQuanTriService Rights
+@{ViewData["Title"]="Chi tiết tài khoản";var u=Model.TaiKhoan;}
+<div class="heading"><h1>@u.HoTen</h1><span class="badge rounded-pill">@Rules.Label(u.TrangThai)</span></div>
+<section class="card"><dl><dt>Email</dt><dd>@u.Email</dd><dt>Vai trò</dt><dd>@Rules.Label(Model.VaiTro)</dd></dl><p>@Model.YeuCauCho yêu cầu chờ · @Model.LopDangHoc lớp đang học</p>
+@if(Model.VaiTro=="QuanTri"&&await Rights.CoQuyenAsync("QuanLyQuyen")){<a class="btn btn-outline-primary" asp-action="PhanQuyen" asp-route-id="@u.Id">Cấp hoặc thu hồi quyền quản trị</a>}</section>
+@if(u.TrangThai=="HoatDong"&&await Rights.CoQuyenAsync("QuanLyTaiKhoan"))
+{
+    <form method="post" asp-action="KhoaTaiKhoan" class="card"><h2>Khóa tài khoản</h2><input name="id" value="@u.Id" type="hidden"><input name="concurrencyStamp" value="@u.ConcurrencyStamp" type="hidden"><p>Khi khóa, @Model.YeuCauCho yêu cầu chờ sẽ bị hủy và @Model.LopDangHoc lớp sẽ tạm dừng.</p><label>Lý do <span class="required-mark" aria-hidden="true">*</span><textarea name="lyDo" class="form-control" maxlength="2000" rows="3" required></textarea></label><button class="btn btn-outline-danger mt-3 align-self-start">Xác nhận khóa tài khoản</button></form>
+}
+<section class="card"><h2>Lịch sử biện pháp</h2>@foreach(var b in Model.BienPhap){<article class="border-top py-3"><strong>@(b.GoLuc==null?"Đang hiệu lực":"Đã gỡ")</strong><p class="pre">@b.LyDo</p><small>@Rules.Date(b.ApDungLuc)</small>@if(b.GoLuc==null&&await Rights.CoQuyenAsync("QuanLyTaiKhoan")){<form method="post" asp-action="GoBienPhap" class="mt-3"><input name="id" value="@b.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(b.RowVersion)" type="hidden"><label>Lý do mở khóa <span class="required-mark" aria-hidden="true">*</span><input name="reason" class="form-control" maxlength="2000" required></label><button class="btn btn-outline-primary mt-2">Gỡ biện pháp khóa</button></form>}</article>}</section>

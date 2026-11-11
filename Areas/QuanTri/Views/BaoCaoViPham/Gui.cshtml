@@ -1,0 +1,15 @@
+@model TaoBaoCaoViewModel
+@{ViewData["Title"]="Báo cáo vi phạm";}
+<h1>Báo cáo vi phạm</h1>
+<form method="post" enctype="multipart/form-data" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="MaThaoTac" type="hidden"><input asp-for="LoaiDoiTuong" type="hidden"><input asp-for="DoiTuongId" type="hidden">
+    <label asp-for="LyDo">Lý do báo cáo <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="LyDo" class="form-control" maxlength="2000" required><span asp-validation-for="LyDo"></span>
+    <label asp-for="MoTa" class="mt-3">Nội dung cần xem xét <span class="required-mark" aria-hidden="true">*</span></label>
+    <textarea asp-for="MoTa" class="form-control" rows="6" minlength="10" maxlength="4000" required></textarea><span asp-validation-for="MoTa"></span>
+    <label asp-for="Files" class="mt-3">Bằng chứng đính kèm</label>
+    <input asp-for="Files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx" class="form-control">
+    <p class="muted mt-2">Tối đa 5 tệp, mỗi tệp 10 MB. Bằng chứng chỉ dành cho người gửi và quản trị có quyền xử lý.</p>
+    <button class="btn btn-primary align-self-start mt-3">Gửi báo cáo</button>
+</form>

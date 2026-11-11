@@ -1,0 +1,20 @@
+@model Page<MonHoc>
+@{ViewData["Title"]="Danh mục môn học";}
+<h1>Danh mục môn học</h1>
+<form method="get" class="card"><div class="row g-3 align-items-end"><div class="col-md-10"><label>Tìm môn học<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label></div><div class="col-md-2"><button class="btn btn-primary">Tìm kiếm</button></div></div></form>
+<form method="post" asp-action="LuuMon" class="card">
+    <h2>Thêm môn học</h2><label>Tên môn <span class="required-mark" aria-hidden="true">*</span><input name="TenMon" maxlength="100" class="form-control" required></label>
+    <input name="DangSuDung" type="hidden" value="true"><button class="btn btn-primary align-self-start mt-3">Thêm môn</button>
+</form>
+<div class="row row-cols-1 row-cols-lg-2 g-3">
+@foreach(var m in Model.Items)
+{
+    <div class="col"><form method="post" asp-action="LuuMon" class="card h-100">
+        <input name="Id" value="@m.Id" type="hidden"><input name="RowVersion" value="@Convert.ToBase64String(m.RowVersion)" type="hidden">
+        <label>Tên môn<input name="TenMon" value="@m.TenMon" maxlength="100" required class="form-control"></label>
+        <label class="mt-3">Trạng thái<select name="DangSuDung" class="form-select"><option value="true" selected="@m.DangSuDung">Đang sử dụng</option><option value="false" selected="@(!m.DangSuDung)">Ngừng sử dụng</option></select></label>
+        <button class="btn btn-outline-primary mt-3 align-self-start">Lưu thay đổi</button>
+    </form></div>
+}
+</div>
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.Total)"/>

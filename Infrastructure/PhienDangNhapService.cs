@@ -76,12 +76,16 @@ public sealed class KiemTraCookieTaiKhoan(AppDbContext db, PhienDangNhapService 
 
     private static async Task RejectAsync(CookieValidatePrincipalContext context)
     {
+        context.HttpContext.RequestServices.GetRequiredService<NhatKyAnToanService>()
+            .Ghi("Authentication", "PhienKhongHopLe", "ThatBai", "PhienHetHanHoacBiThuHoi",
+                taiKhoan: Guid.TryParse(context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier), out var actor) ? actor : null);
         context.RejectPrincipal();
         await context.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
     }
 
     public override Task RedirectToLogin(RedirectContext<CookieAuthenticationOptions> context)
     {
+        context.HttpContext.Items[NhatKyAnToanService.DeniedKey] = "ChuaDangNhap";
         if (IsApi(context.Request))
         {
             context.Response.StatusCode = 401;
@@ -93,6 +97,7 @@ public sealed class KiemTraCookieTaiKhoan(AppDbContext db, PhienDangNhapService 
 
     public override Task RedirectToAccessDenied(RedirectContext<CookieAuthenticationOptions> context)
     {
+        context.HttpContext.Items[NhatKyAnToanService.DeniedKey] = "KhongDuQuyen";
         if (IsApi(context.Request))
         {
             context.Response.StatusCode = 403;

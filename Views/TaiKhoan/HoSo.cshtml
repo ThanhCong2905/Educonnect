@@ -1,0 +1,63 @@
+@model EduConnect.Mvc.ViewModels.HoSoTaiKhoanInput
+@inject NguoiDungHienTaiService Current
+@inject EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaDoiTacService Reviews
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    var me = await Current.HienTaiAsync();
+    var review = me.LoaiNguoi == "QuanTri" ? null : await Reviews.LayAsync(me.Id);
+    var initial = System.Globalization.StringInfo.GetNextTextElement(me.HoTen);
+}
+<h1>Trang cá nhân</h1>
+<section class="card account-hero">
+    <div class="avatar-editor" data-file-picker>
+    <div class="avatar account-avatar">
+        <img src="@Model.AnhDaiDienUrl" data-avatar-preview data-current-src="@Model.AnhDaiDienUrl" alt="Ảnh đại diện" hidden="@(Model.AnhDaiDienUrl == null || Model.XoaAnhDaiDien)">
+        <span data-avatar-initial hidden="@(Model.AnhDaiDienUrl != null && !Model.XoaAnhDaiDien)">@initial</span>
+    </div>
+        <button type="button" class="avatar-camera" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Đổi ảnh đại diện"><img src="/images/ui/camera.svg" alt=""></button>
+        <ul class="dropdown-menu"><li><button type="button" class="dropdown-item" data-avatar-choose>Chọn ảnh mới</button></li><li><button type="button" class="dropdown-item" data-avatar-remove disabled="@(Model.AnhDaiDienUrl == null || Model.XoaAnhDaiDien)">Xóa ảnh</button></li></ul>
+        <input asp-for="AnhDaiDienFile" form="thong-tin-ca-nhan" type="file" accept="image/jpeg,image/png" class="visually-hidden" aria-label="Chọn ảnh đại diện" aria-describedby="avatar-help" data-avatar-file>
+        <input name="XoaAnhDaiDien" form="thong-tin-ca-nhan" type="hidden" value="@(Model.XoaAnhDaiDien ? "true" : "false")">
+        <ul data-file-selection aria-label="Ảnh đã chọn"></ul>
+    </div>
+    <div class="account-identity">
+        <h2>@me.HoTen</h2>
+        <p>@Rules.Label(me.LoaiNguoi)</p>
+        @if (review != null)
+        {
+            <span class="account-rating"><img src="/images/ui/star.svg" alt="">@(review.TrungBinh.HasValue ? $"{review.TrungBinh:0.0}/5 · {review.DanhGia.Total} đánh giá" : "Chưa có đánh giá")</span>
+        }
+    </div>
+</section>
+<div class="account-grid">
+    <form method="post" enctype="multipart/form-data" class="card account-form" data-account-profile id="thong-tin-ca-nhan">
+        <h2>Thông tin cá nhân</h2>
+        <div asp-validation-summary="All" class="validation" role="alert"></div>
+        <input asp-for="ConcurrencyStamp" type="hidden">
+        <p id="avatar-help" class="text-muted">Ảnh JPG hoặc PNG, tối đa 10 MB.</p>
+        <p data-avatar-status role="status" hidden></p>
+        <span asp-validation-for="AnhDaiDienFile" class="text-danger"></span>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="HoTen">Họ tên <span class="required-mark" aria-hidden="true">*</span></label><input asp-for="HoTen" maxlength="256" required class="form-control"><span asp-validation-for="HoTen" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="SoDienThoai">Số điện thoại</label><input asp-for="SoDienThoai" maxlength="32" type="tel" class="form-control"><span asp-validation-for="SoDienThoai" class="text-danger"></span></div>
+            <div class="col-12"><label for="account-email">Email đăng nhập</label><input id="account-email" value="@Model.Email" readonly class="form-control" type="email"></div>
+        </div>
+        <div class="actions mt-4"><button class="btn btn-primary">Lưu thông tin</button></div>
+    </form>
+    <aside class="card account-management">
+        <h2>Quản lý tài khoản</h2>
+        @if (me.LoaiNguoi == "GiaSu")
+        {
+            <a class="account-shortcut" href="/NhuCau/HoSoGiaSu/Sua"><img src="/images/ui/person-badge.svg" alt=""><span><strong>Hồ sơ gia sư</strong><small>Môn dạy, học phí và bằng cấp</small></span><span aria-hidden="true">›</span></a>
+        }
+        @if (me.LoaiNguoi is "HocSinh" or "PhuHuynh")
+        {
+            <a class="account-shortcut" href="/HocTap/LienKetTaiKhoan/Index"><img src="/images/ui/people.svg" alt=""><span><strong>Tài khoản liên kết</strong><small>Liên kết phụ huynh và học sinh</small></span><span aria-hidden="true">›</span></a>
+        }
+        @if (review != null)
+        {
+            <a class="account-shortcut" href="/DanhGia/DoiTac/ChiTiet/@me.Id"><img src="/images/ui/star.svg" alt=""><span><strong>Đánh giá về tôi</strong><small>Xem nhận xét và viết phản hồi</small></span><span aria-hidden="true">›</span></a>
+        }
+        <a class="account-shortcut" href="/TaiKhoan/DoiMatKhau"><img src="/images/ui/shield-check.svg" alt=""><span><strong>Bảo mật</strong><small>Thay đổi mật khẩu đăng nhập</small></span><span aria-hidden="true">›</span></a>
+    </aside>
+</div>

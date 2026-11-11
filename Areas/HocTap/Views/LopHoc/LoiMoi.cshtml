@@ -1,0 +1,32 @@
+@model EduConnect.Mvc.Areas.HocTap.ViewModels.LoiMoiThanhVienViewModel
+@{ ViewData["Title"] = "Lời mời tham gia lớp"; }
+<section class="member-confirm">
+    <h1>Lời mời tham gia lớp</h1>
+    @if(Model == null)
+    {
+        <p class="muted">Lời mời đã được xử lý hoặc không còn trong danh sách lời mời của bạn.</p>
+        <a class="btn btn-outline-primary" asp-action="Index">Về lớp học của tôi</a>
+    }
+    else
+    {
+        <h2>@Model.TenLop</h2>
+        <p><strong>@Model.NguoiMoi</strong> mời bạn tham gia lớp học.</p>
+        @if(Model.TrangThaiLop != "DangHoatDong")
+        {
+            <p class="muted">Lớp đã kết thúc, lời mời không còn hiệu lực.</p>
+        }
+        else if(Model.DongYThamGiaLuc != null)
+        {
+            <p class="muted">Bạn đã đồng ý tham gia. Gia sư đang xem xét và cấp quyền vào lớp.</p>
+        }
+        else
+        {
+            <p class="muted">Khi bạn đồng ý, đề nghị sẽ được chuyển đến gia sư để duyệt quyền tham gia.</p>
+            <form method="post" asp-action="PhanHoiLoiMoi">
+                <input name="id" value="@Model.Id" type="hidden">
+                <input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden">
+                <div class="actions"><button class="btn btn-outline-primary" name="agree" value="false">Từ chối lời mời</button><button class="btn btn-primary" name="agree" value="true">Đồng ý tham gia</button></div>
+            </form>
+        }
+    }
+</section>

@@ -3,6 +3,7 @@ namespace EduConnect.Mvc.Models;
 
 public sealed class MonHoc
 {
+    public byte[] RowVersion { get; set; } = [];
     public int Id
     {
         get; set;
@@ -62,6 +63,9 @@ public sealed class NhuCauMonHoc
 }
 public sealed class NhuCauHoc
 {
+    public DateTimeOffset? XacNhanConNhuCauLuc { get; set; }
+    public DateTimeOffset? NhacXacNhanLuc { get; set; }
+    public string? LyDoDong { get; set; }
     public List<NhuCauMonHoc> MonHocs { get; set; } = [];
     [System.ComponentModel.DataAnnotations.Schema.NotMapped]
     public IEnumerable<int> CacMonHocId => MonHocs.Select(x => x.MonHocId).Append(MonHocId).Distinct();
@@ -327,6 +331,7 @@ public sealed class TinNhan
 }
 public sealed class LopHoc
 {
+    public Guid? HocSinhLienKetId { get; set; }
     public DateTimeOffset? KetThucLuc { get; set; }
     public string? CachKetThuc { get; set; }
     public Guid Id
@@ -387,6 +392,9 @@ public sealed class LopHoc
 }
 public sealed class ThanhVienLopHoc
 {
+    public Guid? LienKetId { get; set; }
+    public bool ChoPhepNopBai { get; set; }
+    public DateTimeOffset? DongYThamGiaLuc { get; set; }
     public Guid Id
     {
         get; set;
@@ -454,6 +462,11 @@ public sealed class LichHoc
 }
 public sealed class BuoiHoc
 {
+    public string TrangThai { get; set; } = "DuKien";
+    public bool CanHocBu { get; set; }
+    public string? LyDoNghi { get; set; }
+    public Guid? NguoiThongBaoNghiId { get; set; }
+    public DateTimeOffset? ThongBaoNghiLuc { get; set; }
     public Guid Id
     {
         get; set;
@@ -467,20 +480,20 @@ public sealed class BuoiHoc
     {
         get; set;
     }
-    public string NhanXet { get; set; } = "";
-    public string TrangThaiThamDu { get; set; } = "";
-    public DateTimeOffset GhiNhanLuc
+    public string? NhanXet { get; set; } = "";
+    public string? TrangThaiThamDu { get; set; } = "";
+    public DateTimeOffset? GhiNhanLuc
     {
         get; set;
     }
-    public Guid NguoiGhiNhanId
+    public Guid? NguoiGhiNhanId
     {
         get; set;
     }
     public byte[] RowVersion { get; set; } = [];
-    public string TrangThaiThamDuGiaSu { get; set; } = "";
-    public string TrangThaiThamDuBenHoc { get; set; } = "";
-    public string KetQuaBuoiHoc { get; set; } = "";
+    public string? TrangThaiThamDuGiaSu { get; set; } = "";
+    public string? TrangThaiThamDuBenHoc { get; set; } = "";
+    public string? KetQuaBuoiHoc { get; set; } = "";
     public DateTimeOffset CapNhatLuc
     {
         get; set;
@@ -492,6 +505,7 @@ public sealed class BuoiHoc
 }
 public sealed class BaiTapGiao
 {
+    public string TrangThai { get; set; } = "DaGiao";
     public Guid Id
     {
         get; set;
@@ -586,6 +600,7 @@ public sealed class GiaSu
 }
 public sealed class TepDinhKem
 {
+    public Guid? BaoCaoViPhamId { get; set; }
     public Guid Id
     {
         get; set;

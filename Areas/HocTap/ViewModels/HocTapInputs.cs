@@ -15,6 +15,7 @@ public sealed class LichHangLoatInput
 }
 public sealed class SuaLichInput
 {
+    [StringLength(2000)] public string? LyDo { get; set; }
     public Guid Id
     {
         get; set;
@@ -23,6 +24,7 @@ public sealed class SuaLichInput
 }
 public sealed class GhiNhanBuoiHocViewModel
 {
+    public bool CanHocBu { get; set; }
     public Guid LichHocId
     {
         get; set;
@@ -40,6 +42,7 @@ public sealed class GhiNhanBuoiHocViewModel
 }
 public sealed class GiaoBaiTapViewModel
 {
+    public bool LuuNhap { get; set; }
     public Guid LopHocId
     {
         get; set;
@@ -79,7 +82,7 @@ public sealed class ChamBaiViewModel
     {
         get; set;
     }
-    [Range(0, 10)]
+    [Range(typeof(decimal), "0", "10", ErrorMessage = "Điểm phải từ 0 đến 10.")]
     public decimal? Diem
     {
         get; set;

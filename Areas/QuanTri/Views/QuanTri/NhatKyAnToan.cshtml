@@ -1,0 +1,107 @@
+@model Page<NhatKyAnToanRow>
+@{ ViewData["Title"] = "Nhật ký hệ thống"; }
+<h1>Nhật ký hệ thống</h1>
+<nav class="actions mb-3" aria-label="Loại nhật ký">
+    <span class="btn btn-primary" aria-current="page">An toàn AAA</span>
+    <a class="btn btn-outline-primary" asp-action="XemNhatKy">Thao tác quản trị</a>
+</nav>
+<form method="get" class="card">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-6">
+            <label>Tài khoản, sự kiện hoặc mã yêu cầu
+                <input class="form-control" name="q" maxlength="100" value="@Context.Request.Query["q"]">
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label>Địa chỉ IP
+                <input class="form-control" name="ip" maxlength="45" value="@Context.Request.Query["ip"]">
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label>Nhóm sự kiện
+                <select class="form-select" name="nhom">
+                    <option value="">Tất cả</option>
+                    <option value="Authentication" selected="@(Context.Request.Query["nhom"] == "Authentication")">Xác thực</option>
+                    <option value="Authorization" selected="@(Context.Request.Query["nhom"] == "Authorization")">Kiểm tra quyền</option>
+                    <option value="Accounting" selected="@(Context.Request.Query["nhom"] == "Accounting")">Thao tác</option>
+                </select>
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label>Kết quả
+                <select class="form-select" name="ketQua">
+                    <option value="">Tất cả</option>
+                    @foreach (var value in new[] { "ThanhCong", "ThatBai", "TuChoi" })
+                    {
+                        <option value="@value" selected="@(Context.Request.Query["ketQua"] == value)">
+                            @(value == "ThanhCong" ? "Thành công" : value == "ThatBai" ? "Thất bại" : "Từ chối")
+                        </option>
+                    }
+                </select>
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label>Từ ngày
+                <input class="form-control" type="date" name="tuNgay" value="@Context.Request.Query["tuNgay"]">
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label>Đến ngày
+                <input class="form-control" type="date" name="denNgay" value="@Context.Request.Query["denNgay"]">
+            </label>
+        </div>
+        <div class="col-md-3 actions">
+            <button class="btn btn-primary">Lọc</button>
+            <a class="btn btn-outline-primary" asp-action="NhatKyAnToan">Xóa bộ lọc</a>
+        </div>
+    </div>
+</form>
+<div class="card table-responsive">
+    <table class="table audit-table">
+        <thead>
+            <tr><th>Thời điểm</th><th>Tài khoản</th><th>Sự kiện</th><th>Kết quả</th><th>IP</th><th>Chi tiết</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                var n = row.BanGhi;
+                <tr>
+                    <td>@Rules.Date(n.ThoiDiem)</td>
+                    <td>@(row.HoTen ?? "Chưa xác thực")<small class="d-block">@row.Email</small></td>
+                    <td>
+                        @row.TenSuKien
+                        <small class="d-block">@(n.Nhom == "Authentication" ? "Xác thực" : n.Nhom == "Authorization" ? "Kiểm tra quyền" : "Thao tác")</small>
+                    </td>
+                    <td>@(n.KetQua == "ThanhCong" ? "Thành công" : n.KetQua == "ThatBai" ? "Thất bại" : "Từ chối")</td>
+                    <td>@n.DiaChiIp</td>
+                    <td>
+                        <details>
+                            <summary>Xem chi tiết</summary>
+                            <p>@n.SuKien</p>
+                            <p>@n.PhuongThuc @n.DuongDan</p>
+                            @if (row.TaiKhoanDich != null)
+                            {
+                                <p>Tài khoản được truy cập · @row.TaiKhoanDich</p>
+                            }
+                            <p>@n.LyDo</p>
+                            <small>Mã yêu cầu · @n.MaYeuCau</small>
+                            @if (n.DinhDanhBam != null)
+                            {
+                                <small class="d-block text-break">Mã định danh đã băm · @n.DinhDanhBam</small>
+                            }
+                            @if (n.DoiTuongId != null)
+                            {
+                                <small class="d-block">Mã đối tượng · @n.DoiTuongId</small>
+                            }
+                        </details>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.Items.Count == 0)
+    {
+        <p>Không có sự kiện phù hợp.</p>
+    }
+</div>
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang, Model.Total, 20)" />

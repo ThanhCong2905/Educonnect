@@ -9,6 +9,7 @@
     function dismiss() {
         clearTimeout(timer);
         notification.hidden = true;
+        rail.hidden = true;
         text.textContent = '';
     }
 
@@ -23,6 +24,7 @@
         clearTimeout(timer);
         text.textContent = message;
         notification.hidden = false;
+        rail.hidden = false;
         scheduleDismiss();
     }
 

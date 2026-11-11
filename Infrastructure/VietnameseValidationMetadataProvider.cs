@@ -10,6 +10,11 @@ public sealed class VietnameseValidationMetadataProvider : IValidationMetadataPr
         if (context.Key.Name is string name && Labels.TryGetValue(name, out var label))
             context.DisplayMetadata.DisplayName = () => label;
     }
+    static VietnameseValidationMetadataProvider()
+    {
+        foreach(var (key,label) in new[]{("Ten","Tên đợt"),("TuNgay","Từ ngày"),("DenNgay","Đến ngày"),("HanGui","Hạn phản hồi"),("MucDoHaiLong","Mức hài lòng"),("SoSao","Điểm sao"),("LyDo","Lý do"),("KetLuan","Kết luận"),("KetQua","Kết quả"),("QuyetDinh","Hướng xử lý"),("GhiChu","Ghi chú"),("TenMon","Tên môn"),("SoDienThoai","Số điện thoại"),("MatKhauHienTai","Mật khẩu hiện tại"),("MatKhau","Mật khẩu"),("XacNhanMatKhau","Xác nhận mật khẩu")})
+            Labels[key]=label;
+    }
     public void CreateValidationMetadata(ValidationMetadataProviderContext context)
     {
         foreach (var attribute in context.Attributes.OfType<ValidationAttribute>())
@@ -20,7 +25,9 @@ public sealed class VietnameseValidationMetadataProvider : IValidationMetadataPr
             {
                 RequiredAttribute => "{0} không được để trống.",
                 RangeAttribute => "{0} phải từ {1} đến {2}.",
+                StringLengthAttribute { MinimumLength: > 0 } => "{0} phải từ {2} đến {1} ký tự.",
                 StringLengthAttribute => "{0} không được vượt quá {1} ký tự.",
+                CompareAttribute => "{0} chưa trùng khớp.",
                 RegularExpressionAttribute => "{0} chưa đúng định dạng.",
                 EmailAddressAttribute => "{0} chưa phải địa chỉ email hợp lệ.",
                 _ => "{0} chưa hợp lệ."

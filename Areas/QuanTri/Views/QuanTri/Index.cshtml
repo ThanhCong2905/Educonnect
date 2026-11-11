@@ -1,0 +1,10 @@
+@model QuanTriDashboard
+@inject QuyenQuanTriService Rights
+@{ViewData["Title"]="Tổng quan quản trị";}
+<h1>Tổng quan quản trị</h1>
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
+    @if(await Rights.CoQuyenAsync("DuyetHoSo")){<div class="col"><a class="card h-100" href="/QuanTri/HoSo/Index"><span class="d-block">Hồ sơ chờ duyệt</span><strong class="fs-2 d-block mt-2">@Model.HoSoChoDuyet</strong></a></div>}
+    @if(await Rights.CoQuyenAsync("XuLyBaoCao")){<div class="col"><a class="card h-100" href="/QuanTri/BaoCaoViPham/Index?quanTri=true"><span class="d-block">Báo cáo chưa xử lý</span><strong class="fs-2 d-block mt-2">@Model.BaoCaoChoXuLy</strong></a></div>}
+    @if(await Rights.CoQuyenAsync("QuanLyTaiKhoan")){<div class="col"><a class="card h-100" asp-action="TaiKhoan" asp-route-state="BiKhoa"><span class="d-block">Tài khoản bị khóa</span><strong class="fs-2 d-block mt-2">@Model.TaiKhoanBiKhoa</strong></a></div><div class="col"><a class="card h-100" asp-action="NoiDung" asp-route-loai="LopHoc"><span class="d-block">Lớp đang tạm dừng</span><strong class="fs-2 d-block mt-2">@Model.LopTamDung</strong></a></div>}
+</div>
+@if(Model.GanDay.Count>0){<section class="card mt-4"><h2>Hoạt động quản trị gần đây</h2>@foreach(var row in Model.GanDay){<p>@Rules.Date(row.BanGhi.ThoiDiem) · @row.HoTen · @Rules.Label(row.BanGhi.HanhDong) · @Rules.Label(row.BanGhi.KetQua)</p>}<a class="btn btn-outline-primary" asp-action="XemNhatKy">Xem nhật ký</a></section>}

@@ -1,0 +1,62 @@
+@model LopHoc
+@inject NguoiDungHienTaiService Current
+@{
+    var tutor = (await Current.HienTaiAsync()).Id == Model.GiaSuId;
+    var active = Model.TrangThai == "DangHoatDong";
+    var tab = (string)ViewBag.Tab;
+    var schedules = (List<LichHoc>)ViewBag.Schedules;
+    var records = (List<BuoiHoc>)ViewBag.Records;
+}
+<div class="heading">
+    <h2>@(tab == "schedule" ? "Lịch học" : "Danh sách buổi học")</h2>
+    @if (tutor && active && tab == "schedule")
+    {
+        <a data-modal class="btn btn-primary" asp-controller="LichHoc" asp-action="Them" asp-route-id="@Model.Id">Thêm lịch học</a>
+    }
+</div>
+@if (tab == "lessons")
+{
+    <form method="get" class="card">
+        <input name="tab" value="lessons" type="hidden">
+        <div class="row g-3 align-items-end">
+        <div class="col-md"><label>Tháng<input class="form-control" name="month" type="month" value="@ViewBag.Month"></label></div>
+        <div class="col-md"><label>Trạng thái<select class="form-select" name="state">
+            @foreach (var state in new[] { ("", "Tất cả"), ("upcoming", "Sắp diễn ra"), ("ongoing", "Trong giờ học"), ("past", "Qua giờ, chưa ghi nhận"), ("recorded", "Đã ghi nhận"), ("rest", "Đã nghỉ"), ("cancelled", "Đã hủy") })
+            {
+                <option value="@state.Item1" selected="@((string?)ViewBag.State == state.Item1)">@state.Item2</option>
+            }
+        </select></label></div>
+        <div class="col-md-auto"><button class="btn btn-outline-primary">Lọc buổi học</button></div>
+        </div>
+    </form>
+}
+<div class="stack">
+@foreach (var schedule in schedules)
+{
+    var lesson = records.FirstOrDefault(x => x.LichHocId == schedule.Id);
+    var status = lesson?.TrangThai switch
+    {
+        "DaNghi" => "Đã nghỉ",
+        "DaHoc" => "Đã học",
+        "DangDienRa" => "Đang diễn ra",
+        "DaHuy" => "Đã hủy",
+        _ => schedule.TrangThai == "DaHuy" ? "Đã hủy" : schedule.TrangThai == "DaDieuChinh" ? "Đã đổi lịch" : schedule.KetThucLuc <= DateTimeOffset.UtcNow ? "Qua giờ · Chưa ghi nhận" : "Dự kiến"
+    };
+    <article class="card row">
+        <div><span class="badge rounded-pill">@status</span><h3>@schedule.TieuDe</h3>
+        @if (schedule.LichGocId != null)
+        {
+            <a asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@schedule.LichGocId">@(schedule.LaBuoiBu ? "Buổi bù · Xem buổi nghỉ" : "Xem lịch gốc")</a>
+        }
+        <p>@Rules.Date(schedule.BatDauLuc) – @schedule.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</p></div>
+        <div class="actions">
+            <a class="btn btn-outline-primary" asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@schedule.Id">Chi tiết buổi học</a>
+            @if (tutor && active && lesson?.TrangThai == "DuKien" && schedule.BatDauLuc > DateTimeOffset.UtcNow)
+            {
+                <a data-modal asp-controller="LichHoc" asp-action="Sua" asp-route-id="@schedule.Id">Điều chỉnh lịch</a>
+            }
+        </div>
+    </article>
+}
+@if (schedules.Count == 0) { <p class="empty">Chưa có buổi học trong khoảng đã chọn.</p> }
+</div>

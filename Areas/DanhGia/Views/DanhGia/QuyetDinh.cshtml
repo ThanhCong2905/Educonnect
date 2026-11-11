@@ -1,0 +1,12 @@
+@model QuyetDinhPhanHoiViewModel
+@{ViewData["Title"]="Hướng xử lý sau phản hồi";}
+<h1>Hướng xử lý sau phản hồi</h1>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="DotPhanHoiId" type="hidden"><input asp-for="RowVersion" type="hidden">
+    <label asp-for="QuyetDinh">Lựa chọn của bạn <span class="required-mark" aria-hidden="true">*</span></label>
+    <select asp-for="QuyetDinh" class="form-select"><option value="TiepTuc">Tiếp tục học</option><option value="DieuChinh">Trao đổi để điều chỉnh</option><option value="Dung">Đề nghị kết thúc lớp</option></select>
+    <label asp-for="GhiChu" class="mt-3">Ghi chú</label><textarea asp-for="GhiChu" class="form-control" rows="4" maxlength="2000"></textarea>
+    <p class="muted mt-2">Khi đề nghị kết thúc, bạn sẽ nhập lý do và gửi yêu cầu để bên còn lại phản hồi.</p>
+    <button class="btn btn-primary align-self-start mt-3">Lưu lựa chọn</button>
+</form>

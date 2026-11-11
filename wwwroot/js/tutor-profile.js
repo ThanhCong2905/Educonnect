@@ -3,7 +3,28 @@
  function renumber(form){form.querySelectorAll('[data-subject-row]').forEach((row,i)=>row.querySelectorAll('[name]').forEach(input=>input.name=input.name.replace(/MonDay\[[^\]]+\]/,`MonDay[${i}]`)));}
  function custom(select){const field=select.closest('[data-subject-row]').querySelector('[data-custom-subject]');field.hidden=select.value!=='0';field.querySelector('input').disabled=field.hidden;field.querySelector('input').required=!field.hidden;}
  function add(form){const fragment=form.querySelector('template').content.cloneNode(true);form.querySelector('[data-subject-rows]').append(fragment);renumber(form);form.querySelectorAll('[data-subject-select]').forEach(custom);ui.markRequired(form);}
- function init(root){root.querySelectorAll('[data-tutor-profile]').forEach(form=>{if(form.dataset.profileReady)return;form.dataset.profileReady='true';if(!form.querySelector('[data-subject-row]')&&!form.querySelector('fieldset').disabled)add(form);form.querySelectorAll('[data-subject-select]').forEach(custom);});}
+ function certificateRemoval(row){
+  const input=row.querySelector('[name="XoaTepIds"]');
+  const button=row.querySelector('[data-certificate-remove]');
+  function render(){
+   row.classList.toggle('is-pending-removal',input.checked);
+   row.querySelector('[data-certificate-removal-note]').hidden=!input.checked;
+   button.textContent=input.checked?'Hoàn tác':'×';
+   button.setAttribute('aria-pressed',String(input.checked));
+   button.setAttribute('aria-label',(input.checked?'Giữ lại ':'Xóa ')+row.dataset.fileName);
+  }
+  button.addEventListener('click',()=>{input.checked=!input.checked;input.dispatchEvent(new Event('change',{bubbles:true}));render();});
+  render();
+ }
+ function init(root){
+  root.querySelectorAll('[data-tutor-profile]').forEach(form=>{
+   if(form.dataset.profileReady)return;
+   form.dataset.profileReady='true';
+   if(!form.querySelector('[data-subject-row]')&&!form.querySelector('fieldset').disabled)add(form);
+   form.querySelectorAll('[data-subject-select]').forEach(custom);
+   form.querySelectorAll('[data-stored-certificate]').forEach(certificateRemoval);
+  });
+ }
  const original=ui.init;ui.init=root=>{original(root);init(root||document);};
  document.addEventListener('click',event=>{const addButton=event.target.closest('[data-add-subject]');if(addButton){add(addButton.closest('form'));return;}const remove=event.target.closest('[data-remove-subject]');if(remove){const form=remove.closest('form');remove.closest('[data-subject-row]').remove();renumber(form);}});
  document.addEventListener('change',event=>{if(event.target.matches('[data-subject-select]'))custom(event.target);});

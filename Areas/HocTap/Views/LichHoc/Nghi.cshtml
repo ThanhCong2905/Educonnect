@@ -1,0 +1,12 @@
+@{ ViewData["Title"] = "Thông báo nghỉ"; var schedule = (LichHoc)ViewBag.Schedule; var lesson = (BuoiHoc?)ViewBag.Record; }
+<h1>Thông báo nghỉ</h1>
+<p>@schedule.TieuDe · @Rules.Date(schedule.BatDauLuc)</p>
+<form method="post" asp-action="ThongBaoNghi" class="card">
+    <div asp-validation-summary="All" class="validation"></div>
+    <input type="hidden" name="id" value="@schedule.Id">
+    <input type="hidden" name="rowVersion" value="@(lesson == null ? "" : Convert.ToBase64String(lesson.RowVersion))">
+    <label>Lý do nghỉ <span class="required-mark">*</span><textarea class="form-control" name="reason" required maxlength="2000">@ViewBag.Reason</textarea></label>
+    <label class="check"><input type="checkbox" name="canHocBu" value="true" checked="@(ViewBag.CanHocBu == null || (bool)ViewBag.CanHocBu)">Cần học bù</label>
+    <p class="muted">Bạn có thể xếp lịch bù sau khi hai bên thống nhất ngày.</p>
+    <div class="actions"><button class="btn btn-primary">Thông báo nghỉ</button><a class="btn btn-outline-primary" asp-action="Buoi" asp-route-id="@schedule.Id">Quay lại</a></div>
+</form>

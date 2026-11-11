@@ -1,0 +1,6 @@
+@model PhanQuyenQuanTriViewModel
+@{ViewData["Title"]="Quyền quản trị";}
+<h1>Quyền quản trị @ViewBag.HoTen</h1>
+<form method="post" class="card"><div asp-validation-summary="All" class="validation" role="alert"></div><input asp-for="TaiKhoanId" type="hidden"><input asp-for="ConcurrencyStamp" type="hidden">
+@foreach(var p in QuyenQuanTriService.DanhSach){<label class="py-2"><input type="checkbox" name="Quyen" value="@p" checked="@Model.Quyen.Contains(p)"> @Rules.Label(p)</label>}
+<label class="mt-3">Lý do <span class="required-mark" aria-hidden="true">*</span><textarea asp-for="LyDo" class="form-control" maxlength="2000" rows="3" required></textarea></label><button class="btn btn-primary align-self-start mt-3">Lưu quyền</button></form>

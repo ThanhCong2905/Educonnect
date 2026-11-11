@@ -1,0 +1,13 @@
+@model EduConnect.Mvc.Areas.HocTap.ViewModels.NguoiDuocMoiViewModel
+@{ ViewData["Title"] = "Xác nhận người được mời"; }
+<section class="member-confirm">
+    <h1>Xác nhận người được mời</h1>
+    <div class="person"><span class="avatar" aria-hidden="true">@Model.HoTen.FirstOrDefault()</span><div><h2>@Model.HoTen</h2><small>@Rules.Label(Model.VaiTro)</small></div></div>
+    <p class="member-email">@Model.Email</p>
+    <p class="muted">Lời mời sẽ được gửi đến tài khoản này. Người nhận cần đồng ý trước khi gia sư duyệt quyền vào lớp.</p>
+    <form method="post" asp-action="DeNghi">
+        <input name="id" value="@Model.LopHocId" type="hidden">
+        <input name="email" value="@Model.Email" type="hidden">
+        <div class="actions"><a class="btn btn-outline-primary" asp-action="ThanhVien" asp-route-id="@Model.LopHocId">Quay lại</a><button class="btn btn-primary" type="submit">Gửi lời mời</button></div>
+    </form>
+</section>

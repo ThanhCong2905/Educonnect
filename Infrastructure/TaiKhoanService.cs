@@ -13,8 +13,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users, SignInManager<TaiKhoan> signIn,
-    PhienDangNhapService sessions, PhienCapNhat realtime, EmailTaiKhoanService email, IConfiguration configuration)
+public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users, SignInManager<TaiKhoan> signIn,
+    PhienDangNhapService sessions, PhienCapNhat realtime, EmailTaiKhoanService email, IConfiguration configuration, TepService files,
+    NhatKyAnToanService auditLog)
 {
     private static readonly string DummyHash = new PasswordHasher<TaiKhoan>().HashPassword(new TaiKhoan(), Guid.NewGuid().ToString("N"));
     private static readonly string[] PublicRoles = ["HocSinh", "PhuHuynh", "GiaSu"];
@@ -30,17 +31,26 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
         try
         {
             var created = await users.CreateAsync(user, input.MatKhau);
-            if (!created.Succeeded) return created;
+            if (!created.Succeeded)
+                return created;
             var assigned = await users.AddToRoleAsync(user, input.VaiTro);
-            if (!assigned.Succeeded) return assigned;
+            if (!assigned.Succeeded)
+                return assigned;
             switch (input.VaiTro)
             {
-                case "HocSinh": db.Add(new HocSinh { TaiKhoanId = user.Id }); break;
-                case "PhuHuynh": db.Add(new PhuHuynh { TaiKhoanId = user.Id }); break;
-                case "GiaSu": db.Add(new GiaSu { TaiKhoanId = user.Id }); break;
+                case "HocSinh":
+                    db.Add(new HocSinh { TaiKhoanId = user.Id });
+                    break;
+                case "PhuHuynh":
+                    db.Add(new PhuHuynh { TaiKhoanId = user.Id });
+                    break;
+                case "GiaSu":
+                    db.Add(new GiaSu { TaiKhoanId = user.Id });
+                    break;
             }
             await db.SaveChangesAsync();
             await tx.CommitAsync();
+            auditLog.Ghi("Authentication", "TaiKhoan.DangKy", "ThanhCong", dich: user.Id);
             return IdentityResult.Success;
         }
         catch (DbUpdateException ex) when (ex.InnerException is SqlException { Number: 2601 or 2627 })
@@ -52,9 +62,13 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
     public async Task<string?> DangNhapAsync(DangNhapInput input, HttpContext http)
     {
         var normalized = users.NormalizeEmail(input.Email.Trim());
+        var audit = http.RequestServices.GetRequiredService<NhatKyAnToanService>();
         var ip = http.Connection.RemoteIpAddress?.ToString() ?? "unknown";
         if (await DangChoAsync(normalized, ip))
+        {
+            audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "TamKhoaThuDangNhap", dinhDanh: normalized);
             return "Bạn đã thử đăng nhập nhiều lần. Vui lòng chờ rồi thử lại.";
+        }
 
         var user = await users.FindByEmailAsync(input.Email.Trim());
         var correct = user != null
@@ -62,6 +76,7 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
             : users.PasswordHasher.VerifyHashedPassword(new TaiKhoan(), DummyHash, input.MatKhau) != PasswordVerificationResult.Failed;
         if (!correct || user?.TrangThai != "HoatDong")
         {
+            audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "ThongTinDangNhapKhongHopLe", dich: user?.Id, dinhDanh: normalized);
             await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={normalized},@DiaChiIp={ip}");
             return "Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.";
         }
@@ -96,6 +111,7 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
             }, [new Claim(PhienDangNhapService.SessionClaim, sessionId.ToString("D"))]);
             realtime.CapNhat(sessionId.ToString("D"), user.Id);
+            audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThanhCong", taiKhoan: user.Id);
         }
         catch
         {
@@ -116,7 +132,8 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
     public async Task QuenMatKhauAsync(string address)
     {
         var user = await users.FindByEmailAsync(address.Trim());
-        if (user?.TrangThai != "HoatDong") return;
+        if (user?.TrangThai != "HoatDong")
+            return;
         var token = await users.GeneratePasswordResetTokenAsync(user);
         var encoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         var origin = configuration["Authentication:PublicOrigin"] ?? throw new InvalidOperationException("Cần cấu hình địa chỉ công khai của ứng dụng.");
@@ -131,16 +148,22 @@ public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users
     public async Task<IdentityResult> DatLaiMatKhauAsync(DatLaiMatKhauInput input)
     {
         var user = await users.FindByEmailAsync(input.Email.Trim());
-        if (user?.TrangThai != "HoatDong") return InvalidLink();
+        if (user?.TrangThai != "HoatDong")
+            return InvalidLink();
         string token;
-        try { token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(input.Ma)); }
+        try
+        {
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(input.Ma));
+        }
         catch (FormatException) { return InvalidLink(); }
 
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var result = await users.ResetPasswordAsync(user, token, input.MatKhau);
-        if (!result.Succeeded) return result;
+        if (!result.Succeeded)
+            return result;
         await sessions.ThuHoiTatCaAsync(user.Id, "Đặt lại mật khẩu");
         await tx.CommitAsync();
+        auditLog.Ghi("Authentication", "TaiKhoan.DatLaiMatKhau", "ThanhCong", dich: user.Id);
         return result;
     }
 

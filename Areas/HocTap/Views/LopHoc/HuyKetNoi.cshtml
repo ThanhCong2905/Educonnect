@@ -1,0 +1,36 @@
+@model LopHoc
+@inject NguoiDungHienTaiService Current
+@{
+    ViewData["Title"] = "Hủy kết nối";
+    var me = await Current.HienTaiAsync();
+    var pending = ((List<YeuCauHuyKetNoi>)ViewBag.Cancellations).FirstOrDefault(x => x.TrangThai == "ChoPhanHoi");
+    var canRequest = Model.TrangThai == "DangHoatDong" && (me.Id == Model.GiaSuId || me.Id == Model.BenHocId);
+}
+<section class="cancel-connection">
+    <h1>Hủy kết nối</h1>
+    <div class="cancel-class-summary"><span class="badge rounded-pill">@Rules.Label(Model.TrangThai)</span><h2>@Model.TenLop</h2></div>
+    @if(pending != null)
+    {
+        <p class="muted">Lớp này đã có yêu cầu hủy kết nối đang chờ phản hồi.</p>
+        <p class="pre">@pending.LyDo</p>
+        <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@Model.Id">Xem yêu cầu trong lớp</a>
+    }
+    else if(canRequest)
+    {
+        <p class="muted">Yêu cầu sẽ được gửi đến bên còn lại để phản hồi. Lớp vẫn hoạt động trong thời gian chờ xử lý.</p>
+        <form method="post" asp-action="YeuCauHuy">
+            <input name="id" value="@Model.Id" type="hidden">
+            <input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden">
+            <label for="cancel-reason"><span>Lý do hủy kết nối <span class="text-danger" aria-hidden="true">*</span></span></label>
+            <textarea class="form-control" id="cancel-reason" name="reason" required maxlength="2000" rows="5" placeholder="Chia sẻ lý do để hai bên có thể thống nhất việc kết thúc lớp."></textarea>
+            <div class="actions cancel-actions">
+                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Tiếp tục học</button>
+                <button class="btn btn-danger" type="submit">Gửi yêu cầu hủy</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <p class="muted">Chỉ gia sư hoặc bên học chính được gửi yêu cầu khi lớp đang hoạt động.</p>
+    }
+</section>

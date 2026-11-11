@@ -86,6 +86,8 @@ window.EduConnect.init = (root) => {
   const stream = $('.chat-stream');
   if (stream && !new URLSearchParams(location.search).has('page')) stream.scrollTop = stream.scrollHeight;
   window.EduConnect.initScheduling?.(root);
+  window.EduConnect.initFilePickers?.(root);
   window.EduConnect.markRequired?.(root);
+  window.EduConnect.rememberForms?.(root);
 };
 window.EduConnect.init();

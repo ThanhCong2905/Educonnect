@@ -9,12 +9,21 @@
     var files = (List<TepDinhKem>)ViewBag.Files;
     var members = (List<ThanhVienLopHoc>)ViewBag.Members;
     var tutor = me.Id == c.GiaSuId;
-    var canSubmit = me.Id == c.BenHocId || members.Any(x => x.TaiKhoanId == me.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua");
+    var canSubmit = me.Id == c.BenHocId || members.Any(x => x.TaiKhoanId == me.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua" && x.ChoPhepNopBai);
     var input = ViewBag.NopInput as EduConnect.Mvc.Areas.HocTap.ViewModels.NopBaiViewModel ?? new() { BaiTapGiaoId = Model.Id };
     var gradeInput = ViewBag.ChamInput as EduConnect.Mvc.Areas.HocTap.ViewModels.ChamBaiViewModel;
 }
 <h1>@Model.TieuDe</h1>
-<a asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="assignments">← Bài tập của lớp</a>
+@if (ViewBag.ScheduleId != null)
+{
+    <a class="btn btn-outline-primary" asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@ViewBag.ScheduleId">← Buổi học</a>
+}
+else
+{
+    <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="assignments">← Bài tập của lớp</a>
+    <p>Chưa gắn buổi</p>
+    @if (tutor && c.TrangThai == "DangHoatDong") { <a class="btn btn-outline-primary" data-modal asp-action="GanBuoi" asp-route-id="@Model.Id">Chọn buổi học</a> }
+}
 <article class="card">
     <p>Hạn nộp: @Rules.Date(Model.HanNopLuc)</p>
     <p class="pre">@Model.NoiDung</p>

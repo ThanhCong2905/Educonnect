@@ -1,0 +1,27 @@
+@model EduConnect.Mvc.ViewModels.PhanTrangViewModel
+@{
+    var soTrang=(int)Math.Ceiling((double)Model.Tong/Model.KichThuoc);
+    var inModal=Context.Request.Headers["X-Edu-Modal"]=="true";
+    string LienKet(int page)
+    {
+        var values=Context.Request.Query.Where(x=>x.Key!="trang").SelectMany(x=>x.Value.Select(v=>new KeyValuePair<string,string?>(x.Key,v))).ToList();
+        values.Add(new("trang",page.ToString()));
+        return Context.Request.Path.Value+Microsoft.AspNetCore.Http.QueryString.Create(values).Value;
+    }
+}
+@if(soTrang>1)
+{
+    <nav class="actions mt-4" aria-label="Phân trang">
+        @if(Model.Trang>1)
+        {
+            if(inModal){<a data-modal class="btn btn-outline-primary" href="@LienKet(Model.Trang-1)">Trang trước</a>}
+            else{<a class="btn btn-outline-primary" href="@LienKet(Model.Trang-1)">Trang trước</a>}
+        }
+        <span>Trang @Model.Trang / @soTrang · @Model.Tong mục</span>
+        @if(Model.Trang<soTrang)
+        {
+            if(inModal){<a data-modal class="btn btn-outline-primary" href="@LienKet(Model.Trang+1)">Trang sau</a>}
+            else{<a class="btn btn-outline-primary" href="@LienKet(Model.Trang+1)">Trang sau</a>}
+        }
+    </nav>
+}

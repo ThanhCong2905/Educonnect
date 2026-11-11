@@ -1,4 +1,55 @@
 @model List<ThanhVienLopHoc>
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Thành viên và quyền";var me=await Current.HienTaiAsync();var people=await Current.DanhSachAsync();var c=(LopHoc)ViewBag.Class;}
-<h1>Thành viên và quyền</h1><a asp-action="ChiTiet" asp-route-id="@c.Id">← @c.TenLop</a><div class="stack">@foreach(var m in Model){<article class="card"><h3>@people.FirstOrDefault(p=>p.Id==m.TaiKhoanId)?.HoTen</h3><p>@m.TrangThaiDuyet · @m.MucQuyen</p>@if(me.Id==c.GiaSuId&&m.TaiKhoanId!=c.GiaSuId&&m.TaiKhoanId!=c.BenHocId){<form method="post" asp-action="Duyet" class="actions"><input name="id" value="@c.Id" type="hidden"><input name="member" value="@m.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(m.RowVersion)" type="hidden"><label>Quyền<select class="form-select" name="permission"><option value="Xem" selected="@(m.MucQuyen=="Xem")">Xem</option><option value="ChinhSua" selected="@(m.MucQuyen=="ChinhSua")">Chỉnh sửa</option></select></label><button class="btn btn-primary" name="action" value="DaDuyet">Duyệt / Lưu quyền</button><button class="btn btn-primary" name="action" value="TuChoi">Từ chối</button><button class="btn btn-primary" name="action" value="DaRoiLop">Cho rời lớp</button></form>}</article>}</div>@if(me.Id==c.BenHocId&&c.TrangThai=="DangHoatDong"){<form method="post" asp-action="DeNghi" class="card"><input name="id" value="@c.Id" type="hidden"><label>Đề nghị thêm người học / phụ huynh<select class="form-select" name="person">@foreach(var p in people.Where(x=>x.Id!=c.BenHocId&&x.LoaiNguoi!="GiaSu")){<option value="@p.Id">@p.HoTen</option>}</select></label><button class="btn btn-primary">Gửi đề nghị để gia sư duyệt</button></form>}
+@{
+    ViewData["Title"] = "Thành viên";
+    var me = await Current.HienTaiAsync();
+    var people = await Current.DanhSachAsync();
+    var lop = (LopHoc)ViewBag.Class;
+    var active = lop.TrangThai == "DangHoatDong";
+    var tutor = me.Id == lop.GiaSuId;
+}
+<div class="heading"><div><h1>Thành viên</h1><p class="muted">@lop.TenLop</p></div><a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Về lớp học</a></div>
+@if(me.Id == lop.BenHocId && active)
+{
+    <section class="card member-invite">
+        <div><h2>Mời thành viên</h2><p class="muted">Chỉ mời tài khoản đã liên kết với đúng học sinh của lớp. Người nhận đồng ý, sau đó gia sư duyệt quyền tham gia. Lớp có tối đa một học sinh và hai phụ huynh.</p></div>
+            <form method="get" asp-action="MoiThanhVien" data-modal-form>
+                <input name="id" value="@lop.Id" type="hidden">
+                <label for="member-email">Email người được mời</label>
+                <div class="member-invite-controls">
+                    <select id="member-email" class="form-select" name="email" required><option value="">Chọn tài khoản đã liên kết</option>@foreach(var person in (List<EduConnect.Mvc.Areas.HocTap.ViewModels.NguoiDuocMoiViewModel>)ViewBag.Invitable){<option value="@person.Email">@person.HoTen · @Rules.Label(person.VaiTro)</option>}</select>
+                    <button class="btn btn-primary" type="submit">Tìm tài khoản</button>
+                </div>
+            </form>
+    </section>
+}
+else if(tutor && active)
+{
+    <p class="muted">Bạn có thể duyệt quyền sau khi người được mời đồng ý tham gia lớp.</p>
+}
+<div class="stack member-list">
+@foreach(var member in Model)
+{
+    var person = people.FirstOrDefault(x => x.Id == member.TaiKhoanId);
+    var primary = member.TaiKhoanId == lop.GiaSuId || member.TaiKhoanId == lop.BenHocId;
+    var status = member.TrangThaiDuyet == "DaRoiLop" ? "Đã rời lớp" : member.TrangThaiDuyet == "ChoDuyet" ? member.DongYThamGiaLuc == null ? "Chờ người nhận đồng ý" : "Chờ gia sư duyệt" : Rules.Label(member.TrangThaiDuyet);
+    <article class="card member-card">
+        <div class="member-card-summary">
+            <div class="person"><span class="avatar" aria-hidden="true">@(person?.HoTen.FirstOrDefault().ToString() ?? "?")</span><div><h3>@(person?.HoTen ?? "Thành viên")</h3><small>@Rules.Label(person?.LoaiNguoi) @(member.TaiKhoanId == lop.BenHocId ? "· Bên học chính" : "")</small></div></div>
+            <div class="member-status"><span class="badge rounded-pill">@status</span>@if(member.TrangThaiDuyet == "DaDuyet"){<small>@(member.MucQuyen == "ChinhSua" ? "Quyền chỉnh sửa" : "Quyền xem")</small>}</div>
+        </div>
+        @if(tutor && active && !primary && member.RoiLopLuc == null && (member.TrangThaiDuyet == "DaDuyet" || (member.TrangThaiDuyet == "ChoDuyet" && member.DongYThamGiaLuc != null)))
+        {
+            <form method="post" asp-action="Duyet" class="member-permissions">
+                <input name="id" value="@lop.Id" type="hidden"><input name="member" value="@member.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(member.RowVersion)" type="hidden">
+                <label>Quyền tham gia<select class="form-select" name="permission"><option value="Xem" selected="@(member.MucQuyen == "Xem")">Xem</option><option value="ChinhSua" selected="@(member.MucQuyen == "ChinhSua")">Chỉnh sửa</option></select></label>
+                <label class="check"><input type="checkbox" name="choPhepNopBai" value="true" checked="@member.ChoPhepNopBai">Cho phép nộp bài thay (cần quyền Chỉnh sửa)</label><div class="actions">
+                    <button class="btn btn-primary" name="action" value="DaDuyet">@(member.TrangThaiDuyet == "ChoDuyet" ? "Duyệt tham gia" : "Lưu quyền")</button>
+                    @if(member.TrangThaiDuyet == "ChoDuyet"){<button class="btn btn-outline-primary" name="action" value="TuChoi">Từ chối</button>}
+                    else {<button class="btn btn-outline-danger" name="action" value="DaRoiLop">Cho rời lớp</button>}
+                </div>
+            </form>
+        }
+    </article>
+}
+</div>

@@ -134,7 +134,7 @@ async function run(id, name, action) {
         });
         await run('AUTH-13', 'Lưu hồ sơ và công khai theo cấu hình demo', async () => {
             const input = {
-                HoTen: suffix + ' GiaSu', TrinhDo: 'Đại học', ChuyenMon: 'Toán', KinhNghiem: '3 năm', KhuVuc: 'Hà Nội', MoTa: 'Dạy Toán lớp 10', DayTrucTuyen: 'true',
+                HoTen: suffix + ' GiaSu', TrinhDo: 'Đại học', ChuyenMon: 'Toán', KinhNghiem: '3 năm', KhuVuc: 'Hà Nội', MoTa: 'bio_' + suffix + ' ' + 'Giới thiệu kinh nghiệm giảng dạy. '.repeat(35), DayTrucTuyen: 'true',
                 'MonDay[0].MonHocId': '1', 'MonDay[0].PhamViDay': 'Lớp 10–12', 'MonDay[0].HocPhiDeXuat': '150000', 'MonDay[0].DonViHocPhi': 'VND/Gio'
             };
             const saved = await post(tutor.request, '/NhuCau/HoSoGiaSu/Luu', input, '/NhuCau/HoSoGiaSu/Sua');
@@ -146,7 +146,25 @@ async function run(id, name, action) {
             assert.equal(publish.status(), 302);
             const search = await learner.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
             assert.equal(search.status(), 200);
-            assert.ok((await search.text()).toLowerCase().includes(profile.Id.toLowerCase()));
+            const searchHtml = await search.text();
+            assert.ok(searchHtml.toLowerCase().includes(profile.Id.toLowerCase()));
+            assert.ok(searchHtml.includes('candidate-professional'));
+            assert.ok(!searchHtml.includes('bio_' + suffix));
+            const detail = await learner.request.get(base + '/NhuCau/HoSoGiaSu/ChiTiet?maHoSo=' + profile.Id);
+            assert.equal(detail.status(), 200);
+            assert.ok((await detail.text()).includes('bio_' + suffix));
+            const page = await learner.context.newPage();
+            try {
+                await page.goto(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
+                const card = page.locator('[data-candidate-id="' + profile.Id.toLowerCase() + '"]');
+                assert.deepEqual(await card.locator('.candidate-professional dt').allTextContents(), ['Chuyên môn', 'Kinh nghiệm']);
+                assert.ok((await card.locator('.candidate-professional').innerText()).includes('3 năm'));
+                await page.screenshot({ path: path.join(evidence, 'tutor-search-desktop.png'), fullPage: true });
+                await page.setViewportSize({ width: 390, height: 844 });
+                assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+                await page.screenshot({ path: path.join(evidence, 'tutor-search-mobile.png'), fullPage: true });
+            } finally { await page.close(); }
+
         });
         await run('AUTH-14', 'Tạo nhu cầu lấy đúng chủ từ danh tính đăng nhập', async () => {
             const form = {
@@ -169,6 +187,42 @@ async function run(id, name, action) {
 
             const response = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
             assert.ok((await response.text()).toLowerCase().includes(need.Id.toLowerCase()));
+        });
+        await run('UI-CARDS', 'Thẻ nhu cầu của người đăng giống thông tin gia sư nhìn thấy', async () => {
+            const ownerPage = await learner.context.newPage();
+            const publicPage = await tutor.context.newPage();
+            try {
+                await ownerPage.goto(base + '/NhuCau/NhuCau/Index');
+                await publicPage.goto(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
+                const selector = '[data-candidate-id="' + learner.needId.toLowerCase() + '"]';
+                const ownerCard = ownerPage.locator(selector);
+                const publicCard = publicPage.locator(selector);
+                assert.equal(await ownerCard.locator('.need-summary').innerText(), await publicCard.locator('.need-summary').innerText());
+                assert.ok(await ownerCard.locator('a[data-modal]').isVisible());
+                assert.equal(await publicCard.locator('form[action="/NhuCau/NhuCau/TrangThai"]').count(), 0);
+                await ownerPage.screenshot({ path: path.join(evidence, 'need-owner-desktop.png'), fullPage: true });
+                await publicPage.screenshot({ path: path.join(evidence, 'need-search-desktop.png'), fullPage: true });
+                await ownerPage.setViewportSize({ width: 390, height: 844 });
+                assert.ok(await ownerPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+                await ownerPage.screenshot({ path: path.join(evidence, 'need-owner-mobile.png'), fullPage: true });
+                const parentSaved = await post(parent.request, '/NhuCau/NhuCau/TaoNhuCauHoc', {
+                    ...learner.needForm, MucTieu: suffix + ' parent', TenNguoiHoc: 'PrivateChild_' + suffix, TuoiNguoiHoc: '12'
+                }, '/NhuCau/NhuCau/Tao');
+                assert.equal(parentSaved.status(), 302);
+                const parentNeed = rows(`SELECT Id FROM NhuCauHoc WHERE ChuSoHuuId='${parent.id}'`)[0];
+                const parentPage = await parent.context.newPage();
+                try {
+                    await parentPage.goto(base + '/NhuCau/NhuCau/Index');
+                    await publicPage.reload();
+                    const parentSelector = '[data-candidate-id="' + parentNeed.Id.toLowerCase() + '"]';
+                    assert.equal(await parentPage.locator(parentSelector + ' .need-summary').innerText(), await publicPage.locator(parentSelector + ' .need-summary').innerText());
+                    assert.ok(!(await publicPage.content()).includes('PrivateChild_' + suffix));
+                } finally { await parentPage.close(); }
+
+            } finally {
+                await ownerPage.close();
+                await publicPage.close();
+            }
         });
         await run('NEED-MULTI', 'Sửa nhiều môn giữ một nhu cầu, chặn lưu phiên bản cũ', async () => {
             const need = rows(`SELECT Id,RowVersion FROM NhuCauHoc WHERE Id='${learner.needId}'`)[0];

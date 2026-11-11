@@ -13,7 +13,7 @@
 }
 .account-page a { color: var(--account-primary); text-decoration: none; }
 .account-page a:hover { color: #951647; }
-.account-page :focus-visible { outline: 3px solid #b91e5955; outline-offset: 3px; }
+.account-page :focus-visible { outline: 3px solid #b91e59; outline-offset: 3px; }
 .account-header {
     min-height: 72px;
     padding: 14px 36px;

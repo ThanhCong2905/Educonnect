@@ -14,7 +14,7 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
             return;
         var ex = context.Exception;
         var sql = ex as SqlException ?? ex.InnerException as SqlException;
-        if (ex is not LoiNghiepVu && ex is not DbUpdateConcurrencyException && sql is not { Number: >= 51000 })
+        if (ex is not LoiNghiepVu && ex is not DbUpdateConcurrencyException && sql is not { Number: >= 51000 or 2601 or 2627 or 1205 })
             return;
         var status = Rules.ErrorStatus(ex);
         var message = Rules.ErrorMessage(ex);
@@ -31,7 +31,8 @@ public sealed class UiResponseFilter(ITempDataDictionaryFactory tempDataFactory)
             context.ExceptionHandled = true;
             return;
         }
-        context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { "", [message] } } }) { StatusCode = status };
+        var field = (ex as LoiNghiepVu)?.Truong ?? "";
+        context.Result = new JsonResult(new { ok = false, message, errors = new Dictionary<string, string[]> { { field, [message] } } }) { StatusCode = status };
         context.ExceptionHandled = true;
     }
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)

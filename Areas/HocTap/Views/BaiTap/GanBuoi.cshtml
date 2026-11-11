@@ -1,0 +1,11 @@
+@model BaiTapGiao
+@{ ViewData["Title"] = "Chọn buổi cho bài tập"; }
+<h1>Chọn buổi cho bài tập</h1><p>@Model.TieuDe</p>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation"></div>
+    <input name="id" type="hidden" value="@Model.Id"><input name="rowVersion" type="hidden" value="@Convert.ToBase64String(Model.RowVersion)">
+    <label>Buổi học <span class="required-mark">*</span><select class="form-select" name="buoiHocId" required><option value="">Chọn đúng buổi đã giao bài</option>
+    @foreach(var lesson in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Lessons) { <option value="@lesson.Value">@lesson.Text</option> }
+    </select></label>
+    <div class="actions"><button class="btn btn-primary">Lưu buổi học</button><a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@Model.Id">Quay lại</a></div>
+</form>

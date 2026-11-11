@@ -6,9 +6,36 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null)
+public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null, IConfiguration? configuration = null)
 {
+    public bool ChoPhepTepChuaQuet { get; } = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedUploads") == true;
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
+    public string? DuongDanAnhDaiDien(string? key)
+        => key != null && System.Text.RegularExpressions.Regex.IsMatch(key, @"\Aavatars/[0-9a-f]{32}\.(?:jpg|png)\z")
+            ? Path.Combine(Root, key) : null;
+
+    public async Task<string> LuuAnhDaiDienAsync(IFormFile file)
+    {
+        Rules.Check(new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(file.FileName).ToLowerInvariant()),
+            "Chọn ảnh JPG hoặc PNG, tối đa 10 MB.", field: "AnhDaiDienFile");
+        var image = (await KiemTraAsync([file])).Single();
+        var extension = image.Mime == "image/png" ? ".png" : ".jpg";
+        var key = "avatars/" + Guid.NewGuid().ToString("N") + extension;
+        Directory.CreateDirectory(Path.Combine(Root, "avatars"));
+        var path = DuongDanAnhDaiDien(key)!;
+        try
+        {
+            await File.WriteAllBytesAsync(path, image.Bytes);
+        }
+        catch { if (File.Exists(path)) File.Delete(path); throw; }
+        return key;
+    }
+
+    public void XoaAnhDaiDien(string? key)
+    {
+        if (DuongDanAnhDaiDien(key) != null)
+            DonDepDaXoa([key!]);
+    }
     public void DonDepDaXoa(IEnumerable<string> keys)
     {
         foreach (var key in keys)
@@ -20,14 +47,14 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
     }
     public async Task<List<(string Name, string Mime, byte[] Bytes)>> KiemTraAsync(List<IFormFile> files)
     {
-        Rules.Check(files.Count <= 5, "Tối đa 5 tệp.");
-        Rules.Check(files.Sum(f => f.Length) <= 50000000, "Tổng dung lượng tối đa 50 MB.");
+        Rules.Check(files.Count <= 5, "Chọn tối đa 5 tệp mỗi lần gửi.", field: "Files");
+        Rules.Check(files.Sum(f => f.Length) <= 50000000, "Tổng dung lượng tối đa 50 MB.", field: "Files");
         var result = new List<(string, string, byte[])>();
         foreach (var f in files)
         {
-            Rules.Check(f.Length is > 0 and <= 10000000, "Mỗi tệp tối đa 10.000.000 byte.");
+            Rules.Check(f.Length is > 0 and <= 10000000, "Mỗi tệp phải có dữ liệu và không vượt quá 10 MB.", field: "Files");
             var ext = Path.GetExtension(f.FileName).ToLowerInvariant();
-            Rules.Check(new[] { ".pdf", ".jpg", ".jpeg", ".png", ".docx" }.Contains(ext), "Chỉ nhận PDF, JPG, PNG, DOCX.");
+            Rules.Check(new[] { ".pdf", ".jpg", ".jpeg", ".png", ".docx" }.Contains(ext), "Chỉ nhận PDF, JPG, PNG, DOCX.", field: "Files");
             using var stream = new MemoryStream();
             await f.CopyToAsync(stream);
             var bytes = stream.ToArray();
@@ -39,10 +66,11 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
                 ".docx" => Docx(bytes),
                 _ => false
             };
-            Rules.Check(signature, "Nội dung tệp không khớp định dạng.");
+            Rules.Check(signature, "Nội dung tệp không khớp định dạng.", field: "Files");
             var name = Path.GetFileName(f.FileName);
-            Rules.Check(name.Length <= 256, "Tên tệp quá dài.");
-            await QuetMaDocAsync(bytes);
+            Rules.Check(name.Length is > 0 and <= 256, "Tên tệp phải từ 1 đến 256 ký tự.", field: "Files");
+            if (!ChoPhepTepChuaQuet)
+                await QuetMaDocAsync(bytes);
             result.Add((name, ext switch
             {
                 ".pdf" => "application/pdf",
@@ -79,10 +107,14 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             var output = process.StandardOutput.ReadToEndAsync();
             var error = process.StandardError.ReadToEndAsync();
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            try { await process.WaitForExitAsync(timeout.Token); }
+            try
+            {
+                await process.WaitForExitAsync(timeout.Token);
+            }
             catch (OperationCanceledException)
             {
-                if (!process.HasExited) process.Kill(entireProcessTree: true);
+                if (!process.HasExited)
+                    process.Kill(entireProcessTree: true);
                 await process.WaitForExitAsync();
                 throw;
             }
@@ -105,7 +137,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
         }
         catch (InvalidDataException) { return false; }
     }
-    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null, Guid? tinNhan = null)
+    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null, Guid? tinNhan = null, Guid? baoCao = null)
     {
         var u = await current.HienTaiAsync();
         Directory.CreateDirectory(Root);
@@ -118,7 +150,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
                 var path = Path.Combine(Root, key);
                 await File.WriteAllBytesAsync(path, f.Bytes);
                 written.Add(path);
-                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan });
+                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = ChoPhepTepChuaQuet ? "ChoQuet" : "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan, BaoCaoViPhamId = baoCao });
             }
             return written;
         }
@@ -134,25 +166,27 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
         var a = await db.Set<BaiTapGiao>().SingleAsync(x => x.Id == giao);
         await rights.KiemTraQuyenXemAsync(a.LopHocId);
         var ids = await db.Set<BaiTapNop>().Where(x => x.BaiTapGiaoId == giao).Select(x => x.Id).ToListAsync();
-        return await db.Set<TepDinhKem>().AsNoTracking().Where(x => x.BaiTapGiaoId == giao || (x.BaiTapNopId != null && ids.Contains(x.BaiTapNopId.Value))).ToListAsync();
+        return await db.Set<TepDinhKem>().AsNoTracking().Where(x => (x.BaiTapGiaoId == giao || (x.BaiTapNopId != null && ids.Contains(x.BaiTapNopId.Value)))
+            && (x.TrangThaiQuet == "Sach" || (ChoPhepTepChuaQuet && x.TrangThaiQuet == "ChoQuet"))).ToListAsync();
     }
     public async Task<(TepDinhKem File, string Path)> TaiAsync(Guid id)
     {
-        var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.TrangThaiQuet == "Sach") ?? throw new LoiNghiepVu("Tệp chưa khả dụng.", 404);
+        var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && (x.TrangThaiQuet == "Sach" || (ChoPhepTepChuaQuet && x.TrangThaiQuet == "ChoQuet"))) ?? throw new LoiNghiepVu("Tệp chưa khả dụng.", 404);
         Guid? assignment = f.BaiTapGiaoId;
         if (assignment == null && f.BaiTapNopId != null)
             assignment = await db.Set<BaiTapNop>().Where(x => x.Id == f.BaiTapNopId).Select(x => (Guid?)x.BaiTapGiaoId).SingleOrDefaultAsync();
         Rules.Check(assignment != null, "Tệp không thuộc bài tập.", 403);
         var a = await db.Set<BaiTapGiao>().SingleAsync(x => x.Id == assignment);
-        await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        var lop = await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        Rules.Check(a.TrangThai == "DaGiao" || lop.GiaSuId == (await current.HienTaiAsync()).Id, "Bài tập chưa được giao.", 404);
         var path = Path.Combine(Root, f.TenLuuTru);
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return (f, path);
     }
     public string DuongDan(TepDinhKem file)
     {
-        var path=Path.Combine(Root,file.TenLuuTru);
-        Rules.Check(File.Exists(path),"Tệp không còn trên máy chủ.",404);
+        var path = Path.Combine(Root, file.TenLuuTru);
+        Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return path;
     }
 }

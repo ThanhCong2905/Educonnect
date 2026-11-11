@@ -5,20 +5,21 @@
   const modal = modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
   let trigger, request, saving = false;
   const baselines=new WeakMap(),discardAllowed=new WeakSet(),completedForms=new WeakSet();
-  function fingerprint(form){return JSON.stringify([...new FormData(form)].filter(([name])=>name!=='__RequestVerificationToken').map(([name,value])=>[name,typeof value==='string'?value:value.name?[value.name,value.size,value.lastModified]:null]));}
-  function rememberForms(root){root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>baselines.set(form,fingerprint(form)));}
+  function fingerprint(form){return JSON.stringify([...new FormData(form)].filter(([name])=>!['__RequestVerificationToken','RowVersion','MaThaoTac','ConcurrencyStamp'].includes(name)).map(([name,value])=>[name,typeof value==='string'?value:value.name?[value.name,value.size,value.lastModified]:null]));}
+  function rememberForms(root){root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>{if(!baselines.has(form))baselines.set(form,fingerprint(form));});}
   function confirmDiscard(element,event){
     if(discardAllowed.delete(element))return;
     const changed=[...element.querySelectorAll('form')].find(form=>baselines.has(form)&&fingerprint(form)!==baselines.get(form));
     if(!changed)return;
     event.preventDefault();
     const existing=element.querySelector('[data-discard-warning]');if(existing){existing.querySelector('button')?.focus();return;}
-    const previous=document.activeElement,warning=document.createElement('div');warning.className='alert alert-warning discard-warning';warning.dataset.discardWarning='';warning.setAttribute('role','alert');
-    const text=document.createElement('p');text.textContent='Bạn có thay đổi chưa lưu. Đóng biểu mẫu sẽ bỏ những thay đổi này.';
+    const previous=document.activeElement,warning=document.createElement('div');warning.className='discard-warning';warning.dataset.discardWarning='';warning.setAttribute('role','alert');
+    const title=document.createElement('strong');title.textContent='Đóng biểu mẫu?';
+    const text=document.createElement('p');text.textContent='Những thay đổi chưa lưu sẽ bị mất.';
     const actions=document.createElement('div');actions.className='actions';
-    const keep=document.createElement('button');keep.type='button';keep.className='btn btn-primary';keep.textContent='Tiếp tục nhập';keep.addEventListener('click',()=>{warning.remove();if(previous?.isConnected)previous.focus();});
-    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-danger';discard.textContent='Bỏ thay đổi và đóng';discard.addEventListener('click',()=>{discardAllowed.add(element);bootstrap.Modal.getInstance(element)?.hide();});
-    actions.append(keep,discard);warning.append(text,actions);element.querySelector('.modal-body').prepend(warning);keep.focus();warning.scrollIntoView({block:'nearest',behavior:window.EduConnect.motionBehavior()});
+    const keep=document.createElement('button');keep.type='button';keep.className='btn btn-primary';keep.textContent='Tiếp tục chỉnh sửa';keep.addEventListener('click',()=>{warning.remove();if(previous?.isConnected)previous.focus();});
+    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-danger';discard.textContent='Đóng và bỏ thay đổi';discard.addEventListener('click',()=>{discardAllowed.add(element);bootstrap.Modal.getInstance(element)?.hide();});
+    actions.append(keep,discard);warning.append(title,text,actions);element.querySelector('.modal-body').prepend(warning);keep.focus();warning.scrollIntoView({block:'nearest',behavior:window.EduConnect.motionBehavior()});
   }
   function pendingLabel(button){
     if(button?.dataset.loadingText)return button.dataset.loadingText;
@@ -34,14 +35,15 @@
     form.querySelectorAll('.ui-field-error,.ui-error-summary').forEach(node=>node.remove());
     form.querySelectorAll('[aria-invalid="true"]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
     const summary=document.createElement('div');summary.className='ui-error-summary';summary.setAttribute('role','alert');summary.tabIndex=-1;
-    const title=document.createElement('strong');title.textContent='Kiểm tra các mục được đánh dấu bên dưới.';summary.append(title);
+    const title=document.createElement('strong');title.textContent='Chưa lưu được';summary.append(title);
     const list=document.createElement('ul');let index=0;const globalMessages=new Set();
     for(const [name,raw] of Object.entries(problem.errors||{'':[problem.message||'Chưa thể lưu. Vui lòng thử lại.']})){
       const messages=[...new Set(raw)];
       const input=name?[...form.elements].find(input=>input.name===name):null;
       const item=document.createElement('li');
       if(input){
-        const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());input.insertAdjacentElement('afterend',error);
+        const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());
+        (input.closest('.chat-compose-row') || input).insertAdjacentElement('afterend',error);
         item.dataset.errorField=name;const link=document.createElement('button');link.type='button';link.textContent=window.EduConnect.fieldLabel(input);link.addEventListener('click',()=>{input.focus({preventScroll:true});input.scrollIntoView({block:'center',behavior:window.EduConnect.motionBehavior()});});item.append(link);list.append(item);
       }else for(const message of messages){if(globalMessages.has(message))continue;globalMessages.add(message);const entry=document.createElement('li');entry.textContent=message;list.append(entry);}
     }
@@ -75,6 +77,16 @@
   });
   document.addEventListener('submit',async event=>{
     const form=event.target;
+    if(form.hasAttribute('data-modal-form') && form.method.toLowerCase()==='get'){
+      if(event.defaultPrevented)return;
+      event.preventDefault();
+      const validation=window.EduConnect.validateForm?.(form,event.submitter)||{};
+      if(Object.keys(validation).length){errors(form,{errors:validation});return;}
+      const url=window.EduConnect.formUrl(form);
+      url.search=new URLSearchParams(new FormData(form)).toString();
+      open(url,'Xác nhận người được mời',event.submitter);
+      return;
+    }
     if(form.id==='compare-form'){
       if(event.defaultPrevented)return;
       const values=new FormData(form);if(!values.getAll('ids').length)return;
@@ -85,6 +97,8 @@
     event.preventDefault();if(form.dataset.submitting)return;
     const clientErrors=window.EduConnect.validateForm?.(form,event.submitter)||{};
     if(Object.keys(clientErrors).length){errors(form,{errors:clientErrors});return;}
+    const otherChanges = window.EduConnect.hasUnsavedChanges?.(form);
+    if(otherChanges && !await window.EduConnect.confirmPageLeave())return;
     const button=event.submitter;const data=new FormData(form);if(button?.name)data.append(button.name,button.value);
     const inModal=!!form.closest('#workspace-modal');const label=button?.innerHTML;const oldMinWidth=button?.style.minWidth;
     form.dataset.submitting='true';form.setAttribute('aria-busy','true');if(button){button.style.minWidth=button.getBoundingClientRect().width+'px';button.disabled=true;button.textContent=pendingLabel(button);}if(inModal)saving=true;
@@ -94,7 +108,14 @@
       if(!response.ok||!result.ok){errors(form,result);return;}
       baselines.set(form,fingerprint(form));
       completedForms.add(form);
+      if(inModal&&form.hasAttribute('data-mark-all-notices')){
+        saving=false;
+        await open(new URL('/Home/ThongBao',location.href),'Thông báo',trigger);
+        if(result.message)toast(result.message);
+        return;
+      }
       if(await window.EduConnect.afterAjaxSubmit?.(form,result,data))return;
+      if(otherChanges && (inModal || result.redirectUrl))window.EduConnect.resetPageChanges();
       if(result.message)sessionStorage.setItem('educonnect:toast',result.message);
       if(inModal){saving=false;modal.hide();if(!result.message&&result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}else location.reload();}
       else if(result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}
@@ -109,4 +130,8 @@
   window.EduConnect.showFormErrors=errors;
   window.EduConnect.toast=toast;
   window.EduConnect.closeModal=()=>{saving=false;modal?.hide();};
+  window.EduConnect.hasUnsavedChanges=excluded=>[...document.querySelectorAll('form[method="post"],form[method="POST"]')].some(form=>form!==excluded&&baselines.has(form)&&fingerprint(form)!==baselines.get(form));
+  window.EduConnect.resetPageChanges=()=>document.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>baselines.set(form,fingerprint(form)));
+  window.EduConnect.rememberForms=rememberForms;
+  document.addEventListener('DOMContentLoaded',()=>rememberForms(document));
 })();

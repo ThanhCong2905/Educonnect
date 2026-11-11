@@ -1,6 +1,24 @@
-﻿@model List<HoSoGiaSu>
-@{ViewData["Title"]="Kiểm duyệt hồ sơ";var people=(List<NguoiThamGia>)ViewBag.People;}
-<div class="heading"><h1>Kiểm duyệt hồ sơ gia sư</h1><span class="badge">@Model.Count hồ sơ chờ duyệt</span></div>
-<div class="cards">@foreach(var h in Model){<article class="card"><span class="badge badge-warning">Chờ duyệt</span><h2>@people.FirstOrDefault(x=>x.Id==h.GiaSuId)?.HoTen</h2><p>@h.TrinhDo · @h.ChuyenMon</p><p>Gửi duyệt: @(h.GuiDuyetLuc.HasValue?Rules.Date(h.GuiDuyetLuc.Value):"")</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@h.Id">Kiểm tra toàn bộ hồ sơ</a></article>}</div>
-@if(Model.Count==0){<div class="empty">Không có hồ sơ đang chờ duyệt.</div>}
-<details class="preview"><summary>Chọn người dùng mẫu</summary><form action="/Home/Chon" method="post">@Html.AntiForgeryToken()<label>Tài khoản<select class="form-select" name="id">@foreach(var p in people){<option value="@p.Id">@Rules.Label(p.LoaiNguoi) · @p.HoTen</option>}</select></label><button class="btn btn-outline-primary">Chuyển vai trò</button></form></details>
+@model Page<HoSoGiaSu>
+@{ViewData["Title"]="Kiểm duyệt hồ sơ";var names=(Dictionary<Guid,string>)ViewBag.People;}
+<div class="heading"><h1>Kiểm duyệt hồ sơ gia sư</h1><span>@Model.Total hồ sơ</span></div>
+<form method="get" class="card">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-6"><label>Tên gia sư<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label></div>
+        <div class="col-md-4"><label>Trạng thái<select name="state" class="form-select">@foreach(var s in new[]{"ChoDuyet","CanChinhSua","DaDuyet","TuChoi"}){<option value="@s" selected="@((Context.Request.Query["state"].ToString() is ""?"ChoDuyet":Context.Request.Query["state"].ToString())==s)">@Rules.Label(s)</option>}</select></label></div>
+        <div class="col-md-2"><button class="btn btn-primary">Tìm kiếm</button></div>
+    </div>
+</form>
+<div class="cards">
+@foreach(var h in Model.Items)
+{
+    <article class="card">
+        <span class="badge rounded-pill">@Rules.Label(h.TrangThaiDuyet)</span>
+        <h2>@names.GetValueOrDefault(h.GiaSuId,"Gia sư")</h2>
+        <p>@h.TrinhDo · @h.ChuyenMon</p>
+        <p>Gửi duyệt @Rules.Date(h.GuiDuyetLuc)</p>
+        <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@h.Id">Xem hồ sơ</a>
+    </article>
+}
+</div>
+@if(Model.Items.Count==0){<div class="empty">Chưa có hồ sơ phù hợp.</div>}
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.Total)"/>
