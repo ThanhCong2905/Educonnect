@@ -17,7 +17,7 @@
         </div>
     }
     <div class="person">
-        <span class="avatar">@(string.IsNullOrWhiteSpace(Model.HoTen) ? "?" : Model.HoTen[..1])</span>
+        <span class="avatar">@if(Model.AnhDaiDienUrl!=null){<img src="@Model.AnhDaiDienUrl" data-avatar-fallback="@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))" alt="" loading="lazy">}else{@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))}</span>
         <div>
             <h3>
                 @if (managedNeed == null) { <a href="@detailUrl">@Model.HoTen</a> }

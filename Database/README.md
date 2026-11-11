@@ -1,6 +1,6 @@
 # Database EduConnect
 
-Bản `dev/cong/fullver0` dùng `00_EduConnect_Full.sql` để cài mới database `KLTN_Full_V2` với 48 bảng. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Bản `dev/cong/fullver0` dùng `00_EduConnect_Full.sql` để cài mới database `KLTN_Full_V2` với 49 bảng. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
 ## Cài mới
 
@@ -49,7 +49,7 @@ Script thêm ba bảng `LuotDangNhuCau`, `LienKetPhuHuynhHocSinh` và `LichSuDie
 
 ## Quản trị và các chức năng bổ sung
 
-SQL 00 đã tích hợp cả nâng cấp 13 và 14. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu dùng `14_DanhGiaBaoCaoQuanTri.sql` sau khi sao lưu. Không chạy lại SQL 00 lên database đang sử dụng.
+SQL 00 đã tích hợp các nâng cấp 13, 14 và 15. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu chạy lần lượt `14_DanhGiaBaoCaoQuanTri.sql` và `15_NhatKyAnToan.sql` sau khi sao lưu. Không chạy lại SQL 00 lên database đang sử dụng.
 
 Tạo quản trị đầu tiên từ thư mục gốc dự án, với cùng connection string của web.
 
@@ -61,4 +61,14 @@ Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới v�
 
 Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
 
-Sơ đồ ERD 48 bảng nằm tại `docs/database/EduConnect-ERD-48-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
+Sơ đồ ERD 49 bảng nằm tại `docs/database/EduConnect-ERD-48-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
+
+## Nhật ký an toàn AAA
+
+`NhatKyAnToan` lưu kết quả xác thực, từ chối truy cập và thao tác thay đổi dữ liệu. Nhật ký lưu thời điểm, tài khoản, IP, mã yêu cầu và mã đối tượng khi có. Định danh nhập ở lần đăng nhập sai được băm SHA-256. Nội dung biểu mẫu, mật khẩu, cookie và token không được ghi vào bảng này.
+
+Quản trị có quyền `XemNhatKy` xem tại **Hệ thống → Nhật ký hệ thống**. Lịch sử quản trị cũ nằm ở thẻ **Thao tác quản trị**. Phân trang 20 sự kiện, ngày lọc tính theo UTC+7.
+
+Database đã cài bản 48 bảng chạy `15_NhatKyAnToan.sql` một lần để bổ sung bảng. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Role `KLTN_App` chỉ được đọc và thêm nhật ký, bị từ chối sửa hoặc xóa. Cần chạy ứng dụng bằng database user được gán role này để giới hạn có hiệu lực, tài khoản `sysadmin` có quyền cao hơn.
+
+Nhật ký HTTP được ghi bằng kết nối riêng sau xử lý yêu cầu. Nếu ghi database thất bại, ứng dụng ghi lỗi cùng mã yêu cầu vào hệ thống logging của máy chủ để người vận hành kiểm tra. Cần sao lưu và kiểm tra dung lượng nhật ký trong quá trình vận hành.

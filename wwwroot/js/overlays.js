@@ -5,8 +5,8 @@
   const modal = modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
   let trigger, request, saving = false;
   const baselines=new WeakMap(),discardAllowed=new WeakSet(),completedForms=new WeakSet();
-  function fingerprint(form){return JSON.stringify([...new FormData(form)].filter(([name])=>name!=='__RequestVerificationToken').map(([name,value])=>[name,typeof value==='string'?value:value.name?[value.name,value.size,value.lastModified]:null]));}
-  function rememberForms(root){root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>baselines.set(form,fingerprint(form)));}
+  function fingerprint(form){return JSON.stringify([...new FormData(form)].filter(([name])=>!['__RequestVerificationToken','RowVersion','MaThaoTac','ConcurrencyStamp'].includes(name)).map(([name,value])=>[name,typeof value==='string'?value:value.name?[value.name,value.size,value.lastModified]:null]));}
+  function rememberForms(root){root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>{if(!baselines.has(form))baselines.set(form,fingerprint(form));});}
   function confirmDiscard(element,event){
     if(discardAllowed.delete(element))return;
     const changed=[...element.querySelectorAll('form')].find(form=>baselines.has(form)&&fingerprint(form)!==baselines.get(form));
@@ -97,6 +97,8 @@
     event.preventDefault();if(form.dataset.submitting)return;
     const clientErrors=window.EduConnect.validateForm?.(form,event.submitter)||{};
     if(Object.keys(clientErrors).length){errors(form,{errors:clientErrors});return;}
+    const otherChanges = window.EduConnect.hasUnsavedChanges?.(form);
+    if(otherChanges && !await window.EduConnect.confirmPageLeave())return;
     const button=event.submitter;const data=new FormData(form);if(button?.name)data.append(button.name,button.value);
     const inModal=!!form.closest('#workspace-modal');const label=button?.innerHTML;const oldMinWidth=button?.style.minWidth;
     form.dataset.submitting='true';form.setAttribute('aria-busy','true');if(button){button.style.minWidth=button.getBoundingClientRect().width+'px';button.disabled=true;button.textContent=pendingLabel(button);}if(inModal)saving=true;
@@ -113,6 +115,7 @@
         return;
       }
       if(await window.EduConnect.afterAjaxSubmit?.(form,result,data))return;
+      if(otherChanges && (inModal || result.redirectUrl))window.EduConnect.resetPageChanges();
       if(result.message)sessionStorage.setItem('educonnect:toast',result.message);
       if(inModal){saving=false;modal.hide();if(!result.message&&result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}else location.reload();}
       else if(result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}
@@ -127,4 +130,8 @@
   window.EduConnect.showFormErrors=errors;
   window.EduConnect.toast=toast;
   window.EduConnect.closeModal=()=>{saving=false;modal?.hide();};
+  window.EduConnect.hasUnsavedChanges=excluded=>[...document.querySelectorAll('form[method="post"],form[method="POST"]')].some(form=>form!==excluded&&baselines.has(form)&&fingerprint(form)!==baselines.get(form));
+  window.EduConnect.resetPageChanges=()=>document.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>baselines.set(form,fingerprint(form)));
+  window.EduConnect.rememberForms=rememberForms;
+  document.addEventListener('DOMContentLoaded',()=>rememberForms(document));
 })();

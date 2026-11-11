@@ -13,9 +13,10 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     public IQueryable<HoSoGiaSu> HoSoCongKhai() => profiles.CongKhai();
     private IQueryable<UngVienViewModel> NhuCauCongKhai() => from n in db.Set<NhuCauHoc>()
                                                              join u in db.Set<NguoiThamGia>() on n.ChuSoHuuId equals u.Id
+                                                             join account in db.Users on u.Id equals account.Id
                                                              join m in db.Set<MonHoc>() on n.MonHocId equals m.Id
-                                                             where n.LoaiNhuCau == "TimGiaSu" && n.TrangThai == "DangMo" && !db.Set<BienPhapQuanTri>().Any(b=>b.LoaiDoiTuong=="NhuCauHoc"&&b.DoiTuongId==n.Id&&b.GoLuc==null&&b.Loai=="AnNoiDung") && (u.LoaiNguoi == "HocSinh" || u.LoaiNguoi == "PhuHuynh")
-                                                             select new NhuCauCongKhaiViewModel { Id = n.Id, ChuSoHuuId = u.Id, HoTen = u.HoTen, LoaiNguoi = u.LoaiNguoi, TenMon = m.TenMon, MonHocId = m.Id, KhoiLop = n.KhoiLop, MucTieu = n.MucTieu, HinhThucHoc = n.HinhThucHoc, KhuVuc = n.KhuVuc, HocPhiDuKien = n.HocPhiDuKien, DonViHocPhi = n.DonViHocPhi, TaoLuc = n.TaoLuc };
+                                                             where n.LoaiNhuCau == "TimGiaSu" && n.TrangThai == "DangMo" && !db.Set<BienPhapQuanTri>().Any(b => b.LoaiDoiTuong == "NhuCauHoc" && b.DoiTuongId == n.Id && b.GoLuc == null && b.Loai == "AnNoiDung") && (u.LoaiNguoi == "HocSinh" || u.LoaiNguoi == "PhuHuynh")
+                                                             select new NhuCauCongKhaiViewModel { AnhDaiDienUrl = account.AnhDaiDien == null ? null : "/TaiKhoan/Anh/" + account.Id, Id = n.Id, ChuSoHuuId = u.Id, HoTen = u.HoTen, LoaiNguoi = u.LoaiNguoi, TenMon = m.TenMon, MonHocId = m.Id, KhoiLop = n.KhoiLop, MucTieu = n.MucTieu, HinhThucHoc = n.HinhThucHoc, KhuVuc = n.KhuVuc, HocPhiDuKien = n.HocPhiDuKien, DonViHocPhi = n.DonViHocPhi, TaoLuc = n.TaoLuc };
     private IQueryable<HoSoGiaSu> LocHoSo(BoLocTimKiemViewModel f)
     {
         var q = HoSoCongKhai();
@@ -81,8 +82,8 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
             };
             var rows = await HoSoRowsAsync(await ordered.Skip((f.Trang - 1) * 9).Take(9).Select(x => x.h).ToListAsync(huy), huy);
             if (ids.Count > 0)
-            foreach (var row in rows)
-                row.MonTheoHoSo = row.MonTheoHoSo.Where(m => ids.Contains(m.MonHocId)).ToList();
+                foreach (var row in rows)
+                    row.MonTheoHoSo = row.MonTheoHoSo.Where(m => ids.Contains(m.MonHocId)).ToList();
             return new()
             {
                 Trang = f.Trang,
@@ -134,7 +135,12 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
                               join subject in db.Set<MonHoc>() on link.MonHocId equals subject.Id
                               where ids.Contains(link.NhuCauId)
                               orderby subject.Id
-                              select new { link.NhuCauId, subject.Id, subject.TenMon }).ToListAsync(huy);
+                              select new
+                              {
+                                  link.NhuCauId,
+                                  subject.Id,
+                                  subject.TenMon
+                              }).ToListAsync(huy);
         var legacyIds = rows.Where(row => !subjects.Any(x => x.NhuCauId == row.Id)).Select(row => row.MonHocId).Distinct().ToList();
         var legacySubjects = await db.Set<MonHoc>().Where(subject => legacyIds.Contains(subject.Id)).ToListAsync(huy);
         foreach (var row in rows)

@@ -1,7 +1,7 @@
 @model Page<MonHoc>
 @{ViewData["Title"]="Danh mục môn học";}
 <h1>Danh mục môn học</h1>
-<form method="get" class="card"><label>Tìm môn học<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label><button class="btn btn-outline-primary align-self-start mt-3">Tìm kiếm</button></form>
+<form method="get" class="card"><div class="row g-3 align-items-end"><div class="col-md-10"><label>Tìm môn học<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label></div><div class="col-md-2"><button class="btn btn-primary">Tìm kiếm</button></div></div></form>
 <form method="post" asp-action="LuuMon" class="card">
     <h2>Thêm môn học</h2><label>Tên môn <span class="required-mark" aria-hidden="true">*</span><input name="TenMon" maxlength="100" class="form-control" required></label>
     <input name="DangSuDung" type="hidden" value="true"><button class="btn btn-primary align-self-start mt-3">Thêm môn</button>

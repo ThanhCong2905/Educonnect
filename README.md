@@ -13,7 +13,7 @@ $env:ConnectionStrings__EduConnect = "Server=$eduSqlServer;Database=KLTN_Full_V2
 dotnet run --project EduConnect.Mvc.csproj
 ```
 
-File `00_EduConnect_Full.sql` tạo database mới với 48 bảng. Nếu đã có database 38 bảng và cần giữ dữ liệu, xem [cách nâng cấp](Database/README.md#nâng-cấp-database-38-bảng). Tài khoản Windows dùng để chạy ứng dụng cần có quyền truy cập database.
+File `00_EduConnect_Full.sql` tạo database mới với 49 bảng, gồm nhật ký an toàn AAA. Database 48 bảng nâng cấp bằng `Database/15_NhatKyAnToan.sql`. Nếu đã có database 38 bảng và cần giữ dữ liệu, xem [cách nâng cấp](Database/README.md#nâng-cấp-database-38-bảng). Tài khoản Windows dùng để chạy ứng dụng cần có quyền truy cập database.
 
 Mở http://127.0.0.1:5280 và đăng ký tài khoản Học sinh, Phụ huynh hoặc Gia sư. Biến môi trường trên chỉ áp dụng cho phiên PowerShell đang mở. Git lưu mã nguồn và script SQL. Nếu cần dữ liệu đã nhập, chuyển bản sao SQL Server và thư mục `uploads` riêng.
 

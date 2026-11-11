@@ -58,7 +58,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         }
         review.SoSao = input.SoSao;
         review.NhanXet = input.NhanXet.Trim();
-        notices.Tao(recipient, "DanhGiaDoiTac", review.Id, "Đối tác đã đánh giá trải nghiệm học cùng bạn.");
+        notices.Tao(recipient, "DanhGiaDoiTac", review.Id, me.HoTen + " đã gửi đánh giá về bạn.");
         await db.SaveChangesAsync();
         await tx.CommitAsync();
         return recipient;
@@ -78,7 +78,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         LuuLichSu(review, me.Id, now);
         review.PhanHoi = input.NoiDung.Trim();
         review.PhanHoiLuc = now;
-        notices.Tao(review.NguoiGuiId, "DanhGiaDoiTac", review.Id, "Đối tác đã phản hồi đánh giá của bạn.");
+        notices.Tao(review.NguoiGuiId, "DanhGiaDoiTac", review.Id, me.HoTen + " đã phản hồi đánh giá của bạn.");
         await db.SaveChangesAsync();
         await tx.CommitAsync();
         return review.NguoiNhanId;
@@ -124,7 +124,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
 
     private async Task KiemTraDieuKienAsync(LopHoc lop, Guid actor)
     {
-        Rules.Check(actor == lop.GiaSuId || actor == lop.BenHocId, "Chỉ hai bên đứng tên lớp được đánh giá đối tác.", 403);
+        Rules.Check(actor == lop.GiaSuId || actor == lop.BenHocId, "Chỉ hai bên đứng tên lớp được đánh giá người dùng.", 403);
         Rules.Check(lop.TrangThai == "DaKetThuc", "Lớp cần kết thúc trước khi đánh giá công khai.", 409);
         Rules.Check(await db.Set<BuoiHoc>().AnyAsync(b => b.TrangThai == "DaHoc" && b.GhiNhanLuc != null && db.Set<LichHoc>().Any(l => l.Id == b.LichHocId && l.LopHocId == lop.Id)),
             "Lớp cần ít nhất một buổi học thực tế đã ghi nhận.", 409);

@@ -1,0 +1,78 @@
+@inject NguoiDungHienTaiService Current
+@inject EduConnect.Mvc.Areas.QuanTri.Services.QuyenQuanTriService Rights
+@{
+    var me = await Current.HienTaiAsync();
+    var publicProfile = ViewData["PublicProfile"] is true;
+    var area = publicProfile ? "TimKiem" : ViewContext.RouteData.Values["area"]?.ToString();
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    var privateChat = controller == "TinNhan" && action == "Index";
+    var personal = !publicProfile && (controller is "TaiKhoan" or "LienKetTaiKhoan" or "HoSoGiaSu"
+        || (controller == "DoiTac" && Context.Request.RouteValues["id"]?.ToString() == me.Id.ToString()));
+}
+@if (me.LoaiNguoi != "QuanTri")
+{
+    var links = new[]
+    {
+        ("/", "Trang chủ", "house-door", area == null && controller == "Home" && action == "Index"),
+        ("/TimKiem/TimKiem/Index", me.LoaiNguoi == "GiaSu" ? "Tìm người học" : "Tìm gia sư", "search", area == "TimKiem"),
+        ("/KetNoi/KetNoi/LienHe", "Liên hệ & kết nối", "link-45deg", area == "KetNoi"),
+        ("/HocTap/LopHoc/Index", "Lớp học", "collection", (area == "HocTap" && !privateChat && !personal) || (area == "DanhGia" && !personal)),
+        ("/HocTap/TinNhan/Index", "Tin nhắn", "chat-dots", privateChat)
+    };
+    @foreach (var link in links)
+    {
+        <a href="@link.Item1" class="@(link.Item4 ? "selected" : "")" aria-current="@(link.Item4 ? "page" : null)"><img src="/images/ui/@(link.Item3).svg" alt="">@link.Item2</a>
+        @if (link.Item1 == "/TimKiem/TimKiem/Index" && me.LoaiNguoi is "HocSinh" or "PhuHuynh")
+        {
+            <a href="/NhuCau/NhuCau/Index" class="@(area == "NhuCau" && !personal ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Nhu cầu của tôi</a>
+        }
+    }
+    var reports = area == "QuanTri";
+    <details class="nav-group @(reports ? "active" : "")" open="@reports">
+        <summary><img src="/images/ui/flag.svg" alt="">Báo cáo & hỗ trợ</summary>
+        <div class="nav-group-links">
+            <a href="/QuanTri/BaoCaoViPham/Index" class="@(reports && action is "Index" or "ChiTiet" ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Báo cáo của tôi</a>
+            <a href="/QuanTri/BaoCaoViPham/KiemDuyet" class="@(reports && action is "KiemDuyet" or "KetQua" ? "selected" : "")"><img src="/images/ui/shield-check.svg" alt="">Kết quả kiểm duyệt</a>
+        </div>
+    </details>
+}
+else
+{
+    <a href="/QuanTri/QuanTri/Index" class="@(controller == "QuanTri" && action == "Index" ? "selected" : "")"><img src="/images/ui/house-door.svg" alt="">Tổng quan quản trị</a>
+    var moderation = controller is "HoSo" or "BaoCaoViPham" || action == "NoiDung";
+    var approve = await Rights.CoQuyenAsync("DuyetHoSo");
+    var report = await Rights.CoQuyenAsync("XuLyBaoCao");
+    @if (approve || report)
+    {
+        <details class="nav-group @(moderation ? "active" : "")" open="@moderation">
+            <summary><img src="/images/ui/shield-check.svg" alt="">Kiểm duyệt</summary>
+            <div class="nav-group-links">
+                @if (approve) { <a href="/QuanTri/HoSo/Index" class="@(controller == "HoSo" ? "selected" : "")"><img src="/images/ui/person-badge.svg" alt="">Duyệt hồ sơ</a> }
+                @if (report)
+                {
+                    <a href="/QuanTri/BaoCaoViPham/Index?quanTri=true" class="@(controller == "BaoCaoViPham" ? "selected" : "")"><img src="/images/ui/flag.svg" alt="">Xử lý báo cáo</a>
+                    <a href="/QuanTri/QuanTri/NoiDung" class="@(action == "NoiDung" ? "selected" : "")"><img src="/images/ui/collection.svg" alt="">Biện pháp kiểm duyệt</a>
+                }
+            </div>
+        </details>
+    }
+    @if (await Rights.CoQuyenAsync("QuanLyTaiKhoan") || await Rights.CoQuyenAsync("QuanLyQuyen"))
+    {
+        <a href="/QuanTri/QuanTri/TaiKhoan" class="@(controller == "QuanTri" && action is "TaiKhoan" or "ChiTiet" or "PhanQuyen" ? "selected" : "")"><img src="/images/ui/people.svg" alt="">Tài khoản & quyền</a>
+    }
+    var logs = await Rights.CoQuyenAsync("XemNhatKy");
+    var catalog = await Rights.CoQuyenAsync("QuanLyDanhMuc");
+    var system = controller == "QuanTri" && action is "MonHoc" or "XemNhatKy" or "NhatKyAnToan" or "LuuMon";
+    @if (logs || catalog)
+    {
+        <details class="nav-group @(system ? "active" : "")" open="@system">
+            <summary><img src="/images/ui/gear.svg" alt="">Hệ thống</summary>
+            <div class="nav-group-links">
+                @if (catalog) { <a href="/QuanTri/QuanTri/MonHoc" class="@(action is "MonHoc" or "LuuMon" ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Danh mục môn học</a> }
+                @if (logs) { <a href="/QuanTri/QuanTri/NhatKyAnToan" class="@(action is "XemNhatKy" or "NhatKyAnToan" ? "selected" : "")"><img src="/images/ui/clock-history.svg" alt="">Nhật ký hệ thống</a> }
+            </div>
+        </details>
+    }
+}
+<a href="/TaiKhoan/HoSo" class="@(personal ? "selected" : "")"><img src="/images/ui/person-badge.svg" alt="">Trang cá nhân</a>

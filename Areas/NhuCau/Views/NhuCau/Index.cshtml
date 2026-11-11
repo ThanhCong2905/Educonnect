@@ -1,6 +1,7 @@
+@inject TaiKhoanService Account
 @model List<NhuCauHoc>
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Nhu cầu của tôi";var subjects=(List<MonHoc>)ViewBag.Subjects;var linked=(HashSet<Guid>)ViewBag.Linked; var slots=(List<KhungGioRanh>)ViewBag.Slots; var me=await Current.HienTaiAsync();}
+@{ViewData["Title"]="Nhu cầu của tôi";var subjects=(List<MonHoc>)ViewBag.Subjects;var linked=(HashSet<Guid>)ViewBag.Linked; var slots=(List<KhungGioRanh>)ViewBag.Slots; var me=await Current.HienTaiAsync();var account=await Account.LayHoSoAsync(Context);}
 <div class="heading"><div><h1>Quản lý nhu cầu</h1><p>Điều kiện và lịch rảnh cho kết nối phù hợp.</p></div><a data-modal class="btn btn-primary" asp-action="Tao">+ Tạo nhu cầu</a></div>
 <div class="stats stats-four"><article><small>Tổng nhu cầu</small><strong>@Model.Count</strong></article>@foreach(var state in new[]{"BanNhap","DangMo","DaDong"}){<article><small>@Rules.Label(state)</small><strong>@Model.Count(x=>x.TrangThai==state)</strong></article>}</div>
 <div class="cards">
@@ -10,6 +11,7 @@
     {
         Id = need.Id,
         ChuSoHuuId = me.Id,
+          AnhDaiDienUrl = account.AnhDaiDienUrl,
         HoTen = me.HoTen,
         LoaiNguoi = me.LoaiNguoi,
         TenMon = string.Join(", ", subjects.Where(subject => need.CacMonHocId.Contains(subject.Id)).OrderBy(subject => subject.Id).Select(subject => subject.TenMon)),

@@ -101,7 +101,7 @@ public static class Rules
         "NhuCauHoc" => "Nhu cầu học",
         "TinNhan" => "Tin nhắn",
         "LopHoc" => "Lớp học",
-        "DanhGiaDoiTac" => "Đánh giá công khai",
+        "DanhGiaDoiTac" => "Đánh giá người dùng",
         "KhoaTaiKhoan" => "Khóa tài khoản",
         "AnNoiDung" => "Ẩn nội dung",
         "TamDungLop" => "Tạm dừng lớp",

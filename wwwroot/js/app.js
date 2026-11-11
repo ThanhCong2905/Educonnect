@@ -88,5 +88,6 @@ window.EduConnect.init = (root) => {
   window.EduConnect.initScheduling?.(root);
   window.EduConnect.initFilePickers?.(root);
   window.EduConnect.markRequired?.(root);
+  window.EduConnect.rememberForms?.(root);
 };
 window.EduConnect.init();

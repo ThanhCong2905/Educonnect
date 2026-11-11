@@ -1,5 +1,5 @@
 @model List<BienPhapQuanTri>
 @{ViewData["Title"]="Kết quả kiểm duyệt";}
 <h1>Kết quả kiểm duyệt liên quan</h1>
-@foreach(var b in Model){<article class="card mb-3"><div class="heading"><h2>@Rules.Label(b.Loai)</h2><span class="badge rounded-pill">@(b.GoLuc==null?"Đang hiệu lực":"Đã gỡ")</span></div><p class="pre">@b.LyDo</p><small>@Rules.Date(b.ApDungLuc)</small>@if(b.GoLuc!=null){<p>@b.LyDoGo · @Rules.Date(b.GoLuc)</p>}@if(b.BaoCaoId!=null){<a asp-action="KetQua" asp-route-id="@b.BaoCaoId">Xem kết luận</a>}</article>}
+@foreach(var b in Model){<article class="card mb-3"><div class="heading"><h2>@Rules.Label(b.Loai)</h2><span class="badge rounded-pill">@(b.GoLuc==null?"Đang hiệu lực":"Đã gỡ")</span></div><p class="pre">@b.LyDo</p><small>@Rules.Date(b.ApDungLuc)</small>@if(b.GoLuc!=null){<p>@b.LyDoGo · @Rules.Date(b.GoLuc)</p>}@if(b.BaoCaoId!=null){<a class="btn btn-outline-primary" asp-action="KetQua" asp-route-id="@b.BaoCaoId">Xem kết luận</a>}</article>}
 @if(Model.Count==0){<div class="empty">Chưa có biện pháp kiểm duyệt liên quan đến tài khoản của bạn.</div>}

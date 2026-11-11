@@ -16,11 +16,11 @@
 <h1>@Model.TieuDe</h1>
 @if (ViewBag.ScheduleId != null)
 {
-    <a asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@ViewBag.ScheduleId">← Buổi học</a>
+    <a class="btn btn-outline-primary" asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@ViewBag.ScheduleId">← Buổi học</a>
 }
 else
 {
-    <a asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="assignments">← Bài tập của lớp</a>
+    <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="assignments">← Bài tập của lớp</a>
     <p>Chưa gắn buổi</p>
     @if (tutor && c.TrangThai == "DangHoatDong") { <a class="btn btn-outline-primary" data-modal asp-action="GanBuoi" asp-route-id="@Model.Id">Chọn buổi học</a> }
 }

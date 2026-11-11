@@ -10,6 +10,11 @@ namespace EduConnect.Mvc.Areas.QuanTri.Controllers;
 [Area("QuanTri"), Authorize(Roles = "QuanTri")]
 public sealed class QuanTriController(QuanTriService service, QuyenQuanTriService rights) : BaseController
 {
+    public async Task<IActionResult> NhatKyAnToan([FromServices] NhatKyAnToanQuery query, NhatKyAnToanFilter filter)
+    {
+        Rules.Check(ModelState.IsValid, "Bộ lọc nhật ký chưa đúng định dạng.");
+        return View(await query.LayAsync(filter, HttpContext.RequestAborted));
+    }
     public async Task<IActionResult> Index() => View(await service.TongQuanAsync());
     public async Task<IActionResult> TaiKhoan(int trang = 1, string? q = null, string? role = null, string? state = null)
         => View(await service.LayTaiKhoanAsync(trang, q, role, state));

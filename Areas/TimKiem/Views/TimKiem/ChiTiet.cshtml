@@ -10,7 +10,9 @@
     <div class="alert alert-info">Bản xem trước của bạn. Người khác chỉ xem được khi hồ sơ đã duyệt và đang hiển thị.</div>
 }
 <div class="heading profile-hero detail-hero">
-    <div>
+    <div class="person">
+        <span class="avatar">@if(Model.AnhDaiDienUrl!=null){<img src="@Model.AnhDaiDienUrl" data-avatar-fallback="@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))" alt="">}else{@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))}</span>
+        <div>
         <p class="eyebrow">@(tutor ? "Hồ sơ gia sư" : "Nhu cầu tìm gia sư")</p>
         <h1>@(tutor ? Model.HoTen : string.IsNullOrWhiteSpace(Model.TenMon) ? "Nhu cầu học" : Model.TenMon)</h1>
         @if (tutor)
@@ -28,7 +30,7 @@
                 }
             </div>
         }
-    </div>
+    </div></div>
 </div>
 <div class="split profile-layout">
     <section class="detail-content" aria-label="@(tutor ? "Thông tin gia sư" : "Thông tin nhu cầu học")">
@@ -122,8 +124,8 @@
 
 @if(!preview)
 {
-    <section class="card mt-4">
+    <section class="card mt-4 profile-review-actions">
         <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId"/>
-        <a data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>
+        <a class="btn btn-outline-primary align-self-start" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>
     </section>
 }

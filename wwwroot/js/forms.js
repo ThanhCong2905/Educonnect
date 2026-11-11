@@ -6,7 +6,8 @@ window.EduConnect.initFilePickers=(root=document)=>{
  root.querySelectorAll('input[type="file"]').forEach(picker=>{
   if(picker.dataset.filePickerReady)return;
   picker.dataset.filePickerReady='true';
-  let list=picker.closest('[data-certificate-picker]')?.querySelector('[data-certificate-selection]');
+  let list=picker.closest('[data-file-picker]')?.querySelector('[data-file-selection]')
+    ||picker.closest('[data-certificate-picker]')?.querySelector('[data-certificate-selection]');
   if(picker.hasAttribute('data-chat-files'))list=picker.form.querySelector('[data-chat-file-selection]');
   if(!list){list=document.createElement('ul');list.setAttribute('aria-label','Tệp đã chọn');(picker.closest('label')||picker).after(list);}
   list.classList.add('upload-selection');
@@ -48,7 +49,7 @@ window.EduConnect.markRequired=(root=document)=>{
  };
  root.querySelectorAll('label > .required-mark, legend > .required-mark').forEach(mark=>placeMark(mark.parentElement,mark));
  root.querySelectorAll('input:not([type="hidden"]),select,textarea').forEach(input=>{
-  if(!input.required&&(input.type==='file'||!input.hasAttribute('data-val-required'))){input.removeAttribute('aria-required');input.closest('label')?.querySelector('.required-mark')?.remove();return;}
+   if(!input.required&&(['file','checkbox','radio'].includes(input.type)||!input.hasAttribute('data-val-required'))){input.removeAttribute('aria-required');input.closest('label')?.querySelector('.required-mark')?.remove();return;}
   input.setAttribute('aria-required','true');
   const label=input.closest('label');if(!label||label.querySelector('.required-mark'))return;
   const caption=label.querySelector(':scope > .field-caption');
@@ -68,7 +69,13 @@ window.EduConnect.validateForm=(form,submitter)=>{
    const files=[...input.files];
    if(files.length>5)errors[input.name]=['Chọn tối đa 5 tệp mỗi lần gửi.'];
    else if(files.some(file=>file.size===0||file.size>10000000))errors[input.name]=['Mỗi tệp phải có dữ liệu và không vượt quá 10 MB.'];
+   else if(input.hasAttribute('data-avatar-file')&&files.some(file=>!(/\.(jpe?g|png)$/i).test(file.name)))errors[input.name]=['Chọn ảnh JPG hoặc PNG.'];
    else if(files.some(file=>!(/\.(pdf|jpe?g|png|docx)$/i).test(file.name)))errors[input.name]=['Chỉ nhận PDF, JPG, PNG, DOCX.'];
+   continue;
+  }
+  if(input.type==='checkbox'||input.type==='radio'){
+   const checked=input.type==='radio'?form.querySelector('input[type="radio"][name="'+CSS.escape(input.name)+'"]:checked'):input.checked;
+   if(!draft&&input.required&&!checked)errors[input.name]=['Chọn '+label.toLowerCase()+'.'];
    continue;
   }
   if(!draft&&(input.required||input.hasAttribute('data-val-required'))&&!value){errors[input.name]=[label+' không được để trống.'];continue;}

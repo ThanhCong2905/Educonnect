@@ -20,10 +20,10 @@
     <a class="btn btn-outline-primary" href="/DanhGia/DanhGia/DanhSach?maLop=@Model.Id">Tiến độ và phản hồi</a>
     @if(Model.TrangThai=="DaKetThuc"&&(tutor||me.Id==Model.BenHocId))
     {
-        if(records.Any(b=>b.TrangThai=="DaHoc"&&b.GhiNhanLuc!=null)){<a data-modal class="btn btn-outline-primary" href="/DanhGia/DoiTac/Gui?maLop=@Model.Id">Đánh giá đối tác</a>}
+        if(records.Any(b=>b.TrangThai=="DaHoc"&&b.GhiNhanLuc!=null)){<a data-modal class="btn btn-outline-primary" href="/DanhGia/DoiTac/Gui?maLop=@Model.Id">Đánh giá người dùng</a>}
         else{<span class="muted">Lớp chưa có buổi thực tế để đánh giá công khai.</span>}
     }
-    <a data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=LopHoc&doiTuongId=@Model.Id">Báo cáo vấn đề</a>
+    <a class="btn btn-outline-primary" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=LopHoc&doiTuongId=@Model.Id">Báo cáo vấn đề</a>
 </div>
 @if(tab=="overview"){<article class="card"><p class="eyebrow">MỤC TIÊU CỦA LỚP</p><h2>@Model.MucTieu</h2><dl><dt>Người học</dt><dd>@Model.TenNguoiHoc @(Model.TuoiNguoiHoc==null?"":"· "+Model.TuoiNguoiHoc+" tuổi")</dd><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd><dt>Địa điểm</dt><dd>@Model.DiaDiem</dd><dt>Học phí</dt><dd>@Rules.Fee(Model.HocPhi,Model.DonViHocPhi)</dd><dt>Lịch dự kiến</dt><dd>@Model.SoBuoiTuan buổi / tuần · @Model.ThoiLuongPhut phút / buổi</dd></dl></article>@foreach(var y in (List<YeuCauHuyKetNoi>)ViewBag.Cancellations){<article class="card"><h3>Yêu cầu kết thúc · @Rules.Label(y.TrangThai)</h3><p>@y.LyDo</p><small>Hạn phản hồi: @Rules.Date(y.HetHanLuc)</small>@if(y.TrangThai=="ChoPhanHoi"&&y.NguoiGuiId!=me.Id&&(tutor||me.Id==Model.BenHocId)){<form method="post" asp-action="PhanHoiHuy" class="actions"><input name="id" value="@Model.Id" type="hidden"><input name="request" value="@y.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(y.RowVersion)" type="hidden"><button class="btn btn-primary" name="agree" value="true">Đồng ý kết thúc</button><button class="btn btn-primary" name="agree" value="false">Từ chối</button></form>}</article>}}
 else if(tab=="schedule"||tab=="lessons"){<partial name="_LichLop" model="Model"/>}

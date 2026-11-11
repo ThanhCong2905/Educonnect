@@ -53,34 +53,47 @@ public sealed class LienKetTaiKhoanService(AppDbContext db, NguoiDungHienTaiServ
         Rules.Concurrency(db, link, version);
         var now = DateTimeOffset.UtcNow;
         link.TrangThai = dongY ? "DaLienKet" : "TuChoi";
-        if (dongY) link.XacNhanLuc = now;
-        else { link.KetThucLuc = now; link.NguoiKetThucId = me.Id; }
+        if (dongY)
+            link.XacNhanLuc = now;
+        else
+        {
+            link.KetThucLuc = now;
+            link.NguoiKetThucId = me.Id;
+        }
         notices.Tao(link.PhuHuynhId, "LienKetTaiKhoan", link.Id, me.HoTen + (dongY ? " đã đồng ý liên kết." : " đã từ chối liên kết."));
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
 
-    public async Task HuyAsync(Guid id, string version)
+    public async Task<bool> HuyAsync(Guid id, string version)
     {
         var me = await current.HienTaiAsync();
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.Id == id && (x.HocSinhId == me.Id || x.PhuHuynhId == me.Id))
             ?? throw new LoiNghiepVu("Không tìm thấy liên kết của bạn.", 404);
         Rules.Check(link.KetThucLuc == null, "Liên kết đã kết thúc.", 409);
+        Rules.Check(link.TrangThai == "DaLienKet" || (link.TrangThai == "ChoXacNhan" && link.NguoiGuiId == me.Id),
+            "Bạn có thể đồng ý hoặc từ chối đề nghị đang chờ.", 409);
         Rules.Concurrency(db, link, version);
+        var pending = link.TrangThai == "ChoXacNhan";
         link.TrangThai = "DaHuy";
         link.KetThucLuc = DateTimeOffset.UtcNow;
         link.NguoiKetThucId = me.Id;
-        var members = await db.Set<ThanhVienLopHoc>().Where(x => x.RoiLopLuc == null &&
-            (x.LienKetId == id || db.Set<LopHoc>().Any(c => c.Id == x.LopHocId && c.BenHocId == link.PhuHuynhId && c.HocSinhLienKetId == link.HocSinhId && x.TaiKhoanId != c.BenHocId && x.TaiKhoanId != c.GiaSuId))).ToListAsync();
-        foreach (var member in members)
+        if (!pending)
         {
-            member.RoiLopLuc = link.KetThucLuc;
-            member.TrangThaiDuyet = "DaRoiLop";
-            notices.Tao(member.TaiKhoanId, "ThanhVien", member.LopHocId, "Quyền thành viên đã thu hồi vì liên kết tài khoản kết thúc.");
+            var members = await db.Set<ThanhVienLopHoc>().Where(x => x.RoiLopLuc == null &&
+                (x.LienKetId == id || db.Set<LopHoc>().Any(c => c.Id == x.LopHocId && c.BenHocId == link.PhuHuynhId && c.HocSinhLienKetId == link.HocSinhId && x.TaiKhoanId != c.BenHocId && x.TaiKhoanId != c.GiaSuId))).ToListAsync();
+            foreach (var member in members)
+            {
+                member.RoiLopLuc = link.KetThucLuc;
+                member.TrangThaiDuyet = "DaRoiLop";
+                notices.Tao(member.TaiKhoanId, "ThanhVien", member.LopHocId, "Quyền thành viên đã thu hồi vì liên kết tài khoản kết thúc.");
+            }
         }
-        notices.Tao(me.Id == link.HocSinhId ? link.PhuHuynhId : link.HocSinhId, "LienKetTaiKhoan", id, "Liên kết tài khoản đã kết thúc.");
+        notices.Tao(me.Id == link.HocSinhId ? link.PhuHuynhId : link.HocSinhId, "LienKetTaiKhoan", id,
+            pending ? "Đề nghị liên kết đã được rút." : "Liên kết tài khoản đã kết thúc.");
         await db.SaveChangesAsync();
         await tx.CommitAsync();
+        return pending;
     }
 }

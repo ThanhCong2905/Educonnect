@@ -28,8 +28,8 @@ public sealed class LienKetTaiKhoanController(LienKetTaiKhoanService service) : 
     [HttpPost]
     public async Task<IActionResult> Huy(Guid id, string rowVersion)
     {
-        await service.HuyAsync(id, rowVersion);
-        Success("Đã kết thúc liên kết.");
+        var pending = await service.HuyAsync(id, rowVersion);
+        Success(pending ? "Đã rút đề nghị liên kết." : "Đã kết thúc liên kết.");
         return RedirectToAction(nameof(Index));
     }
 }

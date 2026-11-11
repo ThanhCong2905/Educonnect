@@ -16,16 +16,18 @@
 </div>
 @if (tab == "lessons")
 {
-    <form method="get" class="card form-grid">
+    <form method="get" class="card">
         <input name="tab" value="lessons" type="hidden">
-        <label>Tháng<input class="form-control" name="month" type="month" value="@ViewBag.Month"></label>
-        <label>Trạng thái<select class="form-select" name="state">
+        <div class="row g-3 align-items-end">
+        <div class="col-md"><label>Tháng<input class="form-control" name="month" type="month" value="@ViewBag.Month"></label></div>
+        <div class="col-md"><label>Trạng thái<select class="form-select" name="state">
             @foreach (var state in new[] { ("", "Tất cả"), ("upcoming", "Sắp diễn ra"), ("ongoing", "Trong giờ học"), ("past", "Qua giờ, chưa ghi nhận"), ("recorded", "Đã ghi nhận"), ("rest", "Đã nghỉ"), ("cancelled", "Đã hủy") })
             {
                 <option value="@state.Item1" selected="@((string?)ViewBag.State == state.Item1)">@state.Item2</option>
             }
-        </select></label>
-        <button class="btn btn-outline-primary">Lọc buổi học</button>
+        </select></label></div>
+        <div class="col-md-auto"><button class="btn btn-outline-primary">Lọc buổi học</button></div>
+        </div>
     </form>
 }
 <div class="stack">

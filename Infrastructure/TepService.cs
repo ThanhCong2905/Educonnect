@@ -10,6 +10,32 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
 {
     public bool ChoPhepTepChuaQuet { get; } = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedUploads") == true;
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
+    public string? DuongDanAnhDaiDien(string? key)
+        => key != null && System.Text.RegularExpressions.Regex.IsMatch(key, @"\Aavatars/[0-9a-f]{32}\.(?:jpg|png)\z")
+            ? Path.Combine(Root, key) : null;
+
+    public async Task<string> LuuAnhDaiDienAsync(IFormFile file)
+    {
+        Rules.Check(new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(file.FileName).ToLowerInvariant()),
+            "Chọn ảnh JPG hoặc PNG, tối đa 10 MB.", field: "AnhDaiDienFile");
+        var image = (await KiemTraAsync([file])).Single();
+        var extension = image.Mime == "image/png" ? ".png" : ".jpg";
+        var key = "avatars/" + Guid.NewGuid().ToString("N") + extension;
+        Directory.CreateDirectory(Path.Combine(Root, "avatars"));
+        var path = DuongDanAnhDaiDien(key)!;
+        try
+        {
+            await File.WriteAllBytesAsync(path, image.Bytes);
+        }
+        catch { if (File.Exists(path)) File.Delete(path); throw; }
+        return key;
+    }
+
+    public void XoaAnhDaiDien(string? key)
+    {
+        if (DuongDanAnhDaiDien(key) != null)
+            DonDepDaXoa([key!]);
+    }
     public void DonDepDaXoa(IEnumerable<string> keys)
     {
         foreach (var key in keys)
@@ -81,10 +107,14 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             var output = process.StandardOutput.ReadToEndAsync();
             var error = process.StandardError.ReadToEndAsync();
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            try { await process.WaitForExitAsync(timeout.Token); }
+            try
+            {
+                await process.WaitForExitAsync(timeout.Token);
+            }
             catch (OperationCanceledException)
             {
-                if (!process.HasExited) process.Kill(entireProcessTree: true);
+                if (!process.HasExited)
+                    process.Kill(entireProcessTree: true);
                 await process.WaitForExitAsync();
                 throw;
             }
@@ -155,8 +185,8 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
     }
     public string DuongDan(TepDinhKem file)
     {
-        var path=Path.Combine(Root,file.TenLuuTru);
-        Rules.Check(File.Exists(path),"Tệp không còn trên máy chủ.",404);
+        var path = Path.Combine(Root, file.TenLuuTru);
+        Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return path;
     }
 }

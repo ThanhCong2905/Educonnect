@@ -11,7 +11,7 @@
 </div>
 <section class="card"><h2>Tham dự và kết quả</h2><p>Gia sư có mặt @Model.GiaSuCoMat / @Model.SoBuoiDaHoc buổi đã học. Bên học có mặt @Model.BenHocCoMat / @Model.SoBuoiDaHoc buổi đã học.</p>
 <div class="row g-4"><div class="col-md-6"><h3>Buổi học gần đây</h3>@foreach(var b in Model.Buoi){<p><a href="/HocTap/LichHoc/Buoi/@b.LichHocId">@b.TieuDe</a> · @Rules.Label(b.TrangThai)</p>}@if(Model.Buoi.Count==0){<p class="muted">Chưa có dữ liệu trong khoảng đã chọn.</p>}</div>
-<div class="col-md-6"><h3>Bài tập</h3>@foreach(var b in Model.Bai){<p><a href="/HocTap/BaiTap/ChiTiet/@b.Id">@b.TieuDe</a> · @Rules.Date(b.HanNopLuc)</p>}<a href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=assignments">Xem bài tập của lớp</a></div></div></section>
+<div class="col-md-6"><h3>Bài tập</h3>@foreach(var b in Model.Bai){<p><a href="/HocTap/BaiTap/ChiTiet/@b.Id">@b.TieuDe</a> · @Rules.Date(b.HanNopLuc)</p>}<a class="btn btn-outline-primary" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=assignments">Xem bài tập của lớp</a></div></div></section>
 @if(Model.Diem.Count>0)
 {
     <section class="card table-responsive">
@@ -28,7 +28,7 @@
     <article class="card mb-3"><div class="heading"><div><h3>@d.Ten</h3><small>@Rules.Date(d.TuNgay) – @Rules.Date(d.DenNgay) · Hạn @Rules.Date(d.HanGui)</small></div><span class="badge rounded-pill">@(open?"Đang nhận phản hồi":"Đã đóng")</span></div>
     @foreach(var p in Model.Phieu.Where(p=>p.DotPhanHoiId==d.Id))
     {
-        <section class="border-top pt-3 mt-3"><strong>@Model.HoTen.GetValueOrDefault(p.NguoiGuiId,"Thành viên")</strong><small class="muted"> · @Rules.Date(p.GuiLuc)</small>@if(p.MucDoHaiLong.HasValue){<span> · Hài lòng @p.MucDoHaiLong/5</span>}<p class="pre">@p.NoiDung</p><a data-modal asp-action="LichSu" asp-route-id="@p.Id">Lịch sử chỉnh sửa</a></section>
+        <section class="border-top pt-3 mt-3"><strong>@Model.HoTen.GetValueOrDefault(p.NguoiGuiId,"Thành viên")</strong><small class="muted"> · @Rules.Date(p.GuiLuc)</small>@if(p.MucDoHaiLong.HasValue){<span> · Hài lòng @p.MucDoHaiLong/5</span>}<p class="pre">@p.NoiDung</p><a class="btn btn-outline-primary" data-modal asp-action="LichSu" asp-route-id="@p.Id">Lịch sử chỉnh sửa</a></section>
     }
     @if(!Model.Phieu.Any(p=>p.DotPhanHoiId==d.Id)){<p class="muted mt-3">Chưa có phản hồi.</p>}
     <div class="actions mt-3">@if(open&&Model.CoThePhanHoi){<a data-modal class="btn btn-outline-primary" asp-action="Gui" asp-route-maLop="@Model.Lop.Id" asp-route-dotPhanHoiId="@d.Id">@(Model.Phieu.Any(p=>p.DotPhanHoiId==d.Id&&p.NguoiGuiId==me.Id)?"Sửa phản hồi":"Gửi phản hồi")</a>}

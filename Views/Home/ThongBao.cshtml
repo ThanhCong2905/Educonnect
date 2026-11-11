@@ -20,7 +20,7 @@
         <form method="post" action="/Home/Doc" class="notice-item @(isUnread?"notice-unread":"notice-read")">
             @Html.AntiForgeryToken()<input type="hidden" name="id" value="@notice.Id">
             <div class="notice-top"><span class="notice-read-state"><span class="notice-dot" aria-hidden="true"></span>@(isUnread?"Chưa đọc":"Đã đọc")</span><time datetime="@notice.TaoLuc.ToString("O")">@Rules.Date(notice.TaoLuc)</time></div>
-            <h3>@notice.NoiDungTomTat</h3><button class="notice-open" type="submit">Xem chi tiết <span aria-hidden="true">→</span></button>
+            <h3>@notice.NoiDungTomTat</h3><button class="notice-open btn btn-outline-primary" type="submit">Xem chi tiết <span aria-hidden="true">→</span></button>
         </form>
     }
     @if(Model.Items.Count==0){<div class="empty">Chưa có thông báo phù hợp.</div>}

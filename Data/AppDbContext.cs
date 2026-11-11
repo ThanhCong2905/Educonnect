@@ -9,6 +9,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
+        NhatKyAnToanMapping.Configure(b);
         DanhGiaQuanTriMapping.Configure(b);
         b.Entity<TinNhan>().HasQueryFilter(x=>!Set<BienPhapQuanTri>().Any(m=>m.LoaiDoiTuong=="TinNhan"&&m.DoiTuongId==x.Id&&m.Loai=="AnNoiDung"&&m.GoLuc==null));
         b.Entity<LichSuDieuChinhLich>().ToTable("LichSuDieuChinhLich");

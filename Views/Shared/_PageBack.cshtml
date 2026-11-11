@@ -1,0 +1,26 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+    var parentPage = action is "Index" or "HoSo" or "NhatKyAnToan" or "XemNhatKy" or "MonHoc" or "TaiKhoan" or "NoiDung";
+    var home = (controller == "Home" && action == "Index") || (controller == "QuanTri" && action == "Index");
+    var fallback = controller is "TaiKhoan" or "LienKetTaiKhoan" ? "/TaiKhoan/HoSo"
+        : area == "QuanTri" ? "/QuanTri/QuanTri/Index"
+        : area == "NhuCau" ? "/NhuCau/NhuCau/Index"
+        : area is "HocTap" or "DanhGia" ? "/HocTap/LopHoc/Index" : "/";
+    if (action == "Index" && controller != "LienKetTaiKhoan") fallback = "/";
+    if (area == "TimKiem" && action != "Index") fallback = "/TimKiem/TimKiem/Index";
+    if (controller == "HoSoGiaSu") fallback = ViewData["PublicProfile"] is true ? "/TimKiem/TimKiem/Index" : "/TaiKhoan/HoSo";
+    if (controller == "DoiTac" && ViewContext.RouteData.Values["id"]?.ToString()
+        == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
+    {
+        fallback = "/TaiKhoan/HoSo";
+        parentPage = true;
+    }
+    if (controller == "TaiKhoan" && action == "HoSo") fallback = "/";
+    if (string.Equals(Context.Request.Path.Value, fallback, StringComparison.OrdinalIgnoreCase)) fallback = "/";
+}
+@if (!home)
+{
+    <a href="@fallback" class="btn btn-outline-primary page-back" data-page-back data-parent-page="@parentPage.ToString().ToLowerInvariant()" aria-label="Quay lại"><span aria-hidden="true">←</span><span class="page-back-text"> Quay lại</span></a>
+}

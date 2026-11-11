@@ -16,16 +16,23 @@
     var link = row.LienKet;
     <article class="card">
         <h2>@row.HoTen</h2><p>@Rules.Label(row.VaiTro)</p>
-        <span class="badge">@(link.TrangThai == "DaLienKet" ? "Đã liên kết" : link.TrangThai == "ChoXacNhan" ? "Chờ xác nhận" : link.TrangThai == "TuChoi" ? "Đã từ chối" : "Đã hủy")</span>
+        <span class="badge">@(link.TrangThai == "DaLienKet" ? "Đã liên kết" : link.TrangThai == "ChoXacNhan" ? "Chờ xác nhận" : link.TrangThai == "TuChoi" ? "Đã từ chối" : link.XacNhanLuc == null ? "Đã rút đề nghị" : "Đã hủy liên kết")</span>
         <p class="muted">@Rules.Date(link.GuiLuc)</p>
         @if (link.KetThucLuc == null)
         {
-            <div class="actions">
+            <div class="actions link-actions">
             @if (link.HocSinhId == me.Id && link.TrangThai == "ChoXacNhan")
             {
                 <form method="post" asp-action="PhanHoi"><input type="hidden" name="id" value="@link.Id"><input type="hidden" name="rowVersion" value="@Convert.ToBase64String(link.RowVersion)"><button class="btn btn-primary" name="dongY" value="true">Đồng ý</button><button class="btn btn-outline-primary" name="dongY" value="false">Từ chối</button></form>
             }
-                <form method="post" asp-action="Huy" data-confirm="Kết thúc liên kết sẽ thu hồi quyền thành viên bổ sung liên quan. Bạn muốn tiếp tục?"><input type="hidden" name="id" value="@link.Id"><input type="hidden" name="rowVersion" value="@Convert.ToBase64String(link.RowVersion)"><button class="btn btn-outline-danger">Hủy liên kết</button></form>
+            @if (link.TrangThai == "DaLienKet" || (link.TrangThai == "ChoXacNhan" && link.NguoiGuiId == me.Id))
+            {
+                var pending = link.TrangThai == "ChoXacNhan";
+                <form method="post" asp-action="Huy" data-confirm="@(pending ? "Rút đề nghị liên kết đã gửi?" : "Hủy liên kết sẽ thu hồi quyền thành viên bổ sung liên quan. Bạn muốn tiếp tục?")">
+                    <input type="hidden" name="id" value="@link.Id"><input type="hidden" name="rowVersion" value="@Convert.ToBase64String(link.RowVersion)">
+                    <button class="btn @(pending ? "btn-outline-primary" : "btn-outline-danger")">@(pending ? "Rút đề nghị" : "Hủy liên kết")</button>
+                </form>
+            }
             </div>
         }
     </article>
