@@ -14,7 +14,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     private IQueryable<UngVienViewModel> NhuCauCongKhai() => from n in db.Set<NhuCauHoc>()
                                                              join u in db.Set<NguoiThamGia>() on n.ChuSoHuuId equals u.Id
                                                              join m in db.Set<MonHoc>() on n.MonHocId equals m.Id
-                                                             where n.LoaiNhuCau == "TimGiaSu" && n.TrangThai == "DangMo" && (u.LoaiNguoi == "HocSinh" || u.LoaiNguoi == "PhuHuynh")
+                                                             where n.LoaiNhuCau == "TimGiaSu" && n.TrangThai == "DangMo" && !db.Set<BienPhapQuanTri>().Any(b=>b.LoaiDoiTuong=="NhuCauHoc"&&b.DoiTuongId==n.Id&&b.GoLuc==null&&b.Loai=="AnNoiDung") && (u.LoaiNguoi == "HocSinh" || u.LoaiNguoi == "PhuHuynh")
                                                              select new NhuCauCongKhaiViewModel { Id = n.Id, ChuSoHuuId = u.Id, HoTen = u.HoTen, LoaiNguoi = u.LoaiNguoi, TenMon = m.TenMon, MonHocId = m.Id, KhoiLop = n.KhoiLop, MucTieu = n.MucTieu, HinhThucHoc = n.HinhThucHoc, KhuVuc = n.KhuVuc, HocPhiDuKien = n.HocPhiDuKien, DonViHocPhi = n.DonViHocPhi, TaoLuc = n.TaoLuc };
     private IQueryable<HoSoGiaSu> LocHoSo(BoLocTimKiemViewModel f)
     {
@@ -62,8 +62,9 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
 
     private async Task<Page<UngVienViewModel>> TimDuLieuAsync(BoLocTimKiemViewModel f, NguoiThamGia me, CancellationToken huy)
     {
+        Rules.ValidateInput(f);
         Rules.Check(f.Trang is >= 1 and <= 100000, "Trang không hợp lệ.");
-        Rules.Check(f.HocPhiToiDa == null || f.HocPhiToiDa >= 0, "Học phí tối đa không âm.");
+        Rules.Check(f.HocPhiToiDa == null || (f.HocPhiToiDa >= 0 && f.HocPhiToiDa <= 9999999999999999.99m && decimal.Round(f.HocPhiToiDa.Value, 2) == f.HocPhiToiDa), "Học phí tối đa không âm, tối đa hai chữ số thập phân.");
         Rules.Check(f.DonViHocPhi is "VND/Gio" or "VND/Buoi", "Chọn đúng đơn vị học phí.");
         if (me.LoaiNguoi != "GiaSu")
         {
@@ -185,10 +186,12 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         {
             await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
             var ids = maDoiTuong.Distinct().ToList();
-            Rules.Check(ids.Count is >= 1 and <= 3, "Chọn từ 1 đến 3 đối tượng.");
+            Rules.Check(ids.Count is >= 2 and <= 3, "Chọn từ 2 đến 3 đối tượng để so sánh.");
             var rows = new List<UngVienViewModel>();
             foreach (var id in ids)
                 rows.Add(await ChiTietAsync(id, huy));
+            Rules.Check(rows.All(x => x is HoSoGiaSuCongKhaiViewModel) || rows.All(x => x is NhuCauCongKhaiViewModel),
+                "Chỉ so sánh các đối tượng cùng loại.");
             return new SoSanhViewModel
             {
                 MaDoiTuong = ids,

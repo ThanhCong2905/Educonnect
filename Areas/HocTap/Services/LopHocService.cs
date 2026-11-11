@@ -7,12 +7,12 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections)
+public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections)
 {
     public async Task<List<LopHoc>> LayAsync()
     {
         var u = await current.HienTaiAsync();
-        return await db.Set<LopHoc>().AsNoTracking().Where(c => c.GiaSuId == u.Id || c.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null)).OrderBy(c => c.TenLop).ToListAsync();
+        return await db.Set<LopHoc>().AsNoTracking().Where(c => c.GiaSuId == u.Id || c.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null && db.Set<LienKetPhuHuynhHocSinh>().Any(l => l.Id == m.LienKetId && l.TrangThai == "DaLienKet"))).OrderBy(c => c.TenLop).ToListAsync();
     }
     public Task<LopHoc> ChiTietAsync(Guid id) => rights.KiemTraQuyenXemAsync(id);
     public async Task<List<LichHoc>> LichAsync(Guid id)
@@ -34,10 +34,11 @@ public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService curre
         var now = DateTimeOffset.UtcNow;
         q = state switch
         {
-            "cancelled" => q.Where(x => x.TrangThai == "DaHuy"),
+            "cancelled" => q.Where(x => x.TrangThai == "DaHuy" && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id && b.TrangThai == "DaNghi")),
             "replaced" => q.Where(x => x.TrangThai == "DaDieuChinh"),
-            "recorded" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
-            "past" => q.Where(x => x.TrangThai == "DaLenLich" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id)),
+            "recorded" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id && b.GhiNhanLuc != null)),
+            "rest" => q.Where(x => db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id && b.TrangThai == "DaNghi")),
+            "past" => q.Where(x => x.TrangThai == "DaLenLich" && x.KetThucLuc <= now && !db.Set<BuoiHoc>().Any(b => b.LichHocId == x.Id && b.GhiNhanLuc != null)),
             "ongoing" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc <= now && x.KetThucLuc > now),
             "upcoming" => q.Where(x => x.TrangThai == "DaLenLich" && x.BatDauLuc > now),
             _ => q
@@ -64,11 +65,23 @@ public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService curre
         var normalized = email.ToUpperInvariant();
         var person = await (from account in db.Set<TaiKhoan>()
                             join participant in db.Set<NguoiThamGia>() on account.Id equals participant.Id
-                            where account.NormalizedEmail == normalized && (participant.LoaiNguoi == "HocSinh" || participant.LoaiNguoi == "PhuHuynh")
+                            where account.NormalizedEmail == normalized && account.TrangThai == "HoatDong" && (participant.LoaiNguoi == "HocSinh" || participant.LoaiNguoi == "PhuHuynh")
                             select new NguoiDuocMoiViewModel { LopHocId = id, TaiKhoanId = account.Id, Email = account.Email!, HoTen = participant.HoTen, VaiTro = participant.LoaiNguoi })
                             .SingleOrDefaultAsync() ?? throw new LoiNghiepVu("Không tìm thấy tài khoản học sinh hoặc phụ huynh có email này.", 404);
         Rules.Check(person.TaiKhoanId != c.BenHocId, "Bạn đã là bên học chính của lớp này.");
         Rules.Check(!await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == person.TaiKhoanId && x.RoiLopLuc == null && x.TrangThaiDuyet != "TuChoi"), "Tài khoản này đã ở trong lớp hoặc có lời mời đang chờ.", 409);
+        var benHoc = await db.Set<NguoiThamGia>().SingleAsync(x => x.Id == c.BenHocId);
+        var studentId = benHoc.LoaiNguoi == "HocSinh" ? benHoc.Id
+            : c.HocSinhLienKetId ?? (person.VaiTro == "HocSinh" ? person.TaiKhoanId : Guid.Empty);
+        Rules.Check(studentId != Guid.Empty, "Hãy liên kết và mời đúng học sinh của lớp trước khi thêm người đại diện.");
+        if (benHoc.LoaiNguoi == "PhuHuynh")
+            Rules.Check(await db.Set<LienKetPhuHuynhHocSinh>().AnyAsync(x => x.PhuHuynhId == benHoc.Id && x.HocSinhId == studentId && x.TrangThai == "DaLienKet" && x.KetThucLuc == null), "Bạn chưa có liên kết hợp lệ với học sinh của lớp.", 403);
+        var parentId = person.VaiTro == "PhuHuynh" ? person.TaiKhoanId : c.BenHocId;
+        Rules.Check(person.VaiTro != "HocSinh" || person.TaiKhoanId == studentId, "Chỉ thêm đúng học sinh của lớp.", 403);
+        var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.PhuHuynhId == parentId && x.HocSinhId == studentId && x.TrangThai == "DaLienKet" && x.KetThucLuc == null)
+            ?? throw new LoiNghiepVu("Tài khoản này chưa có liên kết phù hợp với học sinh của lớp.", 403);
+        person.LienKetId = link.Id;
+        person.HocSinhId = studentId;
         return person;
     }
 
@@ -78,7 +91,7 @@ public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService curre
         await KhoaThanhVienLopAsync(id);
         var person = await TimNguoiDuocMoiAsync(id, email);
         var user = await current.HienTaiAsync();
-        var member = new ThanhVienLopHoc { Id = Guid.NewGuid(), LopHocId = id, TaiKhoanId = person.TaiKhoanId, NguoiDeNghiId = user.Id, TrangThaiDuyet = "ChoDuyet", DeNghiLuc = DateTimeOffset.UtcNow };
+        var member = new ThanhVienLopHoc { Id = Guid.NewGuid(), LopHocId = id, TaiKhoanId = person.TaiKhoanId, NguoiDeNghiId = user.Id, LienKetId = person.LienKetId, TrangThaiDuyet = "ChoDuyet", DeNghiLuc = DateTimeOffset.UtcNow };
         db.Add(member);
         notices.Tao(person.TaiKhoanId, "LoiMoiLop", member.Id, user.HoTen + " mời bạn tham gia lớp học.");
         await db.SaveChangesAsync();
@@ -120,7 +133,7 @@ public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService curre
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
-    public async Task DuyetAsync(Guid member, string action, string permission, string version)
+    public async Task DuyetAsync(Guid member, string action, string permission, string version, bool choPhepNopBai = false)
     {
         var classId = await db.Set<ThanhVienLopHoc>().Where(x => x.Id == member).Select(x => (Guid?)x.LopHocId)
             .SingleOrDefaultAsync() ?? throw new LoiNghiepVu("Không có thành viên.", 404);
@@ -134,9 +147,25 @@ public sealed class LopHocService(AppDbContext db, NguoiDungHienTaiService curre
         Rules.Check(m.RoiLopLuc == null && (m.TrangThaiDuyet is "ChoDuyet" or "DaDuyet"), "Đề nghị này đã được xử lý.", 409);
         Rules.Check(m.TrangThaiDuyet != "ChoDuyet" || m.DongYThamGiaLuc != null, "Người được mời cần đồng ý trước khi gia sư duyệt.", 409);
         Rules.Concurrency(db, m, version);
+        if (action == "DaDuyet")
+        {
+            var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.Id == m.LienKetId && x.TrangThai == "DaLienKet" && x.KetThucLuc == null)
+                ?? throw new LoiNghiepVu("Liên kết tài khoản không còn hiệu lực.", 409);
+            var owner = await db.Set<NguoiThamGia>().SingleAsync(x => x.Id == c.BenHocId);
+            var studentId = owner.LoaiNguoi == "HocSinh" ? owner.Id : c.HocSinhLienKetId ?? link.HocSinhId;
+            Rules.Check(link.HocSinhId == studentId, "Liên kết không thuộc người học của lớp.", 403);
+            if (owner.LoaiNguoi == "PhuHuynh")
+                Rules.Check(await db.Set<LienKetPhuHuynhHocSinh>().AnyAsync(x => x.PhuHuynhId == owner.Id && x.HocSinhId == studentId && x.TrangThai == "DaLienKet" && x.KetThucLuc == null), "Bên học không còn liên kết phù hợp.", 409);
+            var accounts = await (from memberRow in db.Set<ThanhVienLopHoc>() join person in db.Set<NguoiThamGia>() on memberRow.TaiKhoanId equals person.Id where memberRow.LopHocId == c.Id && memberRow.TrangThaiDuyet == "DaDuyet" && memberRow.RoiLopLuc == null select person.Id).ToListAsync();
+            accounts.Add(c.BenHocId); accounts.Add(c.GiaSuId); accounts.Add(m.TaiKhoanId);
+            var people = await db.Set<NguoiThamGia>().Where(x => accounts.Contains(x.Id)).ToListAsync();
+            Rules.Check(people.Count(x => x.LoaiNguoi == "HocSinh") <= 1 && people.Count(x => x.LoaiNguoi == "PhuHuynh") <= 2, "Lớp chỉ có một học sinh và tối đa hai phụ huynh.", 409);
+            c.HocSinhLienKetId = studentId;
+        }
         m.TrangThaiDuyet = action;
         m.MucQuyen = action == "DaDuyet" ? permission : m.MucQuyen;
-        m.DuyetLuc = DateTimeOffset.UtcNow;
+        if (action == "DaDuyet") m.ChoPhepNopBai = permission == "ChinhSua" && choPhepNopBai;
+        if (m.DuyetLuc == null) m.DuyetLuc = DateTimeOffset.UtcNow;
         if (action == "DaRoiLop")
             m.RoiLopLuc = DateTimeOffset.UtcNow;
         notices.Tao(m.TaiKhoanId, action == "DaDuyet" ? "ThanhVien" : "LoiMoiLop", action == "DaDuyet" ? c.Id : m.Id,

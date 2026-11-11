@@ -54,6 +54,7 @@
     <div class="actions">
         @if (managedNeed != null)
         {
+            @if(managedNeed.TrangThai == "DangMo" && managedNeed.NhacXacNhanLuc != null){<form action="/NhuCau/NhuCau/XacNhanConNhuCau" method="post">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@managedNeed.Id"><input type="hidden" name="rowVersion" value="@Convert.ToBase64String(managedNeed.RowVersion)"><button class="btn btn-primary">Tôi còn tìm gia sư</button></form>}
             <a data-modal class="btn btn-outline-primary secondary" href="/NhuCau/NhuCau/Sua/@managedNeed.Id">Chỉnh sửa</a>
             @if (managedNeed.TrangThai != "BanNhap")
             {

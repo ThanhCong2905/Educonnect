@@ -16,7 +16,8 @@ public sealed class BangCapService(AppDbContext db, NguoiDungHienTaiService curr
         var u = await current.HienTaiAsync();
         var allowUnscanned = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedUploads") == true;
         var f = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.HoSoGiaSuId != null && (x.TrangThaiQuet == "Sach" || (allowUnscanned && x.TrangThaiQuet == "ChoQuet"))) ?? throw new LoiNghiepVu("Không tìm thấy bằng cấp khả dụng.", 404);
-        Rules.Check(u.LoaiNguoi == "QuanTri" || await db.Set<HoSoGiaSu>().AnyAsync(h => h.Id == f.HoSoGiaSuId && h.GiaSuId == u.Id), "Chỉ chủ hồ sơ được tải bằng cấp.", 403);
+        var reviewer=u.LoaiNguoi=="QuanTri"&&await db.UserClaims.AnyAsync(x=>x.UserId==u.Id&&x.ClaimType=="EduConnect.AdminPermission"&&x.ClaimValue=="DuyetHoSo");
+        Rules.Check(reviewer || await db.Set<HoSoGiaSu>().AnyAsync(h => h.Id == f.HoSoGiaSuId && h.GiaSuId == u.Id), "Bạn chưa có quyền tải bằng cấp này.", 403);
         var path = Path.Combine(env.ContentRootPath, "uploads", f.TenLuuTru);
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return (f, path);

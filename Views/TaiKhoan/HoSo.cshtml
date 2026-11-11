@@ -1,0 +1,13 @@
+@model EduConnect.Mvc.ViewModels.HoSoTaiKhoanInput
+@{ViewData["Title"]="Thông tin cá nhân";}
+<h1>Thông tin cá nhân</h1>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="ConcurrencyStamp" type="hidden">
+    <label asp-for="HoTen">Họ tên <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="HoTen" maxlength="256" required class="form-control">
+    <label asp-for="SoDienThoai" class="mt-3">Số điện thoại</label>
+    <input asp-for="SoDienThoai" maxlength="32" type="tel" class="form-control">
+    <label class="mt-3">Email đăng nhập<input value="@Model.Email" readonly class="form-control"></label>
+    <div class="actions mt-4"><button class="btn btn-primary">Lưu thông tin</button><a asp-action="DoiMatKhau">Đổi mật khẩu</a></div>
+</form>

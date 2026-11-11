@@ -2,6 +2,8 @@ namespace EduConnect.Mvc.Areas.HocTap.ViewModels;
 
 public sealed class NguoiDuocMoiViewModel
 {
+    public Guid LienKetId { get; set; }
+    public Guid HocSinhId { get; set; }
     public Guid LopHocId { get; init; }
     public Guid TaiKhoanId { get; init; }
     public string Email { get; init; } = "";

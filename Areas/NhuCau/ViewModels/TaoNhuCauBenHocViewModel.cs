@@ -5,6 +5,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.ViewModels;
 
 public sealed class TaoNhuCauBenHocViewModel
 {
+    public Guid MaThaoTac { get; set; } = Guid.NewGuid();
     public Guid? MaNhuCau { get; set; }
     public byte[]? RowVersion { get; set; }
     public List<int> MonHocIds { get; set; } = [];
@@ -28,7 +29,7 @@ public sealed class TaoNhuCauBenHocViewModel
 
     public NhuCauInput ToInput() => new()
     {
-        Id = MaNhuCau, RowVersion = RowVersion == null ? null : Convert.ToBase64String(RowVersion),
+        Id = MaNhuCau, MaThaoTac = MaThaoTac, RowVersion = RowVersion == null ? null : Convert.ToBase64String(RowVersion),
         MonHocIds = MonHocIds.Count > 0 ? [.. MonHocIds] : MonHocId > 0 ? [MonHocId] : [], MonHocId = MonHocId, ChonMonKhac = ChonMonKhac,
         TenMonKhac = TenMonKhac, KhoiLop = KhoiLop, HocLuc = HocLuc, MucTieu = MucTieu,
         SoBuoiTuan = SoBuoiTuan, HinhThucHoc = HinhThucHoc, KhuVuc = KhuVuc,
@@ -38,7 +39,7 @@ public sealed class TaoNhuCauBenHocViewModel
 
     public static TaoNhuCauBenHocViewModel FromInput(NhuCauInput m) => new()
     {
-        MaNhuCau = m.Id, RowVersion = string.IsNullOrEmpty(m.RowVersion) ? null : Rules.Version(m.RowVersion),
+        MaNhuCau = m.Id, MaThaoTac = m.MaThaoTac, RowVersion = string.IsNullOrEmpty(m.RowVersion) ? null : Rules.Version(m.RowVersion),
         MonHocIds = [.. m.MonHocIds], MonHocId = m.MonHocIds.FirstOrDefault(), ChonMonKhac = m.ChonMonKhac,
         TenMonKhac = m.TenMonKhac, KhoiLop = m.KhoiLop, HocLuc = m.HocLuc, MucTieu = m.MucTieu,
         SoBuoiTuan = m.SoBuoiTuan, HinhThucHoc = m.HinhThucHoc, KhuVuc = m.KhuVuc,

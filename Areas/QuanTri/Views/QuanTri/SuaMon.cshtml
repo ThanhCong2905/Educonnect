@@ -1,0 +1,12 @@
+@model MonHocQuanTriViewModel
+@{ViewData["Title"]="Cập nhật môn học";}
+<h1>Cập nhật môn học</h1>
+<form method="post" asp-action="LuuMon" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="Id" type="hidden"><input asp-for="RowVersion" type="hidden">
+    <label asp-for="TenMon">Tên môn <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="TenMon" required maxlength="100" class="form-control">
+    <label asp-for="DangSuDung" class="mt-3">Trạng thái</label>
+    <select asp-for="DangSuDung" class="form-select"><option value="true">Đang sử dụng</option><option value="false">Ngừng sử dụng</option></select>
+    <div class="actions mt-3"><button class="btn btn-primary">Lưu môn học</button><a asp-action="MonHoc">Quay lại</a></div>
+</form>

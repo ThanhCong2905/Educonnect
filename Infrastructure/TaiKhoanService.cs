@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users, SignInManager<TaiKhoan> signIn,
+public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users, SignInManager<TaiKhoan> signIn,
     PhienDangNhapService sessions, PhienCapNhat realtime, EmailTaiKhoanService email, IConfiguration configuration)
 {
     private static readonly string DummyHash = new PasswordHasher<TaiKhoan>().HashPassword(new TaiKhoan(), Guid.NewGuid().ToString("N"));

@@ -119,3 +119,11 @@
         </div>
     </section>
 }
+
+@if(!preview)
+{
+    <section class="card mt-4">
+        <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId"/>
+        <a data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>
+    </section>
+}

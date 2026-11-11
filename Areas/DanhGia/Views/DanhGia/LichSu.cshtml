@@ -1,0 +1,5 @@
+@model List<LichSuPhanHoi>
+@{ViewData["Title"]="Lịch sử phản hồi";}
+<h1>Lịch sử phản hồi</h1>
+@foreach(var p in Model){<article class="card mb-3"><small>@Rules.Date(p.ThayDoiLuc)</small><p class="pre">@p.NoiDung</p>@if(p.MucDoHaiLong.HasValue){<p>Hài lòng @p.MucDoHaiLong/5</p>}</article>}
+@if(Model.Count==0){<div class="empty">Phiếu chưa được chỉnh sửa.</div>}

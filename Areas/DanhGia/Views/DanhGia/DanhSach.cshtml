@@ -1,0 +1,45 @@
+@model TienDoViewModel
+@inject NguoiDungHienTaiService Current
+@{ViewData["Title"]="Tiến độ và phản hồi";var me=await Current.HienTaiAsync();var main=me.Id==Model.Lop.GiaSuId||me.Id==Model.Lop.BenHocId;}
+<div class="heading"><div><h1>Tiến độ và phản hồi</h1><p>@Model.Lop.TenLop</p></div><a class="btn btn-outline-primary" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id">Về lớp học</a></div>
+<form method="get" class="card"><input name="maLop" value="@Model.Lop.Id" type="hidden"><div class="row g-3 align-items-end"><div class="col-md-5"><label>Từ ngày<input type="date" name="tuNgay" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" class="form-control"></label></div><div class="col-md-5"><label>Đến ngày<input type="date" name="denNgay" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" class="form-control"></label></div><div class="col-md-2"><button class="btn btn-primary">Xem</button></div></div></form>
+<div class="row row-cols-2 row-cols-xl-4 g-3 mb-4">
+    <div class="col"><article class="card h-100"><span>Buổi đã học</span><strong class="fs-2 d-block mt-2">@Model.SoBuoiDaHoc</strong><small class="d-block mt-2">@Model.SoBuoiNghi buổi nghỉ · @Model.SoBuoiChuaGhiNhan chưa ghi nhận</small></article></div>
+    <div class="col"><article class="card h-100"><span>Bài đã nộp</span><strong class="fs-2 d-block mt-2">@Model.SoBaiDaNop / @Model.SoBaiDaGiao</strong><small class="d-block mt-2">@Model.SoBaiNopMuon bài nộp muộn</small></article></div>
+    <div class="col"><article class="card h-100"><span>Bài đã chấm</span><strong class="fs-2 d-block mt-2">@Model.SoBaiDaCham</strong><small class="d-block mt-2">Tính theo lần nộp mới nhất</small></article></div>
+    <div class="col"><article class="card h-100"><span>Điểm trung bình</span><strong class="fs-2 d-block mt-2">@(Model.DiemTrungBinh?.ToString("0.##")??"—")</strong><small class="d-block mt-2">Các bài có điểm trong khoảng chọn</small></article></div>
+</div>
+<section class="card"><h2>Tham dự và kết quả</h2><p>Gia sư có mặt @Model.GiaSuCoMat / @Model.SoBuoiDaHoc buổi đã học. Bên học có mặt @Model.BenHocCoMat / @Model.SoBuoiDaHoc buổi đã học.</p>
+<div class="row g-4"><div class="col-md-6"><h3>Buổi học gần đây</h3>@foreach(var b in Model.Buoi){<p><a href="/HocTap/LichHoc/Buoi/@b.LichHocId">@b.TieuDe</a> · @Rules.Label(b.TrangThai)</p>}@if(Model.Buoi.Count==0){<p class="muted">Chưa có dữ liệu trong khoảng đã chọn.</p>}</div>
+<div class="col-md-6"><h3>Bài tập</h3>@foreach(var b in Model.Bai){<p><a href="/HocTap/BaiTap/ChiTiet/@b.Id">@b.TieuDe</a> · @Rules.Date(b.HanNopLuc)</p>}<a href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=assignments">Xem bài tập của lớp</a></div></div></section>
+@if(Model.Diem.Count>0)
+{
+    <section class="card table-responsive">
+        <h2>Kết quả chấm gần đây</h2>
+        <table class="table"><thead><tr><th>Bài tập</th><th>Điểm</th><th>Ngày chấm</th></tr></thead><tbody>
+        @foreach(var d in Model.Diem){<tr><td><a href="/HocTap/BaiTap/ChiTiet/@d.BaiTapId">@d.TieuDe</a></td><td>@(d.Diem?.ToString("0.##")??"Chỉ nhận xét")</td><td>@Rules.Date(d.ChamLuc)</td></tr>}
+        </tbody></table>
+    </section>
+}
+<div class="heading"><h2>Phản hồi theo đợt</h2>@if(main&&Model.Lop.TrangThai=="DangHoatDong"){<a data-modal class="btn btn-primary" asp-action="TaoDot" asp-route-maLop="@Model.Lop.Id">Mở đợt phản hồi</a>}</div>
+@foreach(var d in Model.Dot)
+{
+    var open=d.TrangThai=="DangMo"&&d.HanGui>DateTimeOffset.UtcNow&&Model.Lop.TrangThai=="DangHoatDong";
+    <article class="card mb-3"><div class="heading"><div><h3>@d.Ten</h3><small>@Rules.Date(d.TuNgay) – @Rules.Date(d.DenNgay) · Hạn @Rules.Date(d.HanGui)</small></div><span class="badge rounded-pill">@(open?"Đang nhận phản hồi":"Đã đóng")</span></div>
+    @foreach(var p in Model.Phieu.Where(p=>p.DotPhanHoiId==d.Id))
+    {
+        <section class="border-top pt-3 mt-3"><strong>@Model.HoTen.GetValueOrDefault(p.NguoiGuiId,"Thành viên")</strong><small class="muted"> · @Rules.Date(p.GuiLuc)</small>@if(p.MucDoHaiLong.HasValue){<span> · Hài lòng @p.MucDoHaiLong/5</span>}<p class="pre">@p.NoiDung</p><a data-modal asp-action="LichSu" asp-route-id="@p.Id">Lịch sử chỉnh sửa</a></section>
+    }
+    @if(!Model.Phieu.Any(p=>p.DotPhanHoiId==d.Id)){<p class="muted mt-3">Chưa có phản hồi.</p>}
+    <div class="actions mt-3">@if(open&&Model.CoThePhanHoi){<a data-modal class="btn btn-outline-primary" asp-action="Gui" asp-route-maLop="@Model.Lop.Id" asp-route-dotPhanHoiId="@d.Id">@(Model.Phieu.Any(p=>p.DotPhanHoiId==d.Id&&p.NguoiGuiId==me.Id)?"Sửa phản hồi":"Gửi phản hồi")</a>}
+    @if(main&&Model.Lop.TrangThai=="DangHoatDong")
+    {
+        <a data-modal class="btn btn-outline-primary" asp-action="QuyetDinh" asp-route-maLop="@Model.Lop.Id" asp-route-dotPhanHoiId="@d.Id">Chọn hướng xử lý</a>
+        @if(open){<form method="post" asp-action="DongDot"><input name="id" value="@d.Id" type="hidden"><input name="maLop" value="@Model.Lop.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(d.RowVersion)" type="hidden"><button class="btn btn-outline-primary">Đóng đợt</button></form>}
+    }</div>
+    @foreach(var q in Model.QuyetDinh.Where(x=>x.DotPhanHoiId==d.Id)){<p class="mt-3">@(q.NguoiQuyetDinhId==Model.Lop.GiaSuId?"Gia sư":"Bên học") · @Rules.Label(q.QuyetDinh) · @q.GhiChu</p>}
+    </article>
+}
+@if(Model.Dot.Count==0){<div class="empty">Chưa có đợt phản hồi.</div>}
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.TongDot)"/>
+@if(Model.Phieu.Any(p=>p.DotPhanHoiId==null)){<section class="card"><h2>Phản hồi đã lưu trước đây</h2>@foreach(var p in Model.Phieu.Where(p=>p.DotPhanHoiId==null)){<h3>@p.MocDanhGia</h3><p class="pre">@p.NoiDung</p>}</section>}

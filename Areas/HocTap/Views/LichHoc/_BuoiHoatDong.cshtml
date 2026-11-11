@@ -1,0 +1,36 @@
+@model BuoiHoc
+@inject NguoiDungHienTaiService Current
+@{ var me = await Current.HienTaiAsync(); var schedule = (LichHoc)ViewBag.Schedule; var lop = (LopHoc)ViewBag.Class; var tutor = me.Id == lop.GiaSuId; var active = lop.TrangThai == "DangHoatDong"; var tasks = (List<BaiTapGiao>)ViewBag.Tasks;
+    var makeups = (List<LichHoc>)ViewBag.Makeups;
+    var records = (List<BuoiHoc>)ViewBag.Records;
+    var completed = makeups.Any(x => records.Any(b => b.LichHocId == x.Id && b.TrangThai == "DaHoc"));
+    var planned = makeups.FirstOrDefault(x => x.TrangThai == "DaLenLich" && records.Any(b => b.LichHocId == x.Id && b.TrangThai is "DuKien" or "DangDienRa"));
+}
+<div class="actions">
+@if (tutor && active)
+{
+    @if (Model.TrangThai == "DuKien" && schedule.BatDauLuc <= DateTimeOffset.UtcNow && schedule.KetThucLuc > DateTimeOffset.UtcNow)
+    {
+        <form method="post" asp-action="BatDauBuoi"><input name="id" type="hidden" value="@schedule.Id"><input name="rowVersion" type="hidden" value="@Convert.ToBase64String(Model.RowVersion)"><button class="btn btn-primary">Bắt đầu buổi học</button></form>
+    }
+    @if (Model.TrangThai is "DuKien" or "DangDienRa") { <a class="btn btn-outline-primary" data-modal asp-action="Nghi" asp-route-id="@schedule.Id">Thông báo nghỉ</a> }
+    @if (Model.TrangThai is "DuKien" or "DangDienRa" or "DaHoc") { <a class="btn btn-primary" data-modal asp-controller="BaiTap" asp-action="Giao" asp-route-id="@lop.Id" asp-route-buoi="@Model.Id">@(Model.TrangThai == "DuKien" ? "Chuẩn bị bài tập" : "Giao bài tập")</a> }
+    @if (Model.TrangThai == "DaNghi" && Model.CanHocBu && !completed && planned == null) { <a class="btn btn-outline-primary" data-modal asp-action="Sua" asp-route-id="@schedule.Id">Xếp lịch bù</a> }
+}
+</div>
+@if (Model.TrangThai == "DaNghi")
+{
+    <article class="card"><h2>Buổi nghỉ</h2><p>@Model.LyDoNghi</p>
+    <p>@(!Model.CanHocBu ? "Không học bù" : completed ? "Đã học bù" : planned != null ? "Đã xếp lịch bù" : "Chờ xếp lịch bù")</p>
+    @foreach (var makeup in makeups) { <a asp-action="Buoi" asp-route-id="@makeup.Id">@makeup.TieuDe · @Rules.Date(makeup.BatDauLuc)</a> }
+    </article>
+}
+<section class="stack"><h2>Bài tập của buổi</h2>
+@foreach (var task in tasks)
+{
+    <article class="card"><h3>@task.TieuDe</h3><p>@(task.TrangThai == "BanNhap" ? "Bản nháp" : "Đã giao") · Hạn nộp: @Rules.Date(task.HanNopLuc)</p><div class="actions"><a class="btn btn-outline-primary" asp-controller="BaiTap" asp-action="ChiTiet" asp-route-id="@task.Id">@(tutor ? "Bài nộp và chấm bài" : "Xem và nộp bài")</a>
+    @if (tutor && active && task.TrangThai == "BanNhap") { <form method="post" asp-controller="BaiTap" asp-action="CongBo"><input name="id" type="hidden" value="@task.Id"><input name="rowVersion" type="hidden" value="@Convert.ToBase64String(task.RowVersion)"><button class="btn btn-primary">Giao bài</button></form> }
+    </div></article>
+}
+@if (tasks.Count == 0) { <p class="empty">Buổi này chưa có bài tập.</p> }
+</section>

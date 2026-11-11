@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
-public sealed class LichHocController(LichHocService service, LopHocService classes) : BaseController
+public sealed class LichHocController(LichHocService service, LopHocService classes, BaiTapService tasks) : BaseController
 {
     private void ThemLoi(Exception ex)
     {
@@ -41,6 +41,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
     {
         var s = await service.LayAsync(id);
         ViewBag.Schedule = s;
+        ViewBag.Record = (await service.GhiNhanChiTietAsync(id)).Record;
         return View(new SuaLichInput { Id = id, RowVersion = Convert.ToBase64String(s.RowVersion), Lich = new() { TieuDe = s.TieuDe, BatDauLuc = s.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).DateTime, KetThucLuc = s.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).DateTime } });
     }
     [HttpPost]
@@ -66,6 +67,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Schedule = await service.LayAsync(m.Id);
+        ViewBag.Record = (await service.GhiNhanChiTietAsync(m.Id)).Record;
         return View(m);
     }
     [HttpPost]
@@ -81,6 +83,7 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Schedule = await service.LayAsync(m.Id);
+        ViewBag.Record = (await service.GhiNhanChiTietAsync(m.Id)).Record;
         return View("Sua", m);
     }
     public async Task<IActionResult> Buoi(Guid id)
@@ -91,8 +94,47 @@ public sealed class LichHocController(LichHocService service, LopHocService clas
         ViewBag.Class = await classes.ChiTietAsync(s.LopHocId);
         ViewBag.Record = record;
         ViewBag.History = history;
-        return View(new GhiNhanBuoiHocViewModel { LichHocId = id, RowVersion = record == null ? null : Convert.ToBase64String(record.RowVersion), KetQuaBuoiHoc = record?.KetQuaBuoiHoc ?? "DaDienRa", NoiDung = record?.NoiDungGiangDay, NhanXet = record?.NhanXet ?? "", TrangThaiGiaSu = record?.TrangThaiThamDuGiaSu ?? "CoMat", TrangThaiBenHoc = record?.TrangThaiThamDuBenHoc ?? "CoMat" });
+        ViewBag.Tasks = (await tasks.LayAsync(s.LopHocId)).Where(x => x.BuoiHocId == record?.Id).ToList();
+        ViewBag.Makeups = (await classes.LichAsync(s.LopHocId)).Where(x => x.LaBuoiBu && x.LichGocId == (s.LaBuoiBu ? s.LichGocId : s.Id) && x.Id != s.Id).ToList();
+        ViewBag.Records = await classes.BuoiAsync(s.LopHocId);
+        ViewBag.ScheduleHistory = await service.LichSuDieuChinhAsync(id);
+        return View(new GhiNhanBuoiHocViewModel { LichHocId = id, RowVersion = record == null ? null : Convert.ToBase64String(record.RowVersion), CanHocBu = record?.CanHocBu ?? false, KetQuaBuoiHoc = record?.KetQuaBuoiHoc ?? "DaDienRa", NoiDung = record?.NoiDungGiangDay, NhanXet = record?.NhanXet ?? "", TrangThaiGiaSu = record?.TrangThaiThamDuGiaSu ?? "CoMat", TrangThaiBenHoc = record?.TrangThaiThamDuBenHoc ?? "CoMat" });
     }
+    [HttpPost]
+    public async Task<IActionResult> BatDauBuoi(Guid id, string rowVersion)
+    {
+        await service.BatDauBuoiAsync(id, rowVersion);
+        Success("Buổi học đã bắt đầu.");
+        return RedirectToAction(nameof(Buoi), new { id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Nghi(Guid id)
+    {
+        ViewBag.Schedule = await service.LayAsync(id);
+        ViewBag.Record = (await service.GhiNhanChiTietAsync(id)).Record;
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ThongBaoNghi(Guid id, string reason, bool canHocBu, string rowVersion)
+    {
+        try
+        {
+            await service.ThongBaoNghiAsync(id, reason, canHocBu, rowVersion);
+            Success("Đã thông báo nghỉ.");
+            return RedirectToAction(nameof(Buoi), new { id });
+        }
+        catch (Exception ex) when (Rules.ErrorStatus(ex) < 500)
+        {
+            ThemLoi(ex);
+            await Nghi(id);
+            ViewBag.Reason = reason;
+            ViewBag.CanHocBu = canHocBu;
+            return View("Nghi");
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> GhiNhan(GhiNhanBuoiHocViewModel m)
     {

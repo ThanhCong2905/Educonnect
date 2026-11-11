@@ -1,0 +1,16 @@
+@model TaoDotPhanHoiViewModel
+@{ViewData["Title"]="Mở đợt phản hồi";}
+<h1>Mở đợt phản hồi</h1>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="MaLop" type="hidden">
+    <label asp-for="Ten">Tên đợt <span class="required-mark" aria-hidden="true">*</span></label>
+    <input asp-for="Ten" class="form-control" maxlength="100" required>
+    <span asp-validation-for="Ten"></span>
+    <div class="row g-3 mt-1">
+        <div class="col-md-4"><label asp-for="TuNgay">Từ ngày <span class="required-mark" aria-hidden="true">*</span></label><input asp-for="TuNgay" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control" required></div>
+        <div class="col-md-4"><label asp-for="DenNgay">Đến ngày <span class="required-mark" aria-hidden="true">*</span></label><input asp-for="DenNgay" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control" required></div>
+        <div class="col-md-4"><label asp-for="HanGui">Hạn phản hồi <span class="required-mark" aria-hidden="true">*</span></label><input asp-for="HanGui" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control" required></div>
+    </div>
+    <div class="actions mt-4"><button class="btn btn-primary">Mở đợt</button><a asp-action="DanhSach" asp-route-maLop="@Model.MaLop">Quay lại</a></div>
+</form>

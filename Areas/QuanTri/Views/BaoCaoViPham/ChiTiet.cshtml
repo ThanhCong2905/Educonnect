@@ -1,0 +1,25 @@
+@model BaoCaoChiTietViewModel
+@inject NguoiDungHienTaiService Current
+@{ViewData["Title"]="Chi tiết báo cáo";var r=Model.BaoCao;var me=await Current.HienTaiAsync();var input=ViewBag.XuLy as XuLyBaoCaoViewModel;}
+<div class="heading"><h1>Chi tiết báo cáo</h1><span class="badge rounded-pill">@Rules.Label(r.TrangThai)</span></div>
+<section class="card"><small>Gửi @Rules.Date(r.GuiLuc)</small><h2>@r.LyDo</h2><p class="pre">@r.MoTa</p>
+    <h3>Bằng chứng</h3>@foreach(var f in Model.Tep){<a asp-action="Tep" asp-route-id="@f.Id">@f.TenGoc</a>}@if(Model.Tep.Count==0){<p class="muted">Chưa đính kèm tệp.</p>}
+    @if(Model.CoTheXuLy){<details class="mt-3"><summary>Nội dung tại thời điểm báo cáo</summary><pre class="text-wrap">@r.BanChup</pre></details>}
+</section>
+@if(r.KetLuan!=null){<section class="card"><h2>Kết quả đã ghi nhận</h2><strong>@Rules.Label(r.KetQua)</strong><p class="pre">@r.KetLuan</p><small>@Rules.Date(r.XuLyLuc)</small></section>}
+@if(Model.CoTheXuLy&&r.TrangThai=="ChoXuLy"){<form method="post" asp-action="NhanXuLy" class="actions mb-4"><input name="id" value="@r.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><button class="btn btn-primary">Nhận xử lý</button></form>}
+@if(Model.CoTheXuLy&&r.TrangThai=="DangXuLy"&&r.NguoiXuLyId==me.Id)
+{
+    <form method="post" asp-action="XuLy" class="card"><h2>Kết luận xử lý</h2><div asp-validation-summary="All" class="validation" role="alert"></div>
+        <input name="Id" value="@r.Id" type="hidden"><input name="RowVersion" value="@(input?.RowVersion??Convert.ToBase64String(r.RowVersion))" type="hidden">
+        <label>Kết quả <span class="required-mark" aria-hidden="true">*</span><select name="KetQua" class="form-select"><option value="XuLy" selected="@(input?.KetQua!="BacBo")">Xử lý</option><option value="BacBo" selected="@(input?.KetQua=="BacBo")">Bác bỏ do chưa đủ căn cứ</option></select></label>
+        <label class="mt-3">Biện pháp khi xử lý<select name="BienPhap" class="form-select"><option value="NhacNho">Nhắc nhở</option><option value="AnNoiDung" selected="@(input?.BienPhap=="AnNoiDung")">Ẩn nội dung vi phạm</option><option value="KhoaTaiKhoan" selected="@(input?.BienPhap=="KhoaTaiKhoan")">Khóa tài khoản liên quan</option></select></label>
+        <label class="mt-3">Kết luận <span class="required-mark" aria-hidden="true">*</span><textarea name="KetLuan" maxlength="2000" rows="5" class="form-control" required>@input?.KetLuan</textarea></label>
+        <button class="btn btn-primary align-self-start mt-3">Lưu kết quả</button>
+    </form>
+}
+@if(r.NguoiBaoCaoId==me.Id)
+{
+    <details class="card"><summary>@(r.TrangThai=="DaXuLy"?"Đề nghị xem lại kết quả":"Bổ sung thông tin")</summary><form method="post" asp-action="BoSung" class="mt-3"><input name="id" value="@r.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><input name="xemLai" value="@((r.TrangThai=="DaXuLy").ToString().ToLowerInvariant())" type="hidden"><label>Nội dung <span class="required-mark" aria-hidden="true">*</span><textarea name="text" maxlength="2000" rows="4" required class="form-control"></textarea></label><button class="btn btn-outline-primary mt-3">Gửi bổ sung</button></form></details>
+}
+<section class="card"><h2>Lịch sử xử lý</h2>@foreach(var h in Model.LichSu){<div class="border-top py-3"><small>@Rules.Date(h.TaoLuc)</small><strong class="d-block">@Rules.Label(h.HanhDong)</strong><p class="pre">@h.NoiDung</p></div>}@if(Model.LichSu.Count==0){<p class="muted">Báo cáo đang chờ tiếp nhận.</p>}</section>

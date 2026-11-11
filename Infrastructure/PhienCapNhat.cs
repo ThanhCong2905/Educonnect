@@ -50,4 +50,9 @@ public sealed class PhienCapNhat(TimeProvider? time = null)
         foreach (var c in connections.Values.Where(c => !HopLe(c))) Xoa(c.Id, true);
         foreach (var pair in sessions.Where(p => p.Value.HetHan <= Now)) sessions.TryRemove(pair);
     }
+    public void ThuHoiNguoi(Guid userId)
+    {
+        foreach(var session in sessions.Where(x=>x.Value.Nguoi==userId).Select(x=>x.Key).ToArray())
+            ThuHoi(session);
+    }
 }

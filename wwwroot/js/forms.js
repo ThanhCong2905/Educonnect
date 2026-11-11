@@ -7,6 +7,7 @@ window.EduConnect.initFilePickers=(root=document)=>{
   if(picker.dataset.filePickerReady)return;
   picker.dataset.filePickerReady='true';
   let list=picker.closest('[data-certificate-picker]')?.querySelector('[data-certificate-selection]');
+  if(picker.hasAttribute('data-chat-files'))list=picker.form.querySelector('[data-chat-file-selection]');
   if(!list){list=document.createElement('ul');list.setAttribute('aria-label','Tệp đã chọn');(picker.closest('label')||picker).after(list);}
   list.classList.add('upload-selection');
   function render(){
@@ -37,17 +38,26 @@ window.EduConnect.clearRowErrors=(form,list,prefix)=>{
 window.EduConnect.fieldLabel=input=>input.closest('label')?.querySelector('.field-caption')?.textContent.replace('*','').trim()||input.closest('label')?.childNodes[0]?.textContent.trim()||'Trường này';
 window.EduConnect.markRequired=(root=document)=>{
  root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>form.noValidate=true);
+ const placeMark=(label,mark)=>{
+  const caption=document.createElement('span');caption.className='field-caption';
+  [...label.childNodes].filter(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim()).forEach(node=>caption.append(node));
+  const title=caption.textContent.trim();
+  if(!title)return;
+  caption.textContent=title+'\u00a0';
+  caption.append(mark);label.prepend(caption);
+ };
+ root.querySelectorAll('label > .required-mark, legend > .required-mark').forEach(mark=>placeMark(mark.parentElement,mark));
  root.querySelectorAll('input:not([type="hidden"]),select,textarea').forEach(input=>{
   if(!input.required&&(input.type==='file'||!input.hasAttribute('data-val-required'))){input.removeAttribute('aria-required');input.closest('label')?.querySelector('.required-mark')?.remove();return;}
   input.setAttribute('aria-required','true');
   const label=input.closest('label');if(!label||label.querySelector('.required-mark'))return;
-  const caption=document.createElement('span');caption.className='field-caption';
-  [...label.childNodes].filter(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim()).forEach(node=>caption.append(node));
-  if(!caption.textContent.trim())return;
-  const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-hidden','true');caption.append(mark);label.prepend(caption);
+  const caption=label.querySelector(':scope > .field-caption');
+  const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-hidden','true');
+  if(caption){caption.textContent=caption.textContent.trim()+'\u00a0';caption.append(mark);}else placeMark(label,mark);
  });
- root.querySelectorAll('[data-slot-list]').forEach(list=>{const legend=list.closest('fieldset')?.querySelector('legend');if(legend&&!legend.querySelector('.required-mark')){const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-label','Bắt buộc khi đăng');legend.append(mark);}});
- root.querySelectorAll('.subject-picker>legend').forEach(legend=>{if(legend.querySelector('.required-mark'))return;const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-label','Bắt buộc');legend.append(mark);});
+ const markLegend=(legend,label)=>{if(!legend||legend.querySelector('.required-mark'))return;const mark=document.createElement('span');mark.className='required-mark';mark.textContent='*';mark.setAttribute('aria-label',label);placeMark(legend,mark);};
+ root.querySelectorAll('[data-slot-list]').forEach(list=>markLegend(list.closest('fieldset')?.querySelector('legend'),'Bắt buộc khi đăng'));
+ root.querySelectorAll('.subject-picker>legend').forEach(legend=>markLegend(legend,'Bắt buộc'));
 };
 window.EduConnect.validateForm=(form,submitter)=>{
  const errors={};const draft=submitter?.formNoValidate;

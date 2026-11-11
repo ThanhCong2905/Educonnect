@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, TepService files)
+public sealed partial class TinNhanService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, TepService files)
 {
     public async Task<bool> CoTheGuiAsync(Guid id)
     {
@@ -14,10 +14,11 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService curr
         if (c.LoaiHoiThoai != "TheoLop")
             return true;
         var u = await current.HienTaiAsync();
-        return await db.Set<LopHoc>().AnyAsync(l => l.Id == c.LopHocId && l.TrangThai == "DangHoatDong" && (l.GiaSuId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == l.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null && m.MucQuyen == "ChinhSua")));
+        return await db.Set<LopHoc>().AnyAsync(l => l.Id == c.LopHocId && l.TrangThai == "DangHoatDong" && (l.GiaSuId == u.Id || l.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == l.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null && m.MucQuyen == "ChinhSua")));
     }
     public async Task<List<CuocHoiThoai>> LayAsync(string? q = null)
     {
+        Rules.Check((q?.Length ?? 0) <= 100, "Từ khóa tối đa 100 ký tự.", field: "q");
         var u = await current.HienTaiAsync();
         return await db.Set<CuocHoiThoai>().AsNoTracking().Where(c => c.LoaiHoiThoai == "TruocKetNoi").Where(c => c.LoaiHoiThoai == "TruocKetNoi" ? (c.GiaSuId == u.Id || c.BenHocId == u.Id) && db.Set<YeuCauLienHe>().Any(h => h.Id == c.LienHeId && h.TrangThai == "ChapNhan") : db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.LopHocId && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null)).Where(c => q == null || db.Set<LopHoc>().Any(l => l.Id == c.LopHocId && l.TenLop.Contains(q)) || db.Set<NguoiThamGia>().Any(p => (p.Id == c.GiaSuId || p.Id == c.BenHocId) && p.Id != u.Id && p.HoTen.Contains(q))).OrderByDescending(c => c.TaoLuc).Take(100).ToListAsync();
     }
@@ -37,30 +38,34 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService curr
     }
     public async Task<List<TinNhan>> LichSuAsync(Guid id, string? q = null, int page = 1)
     {
+        Rules.Check((q?.Length ?? 0) <= 100, "Từ khóa tối đa 100 ký tự.", field: "message");
         await KiemTraAsync(id);
+        var visibleFrom = await BatDauXemAsync(id);
         Rules.Check(page >= 1 && page <= 100000, "Trang không hợp lệ.");
-        var rows = await db.Set<TinNhan>().AsNoTracking().Where(x => x.CuocHoiThoaiId == id && (q == null || x.NoiDung.Contains(q))).OrderByDescending(x => x.GuiLuc).ThenByDescending(x => x.Id).Skip((page - 1) * 50).Take(50).ToListAsync();
+        var rows = await db.Set<TinNhan>().AsNoTracking().Where(x => x.CuocHoiThoaiId == id && x.GuiLuc >= visibleFrom && (q == null || x.NoiDung.Contains(q))).OrderByDescending(x => x.GuiLuc).ThenByDescending(x => x.Id).Skip((page - 1) * 50).Take(50).ToListAsync();
         rows.Reverse();
         return rows;
     }
     public async Task<object> DuLieuAsync(Guid id, Guid? before, Guid? after, string? q)
     {
+        Rules.Check((q?.Length ?? 0) <= 100, "Từ khóa tối đa 100 ký tự.", field: "message");
         await KiemTraAsync(id);
         Rules.Check(before == null || after == null, "Chỉ chọn một hướng tải tin nhắn.");
         var me = await current.HienTaiAsync();
+        var visibleFrom = await BatDauXemAsync(id);
         IQueryable<TinNhan> query = db.Set<TinNhan>();
         var cursor = before ?? after;
         DateTimeOffset? overlapTime = null;
         if (cursor.HasValue)
         {
-            var pivot = await db.Set<TinNhan>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == cursor && x.CuocHoiThoaiId == id)
+            var pivot = await db.Set<TinNhan>().IgnoreQueryFilters().AsNoTracking().SingleOrDefaultAsync(x => x.Id == cursor && x.CuocHoiThoaiId == id && x.GuiLuc >= visibleFrom)
                 ?? throw new LoiNghiepVu("Mốc tin nhắn không còn tồn tại.", 404);
             query = after.HasValue
                 ? db.Set<TinNhan>().Where(x => x.CuocHoiThoaiId == id && x.GuiLuc > pivot.GuiLuc)
                 : db.Set<TinNhan>().FromSqlInterpolated($"SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId={id} AND (GuiLuc<{pivot.GuiLuc} OR (GuiLuc={pivot.GuiLuc} AND Id<{pivot.Id}))");
             if (after.HasValue) overlapTime = pivot.GuiLuc;
         }
-        query = query.AsNoTracking().Where(x => x.CuocHoiThoaiId == id && (q == null || x.NoiDung.Contains(q)));
+        query = query.AsNoTracking().Where(x => x.CuocHoiThoaiId == id && x.GuiLuc >= visibleFrom && (q == null || x.NoiDung.Contains(q)));
         var ordered = after.HasValue ? query.OrderBy(x => x.GuiLuc).ThenBy(x => x.Id)
             : query.OrderByDescending(x => x.GuiLuc).ThenByDescending(x => x.Id);
         var rows = await ordered.Take(51).ToListAsync();
@@ -71,7 +76,7 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService curr
         if (overlapTime.HasValue)
         {
             var ties = await db.Set<TinNhan>().AsNoTracking()
-                .Where(x => x.CuocHoiThoaiId == id && x.GuiLuc == overlapTime && x.Id != after && (q == null || x.NoiDung.Contains(q)))
+                .Where(x => x.CuocHoiThoaiId == id && x.GuiLuc >= visibleFrom && x.GuiLuc == overlapTime && x.Id != after && (q == null || x.NoiDung.Contains(q)))
                 .OrderBy(x => x.Id).ToListAsync();
             rows.InsertRange(0, ties);
         }
@@ -117,15 +122,18 @@ public sealed class TinNhanService(AppDbContext db, NguoiDungHienTaiService curr
     }
     public async Task<Dictionary<Guid,List<TepDinhKem>>> TepTheoTinAsync(Guid room,List<Guid> ids)
     {
-        await KiemTraAsync(room);
-        var rows=await (from f in db.Set<TepDinhKem>().AsNoTracking() join m in db.Set<TinNhan>() on f.TinNhanId equals (Guid?)m.Id where m.CuocHoiThoaiId==room&&ids.Contains(m.Id)&&(f.TrangThaiQuet=="Sach"||(files.ChoPhepTepChuaQuet&&f.TrangThaiQuet=="ChoQuet")) select f).OrderBy(f=>f.TaoLuc).ThenBy(f=>f.Id).ToListAsync();
+        var visibleFrom = await BatDauXemAsync(room);
+        var rows=await (from f in db.Set<TepDinhKem>().AsNoTracking() join m in db.Set<TinNhan>() on f.TinNhanId equals (Guid?)m.Id where m.CuocHoiThoaiId==room&&m.GuiLuc>=visibleFrom&&ids.Contains(m.Id)&&(f.TrangThaiQuet=="Sach"||(files.ChoPhepTepChuaQuet&&f.TrangThaiQuet=="ChoQuet")) select f).OrderBy(f=>f.TaoLuc).ThenBy(f=>f.Id).ToListAsync();
         return rows.GroupBy(f=>f.TinNhanId!.Value).ToDictionary(g=>g.Key,g=>g.ToList());
     }
     public async Task<(TepDinhKem File,string Path)> TaiTepAsync(Guid id)
     {
         var f=await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(f=>f.Id==id&&f.TinNhanId!=null&&(f.TrangThaiQuet=="Sach"||(files.ChoPhepTepChuaQuet&&f.TrangThaiQuet=="ChoQuet")))??throw new LoiNghiepVu("Không tìm thấy tệp tin nhắn.",404);
-        var room=await db.Set<TinNhan>().Where(m=>m.Id==f.TinNhanId).Select(m=>m.CuocHoiThoaiId).SingleAsync();
-        await KiemTraAsync(room);return(f,files.DuongDan(f));
+        var room=await db.Set<TinNhan>().Where(m=>m.Id==f.TinNhanId).Select(m=>(Guid?)m.CuocHoiThoaiId).SingleOrDefaultAsync()
+            ??throw new LoiNghiepVu("Tệp thuộc nội dung đã được ẩn.",404);
+        var visibleFrom = await BatDauXemAsync(room);
+        Rules.Check(await db.Set<TinNhan>().AnyAsync(x=>x.Id==f.TinNhanId&&x.GuiLuc>=visibleFrom),"Bạn không được xem tệp thuộc lịch sử trước khi tham gia.",403);
+        return(f,files.DuongDan(f));
     }
     public async Task<Guid?> TheoLopAsync(Guid id)
     {

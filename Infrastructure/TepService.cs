@@ -107,7 +107,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
         }
         catch (InvalidDataException) { return false; }
     }
-    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null, Guid? tinNhan = null)
+    public async Task<List<string>> LuuAsync(List<(string Name, string Mime, byte[] Bytes)> files, Guid? giao = null, Guid? nop = null, Guid? hoSo = null, Guid? tinNhan = null, Guid? baoCao = null)
     {
         var u = await current.HienTaiAsync();
         Directory.CreateDirectory(Root);
@@ -120,7 +120,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
                 var path = Path.Combine(Root, key);
                 await File.WriteAllBytesAsync(path, f.Bytes);
                 written.Add(path);
-                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = ChoPhepTepChuaQuet ? "ChoQuet" : "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan });
+                db.Add(new TepDinhKem { Id = Guid.NewGuid(), NguoiTaiLenId = u.Id, TenGoc = f.Name, TenLuuTru = key, LoaiNoiDung = f.Mime, KichThuoc = f.Bytes.LongLength, Checksum = Convert.ToHexString(SHA256.HashData(f.Bytes)), TrangThaiQuet = ChoPhepTepChuaQuet ? "ChoQuet" : "Sach", TaoLuc = DateTimeOffset.UtcNow, BaiTapGiaoId = giao, BaiTapNopId = nop, HoSoGiaSuId = hoSo, TinNhanId = tinNhan, BaoCaoViPhamId = baoCao });
             }
             return written;
         }
@@ -147,7 +147,8 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             assignment = await db.Set<BaiTapNop>().Where(x => x.Id == f.BaiTapNopId).Select(x => (Guid?)x.BaiTapGiaoId).SingleOrDefaultAsync();
         Rules.Check(assignment != null, "Tệp không thuộc bài tập.", 403);
         var a = await db.Set<BaiTapGiao>().SingleAsync(x => x.Id == assignment);
-        await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        var lop = await rights.KiemTraQuyenXemAsync(a.LopHocId);
+        Rules.Check(a.TrangThai == "DaGiao" || lop.GiaSuId == (await current.HienTaiAsync()).Id, "Bài tập chưa được giao.", 404);
         var path = Path.Combine(Root, f.TenLuuTru);
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return (f, path);

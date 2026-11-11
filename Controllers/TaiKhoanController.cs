@@ -10,6 +10,43 @@ namespace EduConnect.Mvc.Controllers;
 [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
 public sealed class TaiKhoanController(TaiKhoanService accounts) : Controller
 {
+    [HttpGet]
+    public async Task<IActionResult> HoSo()=>View(await accounts.LayHoSoAsync(HttpContext));
+
+    [HttpPost]
+    public async Task<IActionResult> HoSo(HoSoTaiKhoanInput model)
+    {
+        if(ModelState.IsValid)
+        {
+            try { await accounts.LuuHoSoAsync(model,HttpContext); TempData["Success"]="Đã lưu thông tin cá nhân."; return RedirectToAction(nameof(HoSo)); }
+            catch(LoiNghiepVu ex) { ModelState.AddModelError(ex.Truong??"",ex.Message); }
+        }
+        model.Email=(await accounts.LayHoSoAsync(HttpContext)).Email;
+        return View(model);
+    }
+
+    [HttpGet]
+    public IActionResult DoiMatKhau()=>View(new DoiMatKhauInput());
+
+    [HttpPost,EnableRateLimiting("account")]
+    public async Task<IActionResult> DoiMatKhau(DoiMatKhauInput model)
+    {
+        if(ModelState.IsValid)
+        {
+            var result=await accounts.DoiMatKhauAsync(model,HttpContext);
+            if(result.Succeeded)
+            {
+                await accounts.DangXuatAsync(HttpContext);
+                TempData["AccountMessage"]="Mật khẩu đã được đổi. Đăng nhập lại để tiếp tục.";
+                return RedirectToAction(nameof(DangNhap));
+            }
+            AddErrors(result);
+        }
+        model.MatKhauHienTai=model.MatKhau=model.XacNhanMatKhau="";
+        foreach(var key in new[]{"MatKhauHienTai","MatKhau","XacNhanMatKhau"})
+            if(ModelState.TryGetValue(key,out var state)) state.RawValue=state.AttemptedValue=null;
+        return View(model);
+    }
     [AllowAnonymous, HttpGet]
     public IActionResult DangNhap(string? returnUrl)
         => User.Identity?.IsAuthenticated == true ? RedirectToAction("Index", "Home")

@@ -43,6 +43,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
     public async Task<IActionResult> ThanhVien(Guid id)
     {
         ViewBag.Class = await service.ChiTietAsync(id);
+        ViewBag.Invitable = await service.NguoiDuocMoiAsync(id);
         return View(await service.ThanhVienAsync(id));
     }
     [HttpGet]
@@ -63,9 +64,9 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         });
     }
     [HttpPost]
-    public async Task<IActionResult> Duyet(Guid id, Guid member, string action, string permission, string rowVersion)
+    public async Task<IActionResult> Duyet(Guid id, Guid member, string action, string permission, string rowVersion, bool choPhepNopBai = false)
     {
-        await service.DuyetAsync(member, action, permission, rowVersion);
+        await service.DuyetAsync(member, action, permission, rowVersion, choPhepNopBai);
         Success();
         return RedirectToAction(nameof(ThanhVien), new
         {

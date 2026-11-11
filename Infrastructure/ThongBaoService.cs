@@ -10,7 +10,8 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
     {
         var lop = await db.Set<LopHoc>().SingleAsync(x => x.Id == lopHocId);
         var recipients = await db.Set<ThanhVienLopHoc>()
-            .Where(x => x.LopHocId == lopHocId && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null)
+            .Where(x => x.LopHocId == lopHocId && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null
+                && db.Set<LienKetPhuHuynhHocSinh>().Any(l => l.Id == x.LienKetId && l.TrangThai == "DaLienKet" && l.KetThucLuc == null))
             .Select(x => x.TaiKhoanId).ToListAsync();
         recipients.Add(lop.GiaSuId);
         recipients.Add(lop.BenHocId);
@@ -35,6 +36,31 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
     {
         var me = await current.HienTaiAsync();
         return await db.Set<ThongBao>().CountAsync(x => x.NguoiNhanId == me.Id && x.DaDocLuc == null);
+    }
+    public async Task<Page<ThongBao>> PhanTrangAsync(int trang=1,string? state=null,string? q=null,string? loai=null)
+    {
+        Rules.Check(trang is >=1 and <=100000&&(q?.Length??0)<=100,"Trang hoặc từ khóa không hợp lệ.");
+        Rules.Check(state==null||state is "ChuaDoc" or "DaDoc","Trạng thái đọc không hợp lệ.");
+        Rules.Check(loai==null||Loai.Contains(loai),"Loại thông báo không hợp lệ.");
+        var me=await current.HienTaiAsync();
+        var query=db.Set<ThongBao>().AsNoTracking().Where(x=>x.NguoiNhanId==me.Id&&(q==null||x.NoiDungTomTat.Contains(q))
+            &&(loai==null||x.LoaiThongBao==loai)&&(state==null||(state=="ChuaDoc"?x.DaDocLuc==null:x.DaDocLuc!=null)));
+        return new Page<ThongBao> { Trang=trang,KichThuocTrang=20,Total=await query.CountAsync(),
+            Items=await query.OrderByDescending(x=>x.TaoLuc).ThenBy(x=>x.Id).Skip((trang-1)*20).Take(20).ToListAsync() };
+    }
+
+    public static readonly string[] Loai=["KetNoi","LichHoc","BaiTap","ThanhVien","NhacViec","QuanTri","HoSo","LoiMoiLop","LienKetTaiKhoan","NhuCau","PhanHoi","DanhGiaDoiTac","BaoCao","KiemDuyet","TaiKhoan"];
+
+    public async Task DocTatCaAsync()
+    {
+        var me=await current.HienTaiAsync();
+        await using var tx=await db.Database.BeginTransactionAsync();
+        var now=await GiaoDichNghiepVu.GioMayChuAsync(db);
+        var changed=await db.Set<ThongBao>().Where(x=>x.NguoiNhanId==me.Id&&x.DaDocLuc==null).ExecuteUpdateAsync(s=>s.SetProperty(x=>x.DaDocLuc,now));
+        if(changed>0)
+            db.Add(new SuKienChoXuLy { Id=Guid.NewGuid(),LoaiSuKien="ThongBaoDaDoc",DuLieuToiThieu=JsonSerializer.Serialize(new { recipient=me.Id,target=Guid.Empty }),TaoLuc=now,TrangThai="ChoXuLy" });
+        await db.SaveChangesAsync();
+        await tx.CommitAsync();
     }
     public async Task<ThongBao> DocAsync(Guid id)
     {

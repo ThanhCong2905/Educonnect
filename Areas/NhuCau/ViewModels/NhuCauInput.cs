@@ -4,6 +4,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.ViewModels;
 
 public sealed class NhuCauInput
 {
+    public Guid MaThaoTac { get; set; } = Guid.NewGuid();
     public List<int> MonHocIds { get; set; } = []; public bool ChonMonKhac
     {
         get; set;
@@ -21,7 +22,7 @@ public sealed class NhuCauInput
     {
         get; set;
     }
-    [Range(1, int.MaxValue)] public int MonHocId { get; set; } = 1;
+    [Range(0, int.MaxValue)] public int MonHocId { get; set; } = 1;
     [StringLength(256)]
     public string? KhoiLop
     {
@@ -106,7 +107,7 @@ public sealed class HoSoInput
 public sealed class MonDayInput
 {
     public int MonHocId { get; set; }
-    public string? TenMonKhac { get; set; }
+    [StringLength(100)] public string? TenMonKhac { get; set; }
     [Required, StringLength(256)] public string PhamViDay { get; set; } = "";
     public decimal? HocPhiDeXuat { get; set; }
     public string? DonViHocPhi { get; set; }

@@ -1,0 +1,13 @@
+@model DanhGiaCongKhaiPage
+@inject NguoiDungHienTaiService Current
+@{ViewData["Title"]="Đánh giá đối tác";var me=await Current.HienTaiAsync();}
+<h1>Đánh giá về @Model.HoTen</h1><p class="fs-5">@(Model.TrungBinh==null?"Chưa có đánh giá":$"{Model.TrungBinh:0.0}/5 · {Model.DanhGia.Total} đánh giá")</p>
+@foreach(var r in Model.DanhGia.Items)
+{
+    <article class="card mb-3"><div class="heading"><strong>@r.SoSao/5</strong><small>@Rules.Date(r.GuiLuc)</small></div><p class="pre">@r.NhanXet</p>
+    @if(!string.IsNullOrWhiteSpace(r.PhanHoi)){<div class="soft"><strong>Phản hồi của đối tác</strong><p class="pre">@r.PhanHoi</p></div>}
+    <div class="actions">@if(r.NguoiGuiId==me.Id&&DateTimeOffset.UtcNow<r.GuiLuc.AddDays(7)){<a data-modal asp-action="Gui" asp-route-maLop="@r.LopHocId">Sửa đánh giá</a>}@if(me.Id==r.NguoiGuiId||me.Id==r.NguoiNhanId){<a data-modal asp-action="LichSu" asp-route-id="@r.Id">Lịch sử</a>}@if(me.Id!=r.NguoiGuiId){<a data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=DanhGiaDoiTac&doiTuongId=@r.Id">Báo cáo</a>}</div>
+    @if(me.Id==r.NguoiNhanId){<details class="mt-3"><summary>@(r.PhanHoi==null?"Viết phản hồi":"Sửa phản hồi")</summary><form method="post" asp-action="PhanHoi"><input name="DanhGiaId" value="@r.Id" type="hidden"><input name="RowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><label>Phản hồi <span class="required-mark" aria-hidden="true">*</span><textarea name="NoiDung" class="form-control" rows="3" maxlength="2000" required>@r.PhanHoi</textarea></label><button class="btn btn-outline-primary mt-2">Lưu phản hồi</button></form></details>}
+    </article>
+}
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.DanhGia.Trang,Model.DanhGia.Total)"/>

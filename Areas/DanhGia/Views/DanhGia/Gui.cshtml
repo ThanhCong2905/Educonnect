@@ -1,0 +1,14 @@
+@model GuiDanhGiaViewModel
+@{ViewData["Title"]="Phản hồi quá trình học";}
+<h1>Phản hồi quá trình học</h1>
+<form method="post" class="card">
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="MaLop" type="hidden"><input asp-for="DotPhanHoiId" type="hidden"><input asp-for="RowVersion" type="hidden">
+    <label asp-for="NoiDung">Nhận xét của bạn <span class="required-mark" aria-hidden="true">*</span></label>
+    <textarea asp-for="NoiDung" class="form-control" rows="6" maxlength="4000" required></textarea>
+    <span asp-validation-for="NoiDung"></span>
+    <label asp-for="MucDoHaiLong" class="mt-3">Mức hài lòng</label>
+    <select asp-for="MucDoHaiLong" class="form-select"><option value="">Chưa đánh giá</option><option value="1">1 · Rất chưa hài lòng</option><option value="2">2 · Chưa hài lòng</option><option value="3">3 · Bình thường</option><option value="4">4 · Hài lòng</option><option value="5">5 · Rất hài lòng</option></select>
+    <p class="muted mt-2">Phản hồi được chia sẻ trong lớp.</p>
+    <div class="actions"><button class="btn btn-primary">Lưu phản hồi</button><a asp-action="DanhSach" asp-route-maLop="@Model.MaLop">Quay lại</a></div>
+</form>

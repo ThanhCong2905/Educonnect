@@ -106,9 +106,6 @@
   root.querySelector('.compose textarea')?.addEventListener('keydown',event=>{
    if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!event.ctrlKey&&!event.altKey){event.preventDefault();const form=event.target.form;if(!form.dataset.submitting&&(event.target.value.trim()||form.querySelector('[data-chat-files]')?.files.length))form.requestSubmit(form.querySelector('button[type="submit"],button:not([type])'));}
   });
-  const picker=root.querySelector('[data-chat-files]'),clear=root.querySelector('[data-clear-chat-files]'),selection=root.querySelector('[data-chat-file-selection]');
-  const selectedFiles=()=>{const files=[...(picker?.files||[])];if(selection)selection.textContent=files.length?files.length+' tệp đã chọn':'';if(clear)clear.hidden=!files.length;};
-  picker?.addEventListener('change',selectedFiles);clear?.addEventListener('click',()=>{picker.value='';picker.dispatchEvent(new Event('input',{bubbles:true}));picker.dispatchEvent(new Event('change',{bubbles:true}));picker.focus();});selectedFiles();
  }
  function messageNode(item){
   const article=document.createElement('article');article.className='bubble'+(item.mine?' mine':'');article.dataset.messageId=item.id;
@@ -118,7 +115,9 @@
    const block=document.createElement('div');block.className='message-attachment';const url='/HocTap/TinNhan/Tai/'+encodeURIComponent(f.id);
    if(['image/png','image/jpeg'].includes(f.mime)){const view=document.createElement('a');view.href=url+'?xem=true';view.target='_blank';view.rel='noopener';view.setAttribute('aria-label','Xem ảnh '+f.name);const img=document.createElement('img');img.className='message-image';img.src=view.href;img.alt=f.name;img.loading='lazy';img.width=260;img.height=180;view.append(img);block.append(view);}
    const link=document.createElement('a');link.href=url;link.textContent=f.name;const size=document.createElement('small');size.textContent=ui.fileSize(f.size)+' · Tải xuống';block.append(link,size);list.append(block);
-  }article.append(list);}article.append(time);return article;
+  }article.append(list);}article.append(time);
+  if(!item.mine){const report=document.createElement('a');report.href='/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TinNhan&doiTuongId='+encodeURIComponent(item.id);report.textContent='Báo cáo';report.className='message-report';report.setAttribute('data-modal','');article.append(report);}
+  return article;
  }
  async function chatData(root,direction,cursor){
   const url=new URL(root.dataset.chatFeed,location.href);url.searchParams.set('id',root.dataset.chatId);

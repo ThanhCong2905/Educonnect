@@ -8,7 +8,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
 internal sealed class HoSoCongKhaiQuery(AppDbContext db)
 {
-    public IQueryable<HoSoGiaSu> CongKhai() => db.Set<HoSoGiaSu>().AsNoTracking().Where(h=>h.DangHienThi&&h.TrangThaiDuyet=="DaDuyet"&&(h.DayTrucTuyen||h.DayTrucTiep)
+    public IQueryable<HoSoGiaSu> CongKhai() => db.Set<HoSoGiaSu>().AsNoTracking().Where(h=>h.DangHienThi&&h.TrangThaiDuyet=="DaDuyet"&&!db.Set<BienPhapQuanTri>().Any(b=>b.LoaiDoiTuong=="HoSoGiaSu"&&b.DoiTuongId==h.Id&&b.GoLuc==null&&b.Loai=="AnNoiDung")&&(h.DayTrucTuyen||h.DayTrucTiep)
         &&db.Set<GiaSu>().Any(g=>g.TaiKhoanId==h.GiaSuId)&&db.Set<NguoiThamGia>().Any(u=>u.Id==h.GiaSuId&&u.LoaiNguoi=="GiaSu")
         &&db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id)
         &&!db.Set<HoSoGiaSuMonDay>().Any(d=>d.HoSoGiaSuId==h.Id&&(d.HocPhiDeXuat==null||d.DonViHocPhi==null||!db.Set<MonHoc>().Any(m=>m.Id==d.MonHocId&&m.DangSuDung))));

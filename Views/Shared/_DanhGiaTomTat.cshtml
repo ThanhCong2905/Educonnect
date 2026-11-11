@@ -1,0 +1,6 @@
+@model Guid
+@inject EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaDoiTacService Reviews
+@{var summary=await Reviews.LayAsync(Model);}
+<h2>Đánh giá từ đối tác</h2>
+<p>@(summary.TrungBinh.HasValue?$"{summary.TrungBinh:0.0}/5 · {summary.DanhGia.Total} đánh giá":"Chưa có đánh giá")</p>
+<a class="mb-3" href="/DanhGia/DoiTac/ChiTiet/@Model">Xem đánh giá</a>

@@ -42,7 +42,8 @@
       const input=name?[...form.elements].find(input=>input.name===name):null;
       const item=document.createElement('li');
       if(input){
-        const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());input.insertAdjacentElement('afterend',error);
+        const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());
+        (input.closest('.chat-compose-row') || input).insertAdjacentElement('afterend',error);
         item.dataset.errorField=name;const link=document.createElement('button');link.type='button';link.textContent=window.EduConnect.fieldLabel(input);link.addEventListener('click',()=>{input.focus({preventScroll:true});input.scrollIntoView({block:'center',behavior:window.EduConnect.motionBehavior()});});item.append(link);list.append(item);
       }else for(const message of messages){if(globalMessages.has(message))continue;globalMessages.add(message);const entry=document.createElement('li');entry.textContent=message;list.append(entry);}
     }
@@ -105,6 +106,12 @@
       if(!response.ok||!result.ok){errors(form,result);return;}
       baselines.set(form,fingerprint(form));
       completedForms.add(form);
+      if(inModal&&form.hasAttribute('data-mark-all-notices')){
+        saving=false;
+        await open(new URL('/Home/ThongBao',location.href),'Thông báo',trigger);
+        if(result.message)toast(result.message);
+        return;
+      }
       if(await window.EduConnect.afterAjaxSubmit?.(form,result,data))return;
       if(result.message)sessionStorage.setItem('educonnect:toast',result.message);
       if(inModal){saving=false;modal.hide();if(!result.message&&result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}else location.reload();}

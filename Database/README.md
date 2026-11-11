@@ -1,6 +1,6 @@
 # Database EduConnect
 
-Bản đăng nhập Identity dùng `00_EduConnect_Full.sql`, tạo database `KLTN_Full_V2` với 38 bảng. File hợp nhất cấu trúc tài khoản từ SQL được cung cấp với procedure, ràng buộc và nghiệp vụ hiện có. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Bản `dev/cong/fullver0` dùng `00_EduConnect_Full.sql` để cài mới database `KLTN_Full_V2` với 48 bảng. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
 ## Cài mới
 
@@ -29,10 +29,36 @@ Development hiện bật `FileScanning:AllowUnscannedUploads` để thử tải 
 
 ## Lời mời thành viên lớp
 
-Bên học chính mời bằng email tài khoản. Người nhận đồng ý trước khi gia sư duyệt quyền. Cột `ThanhVienLopHoc.DongYThamGiaLuc` lưu thời điểm đồng ý. Bản cài mới 00 đã có cột này. Database đang sử dụng chạy `12_ClassMemberInvitations.sql` một lần, script cũng cho phép chạy lại. Thành viên đã được duyệt giữ quyền hiện tại. Đề nghị chưa được duyệt cần người nhận xác nhận trong mục Lớp học.
+Bên học chính chọn tài khoản đủ điều kiện trong danh sách đã liên kết. Người được mời xác nhận trước, sau đó Gia sư duyệt quyền xem, trao đổi và nộp bài thay. Thành viên bổ sung cần có liên kết còn hiệu lực để truy cập lớp. Người học chính và Gia sư tiếp tục dùng quyền của họ trong lớp.
 
 ## Nhu cầu nhiều môn
 
 `NhuCauMonHoc` liên kết nhu cầu với các môn bằng khóa chính ghép `(NhuCauId, MonHocId)` và hai khóa ngoại. Một nhu cầu dùng chung mục tiêu, học phí, lịch. Cột `NhuCauHoc.MonHocId` giữ môn đại diện để tương thích các procedure và dữ liệu cũ, danh sách môn nằm trong bảng liên kết.
 
-Database đã cài chạy `11_MultiSubjectNeeds.sql` trên đúng database hiện tại. Script chuyển cả môn đại diện và danh sách JSON cũ trong một giao dịch, kiểm tra đủ dữ liệu rồi mới bỏ cột JSON. Script chạy lại không tạo liên kết trùng. File cài mới 00 đã tích hợp, tạo đủ 38 bảng. Các nhu cầu cũ được giữ riêng.
+Script cài mới 00 đã tích hợp phần nhiều môn. `11_MultiSubjectNeeds.sql` là bản nâng cấp cho database trước khi có bảng `NhuCauMonHoc`.
+
+## Nâng cấp database 38 bảng
+
+Sao lưu database, rồi chạy `13_FullVersionWorkflow.sql` trên database đã có `NhuCauMonHoc` và `ThanhVienLopHoc.DongYThamGiaLuc`.
+
+```powershell
+sqlcmd -S lpc:CONGVJP -d KLTN_Full_V2 -E -C -I -b -f 65001 -i Database\13_FullVersionWorkflow.sql
+```
+
+Script thêm ba bảng `LuotDangNhuCau`, `LienKetPhuHuynhHocSinh` và `LichSuDieuChinhLich`. Lịch cũ chưa ghi nhận có bản ghi buổi tương ứng với tham dự để trống. Bài tập cũ chưa có buổi vẫn hiện ở mục **Bài tập** với trạng thái **Chưa gắn buổi** để Gia sư chọn lại. Bài mới phải có buổi.
+
+## Quản trị và các chức năng bổ sung
+
+SQL 00 đã tích hợp cả nâng cấp 13 và 14. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu dùng `14_DanhGiaBaoCaoQuanTri.sql` sau khi sao lưu. Không chạy lại SQL 00 lên database đang sử dụng.
+
+Tạo quản trị đầu tiên từ thư mục gốc dự án, với cùng connection string của web.
+
+```powershell
+dotnet run --project tools/ProvisionAdmin/ProvisionAdmin.csproj
+```
+
+Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới với sáu quyền quản trị. Đăng ký trên web chỉ cấp vai trò Học sinh, Phụ huynh hoặc Gia sư. Trang **Tài khoản** cho quản trị có quyền phân công hoặc thu hồi từng quyền. Thay quyền thu hồi phiên của tài khoản liên quan.
+
+Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
+
+Sơ đồ ERD 48 bảng nằm tại `docs/database/EduConnect-ERD-48-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.

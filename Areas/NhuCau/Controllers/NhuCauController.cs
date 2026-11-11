@@ -102,6 +102,14 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiServ
         return View(m.Id == null ? "Tao" : "Sua", m);
     }
     [HttpPost]
+    public async Task<IActionResult> XacNhanConNhuCau(Guid id, string rowVersion)
+    {
+        await service.XacNhanConNhuCauAsync(id, rowVersion);
+        Success("Đã xác nhận bạn còn tìm gia sư.");
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
     public async Task<IActionResult> TrangThai(Guid id, string state, string rowVersion)
     {
         await service.TrangThaiAsync(id, state, rowVersion);
