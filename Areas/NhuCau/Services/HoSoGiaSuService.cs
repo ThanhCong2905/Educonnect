@@ -6,11 +6,8 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
-public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog, TepService files, ThongBaoService notices,
-    IWebHostEnvironment? environment = null, IConfiguration? configuration = null)
+public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog, TepService files, ThongBaoService notices)
 {
-    private bool DemoPublish => environment?.EnvironmentName == "Development"
-        && configuration?.GetValue<bool>("Authentication:DemoPublishProfiles") == true;
     public Task<KetQua<HoSoGiaSuCongKhaiViewModel>> LayHoSoAsync(Guid maHoSo, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<HoSoGiaSuCongKhaiViewModel>.ThucHienAsync(async () =>
         {
@@ -41,19 +38,30 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
         return new()
         {
             HoTen=u.HoTen, RowVersion=Convert.ToBase64String(h.RowVersion), TrinhDo=h.TrinhDo,
+            MinhChungTrinhDoId=h.MinhChungTrinhDoId, MinhChungKinhNghiemId=h.MinhChungKinhNghiemId,
             ChuyenMon=h.ChuyenMon, KinhNghiem=h.KinhNghiem, MoTa=h.MoTa, KhuVuc=h.KhuVuc,
+            PhuongXa=h.PhuongXa, DiaChiChiTiet=h.DiaChiChiTiet,
             DangHienThi=h.DangHienThi, TrangThaiDuyet=h.TrangThaiDuyet, LyDoTuChoi=h.LyDoTuChoi,
             DayTrucTuyen=h.DayTrucTuyen, DayTrucTiep=h.DayTrucTiep,
             MonDay=await db.Set<HoSoGiaSuMonDay>().Where(x=>x.HoSoGiaSuId==h.Id).OrderBy(x=>x.MonHocId)
-                .Select(x=>new MonDayInput{MonHocId=x.MonHocId,PhamViDay=x.PhamViDay,HocPhiDeXuat=x.HocPhiDeXuat,DonViHocPhi=x.DonViHocPhi}).ToListAsync()
+                .Select(x=>new MonDayInput{MonHocId=x.MonHocId,PhamViDay=x.PhamViDay,HocPhiDeXuat=x.HocPhiDeXuat,DonViHocPhi=x.DonViHocPhi,MinhChungId=x.MinhChungId}).ToListAsync()
         };
     }
     public async Task CapNhatAsync(HoSoInput m)
     {
         var u=await GiaSuAsync();
-        Rules.Check(new[]{m.HoTen,m.TrinhDo,m.ChuyenMon,m.KinhNghiem,m.KhuVuc}.All(x=>!string.IsNullOrWhiteSpace(x)&&x.Length<=256),"Hoàn thiện thông tin hồ sơ, tối đa 256 ký tự mỗi trường.");
-        Rules.Check(!string.IsNullOrWhiteSpace(m.MoTa)&&m.MoTa.Length<=5000,"Nhập giới thiệu tối đa 5000 ký tự.");
+        Rules.ValidateInput(m);
+        Rules.Check(HoSoLuaChon.TrinhDo.Contains(m.TrinhDo), "Chọn trình độ trong danh sách.", field: nameof(m.TrinhDo));
+        Rules.Check(HoSoLuaChon.KinhNghiem.Contains(m.KinhNghiem), "Chọn kinh nghiệm trong danh sách.", field: nameof(m.KinhNghiem));
+        Rules.Check(HoSoLuaChon.KhuVuc.Contains(m.KhuVuc), "Chọn tỉnh hoặc thành phố trong danh sách.", field: nameof(m.KhuVuc));
+        Rules.Check(DiaGioiHanhChinh.HopLe(m.KhuVuc, m.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(m.PhuongXa));
+        Rules.Check(m.MoTa.Trim().Length is >= 100 and <= 4000, "Giới thiệu cần từ 100 đến 4.000 ký tự.", field: nameof(m.MoTa));
         var uploads=await files.KiemTraAsync(m.Files);
+        var degreeUpload = await KiemTraMinhChungAsync(m.TepTrinhDo, nameof(m.TepTrinhDo));
+        var experienceUpload = await KiemTraMinhChungAsync(m.TepKinhNghiem, nameof(m.TepKinhNghiem));
+        var subjectUploads = new List<List<(string Name, string Mime, byte[] Bytes)>>();
+        for (var index = 0; index < m.MonDay.Count; index++)
+            subjectUploads.Add(await KiemTraMinhChungAsync(m.MonDay[index].TepMinhChung, $"MonDay[{index}].TepMinhChung"));
         var written=new List<string>(); var retired=new List<string>();
         await using var tx=await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await HoSoLock.KhoaAsync(db,u.Id);
@@ -63,13 +71,20 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
             if(h!=null){KiemTraSua(h);Rules.Concurrency(db,h,m.RowVersion);}
             Rules.Check(m.DayTrucTuyen||m.DayTrucTiep,"Chọn ít nhất một hình thức dạy.");
             Rules.Check(m.MonDay.Count is >0 and <=10,"Chọn từ 1 đến 10 môn dạy.");
-            foreach(var row in m.MonDay)
+            for (var index = 0; index < m.MonDay.Count; index++)
             {
-                Rules.ValidateInput(row);
+                var row = m.MonDay[index];
+                Rules.Check(row.LopDay.Count > 0 && row.LopDay.All(grade => grade is >= 1 and <= 12), "Chọn ít nhất một lớp từ lớp 1 đến lớp 12.", field: $"MonDay[{index}].LopDay");
+                row.PhamViDay = string.Join(", ", row.LopDay.Distinct().Order().Select(grade => $"Lớp {grade}"));
+                try { Rules.ValidateInput(row); }
+                catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = $"MonDay[{index}].{error.Truong}" }; }
                 if(row.MonHocId==0)row.MonHocId=await catalog.LayHoacThemAsync(row.TenMonKhac);
-                Rules.FeeCheck(row.HocPhiDeXuat,row.DonViHocPhi);
-                Rules.Check(row.HocPhiDeXuat == null || row.HocPhiDeXuat > 0,"Nhập học phí lớn hơn 0 hoặc để trống môn cần bổ sung phí.",field:"MonDay");
-                Rules.Check(!string.IsNullOrWhiteSpace(row.PhamViDay)&&row.PhamViDay.Length<=256,"Nhập phạm vi dạy cho từng môn.");
+                try { Rules.FeeCheck(row.HocPhiDeXuat,row.DonViHocPhi); }
+                catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = $"MonDay[{index}].{(string.IsNullOrEmpty(row.DonViHocPhi) ? "DonViHocPhi" : "HocPhiDeXuat")}" }; }
+                Rules.Check(row.HocPhiDeXuat == null || row.HocPhiDeXuat >= 0 && decimal.Truncate(row.HocPhiDeXuat.Value) == row.HocPhiDeXuat,
+                    "Học phí phải là số VND nguyên không âm; nhập 0 nếu dạy miễn phí.", field: $"MonDay[{index}].HocPhiDeXuat");
+                Rules.Check(HoSoLuaChon.PhamViHopLe(row.PhamViDay), "Chọn ít nhất một lớp từ lớp 1 đến lớp 12.", field: $"MonDay[{index}].LopDay");
+                Rules.Check(!m.MonDay.Take(index).Any(previous => previous.MonHocId == row.MonHocId), "Môn này đã được chọn ở dòng trước.", field: $"MonDay[{index}].MonHocId");
             }
             Rules.Check(m.MonDay.Select(x=>x.MonHocId).Distinct().Count()==m.MonDay.Count,"Không thêm trùng cùng một môn.");
             var ids=m.MonDay.Select(x=>x.MonHocId).ToList();
@@ -78,13 +93,26 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
             var existing=await db.Set<TepDinhKem>().Where(x=>x.HoSoGiaSuId==h.Id).ToListAsync();
             var removed=m.XoaTepIds.Distinct().ToList();
             Rules.Check(existing.Count(x=>removed.Contains(x.Id))==removed.Count,"Không có quyền xóa tệp này.",403);
-            Rules.Check(existing.Count-removed.Count+uploads.Count<=5,"Hồ sơ có tối đa 5 tệp bằng cấp.");
-            h.TrinhDo=m.TrinhDo.Trim();h.ChuyenMon=m.ChuyenMon.Trim();h.KinhNghiem=m.KinhNghiem.Trim();
+            Rules.Check(existing.Count-removed.Count+uploads.Count+degreeUpload.Count+experienceUpload.Count+subjectUploads.Sum(x=>x.Count)<=5,"Hồ sơ có tối đa 5 tệp minh chứng. Bạn có thể chọn lại một tệp cho nhiều mục.",field:"Files");
+            var retained = existing.Where(x => !removed.Contains(x.Id)).Select(x => x.Id).ToHashSet();
+            if (degreeUpload.Count == 0)
+                KiemTraTepDaLuu(m.MinhChungTrinhDoId, retained, nameof(m.MinhChungTrinhDoId));
+            if (experienceUpload.Count == 0)
+                KiemTraTepDaLuu(m.MinhChungKinhNghiemId, retained, nameof(m.MinhChungKinhNghiemId));
+            foreach (var item in m.MonDay.Select((row,index)=>(row,index)))
+                if (subjectUploads[item.index].Count == 0)
+                    KiemTraTepDaLuu(item.row.MinhChungId, retained, $"MonDay[{item.index}].MinhChungId");
+            h.TrinhDo=m.TrinhDo.Trim();h.KinhNghiem=m.KinhNghiem.Trim();
             h.MoTa=m.MoTa.Trim();h.KhuVuc=ChuanHoa(m.KhuVuc);h.DayTrucTuyen=m.DayTrucTuyen;h.DayTrucTiep=m.DayTrucTiep;
+            h.PhuongXa=string.IsNullOrWhiteSpace(m.PhuongXa)?null:m.PhuongXa.Trim();
+            h.DiaChiChiTiet=string.IsNullOrWhiteSpace(m.DiaChiChiTiet)?null:m.DiaChiChiTiet.Trim();
             h.TrangThaiDuyet="BanNhap";h.DangHienThi=false;h.NguoiDuyetId=null;h.DuyetLuc=null;
+            h.LyDoTuChoi = null;
             db.Entry(h).Property(x=>x.TrinhDo).IsModified=true;
             var person=await db.Users.SingleAsync(x=>x.Id==u.Id);person.HoTen=ChuanHoa(m.HoTen);
             await db.SaveChangesAsync();
+            h.MinhChungTrinhDoId = await LuuMinhChungAsync(degreeUpload, m.MinhChungTrinhDoId, h.Id, written);
+            h.MinhChungKinhNghiemId = await LuuMinhChungAsync(experienceUpload, m.MinhChungKinhNghiemId, h.Id, written);
             var old=await db.Set<HoSoGiaSuMonDay>().Where(x=>x.HoSoGiaSuId==h.Id).ToListAsync();
             db.RemoveRange(old.Where(x=>!ids.Contains(x.MonHocId)));
             foreach(var row in m.MonDay)
@@ -92,13 +120,32 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
                 var entity=old.SingleOrDefault(x=>x.MonHocId==row.MonHocId);
                 if(entity==null){entity=new(){HoSoGiaSuId=h.Id,MonHocId=row.MonHocId};db.Add(entity);}
                 entity.PhamViDay=ChuanHoa(row.PhamViDay);entity.HocPhiDeXuat=row.HocPhiDeXuat;entity.DonViHocPhi=row.DonViHocPhi;
+                entity.MinhChungId = await LuuMinhChungAsync(subjectUploads[m.MonDay.IndexOf(row)], row.MinhChungId, h.Id, written);
             }
             var deleting=existing.Where(x=>removed.Contains(x.Id)).ToList();retired=deleting.Select(x=>x.TenLuuTru).ToList();db.RemoveRange(deleting);
-            written=await files.LuuAsync(uploads,hoSo:h.Id);
+            written.AddRange(await files.LuuAsync(uploads,hoSo:h.Id));
             await db.SaveChangesAsync();await tx.CommitAsync();
         }
         catch{TepService.DonDep(written);throw;}
         files.DonDepDaXoa(retired);
+    }
+    private async Task<List<(string Name, string Mime, byte[] Bytes)>> KiemTraMinhChungAsync(IFormFile? file, string field)
+    {
+        if (file == null) return [];
+        try { return await files.KiemTraAsync([file]); }
+        catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = field }; }
+    }
+
+    private static void KiemTraTepDaLuu(Guid? id, HashSet<Guid> retained, string field)
+        => Rules.Check(!id.HasValue || retained.Contains(id.Value), "Chọn tệp còn được giữ trong hồ sơ của bạn.", field: field);
+
+    private async Task<Guid?> LuuMinhChungAsync(List<(string Name, string Mime, byte[] Bytes)> upload, Guid? existing, Guid profile, List<string> written)
+    {
+        if (upload.Count == 0) return existing;
+        var paths = await files.LuuAsync(upload, hoSo: profile);
+        written.AddRange(paths);
+        var key = Path.GetFileName(paths.Single());
+        return db.ChangeTracker.Entries<TepDinhKem>().Single(entry => entry.Entity.TenLuuTru == key).Entity.Id;
     }
     public async Task DoiTrangThaiAsync(string action,string version)
     {
@@ -110,18 +157,8 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
         {
             case "An":h.DangHienThi=false;break;
             case "Hien":
-                if (DemoPublish)
-                {
-                    KiemTraSua(h);
-                    await DuDieuKienAsync(h);
-                    h.TrangThaiDuyet = "DaDuyet";
-                    h.DuyetLuc = DateTimeOffset.UtcNow;
-                }
-                else
-                {
-                    Rules.Check(h.TrangThaiDuyet == "DaDuyet", "Hồ sơ phải được duyệt trước khi bật hiển thị.");
-                    await DuDieuKienAsync(h);
-                }
+                Rules.Check(h.TrangThaiDuyet == "DaDuyet", "Hồ sơ phải được quản trị duyệt trước khi bật hiển thị.");
+                await DuDieuKienAsync(h);
                 h.DangHienThi = true;
                 break;
             case "GuiDuyet":
@@ -135,10 +172,17 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
     }
     public async Task DuDieuKienAsync(HoSoGiaSu h)
     {
-        Rules.Check(!string.IsNullOrWhiteSpace(h.TrinhDo)&&!string.IsNullOrWhiteSpace(h.ChuyenMon)&&!string.IsNullOrWhiteSpace(h.KinhNghiem)&&!string.IsNullOrWhiteSpace(h.MoTa)&&!string.IsNullOrWhiteSpace(h.KhuVuc),"Hoàn thiện thông tin hồ sơ trước khi gửi duyệt hoặc hiển thị.");
+        Rules.Check(HoSoLuaChon.TrinhDo.Contains(h.TrinhDo), "Chọn lại trình độ trong danh sách trước khi gửi duyệt.", field: "TrinhDo");
+        Rules.Check(HoSoLuaChon.KinhNghiem.Contains(h.KinhNghiem), "Chọn lại kinh nghiệm trong danh sách trước khi gửi duyệt.", field: "KinhNghiem");
+        Rules.Check(h.MoTa.Trim().Length is >=100 and <=4000, "Giới thiệu cần từ 100 đến 4.000 ký tự.", field: "MoTa");
+        Rules.Check(!string.IsNullOrWhiteSpace(h.KhuVuc), "Chọn khu vực nhận dạy.", field: "KhuVuc");
+        var proofs = await db.Set<TepDinhKem>().Where(file => file.HoSoGiaSuId == h.Id && (file.TrangThaiQuet == "Sach" || files.ChoPhepTepChuaQuet && file.TrangThaiQuet == "ChoQuet")).Select(file=>file.Id).ToListAsync();
+        Rules.Check(h.MinhChungTrinhDoId.HasValue && proofs.Contains(h.MinhChungTrinhDoId.Value), "Chọn minh chứng trình độ đã lưu trong hồ sơ.", field: "MinhChungTrinhDoId");
+        Rules.Check(h.KinhNghiem == "Chưa có" || h.MinhChungKinhNghiemId.HasValue && proofs.Contains(h.MinhChungKinhNghiemId.Value), "Chọn minh chứng cho kinh nghiệm đã khai.", field: "MinhChungKinhNghiemId");
         Rules.Check(h.DayTrucTuyen||h.DayTrucTiep,"Chọn ít nhất một hình thức dạy.");
         var rows=await (from d in db.Set<HoSoGiaSuMonDay>() join m in db.Set<MonHoc>() on d.MonHocId equals m.Id where d.HoSoGiaSuId==h.Id select new{d,m.DangSuDung}).ToListAsync();
-        Rules.Check(rows.Count>0&&rows.All(x=>x.DangSuDung&&x.d.HocPhiDeXuat>0&&!string.IsNullOrWhiteSpace(x.d.PhamViDay)),"Mỗi môn cần phạm vi dạy, học phí lớn hơn 0 và đơn vị hợp lệ.");
+        Rules.Check(rows.Count>0&&rows.All(x=>x.DangSuDung&&x.d.HocPhiDeXuat>=0&&HoSoLuaChon.PhamViHopLe(x.d.PhamViDay)),"Mỗi môn cần lớp dạy, học phí VND nguyên không âm và đơn vị hợp lệ.", field:"MonDay");
+        Rules.Check(rows.All(x=>x.d.MinhChungId.HasValue&&proofs.Contains(x.d.MinhChungId.Value)), "Chọn minh chứng cho từng môn dạy trước khi gửi duyệt.", field:"MonDay");
         foreach(var row in rows)Rules.FeeCheck(row.d.HocPhiDeXuat,row.d.DonViHocPhi);
     }
     private async Task QuanTriAsync()
@@ -158,7 +202,17 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
     public async Task<HoSoInput> XemDuyetAsync(Guid id)
     {
         await QuanTriAsync();var h=await db.Set<HoSoGiaSu>().AsNoTracking().SingleOrDefaultAsync(x=>x.Id==id)??throw new LoiNghiepVu("Không có hồ sơ.",404);
-        return new(){HoTen=await db.Users.Where(x=>x.Id==h.GiaSuId).Select(x=>x.HoTen).SingleAsync(),TrinhDo=h.TrinhDo,ChuyenMon=h.ChuyenMon,KinhNghiem=h.KinhNghiem,MoTa=h.MoTa,KhuVuc=h.KhuVuc,DayTrucTuyen=h.DayTrucTuyen,DayTrucTiep=h.DayTrucTiep,TrangThaiDuyet=h.TrangThaiDuyet,RowVersion=Convert.ToBase64String(h.RowVersion),MonDay=await db.Set<HoSoGiaSuMonDay>().Where(x=>x.HoSoGiaSuId==id).Select(x=>new MonDayInput{MonHocId=x.MonHocId,PhamViDay=x.PhamViDay,HocPhiDeXuat=x.HocPhiDeXuat,DonViHocPhi=x.DonViHocPhi}).ToListAsync()};
+        return new()
+        {
+            HoTen = await db.Users.Where(x => x.Id == h.GiaSuId).Select(x => x.HoTen).SingleAsync(),
+            TrinhDo = h.TrinhDo, ChuyenMon = h.ChuyenMon, KinhNghiem = h.KinhNghiem,
+            MoTa = h.MoTa, KhuVuc = h.KhuVuc, DayTrucTuyen = h.DayTrucTuyen, DayTrucTiep = h.DayTrucTiep,
+            PhuongXa = h.PhuongXa, DiaChiChiTiet = h.DiaChiChiTiet,
+            TrangThaiDuyet = h.TrangThaiDuyet, RowVersion = Convert.ToBase64String(h.RowVersion),
+            MinhChungTrinhDoId = h.MinhChungTrinhDoId, MinhChungKinhNghiemId = h.MinhChungKinhNghiemId,
+            MonDay = await db.Set<HoSoGiaSuMonDay>().Where(x => x.HoSoGiaSuId == id)
+                .Select(x => new MonDayInput { MonHocId = x.MonHocId, PhamViDay = x.PhamViDay, HocPhiDeXuat = x.HocPhiDeXuat, DonViHocPhi = x.DonViHocPhi, MinhChungId = x.MinhChungId }).ToListAsync()
+        };
     }
     public async Task DuyetAsync(Guid id,string version,bool approve,string? reason,bool tuChoi=false)
     {

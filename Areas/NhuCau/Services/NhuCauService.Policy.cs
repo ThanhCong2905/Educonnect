@@ -11,20 +11,24 @@ public sealed partial class NhuCauService
     private async Task KiemTraTrungAsync(NhuCauInput input, Guid owner, CancellationToken huy)
     {
         var ids = input.MonHocIds.Distinct().ToList();
-        var goal = input.MucTieu?.Trim();
         var area = input.HinhThucHoc == "TrucTiep" ? input.KhuVuc : null;
         var address = input.HinhThucHoc == "TrucTiep" ? input.DiaChiChiTiet : null;
         var candidates = await db.Set<NhuCauHoc>().Where(x => x.ChuSoHuuId == owner && x.Id != input.Id && x.TrangThai == "DangMo"
-            && x.TenNguoiHoc == input.TenNguoiHoc && x.TuoiNguoiHoc == input.TuoiNguoiHoc && x.KhoiLop == input.KhoiLop
-            && x.MucTieu == goal && x.HocLuc == input.HocLuc && x.HinhThucHoc == input.HinhThucHoc && x.HocPhiDuKien == input.HocPhiDuKien
-            && x.DonViHocPhi == input.DonViHocPhi && x.SoBuoiTuan == input.SoBuoiTuan && x.KhuVuc == area && x.DiaChiChiTiet == address
-            && db.Set<NhuCauMonHoc>().Count(m => m.NhuCauId == x.Id) == ids.Count
-            && !db.Set<NhuCauMonHoc>().Any(m => m.NhuCauId == x.Id && !ids.Contains(m.MonHocId)))
-            .Select(x => x.Id).ToListAsync(huy);
+            && x.TuoiNguoiHoc == input.TuoiNguoiHoc && x.HinhThucHoc == input.HinhThucHoc && x.HocPhiDuKien == input.HocPhiDuKien
+            && x.DonViHocPhi == input.DonViHocPhi && x.SoBuoiTuan == input.SoBuoiTuan)
+            .Include(x => x.MonHocs).AsNoTracking().ToListAsync(huy);
         var wanted = input.LichRanh.Select(x => (x.ThuTrongTuan, x.GioBatDau, x.GioKetThuc)).OrderBy(x => x.ThuTrongTuan).ThenBy(x => x.GioBatDau).ToArray();
-        foreach (var id in candidates)
+        foreach (var candidate in candidates)
         {
-            var slots = await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == id).ToListAsync(huy);
+            var sameText = new[]
+            {
+                (candidate.TenNguoiHoc, input.TenNguoiHoc), (candidate.KhoiLop, input.KhoiLop),
+                (candidate.MucTieu, input.MucTieu), (candidate.HocLuc, input.HocLuc),
+                (candidate.KhuVuc, area), (candidate.PhuongXa, input.HinhThucHoc == "TrucTiep" ? input.PhuongXa : null), (candidate.DiaChiChiTiet, address)
+            }.All(pair => string.Equals(HoSoGiaSuService.ChuanHoa(pair.Item1).Normalize(),
+                HoSoGiaSuService.ChuanHoa(pair.Item2).Normalize(), StringComparison.OrdinalIgnoreCase));
+            if (!sameText || !candidate.CacMonHocId.ToHashSet().SetEquals(ids)) continue;
+            var slots = await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == candidate.Id).ToListAsync(huy);
             var existing = slots.Select(x => (x.ThuTrongTuan, x.GioBatDau, x.GioKetThuc)).OrderBy(x => x.ThuTrongTuan).ThenBy(x => x.GioBatDau).ToArray();
             Rules.Check(!wanted.SequenceEqual(existing), "Bạn đã có nhu cầu đang mở với cùng thông tin. Hãy cập nhật nhu cầu đó.", 409);
         }
@@ -58,6 +62,7 @@ public sealed partial class NhuCauService
         var me = await current.HienTaiAsync();
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await KhoaTaiKhoanAsync(me.Id);
+        await GiaoDichNghiepVu.KiemTraTaiKhoanAsync(db, me.Id);
         var need = await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id)
             ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
         Rules.Check(need.TrangThai == "DangMo", "Nhu cầu không còn mở.", 409);

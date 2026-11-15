@@ -109,6 +109,7 @@ public sealed partial class QuanTriService
         var me = await current.HienTaiAsync();
         var query = from b in db.Set<BienPhapQuanTri>().AsNoTracking()
                     where (b.LoaiDoiTuong == "TaiKhoan" && b.DoiTuongId == me.Id)
+                      || (b.LoaiDoiTuong == "NhuCauHoc" && db.Set<NhuCauHoc>().Any(n => n.Id == b.DoiTuongId && n.ChuSoHuuId == me.Id))
                       || db.Set<BaoCaoViPham>().Any(r => r.Id == b.BaoCaoId && r.NguoiBiBaoCaoId == me.Id)
                     orderby b.ApDungLuc descending
                     select b;

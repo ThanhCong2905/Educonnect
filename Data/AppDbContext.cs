@@ -78,6 +78,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         });
         b.Entity<HoSoGiaSu>(e =>
         {
+            e.HasOne<TepDinhKem>().WithMany().HasForeignKey(x => x.MinhChungTrinhDoId).OnDelete(DeleteBehavior.Restrict);
+            e.HasOne<TepDinhKem>().WithMany().HasForeignKey(x => x.MinhChungKinhNghiemId).OnDelete(DeleteBehavior.Restrict);
             e.ToTable("HoSoGiaSu", t => t.UseSqlOutputClause(false));
             e.Property(x => x.DangHienThi).HasColumnType("bit");
             e.Property(x => x.DayTrucTuyen).HasColumnType("bit");
@@ -99,6 +101,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         });
         b.Entity<HoSoGiaSuMonDay>(e =>
         {
+            e.HasOne<TepDinhKem>().WithMany().HasForeignKey(x => x.MinhChungId).OnDelete(DeleteBehavior.Restrict);
             e.ToTable("HoSoGiaSuMonDay", t => t.UseSqlOutputClause(false));
             e.Property(x => x.HocPhiDeXuat).HasColumnType("decimal(18,2)");
             e.Property(x => x.DonViHocPhi).HasColumnType("varchar(16)");
@@ -125,11 +128,11 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.MonHocId).HasColumnType("int").IsRequired();
             e.Property(x => x.KhoiLop).HasColumnType("nvarchar(256)");
             e.Property(x => x.HocLuc).HasColumnType("nvarchar(256)");
-            e.Property(x => x.MucTieu).HasColumnType("nvarchar(256)");
+            e.Property(x => x.MucTieu).HasColumnType("nvarchar(2000)");
             e.Property(x => x.SoBuoiTuan).HasColumnType("int");
             e.Property(x => x.HinhThucHoc).HasColumnType("varchar(32)").IsRequired();
             e.Property(x => x.KhuVuc).HasColumnType("nvarchar(256)");
-            e.Property(x => x.DiaChiChiTiet).HasColumnType("nvarchar(256)");
+            e.Property(x => x.DiaChiChiTiet).HasColumnType("nvarchar(500)");
             e.Property(x => x.HocPhiDuKien).HasColumnType("decimal(18,2)");
             e.Property(x => x.TenNguoiHoc).HasColumnType("nvarchar(256)");
             e.Property(x => x.TuoiNguoiHoc).HasColumnType("int");
@@ -157,18 +160,18 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.BenHocId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.NguoiGuiId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.NhuCauId).HasColumnType("uniqueidentifier");
-            e.Property(x => x.LoiNhan).HasColumnType("nvarchar(256)");
+            e.Property(x => x.LoiNhan).HasColumnType("nvarchar(2000)");
             e.Property(x => x.TrangThai).HasColumnType("varchar(32)").IsRequired();
             e.Property(x => x.GuiLuc).HasColumnType("datetimeoffset(0)").IsRequired();
             e.Property(x => x.HetHanLuc).HasColumnType("datetimeoffset(0)").IsRequired();
             e.Property(x => x.TenLopDuKien).HasColumnType("nvarchar(256)");
             e.Property(x => x.MonHocId).HasColumnType("int");
-            e.Property(x => x.MucTieu).HasColumnType("nvarchar(256)");
+            e.Property(x => x.MucTieu).HasColumnType("nvarchar(2000)");
             e.Property(x => x.SoBuoiTuan).HasColumnType("int");
             e.Property(x => x.ThoiLuongPhut).HasColumnType("int");
             e.Property(x => x.BatDauHocLuc).HasColumnType("datetimeoffset(0)");
             e.Property(x => x.HinhThucHoc).HasColumnType("varchar(32)");
-            e.Property(x => x.DiaDiem).HasColumnType("nvarchar(256)");
+            e.Property(x => x.DiaDiem).HasColumnType("nvarchar(500)");
             e.Property(x => x.HocPhi).HasColumnType("decimal(18,2)");
             e.Property(x => x.RowVersion).IsRowVersion();
             e.Property(x => x.DonViHocPhi).HasColumnType("varchar(16)");
@@ -224,11 +227,11 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.Property(x => x.BenHocId).HasColumnType("uniqueidentifier").IsRequired();
             e.Property(x => x.TenLop).HasColumnType("nvarchar(256)").IsRequired();
             e.Property(x => x.MonHocId).HasColumnType("int").IsRequired();
-            e.Property(x => x.MucTieu).HasColumnType("nvarchar(256)").IsRequired();
+            e.Property(x => x.MucTieu).HasColumnType("nvarchar(2000)").IsRequired();
             e.Property(x => x.SoBuoiTuan).HasColumnType("int").IsRequired();
             e.Property(x => x.ThoiLuongPhut).HasColumnType("int").IsRequired();
             e.Property(x => x.HinhThucHoc).HasColumnType("varchar(32)").IsRequired();
-            e.Property(x => x.DiaDiem).HasColumnType("nvarchar(256)");
+            e.Property(x => x.DiaDiem).HasColumnType("nvarchar(500)");
             e.Property(x => x.HocPhi).HasColumnType("decimal(18,2)").IsRequired();
             e.Property(x => x.TrangThai).HasColumnType("varchar(32)").IsRequired();
             e.Property(x => x.GiaSuXacNhanKetThucLuc).HasColumnType("datetimeoffset(0)");

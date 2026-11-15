@@ -106,6 +106,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
     [HttpPost]
     public async Task<IActionResult> XacNhanKetThuc(Guid maYeuCau, byte[] rowVersion)
     {
+        ValidateInput();
         var actor = await HttpContext.RequestServices.GetRequiredService<EduConnect.Mvc.Infrastructure.NguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted);
         (await service.XacNhanKetThucAsync(maYeuCau, rowVersion, actor.Id, HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();

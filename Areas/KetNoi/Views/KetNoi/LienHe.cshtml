@@ -37,8 +37,8 @@
    <p class="muted">@(sent?"Đang chờ bên kia phản hồi.":"Chấp nhận lời mời để mở cuộc trò chuyện.")</p>
    <form method="post" asp-action="PhanHoiLienHe" class="actions">
     <input name="id" value="@contact.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(contact.RowVersion)" type="hidden">
-    @if(sent){<button class="btn btn-outline-primary" name="action" value="DaRut">Rút lời mời</button>}
-    else{<button class="btn btn-primary" name="action" value="ChapNhan">Chấp nhận</button><button class="btn quiet" name="action" value="TuChoi">Từ chối</button>}
+    @if(sent){<button class="btn btn-outline-primary" name="action" data-confirm="Bạn muốn rút lời mời liên hệ này?" value="DaRut">Rút lời mời</button>}
+    else{<button class="btn btn-primary" name="action" value="ChapNhan">Chấp nhận</button><button class="btn btn-outline-primary" name="action" data-confirm="Bạn muốn từ chối lời mời liên hệ này?" value="TuChoi">Từ chối</button>}
    </form>
   }else if(contact.TrangThai=="ChapNhan"){
    
@@ -46,8 +46,7 @@
     @if(chats.TryGetValue(contact.Id,out var chat)){<a class="btn btn-outline-primary" href="/HocTap/TinNhan/Index?id=@chat">Nhắn tin</a>}
     @if(connected!=null){<a class="btn btn-primary" asp-area="HocTap" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@connected.Id">Vào lớp học</a>}
     else if(pending!=null){<a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@pending.Id">Xem yêu cầu đang chờ</a>}
-    else if(me.LoaiNguoi=="GiaSu"){<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}
-    else{<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#connection-request-modal" data-contact-id="@contact.Id" data-contact-name="@other?.HoTen">Gửi yêu cầu kết nối</button>}
+    else{<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}
    </div>
   }else{<p class="muted">@(contact.TrangThai=="DaRut"?"Lời mời đã được rút.":"Lời mời này đã được xử lý.")</p>}
   </div>

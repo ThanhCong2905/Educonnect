@@ -12,10 +12,16 @@ public sealed class KetQua<T>
 
     public bool ThanhCong => loi == null;
     public string? ThongBao => loi?.Message;
+    public string? Truong => loi?.Truong;
     public string? ThongDiep => ThongBao;
     public string? MaLoi => loi?.Status.ToString(System.Globalization.CultureInfo.InvariantCulture);
     public int MaTrangThai => loi?.Status ?? 200;
     public T DuLieu => loi == null ? duLieu! : throw loi;
+
+    public void BaoLoiNeuThatBai()
+    {
+        if (loi != null) throw loi;
+    }
 
     public static async Task<KetQua<T>> ThucHienAsync(Func<Task<T>> action)
     {

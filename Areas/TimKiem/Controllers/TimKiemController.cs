@@ -28,7 +28,7 @@ public sealed class TimKiemController(TimKiemService service, NhuCauService need
         var contact = await contacts.LienHeVoiAsync(n.ChuSoHuuId);
         ViewBag.Contact = contact;
         ViewBag.ContactChat = contact?.TrangThai == "ChapNhan" ? await contacts.HoiThoaiAsync(contact.Id) : null;
-        ViewBag.Related = await service.LienQuanAsync(n.ChuSoHuuId);
+        ViewBag.Related = await service.LienQuanAsync(n.ChuSoHuuId, n.Id);
         return View(n);
     }
     public async Task<IActionResult> SoSanh([FromQuery(Name = "ids")] IReadOnlyList<Guid> maDoiTuong)

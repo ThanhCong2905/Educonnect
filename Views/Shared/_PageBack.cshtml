@@ -10,6 +10,7 @@
         : area is "HocTap" or "DanhGia" ? "/HocTap/LopHoc/Index" : "/";
     if (action == "Index" && controller != "LienKetTaiKhoan") fallback = "/";
     if (area == "TimKiem" && action != "Index") fallback = "/TimKiem/TimKiem/Index";
+    if (area == "QuanTri" && action == "NhuCauChiTiet") fallback = "/QuanTri/QuanTri/NhuCau";
     if (controller == "HoSoGiaSu") fallback = ViewData["PublicProfile"] is true ? "/TimKiem/TimKiem/Index" : "/TaiKhoan/HoSo";
     if (controller == "DoiTac" && ViewContext.RouteData.Values["id"]?.ToString()
         == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)

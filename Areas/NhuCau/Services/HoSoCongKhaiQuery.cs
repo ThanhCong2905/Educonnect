@@ -17,6 +17,13 @@ internal sealed class HoSoCongKhaiQuery(AppDbContext db)
         var ids = hs.Select(h => h.Id).ToList();
         var owners = hs.Select(h => h.GiaSuId).ToList();
         var people = await db.Users.AsNoTracking().Where(u => owners.Contains(u.Id)).Select(u => new { u.Id, u.HoTen, u.AnhDaiDien }).ToDictionaryAsync(x => x.Id, huy);
+        var reviews = await EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaDoiTacService.CongKhai(db)
+            .Where(review => owners.Contains(review.NguoiNhanId)).GroupBy(review => review.NguoiNhanId)
+            .Select(group => new { Id = group.Key, Rating = group.Average(review => (decimal)review.SoSao), Count = group.Count() })
+            .ToDictionaryAsync(group => group.Id, huy);
+        var learners = await db.Set<LopHoc>().AsNoTracking().Where(lop => owners.Contains(lop.GiaSuId) && lop.TrangThai != "DaHuy")
+            .GroupBy(lop => lop.GiaSuId).Select(group => new { Id = group.Key, Count = group.Select(lop => lop.BenHocId).Distinct().Count() })
+            .ToDictionaryAsync(group => group.Id, huy);
         var subjects = await (from d in db.Set<HoSoGiaSuMonDay>() join m in db.Set<MonHoc>() on d.MonHocId equals m.Id where ids.Contains(d.HoSoGiaSuId) select new { d.HoSoGiaSuId, Row = new MonDayCongKhai { MonHocId = m.Id, TenMon = m.TenMon, PhamViDay = d.PhamViDay, HocPhi = d.HocPhiDeXuat, DonVi = d.DonViHocPhi } }).ToListAsync(huy);
         return hs.Select(h =>
         {
@@ -27,12 +34,16 @@ internal sealed class HoSoCongKhaiQuery(AppDbContext db)
                 ChuSoHuuId = h.GiaSuId,
                 LoaiNguoi = "GiaSu",
                 HoTen = people[h.GiaSuId].HoTen,
+                DiemDanhGia = reviews.GetValueOrDefault(h.GiaSuId)?.Rating,
+                SoDanhGia = reviews.GetValueOrDefault(h.GiaSuId)?.Count ?? 0,
+                SoBenHoc = learners.GetValueOrDefault(h.GiaSuId)?.Count ?? 0,
                 AnhDaiDienUrl = people[h.GiaSuId].AnhDaiDien == null ? null : $"/TaiKhoan/Anh/{h.GiaSuId}",
                 TrinhDo = h.TrinhDo,
                 ChuyenMon = h.ChuyenMon,
                 KinhNghiem = h.KinhNghiem,
                 MoTa = h.MoTa,
                 KhuVuc = h.KhuVuc,
+                PhuongXa = h.PhuongXa,
                 KhuVucGiaSu = h.KhuVuc,
                 DayTrucTuyen = h.DayTrucTuyen,
                 DayTrucTiep = h.DayTrucTiep,

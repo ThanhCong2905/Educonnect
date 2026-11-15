@@ -19,10 +19,11 @@
         timer = setTimeout(dismiss, 5000);
     }
 
-    function toast(message) {
+    function toast(message, tone = 'success') {
         if (!message) return;
         clearTimeout(timer);
         text.textContent = message;
+        notification.dataset.tone = tone;
         notification.hidden = false;
         rail.hidden = false;
         scheduleDismiss();

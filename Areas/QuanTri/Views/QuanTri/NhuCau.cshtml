@@ -1,0 +1,28 @@
+@model Page<NhuCauHauKiemRow>
+@{ ViewData["Title"] = "Hậu kiểm nhu cầu"; }
+<h1>Hậu kiểm nhu cầu</h1>
+<form method="get" class="card mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-5"><label class="w-100">Người đăng hoặc mục tiêu<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label></div>
+        <div class="col-md-3"><label class="w-100">Trạng thái<select name="state" class="form-select"><option value="">Tất cả bài đã đăng</option><option value="DangMo" selected="@(Context.Request.Query["state"]=="DangMo")">Đang mở</option><option value="DaDong" selected="@(Context.Request.Query["state"]=="DaDong")">Đã đóng</option></select></label></div>
+        <div class="col-md-3"><label class="w-100">Kiểm duyệt<select name="dangAn" class="form-select"><option value="">Tất cả</option><option value="true" selected="@(Context.Request.Query["dangAn"]=="true")">Đang bị ẩn</option><option value="false" selected="@(Context.Request.Query["dangAn"]=="false")">Đã gỡ / chưa có biện pháp ẩn</option></select></label></div>
+        <div class="col-md-1"><button class="btn btn-primary">Lọc</button></div>
+    </div>
+</form>
+<div class="table-responsive card">
+    <table class="table align-middle">
+        <thead><tr><th>Người đăng</th><th>Mục tiêu</th><th>Học phí</th><th>Trạng thái</th><th>Báo cáo chờ</th><th></th></tr></thead>
+        <tbody>
+        @foreach(var row in Model.Items)
+        {
+            <tr>
+                <td>@row.HoTen</td><td class="text-wrap">@row.NhuCau.MucTieu</td><td>@Rules.Fee(row.NhuCau.HocPhiDuKien, row.NhuCau.DonViHocPhi)</td>
+                <td><span class="badge rounded-pill">@Rules.Label(row.NhuCau.TrangThai)</span>@if(row.DangAn){<span class="badge badge-warning rounded-pill">Ẩn khỏi tìm kiếm</span>}</td>
+                <td>@row.BaoCaoCho</td><td><a class="btn btn-outline-primary text-nowrap" asp-action="NhuCauChiTiet" asp-route-id="@row.NhuCau.Id">Xem nhu cầu</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    @if(Model.Items.Count==0){<p class="empty mb-0">Chưa có nhu cầu phù hợp với bộ lọc.</p>}
+</div>
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang, Model.Total)" />

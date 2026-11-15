@@ -44,7 +44,7 @@ public sealed class ChapNhanDeXuatViewModel
     {
         get => MaYeuCau; set => MaYeuCau = value;
     }
-    public byte[] RowVersion { get; set; } = [];
+    [Required, MinLength(8), MaxLength(8)] public byte[] RowVersion { get; set; } = [];
 }
 
 public sealed class PhanHoiHuyViewModel
@@ -61,6 +61,7 @@ public sealed class PhanHoiHuyViewModel
 }
 public sealed class DeXuatLopViewModel
 {
+    [StringLength(2000)] public string? LoiNhan { get; set; }
     public Guid LienHeId
     {
         get; set;
@@ -79,12 +80,12 @@ public sealed class DeXuatLopViewModel
     }
     [Required, StringLength(256)] public string TenLop { get; set; } = "";
     [Range(1, int.MaxValue)] public int MonHocId { get; set; } = 1;
-    [Required, StringLength(256)] public string MucTieu { get; set; } = "";
+    [Required, StringLength(2000)] public string MucTieu { get; set; } = "";
     [Range(1, 7)] public int SoBuoiTuan { get; set; } = 1;
     [Range(1, 480)] public int ThoiLuongPhut { get; set; } = 90;
     public DateTime BatDauHocLuc { get; set; } = DateTime.Today.AddDays(2);
     [Required, RegularExpression("TrucTuyen|TrucTiep")] public string HinhThucHoc { get; set; } = "TrucTuyen";
-    [StringLength(256)]
+    [StringLength(500)]
     public string? DiaDiem
     {
         get; set;

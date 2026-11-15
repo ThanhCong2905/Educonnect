@@ -2,6 +2,7 @@ namespace EduConnect.Mvc.Infrastructure;
 
 public sealed class KetQua
 {
+    private KetQua<bool>? ketQua;
     public bool ThanhCong
     {
         get; private init;
@@ -24,6 +25,7 @@ public sealed class KetQua
         });
         return new()
         {
+            ketQua = result,
             ThanhCong = result.ThanhCong,
             MaLoi = result.MaLoi,
             ThongDiep = result.ThongDiep
@@ -32,6 +34,11 @@ public sealed class KetQua
 
     public void BaoLoiNeuThatBai()
     {
+        if (ketQua != null)
+        {
+            ketQua.BaoLoiNeuThatBai();
+            return;
+        }
         if (ThanhCong)
             return;
 

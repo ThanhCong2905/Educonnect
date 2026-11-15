@@ -45,8 +45,8 @@ public class RulesTests
         if(n<=25)
         {
             (decimal? v,string? u) = n switch {14=>((decimal?)null,(string?)null),15=>((decimal?)150000,(string?)null),16=>((decimal?)null,"VND/Gio"),17=>(-1,"VND/Gio"),18=>(150000.123m,"VND/Buoi"),19=>(150000,"USD/Gio"),20=>(150000.50m,"VND/Buoi"),21=>(0,"VND/Gio"),22=>(9999999999999999.99m,"VND/Gio"),23=>(10000000000000000m,"VND/Gio"),24=>((decimal?)null,""),_=>(150000," ")};
-            if(new[]{14,20,21,22,24}.Contains(n)){Rules.FeeCheck(v,u);return $"Chấp nhận học phí {v?.ToString()??"null"}, đơn vị {u??"null"}.";}
-            var ex=Assert.Throws<LoiNghiepVu>(()=>Rules.FeeCheck(v,u));Assert.Equal(400,ex.Status);Assert.Equal(n is 15 or 16?"Nhập đồng thời học phí và đơn vị.":"Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.",ex.Message);return $"Status=400; {ex.Message}";
+            if(new[]{14,21,24}.Contains(n)){Rules.FeeCheck(v,u);return $"Chấp nhận học phí {v?.ToString()??"null"}, đơn vị {u??"null"}.";}
+            var ex=Assert.Throws<LoiNghiepVu>(()=>Rules.FeeCheck(v,u));Assert.Equal(400,ex.Status);Assert.Equal(n is 15 or 16?"Nhập đồng thời học phí và đơn vị.":"Học phí phải là số VND nguyên không âm; chọn đúng đơn vị.",ex.Message);return $"Status=400; {ex.Message}";
         }
         if(n<=30)
         {
@@ -63,7 +63,7 @@ public class RulesTests
             var m=new NhuCauInput{MonHocIds=[1],MucTieu="Ôn đại số lớp 8",SoBuoiTuan=2,HinhThucHoc="TrucTuyen"};model=m;
             if(n<=34){field="SoBuoiTuan";m.SoBuoiTuan=n switch{31=>0,32=>1,33=>7,_=>8};valid=n is 32 or 33;}
             else if(n<=36){field="HinhThucHoc";m.HinhThucHoc=n==35?"Khac":"";valid=false;}
-            else if(n<=38){field="MucTieu";m.MucTieu=new('A',n==37?256:257);valid=n==37;}
+            else if(n<=38){field="MucTieu";m.MucTieu=new('A',n==37?2000:2001);valid=n==37;}
             else if(n<=42){field="TuoiNguoiHoc";m.TuoiNguoiHoc=n switch{39=>0,40=>1,41=>120,_=>121};valid=n is 40 or 41;}
             else{field="TenMonKhac";m.TenMonKhac=new('A',101);valid=false;}
         }

@@ -79,6 +79,7 @@ window.EduConnect.validateForm=(form,submitter)=>{
    continue;
   }
   if(!draft&&(input.required||input.hasAttribute('data-val-required'))&&!value){errors[input.name]=[label+' không được để trống.'];continue;}
+  if(value&&input.minLength>0&&value.length<input.minLength){errors[input.name]=[label+' cần ít nhất '+input.minLength+' ký tự.'];continue;}
   if(value&&input.validity.rangeUnderflow)errors[input.name]=[label+' phải từ '+input.min+' trở lên.'];
   else if(value&&input.validity.rangeOverflow)errors[input.name]=[label+' không được vượt quá '+input.max+'.'];
   else if(value&&(input.validity.badInput||input.validity.typeMismatch||input.validity.patternMismatch))errors[input.name]=[label+' chưa đúng định dạng.'];

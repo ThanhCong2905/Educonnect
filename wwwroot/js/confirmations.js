@@ -69,7 +69,7 @@
         const form = event.target;
         if (!(form instanceof HTMLFormElement)) return;
         if (approved.delete(form)) return;
-        let message = form.dataset.confirm;
+        let message = event.submitter?.dataset.confirm ?? form.dataset.confirm;
         if (!message && form.hasAttribute('data-confirm-fee') && event.submitter?.value !== 'true') {
             const amount = Number(form.elements.namedItem('HocPhiDuKien')?.value);
             const unit = form.elements.namedItem('DonViHocPhi')?.value;

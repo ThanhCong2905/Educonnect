@@ -63,7 +63,7 @@ public sealed class DanhGiaController(DanhGiaService service, TienDoService prog
                     maLop = model.MaLop
                 });
             }
-            ModelState.AddModelError("", result.ThongBao!);
+            ModelState.AddModelError(result.Truong ?? "", result.ThongBao!);
         }
         return View(model);
     }

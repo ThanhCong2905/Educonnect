@@ -178,8 +178,11 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
     private Task KhoaThanhVienLopAsync(Guid id)
         => db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}");
 
-    public Task<KetQua> XacNhanKetThucAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy) =>
-        KetNoi.PhanHoiHuyAsync(maYeuCau, true, rowVersion, maNguoiThucHien, huy);
+    public Task<KetQua> XacNhanKetThucAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy)
+    {
+        huy.ThrowIfCancellationRequested();
+        return KetNoi.PhanHoiHuyAsync(maYeuCau, true, rowVersion, maNguoiThucHien, huy);
+    }
 
     public Task KetThucAsync(Guid id, string version) =>
         Task.FromException(new LoiNghiepVu("Hãy phản hồi yêu cầu kết thúc bằng phiên bản yêu cầu đang hiển thị.", 409));
@@ -191,7 +194,7 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         var version = rowVersion == null ? lop.RowVersion : Rules.Version(rowVersion);
         var result = await KetNoi.TaoYeuCauHuyAsync(id, reason, version, user.Id, huy);
         if (!result.ThanhCong)
-            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+            result.BaoLoiNeuThatBai();
     }
     public async Task<List<YeuCauHuyKetNoi>> HuyAsync(Guid id)
     {

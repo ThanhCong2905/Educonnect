@@ -84,7 +84,9 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         return review.NguoiNhanId;
     }
 
-    public IQueryable<DanhGiaDoiTac> CongKhai() => db.Set<DanhGiaDoiTac>().AsNoTracking().Where(x =>
+    public IQueryable<DanhGiaDoiTac> CongKhai() => CongKhai(db);
+
+    public static IQueryable<DanhGiaDoiTac> CongKhai(AppDbContext db) => db.Set<DanhGiaDoiTac>().AsNoTracking().Where(x =>
         !db.Set<BienPhapQuanTri>().Any(b => b.LoaiDoiTuong == "DanhGiaDoiTac" && b.DoiTuongId == x.Id && b.Loai == "AnNoiDung" && b.GoLuc == null)
         && db.Users.Any(u => u.Id == x.NguoiNhanId && u.TrangThai == "HoatDong"));
 

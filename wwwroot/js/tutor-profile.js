@@ -1,20 +1,22 @@
-﻿(()=>{
+(()=>{
  const ui=window.EduConnect;
  function renumber(form){form.querySelectorAll('[data-subject-row]').forEach((row,i)=>row.querySelectorAll('[name]').forEach(input=>input.name=input.name.replace(/MonDay\[[^\]]+\]/,`MonDay[${i}]`)));}
  function custom(select){const field=select.closest('[data-subject-row]').querySelector('[data-custom-subject]');field.hidden=select.value!=='0';field.querySelector('input').disabled=field.hidden;field.querySelector('input').required=!field.hidden;}
  function add(form){const fragment=form.querySelector('template').content.cloneNode(true);form.querySelector('[data-subject-rows]').append(fragment);renumber(form);form.querySelectorAll('[data-subject-select]').forEach(custom);ui.markRequired(form);}
- function certificateRemoval(row){
-  const input=row.querySelector('[name="XoaTepIds"]');
-  const button=row.querySelector('[data-certificate-remove]');
-  function render(){
-   row.classList.toggle('is-pending-removal',input.checked);
-   row.querySelector('[data-certificate-removal-note]').hidden=!input.checked;
-   button.textContent=input.checked?'Hoàn tác':'×';
-   button.setAttribute('aria-pressed',String(input.checked));
-   button.setAttribute('aria-label',(input.checked?'Giữ lại ':'Xóa ')+row.dataset.fileName);
+ function updateEvidence(form){
+  const fields=[...form.querySelectorAll('.profile-evidence-upload')].map(group=>({
+   id:group.querySelector('input[type="hidden"]').value,
+   originalId:group.dataset.currentEvidence,
+   upload:group.querySelector('input[type="file"]')
+  }));
+  form.querySelectorAll('[data-replaced-evidence]').forEach(input=>input.remove());
+  const ids=new Set(fields.map(field=>field.originalId).filter(Boolean));
+  for(const id of ids){
+   if(fields.some(field=>field.id===id&&field.upload.files.length===0))continue;
+   const input=document.createElement('input');
+   input.type='hidden';input.name='XoaTepIds';input.value=id;input.dataset.replacedEvidence='';
+   form.append(input);
   }
-  button.addEventListener('click',()=>{input.checked=!input.checked;input.dispatchEvent(new Event('change',{bubbles:true}));render();});
-  render();
  }
  function init(root){
   root.querySelectorAll('[data-tutor-profile]').forEach(form=>{
@@ -22,12 +24,44 @@
    form.dataset.profileReady='true';
    if(!form.querySelector('[data-subject-row]')&&!form.querySelector('fieldset').disabled)add(form);
    form.querySelectorAll('[data-subject-select]').forEach(custom);
-   form.querySelectorAll('[data-stored-certificate]').forEach(certificateRemoval);
   });
  }
  const original=ui.init;ui.init=root=>{original(root);init(root||document);};
  document.addEventListener('click',event=>{const addButton=event.target.closest('[data-add-subject]');if(addButton){add(addButton.closest('form'));return;}const remove=event.target.closest('[data-remove-subject]');if(remove){const form=remove.closest('form');remove.closest('[data-subject-row]').remove();renumber(form);}});
- document.addEventListener('change',event=>{if(event.target.matches('[data-subject-select]'))custom(event.target);});
+ document.addEventListener('change',event=>{
+  if(event.target.matches('.profile-evidence-upload input[type="file"]')){
+   const group=event.target.closest('.profile-evidence-upload');
+   group.querySelector('[data-evidence-filename]').textContent=event.target.files[0]?.name||'Chưa chọn tệp mới';
+   group.querySelector('[data-clear-evidence]').hidden=event.target.files.length===0;
+   updateEvidence(event.target.form);
+  }
+  if(event.target.matches('[data-subject-select]'))custom(event.target);
+  if(event.target.matches('[data-proposal-need]')){
+   const option=event.target.selectedOptions[0],form=event.target.form;
+   if(!option?.value||!form)return;
+   for(const [name,key] of [['MucTieu','goal'],['SoBuoiTuan','sessions'],['HinhThucHoc','mode'],['DiaDiem','address']]){
+    const input=form.elements.namedItem(name);
+    if(input&&option.dataset[key]!=null){input.value=option.dataset[key];input.dispatchEvent(new Event('change',{bubbles:true}));}
+   }
+  }
+ });
+ document.addEventListener('click',event=>{
+  const savedButton=event.target.closest('[data-remove-saved-evidence]');
+  if(savedButton){
+   const group=savedButton.closest('.profile-evidence-upload');
+   const input=group.querySelector('input[type="hidden"]');
+   input.value=input.value?'':group.dataset.currentEvidence;
+   group.querySelector('[data-saved-evidence]').classList.toggle('is-pending-removal',!input.value);
+   savedButton.textContent=input.value?'Bỏ tệp đã lưu':'Hoàn tác bỏ tệp';
+   updateEvidence(savedButton.form);
+   input.dispatchEvent(new Event('change',{bubbles:true}));
+   return;
+  }
+  const button=event.target.closest('[data-clear-evidence]');
+  if(!button)return;
+  const input=button.closest('.profile-evidence-upload').querySelector('input[type="file"]');
+  input.value='';input.dispatchEvent(new Event('change',{bubbles:true}));
+ });
  const allowed=new WeakSet();let pending;
  document.addEventListener('submit',event=>{
   if(!event.submitter?.hasAttribute('data-confirm-hide'))return;

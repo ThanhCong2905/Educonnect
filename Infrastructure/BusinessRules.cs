@@ -32,7 +32,7 @@ public static class Rules
         {
             51032 or 51035 => 404,
             51140 or 51146 or 51160 or 51161 => 403,
-            1205 or 51033 or 51034 or 51037 or 51038 or 51039 or 51141 or 51144 or 51145 or 51147 or 51149 or 51150 or 51162 or 51163 or 2601 or 2627 => 409,
+            1205 or 51033 or 51034 or 51037 or 51038 or 51039 or 51138 or 51141 or 51144 or 51145 or 51147 or 51149 or 51150 or 51152 or 51162 or 51163 or 2601 or 2627 => 409,
             >= 51000 => 400,
             _ => 500
         };
@@ -116,6 +116,8 @@ public static class Rules
         "ChoDuyet" => "Chờ duyệt",
         "DaDuyet" => "Đã duyệt",
         "CanChinhSua" => "Cần chỉnh sửa",
+        "YeuCauChinhSuaNhuCau" => "Yêu cầu chỉnh sửa nhu cầu",
+        "AnNhuCau" => "Ẩn nhu cầu",
         "CaHai" => "Trực tuyến và trực tiếp",
         "DangMo" => "Đang mở",
         "BanNhap" => "Bản nháp",
@@ -154,7 +156,7 @@ public static class Rules
     {
         Check((value == null) == string.IsNullOrEmpty(unit), "Nhập đồng thời học phí và đơn vị.");
         if (value != null)
-            Check(value >= 0 && value <= 9999999999999999.99m && decimal.Round(value.Value, 2) == value && (unit == "VND/Gio" || unit == "VND/Buoi"), "Học phí không âm, tối đa hai chữ số thập phân; chọn đúng đơn vị.");
+            Check(value >= 0 && value <= 9999999999999999m && decimal.Truncate(value.Value) == value && (unit == "VND/Gio" || unit == "VND/Buoi"), "Học phí phải là số VND nguyên không âm; chọn đúng đơn vị.");
     }
     public static void Concurrency(AppDbContext db, object entity, string? version) => db.Entry(entity).Property("RowVersion").OriginalValue = Version(version);
 }

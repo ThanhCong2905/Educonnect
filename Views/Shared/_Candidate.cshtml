@@ -1,15 +1,17 @@
 @model UngVienViewModel
 @{
     var managedNeed = ViewData["ManagedNeed"] as NhuCauHoc;
+    var moderation = ViewData["ModerationInfo"] as EduConnect.Mvc.Areas.NhuCau.ViewModels.NhuCauKiemDuyetViewModel;
     var detailUrl = Model.LoaiNguoi == "GiaSu"
         ? $"/NhuCau/HoSoGiaSu/ChiTiet?maHoSo={Model.Id}"
         : $"/TimKiem/TimKiem/ChiTiet/{Model.Id}";
 }
-<article class="card candidate" data-candidate-id="@Model.Id">
+<article class="card candidate" id="@Model.Id" data-candidate-id="@Model.Id">
     @if (managedNeed != null)
     {
         <div class="card-statuses">
             <span class="badge rounded-pill">@Rules.Label(managedNeed.TrangThai)</span>
+            @if(moderation?.DangAn==true){<span class="badge rounded-pill badge-warning">Ẩn khỏi tìm kiếm</span>}
             @if (ViewData["NeedLinked"] is true)
             {
                 <span class="badge rounded-pill badge-linked">Đã kết nối</span>
@@ -30,10 +32,10 @@
     {
         <div class="chips">
             <span>@Rules.Label(Model.HinhThucHoc)</span>
-            @if (!string.IsNullOrWhiteSpace(Model.KhuVuc)) { <span>@Model.KhuVuc</span> }
+            @if (!string.IsNullOrWhiteSpace(Model.KhuVuc)) { <span>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</span> }
         </div>
         <dl class="candidate-professional">
-            <div><dt>Chuyên môn</dt><dd title="@Model.ChuyenMon">@(string.IsNullOrWhiteSpace(Model.ChuyenMon) ? "Chưa cập nhật" : Model.ChuyenMon)</dd></div>
+            <div><dt>Đánh giá</dt><dd>@(Model.DiemDanhGia.HasValue ? $"{Model.DiemDanhGia:0.0} / 5 ({Model.SoDanhGia})" : "Chưa có đánh giá")</dd></div>
             <div><dt>Kinh nghiệm</dt><dd title="@Model.KinhNghiem">@(string.IsNullOrWhiteSpace(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)</dd></div>
         </dl>
         <div class="subject-fees">
@@ -51,6 +53,12 @@
         <partial name="_NeedSummary" model="Model" />
     }
     @if (Model.LyDo.Count > 0) { <p class="match">@string.Join(" · ", Model.LyDo)</p> }
+    @if(moderation!=null)
+    {
+        <details class="bg-light rounded-3 p-3 mb-3"><summary>@(moderation.DangAn?"Lý do ẩn nhu cầu":"Nhận xét kiểm duyệt gần nhất")</summary><p class="pre mt-2">@moderation.LyDo</p><small>@Rules.Date(moderation.ThoiDiem)</small>
+        @if(moderation.DangAn&&managedNeed!=null&&managedNeed.TrangThai!="BanNhap"){<p class="mt-2">Bạn có thể chỉnh sửa rồi gửi đề nghị để quản trị xem lại.</p><form action="/NhuCau/NhuCau/DeNghiXemLai" method="post" class="mt-2">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@managedNeed.Id"><input type="hidden" name="rowVersion" value="@Convert.ToBase64String(managedNeed.RowVersion)"><button class="btn btn-outline-primary">Đề nghị xem lại</button></form>}
+        </details>
+    }
     <div class="actions">
         @if (managedNeed != null)
         {

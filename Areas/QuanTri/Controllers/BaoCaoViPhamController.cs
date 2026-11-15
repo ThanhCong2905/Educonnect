@@ -39,7 +39,7 @@ public sealed class BaoCaoViPhamController(BaoCaoViPhamService service, QuanTriS
                     maBaoCao = result.DuLieu
                 });
             }
-            ModelState.AddModelError("", result.ThongBao!);
+            ModelState.AddModelError(result.Truong ?? "", result.ThongBao!);
         }
         return View(model);
     }

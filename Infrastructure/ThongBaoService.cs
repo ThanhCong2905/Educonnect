@@ -20,9 +20,9 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
     }
 
     // Sự kiện và thông báo được lưu trong cùng giao dịch nghiệp vụ.
-    public void Tao(Guid recipient, string type, Guid target, string text)
+    public void Tao(Guid recipient, string type, Guid target, string text, Guid? maSuKien = null)
     {
-        var ev = Guid.NewGuid();
+        var ev = maSuKien ?? Guid.NewGuid();
         var now = DateTimeOffset.UtcNow;
         db.Add(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "ChoXuLy" });
         db.Add(new ThongBao { Id = Guid.NewGuid(), NguoiNhanId = recipient, LoaiThongBao = type, DoiTuongId = target, NoiDungTomTat = text, TaoLuc = now, MaSuKien = ev });

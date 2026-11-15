@@ -24,6 +24,29 @@ public sealed class QuanTriController(QuanTriService service, QuyenQuanTriServic
     public async Task<IActionResult> NoiDung(int trang = 1, string? loai = null, bool conHieuLuc = true)
         => View(await service.BienPhapAsync(trang, loai, conHieuLuc));
 
+    public async Task<IActionResult> NhuCau(int trang = 1, string? q = null, string? state = null, bool? dangAn = null)
+        => View(await service.LayNhuCauHauKiemAsync(trang, q, state, dangAn));
+
+    public async Task<IActionResult> NhuCauChiTiet(Guid id)
+        => View(await service.XemNhuCauHauKiemAsync(id));
+
+    [HttpPost]
+    public async Task<IActionResult> XuLyNhuCau(XuLyNhuCauViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                await service.XuLyNhuCauAsync(model);
+                Success(model.QuyetDinh == "AnNoiDung" ? "Đã ẩn nhu cầu và thông báo cho người đăng." : "Đã gửi yêu cầu chỉnh sửa cho người đăng.");
+                return RedirectToAction(nameof(NhuCauChiTiet), new { id = model.Id });
+            }
+            catch (LoiNghiepVu error) { ModelState.AddModelError(error.Truong ?? "", error.Message); }
+        }
+        ViewBag.XuLy = model;
+        return View("NhuCauChiTiet", await service.XemNhuCauHauKiemAsync(model.Id));
+    }
+
     [HttpPost]
     public async Task<IActionResult> KhoaTaiKhoan(Guid id, string lyDo, string concurrencyStamp)
     {
