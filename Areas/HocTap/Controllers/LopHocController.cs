@@ -1,10 +1,11 @@
 using EduConnect.Mvc.Areas.HocTap.Services;
+using EduConnect.Mvc.Areas.DanhGia.Services;
 using EduConnect.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
-public sealed class LopHocController(LopHocService service, BaiTapService tasks, TinNhanService chat) : BaseController
+public sealed class LopHocController(LopHocService service, BaiTapService tasks, TinNhanService chat, TienDoService progress) : BaseController
 {
     public async Task<IActionResult> Index()
     {
@@ -27,7 +28,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         Success(agree ? "Bạn đã đồng ý lời mời. Đang chờ gia sư duyệt quyền tham gia." : "Bạn đã từ chối lời mời.");
         return RedirectToAction(nameof(Index));
     }
-    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null, DateOnly? week = null)
+    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null, DateOnly? week = null, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null, int trang = 1)
     {
         ValidateInput();
         var c = await service.ChiTietAsync(id);
@@ -43,6 +44,8 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         ViewBag.Chat = await chat.TheoLopAsync(id);
         ViewBag.Cancellations = await service.HuyAsync(id);
         ViewBag.MyReview = await service.DanhGiaDaGuiAsync(id);
+        if (tab == "overview")
+            ViewBag.Progress = await progress.LayAsync(id, tuNgay, denNgay, trang);
         return View(c);
     }
     public async Task<IActionResult> ThanhVien(Guid id)

@@ -2,7 +2,19 @@
  const ui=window.EduConnect;
  function renumber(form){form.querySelectorAll('[data-subject-row]').forEach((row,i)=>row.querySelectorAll('[name]').forEach(input=>input.name=input.name.replace(/MonDay\[[^\]]+\]/,`MonDay[${i}]`)));}
  function custom(select){const field=select.closest('[data-subject-row]').querySelector('[data-custom-subject]');field.hidden=select.value!=='0';field.querySelector('input').disabled=field.hidden;field.querySelector('input').required=!field.hidden;}
- function add(form){const fragment=form.querySelector('template').content.cloneNode(true);form.querySelector('[data-subject-rows]').append(fragment);renumber(form);form.querySelectorAll('[data-subject-select]').forEach(custom);ui.markRequired(form);}
+ function add(form){const fragment=form.querySelector('template').content.cloneNode(true);form.querySelector('[data-subject-rows]').append(fragment);renumber(form);form.querySelectorAll('[data-subject-select]').forEach(custom);evidenceVisibility(form);ui.markRequired(form);}
+ function evidenceVisibility(form){
+  for(const section of form.querySelectorAll('[data-evidence-for]')){
+   const choice=form.elements.namedItem(section.dataset.evidenceFor)?.value;
+   section.hidden=!choice||(section.dataset.evidenceFor==='KinhNghiem'&&choice==='Chưa có');
+  }
+  for(const group of form.querySelectorAll('.profile-evidence-upload')){
+   const input=group.querySelector('input[type="file"]');
+   const inactive=!!group.closest('[hidden]');
+   input.disabled=inactive;
+   input.required=!inactive&&!group.querySelector('input[type="hidden"]').value;
+  }
+ }
  function updateEvidence(form){
   const fields=[...form.querySelectorAll('.profile-evidence-upload')].map(group=>({
    id:group.querySelector('input[type="hidden"]').value,
@@ -12,7 +24,7 @@
   form.querySelectorAll('[data-replaced-evidence]').forEach(input=>input.remove());
   const ids=new Set(fields.map(field=>field.originalId).filter(Boolean));
   for(const id of ids){
-   if(fields.some(field=>field.id===id&&field.upload.files.length===0))continue;
+   if(fields.some(field=>field.id===id&&(field.upload.disabled||field.upload.files.length===0)))continue;
    const input=document.createElement('input');
    input.type='hidden';input.name='XoaTepIds';input.value=id;input.dataset.replacedEvidence='';
    form.append(input);
@@ -24,10 +36,15 @@
    form.dataset.profileReady='true';
    if(!form.querySelector('[data-subject-row]')&&!form.querySelector('fieldset').disabled)add(form);
    form.querySelectorAll('[data-subject-select]').forEach(custom);
+   evidenceVisibility(form);
   });
  }
  const original=ui.init;ui.init=root=>{original(root);init(root||document);};
- document.addEventListener('click',event=>{const addButton=event.target.closest('[data-add-subject]');if(addButton){add(addButton.closest('form'));return;}const remove=event.target.closest('[data-remove-subject]');if(remove){const form=remove.closest('form');remove.closest('[data-subject-row]').remove();renumber(form);}});
+ document.addEventListener('click',event=>{
+  const edit=event.target.closest('[data-edit-profile]');
+  if(edit){const form=edit.closest('form');if(form.dataset.profileLocked==='true')return;form.querySelector('.profile-edit-fields').disabled=false;edit.hidden=true;evidenceVisibility(form);form.querySelector('[name="HoTen"]').focus();return;}
+  const addButton=event.target.closest('[data-add-subject]');if(addButton){add(addButton.closest('form'));return;}const remove=event.target.closest('[data-remove-subject]');if(remove){const form=remove.closest('form');remove.closest('[data-subject-row]').remove();renumber(form);}
+ });
  document.addEventListener('change',event=>{
   if(event.target.matches('.profile-evidence-upload input[type="file"]')){
    const group=event.target.closest('.profile-evidence-upload');
@@ -36,6 +53,7 @@
    updateEvidence(event.target.form);
   }
   if(event.target.matches('[data-subject-select]'))custom(event.target);
+  if(event.target.form?.hasAttribute('data-tutor-profile'))evidenceVisibility(event.target.form);
   if(event.target.matches('[data-proposal-need]')){
    const option=event.target.selectedOptions[0],form=event.target.form;
    if(!option?.value||!form)return;

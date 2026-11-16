@@ -43,7 +43,7 @@ public sealed class ControllerGuardTests
     [Fact]
     public async Task Invalid_end_confirmation_stops_before_loading_actor()
     {
-        var controller = new LopHocController(null!, null!, null!)
+        var controller = new LopHocController(null!, null!, null!, null!)
         {
             ControllerContext = new() { HttpContext = new DefaultHttpContext() }
         };

@@ -56,6 +56,16 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
         Rules.Check(HoSoLuaChon.KhuVuc.Contains(m.KhuVuc), "Chọn tỉnh hoặc thành phố trong danh sách.", field: nameof(m.KhuVuc));
         Rules.Check(DiaGioiHanhChinh.HopLe(m.KhuVuc, m.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(m.PhuongXa));
         Rules.Check(m.MoTa.Trim().Length is >= 100 and <= 4000, "Giới thiệu cần từ 100 đến 4.000 ký tự.", field: nameof(m.MoTa));
+        Rules.Check(m.TepTrinhDo?.Length > 0 || m.MinhChungTrinhDoId.HasValue && !m.XoaTepIds.Contains(m.MinhChungTrinhDoId.Value),
+            "Tải minh chứng cho trình độ đã chọn trước khi lưu hồ sơ.", field: nameof(m.TepTrinhDo));
+        Rules.Check(m.KinhNghiem == "Chưa có" || m.TepKinhNghiem?.Length > 0 || m.MinhChungKinhNghiemId.HasValue && !m.XoaTepIds.Contains(m.MinhChungKinhNghiemId.Value),
+            "Tải minh chứng cho kinh nghiệm đã chọn trước khi lưu hồ sơ.", field: nameof(m.TepKinhNghiem));
+        for (var index = 0; index < m.MonDay.Count; index++)
+        {
+            var subject = m.MonDay[index];
+            Rules.Check(subject.TepMinhChung?.Length > 0 || subject.MinhChungId.HasValue && !m.XoaTepIds.Contains(subject.MinhChungId.Value),
+                "Tải minh chứng cho môn dạy này trước khi lưu hồ sơ.", field: $"MonDay[{index}].TepMinhChung");
+        }
         var uploads=await files.KiemTraAsync(m.Files);
         var degreeUpload = await KiemTraMinhChungAsync(m.TepTrinhDo, nameof(m.TepTrinhDo));
         var experienceUpload = await KiemTraMinhChungAsync(m.TepKinhNghiem, nameof(m.TepKinhNghiem));

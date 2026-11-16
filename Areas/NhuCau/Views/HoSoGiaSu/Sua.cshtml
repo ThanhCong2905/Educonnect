@@ -1,6 +1,6 @@
 @model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
-@{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;var locked=Model.DangHienThi||Model.TrangThaiDuyet=="ChoDuyet";}
-<div class="heading"><div><h1>Hồ sơ của tôi</h1><p>Giới thiệu, môn dạy và mức phí tham khảo.</p></div>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="XemTruoc">Xem hồ sơ công khai</a>}</div>
+@{ViewData["Title"]="Hồ sơ gia sư";var certificates=(List<TepDinhKem>)ViewBag.Certificates;var locked=Model.DangHienThi||Model.TrangThaiDuyet=="ChoDuyet";var editing=Model.RowVersion==null||!ViewData.ModelState.IsValid;}
+<div class="heading"><div><h1>Hồ sơ của tôi</h1><p>Giới thiệu, môn dạy và mức phí tham khảo.</p></div>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="XemTruoc">Xem trước hồ sơ</a>}</div>
 <section class="card profile-workflow"><div class="card-statuses"><span class="badge">@(Model.DangHienThi?"Đang hiển thị":"Đang ẩn")</span><span class="badge @(Model.TrangThaiDuyet=="DaDuyet"?"badge-success":Model.TrangThaiDuyet is "ChoDuyet" or "CanChinhSua" or "TuChoi"?"badge-warning":"")">@Rules.Label(Model.TrangThaiDuyet)</span></div>
 @if(Model.DangHienThi){<p>Ẩn hồ sơ trước khi chỉnh sửa. Các cuộc trò chuyện và lớp đang có vẫn được giữ.</p>}
 @if(Model.TrangThaiDuyet=="ChoDuyet"){<p>Hồ sơ đang được kiểm duyệt. Hủy gửi duyệt nếu bạn cần thay đổi nội dung.</p>}
@@ -10,34 +10,34 @@
 else if(Model.TrangThaiDuyet=="ChoDuyet"){<button class="btn btn-outline-primary" name="operation" value="HuyDuyet">Hủy gửi duyệt</button>}
 else {<button class="btn @(Model.TrangThaiDuyet=="DaDuyet"?"btn-outline-primary":"btn-primary")" name="operation" value="GuiDuyet">Gửi duyệt</button>@if(Model.TrangThaiDuyet=="DaDuyet"){<button class="btn btn-primary" name="operation" value="Hien">Bật hiển thị</button>}}
 </form>}</section>
-<form method="post" asp-action="Luu" enctype="multipart/form-data" class="card" data-tutor-profile>
+<form method="post" asp-action="Luu" enctype="multipart/form-data" class="card" data-tutor-profile data-profile-locked="@locked.ToString().ToLowerInvariant()">
 <div asp-validation-summary="All" class="validation"></div><input asp-for="RowVersion" type="hidden">
-<fieldset class="profile-edit-fields" disabled="@locked"><legend>Thông tin hồ sơ</legend>
+@if(!locked && !editing){<div class="actions mb-3"><button type="button" class="btn btn-primary" data-edit-profile>Chỉnh sửa hồ sơ</button></div>}
+<fieldset class="profile-edit-fields" disabled="@(locked || !editing)"><legend>Thông tin hồ sơ</legend>
 <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
-<label>Họ tên<input class="form-control" asp-for="HoTen" required maxlength="256"><span asp-validation-for="HoTen"></span></label>
-<label>Trình độ<select class="form-select" asp-for="TrinhDo" required><option value="">Chọn trình độ</option>@foreach(var option in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.TrinhDo){<option value="@option">@option</option>}</select><span asp-validation-for="TrinhDo"></span></label>
-<label>Kinh nghiệm<select class="form-select" asp-for="KinhNghiem" required><option value="">Chọn kinh nghiệm</option>@foreach(var option in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.KinhNghiem){<option value="@option">@option</option>}</select><span asp-validation-for="KinhNghiem"></span></label>
-
-<partial name="_KhuVucPicker" model="new EduConnect.Mvc.ViewModels.KhuVucPickerViewModel(Model.KhuVuc, Model.PhuongXa, true)" />
-<label>Địa chỉ chi tiết <small>(không bắt buộc)</small><input class="form-control" asp-for="DiaChiChiTiet" maxlength="500"><span asp-validation-for="DiaChiChiTiet"></span></label>
-</div><label>Giới thiệu<textarea class="form-control" asp-for="MoTa" required minlength="100" maxlength="4000"></textarea><span asp-validation-for="MoTa"></span></label>
-<div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
-@await Html.PartialAsync("_MinhChung", certificates.FirstOrDefault(file => file.Id == Model.MinhChungTrinhDoId), new ViewDataDictionary(ViewData)
+<label class="w-100">Họ tên<input class="form-control" asp-for="HoTen" required maxlength="256"><span asp-validation-for="HoTen"></span></label>
+<div><label>Trình độ<select class="form-select" asp-for="TrinhDo" required><option value="">Chọn trình độ</option>@foreach(var option in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.TrinhDo){<option value="@option">@option</option>}@if(!string.IsNullOrWhiteSpace(Model.TrinhDo) && !EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.TrinhDo.Contains(Model.TrinhDo)){<option value="@Model.TrinhDo" disabled>@Model.TrinhDo (đã lưu)</option>}</select><span asp-validation-for="TrinhDo"></span></label><div class="mt-3" data-evidence-for="TrinhDo">@await Html.PartialAsync("_MinhChung", certificates.FirstOrDefault(file => file.Id == Model.MinhChungTrinhDoId), new ViewDataDictionary(ViewData)
 {
     ["FileField"] = "TepTrinhDo", ["IdField"] = "MinhChungTrinhDoId",
     ["CurrentId"] = Model.MinhChungTrinhDoId, ["EvidenceTitle"] = "Minh chứng trình độ"
 })
-@await Html.PartialAsync("_MinhChung", certificates.FirstOrDefault(file => file.Id == Model.MinhChungKinhNghiemId), new ViewDataDictionary(ViewData)
+</div></div>
+<div><label>Kinh nghiệm<select class="form-select" asp-for="KinhNghiem" required><option value="">Chọn kinh nghiệm</option>@foreach(var option in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.KinhNghiem){<option value="@option">@option</option>}@if(!string.IsNullOrWhiteSpace(Model.KinhNghiem) && !EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.KinhNghiem.Contains(Model.KinhNghiem)){<option value="@Model.KinhNghiem" disabled>@Model.KinhNghiem (đã lưu)</option>}</select><span asp-validation-for="KinhNghiem"></span></label><div class="mt-3" data-evidence-for="KinhNghiem">@await Html.PartialAsync("_MinhChung", certificates.FirstOrDefault(file => file.Id == Model.MinhChungKinhNghiemId), new ViewDataDictionary(ViewData)
 {
     ["FileField"] = "TepKinhNghiem", ["IdField"] = "MinhChungKinhNghiemId",
     ["CurrentId"] = Model.MinhChungKinhNghiemId, ["EvidenceTitle"] = "Minh chứng kinh nghiệm"
 })
-</div>
+</div></div>
+
+<partial name="_KhuVucPicker" model="new EduConnect.Mvc.ViewModels.KhuVucPickerViewModel(Model.KhuVuc, Model.PhuongXa, true)" />
+<label>Địa chỉ chi tiết <small>(không bắt buộc)</small><input class="form-control" asp-for="DiaChiChiTiet" maxlength="500"><span asp-validation-for="DiaChiChiTiet"></span></label>
+</div><label>Giới thiệu<textarea class="form-control" asp-for="MoTa" required minlength="100" maxlength="4000"></textarea><span asp-validation-for="MoTa"></span></label>
+
 <p>Hình thức dạy <span class="required-mark" aria-label="Chọn ít nhất một">*</span></p><div class="teaching-modes"><label class="check"><input name="DayTrucTuyen" type="checkbox" value="true" checked="@Model.DayTrucTuyen" class="form-check-input">Trực tuyến</label><label class="check"><input name="DayTrucTiep" type="checkbox" value="true" checked="@Model.DayTrucTiep" class="form-check-input">Trực tiếp</label></div>
 <h2>Môn dạy & học phí đề xuất</h2><p class="muted">Mỗi môn có mức phí và đơn vị riêng. Học phí lớp sẽ được hai bên thỏa thuận khi kết nối.</p>
 <div data-subject-rows>@for(int i=0;i<Model.MonDay.Count;i++){@await Html.PartialAsync("_MonDayRow",Model.MonDay[i],new ViewDataDictionary(ViewData){["RowIndex"]=i.ToString()})}</div>
 <button type="button" class="btn btn-outline-primary" data-add-subject>+ Thêm môn dạy</button>
 <template data-subject-template>@await Html.PartialAsync("_MonDayRow",new EduConnect.Mvc.Areas.NhuCau.ViewModels.MonDayInput{PhamViDay="Lớp 10–12"},new ViewDataDictionary(ViewData){["RowIndex"]="__index__"})</template>
-<p class="muted mt-3">Tối đa 5 tệp minh chứng, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem. Bấm Lưu hồ sơ để lưu các tệp đã chọn.</p>
-@if(!locked){<div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button></div>}
+<p class="muted mt-3 profile-edit-help">Tối đa 5 tệp minh chứng, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem. Bấm Lưu hồ sơ để lưu các tệp đã chọn.</p>
+@if(!locked){<div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="Sua">Hủy chỉnh sửa</a>}</div>}
 </fieldset></form>

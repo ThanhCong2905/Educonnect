@@ -67,7 +67,8 @@ window.EduConnect.validateForm=(form,submitter)=>{
   const label=window.EduConnect.fieldLabel(input);const value=input.value.trim();
   if(input.type==='file'){
    const files=[...input.files];
-   if(files.length>5)errors[input.name]=['Chọn tối đa 5 tệp mỗi lần gửi.'];
+   if(input.required&&!files.length)errors[input.name]=['Chọn tệp '+label.toLowerCase()+' trước khi lưu.'];
+   else if(files.length>5)errors[input.name]=['Chọn tối đa 5 tệp mỗi lần gửi.'];
    else if(files.some(file=>file.size===0||file.size>10000000))errors[input.name]=['Mỗi tệp phải có dữ liệu và không vượt quá 10 MB.'];
    else if(input.hasAttribute('data-avatar-file')&&files.some(file=>!(/\.(jpe?g|png)$/i).test(file.name)))errors[input.name]=['Chọn ảnh JPG hoặc PNG.'];
    else if(files.some(file=>!(/\.(pdf|jpe?g|png|docx)$/i).test(file.name)))errors[input.name]=['Chỉ nhận PDF, JPG, PNG, DOCX.'];
