@@ -19,6 +19,17 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
             Tao(id, type, target, text);
     }
 
+    public async Task MoiDanhGiaAsync(LopHoc lop, CancellationToken huy = default)
+    {
+        var daHoc = await db.Set<BuoiHoc>().AnyAsync(b => b.TrangThai == "DaHoc" && b.GhiNhanLuc != null
+            && db.Set<LichHoc>().Any(l => l.Id == b.LichHocId && l.LopHocId == lop.Id), huy);
+        if (!daHoc)
+            return;
+
+        foreach (var recipient in new[] { lop.GiaSuId, lop.BenHocId })
+            Tao(recipient, "KetNoi", lop.Id, "Lớp đã kết thúc. Bạn có thể gửi đánh giá về người đã học cùng.");
+    }
+
     // Sự kiện và thông báo được lưu trong cùng giao dịch nghiệp vụ.
     public void Tao(Guid recipient, string type, Guid target, string text, Guid? maSuKien = null)
     {

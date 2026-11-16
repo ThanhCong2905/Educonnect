@@ -19,7 +19,6 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
                 await XuLyTuHuyKetNoiAsync(now, huy);
                 await XuLyNhacHocTapAsync(huy);
                 await XuLyHieuLucNhuCauAsync(huy);
-                await XuLyDongDotPhanHoiAsync(huy);
             }
             catch (OperationCanceledException) when (huy.IsCancellationRequested) { break; }
             catch (Exception ex) { log.LogWarning(ex, "Bảo trì chưa hoàn tất; sẽ thử lại."); }
@@ -98,6 +97,7 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
             lop.TrangThai = "DaKetThuc";
             lop.KetThucLuc = now;
             lop.CachKetThuc = "HetHan";
+            await notices.MoiDanhGiaAsync(lop, huy);
             foreach (var recipient in new[] { lop.GiaSuId, lop.BenHocId })
                 notices.Tao(recipient, "KetNoi", maLop, "Lớp đã kết thúc do yêu cầu không được phản hồi trong 72 giờ.");
             await db.SaveChangesAsync(huy);

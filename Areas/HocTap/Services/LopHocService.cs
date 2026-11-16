@@ -15,6 +15,15 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         return await db.Set<LopHoc>().AsNoTracking().Where(c => c.GiaSuId == u.Id || c.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null && db.Set<LienKetPhuHuynhHocSinh>().Any(l => l.Id == m.LienKetId && l.TrangThai == "DaLienKet"))).OrderBy(c => c.TenLop).ToListAsync();
     }
     public Task<LopHoc> ChiTietAsync(Guid id) => rights.KiemTraQuyenXemAsync(id);
+
+    public async Task<DanhGiaDoiTac?> DanhGiaDaGuiAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        var me = await current.HienTaiAsync();
+        return await db.Set<DanhGiaDoiTac>().AsNoTracking()
+            .SingleOrDefaultAsync(x => x.LopHocId == id && x.NguoiGuiId == me.Id);
+    }
+
     public async Task<List<LichHoc>> LichAsync(Guid id)
     {
         await rights.KiemTraQuyenXemAsync(id);

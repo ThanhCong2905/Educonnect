@@ -1,3 +1,61 @@
 @model EduConnect.Mvc.Areas.HocTap.ViewModels.LichHangLoatInput
-@{ViewData["Title"]="Thêm lịch học";var today=DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(7)).Date;}
-<h1>Thêm lịch học</h1><form method="post" class="card form-wide" data-calendar-form><div asp-validation-summary="All" class="validation"></div><input asp-for="LopHocId" type="hidden"><div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid"><label>Tên buổi học<input class="form-control" id="batch-title" required value="Buổi học" maxlength="256"></label><label>Tháng<input class="form-control" type="month" id="batch-month" value="@today.ToString("yyyy-MM")"></label><label>Giờ bắt đầu<input class="form-control" id="batch-start" required type="time" value="19:00"></label><label>Giờ kết thúc<input class="form-control" id="batch-end" required type="time" value="20:30"></label></div><fieldset><legend>Chọn nhanh theo thứ</legend><div class="weekday-options">@foreach(var d in new[]{1,2,3,4,5,6,0}){<label class="check"><input class="form-check-input" type="checkbox" data-weekday value="@d">@(d==0?"CN":"T"+(d+1))</label>}</div><div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid"><label>Từ ngày<input class="form-control" type="date" id="range-from" value="@today.AddDays(1).ToString("yyyy-MM-dd")"></label><label>Đến ngày<input class="form-control" type="date" id="range-to" value="@today.AddDays(14).ToString("yyyy-MM-dd")"></label></div><button type="button" id="apply-weekdays" class="btn btn-outline-primary secondary">Thêm các ngày theo thứ đã chọn</button><p id="calendar-feedback" role="status"></p></fieldset><p class="calendar-hint">Chọn ngày để thêm, chọn lại để bỏ. Ngày đã qua không thể chọn.</p><div id="calendar" class="calendar" aria-label="Chọn ngày"></div><button type="button" class="btn btn-outline-primary secondary" id="apply-times">Áp dụng giờ chung cho ngày đã chọn</button><div class="schedule-heading"><h2>Buổi học đã chọn <span data-schedule-count>0</span></h2><button type="button" class="btn quiet" data-clear-schedule>Bỏ chọn tất cả</button></div><p class="muted" data-schedule-empty>Chọn ngày trên lịch để thêm buổi học. Bạn có thể chỉnh riêng từng buổi bên dưới.</p><div data-schedule-list>@for(int i=0;i<Model.Buoi.Count;i++){<div class="schedule-row"><label>Tên buổi<input class="form-control" name="Buoi[@i].TieuDe" value="@Model.Buoi[i].TieuDe" required maxlength="256"></label><label>Bắt đầu<input class="form-control" type="datetime-local" name="Buoi[@i].BatDauLuc" value="@Model.Buoi[i].BatDauLuc.ToString("yyyy-MM-ddTHH:mm")" required></label><label>Kết thúc<input class="form-control" type="datetime-local" name="Buoi[@i].KetThucLuc" value="@Model.Buoi[i].KetThucLuc.ToString("yyyy-MM-ddTHH:mm")" required></label><button class="btn quiet" type="button" data-remove-row aria-label="Xóa buổi">Xóa</button></div>}</div><div class="actions"><button class="btn btn-primary">Lưu lịch học</button></div></form>
+@{
+    ViewData["Title"] = "Thêm lịch học";
+    var today = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(7)).Date;
+    var first = ViewBag.StartDate as DateTime? ?? Model.Buoi.FirstOrDefault()?.BatDauLuc.Date ?? today.AddDays(1);
+    if (first < today) first = today.AddDays(1);
+    var duration = ((LopHoc)ViewBag.Class).ThoiLuongPhut;
+    var startTime = new TimeOnly(Math.Min(19, 23 - duration / 60), 0);
+    var endTime = startTime.AddMinutes(duration);
+}
+<h1>Thêm lịch học</h1>
+<form method="post" class="card schedule-builder" data-calendar-form data-follow-redirect>
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input asp-for="LopHocId" type="hidden">
+    <h2>Thời gian học</h2>
+    <div class="row g-3 edu-form-grid">
+        <div class="col-12"><label>Tên buổi học<input class="form-control" id="batch-title" required value="Buổi học" maxlength="256"></label></div>
+        <div class="col-md-6"><label>Giờ bắt đầu<input class="form-control" id="batch-start" required type="time" value="@startTime.ToString("HH:mm")"></label></div>
+        <div class="col-md-6"><label>Giờ kết thúc<input class="form-control" id="batch-end" required type="time" value="@endTime.ToString("HH:mm")"></label></div>
+    </div>
+    <section class="schedule-section">
+        <div class="heading"><h2>Chọn ngày học</h2><label class="calendar-month-label">Tháng<input class="form-control" type="month" id="batch-month" value="@first.ToString("yyyy-MM")"></label></div>
+        <p class="muted">Chọn ngày để thêm buổi, chọn lại để bỏ.</p>
+        <div id="calendar" class="calendar" aria-label="Chọn ngày học"></div>
+        <details class="schedule-section">
+            <summary>Lặp theo thứ trong khoảng ngày</summary>
+            <fieldset>
+                <legend class="visually-hidden">Ngày lặp trong tuần</legend>
+                <div class="weekday-options">
+                    @foreach (var day in new[] { 1, 2, 3, 4, 5, 6, 0 })
+                    {
+                        <label><input type="checkbox" data-weekday value="@day"><span>@(day == 0 ? "CN" : "Thứ " + (day + 1))</span></label>
+                    }
+                </div>
+                <div class="row g-3 edu-form-grid">
+                    <div class="col-md-6"><label>Từ ngày<input class="form-control" type="date" id="range-from" value="@first.ToString("yyyy-MM-dd")"></label></div>
+                    <div class="col-md-6"><label>Đến ngày<input class="form-control" type="date" id="range-to" value="@first.AddDays(13).ToString("yyyy-MM-dd")"></label></div>
+                </div>
+                <button type="button" id="apply-weekdays" class="btn btn-outline-primary mt-3">Thêm các buổi lặp</button>
+            </fieldset>
+        </details>
+        <p id="calendar-feedback" role="status" aria-live="polite"></p>
+    </section>
+    <section class="schedule-section">
+        <div class="schedule-heading"><h2>Buổi đã chọn <span data-schedule-count>0</span></h2><button type="button" class="btn btn-outline-primary" data-clear-schedule>Bỏ chọn tất cả</button></div>
+        <p class="muted" data-schedule-empty>Chọn ít nhất một ngày để xếp lịch học.</p>
+        <div data-schedule-list>
+            @for (var i = 0; i < Model.Buoi.Count; i++)
+            {
+                <div class="schedule-row">
+                    <label>Tên buổi<input class="form-control" name="Buoi[@i].TieuDe" value="@Model.Buoi[i].TieuDe" required maxlength="256"><span asp-validation-for="Buoi[i].TieuDe"></span></label>
+                    <label>Bắt đầu<input class="form-control" type="datetime-local" name="Buoi[@i].BatDauLuc" value="@Model.Buoi[i].BatDauLuc.ToString("yyyy-MM-ddTHH:mm")" required><span asp-validation-for="Buoi[i].BatDauLuc"></span></label>
+                    <label>Kết thúc<input class="form-control" type="datetime-local" name="Buoi[@i].KetThucLuc" value="@Model.Buoi[i].KetThucLuc.ToString("yyyy-MM-ddTHH:mm")" required><span asp-validation-for="Buoi[i].KetThucLuc"></span></label>
+                    <button class="btn btn-outline-primary" type="button" data-remove-row aria-label="Bỏ buổi học">Bỏ</button>
+                </div>
+            }
+        </div>
+        <button type="button" class="btn btn-outline-primary mt-3" id="apply-times" hidden>Áp dụng giờ chung cho các buổi đã chọn</button>
+    </section>
+    <div class="schedule-footer"><button class="btn btn-primary">Lưu lịch học</button></div>
+</form>

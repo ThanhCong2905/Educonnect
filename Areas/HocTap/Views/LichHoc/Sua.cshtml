@@ -1,13 +1,14 @@
 @model EduConnect.Mvc.Areas.HocTap.ViewModels.SuaLichInput
 @{
-    ViewData["Title"] = "Điều chỉnh lịch và học bù";
+
     var schedule = (LichHoc)ViewBag.Schedule;
     var lesson = (BuoiHoc?)ViewBag.Record;
-    var canChange = schedule.TrangThai == "DaLenLich" && schedule.BatDauLuc > DateTimeOffset.UtcNow;
+    var canChange = schedule.TrangThai == "DaLenLich" && schedule.BatDauLuc > DateTimeOffset.UtcNow && lesson?.TrangThai == "DuKien";
+    ViewData["Title"] = lesson?.TrangThai == "DaNghi" ? "Xếp lịch học bù" : "Điều chỉnh lịch";
 }
-<h1>Điều chỉnh lịch và học bù</h1>
+<h1>@ViewData["Title"]</h1>
 <p>Lịch gốc: @Rules.Date(schedule.BatDauLuc) – @Rules.Date(schedule.KetThucLuc)</p>
-<form method="post" class="card form-wide" data-schedule-edit>
+<form method="post" class="card form-wide" data-schedule-edit data-follow-redirect>
     <div asp-validation-summary="All" class="validation"></div>
     <input asp-for="Id" type="hidden">
     <input asp-for="RowVersion" type="hidden">
@@ -25,11 +26,15 @@
         @if (canChange)
         {
             <button class="btn btn-primary" asp-action="Sua" name="TrangThai" value="DaDieuChinh">Lưu thay đổi</button>
-            <button class="btn btn-outline-danger" asp-action="Sua" name="TrangThai" value="DaHuy" formnovalidate>Hủy lịch gốc</button>
+
         }
         @if (lesson?.TrangThai == "DaNghi" && lesson.CanHocBu)
         {
-            <button class="btn btn-outline-primary" asp-action="TaoBuoiBu">Thêm buổi học bù</button>
+            <button class="btn btn-primary" asp-action="TaoBuoiBu">Thêm buổi học bù</button>
         }
     </div>
+    @if (canChange)
+    {
+        <details class="mt-4"><summary>Hủy lịch buổi học này</summary><p class="muted mt-3">Lịch đã hủy vẫn được giữ trong lịch sử lớp.</p><button class="btn btn-outline-danger" asp-action="Sua" name="TrangThai" value="DaHuy" formnovalidate>Hủy lịch học</button></details>
+    }
 </form>

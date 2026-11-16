@@ -6,14 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Areas.DanhGia.Services;
 
-public sealed class TienDoService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights)
+public sealed class TienDoService(AppDbContext db, QuyenLopHocService rights)
 {
     public async Task<TienDoViewModel> LayAsync(Guid id, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null, int trang = 1, Guid? dot = null)
     {
         Rules.Check(tuNgay == null || denNgay == null || tuNgay <= denNgay, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.");
         Rules.Check(trang is >= 1 and <= 100000, "Trang không hợp lệ.");
         var lop = await rights.KiemTraQuyenXemAsync(id);
-        var me = await current.HienTaiAsync();
         var dotQuery = db.Set<DotPhanHoi>().AsNoTracking().Where(x => x.LopHocId == id && (dot == null || x.Id == dot));
         var lessons = from b in db.Set<BuoiHoc>().AsNoTracking()
                       join l in db.Set<LichHoc>() on b.LichHocId equals l.Id
@@ -62,8 +61,7 @@ public sealed class TienDoService(AppDbContext db, NguoiDungHienTaiService curre
             Trang = trang,
             Phieu = phieu,
             HoTen = people,
-            QuyetDinh = await db.Set<QuyetDinhSauPhanHoi>().AsNoTracking().Where(x => dotIds.Contains(x.DotPhanHoiId)).ToListAsync(),
-            CoThePhanHoi = lop.TrangThai == "DangHoatDong" && (me.Id == lop.GiaSuId || me.Id == lop.BenHocId || await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == id && x.TaiKhoanId == me.Id && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null && x.MucQuyen == "ChinhSua"))
+            QuyetDinh = await db.Set<QuyetDinhSauPhanHoi>().AsNoTracking().Where(x => dotIds.Contains(x.DotPhanHoiId)).ToListAsync()
         };
     }
 }

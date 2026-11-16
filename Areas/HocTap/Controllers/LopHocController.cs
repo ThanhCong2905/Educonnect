@@ -27,17 +27,22 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         Success(agree ? "Bạn đã đồng ý lời mời. Đang chờ gia sư duyệt quyền tham gia." : "Bạn đã từ chối lời mời.");
         return RedirectToAction(nameof(Index));
     }
-    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null)
+    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null, DateOnly? week = null)
     {
+        ValidateInput();
         var c = await service.ChiTietAsync(id);
         ViewBag.Tab = tab;
         ViewBag.Month = month;
         ViewBag.State = state;
         ViewBag.Schedules = tab == "lessons" ? await service.LocBuoiAsync(id, month, state) : await service.LichAsync(id);
         ViewBag.Records = await service.BuoiAsync(id);
+        if (tab == "schedule")
+            ViewBag.Week = EduConnect.Mvc.Areas.HocTap.ViewModels.LichTuanViewModel.Tao(c,
+                ViewBag.Schedules, ViewBag.Records, week, DateTimeOffset.UtcNow);
         ViewBag.Tasks = await tasks.LayAsync(id);
         ViewBag.Chat = await chat.TheoLopAsync(id);
         ViewBag.Cancellations = await service.HuyAsync(id);
+        ViewBag.MyReview = await service.DanhGiaDaGuiAsync(id);
         return View(c);
     }
     public async Task<IActionResult> ThanhVien(Guid id)

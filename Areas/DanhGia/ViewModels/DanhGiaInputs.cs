@@ -4,81 +4,15 @@ using EduConnect.Mvc.Models;
 
 namespace EduConnect.Mvc.Areas.DanhGia.ViewModels;
 
-public sealed class TaoDotPhanHoiViewModel
-{
-    public Guid MaLop
-    {
-        get; set;
-    }
-    [Required, StringLength(100)] public string Ten { get; set; } = "";
-    public DateTimeOffset TuNgay
-    {
-        get; set;
-    }
-    public DateTimeOffset DenNgay
-    {
-        get; set;
-    }
-    public DateTimeOffset HanGui
-    {
-        get; set;
-    }
-}
-
-public sealed class GuiDanhGiaViewModel
-{
-    public Guid MaLop
-    {
-        get; set;
-    }
-    public Guid DotPhanHoiId
-    {
-        get; set;
-    }
-    [Required, StringLength(4000)] public string NoiDung { get; set; } = "";
-    [Range(1, 5)]
-    public int? MucDoHaiLong
-    {
-        get; set;
-    }
-    public string? RowVersion
-    {
-        get; set;
-    }
-}
-
-public sealed class QuyetDinhPhanHoiViewModel
-{
-    public Guid DotPhanHoiId
-    {
-        get; set;
-    }
-    [Required, RegularExpression("TiepTuc|DieuChinh|Dung")]
-    public string QuyetDinh { get; set; } = "TiepTuc";
-    [StringLength(2000)]
-    public string? GhiChu
-    {
-        get; set;
-    }
-    public string? RowVersion
-    {
-        get; set;
-    }
-}
-
 public sealed class DanhGiaDoiTacViewModel
 {
     public Guid MaLop
     {
         get; set;
     }
-    [Range(1, 5)] public int SoSao { get; set; } = 5;
-    [Required, StringLength(2000, MinimumLength = 10)] public string NhanXet { get; set; } = "";
+    [Range(1, 5, ErrorMessage = "Chọn số sao từ 1 đến 5.")] public int SoSao { get; set; } = 5;
+    [Required(ErrorMessage = "Nhập nhận xét về quá trình học."), StringLength(2000, MinimumLength = 10, ErrorMessage = "Nhận xét cần từ 10 đến 2.000 ký tự.")] public string NhanXet { get; set; } = "";
     public bool XacNhanRiengTu
-    {
-        get; set;
-    }
-    public string? RowVersion
     {
         get; set;
     }
@@ -148,10 +82,6 @@ public sealed class TienDoViewModel
     public int Trang { get; set; } = 1;
     public List<PhieuDanhGia> Phieu { get; set; } = [];
     public List<QuyetDinhSauPhanHoi> QuyetDinh { get; set; } = [];
-    public bool CoThePhanHoi
-    {
-        get; set;
-    }
     public Dictionary<Guid, string> HoTen { get; set; } = [];
     public DateTimeOffset? TuNgay
     {

@@ -1,0 +1,15 @@
+@model LopHoc
+@{ var activeTab = ViewData["ClassTab"] as string ?? "overview"; }
+<nav class="tabs class-tabs" aria-label="Nội dung lớp">
+    @foreach (var item in new[] { ("overview", "Tổng quan"), ("schedule", "Lịch học"), ("lessons", "Buổi học"), ("assignments", "Bài tập"), ("progress", "Tiến độ"), ("chat", "Tin nhắn") })
+    {
+        if (item.Item1 == "progress")
+        {
+            <a class="@(activeTab == item.Item1 ? "selected" : "")" aria-current="@(activeTab == item.Item1 ? "page" : null)" href="/DanhGia/DanhGia/DanhSach?maLop=@Model.Id">@item.Item2</a>
+        }
+        else
+        {
+            <a class="@(activeTab == item.Item1 ? "selected" : "")" aria-current="@(activeTab == item.Item1 ? "page" : null)" href="@Url.Action("ChiTiet", "LopHoc", new { area = "HocTap", id = Model.Id, tab = item.Item1 })">@item.Item2</a>
+        }
+    }
+</nav>

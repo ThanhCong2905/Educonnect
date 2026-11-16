@@ -9,6 +9,8 @@ namespace EduConnect.Mvc.Areas.HocTap.Services;
 
 public sealed partial class LichHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices)
 {
+    public Task<LopHoc> LopDuocXepLichAsync(Guid id) => rights.KiemTraQuyenGhiAsync(id, true);
+
     private static void KiemTraLichMoi(LichInput lich, string prefix)
     {
         Rules.Check(!string.IsNullOrWhiteSpace(lich.TieuDe), "Nhập tên buổi học.", field: prefix + ".TieuDe");

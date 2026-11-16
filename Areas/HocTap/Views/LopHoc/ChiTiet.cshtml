@@ -1,8 +1,8 @@
 @model LopHoc
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]=Model.TenLop;var me=await Current.HienTaiAsync();var tutor=me.Id==Model.GiaSuId;var active=Model.TrangThai=="DangHoatDong";var tab=(string)ViewBag.Tab;var schedules=(List<LichHoc>)ViewBag.Schedules;var records=(List<BuoiHoc>)ViewBag.Records;var tasks=(List<BaiTapGiao>)ViewBag.Tasks;}
-<div class="heading">
-    <div><span class="badge rounded-pill">@Rules.Label(Model.TrangThai)</span><h1>@Model.TenLop</h1></div>
+@{ViewData["Title"]=Model.TenLop;var me=await Current.HienTaiAsync();var tutor=me.Id==Model.GiaSuId;var active=Model.TrangThai=="DangHoatDong";var tab=(string)ViewBag.Tab;var schedules=(List<LichHoc>)ViewBag.Schedules;var records=(List<BuoiHoc>)ViewBag.Records;var tasks=(List<BaiTapGiao>)ViewBag.Tasks;ViewData["ClassTab"]=tab;}
+<div class="heading class-heading">
+    <div class="class-title"><h1>@Model.TenLop</h1><span class="badge rounded-pill">@Rules.Label(Model.TrangThai)</span></div>
     <div class="dropdown class-menu">
         <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tùy chọn lớp">•••</button>
         <ul class="dropdown-menu dropdown-menu-end">
@@ -10,22 +10,27 @@
             @if(active && (tutor || me.Id == Model.BenHocId))
             {
                 <li><hr class="dropdown-divider"></li>
-                <li><a data-modal class="dropdown-item text-danger" asp-action="HuyKetNoi" asp-route-id="@Model.Id">Hủy kết nối</a></li>
+                <li><a data-modal class="dropdown-item" asp-action="HuyKetNoi" asp-route-id="@Model.Id">Yêu cầu kết thúc lớp</a></li>
             }
+            <li><a class="dropdown-item" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=LopHoc&doiTuongId=@Model.Id">Báo cáo vấn đề</a></li>
         </ul>
     </div>
 </div>
-<nav class="tabs" aria-label="Nội dung lớp">@foreach(var t in new[]{("overview","Tổng quan"),("schedule","Lịch học"),("lessons","Buổi học"),("assignments","Bài tập"),("chat","Tin nhắn")}){<a class="@(tab==t.Item1?"selected":"")" asp-action="ChiTiet" asp-route-id="@Model.Id" asp-route-tab="@t.Item1">@t.Item2</a>}</nav>
-<div class="actions mb-4">
-    <a class="btn btn-outline-primary" href="/DanhGia/DanhGia/DanhSach?maLop=@Model.Id">Tiến độ và phản hồi</a>
-    @if(Model.TrangThai=="DaKetThuc"&&(tutor||me.Id==Model.BenHocId))
-    {
-        if(records.Any(b=>b.TrangThai=="DaHoc"&&b.GhiNhanLuc!=null)){<a data-modal class="btn btn-outline-primary" href="/DanhGia/DoiTac/Gui?maLop=@Model.Id">Đánh giá người dùng</a>}
+<partial name="_LopHocTabs" model="Model" />
+@if (tab == "overview" && Model.TrangThai == "DaKetThuc" && (tutor || me.Id == Model.BenHocId))
+{
+    <div class="actions mb-4">
+        @if (ViewBag.MyReview is DanhGiaDoiTac review)
+        {
+            <span class="badge rounded-pill">Đã đánh giá · @review.SoSao/5 sao</span>
+            <a class="btn btn-outline-primary" href="/DanhGia/DoiTac/ChiTiet/@review.NguoiNhanId">Xem đánh giá đã gửi</a>
+        }
+        else if(records.Any(b=>b.TrangThai=="DaHoc"&&b.GhiNhanLuc!=null)){<a data-modal class="btn btn-outline-primary" href="/DanhGia/DoiTac/Gui?maLop=@Model.Id">Đánh giá người dùng</a>}
         else{<span class="muted">Lớp chưa có buổi thực tế để đánh giá công khai.</span>}
-    }
-    <a class="btn btn-outline-primary" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=LopHoc&doiTuongId=@Model.Id">Báo cáo vấn đề</a>
-</div>
+    </div>
+}
 @if(tab=="overview"){<article class="card"><p class="eyebrow">MỤC TIÊU CỦA LỚP</p><h2>@Model.MucTieu</h2><dl><dt>Người học</dt><dd>@Model.TenNguoiHoc @(Model.TuoiNguoiHoc==null?"":"· "+Model.TuoiNguoiHoc+" tuổi")</dd><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd><dt>Địa điểm</dt><dd>@Model.DiaDiem</dd><dt>Học phí</dt><dd>@Rules.Fee(Model.HocPhi,Model.DonViHocPhi)</dd><dt>Lịch dự kiến</dt><dd>@Model.SoBuoiTuan buổi / tuần · @Model.ThoiLuongPhut phút / buổi</dd></dl></article>@foreach(var y in (List<YeuCauHuyKetNoi>)ViewBag.Cancellations){<article class="card"><h3>Yêu cầu kết thúc · @Rules.Label(y.TrangThai)</h3><p>@y.LyDo</p><small>Hạn phản hồi: @Rules.Date(y.HetHanLuc)</small>@if(y.TrangThai=="ChoPhanHoi"&&y.NguoiGuiId!=me.Id&&(tutor||me.Id==Model.BenHocId)){<form method="post" asp-action="PhanHoiHuy" class="actions"><input name="id" value="@Model.Id" type="hidden"><input name="request" value="@y.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(y.RowVersion)" type="hidden"><button class="btn btn-primary" name="agree" value="true">Đồng ý kết thúc</button><button class="btn btn-primary" name="agree" value="false">Từ chối</button></form>}</article>}}
-else if(tab=="schedule"||tab=="lessons"){<partial name="_LichLop" model="Model"/>}
+else if(tab=="schedule"){<partial name="_LichTuan" model="(EduConnect.Mvc.Areas.HocTap.ViewModels.LichTuanViewModel)ViewBag.Week"/>}
+else if(tab=="lessons"){<partial name="_LichLop" model="Model"/>}
 else if(tab=="assignments"){<div class="heading"><h2>Bài tập của lớp</h2>@if(tutor&&active){<a data-modal class="btn btn-primary" asp-controller="BaiTap" asp-action="Giao" asp-route-id="@Model.Id">+ Giao bài tập</a>}</div><div class="stack">@foreach(var a in tasks){<a class="card" asp-controller="BaiTap" asp-action="ChiTiet" asp-route-id="@a.Id"><h3>@a.TieuDe</h3>@if(a.BuoiHocId==null){<span class="badge rounded-pill">Chưa gắn buổi</span>}else if(a.TrangThai=="BanNhap"){<span class="badge rounded-pill">Bản nháp</span>}<p>Hạn nộp: @Rules.Date(a.HanNopLuc)</p></a>}@if(tasks.Count==0){<div class="empty">Chưa có bài tập.</div>}</div>}
 else if(tab=="chat"){<article class="card"><h2>Trao đổi trong lớp</h2>@if(ViewBag.Chat!=null){<iframe class="class-chat-frame" title="Tin nhắn trong lớp" src="@Url.Action("Lop","TinNhan",new{id=ViewBag.Chat})"></iframe>}else{<p>Chưa có phòng trò chuyện cho lớp này.</p>}</article>}
