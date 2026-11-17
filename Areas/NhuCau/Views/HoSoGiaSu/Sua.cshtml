@@ -4,7 +4,13 @@
 <section class="card profile-workflow"><div class="card-statuses"><span class="badge">@(Model.DangHienThi?"Đang hiển thị":"Đang ẩn")</span><span class="badge @(Model.TrangThaiDuyet=="DaDuyet"?"badge-success":Model.TrangThaiDuyet is "ChoDuyet" or "CanChinhSua" or "TuChoi"?"badge-warning":"")">@Rules.Label(Model.TrangThaiDuyet)</span></div>
 @if(Model.DangHienThi){<p>Ẩn hồ sơ trước khi chỉnh sửa. Các cuộc trò chuyện và lớp đang có vẫn được giữ.</p>}
 @if(Model.TrangThaiDuyet=="ChoDuyet"){<p>Hồ sơ đang được kiểm duyệt. Hủy gửi duyệt nếu bạn cần thay đổi nội dung.</p>}
-@if(!string.IsNullOrWhiteSpace(Model.LyDoTuChoi)){<div class="alert alert-warning"><strong>Nội dung cần chỉnh sửa</strong><p class="pre">@Model.LyDoTuChoi</p></div>}
+@if(!string.IsNullOrWhiteSpace(Model.LyDoTuChoi))
+{
+    <section class="profile-review-note">
+        <strong>@(Model.TrangThaiDuyet is "CanChinhSua" or "TuChoi" ? "Nhận xét từ quản trị" : "Nhận xét ở lần duyệt trước")</strong>
+        <p class="pre">@Model.LyDoTuChoi</p>
+    </section>
+}
 @if(Model.RowVersion!=null){<form method="post" asp-action="TrangThai" class="actions"><input name="rowVersion" value="@Model.RowVersion" type="hidden">
 @if(Model.DangHienThi){<button class="btn btn-outline-primary" name="operation" value="An" data-confirm-hide>Ẩn hồ sơ</button>}
 else if(Model.TrangThaiDuyet=="ChoDuyet"){<button class="btn btn-outline-primary" name="operation" value="HuyDuyet">Hủy gửi duyệt</button>}

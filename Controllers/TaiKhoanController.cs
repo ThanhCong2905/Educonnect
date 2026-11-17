@@ -13,10 +13,11 @@ public sealed class TaiKhoanController(TaiKhoanService accounts) : Controller
     [HttpGet]
     public async Task<IActionResult> HoSo() => View(await accounts.LayHoSoAsync(HttpContext));
 
-    [HttpGet, Authorize]
+    [HttpGet, AllowAnonymous]
     public async Task<IActionResult> Anh(Guid id)
     {
-        var image = await accounts.LayAnhAsync(id);
+        var image = User.Identity?.IsAuthenticated == true
+            ? await accounts.LayAnhAsync(id) : await accounts.LayAnhCongKhaiAsync(id);
         Response.Headers.XContentTypeOptions = "nosniff";
         Response.Headers.CacheControl = "private, no-store";
         return PhysicalFile(image.Path, image.ContentType);

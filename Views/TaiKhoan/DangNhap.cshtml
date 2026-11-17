@@ -1,6 +1,6 @@
 @model EduConnect.Mvc.ViewModels.DangNhapInput
 @{ Layout = "_AuthLayout"; ViewData["Title"] = "Đăng nhập"; }
-<p class="account-intro">Chào mừng bạn quay lại với EduConnect</p>
+<p class="account-intro">@(Model.ReturnUrl?.StartsWith("/TimKiem/TimKiem/NhuCau", StringComparison.OrdinalIgnoreCase) == true ? "Đăng nhập bằng tài khoản Gia sư để xem nhu cầu học." : "Đăng nhập để tiếp tục với EduConnect.")</p>
 <form asp-action="DangNhap" method="post">
     <div asp-validation-summary="ModelOnly" class="account-errors" role="alert"></div>
     <input asp-for="ReturnUrl" type="hidden">

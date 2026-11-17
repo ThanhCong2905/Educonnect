@@ -3,6 +3,7 @@ using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using EduConnect.Mvc.Areas.KetNoi.Services;
 namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 
@@ -10,12 +11,14 @@ namespace EduConnect.Mvc.Areas.NhuCau.Controllers;
 [RequestSizeLimit(52000000)]
 public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService needs, BangCapService certificates, EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService search, KetNoiService contacts, NguoiDungHienTaiService current) : BaseController
 {
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> ChiTiet(Guid maHoSo)
     {
-        var result = await service.LayHoSoAsync(maHoSo, (await current.HienTaiAsync()).Id, HttpContext.RequestAborted);
+        var viewer = await current.NguoiXemAsync();
+        var result = await service.LayHoSoAsync(maHoSo, viewer?.Id, HttpContext.RequestAborted);
         var profile = result.DuLieu;
         ViewData["PublicProfile"] = true;
-        var contact = await contacts.LienHeVoiAsync(profile.ChuSoHuuId);
+        var contact = viewer == null ? null : await contacts.LienHeVoiAsync(profile.ChuSoHuuId);
         ViewBag.Contact = contact;
         ViewBag.ContactChat = contact?.TrangThai == "ChapNhan" ? await contacts.HoiThoaiAsync(contact.Id) : null;
         return View("~/Areas/TimKiem/Views/TimKiem/ChiTiet.cshtml", profile);

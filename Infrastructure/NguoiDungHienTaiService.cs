@@ -7,6 +7,16 @@ namespace EduConnect.Mvc.Infrastructure;
 
 public sealed class NguoiDungHienTaiService(AppDbContext db, IHttpContextAccessor context)
 {
+    public async Task<NguoiThamGia?> NguoiXemAsync(Guid? id = null, CancellationToken huy = default)
+    {
+        if (context.HttpContext?.User.Identity?.IsAuthenticated != true)
+        {
+            Rules.Check(id == null, "Vui lòng đăng nhập để tiếp tục.", 401);
+            return null;
+        }
+        return await KiemTraNguoiThucHienAsync(id, huy);
+    }
+
     public async Task<NguoiThamGia> HienTaiAsync(CancellationToken huy = default)
     {
         var principal = context.HttpContext?.User;

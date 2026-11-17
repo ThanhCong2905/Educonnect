@@ -5,6 +5,9 @@ namespace EduConnect.Mvc.Areas.TimKiem.ViewModels;
 
 public sealed class BoLocTimKiemViewModel
 {
+    [RegularExpression("GiaSu|NhuCau", ErrorMessage = "Chọn tìm gia sư hoặc nhu cầu học.")]
+    public string? LoaiDoiTuong { get; set; }
+
     [MaxLength(10, ErrorMessage = "Chọn tối đa 10 môn học.")] public List<int> MonHocIds { get; set; } = [];
     [StringLength(256)] public string? TrinhDo { get; set; }
     [StringLength(100, ErrorMessage = "Từ khóa tối đa 100 ký tự.")]

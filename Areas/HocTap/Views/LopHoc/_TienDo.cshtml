@@ -1,5 +1,25 @@
 @model EduConnect.Mvc.Areas.DanhGia.ViewModels.TienDoViewModel
 @using EduConnect.Mvc.ViewModels
+@{
+    var schedules = (List<LichHoc>)ViewBag.Schedules;
+    var records = (List<BuoiHoc>)ViewBag.Records;
+    var now = DateTimeOffset.UtcNow;
+    var nextLesson = schedules.Where(lesson => lesson.KetThucLuc > now && lesson.TrangThai != "DaHuy"
+        && !records.Any(record => record.LichHocId == lesson.Id && record.TrangThai is "DaNghi" or "DaHuy" or "DaHoc"))
+        .OrderBy(lesson => lesson.BatDauLuc).FirstOrDefault();
+    var recordedLessons = Model.Buoi.Where(lesson => lesson.GhiNhanLuc.HasValue || lesson.TrangThai is "DaHoc" or "DaNghi").Take(5).ToList();
+}
+@if (Model.Lop.TrangThai == "DangHoatDong" && nextLesson != null && !Model.TuNgay.HasValue && !Model.DenNgay.HasValue)
+{
+    <section class="card next-lesson" aria-label="Buổi học tiếp theo">
+        <div>
+            <span class="muted">@(nextLesson.BatDauLuc <= now ? "Buổi học đang diễn ra" : "Buổi học sắp tới")</span>
+            <h2>@nextLesson.TieuDe</h2>
+            <p>@Rules.Date(nextLesson.BatDauLuc) – @nextLesson.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</p>
+        </div>
+        <a class="btn btn-primary" href="/HocTap/LichHoc/Buoi/@nextLesson.Id">Xem buổi học</a>
+    </section>
+}
 <section class="class-progress" aria-labelledby="progress-title">
     <div class="heading"><h2 id="progress-title">Tình hình học tập</h2></div>
     <details class="card progress-filter" open="@(Model.TuNgay.HasValue || Model.DenNgay.HasValue)">
@@ -18,12 +38,12 @@
     </div>
     <div class="row g-4">
         <div class="col-lg-6"><section class="card h-100">
-            <div class="heading"><h3>Buổi học gần đây</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=lessons">Xem các buổi</a></div>
-            @foreach(var lesson in Model.Buoi.Take(5))
+            <div class="heading"><h3>Buổi đã ghi nhận</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=lessons">Xem các buổi</a></div>
+            @foreach(var lesson in recordedLessons)
             {
                 <a class="progress-record" href="/HocTap/LichHoc/Buoi/@lesson.LichHocId"><span>@lesson.TieuDe</span><span class="badge rounded-pill">@Rules.Label(lesson.TrangThai)</span></a>
             }
-            @if(Model.Buoi.Count == 0){<p class="muted">Chưa có buổi học trong khoảng đã chọn.</p>}
+            @if(recordedLessons.Count == 0){<p class="muted">Chưa có buổi học được ghi nhận trong khoảng đã chọn.</p>}
         </section></div>
         <div class="col-lg-6"><section class="card h-100">
             <div class="heading"><h3>Kết quả gần đây</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=assignments">Xem bài tập</a></div>

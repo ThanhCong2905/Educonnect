@@ -126,6 +126,6 @@
 {
     <section class="card mt-4 profile-review-actions">
         <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId"/>
-        <a class="btn btn-outline-primary align-self-start" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>
+        @if(User.Identity?.IsAuthenticated == true){<a class="btn btn-outline-primary align-self-start" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>}
     </section>
 }

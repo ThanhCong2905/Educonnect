@@ -1,0 +1,51 @@
+@{
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var home = ViewContext.RouteData.Values["controller"]?.ToString() == "Home";
+    var search = ViewContext.RouteData.Values["controller"]?.ToString() == "TimKiem"
+        && ViewContext.RouteData.Values["action"]?.ToString() is "Index" or "Tim" or "GiaSu";
+}
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] · EduConnect</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/fonts.css">
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
+</head>
+<body class="guest-page">
+    <header class="guest-header">
+        <a class="guest-brand" href="/"><img src="/images/auth/logo.png" alt="EduConnect"></a>
+        <nav class="guest-links" aria-label="Điều hướng chính">
+            <a href="/TimKiem/TimKiem/GiaSu">Tìm gia sư</a>
+            <a href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a>
+        </nav>
+        <div class="actions guest-account">
+            <a class="btn btn-outline-primary" asp-area="" asp-controller="TaiKhoan" asp-action="DangNhap" asp-route-returnUrl="@returnUrl">Đăng nhập</a>
+            <a class="btn btn-primary" href="/TaiKhoan/DangKy">Đăng ký</a>
+        </div>
+    </header>
+    <main class="guest-main">
+        <partial name="_Notifications" />
+        @if (!home)
+        {
+            <a class="btn btn-outline-primary page-back" href="@(search ? "/" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false">← Quay lại</a>
+        }
+        @RenderBody()
+    </main>
+    <footer><strong>EduConnect</strong><span>Kết nối gia sư và người học.</span><span>© @DateTime.Today.Year EduConnect</span></footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/confirmations.js" asp-append-version="true" defer></script>
+    <script src="~/js/account-profile.js" asp-append-version="true" defer></script>
+    <script src="~/js/forms.js" asp-append-version="true" defer></script>
+    <script src="~/js/app.js" asp-append-version="true" defer></script>
+    <script src="~/js/notifications.js" asp-append-version="true" defer></script>
+    <script src="~/js/navigation.js" asp-append-version="true" defer></script>
+    <script src="~/js/ajax-pages.js" asp-append-version="true" defer></script>
+    <script src="~/js/areas.js" asp-append-version="true" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

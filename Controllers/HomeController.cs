@@ -2,12 +2,21 @@ using EduConnect.Mvc.Areas.TimKiem.Services;
 using EduConnect.Mvc.Areas.HocTap.Services;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using EduConnect.Mvc.Areas.TimKiem.ViewModels;
 namespace EduConnect.Mvc.Controllers;
 
 public sealed class HomeController(TimKiemService search, ThongBaoService notices, LopHocService classes, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections) : BaseController
 {
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> Index()
     {
+        if (User.Identity?.IsAuthenticated != true)
+        {
+            var filter = new BoLocTimKiemViewModel { LoaiDoiTuong = "GiaSu" };
+            var page = (await search.TimKiemAsync(filter, null, HttpContext.RequestAborted)).DuLieu;
+            return View("Guest", page.Items.Take(3).ToList());
+        }
         if(User.IsInRole("QuanTri")) return Redirect("/QuanTri/QuanTri/Index");
         var (items, has) = await search.GoiYAsync();
         ViewBag.HasNeed = has;

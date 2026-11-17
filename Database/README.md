@@ -1,6 +1,8 @@
 # Database EduConnect
 
-Bản `dev/cong/fullver0` dùng `00_EduConnect_Full.sql` để cài mới database `KLTN_Full_V2` với 49 bảng. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 20. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+
+Máy khác cài mới chỉ chạy file 00 rồi đổi tên SQL Server trong chuỗi kết nối. Database đang sử dụng không chạy lại file 00; chỉ nâng cấp nếu thiếu cấu trúc. Các file nâng cấp riêng được giữ để hỗ trợ database của phiên bản cũ.
 
 ## Cài mới
 
@@ -59,7 +61,7 @@ dotnet run --project tools/ProvisionAdmin/ProvisionAdmin.csproj
 
 Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới với sáu quyền quản trị. Đăng ký trên web chỉ cấp vai trò Học sinh, Phụ huynh hoặc Gia sư. Trang **Tài khoản** cho quản trị có quyền phân công hoặc thu hồi từng quyền. Thay quyền thu hồi phiên của tài khoản liên quan.
 
-Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
+Tiến độ nằm trong Tổng quan lớp. Gia sư và Bên học đứng tên lớp mỗi bên được gửi một đánh giá gồm 1–5 sao và nhận xét sau khi lớp kết thúc, có buổi thực tế đã ghi nhận đã học. Phản hồi theo đợt cũ được giữ để xem lịch sử. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
 
 Sơ đồ ERD 49 bảng nằm tại `docs/database/EduConnect-ERD-49-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
 

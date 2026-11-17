@@ -43,6 +43,7 @@
   const focusName=active?.getAttribute('name'),focusId=active?.id;
   rememberDraft(root);rememberComparison(root);
   if(historyMode)history[historyMode+'State']({eduRegion:root.id},'',url);
+  if(root.dataset.searchKind!==fresh.dataset.searchKind)selected.clear();
   root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
   const picker=fresh.querySelector('[data-chat-files]');if(picker&&fileDrafts.has(fresh.dataset.chatId)){const transfer=new DataTransfer();for(const file of fileDrafts.get(fresh.dataset.chatId))transfer.items.add(file);picker.files=transfer.files;picker.dispatchEvent(new Event('change',{bubbles:true}));}
@@ -67,7 +68,7 @@
   if(form.id==='compare-form')return;
   event.preventDefault();const url=ui.formUrl(form);url.search=new URLSearchParams(new FormData(form)).toString();
   if(root.dataset.ajaxPage==='search')url.searchParams.delete('Trang');
-  navigate(root,url.href);
+  navigate(root,url.href,{scroll:root.dataset.ajaxPage==='search'});
  });
  document.addEventListener('click',event=>{
   const refresh=event.target.closest('[data-refresh-home]');
@@ -76,7 +77,7 @@
   if(!link||event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||link.hasAttribute('data-modal'))return;
   const root=link.closest('[data-ajax-page]');if(!root||root.closest('#workspace-modal'))return;
   const target=new URL(link.href,location.href);if(target.origin!==location.origin)return;
-  const search=root.dataset.ajaxPage==='search'&&(link.closest('.pagination,.active-filters')||(!target.search&&/\/TimKiem\/TimKiem(?:\/Index)?$/i.test(target.pathname)));
+  const search=root.dataset.ajaxPage==='search'&&!link.closest('.search-kind-tabs')&&(link.closest('.pagination,.active-filters')||(!target.search&&/\/TimKiem\/TimKiem(?:\/(?:Index|GiaSu|NhuCau))?$/i.test(target.pathname)));
   const chat=root.dataset.ajaxPage==='chat'&&link.closest('.conversation-list,.pagination');
   if(!search&&!chat)return;
   event.preventDefault();navigate(root,target.href,{scroll:!!link.closest('.pagination')});

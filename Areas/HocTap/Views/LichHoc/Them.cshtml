@@ -13,6 +13,7 @@
     <div asp-validation-summary="All" class="validation" role="alert"></div>
     <input asp-for="LopHocId" type="hidden">
     <h2>Thời gian học</h2>
+    <p class="muted">Giờ Việt Nam (GMT+7).</p>
     <div class="row g-3 edu-form-grid">
         <div class="col-12"><label>Tên buổi học<input class="form-control" id="batch-title" required value="Buổi học" maxlength="256"></label></div>
         <div class="col-md-6"><label>Giờ bắt đầu<input class="form-control" id="batch-start" required type="time" value="@startTime.ToString("HH:mm")"></label></div>

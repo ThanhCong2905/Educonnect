@@ -11,7 +11,7 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
     public Task<KetQua<HoSoGiaSuCongKhaiViewModel>> LayHoSoAsync(Guid maHoSo, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<HoSoGiaSuCongKhaiViewModel>.ThucHienAsync(async () =>
         {
-            await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            await current.NguoiXemAsync(maNguoiXem, huy);
             var query = new HoSoCongKhaiQuery(db);
             var profile = await query.CongKhai().SingleOrDefaultAsync(x => x.Id == maHoSo, huy)
                 ?? throw new LoiNghiepVu("Hồ sơ đang ẩn, chưa được duyệt hoặc không còn công khai.", 404);

@@ -1,6 +1,7 @@
 using EduConnect.Mvc.Areas.HocTap.Services;
 using EduConnect.Mvc.Areas.DanhGia.Services;
 using EduConnect.Mvc.Controllers;
+using EduConnect.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
@@ -35,15 +36,22 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         ViewBag.Tab = tab;
         ViewBag.Month = month;
         ViewBag.State = state;
-        ViewBag.Schedules = tab == "lessons" ? await service.LocBuoiAsync(id, month, state) : await service.LichAsync(id);
-        ViewBag.Records = await service.BuoiAsync(id);
+        var schedules = new List<LichHoc>();
+        if (tab == "lessons") schedules = await service.LocBuoiAsync(id, month, state);
+        else if (tab is "overview" or "schedule") schedules = await service.LichAsync(id);
+        ViewBag.Schedules = schedules;
+        ViewBag.Records = tab is "overview" or "schedule" or "lessons"
+            ? await service.BuoiAsync(id) : new List<BuoiHoc>();
         if (tab == "schedule")
             ViewBag.Week = EduConnect.Mvc.Areas.HocTap.ViewModels.LichTuanViewModel.Tao(c,
                 ViewBag.Schedules, ViewBag.Records, week, DateTimeOffset.UtcNow);
-        ViewBag.Tasks = await tasks.LayAsync(id);
-        ViewBag.Chat = await chat.TheoLopAsync(id);
-        ViewBag.Cancellations = await service.HuyAsync(id);
-        ViewBag.MyReview = await service.DanhGiaDaGuiAsync(id);
+        ViewBag.Tasks = tab == "assignments" ? await tasks.LayAsync(id) : new List<BaiTapGiao>();
+        if (tab == "chat") ViewBag.Chat = await chat.TheoLopAsync(id);
+        if (tab == "overview")
+        {
+            ViewBag.Cancellations = await service.HuyAsync(id);
+            if (c.TrangThai == "DaKetThuc") ViewBag.MyReview = await service.DanhGiaDaGuiAsync(id);
+        }
         if (tab == "overview")
             ViewBag.Progress = await progress.LayAsync(id, tuNgay, denNgay, trang);
         return View(c);

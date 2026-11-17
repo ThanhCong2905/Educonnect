@@ -24,7 +24,7 @@
  <article class="card contact-card" id="@contact.Id" data-connection-card data-live-version="@Convert.ToBase64String(contact.RowVersion)" data-live-state="@contact.TrangThai" data-live-actionable="@(connected?.Id.ToString() ?? pending?.Id.ToString() ?? "new")">
   <div class="contact-card-top">
    <div class="contact-statuses">
-    <span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@Rules.Label(contact.TrangThai)</span>
+    <span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@(contact.TrangThai == "ChapNhan" ? "Đã chấp nhận liên hệ" : Rules.Label(contact.TrangThai))</span>
     @if(connected!=null){<span class="contact-state contact-connected">Đã kết nối</span>}
    </div>
    <small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small>

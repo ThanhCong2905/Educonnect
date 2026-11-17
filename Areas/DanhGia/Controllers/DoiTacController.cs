@@ -3,6 +3,7 @@ using EduConnect.Mvc.Areas.DanhGia.ViewModels;
 using EduConnect.Mvc.Controllers;
 using EduConnect.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduConnect.Mvc.Areas.DanhGia.Controllers;
 
@@ -16,6 +17,7 @@ public sealed class DoiTacController(DanhGiaDoiTacService service) : BaseControl
             id = await service.NguoiNhanAsync(id)
         });
     }
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> ChiTiet(Guid id, int trang = 1) => View(await service.LayAsync(id, trang));
 
     [HttpGet]

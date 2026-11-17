@@ -11,10 +11,18 @@
 </head>
 <body class="account-page">
     <header class="account-header">
-        <a class="account-brand" href="/TaiKhoan/DangNhap"><img src="/images/auth/logo.png" alt="EduConnect"></a>
+        <a class="account-brand" href="/"><img src="/images/auth/logo.png" alt="EduConnect"></a>
         <nav class="account-nav" aria-label="Tài khoản">
-            <a href="/TaiKhoan/DangNhap" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangNhap" ? "page" : null)">Đăng nhập</a>
-            <a href="/TaiKhoan/DangKy" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangKy" ? "page" : null)">Đăng ký</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a href="/">Trang chủ</a>
+                <a href="/TaiKhoan/HoSo">Trang cá nhân</a>
+            }
+            else
+            {
+                <a href="/TaiKhoan/DangNhap" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangNhap" ? "page" : null)">Đăng nhập</a>
+                <a href="/TaiKhoan/DangKy" aria-current="@(ViewContext.RouteData.Values["action"]?.ToString() == "DangKy" ? "page" : null)">Đăng ký</a>
+            }
         </nav>
     </header>
     <partial name="_Notifications" />

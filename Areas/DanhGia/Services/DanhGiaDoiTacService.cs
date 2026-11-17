@@ -89,11 +89,14 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
     public async Task<DanhGiaCongKhaiPage> LayAsync(Guid taiKhoan, int trang = 1)
     {
         Rules.Check(trang is >= 1 and <= 100000, "Trang không hợp lệ.");
-        var me = await current.HienTaiAsync();
+        var me = await current.NguoiXemAsync();
+        if (me == null)
+            Rules.Check(await new EduConnect.Mvc.Areas.NhuCau.Services.HoSoCongKhaiQuery(db).CongKhai()
+                .AnyAsync(profile => profile.GiaSuId == taiKhoan), "Không tìm thấy hồ sơ gia sư công khai.", 404);
         var person = await db.Set<NguoiThamGia>().SingleOrDefaultAsync(x => x.Id == taiKhoan)
             ?? throw new LoiNghiepVu("Không tìm thấy tài khoản.", 404);
-        var moderator = me.LoaiNguoi == "QuanTri" && await db.UserClaims.AnyAsync(x => x.UserId == me.Id && x.ClaimType == "EduConnect.AdminPermission" && x.ClaimValue == "XuLyBaoCao");
-        Rules.Check(person.LoaiNguoi == "GiaSu" || me.LoaiNguoi == "GiaSu" || me.Id == taiKhoan || moderator,
+        var moderator = me?.LoaiNguoi == "QuanTri" && await db.UserClaims.AnyAsync(x => x.UserId == me.Id && x.ClaimType == "EduConnect.AdminPermission" && x.ClaimValue == "XuLyBaoCao");
+        Rules.Check(person.LoaiNguoi == "GiaSu" || me?.LoaiNguoi == "GiaSu" || me?.Id == taiKhoan || moderator,
             "Đánh giá bên học dành cho gia sư và tài khoản liên quan.", 403);
         var query = CongKhai().Where(x => x.NguoiNhanId == taiKhoan);
         return new DanhGiaCongKhaiPage

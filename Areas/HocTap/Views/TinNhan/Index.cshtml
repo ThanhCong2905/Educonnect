@@ -11,7 +11,7 @@
     var attachments=(Dictionary<Guid,List<TepDinhKem>>)ViewBag.Attachments;
     var partner = c == null ? "" : people.FirstOrDefault(x => x.Id == (c.GiaSuId == me.Id ? c.BenHocId : c.GiaSuId))?.HoTen ?? "Người liên hệ";
 }
-<div id="chat-content" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page" data-message-query="@ViewBag.MessageQuery" data-chat-feed="@Url.Action("DuLieu")">
+<div id="chat-content" class="@(inClass ? "in-class-chat" : null)" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page" data-message-query="@ViewBag.MessageQuery" data-chat-feed="@Url.Action("DuLieu")">
 <h1>@(inClass ? "Tin nhắn trong lớp" : "Tin nhắn riêng")</h1>
 <div class="@(inClass ? "class-chat-layout" : "chat-layout")">
 @if (!inClass)
@@ -31,10 +31,10 @@
 <section class="card chat-panel">
 @if (c != null)
 {
-    <div class="chat-header"><div class="person"><span class="avatar" aria-hidden="true">@(inClass ? "L" : partner[..1])</span><div><h2>@(inClass ? "Trao đổi trong lớp" : partner)</h2><small>@(inClass ? "Không gian trao đổi của thành viên lớp" : "Cuộc trò chuyện riêng của bạn")</small></div></div>@if (c.LopHocId != null) { <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a> }</div>
+    <div class="chat-header"><div class="person"><span class="avatar" aria-hidden="true">@(inClass ? "L" : partner[..1])</span><div><h2>@(inClass ? "Trao đổi trong lớp" : partner)</h2></div></div>@if (c.LopHocId != null) { <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a> }</div>
     <form method="get" asp-action="@(inClass ? "Lop" : "Index")" class="inline chat-search"><input name="id" value="@c.Id" type="hidden"><input class="form-control" name="message" value="@ViewBag.MessageQuery" aria-label="Tìm nội dung tin nhắn" placeholder="Tìm trong cuộc trò chuyện"><button class="btn btn-outline-primary">Tìm</button></form>
     <div class="chat-stream" role="log" aria-label="Nội dung cuộc trò chuyện" aria-live="off">
-        <div class="chat-history"><button type="button" class="btn quiet" data-chat-older hidden="@(Model.Count < 50)">Xem tin nhắn trước</button><span class="muted" data-chat-history-status role="status"></span></div>
+        <div class="chat-history"><button type="button" class="btn btn-outline-primary btn-sm" data-chat-older hidden="@(Model.Count < 50)">Xem tin nhắn trước</button><span class="muted" data-chat-history-status role="status"></span></div>
         <div class="chat-messages">
         @foreach (var m in Model)
         {

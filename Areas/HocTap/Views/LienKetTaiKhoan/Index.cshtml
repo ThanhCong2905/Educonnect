@@ -38,4 +38,17 @@
     </article>
 }
 </div>
-@if (Model.Count == 0) { <div class="empty">Chưa có đề nghị hoặc liên kết tài khoản.</div> }
+@if (Model.Count == 0)
+{
+    <div class="empty">
+        <h2>Chưa có tài khoản liên kết</h2>
+        @if (me.LoaiNguoi == "HocSinh")
+        {
+            <p>Nhờ phụ huynh gửi đề nghị đến email đăng nhập của bạn tại mục Tài khoản liên kết. Đề nghị sẽ hiện ở đây để bạn đồng ý hoặc từ chối.</p>
+        }
+        else
+        {
+            <p>Nhập email tài khoản của học sinh ở trên để gửi đề nghị. Liên kết được tạo khi học sinh đồng ý.</p>
+        }
+    </div>
+}

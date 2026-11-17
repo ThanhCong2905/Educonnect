@@ -17,7 +17,7 @@ File `00_EduConnect_Full.sql` tạo database mới với 49 bảng, gồm nhật
 
 Mở http://127.0.0.1:5280 và đăng ký tài khoản Học sinh, Phụ huynh hoặc Gia sư. Biến môi trường trên chỉ áp dụng cho phiên PowerShell đang mở. Git lưu mã nguồn và script SQL. Nếu cần dữ liệu đã nhập, chuyển bản sao SQL Server và thư mục `uploads` riêng.
 
-Trong Development, quên mật khẩu lưu thư nội bộ trong `.local-mail` để kiểm thử. Gia sư có thể công khai hồ sơ đã hoàn thiện bằng cấu hình demo. Đặt `Authentication:PublicOrigin` đúng URL truy cập.
+Trong Development, quên mật khẩu lưu thư nội bộ trong `.local-mail` để kiểm thử. Hồ sơ gia sư cần đủ thông tin, minh chứng và được quản trị duyệt trước khi bật hiển thị. Đặt `Authentication:PublicOrigin` đúng URL truy cập.
 
 SignalR cập nhật tin nhắn, thông báo và trạng thái nghiệp vụ. Phiên bị thu hồi khi đăng xuất hoặc đặt lại mật khẩu.
 
@@ -43,7 +43,7 @@ Kiểm thử trình duyệt dùng Node >=20 và Playwright, Edge cài tại đư
 
 - Giao diện sử dụng Bootstrap 5.3.3, Be Vietnam Pro cục bộ và theme `wwwroot/css/app.css`. Modal tải Razor partial, không nhúng cả trang; validation giữ dữ liệu và liên kết lỗi với trường; toast xác nhận tự ẩn sau 4,5 giây.
 - Có đăng ký và đăng nhập Identity, hồ sơ gia sư, tìm kiếm và so sánh, liên hệ, đề xuất lớp, liên kết tài khoản, quyền thành viên, lịch học, nghỉ và học bù, ghi nhận buổi, bài tập, chat và thông báo.
-- Có tiến độ học tập, phản hồi theo đợt, quyết định sau phản hồi, đánh giá công khai hai chiều, báo cáo kèm bằng chứng và đề nghị xem lại. Quản trị có sáu quyền riêng cho hồ sơ, báo cáo, tài khoản, phân quyền, nhật ký và danh mục môn.
+- Có tiến độ học tập trong Tổng quan lớp. Sau khi lớp kết thúc và có buổi thực tế đã ghi nhận, Gia sư và Bên học đứng tên lớp mỗi bên được đánh giá một lần, gồm số sao và nhận xét. Phản hồi theo đợt cũ được giữ để xem lịch sử. Có báo cáo kèm bằng chứng và đề nghị xem lại. Quản trị có sáu quyền riêng cho hồ sơ, báo cáo, tài khoản, phân quyền, nhật ký và danh mục môn.
 - Tìm kiếm, lọc, sắp xếp và phân trang cập nhật bằng AJAX. Chat gửi bằng AJAX và nhận cập nhật qua SignalR, có kiểm tra định kỳ khi mất kết nối.
 - Tệp kiểm tra số lượng, giới hạn **10.000.000 byte**, phần mở rộng và chữ ký nội dung. DOCX được kiểm tra cấu trúc ZIP và không nhận VBA. Development bật `FileScanning:AllowUnscannedUploads` cho phép thử tải và tải lại tệp `ChoQuet` theo quyền. Ngoài Development, ứng dụng yêu cầu quét ClamAV thành công trước khi sử dụng tệp `Sach`.
 - Danh sách thông báo hiển thị 20 mục/trang, có lọc và đánh dấu tất cả đã đọc; lịch sử chat phân trang 50 tin/trang. Gợi ý trang chủ đối chiếu các nhu cầu đang mở và môn dạy trong hồ sơ gia sư, xếp theo số tiêu chí khớp rồi chọn tối đa 3 người.
@@ -62,6 +62,8 @@ dotnet run --project tools/ProvisionAdmin/ProvisionAdmin.csproj
 
 Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới với sáu quyền quản trị. Đăng ký trên web chỉ cấp vai trò Học sinh, Phụ huynh hoặc Gia sư. Trang **Tài khoản** cho quản trị có quyền phân công hoặc thu hồi từng quyền. Thay quyền thu hồi phiên của tài khoản liên quan.
 
-Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
+Guest có hai lựa chọn tìm kiếm. Học sinh và Phụ huynh chỉ tìm gia sư, Gia sư chỉ tìm nhu cầu học. Guest được xem hồ sơ gia sư công khai, đọc đánh giá và so sánh 2–3 gia sư. Tìm nhu cầu học yêu cầu đăng nhập tài khoản Gia sư. Các thao tác liên hệ, kết nối và truy cập lớp kiểm tra quyền ở máy chủ.
+
+Tiến độ nằm trong Tổng quan lớp, kèm buổi sắp tới và các buổi đã ghi nhận. Đề nghị kết thúc lớp được gửi cho bên còn lại phản hồi, lớp tiếp tục hoạt động trong thời gian chờ. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
 
 Sơ đồ ERD hiện tại gồm 49 bảng tại `docs/database/EduConnect-ERD-49-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.

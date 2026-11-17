@@ -62,7 +62,8 @@ window.EduConnect.init = (root) => {
     const number = document.createElement('strong');
     number.textContent = count + '/3';
     const noun=' '+(form.dataset.compareNoun||'mục');
-    status.append(number, document.createTextNode(noun+(limitReached?' · Tối đa 3 lựa chọn':'')));
+    status.append(number, document.createTextNode(noun+(limitReached?' · Tối đa 3 lựa chọn':count===1?' · Chọn thêm một mục để so sánh':'')));
+    form.querySelector('[type="submit"]').disabled=count<2;
   }
   $$('input[form="compare-form"]').forEach(input => input.addEventListener('change', () => {
     const tooMany = $$('input[form="compare-form"]:checked').length > 3;
@@ -78,9 +79,9 @@ window.EduConnect.init = (root) => {
   if (root === document) window.addEventListener('pageshow', () => updateCompare());
   updateCompare();
   $('#compare-form')?.addEventListener('submit', event => {
-    if (!$$('input[form="compare-form"]:checked').length) {
+    if ($$('input[form="compare-form"]:checked').length < 2) {
       event.preventDefault();
-      $('#compare-status').textContent = 'Chọn ít nhất một mục để so sánh.';
+      $('#compare-status').textContent = 'Chọn từ 2 đến 3 mục để so sánh.';
     }
   });
   const stream = $('.chat-stream');

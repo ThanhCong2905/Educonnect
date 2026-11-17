@@ -33,7 +33,7 @@ window.EduConnect.initScheduling=(root=document)=>{
     if(Number.isFinite(after)&&after+duration<1440){start=format(after);end=format(after+duration);}else{start='';end='';}
    }
    const row=document.createElement('div');row.className='slot-row';
-   row.innerHTML='<label>Ngày trong tuần<select class="form-select" name="LichRanh[0].ThuTrongTuan"></select></label><label>Giờ bắt đầu<input class="form-control" type="time" name="LichRanh[0].GioBatDau" required></label><label>Giờ kết thúc<input class="form-control" type="time" name="LichRanh[0].GioKetThuc" required></label><button class="btn quiet" type="button" data-remove-row aria-label="Xóa khung giờ">Xóa</button>';
+   row.innerHTML='<label>Ngày trong tuần<select class="form-select" name="LichRanh[0].ThuTrongTuan"></select></label><label>Giờ bắt đầu<input class="form-control" type="time" name="LichRanh[0].GioBatDau" required></label><label>Giờ kết thúc<input class="form-control" type="time" name="LichRanh[0].GioKetThuc" required></label><button class="btn btn-outline-primary" type="button" data-remove-row aria-label="Xóa khung giờ">Xóa</button>';
    const select=row.querySelector('select');for(const d of [1,2,3,4,5,6,0])select.add(new Option(d===0?'Chủ nhật':'Thứ '+(d+1),d));select.value=next;
    row.querySelector('[name$=".GioBatDau"]').value=start;row.querySelector('[name$=".GioKetThuc"]').value=end;list.append(row);sync();window.EduConnect.markRequired(row);select.focus();
   });

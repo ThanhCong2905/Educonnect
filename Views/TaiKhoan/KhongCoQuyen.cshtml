@@ -1,3 +1,14 @@
-@{ Layout = "_AuthLayout"; ViewData["Title"] = "Bạn chưa có quyền truy cập"; }
-<p>Tài khoản hiện tại chưa được phép sử dụng chức năng này.</p>
-<a href="/" class="btn btn-primary w-100">Về trang chủ</a>
+@{
+    ViewData["Title"] = "Chức năng chưa phù hợp với tài khoản";
+    if (User.Identity?.IsAuthenticated != true) Layout = "_AuthLayout";
+    var returnUrl = Context.Request.Query["ReturnUrl"].ToString();
+    var needsSearch = returnUrl.StartsWith("/TimKiem/TimKiem/NhuCau", StringComparison.OrdinalIgnoreCase);
+}
+<section class="access-help">
+    @if (User.Identity?.IsAuthenticated == true) { <h1>@ViewData["Title"]</h1> }
+    <p>@(needsSearch ? "Tìm nhu cầu học dành cho tài khoản Gia sư. Bạn có thể tìm gia sư phù hợp với việc học của mình." : "Tài khoản của bạn chưa có quyền sử dụng chức năng này. Bạn có thể quay về trang chủ để tiếp tục.")</p>
+    <div class="actions">
+        @if (needsSearch) { <a href="/TimKiem/TimKiem/GiaSu" class="btn btn-primary">Tìm gia sư</a> }
+        <a href="/" class="btn @(needsSearch ? "btn-outline-primary" : "btn-primary")">Về trang chủ</a>
+    </div>
+</section>

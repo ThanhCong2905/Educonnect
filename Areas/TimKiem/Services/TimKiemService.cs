@@ -59,19 +59,23 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     public Task<KetQua<Page<UngVienViewModel>>> TimKiemAsync(BoLocTimKiemViewModel boLoc, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<Page<UngVienViewModel>>.ThucHienAsync(async () =>
         {
-            var me = await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            var me = await current.NguoiXemAsync(maNguoiXem, huy);
             return await TimDuLieuAsync(boLoc, me, huy);
         });
 
-    private async Task<Page<UngVienViewModel>> TimDuLieuAsync(BoLocTimKiemViewModel f, NguoiThamGia me, CancellationToken huy)
+    private async Task<Page<UngVienViewModel>> TimDuLieuAsync(BoLocTimKiemViewModel f, NguoiThamGia? me, CancellationToken huy)
     {
         Rules.ValidateInput(f);
+        var needs = f.LoaiDoiTuong == "NhuCau" || f.LoaiDoiTuong == null && me?.LoaiNguoi == "GiaSu";
+        Rules.Check(!needs || me?.LoaiNguoi == "GiaSu", "Đăng nhập tài khoản gia sư để tìm nhu cầu học.", me == null ? 401 : 403);
+        Rules.Check(needs || me?.LoaiNguoi != "GiaSu", "Tài khoản gia sư sử dụng chức năng tìm nhu cầu học.", 403);
+        f.LoaiDoiTuong = needs ? "NhuCau" : "GiaSu";
         Rules.Check(DiaGioiHanhChinh.HopLe(f.KhuVuc, f.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(f.PhuongXa));
         Rules.Check(f.Trang is >= 1 and <= 100000, "Trang không hợp lệ.");
         Rules.Check(f.HocPhiToiDa == null || (f.HocPhiToiDa >= 0 && f.HocPhiToiDa <= 9999999999999999m && decimal.Truncate(f.HocPhiToiDa.Value) == f.HocPhiToiDa), "Học phí tối đa phải là số VND nguyên không âm.", field: nameof(f.HocPhiToiDa));
         Rules.Check(f.DonViHocPhi is "VND/Gio" or "VND/Buoi", "Chọn đúng đơn vị học phí.");
-        Rules.Check(me.LoaiNguoi != "GiaSu" || f.SapXep is not ("DanhGia" or "HocVien"), "Sắp xếp theo đánh giá và số bên học chỉ áp dụng danh sách gia sư.", field: nameof(f.SapXep));
-        if (me.LoaiNguoi != "GiaSu")
+        Rules.Check(!needs || f.SapXep is not ("DanhGia" or "HocVien"), "Sắp xếp theo đánh giá và số bên học chỉ áp dụng danh sách gia sư.", field: nameof(f.SapXep));
+        if (!needs)
         {
             var q = LocHoSo(f);
             var total = await q.CountAsync(huy);
@@ -113,7 +117,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         }
         Rules.Check(f.ThuTrongTuan == null || f.ThuTrongTuan <= 6, "Thứ không hợp lệ.");
         Rules.Check(f.GioBatDau == null || f.GioKetThuc == null || f.GioBatDau < f.GioKetThuc, "Giờ bắt đầu phải trước giờ kết thúc.");
-        var n = NhuCauCongKhai().Where(x => x.ChuSoHuuId != me.Id);
+        var n = NhuCauCongKhai().Where(x => x.ChuSoHuuId != me!.Id);
         if (!string.IsNullOrWhiteSpace(f.TuKhoa))
             n = n.Where(x => x.HoTen.Contains(f.TuKhoa) || (x.TenMon.Contains(f.TuKhoa) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && db.Set<MonHoc>().Any(m => m.Id == d.MonHocId && m.TenMon.Contains(f.TuKhoa)))) || (x.MucTieu != null && x.MucTieu.Contains(f.TuKhoa)));
         var subjectIds = f.MonHocIds.Concat(f.MonHocId.HasValue ? [f.MonHocId.Value] : Array.Empty<int>()).Distinct().ToList();
@@ -186,7 +190,9 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         var h = await HoSoCongKhai().SingleOrDefaultAsync(x => x.Id == id, huy);
         if (h != null)
             return (await HoSoRowsAsync([h], huy)).Single();
+        var viewer = await current.HienTaiAsync(huy);
         var n = await NhuCauCongKhai().SingleOrDefaultAsync(x => x.Id == id, huy) ?? throw new LoiNghiepVu("Hồ sơ hoặc nhu cầu đang ẩn, chưa được duyệt hoặc không còn công khai.", 404);
+        Rules.Check(viewer.LoaiNguoi == "GiaSu" || viewer.Id == n.ChuSoHuuId, "Nhu cầu học dành cho gia sư và người đăng.", 403);
         await SlotsAsync([n], huy);
         return n;
     }
@@ -212,7 +218,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     public Task<KetQua<SoSanhViewModel>> SoSanhAsync(IReadOnlyList<Guid> maDoiTuong, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<SoSanhViewModel>.ThucHienAsync(async () =>
         {
-            await current.KiemTraNguoiThucHienAsync(maNguoiXem, huy);
+            await current.NguoiXemAsync(maNguoiXem, huy);
             var ids = maDoiTuong.Distinct().ToList();
             Rules.Check(ids.Count is >= 2 and <= 3, "Chọn từ 2 đến 3 đối tượng để so sánh.");
             var rows = new List<UngVienViewModel>();

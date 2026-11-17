@@ -1,0 +1,28 @@
+@model List<UngVienViewModel>
+@{ ViewData["Title"] = "Kết nối gia sư và người học"; }
+<section class="guest-intro">
+    <div>
+        <h1>Tìm gia sư phù hợp với việc học của bạn</h1>
+        <p>Xem môn dạy, kinh nghiệm và học phí. Trao đổi với gia sư trước khi thống nhất lớp học.</p>
+        <div class="actions">
+            <a class="btn btn-primary" href="/TimKiem/TimKiem/GiaSu">Tìm gia sư</a>
+            <a class="btn btn-outline-primary" href="/TaiKhoan/DangKy">Tạo tài khoản</a>
+        </div>
+    </div>
+    <aside class="card">
+        <h2>Bạn là gia sư?</h2>
+        <p>Đăng nhập để tìm nhu cầu học và trao đổi với Học sinh, Phụ huynh.</p>
+        <a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a>
+    </aside>
+</section>
+<section aria-labelledby="public-tutors-title">
+    <div class="heading"><h2 id="public-tutors-title">Gia sư đang nhận dạy</h2><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/GiaSu">Xem danh sách</a></div>
+    @if (Model.Count > 0)
+    {
+        <div class="cards">@foreach (var profile in Model) { <partial name="_Candidate" model="profile" /> }</div>
+    }
+    else
+    {
+        <p class="empty">Chưa có hồ sơ gia sư công khai.</p>
+    }
+</section>

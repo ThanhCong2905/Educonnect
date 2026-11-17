@@ -1,5 +1,5 @@
 .account-page {
-    --account-primary: #b91e59;
+    --account-primary: #b4235a;
     --account-soft: #f58caf;
     --account-border: #efcad8;
     min-height: 100vh;
@@ -35,7 +35,7 @@
     font-weight: 600;
     color: #2d3748;
 }
-.account-nav a[aria-current="page"] { background: var(--account-soft); border-color: var(--account-soft); }
+.account-nav a[aria-current="page"] { background: var(--account-primary); border-color: var(--account-primary); color: #fff; }
 .account-nav a:hover { background: #fce9f0; color: #2d3748; }
 .account-container {
     flex: 1;
@@ -97,19 +97,21 @@
 .account-submit {
     min-height: 46px;
     margin-top: 24px;
-    border: 1px solid var(--account-soft);
+    border: 1px solid var(--account-primary);
     border-radius: 8px;
-    background: var(--account-soft);
-    color: #2d3748;
+    background: var(--account-primary);
+    color: #fff;
     font-size: 15px;
     font-weight: 700;
 }
 .account-forgot + .account-submit { margin-top: 0; }
 .account-submit:hover, .account-submit:focus-visible, .account-submit:active {
-    background: #f278a2 !important;
-    border-color: #f278a2 !important;
-    color: #2d3748 !important;
+    background: #951c4a !important;
+    border-color: #951c4a !important;
+    color: #fff !important;
 }
+.account-card .btn-primary { --bs-btn-bg: var(--account-primary); --bs-btn-border-color: var(--account-primary); --bs-btn-color: #fff; --bs-btn-hover-bg: #951c4a; --bs-btn-hover-border-color: #951c4a; --bs-btn-hover-color: #fff; color: #fff; }
+.account-card .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 .account-footer { text-align: center; margin: 28px 0 0; }
 .account-footer a { font-weight: 600; }
 .account-roles { padding: 0; margin: 0 0 18px; border: 0; }

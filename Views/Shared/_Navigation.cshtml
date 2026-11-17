@@ -15,14 +15,21 @@
     var links = new[]
     {
         ("/", "Trang chủ", "house-door", area == null && controller == "Home" && action == "Index"),
-        ("/TimKiem/TimKiem/Index", me.LoaiNguoi == "GiaSu" ? "Tìm người học" : "Tìm gia sư", "search", area == "TimKiem"),
+        ("/TimKiem/TimKiem/Index", "Tìm gia sư", "search", area == "TimKiem"),
         ("/KetNoi/KetNoi/LienHe", "Liên hệ & kết nối", "link-45deg", area == "KetNoi"),
         ("/HocTap/LopHoc/Index", "Lớp học", "collection", (area == "HocTap" && !privateChat && !personal) || (area == "DanhGia" && !personal)),
         ("/HocTap/TinNhan/Index", "Tin nhắn", "chat-dots", privateChat)
     };
     @foreach (var link in links)
     {
-        <a href="@link.Item1" class="@(link.Item4 ? "selected" : "")" aria-current="@(link.Item4 ? "page" : null)"><img src="/images/ui/@(link.Item3).svg" alt="">@link.Item2</a>
+        @if(link.Item1 == "/TimKiem/TimKiem/Index" && me.LoaiNguoi == "GiaSu")
+        {
+            <a href="/TimKiem/TimKiem/NhuCau" class="@(area == "TimKiem" ? "selected" : "")" aria-current="@(area == "TimKiem" ? "page" : null)"><img src="/images/ui/search.svg" alt="">Tìm nhu cầu học</a>
+        }
+        else
+        {
+            <a href="@(link.Item1 == "/TimKiem/TimKiem/Index" ? "/TimKiem/TimKiem/GiaSu" : link.Item1)" class="@(link.Item4 ? "selected" : "")" aria-current="@(link.Item4 ? "page" : null)"><img src="/images/ui/@(link.Item3).svg" alt="">@link.Item2</a>
+        }
         @if (link.Item1 == "/TimKiem/TimKiem/Index" && me.LoaiNguoi is "HocSinh" or "PhuHuynh")
         {
             <a href="/NhuCau/NhuCau/Index" class="@(area == "NhuCau" && !personal ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Nhu cầu của tôi</a>

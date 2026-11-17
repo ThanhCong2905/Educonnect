@@ -3,6 +3,7 @@ using EduConnect.Mvc.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using EduConnect.Mvc.Areas.NhuCau.Services;
 
 namespace EduConnect.Mvc.Infrastructure;
 
@@ -26,6 +27,13 @@ public sealed partial class TaiKhoanService
             Email = user.Email ?? "",
             AnhDaiDienUrl = files.DuongDanAnhDaiDien(user.AnhDaiDien) == null ? null : $"/TaiKhoan/Anh/{user.Id}"
         };
+    }
+
+    public async Task<(string Path, string ContentType)> LayAnhCongKhaiAsync(Guid id)
+    {
+        Rules.Check(await new HoSoCongKhaiQuery(db).CongKhai().AnyAsync(profile => profile.GiaSuId == id),
+            "Không tìm thấy ảnh đại diện công khai.", 404);
+        return await LayAnhAsync(id);
     }
 
     public async Task<(string Path, string ContentType)> LayAnhAsync(Guid id)
