@@ -19,7 +19,7 @@ public sealed class DoiTacController(DanhGiaDoiTacService service) : BaseControl
     public async Task<IActionResult> ChiTiet(Guid id, int trang = 1) => View(await service.LayAsync(id, trang));
 
     [HttpGet]
-    public async Task<IActionResult> Gui(Guid maLop) => View(await service.LayDeSuaAsync(maLop));
+    public async Task<IActionResult> Gui(Guid maLop) => View(await service.LayDeDanhGiaAsync(maLop));
 
     [HttpPost]
     public async Task<IActionResult> Gui(DanhGiaDoiTacViewModel model)

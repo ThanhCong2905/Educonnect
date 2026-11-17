@@ -70,6 +70,7 @@ public sealed partial class KetNoiService
             lop.TrangThai = "DaKetThuc";
             lop.KetThucLuc = now;
             lop.CachKetThuc = "DongY";
+            await notices.MoiDanhGiaAsync(lop, huy);
         }
         notices.Tao(yc.NguoiGuiId, "KetNoi", maLop, dongY ? "Yêu cầu được chấp nhận. Lớp đã kết thúc." : "Yêu cầu kết thúc bị từ chối. Lớp tiếp tục hoạt động.");
         await ending.SaveAsync(huy);

@@ -15,6 +15,15 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         return await db.Set<LopHoc>().AsNoTracking().Where(c => c.GiaSuId == u.Id || c.BenHocId == u.Id || db.Set<ThanhVienLopHoc>().Any(m => m.LopHocId == c.Id && m.TaiKhoanId == u.Id && m.TrangThaiDuyet == "DaDuyet" && m.RoiLopLuc == null && db.Set<LienKetPhuHuynhHocSinh>().Any(l => l.Id == m.LienKetId && l.TrangThai == "DaLienKet"))).OrderBy(c => c.TenLop).ToListAsync();
     }
     public Task<LopHoc> ChiTietAsync(Guid id) => rights.KiemTraQuyenXemAsync(id);
+
+    public async Task<DanhGiaDoiTac?> DanhGiaDaGuiAsync(Guid id)
+    {
+        await rights.KiemTraQuyenXemAsync(id);
+        var me = await current.HienTaiAsync();
+        return await db.Set<DanhGiaDoiTac>().AsNoTracking()
+            .SingleOrDefaultAsync(x => x.LopHocId == id && x.NguoiGuiId == me.Id);
+    }
+
     public async Task<List<LichHoc>> LichAsync(Guid id)
     {
         await rights.KiemTraQuyenXemAsync(id);
@@ -178,8 +187,11 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
     private Task KhoaThanhVienLopAsync(Guid id)
         => db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}");
 
-    public Task<KetQua> XacNhanKetThucAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy) =>
-        KetNoi.PhanHoiHuyAsync(maYeuCau, true, rowVersion, maNguoiThucHien, huy);
+    public Task<KetQua> XacNhanKetThucAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy)
+    {
+        huy.ThrowIfCancellationRequested();
+        return KetNoi.PhanHoiHuyAsync(maYeuCau, true, rowVersion, maNguoiThucHien, huy);
+    }
 
     public Task KetThucAsync(Guid id, string version) =>
         Task.FromException(new LoiNghiepVu("Hãy phản hồi yêu cầu kết thúc bằng phiên bản yêu cầu đang hiển thị.", 409));
@@ -191,7 +203,7 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         var version = rowVersion == null ? lop.RowVersion : Rules.Version(rowVersion);
         var result = await KetNoi.TaoYeuCauHuyAsync(id, reason, version, user.Id, huy);
         if (!result.ThanhCong)
-            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+            result.BaoLoiNeuThatBai();
     }
     public async Task<List<YeuCauHuyKetNoi>> HuyAsync(Guid id)
     {

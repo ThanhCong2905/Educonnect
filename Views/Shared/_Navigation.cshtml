@@ -40,7 +40,7 @@
 else
 {
     <a href="/QuanTri/QuanTri/Index" class="@(controller == "QuanTri" && action == "Index" ? "selected" : "")"><img src="/images/ui/house-door.svg" alt="">Tổng quan quản trị</a>
-    var moderation = controller is "HoSo" or "BaoCaoViPham" || action == "NoiDung";
+    var moderation = controller is "HoSo" or "BaoCaoViPham" || action is "NoiDung" or "NhuCau" or "NhuCauChiTiet" or "XuLyNhuCau";
     var approve = await Rights.CoQuyenAsync("DuyetHoSo");
     var report = await Rights.CoQuyenAsync("XuLyBaoCao");
     @if (approve || report)
@@ -51,6 +51,7 @@ else
                 @if (approve) { <a href="/QuanTri/HoSo/Index" class="@(controller == "HoSo" ? "selected" : "")"><img src="/images/ui/person-badge.svg" alt="">Duyệt hồ sơ</a> }
                 @if (report)
                 {
+                    <a href="/QuanTri/QuanTri/NhuCau" class="@(action is "NhuCau" or "NhuCauChiTiet" or "XuLyNhuCau" ? "selected" : "")"><img src="/images/ui/collection.svg" alt="">Hậu kiểm nhu cầu</a>
                     <a href="/QuanTri/BaoCaoViPham/Index?quanTri=true" class="@(controller == "BaoCaoViPham" ? "selected" : "")"><img src="/images/ui/flag.svg" alt="">Xử lý báo cáo</a>
                     <a href="/QuanTri/QuanTri/NoiDung" class="@(action == "NoiDung" ? "selected" : "")"><img src="/images/ui/collection.svg" alt="">Biện pháp kiểm duyệt</a>
                 }

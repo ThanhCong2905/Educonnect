@@ -150,7 +150,10 @@ public sealed partial class QuanTriService(AppDbContext db, INguoiDungHienTaiSer
             }
         }
         if (measure.Loai == "AnNoiDung")
-            notices.Tao(await ChuSoHuuAsync(measure.LoaiDoiTuong, measure.DoiTuongId), "KiemDuyet", measure.BaoCaoId ?? measure.Id, "Biện pháp ẩn nội dung đã được gỡ.");
+            notices.Tao(await ChuSoHuuAsync(measure.LoaiDoiTuong, measure.DoiTuongId),
+                measure.LoaiDoiTuong == "NhuCauHoc" ? "NhuCau" : "KiemDuyet",
+                measure.LoaiDoiTuong == "NhuCauHoc" ? measure.DoiTuongId : measure.BaoCaoId ?? measure.Id,
+                "Biện pháp ẩn nội dung đã được gỡ.");
         rights.GhiNhatKy(actor, "GoBienPhap", measure.LoaiDoiTuong, measure.DoiTuongId);
         await data.SaveAsync();
         await tx.CommitAsync();

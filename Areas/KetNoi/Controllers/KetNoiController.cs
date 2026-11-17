@@ -50,13 +50,14 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
         ValidateInput();
         var result = await service.GuiYeuCauAsync(m, await ActorAsync(), HttpContext.RequestAborted);
         if (!result.ThanhCong)
-            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+            result.BaoLoiNeuThatBai();
         Success();
         return RedirectToAction(nameof(Index));
     }
     private async Task ProposalData(Guid contact)
     {
-        ViewBag.Subjects = await needs.MonDuocChonAsync();
+        ViewBag.Subjects = await service.MonDeXuatAsync(contact);
+        ViewBag.ProposalNeeds = await service.NhuCauDeXuatAsync(contact);
         var all = await service.LayAsync();
         var c = all.Contacts.Single(x => x.Id == contact);
         ViewBag.Learner = c.BenHocId;
@@ -78,11 +79,11 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
             {
                 var result = await service.GuiDeXuatAsync(m, await ActorAsync(), HttpContext.RequestAborted);
                 if (!result.ThanhCong)
-                    throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
-                Success("Đã gửi đề xuất để bên học xác nhận.");
+                    result.BaoLoiNeuThatBai();
+                Success("Đã gửi đề xuất để bên còn lại xác nhận.");
                 return RedirectToAction(nameof(Index));
             }
-            catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+            catch (LoiNghiepVu ex) { ModelState.AddModelError(ex.Truong ?? "", ex.Message); }
         await ProposalData(m.LienHeId);
         return View(m);
     }
@@ -95,9 +96,10 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
     [HttpPost]
     public async Task<IActionResult> ChapNhan(ChapNhanDeXuatViewModel vm)
     {
+        ValidateInput();
         var result = await service.ChapNhanDeXuatAsync(vm.MaYeuCau, vm.RowVersion, await ActorAsync(), HttpContext.RequestAborted);
         if (!result.ThanhCong)
-            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+            result.BaoLoiNeuThatBai();
         var c = result.DuLieu;
         Success("Lớp đã được tạo. Bạn có thể tiếp tục mở hoặc đóng nhu cầu tại mục Nhu cầu.");
         return Redirect($"/HocTap/LopHoc/ChiTiet/{c}");
@@ -112,6 +114,7 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
     [HttpPost]
     public async Task<IActionResult> TuChoi(Guid maYeuCau, string lyDo, byte[] rowVersion)
     {
+        ValidateInput();
         (await service.TuChoiDeXuatAsync(maYeuCau, lyDo, rowVersion, await ActorAsync(), HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();
         return RedirectToAction(nameof(Index));
@@ -120,6 +123,7 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
     [HttpPost]
     public async Task<IActionResult> Rut(Guid maYeuCau, byte[] rowVersion)
     {
+        ValidateInput();
         (await service.RutYeuCauAsync(maYeuCau, rowVersion, await ActorAsync(), HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();
         return RedirectToAction(nameof(Index));
@@ -129,9 +133,10 @@ public sealed class KetNoiController(IKetNoiService service, INhuCauService need
     [HttpPost]
     public async Task<IActionResult> HuyKetNoi(Guid maLop, string lyDo, byte[] rowVersion)
     {
+        ValidateInput();
         var result = await service.TaoYeuCauHuyAsync(maLop, lyDo, rowVersion, await ActorAsync(), HttpContext.RequestAborted);
         if (!result.ThanhCong)
-            throw new LoiNghiepVu(result.ThongBao!, result.MaTrangThai);
+            result.BaoLoiNeuThatBai();
         Success("Đã gửi yêu cầu kết thúc lớp.");
         return Redirect($"/HocTap/LopHoc/ChiTiet/{maLop}");
     }

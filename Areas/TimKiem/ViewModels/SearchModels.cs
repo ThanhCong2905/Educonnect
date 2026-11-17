@@ -28,6 +28,8 @@ public sealed class BoLocTimKiemViewModel
     {
         get; set;
     }
+    [StringLength(256, ErrorMessage = "Phường / xã tối đa 256 ký tự.")]
+    public string? PhuongXa { get; set; }
     public decimal? HocPhiToiDa
     {
         get; set;
@@ -44,13 +46,17 @@ public sealed class BoLocTimKiemViewModel
     {
         get; set;
     }
-    [Required(ErrorMessage = "Chọn cách sắp xếp."), RegularExpression("MoiNhat|Ten|HocPhiTang|HocPhiGiam", ErrorMessage = "Chọn cách sắp xếp trong danh sách.")]
+    [Required(ErrorMessage = "Chọn cách sắp xếp."), RegularExpression("MoiNhat|Ten|HocPhiTang|HocPhiGiam|DanhGia|HocVien", ErrorMessage = "Chọn cách sắp xếp trong danh sách.")]
     public string SapXep { get; set; } = "MoiNhat";
     [Range(1, 100000, ErrorMessage = "Số trang phải từ 1 đến 100000.")] public int Trang { get; set; } = 1;
 }
 // Không đưa tên, tuổi người học và địa chỉ chi tiết vào dữ liệu công khai.
 public class UngVienViewModel
 {
+    public string? PhuongXa { get; set; }
+    public decimal? DiemDanhGia { get; set; }
+    public int SoDanhGia { get; set; }
+    public int SoBenHoc { get; set; }
     public string? AnhDaiDienUrl { get; set; }
     public List<int> MonHocIds { get; set; } = [];
     public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];

@@ -33,6 +33,12 @@
   const toast = window.EduConnect.toast;
   function errors(form, problem) {
     form.querySelectorAll('.ui-field-error,.ui-error-summary').forEach(node=>node.remove());
+    const editableFields = form.querySelector('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not(:disabled),select:not(:disabled),textarea:not(:disabled)');
+    if (!editableFields) {
+      const messages = Object.values(problem.errors || {}).flat().filter(Boolean);
+      toast([...new Set(messages)].join(' ') || problem.message || 'Chưa thể thực hiện. Vui lòng thử lại.', 'error');
+      return;
+    }
     form.querySelectorAll('[aria-invalid="true"]').forEach(input=>{input.removeAttribute('aria-invalid');input.classList.remove('is-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
     const summary=document.createElement('div');summary.className='ui-error-summary';summary.setAttribute('role','alert');summary.tabIndex=-1;
     const title=document.createElement('strong');title.textContent='Chưa lưu được';summary.append(title);
@@ -43,12 +49,11 @@
       const item=document.createElement('li');
       if(input){
         const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());
-        (input.closest('.chat-compose-row') || input).insertAdjacentElement('afterend',error);
-        item.dataset.errorField=name;const link=document.createElement('button');link.type='button';link.textContent=window.EduConnect.fieldLabel(input);link.addEventListener('click',()=>{input.focus({preventScroll:true});input.scrollIntoView({block:'center',behavior:window.EduConnect.motionBehavior()});});item.append(link);list.append(item);
+        (input.closest('.chat-compose-row,.grade-picker') || input).insertAdjacentElement('afterend',error);
       }else for(const message of messages){if(globalMessages.has(message))continue;globalMessages.add(message);const entry=document.createElement('li');entry.textContent=message;list.append(entry);}
     }
-    if(list.childElementCount)summary.append(list);
-    form.prepend(summary);summary.focus();
+    if(list.childElementCount){summary.append(list);form.prepend(summary);summary.focus();}
+    else form.querySelector('[aria-invalid="true"]')?.focus();
   }
   async function open(url,title,source) {
     if(!modal)return;
@@ -117,6 +122,10 @@
       if(await window.EduConnect.afterAjaxSubmit?.(form,result,data))return;
       if(otherChanges && (inModal || result.redirectUrl))window.EduConnect.resetPageChanges();
       if(result.message)sessionStorage.setItem('educonnect:toast',result.message);
+      if(form.hasAttribute('data-follow-redirect') && result.redirectUrl){
+        const redirect=new URL(result.redirectUrl,location.href);
+        if(redirect.origin===location.origin){window.EduConnect.resetPageChanges();location.assign(redirect);return;}
+      }
       if(inModal){saving=false;modal.hide();if(!result.message&&result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}else location.reload();}
       else if(result.redirectUrl){const redirect=new URL(result.redirectUrl,location.href);if(redirect.origin===location.origin)location.assign(redirect);}
       else {toast(result.message);sessionStorage.removeItem('educonnect:toast');}

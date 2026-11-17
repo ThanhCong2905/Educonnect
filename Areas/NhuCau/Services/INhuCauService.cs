@@ -10,6 +10,8 @@ public interface INhuCauService
 {
     Task<List<KhungGioRanh>> LichRanhAsync();
     Task XacNhanConNhuCauAsync(Guid id, string version);
+    Task<Dictionary<Guid, NhuCauKiemDuyetViewModel>> KiemDuyetAsync();
+    Task<bool> DeNghiXemLaiAsync(Guid id, string version);
     Task<List<MonHoc>> MonTenAsync();
     Task<List<NhuCauHoc>> LayAsync();
     Task<Guid> LuuAsync(NhuCauInput m);

@@ -1,10 +1,11 @@
 using EduConnect.Mvc.Areas.HocTap.Services;
+using EduConnect.Mvc.Areas.DanhGia.Services;
 using EduConnect.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
-public sealed class LopHocController(ILopHocService service, IBaiTapService tasks, TinNhanService chat) : BaseController
+public sealed class LopHocController(ILopHocService service, IBaiTapService tasks, TinNhanService chat, TienDoService progress) : BaseController
 {
     public async Task<IActionResult> Index()
     {
@@ -27,17 +28,24 @@ public sealed class LopHocController(ILopHocService service, IBaiTapService task
         Success(agree ? "Bạn đã đồng ý lời mời. Đang chờ gia sư duyệt quyền tham gia." : "Bạn đã từ chối lời mời.");
         return RedirectToAction(nameof(Index));
     }
-    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null)
+    public async Task<IActionResult> ChiTiet(Guid id, string tab = "overview", string? month = null, string? state = null, DateOnly? week = null, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null, int trang = 1)
     {
+        ValidateInput();
         var c = await service.ChiTietAsync(id);
         ViewBag.Tab = tab;
         ViewBag.Month = month;
         ViewBag.State = state;
         ViewBag.Schedules = tab == "lessons" ? await service.LocBuoiAsync(id, month, state) : await service.LichAsync(id);
         ViewBag.Records = await service.BuoiAsync(id);
+        if (tab == "schedule")
+            ViewBag.Week = EduConnect.Mvc.Areas.HocTap.ViewModels.LichTuanViewModel.Tao(c,
+                ViewBag.Schedules, ViewBag.Records, week, DateTimeOffset.UtcNow);
         ViewBag.Tasks = await tasks.LayAsync(id);
         ViewBag.Chat = await chat.TheoLopAsync(id);
         ViewBag.Cancellations = await service.HuyAsync(id);
+        ViewBag.MyReview = await service.DanhGiaDaGuiAsync(id);
+        if (tab == "overview")
+            ViewBag.Progress = await progress.LayAsync(id, tuNgay, denNgay, trang);
         return View(c);
     }
     public async Task<IActionResult> ThanhVien(Guid id)
@@ -106,6 +114,7 @@ public sealed class LopHocController(ILopHocService service, IBaiTapService task
     [HttpPost]
     public async Task<IActionResult> XacNhanKetThuc(Guid maYeuCau, byte[] rowVersion)
     {
+        ValidateInput();
         var actor = await HttpContext.RequestServices.GetRequiredService<EduConnect.Mvc.Infrastructure.INguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted);
         (await service.XacNhanKetThucAsync(maYeuCau, rowVersion, actor.Id, HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();

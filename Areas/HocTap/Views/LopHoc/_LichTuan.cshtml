@@ -1,0 +1,110 @@
+@using EduConnect.Mvc.Areas.HocTap.ViewModels
+@using System.Globalization
+@model LichTuanViewModel
+@inject NguoiDungHienTaiService Current
+@{
+    var tutor = (await Current.HienTaiAsync()).Id == Model.Lop.GiaSuId;
+    var active = Model.Lop.TrangThai == "DangHoatDong";
+    var now = DateTimeOffset.UtcNow;
+    var days = new[] { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật" };
+    string Number(double value) => value.ToString("0.####", CultureInfo.InvariantCulture);
+}
+<section class="week-calendar" data-week-calendar aria-label="Lịch học theo tuần">
+    <div class="week-toolbar">
+        <div class="week-navigation">
+            <div class="week-arrows">
+                <a class="btn btn-outline-primary calendar-arrow" asp-action="ChiTiet" asp-route-id="@Model.Lop.Id" asp-route-tab="schedule" asp-route-week="@Model.TuNgay.AddDays(-7).ToString("yyyy-MM-dd")" aria-label="Tuần trước"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a>
+                <a class="btn btn-outline-primary calendar-arrow" asp-action="ChiTiet" asp-route-id="@Model.Lop.Id" asp-route-tab="schedule" asp-route-week="@Model.TuNgay.AddDays(7).ToString("yyyy-MM-dd")" aria-label="Tuần sau"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>
+            </div>
+            <a class="btn btn-outline-primary calendar-today" asp-action="ChiTiet" asp-route-id="@Model.Lop.Id" asp-route-tab="schedule">Hôm nay</a>
+            <h2>@Model.TuNgay.ToString("dd/MM") – @Model.TuNgay.AddDays(6).ToString("dd/MM/yyyy")</h2>
+        </div>
+        @if (tutor && active)
+        {
+            <a data-modal class="btn btn-primary" asp-controller="LichHoc" asp-action="Them" asp-route-id="@Model.Lop.Id" asp-route-ngay="@Model.TuNgay.ToString("yyyy-MM-dd")">Thêm lịch học</a>
+        }
+    </div>
+    <div class="week-grid" style="--calendar-height:@((Model.GioCuoi - Model.GioDau) * 72)px" aria-label="Các buổi trong tuần">
+        <div class="week-grid-head" aria-hidden="true">
+            <span class="week-zone">GMT+7</span>
+            @for (var i = 0; i < 7; i++)
+            {
+                var day = Model.TuNgay.AddDays(i);
+                <div class="week-day-heading @(day == Model.HomNay ? "is-today" : "")"><span>@days[i]</span><strong>@day.ToString("dd/MM")</strong></div>
+            }
+        </div>
+        <div class="week-grid-scroll">
+            <div class="week-grid-body">
+                <div class="week-hours" aria-hidden="true">
+                    @for (var hour = Model.GioDau; hour <= Model.GioCuoi; hour++)
+                    {
+                        <span style="top:@((hour - Model.GioDau) * 72)px">@hour.ToString("00"):00</span>
+                    }
+                </div>
+                @for (var i = 0; i < 7; i++)
+                {
+                    var day = Model.TuNgay.AddDays(i);
+                    <div class="week-day-column @(day == Model.HomNay ? "is-today" : "")" role="group" aria-label="@days[i], @day.ToString("dd/MM/yyyy")">
+                        @foreach (var item in Model.SuKien.Where(x => x.Cot == i))
+                        {
+                            var template = $"lesson-{item.Lich.Id:N}-{i}";
+                            <a class="week-event event-@item.Kieu" href="@Url.Action("Buoi", "LichHoc", new { id = item.Lich.Id })" data-lesson-preview="@template" aria-haspopup="dialog" aria-expanded="false"
+                               style="top:@(Number((item.PhutDau - Model.GioDau * 60) * 1.2))px;height:@(Number(Math.Max(30, (item.PhutCuoi - item.PhutDau) * 1.2 - 4)))px;left:calc(@(Number(100.0 * item.CotTrongNgay / item.SoCot))% + 3px);width:calc(@(Number(100.0 / item.SoCot))% - 6px)"
+                               aria-label="@item.Lich.TieuDe, @Rules.Date(item.Lich.BatDauLuc), @item.TrangThai">
+                                <small>@item.Lich.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm") – @item.Lich.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</small>
+                                <strong>@item.Lich.TieuDe</strong>
+                                <span>@(item.Lich.LaBuoiBu ? "Học bù · " : "")@item.TrangThai</span>
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="week-agenda">
+        @for (var i = 0; i < 7; i++)
+        {
+            var day = Model.TuNgay.AddDays(i);
+            var items = Model.SuKien.Where(x => x.Cot == i).OrderBy(x => x.PhutDau).ToList();
+            <section class="agenda-day @(day == Model.HomNay ? "is-today" : "")">
+                <h3>@days[i] <span>@day.ToString("dd/MM")</span>@if (day == Model.HomNay) { <small>Hôm nay</small> }</h3>
+                @foreach (var item in items)
+                {
+                    <a class="agenda-event event-@item.Kieu" href="@Url.Action("Buoi", "LichHoc", new { id = item.Lich.Id })" data-lesson-preview="lesson-@(item.Lich.Id.ToString("N"))-@i" aria-haspopup="dialog" aria-expanded="false">
+                        <span class="agenda-time">@item.Lich.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")<small>@item.Lich.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</small></span>
+                        <span><strong>@item.Lich.TieuDe</strong><small>@(item.Lich.LaBuoiBu ? "Học bù · " : "")@item.TrangThai</small></span>
+                    </a>
+                }
+                @if (items.Count == 0) { <p>Không có buổi học</p> }
+            </section>
+        }
+    </div>
+    @if (Model.SuKien.Count == 0)
+    {
+        <p class="week-empty">Tuần này chưa có lịch học.@if (tutor && active) { <span> Chọn Thêm lịch học để xếp buổi.</span> }</p>
+    }
+    @foreach (var item in Model.SuKien)
+    {
+        var canChange = tutor && active && item.Lich.TrangThai == "DaLenLich" && item.Lich.BatDauLuc > now && item.Buoi?.TrangThai == "DuKien";
+        var canRest = tutor && active && item.Lich.TrangThai == "DaLenLich" && item.Buoi?.TrangThai is "DuKien" or "DangDienRa";
+        <template id="lesson-@(item.Lich.Id.ToString("N"))-@item.Cot">
+            <div class="lesson-preview-heading"><h3>@item.Lich.TieuDe</h3><button class="btn-close" type="button" data-close-lesson aria-label="Đóng chi tiết nhanh"></button></div>
+            <p>@Rules.Date(item.Lich.BatDauLuc) – @item.Lich.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</p>
+            <p class="muted">@Rules.Label(Model.Lop.HinhThucHoc) · @item.TrangThai</p>
+            <div class="lesson-preview-actions">
+                <a class="btn btn-primary" href="@Url.Action("Buoi", "LichHoc", new { id = item.Lich.Id })">Chi tiết buổi học</a>
+                @if (canChange || canRest)
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Thao tác buổi học">•••</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if (canChange) { <li><a data-modal class="dropdown-item" href="@Url.Action("Sua", "LichHoc", new { id = item.Lich.Id })">Điều chỉnh lịch</a></li> }
+                            @if (canRest) { <li><a data-modal class="dropdown-item" href="@Url.Action("Nghi", "LichHoc", new { id = item.Lich.Id })">Thông báo nghỉ</a></li> }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </template>
+    }
+    <section class="lesson-preview" data-lesson-panel role="dialog" aria-label="Chi tiết nhanh buổi học" tabindex="-1" hidden></section>
+</section>

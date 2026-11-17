@@ -4,7 +4,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService current, IThongBaoData? data = null) : IThongBaoService
+public sealed class ThongBaoService(AppDbContext db, INguoiDungHienTaiService current, IThongBaoData? data = null) : IThongBaoService
 {
     private readonly IThongBaoData persistence = data ?? new EfThongBaoData(db);
     public async Task TaoChoLopAsync(Guid lopHocId, string type, Guid target, string text, Guid? loaiTru = null)
@@ -17,10 +17,24 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
             Tao(id, type, target, text);
     }
 
+    public async Task MoiDanhGiaAsync(LopHoc lop, CancellationToken huy = default)
+    {
+        var daHoc = await db.Set<BuoiHoc>().AnyAsync(b => b.TrangThai == "DaHoc" && b.GhiNhanLuc != null
+            && db.Set<LichHoc>().Any(l => l.Id == b.LichHocId && l.LopHocId == lop.Id), huy);
+        if (!daHoc)
+            return;
+
+        foreach (var recipient in new[] { lop.GiaSuId, lop.BenHocId })
+            Tao(recipient, "KetNoi", lop.Id, "Lớp đã kết thúc. Bạn có thể gửi đánh giá về người đã học cùng.");
+    }
+
     // Sự kiện và thông báo được lưu trong cùng giao dịch nghiệp vụ.
     public void Tao(Guid recipient, string type, Guid target, string text)
+        => Tao(recipient, type, target, text, null);
+
+    public void Tao(Guid recipient, string type, Guid target, string text, Guid? maSuKien)
     {
-        var ev = Guid.NewGuid();
+        var ev = maSuKien ?? Guid.NewGuid();
         var now = DateTimeOffset.UtcNow;
         persistence.AddEvent(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "ChoXuLy" });
         persistence.AddNotice(new ThongBao { Id = Guid.NewGuid(), NguoiNhanId = recipient, LoaiThongBao = type, DoiTuongId = target, NoiDungTomTat = text, TaoLuc = now, MaSuKien = ev });

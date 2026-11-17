@@ -17,6 +17,8 @@ public interface IKetNoiService
     Task GuiLienHeAsync(GuiLienHeInput m);
     Task PhanHoiLienHeAsync(Guid id, string action, string version);
     Task<Guid> GuiYeuCauAsync(GuiYeuCauInput m, CancellationToken huy = default);
+    Task<List<NhuCauHoc>> NhuCauDeXuatAsync(Guid contact);
+    Task<List<MonHoc>> MonDeXuatAsync(Guid contact);
     Task<DeXuatLopViewModel> LayDeXuatAsync(Guid contact, Guid? id);
     Task<Guid> GuiDeXuatAsync(DeXuatLopViewModel m, CancellationToken huy = default);
     Task<YeuCauKetNoiLopHoc> ChiTietAsync(Guid id);

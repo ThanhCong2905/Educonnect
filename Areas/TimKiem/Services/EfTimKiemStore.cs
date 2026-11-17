@@ -16,7 +16,7 @@ public sealed class EfTimKiemStore(AppDbContext db, INguoiDungHienTaiService cur
                                                              join account in db.Users on u.Id equals account.Id
                                                              join m in db.Set<MonHoc>() on n.MonHocId equals m.Id
                                                              where n.LoaiNhuCau == "TimGiaSu" && n.TrangThai == "DangMo" && !db.Set<BienPhapQuanTri>().Any(b => b.LoaiDoiTuong == "NhuCauHoc" && b.DoiTuongId == n.Id && b.GoLuc == null && b.Loai == "AnNoiDung") && (u.LoaiNguoi == "HocSinh" || u.LoaiNguoi == "PhuHuynh")
-                                                             select new NhuCauCongKhaiViewModel { AnhDaiDienUrl = account.AnhDaiDien == null ? null : "/TaiKhoan/Anh/" + account.Id, Id = n.Id, ChuSoHuuId = u.Id, HoTen = u.HoTen, LoaiNguoi = u.LoaiNguoi, TenMon = m.TenMon, MonHocId = m.Id, KhoiLop = n.KhoiLop, MucTieu = n.MucTieu, HinhThucHoc = n.HinhThucHoc, KhuVuc = n.KhuVuc, HocPhiDuKien = n.HocPhiDuKien, DonViHocPhi = n.DonViHocPhi, TaoLuc = n.TaoLuc };
+                                                                                                              select new NhuCauCongKhaiViewModel { AnhDaiDienUrl = account.AnhDaiDien == null ? null : "/TaiKhoan/Anh/" + account.Id, Id = n.Id, ChuSoHuuId = u.Id, HoTen = u.HoTen, LoaiNguoi = u.LoaiNguoi, TenMon = m.TenMon, MonHocId = m.Id, KhoiLop = n.KhoiLop, MucTieu = n.MucTieu, HinhThucHoc = n.HinhThucHoc, KhuVuc = n.KhuVuc, PhuongXa = n.PhuongXa, HocPhiDuKien = n.HocPhiDuKien, DonViHocPhi = n.DonViHocPhi, TaoLuc = n.TaoLuc };
     private IQueryable<HoSoGiaSu> LocHoSo(BoLocTimKiemViewModel f)
     {
         var q = HoSoCongKhai();
@@ -28,6 +28,8 @@ public sealed class EfTimKiemStore(AppDbContext db, INguoiDungHienTaiService cur
             q = q.Where(h => EF.Functions.Collate(h.KhuVuc, "Vietnamese_100_CI_AS").Contains(area));
         if (!string.IsNullOrWhiteSpace(f.TrinhDo))
             q = q.Where(h => h.TrinhDo.Contains(f.TrinhDo));
+        if (!string.IsNullOrWhiteSpace(f.PhuongXa))
+            q = q.Where(h => h.PhuongXa == f.PhuongXa);
         if (f.HinhThucHoc == "TrucTuyen")
             q = q.Where(h => h.DayTrucTuyen);
         if (f.HinhThucHoc == "TrucTiep")
@@ -47,12 +49,31 @@ public sealed class EfTimKiemStore(AppDbContext db, INguoiDungHienTaiService cur
             var q = LocHoSo(f);
             var total = await q.CountAsync(huy);
             var ids = f.MonHocIds.Concat(f.MonHocId.HasValue ? [f.MonHocId.Value] : Array.Empty<int>()).ToList();
-            var priced = from h in q select new { h, Price = db.Set<HoSoGiaSuMonDay>().Where(d => d.HoSoGiaSuId == h.Id && (ids.Count == 0 || ids.Contains(d.MonHocId)) && (string.IsNullOrEmpty(f.KhoiLop) || EF.Functions.Collate(d.PhamViDay, "Vietnamese_100_CI_AS").Contains(f.KhoiLop)) && d.DonViHocPhi == f.DonViHocPhi && (f.HocPhiToiDa == null || d.HocPhiDeXuat <= f.HocPhiToiDa)).Min(d => d.HocPhiDeXuat), Name = db.Set<NguoiThamGia>().Where(u => u.Id == h.GiaSuId).Select(u => u.HoTen).First() };
+            var reviews = EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaDoiTacService.CongKhai(db);
+            var priced = from h in q
+                         select new
+                         {
+                             h,
+                             Price = db.Set<HoSoGiaSuMonDay>().Where(d => d.HoSoGiaSuId == h.Id
+                                 && (ids.Count == 0 || ids.Contains(d.MonHocId))
+                                 && (string.IsNullOrEmpty(f.KhoiLop) || EF.Functions.Collate(d.PhamViDay, "Vietnamese_100_CI_AS").Contains(f.KhoiLop))
+                                 && d.DonViHocPhi == f.DonViHocPhi
+                                 && (f.HocPhiToiDa == null || d.HocPhiDeXuat <= f.HocPhiToiDa)).Min(d => d.HocPhiDeXuat),
+                             Name = db.Set<NguoiThamGia>().Where(u => u.Id == h.GiaSuId).Select(u => u.HoTen).First(),
+                             Rating = reviews.Where(review => review.NguoiNhanId == h.GiaSuId)
+                                 .Select(review => (decimal?)review.SoSao).Average(),
+                             ReviewCount = reviews.Count(review => review.NguoiNhanId == h.GiaSuId),
+                             LearnerCount = db.Set<LopHoc>().Where(lop => lop.GiaSuId == h.GiaSuId && lop.TrangThai != "DaHuy")
+                                 .Select(lop => lop.BenHocId).Distinct().Count()
+                         };
             var ordered = f.SapXep switch
             {
                 "HocPhiTang" => priced.OrderBy(x => x.Price).ThenBy(x => x.h.Id),
                 "HocPhiGiam" => priced.OrderByDescending(x => x.Price).ThenBy(x => x.h.Id),
                 "Ten" => priced.OrderBy(x => x.Name).ThenBy(x => x.h.Id),
+                "DanhGia" => priced.OrderByDescending(x => x.Rating ?? 0)
+                    .ThenByDescending(x => x.ReviewCount).ThenBy(x => x.h.Id),
+                "HocVien" => priced.OrderByDescending(x => x.LearnerCount).ThenBy(x => x.h.Id),
                 _ => priced.OrderByDescending(x => x.h.DuyetLuc).ThenBy(x => x.h.Id)
             };
             var rows = await HoSoRowsAsync(await ordered.Skip((f.Trang - 1) * 9).Take(9).Select(x => x.h).ToListAsync(huy), huy);

@@ -17,7 +17,7 @@
         <h1>@(tutor ? Model.HoTen : string.IsNullOrWhiteSpace(Model.TenMon) ? "Nhu cầu học" : Model.TenMon)</h1>
         @if (tutor)
         {
-            <p class="detail-meta">@string.Join(" · ", new[] { Model.TrinhDo, Model.ChuyenMon }.Where(value => !string.IsNullOrWhiteSpace(value)))</p>
+            <p class="detail-meta">@Model.TrinhDo</p>
         }
         else
         {
@@ -43,7 +43,7 @@
                     <div><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd></div>
                     @if (!string.IsNullOrWhiteSpace(Model.KhuVuc))
                     {
-                        <div><dt>Khu vực</dt><dd>@Model.KhuVuc</dd></div>
+                        <div><dt>Khu vực</dt><dd>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd></div>
                     }
                 </dl>
             </article>
@@ -77,7 +77,7 @@
                     <div><dt>Học phí dự kiến</dt><dd class="detail-fee">@Rules.Fee(Model.HocPhiDuKien, Model.DonViHocPhi)</dd></div>
                     @if (!string.IsNullOrWhiteSpace(Model.KhuVuc))
                     {
-                        <div><dt>Khu vực</dt><dd>@Model.KhuVuc</dd></div>
+                        <div><dt>Khu vực</dt><dd>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd></div>
                     }
                 </dl>
             </article>

@@ -6,6 +6,7 @@ namespace EduConnect.Mvc.Areas.HocTap.Services;
 public interface ILichHocService
 {
     Task ThemHangLoatAsync(LichHangLoatInput m);
+    Task<LopHoc> LopDuocXepLichAsync(Guid id);
     Task<LichHoc> LayAsync(Guid id);
     Task SuaAsync(SuaLichInput m);
     Task TaoBuoiBuAsync(SuaLichInput m);

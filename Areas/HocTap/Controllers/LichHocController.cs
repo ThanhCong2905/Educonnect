@@ -14,9 +14,13 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
         ModelState.AddModelError(field, Rules.ErrorMessage(ex));
         Response.StatusCode = Rules.ErrorStatus(ex);
     }
-    public async Task<IActionResult> Them(Guid id)
+    public async Task<IActionResult> Them(Guid id, DateOnly? ngay = null)
     {
-        ViewBag.Class = await classes.ChiTietAsync(id);
+        ValidateInput();
+        Rules.Check(ngay == null || ngay.Value.DayNumber <= DateOnly.MaxValue.DayNumber - 13,
+            "Ngày nằm ngoài khoảng được hỗ trợ.", field: "ngay");
+        ViewBag.Class = await service.LopDuocXepLichAsync(id);
+        ViewBag.StartDate = ngay?.ToDateTime(TimeOnly.MinValue);
         return View(new LichHangLoatInput { LopHocId = id });
     }
     [HttpPost]
@@ -30,7 +34,8 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
                 return RedirectToAction("ChiTiet", "LopHoc", new
                 {
                     id = m.LopHocId,
-                    tab = "schedule"
+                    tab = "schedule",
+                    week = m.Buoi.Min(x => x.BatDauLuc).ToString("yyyy-MM-dd")
                 });
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
@@ -40,6 +45,7 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
     public async Task<IActionResult> Sua(Guid id)
     {
         var s = await service.LayAsync(id);
+        await service.LopDuocXepLichAsync(s.LopHocId);
         ViewBag.Schedule = s;
         ViewBag.Record = (await service.GhiNhanChiTietAsync(id)).Record;
         return View(new SuaLichInput { Id = id, RowVersion = Convert.ToBase64String(s.RowVersion), Lich = new() { TieuDe = s.TieuDe, BatDauLuc = s.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).DateTime, KetThucLuc = s.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).DateTime } });
@@ -62,7 +68,8 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
                 return RedirectToAction("ChiTiet", "LopHoc", new
                 {
                     id = s.LopHocId,
-                    tab = "schedule"
+                    tab = "schedule",
+                    week = s.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("yyyy-MM-dd")
                 });
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
@@ -79,7 +86,7 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
                 var s = await service.LayAsync(m.Id);
                 await service.TaoBuoiBuAsync(m);
                 Success("Đã thêm buổi học bù.");
-                return RedirectToAction("ChiTiet", "LopHoc", new { id = s.LopHocId, tab = "schedule" });
+                return RedirectToAction("ChiTiet", "LopHoc", new { id = s.LopHocId, tab = "schedule", week = m.Lich.BatDauLuc.ToString("yyyy-MM-dd") });
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ThemLoi(ex); }
         ViewBag.Schedule = await service.LayAsync(m.Id);
@@ -111,7 +118,9 @@ public sealed class LichHocController(ILichHocService service, ILopHocService cl
     [HttpGet]
     public async Task<IActionResult> Nghi(Guid id)
     {
-        ViewBag.Schedule = await service.LayAsync(id);
+        var schedule = await service.LayAsync(id);
+        await service.LopDuocXepLichAsync(schedule.LopHocId);
+        ViewBag.Schedule = schedule;
         ViewBag.Record = (await service.GhiNhanChiTietAsync(id)).Record;
         return View();
     }

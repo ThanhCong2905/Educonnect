@@ -16,6 +16,8 @@ public sealed class MonHoc
 }
 public sealed class HoSoGiaSu
 {
+    public Guid? MinhChungTrinhDoId { get; set; }
+    public Guid? MinhChungKinhNghiemId { get; set; }
     public bool DangHienThi { get; set; }
     public bool DayTrucTuyen { get; set; }
     public bool DayTrucTiep { get; set; }
@@ -35,6 +37,8 @@ public sealed class HoSoGiaSu
     public string KinhNghiem { get; set; } = "";
     public string MoTa { get; set; } = "";
     public string KhuVuc { get; set; } = "";
+    [StringLength(256)] public string? PhuongXa { get; set; }
+    [StringLength(500)] public string? DiaChiChiTiet { get; set; }
     public string TrangThaiDuyet { get; set; } = "";
     public string? LyDoTuChoi
     {
@@ -44,6 +48,7 @@ public sealed class HoSoGiaSu
 }
 public sealed class HoSoGiaSuMonDay
 {
+    public Guid? MinhChungId { get; set; }
     public decimal? HocPhiDeXuat { get; set; }
     public string? DonViHocPhi { get; set; }
     public Guid HoSoGiaSuId
@@ -103,6 +108,7 @@ public sealed class NhuCauHoc
     {
         get; set;
     }
+    [StringLength(256)] public string? PhuongXa { get; set; }
     public string? DiaChiChiTiet
     {
         get; set;

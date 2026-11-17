@@ -97,6 +97,7 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
             lop.TrangThai = "DaKetThuc";
             lop.KetThucLuc = now;
             lop.CachKetThuc = "HetHan";
+            await notices.MoiDanhGiaAsync(lop, huy);
             foreach (var recipient in new[] { lop.GiaSuId, lop.BenHocId })
                 notices.Tao(recipient, "KetNoi", maLop, "Lớp đã kết thúc do yêu cầu không được phản hồi trong 72 giờ.");
             await store.SaveAsync(huy);

@@ -7,6 +7,7 @@ public interface ILopHocService
 {
     Task<List<LopHoc>> LayAsync();
     Task<LopHoc> ChiTietAsync(Guid id);
+    Task<DanhGiaDoiTac?> DanhGiaDaGuiAsync(Guid id);
     Task<List<LichHoc>> LichAsync(Guid id);
     Task<List<LichHoc>> LocBuoiAsync(Guid id, string? month, string? state);
     Task<List<BuoiHoc>> BuoiAsync(Guid id);

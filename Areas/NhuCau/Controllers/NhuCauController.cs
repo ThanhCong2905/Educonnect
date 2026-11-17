@@ -24,6 +24,7 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
         ViewBag.Subjects = await service.MonTenAsync();
         ViewBag.Linked = await service.DaKetNoiAsync();
         ViewBag.Slots = await service.LichRanhAsync();
+        ViewBag.Moderation = await service.KiemDuyetAsync();
         return View(await service.LayAsync());
     }
     [HttpGet]
@@ -48,6 +49,7 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
             return StatusCode(result.MaTrangThai, result.ThongBao);
         }
         var model = result.DuLieu;
+        ViewBag.ModerationInfo = (await service.KiemDuyetAsync()).GetValueOrDefault(id.Value);
         await MonChoBieuMauAsync(model);
         if (model.MonHocIds.Count > 0)
             model.ChonMonKhac = false;
@@ -75,14 +77,25 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
             var result = await save();
             if (result.ThanhCong)
             {
-                Success();
+                Success(vm.MaNhuCau.HasValue ? "Cập nhật nhu cầu thành công" : vm.BanNhap ? "Đã lưu nháp" : "Tạo nhu cầu thành công");
                 return RedirectToAction(nameof(Index));
             }
-            ModelState.AddModelError("", result.ThongBao!);
+            ModelState.AddModelError(result.Truong ?? "", result.ThongBao!);
         }
         var model = vm.ToInput();
+        if (model.Id is Guid id)
+            ViewBag.ModerationInfo = (await service.KiemDuyetAsync()).GetValueOrDefault(id);
         await MonChoBieuMauAsync(model);
         return View(model.Id == null ? "Tao" : "Sua", model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeNghiXemLai(Guid id, string rowVersion)
+    {
+        ValidateInput();
+        var sent = await service.DeNghiXemLaiAsync(id, rowVersion);
+        Success(sent ? "Đã gửi đề nghị để quản trị xem lại nhu cầu." : "Đề nghị đã được gửi. Quản trị sẽ xem lại nhu cầu của bạn.");
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
@@ -98,6 +111,8 @@ public sealed class NhuCauController(INhuCauService service, INguoiDungHienTaiSe
                 return RedirectToAction(nameof(Index));
             }
             catch (LoiNghiepVu ex) { ModelState.AddModelError("", ex.Message); }
+        if (m.Id is Guid id)
+            ViewBag.ModerationInfo = (await service.KiemDuyetAsync()).GetValueOrDefault(id);
         await MonChoBieuMauAsync(m);
         return View(m.Id == null ? "Tao" : "Sua", m);
     }

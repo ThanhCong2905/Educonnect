@@ -134,6 +134,7 @@ public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiServ
             SoBuoiTuan = n.SoBuoiTuan,
             HinhThucHoc = n.HinhThucHoc,
             KhuVuc = n.KhuVuc,
+            PhuongXa = n.PhuongXa,
             DiaChiChiTiet = n.DiaChiChiTiet,
             HocPhiDuKien = n.HocPhiDuKien,
             DonViHocPhi = n.DonViHocPhi,
@@ -143,24 +144,39 @@ public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiServ
             LichRanh = (await persistence.ReadSlotsAsync(id, default)).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToList()
         };
     });
-    private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
+    private async Task KiemTraDuLieuAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
     {
-        Rules.FeeCheck(m.HocPhiDuKien, m.DonViHocPhi);
-        Rules.Check(m.HocPhiDuKien == null || m.HocPhiDuKien > 0, "Nhập học phí lớn hơn 0 hoặc để trống để trao đổi thêm.", field: "HocPhiDuKien");
+        Rules.ValidateInput(m);
+        try { Rules.FeeCheck(m.HocPhiDuKien, m.DonViHocPhi); }
+        catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = string.IsNullOrEmpty(m.DonViHocPhi) ? nameof(m.DonViHocPhi) : nameof(m.HocPhiDuKien) }; }
+        Rules.Check(string.IsNullOrWhiteSpace(m.KhoiLop) || Enumerable.Range(1,12).Any(grade => m.KhoiLop == $"Lớp {grade}"), "Chọn khối lớp từ lớp 1 đến lớp 12.", field: nameof(m.KhoiLop));
+        Rules.Check(string.IsNullOrWhiteSpace(m.HocLuc) || HoSoLuaChon.HocLuc.Contains(m.HocLuc), "Chọn học lực trong danh sách.", field: nameof(m.HocLuc));
+        Rules.Check(m.HinhThucHoc != "TrucTiep" || string.IsNullOrWhiteSpace(m.KhuVuc) || HoSoLuaChon.KhuVuc.Contains(m.KhuVuc), "Chọn tỉnh / thành phố trong danh sách.", field: nameof(m.KhuVuc));
+        Rules.Check(m.HinhThucHoc != "TrucTiep" || DiaGioiHanhChinh.HopLe(m.KhuVuc, m.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(m.PhuongXa));
         if (!m.BanNhap || m.LichRanh.Count > 0)
-            Rules.Slots(m.LichRanh);
+        {
+            try { Rules.Slots(m.LichRanh); }
+            catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = nameof(m.LichRanh) }; }
+        }
         Rules.Check(await persistence.CountActiveSubjectsAsync([m.MonHocId], huy) == 1, "Môn học không hợp lệ.");
         if (!m.BanNhap)
         {
-            Rules.Check(!string.IsNullOrWhiteSpace(m.MucTieu) && m.SoBuoiTuan is >= 1 and <= 7, "Cần mục tiêu và số buổi từ 1 đến 7.");
-            Rules.Check(m.HinhThucHoc != "TrucTiep" || !string.IsNullOrWhiteSpace(m.KhuVuc), "Cần khu vực học trực tiếp.");
+            Rules.Check(!string.IsNullOrWhiteSpace(m.MucTieu), "Nhập mục tiêu học tập.", field: nameof(m.MucTieu));
+            Rules.Check(m.SoBuoiTuan is >= 1 and <= 7, "Số buổi mỗi tuần phải từ 1 đến 7.", field: nameof(m.SoBuoiTuan));
+            Rules.Check(m.HinhThucHoc != "TrucTiep" || !string.IsNullOrWhiteSpace(m.KhuVuc), "Chọn khu vực học trực tiếp.", field: nameof(m.KhuVuc));
             if (u.LoaiNguoi == "PhuHuynh")
-                Rules.Check(!string.IsNullOrWhiteSpace(m.TenNguoiHoc)
-                    && (m.TuoiNguoiHoc is >= 1 and <= 120 || !string.IsNullOrWhiteSpace(m.KhoiLop))
-                    && (m.TuoiNguoiHoc == null || m.TuoiNguoiHoc is >= 1 and <= 120),
-                    "Nhập tên người học và tuổi hoặc khối lớp.");
+            {
+                Rules.Check(!string.IsNullOrWhiteSpace(m.TenNguoiHoc), "Nhập tên người học.", field: nameof(m.TenNguoiHoc));
+                Rules.Check(m.TuoiNguoiHoc is >= 1 and <= 120 || !string.IsNullOrWhiteSpace(m.KhoiLop),
+                    "Nhập tuổi hoặc chọn khối lớp của người học.", field: nameof(m.TuoiNguoiHoc));
+            }
         }
 
+    }
+
+    private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
+    {
+        await KiemTraDuLieuAsync(m, u, huy);
         var n = m.Id == null ? new NhuCauHoc { Id = Guid.NewGuid(), ChuSoHuuId = u.Id, LoaiNhuCau = "TimGiaSu", TaoLuc = DateTimeOffset.UtcNow } : await persistence.FindOwnedAsync(m.Id.Value, u.Id, true, huy) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
         if (m.Id == null)
             persistence.AddNeed(n);
@@ -175,6 +191,7 @@ public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiServ
         n.SoBuoiTuan = m.SoBuoiTuan;
         n.HinhThucHoc = m.HinhThucHoc;
         n.KhuVuc = m.HinhThucHoc == "TrucTiep" ? m.KhuVuc : null;
+        n.PhuongXa = m.HinhThucHoc == "TrucTiep" && !string.IsNullOrWhiteSpace(m.PhuongXa) ? m.PhuongXa.Trim() : null;
         n.DiaChiChiTiet = m.HinhThucHoc == "TrucTiep" ? m.DiaChiChiTiet : null;
         n.HocPhiDuKien = m.HocPhiDuKien;
         n.DonViHocPhi = m.DonViHocPhi;
@@ -201,6 +218,7 @@ public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiServ
         Rules.Check(u.LoaiNguoi is "HocSinh" or "PhuHuynh", "Gia sư quản lý khả năng nhận dạy trong hồ sơ.", 403);
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await KhoaTaiKhoanAsync(u.Id);
+        await GiaoDichNghiepVu.KiemTraTaiKhoanAsync(db, u.Id);
         var n = await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == u.Id) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
         Rules.Concurrency(db, n, version);
         if (state == "DangMo")
@@ -208,8 +226,11 @@ public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiServ
             await KiemTraHanMucAsync(u.Id, false, id);
             await KiemTraLuotDangAsync(u.Id);
             Rules.Check(n.TrangThai == "DaDong", "Hãy hoàn thiện bản nháp trước khi mở.");
-            Rules.Check(n.HocPhiDuKien == null || n.HocPhiDuKien > 0, "Hãy cập nhật học phí trước khi mở lại nhu cầu.");
+            Rules.FeeCheck(n.HocPhiDuKien, n.DonViHocPhi);
             var input = (await LayDeSuaAsync(id)).DuLieu;
+            input.BanNhap = false;
+            await KiemTraDuLieuAsync(input, u, default);
+            Rules.Check(await db.Set<MonHoc>().CountAsync(subject => input.MonHocIds.Contains(subject.Id) && subject.DangSuDung) == input.MonHocIds.Count, "Môn học không hợp lệ hoặc đã ngừng sử dụng.", field: "MonHocIds");
             await KiemTraTrungAsync(input, u.Id, default);
         }
         n.TrangThai = state;

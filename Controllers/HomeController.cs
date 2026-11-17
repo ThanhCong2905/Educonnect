@@ -38,7 +38,9 @@ public sealed class HomeController(TimKiemService search, ThongBaoService notice
         if(n.LoaiThongBao=="TaiKhoan") return Redirect("/TaiKhoan/HoSo");
         if(n.LoaiThongBao=="DanhGiaDoiTac") return Redirect($"/DanhGia/DoiTac/Xem/{n.DoiTuongId}");
         if (n.LoaiThongBao == "LienKetTaiKhoan") return Redirect("/HocTap/LienKetTaiKhoan/Index");
-        if (n.LoaiThongBao == "NhuCau") return Redirect("/NhuCau/NhuCau/Index");
+        if (n.LoaiThongBao == "NhuCau") return User.IsInRole("QuanTri")
+            ? Redirect($"/QuanTri/QuanTri/NhuCauChiTiet/{n.DoiTuongId}")
+            : Redirect("/NhuCau/NhuCau/Index#" + n.DoiTuongId);
         if (n.LoaiThongBao == "HoSo") return Redirect("/NhuCau/HoSoGiaSu/Sua");
         if (n.LoaiThongBao == "BaiTap")
             return Redirect($"/HocTap/BaiTap/ChiTiet/{n.DoiTuongId}");

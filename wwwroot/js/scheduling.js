@@ -51,7 +51,7 @@ window.EduConnect.initScheduling=(root=document)=>{
    for(const [property,label,type,value] of [['TieuDe','Tên buổi','text',$('#batch-title').value],['BatDauLuc','Bắt đầu','datetime-local',day+'T'+$('#batch-start').value],['KetThucLuc','Kết thúc','datetime-local',day+'T'+$('#batch-end').value]]){
     const field=document.createElement('label');field.textContent=label;const input=document.createElement('input');input.className='form-control';input.type=type;input.name='Buoi[0].'+property;input.required=true;input.value=value;if(type==='text')input.maxLength=256;field.append(input);row.append(field);
    }
-   const remove=document.createElement('button');remove.className='btn quiet';remove.type='button';remove.dataset.removeRow='';remove.textContent='Xóa';remove.setAttribute('aria-label','Xóa buổi học ngày '+day);row.append(remove);list.append(row);window.EduConnect.markRequired(row);return true;
+   const remove=document.createElement('button');remove.className='btn btn-outline-primary';remove.type='button';remove.dataset.removeRow='';remove.textContent='Bỏ';remove.setAttribute('aria-label','Xóa buổi học ngày '+day);row.append(remove);list.append(row);window.EduConnect.markRequired(row);return true;
   }
   function draw(){
    const [year,number]=month.value.split('-').map(Number);if(!year||!number)return;
@@ -63,7 +63,7 @@ window.EduConnect.initScheduling=(root=document)=>{
     button.addEventListener('click',()=>{if(selected.has(key)){[...list.children].filter(row=>row.querySelector('[name$=".BatDauLuc"]').value.startsWith(key)).forEach(row=>row.remove());feedback.textContent='Đã bỏ ngày '+key;}else{if(!timesValid())return;if(add(key))feedback.textContent='Đã thêm ngày '+key;else feedback.textContent=list.children.length>=100?'Tối đa 100 buổi cho mỗi lần lưu.':'Giờ bắt đầu đã qua hoặc ngày này đã được chọn.';}sync();calendar.querySelector('[aria-label$="'+key+'"]')?.focus();});calendar.append(button);
    }
   }
-  function sync(){window.EduConnect.clearRowErrors(form,list,'Buoi');reindex(list,'Buoi');$('[data-schedule-count]').textContent='('+list.children.length+')';$('[data-schedule-empty]').hidden=list.children.length>0;$('[data-clear-schedule]').disabled=!list.children.length;draw();}
+  function sync(){window.EduConnect.clearRowErrors(form,list,'Buoi');reindex(list,'Buoi');$('[data-schedule-count]').textContent='('+list.children.length+')';$('[data-schedule-empty]').hidden=list.children.length>0;$('[data-clear-schedule]').hidden=!list.children.length;$('#apply-times').hidden=!list.children.length;draw();}
   month.addEventListener('change',draw);
   list.addEventListener('click',event=>{const button=event.target.closest('[data-remove-row]');if(button){button.closest('.schedule-row').remove();sync();}});
   list.addEventListener('change',sync);
@@ -74,7 +74,10 @@ window.EduConnect.initScheduling=(root=document)=>{
    if(!timesValid())return;
    const start=new Date(from+'T12:00:00'),last=new Date(to+'T12:00:00');if((last-start)/86400000>365){feedback.textContent='Mỗi lần chỉ chọn khoảng ngày tối đa một năm.';return;}
    let count=0;for(let date=start;date<=last;date.setDate(date.getDate()+1)){const day=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');if(days.includes(date.getDay())&&add(day))count++;}
-   feedback.textContent='Đã thêm '+count+' buổi. Ngày đã qua hoặc đã chọn được bỏ qua.';sync();
+   feedback.textContent='Đã thêm '+count+' buổi. '+(list.children.length>=100?'Đã đạt giới hạn 100 buổi cho một lần lưu.':'Ngày đã qua hoặc đã chọn được bỏ qua.');
+   if(count)month.value=from.slice(0,7);
+   sync();
+   if(count)$('[data-schedule-count]').closest('section').scrollIntoView({behavior:window.EduConnect.motionBehavior(),block:'start'});
   });
   $('#apply-times').addEventListener('click',()=>{if(!timesValid())return;list.querySelectorAll('[name$=".BatDauLuc"]').forEach(input=>input.value=input.value.slice(0,10)+'T'+$('#batch-start').value);list.querySelectorAll('[name$=".KetThucLuc"]').forEach(input=>input.value=input.value.slice(0,10)+'T'+$('#batch-end').value);feedback.textContent='Đã áp dụng giờ chung cho '+list.children.length+' buổi.';sync();});
   sync();

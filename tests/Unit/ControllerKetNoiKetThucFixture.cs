@@ -8,6 +8,7 @@ using EduConnect.Mvc.Areas.KetNoi.ViewModels;
 using EduConnect.Mvc.Areas.NhuCau.Services;
 using EduConnect.Mvc.Areas.HocTap.Controllers;
 using EduConnect.Mvc.Areas.HocTap.Services;
+using EduConnect.Mvc.Areas.DanhGia.Services;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
@@ -74,7 +75,7 @@ internal sealed class ControllerKetNoiKetThucFixture:IDisposable
         var concreteCurrent=new NguoiDungHienTaiService(db,new HttpContextAccessor());
         var rights=new QuyenLopHocService(db,concreteCurrent);var files=new TepService(db,concreteCurrent,rights,env.Object);
         var chat=new TinNhanService(db,concreteCurrent,rights,files);
-        var classContext=Context();ClassController=new(Classes.Object,Tasks.Object,chat){ControllerContext=new(){HttpContext=classContext},TempData=new TempDataDictionary(classContext,Mock.Of<ITempDataProvider>())};
+        var classContext=Context();ClassController=new(Classes.Object,Tasks.Object,chat,new TienDoService(db,rights)){ControllerContext=new(){HttpContext=classContext},TempData=new TempDataDictionary(classContext,Mock.Of<ITempDataProvider>())};
         ClassController.Url=Mock.Of<IUrlHelper>();
         Needs.Setup(x=>x.MonDuocChonAsync()).ReturnsAsync([new MonHoc{Id=7,TenMon="Toán",DangSuDung=true}]);
         Connect.Setup(x=>x.LayAsync()).ReturnsAsync((new List<YeuCauLienHe>{new(){Id=ContactId,GiaSuId=Guid.NewGuid(),BenHocId=User.Id,TrangThai="ChapNhan"}},new List<YeuCauKetNoiLopHoc>()));

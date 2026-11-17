@@ -10,7 +10,12 @@ namespace EduConnect.Mvc.Areas.NhuCau.Services;
 public sealed class EfNhuCauStore(AppDbContext db, MonHocCatalog catalog) : INhuCauStore
 {
     public Task<IDbContextTransaction> BeginAsync(CancellationToken ct) => db.Database.BeginTransactionAsync(IsolationLevel.Serializable, ct);
-    public async Task LockOwnerAsync(Guid owner, CancellationToken ct) => await db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.AspNetUsers WITH(UPDLOCK,HOLDLOCK) WHERE Id={owner}", ct);
+    public async Task LockOwnerAsync(Guid owner, CancellationToken ct)
+    {
+        await db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.AspNetUsers WITH(UPDLOCK,HOLDLOCK) WHERE Id={owner}", ct);
+        var status = await db.Users.Where(x => x.Id == owner).Select(x => x.TrangThai).SingleOrDefaultAsync(ct);
+        Rules.Check(status == "HoatDong", "Tài khoản không hoạt động.", 403);
+    }
     public Task<LuotDangNhuCau?> FindOperationAsync(Guid owner, Guid operation, CancellationToken ct) => db.Set<LuotDangNhuCau>().AsNoTracking().SingleOrDefaultAsync(x => x.TaiKhoanId == owner && x.MaThaoTac == operation, ct);
     public Task<NhuCauHoc?> FindOwnedAsync(Guid id, Guid owner, bool tracking, CancellationToken ct)
     {
@@ -24,16 +29,10 @@ public sealed class EfNhuCauStore(AppDbContext db, MonHocCatalog catalog) : INhu
     public Task<int> ResolveSubjectAsync(string? name, CancellationToken ct) => catalog.LayHoacThemAsync(name, ct);
     public async Task<List<Guid>> FindDuplicateCandidatesAsync(NhuCauInput input, Guid owner, CancellationToken huy)
     {
-        var ids = input.MonHocIds.Distinct().ToList();
-        var goal = input.MucTieu?.Trim();
-        var area = input.HinhThucHoc == "TrucTiep" ? input.KhuVuc : null;
-        var address = input.HinhThucHoc == "TrucTiep" ? input.DiaChiChiTiet : null;
         return await db.Set<NhuCauHoc>().Where(x => x.ChuSoHuuId == owner && x.Id != input.Id && x.TrangThai == "DangMo"
-            && x.TenNguoiHoc == input.TenNguoiHoc && x.TuoiNguoiHoc == input.TuoiNguoiHoc && x.KhoiLop == input.KhoiLop
-            && x.MucTieu == goal && x.HocLuc == input.HocLuc && x.HinhThucHoc == input.HinhThucHoc && x.HocPhiDuKien == input.HocPhiDuKien
-            && x.DonViHocPhi == input.DonViHocPhi && x.SoBuoiTuan == input.SoBuoiTuan && x.KhuVuc == area && x.DiaChiChiTiet == address
-            && db.Set<NhuCauMonHoc>().Count(m => m.NhuCauId == x.Id) == ids.Count
-            && !db.Set<NhuCauMonHoc>().Any(m => m.NhuCauId == x.Id && !ids.Contains(m.MonHocId)))
+            && x.TuoiNguoiHoc == input.TuoiNguoiHoc && x.HinhThucHoc == input.HinhThucHoc
+            && x.HocPhiDuKien == input.HocPhiDuKien && x.DonViHocPhi == input.DonViHocPhi
+            && x.SoBuoiTuan == input.SoBuoiTuan)
             .Select(x => x.Id).ToListAsync(huy);
     }
     public Task<List<KhungGioRanh>> ReadSlotsAsync(Guid id, CancellationToken ct) => db.Set<KhungGioRanh>().Where(x => x.NhuCauId == id).ToListAsync(ct);

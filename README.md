@@ -52,7 +52,7 @@ Kiểm thử trình duyệt dùng Node >=20 và Playwright, Edge cài tại đư
 
 ## Quản trị và các chức năng bổ sung
 
-SQL 00 đã tích hợp cả nâng cấp 13 và 14. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu dùng `14_DanhGiaBaoCaoQuanTri.sql` sau khi sao lưu. Không chạy lại SQL 00 lên database đang sử dụng.
+SQL 00 đã tích hợp các nâng cấp đến 20. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database đang có dữ liệu chạy các bản nâng cấp còn thiếu theo thứ tự trong `Database/README.md`. Không chạy lại SQL 00 lên database đang sử dụng.
 
 Tạo quản trị đầu tiên từ thư mục gốc dự án, với cùng connection string của web.
 
@@ -64,4 +64,4 @@ Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới v�
 
 Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
 
-Sơ đồ ERD 48 bảng nằm tại `docs/database/EduConnect-ERD-48-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
+Sơ đồ ERD hiện tại gồm 49 bảng tại `docs/database/EduConnect-ERD-49-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.

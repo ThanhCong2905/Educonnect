@@ -1,0 +1,121 @@
+@model NhuCauHauKiemViewModel
+@{
+    ViewData["Title"] = "Hậu kiểm nhu cầu";
+    var need = Model.NhuCau;
+    var input = ViewBag.XuLy as XuLyNhuCauViewModel;
+    var hidden = Model.BienPhap.Any(x => x.GoLuc == null && x.Loai == "AnNoiDung");
+}
+<div class="heading">
+    <h1>Nhu cầu của @Model.HoTen</h1>
+    <div class="d-flex flex-wrap gap-2">
+        <span class="badge rounded-pill">@Rules.Label(need.TrangThai)</span>
+        @if (hidden)
+        {
+            <span class="badge badge-warning rounded-pill">Ẩn khỏi tìm kiếm</span>
+        }
+    </div>
+</div>
+<section class="card mb-4">
+    <h2>@Model.MonHoc</h2>
+    <p class="pre">@need.MucTieu</p>
+    <dl>
+        <dt>Khối lớp</dt><dd>@need.KhoiLop</dd>
+        <dt>Học lực</dt><dd>@need.HocLuc</dd>
+        <dt>Hình thức</dt><dd>@Rules.Label(need.HinhThucHoc)</dd>
+        @if (need.HinhThucHoc == "TrucTiep")
+        {
+            <dt>Khu vực</dt><dd>@string.Join(", ", new[] { need.PhuongXa, need.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd>
+            <dt>Địa chỉ chi tiết</dt><dd>@need.DiaChiChiTiet</dd>
+        }
+        <dt>Học phí</dt><dd>@Rules.Fee(need.HocPhiDuKien, need.DonViHocPhi)</dd>
+        <dt>Số buổi / tuần</dt><dd>@need.SoBuoiTuan</dd>
+    </dl>
+    <h3>Lịch rảnh</h3>
+    @foreach (var slot in Model.KhungGio)
+    {
+        <p>@(slot.ThuTrongTuan == 0 ? "Chủ nhật" : "Thứ " + (slot.ThuTrongTuan + 1)) · @slot.GioBatDau.ToString("HH:mm")–@slot.GioKetThuc.ToString("HH:mm")</p>
+    }
+</section>
+<form asp-action="XuLyNhuCau" method="post" class="card mb-4">
+    <h2>Nhận xét và xử lý</h2>
+    <div asp-validation-summary="ModelOnly" class="validation" role="alert"></div>
+    @Html.ValidationMessage("RowVersion", null, new { @class = "text-danger" })
+    <input name="Id" type="hidden" value="@need.Id">
+    <input name="RowVersion" type="hidden" value="@(input?.RowVersion ?? Convert.ToBase64String(need.RowVersion))">
+    <label>
+        Quyết định
+        <select name="QuyetDinh" class="form-select">
+            <option value="YeuCauChinhSua">Yêu cầu người đăng chỉnh sửa</option>
+            @if (!hidden)
+            {
+                <option value="AnNoiDung" selected="@(input?.QuyetDinh == "AnNoiDung")">Ẩn khỏi tìm kiếm</option>
+            }
+        </select>
+        @Html.ValidationMessage("QuyetDinh", null, new { @class = "text-danger" })
+    </label>
+    <label class="mt-3">
+        Lý do và nội dung cần chỉnh sửa <span class="required-mark" aria-hidden="true">*</span>
+        <textarea name="LyDo" required maxlength="2000" rows="4" class="form-control">@input?.LyDo</textarea>
+        @Html.ValidationMessage("LyDo", null, new { @class = "text-danger" })
+    </label>
+    <div class="actions mt-3">
+        <button class="btn btn-primary">Lưu quyết định</button>
+        <a class="btn btn-outline-primary" asp-action="NhuCau">Quay lại danh sách</a>
+    </div>
+</form>
+@if (Model.BienPhap.Count > 0)
+{
+    <section class="card mb-4">
+        <h2>Biện pháp đã áp dụng</h2>
+        @foreach (var measure in Model.BienPhap)
+        {
+            <article class="border-top py-3">
+                <strong>@(measure.GoLuc == null ? "Đang ẩn" : "Đã gỡ biện pháp")</strong>
+                <p class="pre">@measure.LyDo</p>
+                <small>@Rules.Date(measure.ApDungLuc)</small>
+                @if (measure.GoLuc == null)
+                {
+                    <form method="post" asp-action="GoBienPhap" class="mt-3">
+                        <input name="id" value="@measure.Id" type="hidden">
+                        <input name="rowVersion" value="@Convert.ToBase64String(measure.RowVersion)" type="hidden">
+                        <label>
+                            Lý do gỡ biện pháp <span class="required-mark" aria-hidden="true">*</span>
+                            <input name="reason" class="form-control" required maxlength="2000">
+                        </label>
+                        <button class="btn btn-outline-primary mt-3">Gỡ biện pháp ẩn</button>
+                    </form>
+                }
+            </article>
+        }
+    </section>
+}
+<section class="card mb-4">
+    <h2>Báo cáo liên quan</h2>
+    @foreach (var report in Model.BaoCao)
+    {
+        <div class="border-top py-3">
+            <strong>@Rules.Label(report.TrangThai)</strong>
+            <p>@report.LyDo</p>
+            <a class="btn btn-outline-primary" href="/QuanTri/BaoCaoViPham/ChiTiet?maBaoCao=@report.Id">Xem báo cáo</a>
+        </div>
+    }
+    @if (Model.BaoCao.Count == 0)
+    {
+        <p class="muted mb-0">Chưa có báo cáo cho nhu cầu này.</p>
+    }
+</section>
+<section class="card">
+    <h2>Lịch sử hậu kiểm</h2>
+    @foreach (var item in Model.LichSu)
+    {
+        <article class="border-top py-3">
+            <strong>@Rules.Label(item.HanhDong)</strong>
+            <p class="pre">@item.ChiTiet</p>
+            <small>@Rules.Date(item.ThoiDiem)</small>
+        </article>
+    }
+    @if (Model.LichSu.Count == 0)
+    {
+        <p class="muted mb-0">Chưa có thao tác hậu kiểm.</p>
+    }
+</section>

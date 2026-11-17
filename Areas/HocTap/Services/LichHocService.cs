@@ -11,6 +11,7 @@ public sealed partial class LichHocService(AppDbContext db, INguoiDungHienTaiSer
 {
     private readonly IHocTapData persistence = data ?? new EfHocTapData(db);
     private readonly TimeProvider clock = timeProvider ?? TimeProvider.System;
+    public Task<LopHoc> LopDuocXepLichAsync(Guid id) => rights.KiemTraQuyenGhiAsync(id, true);
     private void KiemTraLichMoi(LichInput lich, string prefix)
     {
         Rules.Check(!string.IsNullOrWhiteSpace(lich.TieuDe), "Nhập tên buổi học.", field: prefix + ".TieuDe");

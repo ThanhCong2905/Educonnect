@@ -10,11 +10,24 @@ public sealed partial class NhuCauService
 {
     private async Task KiemTraTrungAsync(NhuCauInput input, Guid owner, CancellationToken huy)
     {
+        var ids = input.MonHocIds.Distinct().ToList();
+        var area = input.HinhThucHoc == "TrucTiep" ? input.KhuVuc : null;
+        var address = input.HinhThucHoc == "TrucTiep" ? input.DiaChiChiTiet : null;
         var candidates = await persistence.FindDuplicateCandidatesAsync(input, owner, huy);
         var wanted = input.LichRanh.Select(x => (x.ThuTrongTuan, x.GioBatDau, x.GioKetThuc)).OrderBy(x => x.ThuTrongTuan).ThenBy(x => x.GioBatDau).ToArray();
-        foreach (var id in candidates)
+        foreach (var candidateId in candidates)
         {
-            var slots = await persistence.ReadSlotsAsync(id, huy);
+            var candidate = await persistence.FindOwnedAsync(candidateId, owner, false, huy)
+                ?? throw new InvalidOperationException("Duplicate candidate disappeared while the owner's lock was held.");
+            var sameText = new[]
+            {
+                (candidate.TenNguoiHoc, input.TenNguoiHoc), (candidate.KhoiLop, input.KhoiLop),
+                (candidate.MucTieu, input.MucTieu), (candidate.HocLuc, input.HocLuc),
+                (candidate.KhuVuc, area), (candidate.PhuongXa, input.HinhThucHoc == "TrucTiep" ? input.PhuongXa : null), (candidate.DiaChiChiTiet, address)
+            }.All(pair => string.Equals(HoSoGiaSuService.ChuanHoa(pair.Item1).Normalize(),
+                HoSoGiaSuService.ChuanHoa(pair.Item2).Normalize(), StringComparison.OrdinalIgnoreCase));
+            if (!sameText || !candidate.CacMonHocId.ToHashSet().SetEquals(ids)) continue;
+            var slots = await persistence.ReadSlotsAsync(candidate.Id, huy);
             var existing = slots.Select(x => (x.ThuTrongTuan, x.GioBatDau, x.GioKetThuc)).OrderBy(x => x.ThuTrongTuan).ThenBy(x => x.GioBatDau).ToArray();
             Rules.Check(!wanted.SequenceEqual(existing), "Bạn đã có nhu cầu đang mở với cùng thông tin. Hãy cập nhật nhu cầu đó.", 409);
         }
@@ -48,6 +61,7 @@ public sealed partial class NhuCauService
         var me = await current.HienTaiAsync();
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         await KhoaTaiKhoanAsync(me.Id);
+        await GiaoDichNghiepVu.KiemTraTaiKhoanAsync(db, me.Id);
         var need = await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id)
             ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
         Rules.Check(need.TrangThai == "DangMo", "Nhu cầu không còn mở.", 409);

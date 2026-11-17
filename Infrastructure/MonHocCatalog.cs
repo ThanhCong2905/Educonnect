@@ -6,6 +6,12 @@ namespace EduConnect.Mvc.Infrastructure;
 public sealed class MonHocCatalog(AppDbContext db)
 {
     public static readonly string[] PhoThong = ["Toán Học", "Ngữ Văn", "Tiếng Anh", "Lịch Sử", "Địa Lý", "Sinh học", "Hóa Học", "Vật Lý", "GDCD"];
+    public static int ThuTuHienThi(string tenMon)
+    {
+        if (tenMon.Equals("Tiếng Việt", StringComparison.OrdinalIgnoreCase)) return 1;
+        var index = Array.FindIndex(PhoThong, name => name.Equals(tenMon, StringComparison.OrdinalIgnoreCase));
+        return index >= 0 ? index : 99;
+    }
     public async Task<int> LayHoacThemAsync(string? ten, CancellationToken huy = default)
     {
         ten = ten?.Trim();

@@ -1,7 +1,10 @@
 @model List<LopHoc>
+@inject NguoiDungHienTaiService Current
 @{
     ViewData["Title"] = "Lớp học của tôi";
     var invitations = (List<EduConnect.Mvc.Areas.HocTap.ViewModels.LoiMoiThanhVienViewModel>)ViewBag.Invitations;
+    var me = await Current.HienTaiAsync();
+    var people = await Current.DanhSachAsync();
 }
 <h1>Lớp học của tôi</h1>
 @if(invitations.Count > 0)
@@ -20,7 +23,12 @@
 <div class="cards">
 @foreach(var lop in Model)
 {
-    <article class="card"><span class="badge rounded-pill">@Rules.Label(lop.TrangThai)</span><h2>@lop.TenLop</h2><p>@lop.MucTieu</p><strong class="price">@Rules.Fee(lop.HocPhi,lop.DonViHocPhi)</strong><p>@Rules.Label(lop.HinhThucHoc) · @lop.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Mở lớp học →</a></article>
+    var partnerId = me.Id == lop.GiaSuId ? lop.BenHocId : lop.GiaSuId;
+    var partner = people.FirstOrDefault(person => person.Id == partnerId);
+    <article class="card"><span class="badge rounded-pill">@Rules.Label(lop.TrangThai)</span><h2>@lop.TenLop</h2><p>@(me.Id == lop.GiaSuId ? "Bên học" : "Gia sư") · @partner?.HoTen</p><p>@lop.MucTieu</p><strong class="price">@Rules.Fee(lop.HocPhi,lop.DonViHocPhi)</strong><p>@Rules.Label(lop.HinhThucHoc) · @lop.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Mở lớp học →</a></article>
 }
 </div>
-@if(Model.Count == 0){<div class="empty">Các lớp bạn tham gia sẽ xuất hiện ở đây sau khi hoàn tất xác nhận.</div>}
+@if(Model.Count == 0)
+{
+    <div class="empty"><p>Các lớp bạn tham gia sẽ xuất hiện ở đây sau khi hoàn tất xác nhận.</p><a class="btn btn-primary" href="/TimKiem/TimKiem/Index">@(me.LoaiNguoi == "GiaSu" ? "Tìm nhu cầu học" : "Tìm gia sư")</a></div>
+}

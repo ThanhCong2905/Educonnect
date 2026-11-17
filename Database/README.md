@@ -17,7 +17,7 @@ Các file `00_Original_DB02.sql` và script đánh số cũ phục vụ phiên b
 - Đăng ký cấp một vai trò Học sinh, Phụ huynh hoặc Gia sư. Quyền Quản trị không được cấp qua đăng ký.
 - Development lưu thư trong `.local-mail`, ngoài thư mục web và Git. Liên kết đặt mật khẩu hết hạn sau 30 phút.
 - `Authentication:PublicOrigin` phải đúng địa chỉ người dùng truy cập để liên kết đặt lại mật khẩu hoạt động.
-- Development bật `Authentication:DemoPublishProfiles` để gia sư công khai hồ sơ đã hoàn thiện. Khi tắt, hệ thống áp dụng điều kiện duyệt hồ sơ.
+- Hồ sơ gia sư cần được quản trị duyệt cùng minh chứng trước khi công khai. `Authentication:DemoPublishProfiles` đã tắt trong Development.
 - Khi triển khai, cấu hình SMTP qua biến môi trường `Smtp__Host`, `Smtp__Port`, `Smtp__From`, `Smtp__Username`, `Smtp__Password` và dùng HTTPS. Giữ thông tin bí mật ngoài Git.
 - Có thể bổ sung danh sách mật khẩu bị lộ qua `Authentication:PasswordBlocklistFile`, mỗi dòng một mật khẩu. Danh sách phổ biến đi kèm hiện có phạm vi hạn chế.
 
@@ -49,7 +49,7 @@ Script thêm ba bảng `LuotDangNhuCau`, `LienKetPhuHuynhHocSinh` và `LichSuDie
 
 ## Quản trị và các chức năng bổ sung
 
-SQL 00 đã tích hợp các nâng cấp 13, 14 và 15. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu chạy lần lượt `14_DanhGiaBaoCaoQuanTri.sql` và `15_NhatKyAnToan.sql` sau khi sao lưu. Không chạy lại SQL 00 lên database đang sử dụng.
+SQL 00 đã tích hợp các nâng cấp đến 20. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu chạy lần lượt các nâng cấp từ 14 đến 20 sau khi sao lưu. Database đã nâng cấp đến 18 chạy `19_NeedModeration.sql` rồi `20_AdministrativeAreas.sql`. Bản đã đến 19 chỉ chạy script 20. Không chạy lại SQL 00 lên database đang sử dụng.
 
 Tạo quản trị đầu tiên từ thư mục gốc dự án, với cùng connection string của web.
 
@@ -61,7 +61,13 @@ Công cụ hỏi email, họ tên và mật khẩu, tạo tài khoản mới v�
 
 Tiến độ và phản hồi mở từ chi tiết lớp. Đánh giá công khai mở khi lớp đã kết thúc và có buổi thực tế đã ghi nhận. Báo cáo xuất hiện cạnh hồ sơ, nhu cầu, lớp, tin nhắn và đánh giá. Bằng chứng riêng chỉ người gửi và quản trị được cấp quyền xem.
 
-Sơ đồ ERD 49 bảng nằm tại `docs/database/EduConnect-ERD-48-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
+Sơ đồ ERD 49 bảng nằm tại `docs/database/EduConnect-ERD-49-Bang.drawio`. Thiết kế dữ liệu bổ sung nằm tại `docs/database/ThietKe-DanhGia-BaoCao-QuanTri.md`. Sơ đồ lớp tổng thể một trang, tám nhóm nằm tại `docs/diagrams/ClassDesign/FullSystem/EduConnect-ClassDesign-Full.drawio`.
+
+## Tiền kiểm và hậu kiểm
+
+Nhu cầu hợp lệ được đăng ngay sau khi kiểm tra dữ liệu, hạn mức và trùng bài. Quản trị có quyền `XuLyBaoCao` mở **Kiểm duyệt → Hậu kiểm nhu cầu** để yêu cầu chỉnh sửa hoặc ẩn bài kèm lý do. Chủ bài xem lý do, sửa và đề nghị xem lại. Biện pháp ẩn được giữ đến khi quản trị gỡ.
+
+`19_NeedModeration.sql` cập nhật ba procedure gửi/chấp nhận đề xuất để kiểm tra nhu cầu bị ẩn trong giao dịch. Các bảng `BienPhapQuanTri`, `NhatKyQuanTri`, `ThongBao` và `SuKienChoXuLy` lưu xử lý và thông báo. Database giữ 49 bảng. SQL 00 đã tích hợp phần này để cài mới.
 
 ## Nhật ký an toàn AAA
 

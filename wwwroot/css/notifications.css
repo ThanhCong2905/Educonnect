@@ -40,6 +40,7 @@
     line-height: 1.5;
 }
 .notification-message[hidden] { display: none; }
+.notification-message[data-tone="error"] { background: #fff; border-color: var(--line); color: var(--error); }
 .notification-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .notification-close {
     display: grid;
