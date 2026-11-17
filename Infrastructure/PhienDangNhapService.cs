@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class PhienDangNhapService(AppDbContext db, PhienCapNhat realtime)
+public sealed class PhienDangNhapService(AppDbContext db, PhienCapNhat realtime) : IPhienDangNhapService
 {
     public const string SessionClaim = "educonnect:session";
 

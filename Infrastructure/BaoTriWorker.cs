@@ -5,27 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWorker> log) : BackgroundService
+public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<BaoTriWorker> log, IMaintenanceCycle? cycle = null, IMaintenanceTicks? ticks = null, TimeProvider? timeProvider = null) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken huy)
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+        using var timer = ticks ?? new PeriodicMaintenanceTicks();
         while (!huy.IsCancellationRequested)
         {
             try
             {
-                var now = DateTimeOffset.UtcNow;
-                await XuLyHetHanYeuCauAsync(now, huy);
-                await XuLyTuHuyKetNoiAsync(now, huy);
-                await XuLyNhacHocTapAsync(huy);
-                await XuLyHieuLucNhuCauAsync(huy);
-                await XuLyDongDotPhanHoiAsync(huy);
+                var now = (timeProvider ?? TimeProvider.System).GetUtcNow();
+                await (cycle?.ExpireRequestsAsync(now, huy) ?? XuLyHetHanYeuCauAsync(now, huy));
+                await (cycle?.AutoEndAsync(now, huy) ?? XuLyTuHuyKetNoiAsync(now, huy));
+                await (cycle?.RemindersAsync(huy) ?? XuLyNhacHocTapAsync(huy));
+                await (cycle?.NeedsAsync(huy) ?? XuLyHieuLucNhuCauAsync(huy));
+                await (cycle?.FeedbackAsync(huy) ?? XuLyDongDotPhanHoiAsync(huy));
             }
             catch (OperationCanceledException) when (huy.IsCancellationRequested) { break; }
             catch (Exception ex) { log.LogWarning(ex, "Bảo trì chưa hoàn tất; sẽ thử lại."); }
             try
             {
-                if (!await timer.WaitForNextTickAsync(huy))
+                if (!await timer.WaitAsync(huy))
                     break;
             }
             catch (OperationCanceledException) when (huy.IsCancellationRequested) { break; }
@@ -76,20 +76,19 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
         using (var scope = scopes.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var rows = await db.Set<YeuCauHuyKetNoi>().AsNoTracking()
-                .Where(x => x.TrangThai == "ChoPhanHoi" && x.HetHanLuc <= bayGio)
-                .Select(x => new { x.Id, x.LopHocId }).ToListAsync(huy);
-            ids = rows.Select(x => (x.Id, x.LopHocId)).ToList();
+            var store = scope.ServiceProvider.GetService<IClassEndingStore>() ?? new EfClassEndingStore(db);
+            ids = await store.ExpiredAsync(bayGio, huy);
         }
         foreach (var (id, maLop) in ids)
         {
             using var scope = scopes.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var notices = scope.ServiceProvider.GetRequiredService<ThongBaoService>();
-            await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, huy);
-            var lop = await db.Set<LopHoc>().FromSqlInterpolated($"SELECT * FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={maLop}").SingleAsync(huy);
-            var yc = await db.Set<YeuCauHuyKetNoi>().FromSqlInterpolated($"SELECT * FROM dbo.YeuCauHuyKetNoi WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}").SingleAsync(huy);
-            var now = await db.Database.SqlQuery<DateTimeOffset>($"SELECT TODATETIMEOFFSET(SYSUTCDATETIME(), '+00:00') AS Value").SingleAsync(huy);
+            var store = scope.ServiceProvider.GetService<IClassEndingStore>() ?? new EfClassEndingStore(db);
+            await using var tx = await store.BeginAsync(huy);
+            var lop = await store.LockClassAsync(maLop, huy) ?? throw new InvalidOperationException("Sequence contains no elements");
+            var yc = await store.LockRequestAsync(id, huy);
+            var now = await store.NowAsync(huy);
             if (yc.TrangThai != "ChoPhanHoi" || yc.HetHanLuc > now || lop.TrangThai != "DangHoatDong")
                 continue;
             yc.TrangThai = "TuDongChapNhan";
@@ -100,7 +99,7 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
             lop.CachKetThuc = "HetHan";
             foreach (var recipient in new[] { lop.GiaSuId, lop.BenHocId })
                 notices.Tao(recipient, "KetNoi", maLop, "Lớp đã kết thúc do yêu cầu không được phản hồi trong 72 giờ.");
-            await db.SaveChangesAsync(huy);
+            await store.SaveAsync(huy);
             await tx.CommitAsync(huy);
         }
     }

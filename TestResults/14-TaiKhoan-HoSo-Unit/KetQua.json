@@ -1,0 +1,1072 @@
+{
+  "suite": "14. Tài khoản và hồ sơ",
+  "workbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Unit Test.xlsx",
+  "workbookSHA256": "d1c9ebd46f36253b3752d4d8e6fb11617f1c8eab93715ca15be46c68601941f7",
+  "counts": {
+    "Passed": 10,
+    "Failed": 13
+  },
+  "designContractFailures": 10,
+  "runTimes": {
+    "creation": "2026-11-14T15:03:03.4498988+07:00",
+    "queuing": "2026-11-14T15:03:03.4498992+07:00",
+    "start": "2026-11-14T15:03:01.9815193+07:00",
+    "finish": "2026-11-14T15:03:03.7011911+07:00"
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "scope": "Real service/filter/validator logic. Persistence, locks, server clock, Identity, notices or scanner replaced at boundaries. DesignContract cases stop at missing input/type; their business branches are not executed.",
+  "limitations": [
+    "No SQL provider/translation, stored procedure, real transaction rollback or concurrency/lock proof.",
+    "Memory data evaluates LINQ predicates as C# and captures writes/commits; it does not simulate SQL constraints or persistence.",
+    "RowVersion failure is injected at Save to verify service error mapping; no commit is checked, not RAM rollback.",
+    "Policy-labelled cases 345–348 exercise actual permission service guards, not ASP.NET authorization middleware.",
+    "No integration rerun after these dependency refactors."
+  ],
+  "cases": [
+    {
+      "id": "UT-349",
+      "title": "Email đã tồn tại",
+      "criterion": "Đúng đắn",
+      "target": "TaiKhoanService đăng ký",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Cổng Identity trả email đã có.",
+      "expected": "Lỗi trùng; không tạo tài khoản/vai trò/hồ sơ mới.",
+      "steps": [
+        "Tạo TaiKhoanService thật, mock UserManager của Identity; fake transaction/dữ liệu, NhatKyAnToanService thật với HttpContext riêng.",
+        "Cấu hình Identity: trùng email, role Admin, đăng ký GiaSu, sai mật khẩu hoặc mật khẩu đúng/tài khoản BiKhoa đúng theo ca.",
+        "Gọi DangKyAsync hoặc DangNhapAsync trực tiếp. Nhánh đăng nhập bị từ chối không tạo cookie/phiên; thu câu lệnh yêu cầu ghi lượt sai nhưng không chạy SQL.",
+        "Kiểm Identity Create/AddToRole, dữ liệu con/hồ sơ, Save/Commit, lỗi trả về, log thất bại không chứa mật khẩu và không tiếp tục GetRoles khi bị từ chối."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=false; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-349",
+        "mode": "Behavior",
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "success": false,
+        "identityErrors": [
+          {
+            "Code": "DuplicateEmail",
+            "Description": "Email đã tồn tại"
+          }
+        ],
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "identityCalls": [
+          "set_Logger",
+          "CreateAsync"
+        ],
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_349",
+      "duration": "00:00:00.0118917"
+    },
+    {
+      "id": "UT-350",
+      "title": "Đăng ký vai trò Admin công khai",
+      "criterion": "Xác thực",
+      "target": "TaiKhoanService đăng ký",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Input chọn Admin.",
+      "expected": "Từ chối; không gọi tạo tài khoản.",
+      "steps": [
+        "Tạo TaiKhoanService thật, mock UserManager của Identity; fake transaction/dữ liệu, NhatKyAnToanService thật với HttpContext riêng.",
+        "Cấu hình Identity: trùng email, role Admin, đăng ký GiaSu, sai mật khẩu hoặc mật khẩu đúng/tài khoản BiKhoa đúng theo ca.",
+        "Gọi DangKyAsync hoặc DangNhapAsync trực tiếp. Nhánh đăng nhập bị từ chối không tạo cookie/phiên; thu câu lệnh yêu cầu ghi lượt sai nhưng không chạy SQL.",
+        "Kiểm Identity Create/AddToRole, dữ liệu con/hồ sơ, Save/Commit, lỗi trả về, log thất bại không chứa mật khẩu và không tiếp tục GetRoles khi bị từ chối."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=false; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-350",
+        "mode": "Behavior",
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "success": false,
+        "identityErrors": [
+          {
+            "Code": null,
+            "Description": "Vai trò đăng ký không hợp lệ."
+          }
+        ],
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "identityCalls": [
+          "set_Logger"
+        ],
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_350",
+      "duration": "00:00:00.0938136"
+    },
+    {
+      "id": "UT-351",
+      "title": "Gia sư mới cần duyệt",
+      "criterion": "Đúng đắn",
+      "target": "TaiKhoanService đăng ký",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Thông tin hợp lệ, vai trò GiaSu.",
+      "expected": "Tài khoản/vai trò/hồ sơ tương ứng được yêu cầu tạo; hồ sơ chờ duyệt, chưa công khai.",
+      "steps": [
+        "Tạo TaiKhoanService thật, mock UserManager của Identity; fake transaction/dữ liệu, NhatKyAnToanService thật với HttpContext riêng.",
+        "Cấu hình Identity: trùng email, role Admin, đăng ký GiaSu, sai mật khẩu hoặc mật khẩu đúng/tài khoản BiKhoa đúng theo ca.",
+        "Gọi DangKyAsync hoặc DangNhapAsync trực tiếp. Nhánh đăng nhập bị từ chối không tạo cookie/phiên; thu câu lệnh yêu cầu ghi lượt sai nhưng không chạy SQL.",
+        "Kiểm Identity Create/AddToRole, dữ liệu con/hồ sơ, Save/Commit, lỗi trả về, log thất bại không chứa mật khẩu và không tiếp tục GetRoles khi bị từ chối."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "success=true; saves=1; commits=1; Add=62434d84-285a-4fa5-a2b7-d7197eedf500; Đăng ký chỉ tạo GiaSu, chưa tạo HoSoGiaSu ChoDuyet/ẩn như kỳ vọng.",
+      "failure": {
+        "cause": "DangKyAsync tạo Identity account, gán role GiaSu và thêm GiaSu; không thêm HoSoGiaSu ở trạng thái ChoDuyet.",
+        "suggestion": "Thống nhất hồ sơ chờ duyệt phải được tạo ngay lúc đăng ký hay sau khi gia sư hoàn thiện hồ sơ; triển khai/đồng bộ hợp đồng tương ứng.",
+        "impact": "Không phải đăng ký tài khoản thất bại; thiếu trạng thái hồ sơ theo kỳ vọng hiện tại.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 49,
+            "anchor": "case \"GiaSu\":"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-351",
+        "mode": "Behavior",
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "success": true,
+        "identityErrors": [],
+        "added": [
+          {
+            "TaiKhoanId": "62434d84-285a-4fa5-a2b7-d7197eedf500"
+          }
+        ],
+        "saves": 1,
+        "commits": 1,
+        "identityCalls": [
+          "set_Logger",
+          "CreateAsync",
+          "AddToRoleAsync"
+        ],
+        "assertionFailures": [
+          "Đăng ký chỉ tạo GiaSu, chưa tạo HoSoGiaSu ChoDuyet/ẩn như kỳ vọng."
+        ]
+      },
+      "error": "Đăng ký chỉ tạo GiaSu, chưa tạo HoSoGiaSu ChoDuyet/ẩn như kỳ vọng.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_351",
+      "duration": "00:00:00.0135356"
+    },
+    {
+      "id": "UT-352",
+      "title": "Sai mật khẩu",
+      "criterion": "Xác thực",
+      "target": "TaiKhoanService đăng nhập",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Cổng Identity trả xác thực thất bại.",
+      "expected": "Không tạo phiên; ghi lượt sai theo quy tắc; không ghi mật khẩu vào log.",
+      "steps": [
+        "Tạo TaiKhoanService thật, mock UserManager của Identity; fake transaction/dữ liệu, NhatKyAnToanService thật với HttpContext riêng.",
+        "Cấu hình Identity: trùng email, role Admin, đăng ký GiaSu, sai mật khẩu hoặc mật khẩu đúng/tài khoản BiKhoa đúng theo ca.",
+        "Gọi DangKyAsync hoặc DangNhapAsync trực tiếp. Nhánh đăng nhập bị từ chối không tạo cookie/phiên; thu câu lệnh yêu cầu ghi lượt sai nhưng không chạy SQL.",
+        "Kiểm Identity Create/AddToRole, dữ liệu con/hồ sơ, Save/Commit, lỗi trả về, log thất bại không chứa mật khẩu và không tiếp tục GetRoles khi bị từ chối."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "message=\"Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.\"; saves=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-352",
+        "mode": "Behavior",
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "message": "Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.",
+        "commands": [
+          "EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={0},@DiaChiIp={1}"
+        ],
+        "logs": [
+          {
+            "Id": "2f5d1d6e-a3d5-4b96-98b5-617acc19af71",
+            "ThoiDiem": "2026-11-14T08:03:03.3222044+00:00",
+            "Nhom": "Authentication",
+            "SuKien": "TaiKhoan.DangNhap",
+            "KetQua": "ThatBai",
+            "TaiKhoanId": null,
+            "TaiKhoanDichId": "10000000-0000-0000-0000-000000000001",
+            "DinhDanhBam": "5017E5CB550A69E382905FFEE337F66D92EAE46BEDB4F7DB7B0A48896E7D8F55",
+            "DiaChiIp": "",
+            "DuongDan": "",
+            "PhuongThuc": "",
+            "MaYeuCau": "0HNQ24MQL6EFF",
+            "LyDo": "ThongTinDangNhapKhongHopLe",
+            "DoiTuongId": null
+          }
+        ],
+        "saves": 0,
+        "added": [],
+        "scope": "Chỉ xác nhận lời gọi ghi lượt sai; không thực thi quy tắc đếm/khóa SQL hoặc tạo cookie.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_352",
+      "duration": "00:00:00.2698695"
+    },
+    {
+      "id": "UT-353",
+      "title": "Tài khoản bị khóa",
+      "criterion": "Xác thực",
+      "target": "TaiKhoanService đăng nhập",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Mật khẩu đúng; tài khoản BiKhoa.",
+      "expected": "Không cho truy cập và không tạo phiên hợp lệ.",
+      "steps": [
+        "Tạo TaiKhoanService thật, mock UserManager của Identity; fake transaction/dữ liệu, NhatKyAnToanService thật với HttpContext riêng.",
+        "Cấu hình Identity: trùng email, role Admin, đăng ký GiaSu, sai mật khẩu hoặc mật khẩu đúng/tài khoản BiKhoa đúng theo ca.",
+        "Gọi DangKyAsync hoặc DangNhapAsync trực tiếp. Nhánh đăng nhập bị từ chối không tạo cookie/phiên; thu câu lệnh yêu cầu ghi lượt sai nhưng không chạy SQL.",
+        "Kiểm Identity Create/AddToRole, dữ liệu con/hồ sơ, Save/Commit, lỗi trả về, log thất bại không chứa mật khẩu và không tiếp tục GetRoles khi bị từ chối."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "message=\"Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.\"; saves=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-353",
+        "mode": "Behavior",
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "message": "Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.",
+        "commands": [
+          "EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={0},@DiaChiIp={1}"
+        ],
+        "logs": [
+          {
+            "Id": "7fc429e7-7bb9-47ca-bd4c-921650a17094",
+            "ThoiDiem": "2026-11-14T08:03:03.4975946+00:00",
+            "Nhom": "Authentication",
+            "SuKien": "TaiKhoan.DangNhap",
+            "KetQua": "ThatBai",
+            "TaiKhoanId": null,
+            "TaiKhoanDichId": "10000000-0000-0000-0000-000000000001",
+            "DinhDanhBam": "5017E5CB550A69E382905FFEE337F66D92EAE46BEDB4F7DB7B0A48896E7D8F55",
+            "DiaChiIp": "",
+            "DuongDan": "",
+            "PhuongThuc": "",
+            "MaYeuCau": "0HNQ24MQL6EFG",
+            "LyDo": "ThongTinDangNhapKhongHopLe",
+            "DoiTuongId": null
+          }
+        ],
+        "saves": 0,
+        "added": [],
+        "scope": "Chỉ xác nhận lời gọi ghi lượt sai; không thực thi quy tắc đếm/khóa SQL hoặc tạo cookie.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_353",
+      "duration": "00:00:00.0112257"
+    },
+    {
+      "id": "UT-354",
+      "title": "Gửi duyệt hồ sơ hoàn chỉnh",
+      "criterion": "Đúng đắn",
+      "target": "HoSoGiaSuService lưu hồ sơ",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đúng chủ; dữ liệu hợp lệ đầy đủ môn/phí/giới thiệu/chuyên môn.",
+      "expected": "Hồ sơ chờ duyệt; thông báo admin; không tự công khai.",
+      "steps": [
+        "Tạo hồ sơ BanNhap đủ thông tin, đúng chủ GiaSu; input UT-355 bỏ TrinhDo.",
+        "Gọi CapNhatAsync; riêng UT-354 tiếp tục DoiTrangThaiAsync(GuiDuyet) sau lưu.",
+        "Thu trạng thái, exception.Truong/message, Saves và các notice.",
+        "UT-354 yêu cầu ChoDuyet/ẩn và notice admin; UT-355 yêu cầu field TrinhDo, không Save và không DaDuyet."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=3; noticeRecipients=[]; Gửi duyệt không tạo thông báo admin.",
+      "failure": {
+        "cause": "Đã chạy CapNhatAsync rồi DoiTrangThaiAsync(GuiDuyet). Hồ sơ đúng ChoDuyet và ẩn; nhánh GuiDuyet chỉ đổi trường trạng thái rồi Save/Commit, không gọi notice admin.",
+        "suggestion": "Thêm thông báo người có quyền duyệt tại bước gửi duyệt, cùng hợp đồng lưu hồ sơ.",
+        "impact": "Hồ sơ vẫn được gửi duyệt; thiếu notice admin.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\NhuCau\\Services\\HoSoGiaSuService.cs",
+            "line": 129,
+            "anchor": "case \"GuiDuyet\":"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-354",
+        "mode": "Behavior",
+        "source": "Areas/NhuCau/Services/HoSoGiaSuService.cs",
+        "status": 200,
+        "field": null,
+        "message": null,
+        "profile": {
+          "DangHienThi": false,
+          "DayTrucTuyen": true,
+          "DayTrucTiep": false,
+          "GuiDuyetLuc": "2026-11-14T08:03:03.5756263+00:00",
+          "DuyetLuc": null,
+          "NguoiDuyetId": null,
+          "Id": "80000000-0000-0000-0000-000000000008",
+          "GiaSuId": "20000000-0000-0000-0000-000000000002",
+          "TrinhDo": "Đại học",
+          "ChuyenMon": "Toán",
+          "KinhNghiem": "3 năm",
+          "MoTa": "Giới thiệu đầy đủ cho hồ sơ",
+          "KhuVuc": "Hà Nội",
+          "TrangThaiDuyet": "ChoDuyet",
+          "LyDoTuChoi": null,
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "saves": 3,
+        "notices": [],
+        "assertionFailures": [
+          "Gửi duyệt không tạo thông báo admin."
+        ]
+      },
+      "error": "Gửi duyệt không tạo thông báo admin.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_354",
+      "duration": "00:00:00.0470106"
+    },
+    {
+      "id": "UT-355",
+      "title": "Thiếu thông tin bắt buộc",
+      "criterion": "Đầy đủ",
+      "target": "HoSoGiaSuService lưu hồ sơ",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Thiếu một trường bắt buộc theo validator thật.",
+      "expected": "Báo trường cần bổ sung; không gửi hồ sơ thành đã duyệt.",
+      "steps": [
+        "Tạo hồ sơ BanNhap đủ thông tin, đúng chủ GiaSu; input UT-355 bỏ TrinhDo.",
+        "Gọi CapNhatAsync; riêng UT-354 tiếp tục DoiTrangThaiAsync(GuiDuyet) sau lưu.",
+        "Thu trạng thái, exception.Truong/message, Saves và các notice.",
+        "UT-354 yêu cầu ChoDuyet/ẩn và notice admin; UT-355 yêu cầu field TrinhDo, không Save và không DaDuyet."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Hoàn thiện thông tin hồ sơ, tối đa 256 ký tự mỗi trường.\"; saves=0; noticeRecipients=[]; Guard gộp báo thiếu thông tin nhưng không chỉ trường TrinhDo cần bổ sung.",
+      "failure": {
+        "cause": "CapNhatAsync dùng guard gộp HoTen/TrinhDo/ChuyenMon/KinhNghiem/KhuVuc. Khi TrinhDo rỗng, LoiNghiepVu có message chung và Truong=null; không chỉ được trường cần bổ sung.",
+        "suggestion": "Dùng validator thật hoặc các guard có field tương ứng ở tầng service để lỗi nêu TrinhDo; giữ điều kiện không lưu hồ sơ thiếu dữ liệu.",
+        "impact": "Đã từ chối và không Save; thiếu chỉ dẫn lỗi theo trường.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\NhuCau\\Services\\HoSoGiaSuService.cs",
+            "line": 56,
+            "anchor": "Rules.Check(new[]{m.HoTen"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-355",
+        "mode": "Behavior",
+        "source": "Areas/NhuCau/Services/HoSoGiaSuService.cs",
+        "status": 400,
+        "field": null,
+        "message": "Hoàn thiện thông tin hồ sơ, tối đa 256 ký tự mỗi trường.",
+        "profile": {
+          "DangHienThi": false,
+          "DayTrucTuyen": true,
+          "DayTrucTiep": false,
+          "GuiDuyetLuc": null,
+          "DuyetLuc": null,
+          "NguoiDuyetId": null,
+          "Id": "80000000-0000-0000-0000-000000000008",
+          "GiaSuId": "20000000-0000-0000-0000-000000000002",
+          "TrinhDo": "Dai hoc",
+          "ChuyenMon": "Toan",
+          "KinhNghiem": "3 nam",
+          "MoTa": "Gioi thieu day du",
+          "KhuVuc": "Ha Noi",
+          "TrangThaiDuyet": "BanNhap",
+          "LyDoTuChoi": null,
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "saves": 0,
+        "notices": [],
+        "assertionFailures": [
+          "Guard gộp báo thiếu thông tin nhưng không chỉ trường TrinhDo cần bổ sung."
+        ]
+      },
+      "error": "Guard gộp báo thiếu thông tin nhưng không chỉ trường TrinhDo cần bổ sung.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_355",
+      "duration": "00:00:00.0345623"
+    },
+    {
+      "id": "UT-356",
+      "title": "Mật khẩu dài 14",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Mật khẩu không nằm trong blocklist, dài 14; các dữ liệu khác hợp lệ.",
+      "expected": "Từ chối về độ dài; không cắt ngầm.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=false; runeCount=14; blocklistCalls=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-356",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 14,
+        "containsWhitespace": false,
+        "success": false,
+        "errors": [
+          {
+            "Code": "PasswordPolicy",
+            "Description": "Mật khẩu cần từ 15 đến 64 ký tự. Bạn có thể dùng một câu dễ nhớ."
+          }
+        ],
+        "blocklistCalls": 0,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_356",
+      "duration": "00:00:00.0007904"
+    },
+    {
+      "id": "UT-357",
+      "title": "Mật khẩu dài 15",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Mật khẩu không nằm trong blocklist, dài 15; các dữ liệu khác hợp lệ.",
+      "expected": "Chấp nhận về độ dài.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=true; runeCount=15; blocklistCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-357",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 15,
+        "containsWhitespace": false,
+        "success": true,
+        "errors": [],
+        "blocklistCalls": 1,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_357",
+      "duration": "00:00:00.0007393"
+    },
+    {
+      "id": "UT-358",
+      "title": "Mật khẩu dài 64",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Mật khẩu không nằm trong blocklist, dài 64; các dữ liệu khác hợp lệ.",
+      "expected": "Chấp nhận về độ dài.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=true; runeCount=64; blocklistCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-358",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 64,
+        "containsWhitespace": false,
+        "success": true,
+        "errors": [],
+        "blocklistCalls": 1,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_358",
+      "duration": "00:00:00.0005156"
+    },
+    {
+      "id": "UT-359",
+      "title": "Mật khẩu dài 65",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Mật khẩu không nằm trong blocklist, dài 65; các dữ liệu khác hợp lệ.",
+      "expected": "Từ chối về độ dài; không cắt ngầm.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=false; runeCount=65; blocklistCalls=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-359",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 65,
+        "containsWhitespace": false,
+        "success": false,
+        "errors": [
+          {
+            "Code": "PasswordPolicy",
+            "Description": "Mật khẩu cần từ 15 đến 64 ký tự. Bạn có thể dùng một câu dễ nhớ."
+          }
+        ],
+        "blocklistCalls": 0,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_359",
+      "duration": "00:00:00.0016179"
+    },
+    {
+      "id": "UT-360",
+      "title": "Mật khẩu có khoảng trắng",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Chuỗi đủ 15 ký tự gồm khoảng trắng, không phổ biến/đã lộ.",
+      "expected": "Không từ chối chỉ do khoảng trắng; không trim hoặc ép loại ký tự.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=true; runeCount=20; blocklistCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-360",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 20,
+        "containsWhitespace": true,
+        "success": true,
+        "errors": [],
+        "blocklistCalls": 1,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_360",
+      "duration": "00:00:00.0006133"
+    },
+    {
+      "id": "UT-361",
+      "title": "Mật khẩu trong blocklist",
+      "criterion": "Xác thực",
+      "target": "PasswordValidator ứng dụng",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Chuỗi hợp lệ độ dài nhưng nguồn blocklist cục bộ trả có.",
+      "expected": "Từ chối; không gửi mật khẩu ra dịch vụ ngoài.",
+      "steps": [
+        "Tạo MatKhauValidator thật với IConfiguration rỗng và IPasswordBlocklist mock cục bộ.",
+        "Tạo chuỗi đúng độ dài Unicode, hoặc chứa khoảng trắng; UT-361 nguồn blocklist trả true.",
+        "Gọi ValidateAsync trực tiếp; không gọi Identity lưu tài khoản hoặc dịch vụ mạng.",
+        "Assert IdentityResult đúng chấp nhận/từ chối, không cắt chuỗi; UT-361 kiểm gọi blocklist với đúng mật khẩu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "success=false; runeCount=20; blocklistCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-361",
+        "mode": "Behavior",
+        "source": "Infrastructure/MatKhauValidator.cs",
+        "runeCount": 20,
+        "containsWhitespace": false,
+        "success": false,
+        "errors": [
+          {
+            "Code": "PasswordPolicy",
+            "Description": "Mật khẩu này quá phổ biến hoặc có trong danh sách đã lộ. Hãy chọn mật khẩu khác."
+          }
+        ],
+        "blocklistCalls": 1,
+        "externalRequests": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_361",
+      "duration": "00:00:00.1669949"
+    },
+    {
+      "id": "UT-362",
+      "title": "Lần sai 5 chờ 30 giây",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đồng hồ T; bộ đếm trước tăng=4; thêm một lần sai hợp lệ. Cổng dữ liệu giả trả số lượt mới.",
+      "expected": "Hạn chờ tính đúng T+30 giây.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-362",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_362",
+      "duration": "00:00:00.0004979"
+    },
+    {
+      "id": "UT-363",
+      "title": "Lần sai 6 chờ 60 giây",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đồng hồ T; bộ đếm trước tăng=5; thêm một lần sai hợp lệ. Cổng dữ liệu giả trả số lượt mới.",
+      "expected": "Hạn chờ tính đúng T+60 giây.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-363",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_363",
+      "duration": "00:00:00.0003884"
+    },
+    {
+      "id": "UT-364",
+      "title": "Lần sai 7 chờ 120 giây",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đồng hồ T; bộ đếm trước tăng=6; thêm một lần sai hợp lệ. Cổng dữ liệu giả trả số lượt mới.",
+      "expected": "Hạn chờ tính đúng T+120 giây.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-364",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_364",
+      "duration": "00:00:00.0004157"
+    },
+    {
+      "id": "UT-365",
+      "title": "Lần sai 8 chờ 300 giây",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đồng hồ T; bộ đếm trước tăng=7; thêm một lần sai hợp lệ. Cổng dữ liệu giả trả số lượt mới.",
+      "expected": "Hạn chờ tính đúng T+300 giây.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-365",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_365",
+      "duration": "00:00:00.0005079"
+    },
+    {
+      "id": "UT-366",
+      "title": "Lần sai 9 chờ 300 giây",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đồng hồ T; bộ đếm trước tăng=8; thêm một lần sai hợp lệ. Cổng dữ liệu giả trả số lượt mới.",
+      "expected": "Hạn chờ tính đúng T+300 giây.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-366",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_366",
+      "duration": "00:00:00.0014298"
+    },
+    {
+      "id": "UT-367",
+      "title": "Một trong hai bộ đếm còn chờ",
+      "criterion": "Xác thực",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Tài khoản hết chờ, IP còn chờ 20 giây; làm thêm dataset đảo hai bộ đếm.",
+      "expected": "Từ chối thử xác thực; Retry-After phù hợp khoảng còn chờ; không tăng đếm/kéo dài chờ.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-367",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_367",
+      "duration": "00:00:00.0004761"
+    },
+    {
+      "id": "UT-368",
+      "title": "Đăng nhập thành công chỉ xóa đếm tài khoản",
+      "criterion": "Đúng đắn",
+      "target": "LoginAttemptService policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Có bộ đếm tài khoản và IP; xác thực thành công.",
+      "expected": "Xóa bộ đếm tài khoản; giữ bộ đếm IP.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"LoginAttemptService\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp LoginAttemptService trong assembly. TaiKhoanService gọi usp_GhiNhanDangNhapSai/usp_DangNhapThanhCong; thuật toán đếm/chờ hiện nằm ở SQL. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\TaiKhoanService.cs",
+            "line": 64,
+            "anchor": "public async Task<string?> DangNhapAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-368",
+        "mode": "DesignContract",
+        "requiredType": "LoginAttemptService",
+        "found": [],
+        "source": "Infrastructure/TaiKhoanService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_368",
+      "duration": "00:00:00.0007419"
+    },
+    {
+      "id": "UT-369",
+      "title": "Phiên nhàn rỗi 1799 giây",
+      "criterion": "Xác thực",
+      "target": "UserSession policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần thao tác cuối T; now=T+1799 giây.",
+      "expected": "Phiên chưa hết hạn do nhàn rỗi.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"UserSession\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp UserSession trong assembly. PhienDangNhapService.HopLeAsync gọi usp_KiemTraPhien; không có đối tượng C# UserSession để kiểm nhàn rỗi/LastActivity theo bảng. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\PhienDangNhapService.cs",
+            "line": 16,
+            "anchor": "public async Task<bool> HopLeAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-369",
+        "mode": "DesignContract",
+        "requiredType": "UserSession",
+        "found": [],
+        "source": "Infrastructure/PhienDangNhapService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_369",
+      "duration": "00:00:00.0004573"
+    },
+    {
+      "id": "UT-370",
+      "title": "Phiên nhàn rỗi 1800 giây",
+      "criterion": "Xác thực",
+      "target": "UserSession policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần thao tác cuối T; now=T+1800 giây.",
+      "expected": "Phiên hết hạn; không Allow nghiệp vụ.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"UserSession\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp UserSession trong assembly. PhienDangNhapService.HopLeAsync gọi usp_KiemTraPhien; không có đối tượng C# UserSession để kiểm nhàn rỗi/LastActivity theo bảng. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\PhienDangNhapService.cs",
+            "line": 16,
+            "anchor": "public async Task<bool> HopLeAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-370",
+        "mode": "DesignContract",
+        "requiredType": "UserSession",
+        "found": [],
+        "source": "Infrastructure/PhienDangNhapService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_370",
+      "duration": "00:00:00.0383299"
+    },
+    {
+      "id": "UT-371",
+      "title": "Ping nền không gia hạn",
+      "criterion": "Xác thực",
+      "target": "UserSession policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Phiên có LastActivity=T; nhận ping SignalR hoặc tải nền.",
+      "expected": "LastActivity vẫn T; không kéo dài 30 phút.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"UserSession\"; found=[]; Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "failure": {
+        "cause": "Không có lớp UserSession trong assembly. PhienDangNhapService.HopLeAsync gọi usp_KiemTraPhien; không có đối tượng C# UserSession để kiểm nhàn rỗi/LastActivity theo bảng. Đây là Fail hợp đồng thiết kế, chưa chạy nhánh thời gian cụ thể của ca.",
+        "suggestion": "Thống nhất vị trí của quy tắc. Nếu giữ tại SQL, chuyển ca thuật toán sang integration SQL và bổ sung unit cho hợp đồng gọi; nếu yêu cầu unit C#, tách policy thật có clock/store rồi chạy lại.",
+        "impact": "Không dùng mock kết quả SQL để khẳng định công thức chờ/timeout SQL đã đúng hay sai.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\PhienDangNhapService.cs",
+            "line": 16,
+            "anchor": "public async Task<bool> HopLeAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-371",
+        "mode": "DesignContract",
+        "requiredType": "UserSession",
+        "found": [],
+        "source": "Infrastructure/PhienDangNhapService.cs",
+        "explanation": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+        "assertionFailures": [
+          "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL."
+        ]
+      },
+      "error": "Thiếu đơn vị C# trong thiết kế. Quy tắc hiện được gọi qua stored procedure; unit này chỉ kết luận thiếu hợp đồng C#, chưa thực thi thuật toán SQL.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_371",
+      "duration": "00:00:00.0015037"
+    }
+  ]
+}

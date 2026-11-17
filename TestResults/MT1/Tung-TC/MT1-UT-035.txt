@@ -1,6 +1,0 @@
-MT1-UT-035
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_035
-Thời lượng: 00:00:00.0002605
-Actual: Assertion đạt: false; ValidationResult.MemberNames chứa HinhThucHoc; không assert thông báo tiếng Anh/Việt mặc định.
-TRX: TestResults/MT1/MT1-unit.trx

@@ -1,6 +1,0 @@
-MT1-UT-002
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.NhuCauRulesTests.MT1_UT_002_LichRanhVuot35KhungGio_PhaiBaoLoi
-Thời lượng: 00:00:00.0005233
-Actual: Assertion đạt: LoiNghiepVu(400): Cần từ 1 đến 35 khung giờ.
-TRX: TestResults/MT1/MT1-unit.trx

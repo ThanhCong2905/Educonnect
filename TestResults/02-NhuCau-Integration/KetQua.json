@@ -1,0 +1,3815 @@
+{
+  "suite": "02 Nhu cau",
+  "sourceWorkbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Integration Test.xlsx",
+  "runTimes": {
+    "creation": "2026-11-14T12:53:07.7864886+07:00",
+    "queuing": "2026-11-14T12:53:07.7864890+07:00",
+    "start": "2026-11-14T12:53:02.4834519+07:00",
+    "finish": "2026-11-14T12:53:20.9263825+07:00"
+  },
+  "counts": {
+    "Passed": 11,
+    "Failed": 3,
+    "NotExecuted": 0
+  },
+  "database": "LAPTOP-3L2V1AFT\\SQLEXPRESS / EduConnect_Verification_IT0203",
+  "scope": "Real HTTP TestServer, MVC middleware/binding/filter, Identity login/cookie and SQL session, real services/EF/SQL Server. No mock business dependency.",
+  "configuration": {
+    "environment": "Development",
+    "DemoPublishProfiles": false,
+    "backgroundWorkers": "BaoTriWorker/XuLySuKienWorker stopped in test host; not under test",
+    "SQLLogin": "Windows integrated identity, privileged test database operator; not a test of KLTN_App least privileges"
+  },
+  "sqlSourceHashes": {
+    "Database\\00_EduConnect_Full.sql": "e53c31b42c7b943692f67c2a279ce054a648d92c6c9546918f5f08ec417f1078",
+    "Database\\16_AuthenticationProcedures.sql": "f91d24831e14d2a8aaed666baf648ba64c8c1d69eb139f69294e3ea06c4df89e",
+    "Database\\17_ClassEndingMetadata.sql": "469ba32643e7ce06063ab8d666510464e58f2f3bc52531d726f1720f21dd3d43"
+  },
+  "setupNote": "00 script produced 49 tables and required procedures, then its redundant final DROP CK_HoSoGiaSu_1 failed because CK_HoSo_Workflow already replaced it. No application schema file edited. Verified workflow constraints and procedures, applied additive 17 metadata to the test DB only. This setup issue is separate from the 26 scenario outcomes.",
+  "cleanup": "Per-case exact owned IDs; no cleanup error in final run; business snapshots captured before cleanup. Anonymous safety audit events may remain in dedicated test DB.",
+  "cases": [
+    {
+      "id": "IT-016",
+      "title": "Tạo nhu cầu hai môn",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Actor H; MonHocIds=[M1,M2], BanNhap=false.",
+      "expectedHttp": "AJAX 200 ok=true; đọc redirectUrl.",
+      "expectedDatabase": "Một DangMo, chủ H; 2 NhuCauMonHoc, 2 lịch; một lượt đăng đúng MaThaoTac.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-016; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. \nB2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. \nB3. Thiết lập điều kiện riêng: Actor H; MonHocIds=[M1,M2], BanNhap=false. \nB4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. \nB5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. \nB6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: AJAX 200 ok=true; đọc redirectUrl. \nB7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Một DangMo, chủ H; 2 NhuCauMonHoc, 2 lịch; một lượt đăng đúng MaThaoTac. \nB8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. \nB9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "HTTP 200 JSON ok=true/redirectUrl; đúng một nhu cầu DangMo chủ H, hai môn, hai lịch và một lượt đúng MaThaoTac.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 2 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_016",
+      "duration": "00:00:00.9133522",
+      "observation": {
+        "caseId": "IT-016",
+        "tag": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "2910e6a3-9256-48c5-bbdf-a7a55ecc3506",
+          "PH": "763cdb94-7a1b-4828-b083-e4cc08e56c20",
+          "GS": "b3dd6ed3-2d93-4750-824a-968ee39ffa55",
+          "HS2": "22ca85ee-dc49-44db-96e8-369597677933"
+        },
+        "ownedUsers": [
+          "2910e6a3-9256-48c5-bbdf-a7a55ecc3506",
+          "763cdb94-7a1b-4828-b083-e4cc08e56c20",
+          "b3dd6ed3-2d93-4750-824a-968ee39ffa55",
+          "22ca85ee-dc49-44db-96e8-369597677933"
+        ],
+        "subjects": [
+          190,
+          191
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:19+00:00",
+              "NguoiDuyetId": null,
+              "Id": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "GiaSuId": "b3dd6ed3-2d93-4750-824a-968ee39ffa55",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApG0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "MonHocId": 190,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:19+00:00",
+              "NguoiDuyetId": null,
+              "Id": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "GiaSuId": "b3dd6ed3-2d93-4750-824a-968ee39ffa55",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApG0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "MonHocId": 190,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "1ccd4b2c-df8b-4319-b4f2-37612eb3f25c",
+          "MonHocId": "190",
+          "MonHocIds[0]": "190",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "MonHocIds[1]": "191"
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "target": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:19.757377+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                190
+              ],
+              "Id": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "ChuSoHuuId": "2910e6a3-9256-48c5-bbdf-a7a55ecc3506",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 190,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApHE=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:20+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "MonHocId": 190
+            },
+            {
+              "NhuCauId": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "MonHocId": 191
+            }
+          ],
+          "slots": [
+            {
+              "Id": "ed7760e5-aee9-44f2-9f2e-68da9f39f45f",
+              "NhuCauId": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "d4cd6479-e402-478c-81d5-e4d91f7be8d2",
+              "NhuCauId": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "3ee4605e-4d42-49fa-b4fc-a723e5d33fe9",
+              "NhuCauId": "cc141e4f-c06a-4feb-97eb-302b708a9537",
+              "TaiKhoanId": "2910e6a3-9256-48c5-bbdf-a7a55ecc3506",
+              "MaThaoTac": "1ccd4b2c-df8b-4319-b4f2-37612eb3f25c",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:19.7719548+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:19+00:00",
+              "NguoiDuyetId": null,
+              "Id": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "GiaSuId": "b3dd6ed3-2d93-4750-824a-968ee39ffa55",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6dcbe105301c4bb1809cd21192b83cc5 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApG0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "033a0cd3-ec62-482c-9a96-a9a622e6fab2",
+              "MonHocId": 190,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-017",
+      "title": "Lưu bản nháp thiếu lịch",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "BanNhap=true; lịch rỗng; các trường validator bắt buộc vẫn hợp lệ.",
+      "expectedHttp": "Thành công nếu dữ liệu đáp ứng validator bản nháp.",
+      "expectedDatabase": "BanNhap; không tạo lượt đăng công khai.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-017; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: BanNhap=true; lịch rỗng; các trường validator bắt buộc vẫn hợp lệ. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công nếu dữ liệu đáp ứng validator bản nháp. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: BanNhap; không tạo lượt đăng công khai. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "HTTP thành công; BanNhap, không lịch và không lượt đăng công khai.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 0 lịch, 0 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_017",
+      "duration": "00:00:00.9268224",
+      "observation": {
+        "caseId": "IT-017",
+        "tag": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "f31c7702-19ac-4fc5-84c0-d8e2f072db69",
+          "PH": "1f14bd48-07a6-498b-b7af-c215bae397c9",
+          "GS": "450e6e31-42bc-437d-b25a-864e37b52125",
+          "HS2": "0d97c952-808c-4b3d-beb8-64c4e4f4c0ee"
+        },
+        "ownedUsers": [
+          "f31c7702-19ac-4fc5-84c0-d8e2f072db69",
+          "1f14bd48-07a6-498b-b7af-c215bae397c9",
+          "450e6e31-42bc-437d-b25a-864e37b52125",
+          "0d97c952-808c-4b3d-beb8-64c4e4f4c0ee"
+        ],
+        "subjects": [
+          182,
+          183
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:15+00:00",
+              "NguoiDuyetId": null,
+              "Id": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "GiaSuId": "450e6e31-42bc-437d-b25a-864e37b52125",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApEg="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "MonHocId": 182,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:15+00:00",
+              "NguoiDuyetId": null,
+              "Id": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "GiaSuId": "450e6e31-42bc-437d-b25a-864e37b52125",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApEg="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "MonHocId": 182,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "2a522102-7d12-439d-919b-5d20001bff96",
+          "MonHocId": "182",
+          "MonHocIds[0]": "182",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "true"
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "target": "bf60d34e-b25c-419d-907c-79b66a24bfd8",
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": null,
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                182
+              ],
+              "Id": "bf60d34e-b25c-419d-907c-79b66a24bfd8",
+              "ChuSoHuuId": "f31c7702-19ac-4fc5-84c0-d8e2f072db69",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 182,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "BanNhap",
+              "RowVersion": "AAAAAAAApEw=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:15+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "bf60d34e-b25c-419d-907c-79b66a24bfd8",
+              "MonHocId": 182
+            }
+          ],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:15+00:00",
+              "NguoiDuyetId": null,
+              "Id": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "GiaSuId": "450e6e31-42bc-437d-b25a-864e37b52125",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_9dc9276ef0044d8ca443ba17a90ef8c8 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApEg="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "f0cd4227-8e0e-4308-9628-2b239986de91",
+              "MonHocId": 182,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-018",
+      "title": "Phụ huynh tạo cho người học",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Actor P; tên người học An; tuổi 12; hai môn.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "Chủ=P; TenNguoiHoc/TuoiNguoiHoc đúng; đủ liên kết môn/lịch.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-018; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Actor P; tên người học An; tuổi 12; hai môn. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Chủ=P; TenNguoiHoc/TuoiNguoiHoc đúng; đủ liên kết môn/lịch. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "HTTP thành công; nhu cầu thuộc P, tên An/tuổi 12, đủ hai môn và hai lịch.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 2 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_018",
+      "duration": "00:00:00.8706975",
+      "observation": {
+        "caseId": "IT-018",
+        "tag": "IT0203IT_d6fbfa56963f433ba94c28918c17af57",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "66ac197a-7ca0-4a7b-8891-664bf35781ac",
+          "PH": "e4af5962-97ca-4dea-aba6-d9854d3f5ca1",
+          "GS": "7f23de43-d557-4c42-923a-428d50e5c67c",
+          "HS2": "4fdebe37-2365-4ed1-9994-5c254ccb3c8b"
+        },
+        "ownedUsers": [
+          "66ac197a-7ca0-4a7b-8891-664bf35781ac",
+          "e4af5962-97ca-4dea-aba6-d9854d3f5ca1",
+          "7f23de43-d557-4c42-923a-428d50e5c67c",
+          "4fdebe37-2365-4ed1-9994-5c254ccb3c8b"
+        ],
+        "subjects": [
+          192,
+          193
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:20+00:00",
+              "NguoiDuyetId": null,
+              "Id": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "GiaSuId": "7f23de43-d557-4c42-923a-428d50e5c67c",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApHQ="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "MonHocId": 192,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:20+00:00",
+              "NguoiDuyetId": null,
+              "Id": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "GiaSuId": "7f23de43-d557-4c42-923a-428d50e5c67c",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApHQ="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "MonHocId": 192,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "ec7550be-fb4e-4105-8b3f-5b9de6d80fd0",
+          "MonHocId": "192",
+          "MonHocIds[0]": "192",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_d6fbfa56963f433ba94c28918c17af57",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "MonHocIds[1]": "193",
+          "TenNguoiHoc": "An",
+          "TuoiNguoiHoc": "12"
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "target": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:20.6318993+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                192
+              ],
+              "Id": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "ChuSoHuuId": "e4af5962-97ca-4dea-aba6-d9854d3f5ca1",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 192,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_d6fbfa56963f433ba94c28918c17af57",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": "An",
+              "TuoiNguoiHoc": 12,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApHg=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:21+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "MonHocId": 192
+            },
+            {
+              "NhuCauId": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "MonHocId": 193
+            }
+          ],
+          "slots": [
+            {
+              "Id": "ac590142-8888-4cb4-baf7-5d70745b8207",
+              "NhuCauId": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "1b85bfbe-8b75-41d0-b448-7c8c89b63f8d",
+              "NhuCauId": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "defd260e-c65a-460e-b129-939d59757968",
+              "NhuCauId": "6a6eadb2-96e2-4b84-b56c-5d9c93be6720",
+              "TaiKhoanId": "e4af5962-97ca-4dea-aba6-d9854d3f5ca1",
+              "MaThaoTac": "ec7550be-fb4e-4105-8b3f-5b9de6d80fd0",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:20.6485718+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:20+00:00",
+              "NguoiDuyetId": null,
+              "Id": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "GiaSuId": "7f23de43-d557-4c42-923a-428d50e5c67c",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_d6fbfa56963f433ba94c28918c17af57 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApHQ="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "ad1178c8-e62f-48da-ba48-ff4a2cd97ca1",
+              "MonHocId": 192,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-019",
+      "title": "Gia sư cố tạo nhu cầu",
+      "criterion": "Xác thực",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Actor G; input nền hợp lệ.",
+      "expectedHttp": "403 theo service.",
+      "expectedDatabase": "Không tạo nhu cầu/lượt đăng.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-019; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Actor G; input nền hợp lệ. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 403 theo service. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không tạo nhu cầu/lượt đăng. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Gia sư đăng nhập thật; token hợp lệ lấy từ trang hồ sơ có quyền truy cập; POST trả 403 và toàn bộ dữ liệu nghiệp vụ không đổi.",
+      "outcome": "Passed",
+      "actual": "HTTP 403, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Bạn không có quyền thực hiện thao tác này.\"} Sau thao tác: 0 nhu cầu, 0 liên kết môn, 0 lịch, 0 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_019",
+      "duration": "00:00:00.9265415",
+      "observation": {
+        "caseId": "IT-019",
+        "tag": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "4a39ec81-da62-4f4e-92f4-3dc7cef27489",
+          "PH": "7e8e936e-46b2-4b1f-a29f-5b126c4a27cc",
+          "GS": "1691bbce-80f3-451d-b066-85467289e9c3",
+          "HS2": "890a958c-2fcc-4010-ac1f-4b694bc49b91"
+        },
+        "ownedUsers": [
+          "4a39ec81-da62-4f4e-92f4-3dc7cef27489",
+          "7e8e936e-46b2-4b1f-a29f-5b126c4a27cc",
+          "1691bbce-80f3-451d-b066-85467289e9c3",
+          "890a958c-2fcc-4010-ac1f-4b694bc49b91"
+        ],
+        "subjects": [
+          178,
+          179
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:13+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "GiaSuId": "1691bbce-80f3-451d-b066-85467289e9c3",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDk="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "MonHocId": 178,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:13+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "GiaSuId": "1691bbce-80f3-451d-b066-85467289e9c3",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDk="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "MonHocId": 178,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "c50e91c3-24d3-4bf3-be73-285a498c4ca6",
+          "MonHocId": "178",
+          "MonHocIds[0]": "178",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 403,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Bạn không có quyền thực hiện thao tác này.\"}"
+        },
+        "after": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:13+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "GiaSuId": "1691bbce-80f3-451d-b066-85467289e9c3",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_73de9ec3fd064f328cbb5bf590a3511a Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDk="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a74b6066-19df-499f-854c-04a8d141f6dc",
+              "MonHocId": 178,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-020",
+      "title": "Môn ngừng sử dụng",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "M2.DangSuDung=0; input chọn M1/M2.",
+      "expectedHttp": "Từ chối dữ liệu; body có lý do.",
+      "expectedDatabase": "Không lưu một phần N1 hoặc môn M1; transaction rollback.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-020; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: M2.DangSuDung=0; input chọn M1/M2. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Từ chối dữ liệu; body có lý do. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không lưu một phần N1 hoặc môn M1; transaction rollback. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "M2 ngừng sử dụng; POST bị từ chối 4xx có body lỗi; nhu cầu/môn/lịch/lượt đăng giữ nguyên.",
+      "outcome": "Passed",
+      "actual": "HTTP 422, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Kiểm tra lại thông tin đã nhập.\", \"errors\": {\"\": [\"Môn học không hợp lệ.\"]}} Sau thao tác: 0 nhu cầu, 0 liên kết môn, 0 lịch, 0 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_020",
+      "duration": "00:00:01.0361712",
+      "observation": {
+        "caseId": "IT-020",
+        "tag": "IT0203IT_961ee4694b854d3999c416acf3eada36",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "d37b50ea-6abe-40c8-a2ea-942072624e80",
+          "PH": "fd7269f1-1988-4bbf-bad5-fff6b5dcee01",
+          "GS": "fa47f4cd-0e68-43a5-b471-91dfdc5e3bb4",
+          "HS2": "61aa01f7-5034-473d-9ad7-2a0a9b919ac0"
+        },
+        "ownedUsers": [
+          "d37b50ea-6abe-40c8-a2ea-942072624e80",
+          "fd7269f1-1988-4bbf-bad5-fff6b5dcee01",
+          "fa47f4cd-0e68-43a5-b471-91dfdc5e3bb4",
+          "61aa01f7-5034-473d-9ad7-2a0a9b919ac0"
+        ],
+        "subjects": [
+          172,
+          173
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:10+00:00",
+              "NguoiDuyetId": null,
+              "Id": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "GiaSuId": "fa47f4cd-0e68-43a5-b471-91dfdc5e3bb4",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_961ee4694b854d3999c416acf3eada36 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_961ee4694b854d3999c416acf3eada36 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCU="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "MonHocId": 172,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:10+00:00",
+              "NguoiDuyetId": null,
+              "Id": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "GiaSuId": "fa47f4cd-0e68-43a5-b471-91dfdc5e3bb4",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_961ee4694b854d3999c416acf3eada36 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_961ee4694b854d3999c416acf3eada36 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCU="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "MonHocId": 172,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "6d9700a8-ed86-429a-a1c0-f48a5bd93cd3",
+          "MonHocId": "172",
+          "MonHocIds[0]": "172",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_961ee4694b854d3999c416acf3eada36",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "MonHocIds[1]": "173"
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"M\\u00F4n h\\u1ECDc kh\\u00F4ng h\\u1EE3p l\\u1EC7.\"]}}"
+        },
+        "after": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:10+00:00",
+              "NguoiDuyetId": null,
+              "Id": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "GiaSuId": "fa47f4cd-0e68-43a5-b471-91dfdc5e3bb4",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_961ee4694b854d3999c416acf3eada36 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_961ee4694b854d3999c416acf3eada36 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCU="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "469788a1-fc5d-4df5-9498-3490eae62008",
+              "MonHocId": 172,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-021",
+      "title": "Update thay môn và lịch",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Id=N1, RV hiện tại; thay M1 bằng M2 và lịch mới.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "Môn/lịch cũ được thay, không cộng dồn; RowVersion mới khác RV cũ.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-021; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Id=N1, RV hiện tại; thay M1 bằng M2 và lịch mới. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Môn/lịch cũ được thay, không cộng dồn; RowVersion mới khác RV cũ. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Cập nhật N1 bằng RV hiện tại; chỉ còn M2, lịch thứ 2/4, RowVersion đổi; không cộng dồn liên kết/lịch cũ.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_021",
+      "duration": "00:00:01.2039120",
+      "observation": {
+        "caseId": "IT-021",
+        "tag": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+          "PH": "aea66b61-0cb6-489b-a0b9-6168fa7af9b2",
+          "GS": "bb694a0b-ce97-4d21-9365-4654ab969aad",
+          "HS2": "f6d5f512-f185-4eb7-9e2a-066d87896048"
+        },
+        "ownedUsers": [
+          "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+          "aea66b61-0cb6-489b-a0b9-6168fa7af9b2",
+          "bb694a0b-ce97-4d21-9365-4654ab969aad",
+          "f6d5f512-f185-4eb7-9e2a-066d87896048"
+        ],
+        "subjects": [
+          176,
+          177
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:12+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "GiaSuId": "bb694a0b-ce97-4d21-9365-4654ab969aad",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDE="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "MonHocId": 176,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:12.1137344+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            176
+          ],
+          "Id": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+          "ChuSoHuuId": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 176,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApDM=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:12+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "da93b78e-6ed9-4f3a-91b0-76174748fa5b",
+            "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "a433663e-8046-42e6-876c-4ec9f939f95d",
+            "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "beforeOperation": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:12.1137344+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                176
+              ],
+              "Id": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ChuSoHuuId": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 176,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApDM=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:12+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "MonHocId": 176
+            }
+          ],
+          "slots": [
+            {
+              "Id": "a433663e-8046-42e6-876c-4ec9f939f95d",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "da93b78e-6ed9-4f3a-91b0-76174748fa5b",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "abfc505b-07e3-4155-9e2b-e585eb12a3c7",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "TaiKhoanId": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+              "MaThaoTac": "609f64bc-53e8-487e-8511-3c3b794b3094",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:12.1503351+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:12+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "GiaSuId": "bb694a0b-ce97-4d21-9365-4654ab969aad",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDE="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "MonHocId": 176,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "5f80aafb-dd4a-470f-9fb4-fe32758aa692",
+          "MonHocId": "177",
+          "MonHocIds[0]": "177",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "2",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "4",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "Id": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+          "RowVersion": "AAAAAAAApDM="
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "target": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:12.3969978+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                177
+              ],
+              "Id": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ChuSoHuuId": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 177,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApDY=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:12+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "MonHocId": 177
+            }
+          ],
+          "slots": [
+            {
+              "Id": "72686558-21c6-42fc-82f1-4494c3be012a",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ThuTrongTuan": 4,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "8eb64819-befc-4624-9691-f9ddd7e4fa0c",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "ThuTrongTuan": 2,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "abfc505b-07e3-4155-9e2b-e585eb12a3c7",
+              "NhuCauId": "33f8cf2d-6797-4f42-8f57-913446d37da0",
+              "TaiKhoanId": "b7f51e6e-5d90-4df6-9959-ea56b0d91a59",
+              "MaThaoTac": "609f64bc-53e8-487e-8511-3c3b794b3094",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:12.1503351+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:12+00:00",
+              "NguoiDuyetId": null,
+              "Id": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "GiaSuId": "bb694a0b-ce97-4d21-9365-4654ab969aad",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_6ecf9728c35f4d05817a51377b288cbd Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApDE="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "a91d80f2-408d-4ac8-8e2b-47330a2e6c9a",
+              "MonHocId": 176,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-022",
+      "title": "Update sai chủ",
+      "criterion": "Xác thực",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Actor X; Id=N1 của H; lấy RV hợp lệ từ fixture.",
+      "expectedHttp": "403; không vì có RV mà có quyền.",
+      "expectedDatabase": "N1, môn và lịch nguyên trạng.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-022; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Actor X; Id=N1 của H; lấy RV hợp lệ từ fixture. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 403; không vì có RV mà có quyền. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: N1, môn và lịch nguyên trạng. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "X gửi N1 của H cùng RV hợp lệ; phải 403, không đổi N1/môn/lịch/lượt đăng.",
+      "outcome": "Failed",
+      "actual": "HTTP 422, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Kiểm tra lại thông tin đã nhập.\", \"errors\": {\"\": [\"Nhu cầu không thuộc về bạn.\"]}} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": {
+        "cause": "Service phát sinh LoiNghiepVu 403 vì N1 không thuộc actor X. Action Luu bắt exception nhưng chỉ chép ex.Message vào ModelState, không giữ ex.Status. UiResponseFilter thấy ModelState lỗi và HTTP chưa có mã >=400 nên đổi thành JSON 422.",
+        "locations": [
+          "Areas/NhuCau/Controllers/NhuCauController.cs:100",
+          "Infrastructure/UiResponseFilter.cs:46",
+          "Areas/NhuCau/Services/NhuCauService.cs:164"
+        ],
+        "impact": "Quyền sở hữu vẫn được bảo vệ: N1/môn/lịch/lượt đăng không đổi. Sai lệch là mã giao tiếp HTTP 422 thay cho 403, khiến client xử lý nhầm lỗi quyền thành lỗi dữ liệu.",
+        "fix": "Giữ mã 403 của lỗi quyền khi chuyển LoiNghiepVu sang ActionResult/JSON. Không gộp lỗi quyền với ModelState validation 422."
+      },
+      "differences": [
+        "HTTP kỳ vọng 403, thực tế 422."
+      ],
+      "firstFailingAssertion": "HTTP kỳ vọng 403, thực tế 422.",
+      "stack": "   at Integration0203Tests.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Integration0203\\IntegrationTests.cs:line 43\r\n--- End of stack trace from previous location ---",
+      "testName": "Integration0203Tests.IT_022",
+      "duration": "00:00:04.2051188",
+      "observation": {
+        "caseId": "IT-022",
+        "tag": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+          "PH": "906a0879-39ad-4fbb-bffc-4f161ac586ca",
+          "GS": "d1dd3c41-8461-4b1b-becd-f575486d1689",
+          "HS2": "ba7a254c-a9a3-4ba6-9b2f-a7a90087bd0a"
+        },
+        "ownedUsers": [
+          "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+          "906a0879-39ad-4fbb-bffc-4f161ac586ca",
+          "d1dd3c41-8461-4b1b-becd-f575486d1689",
+          "ba7a254c-a9a3-4ba6-9b2f-a7a90087bd0a"
+        ],
+        "subjects": [
+          166,
+          167
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:05+00:00",
+              "NguoiDuyetId": null,
+              "Id": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "GiaSuId": "d1dd3c41-8461-4b1b-becd-f575486d1689",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBM="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "MonHocId": 166,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:06.8444785+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            166
+          ],
+          "Id": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+          "ChuSoHuuId": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 166,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApBU=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:07+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "498f8d09-4ffb-4eaa-b201-f5622ca81888",
+            "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "7967f25e-d110-4f44-8989-b08ad942c724",
+            "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "beforeOperation": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:06.8444785+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                166
+              ],
+              "Id": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ChuSoHuuId": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 166,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApBU=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:07+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "MonHocId": 166
+            }
+          ],
+          "slots": [
+            {
+              "Id": "7967f25e-d110-4f44-8989-b08ad942c724",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "498f8d09-4ffb-4eaa-b201-f5622ca81888",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "9645c38d-90ee-4d16-bd78-4c8ee837615a",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "TaiKhoanId": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+              "MaThaoTac": "0e4fd2ea-5693-4979-8655-89ba4c231f82",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:06.9074283+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:05+00:00",
+              "NguoiDuyetId": null,
+              "Id": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "GiaSuId": "d1dd3c41-8461-4b1b-becd-f575486d1689",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBM="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "MonHocId": 166,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "4cac703a-18bb-4f0e-adc4-93bca67bbdec",
+          "MonHocId": "166",
+          "MonHocIds[0]": "166",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "Id": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+          "RowVersion": "AAAAAAAApBU="
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"Nhu c\\u1EA7u kh\\u00F4ng thu\\u1ED9c v\\u1EC1 b\\u1EA1n.\"]}}"
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:06.8444785+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                166
+              ],
+              "Id": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ChuSoHuuId": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 166,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApBU=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:07+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "MonHocId": 166
+            }
+          ],
+          "slots": [
+            {
+              "Id": "7967f25e-d110-4f44-8989-b08ad942c724",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "498f8d09-4ffb-4eaa-b201-f5622ca81888",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "9645c38d-90ee-4d16-bd78-4c8ee837615a",
+              "NhuCauId": "9a974b7e-c036-4636-b9cc-f1836b3a6d6f",
+              "TaiKhoanId": "683b49b1-0d78-49a8-9041-c20cef6d46cf",
+              "MaThaoTac": "0e4fd2ea-5693-4979-8655-89ba4c231f82",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:06.9074283+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:05+00:00",
+              "NguoiDuyetId": null,
+              "Id": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "GiaSuId": "d1dd3c41-8461-4b1b-becd-f575486d1689",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_3186e850be6c43bd9a8562298f1e2cfb Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBM="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "30d23817-ed11-4039-ae96-2f6b7c7aaf81",
+              "MonHocId": 166,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [
+          "HTTP kỳ vọng 403, thực tế 422."
+        ],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-023",
+      "title": "Update RV cũ",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Đọc RV1; lưu A tạo RV2; gửi B với RV1.",
+      "expectedHttp": "B trả 409.",
+      "expectedDatabase": "Dữ liệu A giữ nguyên; không xóa lịch/môn của A.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-023; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Đọc RV1; lưu A tạo RV2; gửi B với RV1. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: B trả 409. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Dữ liệu A giữ nguyên; không xóa lịch/môn của A. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Lưu A tạo RV2; B giữ RV1; phải 409 và giữ nguyên bản A cùng môn/lịch sau A.",
+      "outcome": "Failed",
+      "actual": "HTTP 422, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Kiểm tra lại thông tin đã nhập.\", \"errors\": {\"\": [\"Dữ liệu vừa được cập nhật. Hãy tải lại trước khi lưu.\"]}} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": {
+        "cause": "RV1 được đọc trước lần lưu A. A tạo RV2; B gửi RV1 bị cơ chế concurrency phát hiện và KetQua đổi thành lỗi 409. Qua LuuAsync, lỗi được ném lại thành LoiNghiepVu; controller bắt và thêm ModelState, làm mất status 409. Filter trả 422.",
+        "locations": [
+          "Areas/NhuCau/Controllers/NhuCauController.cs:100",
+          "Infrastructure/UiResponseFilter.cs:46",
+          "Infrastructure/KetQua.cs:27",
+          "Areas/NhuCau/Services/EfNhuCauStore.cs:43"
+        ],
+        "impact": "Dữ liệu A, môn và lịch của A được giữ nguyên sau B; không thấy ghi đè bằng RV cũ. Client không nhận đúng 409 để báo xung đột và yêu cầu tải lại.",
+        "fix": "Bảo toàn status 409 đến HTTP response; giữ nguyên kiểm RowVersion và transaction đang bảo vệ dữ liệu. Sau sửa chạy lại hai client/lần lưu A–B."
+      },
+      "differences": [
+        "HTTP kỳ vọng 409, thực tế 422."
+      ],
+      "firstFailingAssertion": "HTTP kỳ vọng 409, thực tế 422.",
+      "stack": "   at Integration0203Tests.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Integration0203\\IntegrationTests.cs:line 43\r\n--- End of stack trace from previous location ---",
+      "testName": "Integration0203Tests.IT_023",
+      "duration": "00:00:01.1587680",
+      "observation": {
+        "caseId": "IT-023",
+        "tag": "IT0203IT_e1f71b56776f471187866ebd982ef1d7",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "e950dea7-ecad-4c48-b947-389c8818b22b",
+          "PH": "819a0df5-5a70-4cd5-81ad-e3a19bf4b240",
+          "GS": "77507ef2-9880-476e-89ca-a75b172c45fa",
+          "HS2": "619e8f19-f432-42ec-a817-4c4e1b8d3629"
+        },
+        "ownedUsers": [
+          "e950dea7-ecad-4c48-b947-389c8818b22b",
+          "819a0df5-5a70-4cd5-81ad-e3a19bf4b240",
+          "77507ef2-9880-476e-89ca-a75b172c45fa",
+          "619e8f19-f432-42ec-a817-4c4e1b8d3629"
+        ],
+        "subjects": [
+          186,
+          187
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:17+00:00",
+              "NguoiDuyetId": null,
+              "Id": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "GiaSuId": "77507ef2-9880-476e-89ca-a75b172c45fa",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApFc="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "MonHocId": 186,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:17.3995605+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            186
+          ],
+          "Id": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+          "ChuSoHuuId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 186,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_e1f71b56776f471187866ebd982ef1d7",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApFk=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:17+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "93c6ddcb-b615-4899-8a71-526a1d3a68d7",
+            "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "b9aa4cf3-1195-4937-906a-9f030c621f35",
+            "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "b3ea66c5-c4d2-4b87-995b-85b3d8cff53f",
+          "MonHocId": "186",
+          "MonHocIds[0]": "186",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 B",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "Id": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+          "RowVersion": "AAAAAAAApFk="
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"D\\u1EEF li\\u1EC7u v\\u1EEBa \\u0111\\u01B0\\u1EE3c c\\u1EADp nh\\u1EADt. H\\u00E3y t\\u1EA3i l\\u1EA1i tr\\u01B0\\u1EDBc khi l\\u01B0u.\"]}}"
+        },
+        "savedA": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:17.5922715+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            186
+          ],
+          "Id": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+          "ChuSoHuuId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 186,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 A",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApFw=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:17+00:00"
+        },
+        "savedASlots": [
+          {
+            "Id": "02a24e3a-8a12-4a9c-ac76-fe38b913405b",
+            "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "67a758de-73a5-4917-be41-0be344efd5bd",
+            "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "beforeOperation": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:17.5922715+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                186
+              ],
+              "Id": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ChuSoHuuId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 186,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 A",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApFw=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:17+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "MonHocId": 186
+            }
+          ],
+          "slots": [
+            {
+              "Id": "67a758de-73a5-4917-be41-0be344efd5bd",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "02a24e3a-8a12-4a9c-ac76-fe38b913405b",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "57502290-9b19-4859-aa6e-06c59d800123",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "TaiKhoanId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+              "MaThaoTac": "4244083a-7ab6-4dab-aeb4-cfb8e3c00adc",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:17.4162577+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:17+00:00",
+              "NguoiDuyetId": null,
+              "Id": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "GiaSuId": "77507ef2-9880-476e-89ca-a75b172c45fa",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApFc="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "MonHocId": 186,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:17.5922715+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                186
+              ],
+              "Id": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ChuSoHuuId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 186,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 A",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApFw=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:17+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "MonHocId": 186
+            }
+          ],
+          "slots": [
+            {
+              "Id": "67a758de-73a5-4917-be41-0be344efd5bd",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "02a24e3a-8a12-4a9c-ac76-fe38b913405b",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "57502290-9b19-4859-aa6e-06c59d800123",
+              "NhuCauId": "e8c3afd3-b43b-424d-bfd7-203c6b7f0730",
+              "TaiKhoanId": "e950dea7-ecad-4c48-b947-389c8818b22b",
+              "MaThaoTac": "4244083a-7ab6-4dab-aeb4-cfb8e3c00adc",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:17.4162577+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:17+00:00",
+              "NguoiDuyetId": null,
+              "Id": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "GiaSuId": "77507ef2-9880-476e-89ca-a75b172c45fa",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e1f71b56776f471187866ebd982ef1d7 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApFc="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "e94e477c-9124-4e43-ab0c-646e0df7bf3e",
+              "MonHocId": 186,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [
+          "HTTP kỳ vọng 409, thực tế 422."
+        ],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-024",
+      "title": "Gửi lại cùng mã thao tác",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/Luu hai lần",
+      "conditions": "Cùng H, MaThaoTac và nhu cầu.",
+      "expectedHttp": "Không tạo nhu cầu thứ hai; trả Id đã có.",
+      "expectedDatabase": "COUNT lượt theo user/mã=1; không tăng hạn mức hai lần.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-024; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Cùng H, MaThaoTac và nhu cầu. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu hai lần. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Không tạo nhu cầu thứ hai; trả Id đã có. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: COUNT lượt theo user/mã=1; không tăng hạn mức hai lần. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "POST cùng actor/MaThaoTac hai lần; vẫn đúng một nhu cầu và một lượt đăng. Lần hai đọc lại cùng tập ID từ CSDL, HTTP thành công; JSON hiện chỉ chứa redirectUrl, không có trường ID riêng.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_024",
+      "duration": "00:00:01.1005845",
+      "observation": {
+        "caseId": "IT-024",
+        "tag": "IT0203IT_13589cea7a824b7f9eec9b7011266635",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+          "PH": "5b96a77f-2f72-433f-9911-52023194c0e4",
+          "GS": "d24b32ce-3545-450b-b162-ad936d04915d",
+          "HS2": "2ac5dbb4-9866-47dd-a530-72d5358c4ad8"
+        },
+        "ownedUsers": [
+          "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+          "5b96a77f-2f72-433f-9911-52023194c0e4",
+          "d24b32ce-3545-450b-b162-ad936d04915d",
+          "2ac5dbb4-9866-47dd-a530-72d5358c4ad8"
+        ],
+        "subjects": [
+          180,
+          181
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:14+00:00",
+              "NguoiDuyetId": null,
+              "Id": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "GiaSuId": "d24b32ce-3545-450b-b162-ad936d04915d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApD8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "MonHocId": 180,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:14+00:00",
+              "NguoiDuyetId": null,
+              "Id": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "GiaSuId": "d24b32ce-3545-450b-b162-ad936d04915d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApD8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "MonHocId": 180,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "d12a1109-c135-4685-aeac-735c17f77de4",
+          "MonHocId": "180",
+          "MonHocIds[0]": "180",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_13589cea7a824b7f9eec9b7011266635",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "afterFirst": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:14.4047552+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                180
+              ],
+              "Id": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ChuSoHuuId": "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 180,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_13589cea7a824b7f9eec9b7011266635",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApEM=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:14+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "MonHocId": 180
+            }
+          ],
+          "slots": [
+            {
+              "Id": "ed06f3b5-f927-4ed8-9964-0c3bc2e0b9e8",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "0eb542b9-7df2-4588-a82d-c1fdd79837d0",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "a669b181-ae53-4b0a-a070-a0765c52ce49",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "TaiKhoanId": "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+              "MaThaoTac": "d12a1109-c135-4685-aeac-735c17f77de4",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:14.4250002+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:14+00:00",
+              "NguoiDuyetId": null,
+              "Id": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "GiaSuId": "d24b32ce-3545-450b-b162-ad936d04915d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApD8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "MonHocId": 180,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "firstHttp": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:14.4047552+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                180
+              ],
+              "Id": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ChuSoHuuId": "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 180,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_13589cea7a824b7f9eec9b7011266635",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApEM=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:14+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "MonHocId": 180
+            }
+          ],
+          "slots": [
+            {
+              "Id": "ed06f3b5-f927-4ed8-9964-0c3bc2e0b9e8",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "0eb542b9-7df2-4588-a82d-c1fdd79837d0",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "a669b181-ae53-4b0a-a070-a0765c52ce49",
+              "NhuCauId": "8a8526b0-d8cf-475d-a222-2f7a376c32d9",
+              "TaiKhoanId": "e05bb4bb-15c5-4262-bd8d-c7aee491f4bc",
+              "MaThaoTac": "d12a1109-c135-4685-aeac-735c17f77de4",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:14.4250002+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:14+00:00",
+              "NguoiDuyetId": null,
+              "Id": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "GiaSuId": "d24b32ce-3545-450b-b162-ad936d04915d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_13589cea7a824b7f9eec9b7011266635 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApD8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "62b90ea9-3525-4b91-9c6d-7136472a0773",
+              "MonHocId": 180,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-025",
+      "title": "Mã thao tác đã dùng cho nhu cầu khác",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "MaThaoTac đã gắn N1 nhưng payload trỏ N2.",
+      "expectedHttp": 409.0,
+      "expectedDatabase": "N1/N2 không bị ghi nhầm.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-025; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: MaThaoTac đã gắn N1 nhưng payload trỏ N2. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 409. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: N1/N2 không bị ghi nhầm. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "MaThaoTac của N1 dùng cập nhật N2; phải 409; N1/N2/lịch/môn/lượt đăng không đổi.",
+      "outcome": "Failed",
+      "actual": "HTTP 422, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Kiểm tra lại thông tin đã nhập.\", \"errors\": {\"\": [\"Mã thao tác đã dùng cho nhu cầu khác.\"]}} Sau thao tác: 2 nhu cầu, 2 liên kết môn, 4 lịch, 2 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": {
+        "cause": "Service nhận ra MaThaoTac đã gắn N1 nhưng payload đang sửa N2 và phát sinh 409 đúng rule. Controller Luu chuyển lỗi thành ModelState, rồi UiResponseFilter trả 422 vì response chưa được đặt mã lỗi gốc.",
+        "locations": [
+          "Areas/NhuCau/Controllers/NhuCauController.cs:100",
+          "Infrastructure/UiResponseFilter.cs:46",
+          "Areas/NhuCau/Services/NhuCauService.cs:69"
+        ],
+        "impact": "N1/N2 không bị ghi nhầm và số lượt đăng không đổi; hợp đồng HTTP xung đột mã thao tác chưa đúng 409.",
+        "fix": "Bảo toàn status 409 của lỗi nghiệp vụ; phân biệt lỗi xung đột thao tác với lỗi nhập liệu 422. Giữ rule chống tái sử dụng mã của nhu cầu khác."
+      },
+      "differences": [
+        "HTTP kỳ vọng 409, thực tế 422."
+      ],
+      "firstFailingAssertion": "HTTP kỳ vọng 409, thực tế 422.",
+      "stack": "   at Integration0203Tests.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Integration0203\\IntegrationTests.cs:line 43\r\n--- End of stack trace from previous location ---",
+      "testName": "Integration0203Tests.IT_025",
+      "duration": "00:00:01.0387134",
+      "observation": {
+        "caseId": "IT-025",
+        "tag": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "a228e638-060e-4e68-8e5b-0891b053c89f",
+          "PH": "f7ed9194-15b2-4b0d-91f4-667f72e3e206",
+          "GS": "2fd79dc2-e2cc-4355-96ce-61e989af1677",
+          "HS2": "c25ab1cc-3d8a-467b-817e-54f613c973fc"
+        },
+        "ownedUsers": [
+          "a228e638-060e-4e68-8e5b-0891b053c89f",
+          "f7ed9194-15b2-4b0d-91f4-667f72e3e206",
+          "2fd79dc2-e2cc-4355-96ce-61e989af1677",
+          "c25ab1cc-3d8a-467b-817e-54f613c973fc"
+        ],
+        "subjects": [
+          170,
+          171
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:09+00:00",
+              "NguoiDuyetId": null,
+              "Id": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "GiaSuId": "2fd79dc2-e2cc-4355-96ce-61e989af1677",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApB0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "MonHocId": 170,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.230984+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            170
+          ],
+          "Id": "cb036659-1c65-4d18-921f-e589af4f798e",
+          "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 170,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApB8=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:09+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "960c530d-8cc4-4720-aa58-765b3a5b1c07",
+            "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "3bda2bb5-94be-4275-94f1-bca51e1eb1c3",
+            "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "secondBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.2693083+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            171
+          ],
+          "Id": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+          "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 171,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 N2",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApCA=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:09+00:00"
+        },
+        "beforeOperation": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.2693083+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                171
+              ],
+              "Id": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 171,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 N2",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApCA=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:09+00:00"
+            },
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.230984+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                170
+              ],
+              "Id": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 170,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApB8=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:09+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "MonHocId": 170
+            },
+            {
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "MonHocId": 171
+            }
+          ],
+          "slots": [
+            {
+              "Id": "3a04ceec-e1a6-4391-8c6e-35c0ff3861e1",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "960c530d-8cc4-4720-aa58-765b3a5b1c07",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "3bda2bb5-94be-4275-94f1-bca51e1eb1c3",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "ceeb05bb-0d74-4396-a25d-cd7ec65a5b9e",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "2f95217c-284b-4c0e-b195-322b4d06a59b",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "TaiKhoanId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "MaThaoTac": "d4071017-529b-4e1f-91d1-bd577d2a8036",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:09.2712301+00:00",
+              "NgayDang": "2026-11-14"
+            },
+            {
+              "Id": "b3007e43-7023-4b4b-ad53-347c2c022a96",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "TaiKhoanId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "MaThaoTac": "f75c4025-69ab-4da3-a58f-0462a810ca54",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:09.244241+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:09+00:00",
+              "NguoiDuyetId": null,
+              "Id": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "GiaSuId": "2fd79dc2-e2cc-4355-96ce-61e989af1677",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApB0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "MonHocId": 170,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "f75c4025-69ab-4da3-a58f-0462a810ca54",
+          "MonHocId": "170",
+          "MonHocIds[0]": "170",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 ghi nhầm",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "Id": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+          "RowVersion": "AAAAAAAApCA="
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"M\\u00E3 thao t\\u00E1c \\u0111\\u00E3 d\\u00F9ng cho nhu c\\u1EA7u kh\\u00E1c.\"]}}"
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.2693083+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                171
+              ],
+              "Id": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 171,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 N2",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApCA=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:09+00:00"
+            },
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:09.230984+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                170
+              ],
+              "Id": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ChuSoHuuId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 170,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApB8=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:09+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "MonHocId": 170
+            },
+            {
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "MonHocId": 171
+            }
+          ],
+          "slots": [
+            {
+              "Id": "3a04ceec-e1a6-4391-8c6e-35c0ff3861e1",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "960c530d-8cc4-4720-aa58-765b3a5b1c07",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "3bda2bb5-94be-4275-94f1-bca51e1eb1c3",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "ceeb05bb-0d74-4396-a25d-cd7ec65a5b9e",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "2f95217c-284b-4c0e-b195-322b4d06a59b",
+              "NhuCauId": "439273d5-d481-49e8-a2ac-4409edc9dcb7",
+              "TaiKhoanId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "MaThaoTac": "d4071017-529b-4e1f-91d1-bd577d2a8036",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:09.2712301+00:00",
+              "NgayDang": "2026-11-14"
+            },
+            {
+              "Id": "b3007e43-7023-4b4b-ad53-347c2c022a96",
+              "NhuCauId": "cb036659-1c65-4d18-921f-e589af4f798e",
+              "TaiKhoanId": "a228e638-060e-4e68-8e5b-0891b053c89f",
+              "MaThaoTac": "f75c4025-69ab-4da3-a58f-0462a810ca54",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:09.244241+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:09+00:00",
+              "NguoiDuyetId": null,
+              "Id": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "GiaSuId": "2fd79dc2-e2cc-4355-96ce-61e989af1677",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_5b04c6e3f6a74f0093058041b68072c4 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApB0="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "9c4cf663-3451-4094-8257-f7c6c6a3a8a0",
+              "MonHocId": 170,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [
+          "HTTP kỳ vọng 409, thực tế 422."
+        ],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-026",
+      "title": "Đóng nhu cầu",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/TrangThai",
+      "conditions": "id=N1; state=DaDong; RV hiện tại.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "N1=DaDong; không còn trong truy vấn công khai; lịch sử/lịch không bị xóa.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-026; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: id=N1; state=DaDong; RV hiện tại. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/TrangThai. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: N1=DaDong; không còn trong truy vấn công khai; lịch sử/lịch không bị xóa. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Đóng N1 bằng HTTP; DaDong; đủ lịch; truy vấn công khai service thật không còn đọc được N1.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 1 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_026",
+      "duration": "00:00:01.1106909",
+      "observation": {
+        "caseId": "IT-026",
+        "tag": "IT0203IT_902e1eac58924f2398b414940a0b36d5",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "bf8edf59-72a4-40b3-84fa-21cc8ec5844c",
+          "PH": "8fe8737b-f2ac-4db8-8cb9-0314d6a28201",
+          "GS": "83a3073a-84de-4eab-8b88-dca50ab58fa1",
+          "HS2": "8ac4d636-7f23-4e2e-83fc-8d15cd8120db"
+        },
+        "ownedUsers": [
+          "bf8edf59-72a4-40b3-84fa-21cc8ec5844c",
+          "8fe8737b-f2ac-4db8-8cb9-0314d6a28201",
+          "83a3073a-84de-4eab-8b88-dca50ab58fa1",
+          "8ac4d636-7f23-4e2e-83fc-8d15cd8120db"
+        ],
+        "subjects": [
+          184,
+          185
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:16+00:00",
+              "NguoiDuyetId": null,
+              "Id": "ae8bc6ae-9593-4004-b30f-07fdb72d57d9",
+              "GiaSuId": "83a3073a-84de-4eab-8b88-dca50ab58fa1",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_902e1eac58924f2398b414940a0b36d5 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_902e1eac58924f2398b414940a0b36d5 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApE8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "ae8bc6ae-9593-4004-b30f-07fdb72d57d9",
+              "MonHocId": 184,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:16.2949545+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            184
+          ],
+          "Id": "719f7aec-20a9-4a31-8431-52b14220f612",
+          "ChuSoHuuId": "bf8edf59-72a4-40b3-84fa-21cc8ec5844c",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 184,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_902e1eac58924f2398b414940a0b36d5",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApFE=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:16+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "544a9d33-fce5-434b-a721-28ed1d3fdb12",
+            "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "b014efde-5df7-4951-9a96-426ee682458e",
+            "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "requestPath": "/NhuCau/NhuCau/TrangThai",
+        "input": {
+          "id": "719f7aec-20a9-4a31-8431-52b14220f612",
+          "state": "DaDong",
+          "rowVersion": "AAAAAAAApFE="
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:16.2949545+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": "ChuNhuCauDong",
+              "MonHocs": [],
+              "CacMonHocId": [
+                184
+              ],
+              "Id": "719f7aec-20a9-4a31-8431-52b14220f612",
+              "ChuSoHuuId": "bf8edf59-72a4-40b3-84fa-21cc8ec5844c",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 184,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_902e1eac58924f2398b414940a0b36d5",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DaDong",
+              "RowVersion": "AAAAAAAApFQ=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:16+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+              "MonHocId": 184
+            }
+          ],
+          "slots": [
+            {
+              "Id": "544a9d33-fce5-434b-a721-28ed1d3fdb12",
+              "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "b014efde-5df7-4951-9a96-426ee682458e",
+              "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "816f07de-752e-4a1d-a628-42af73dd4829",
+              "NhuCauId": "719f7aec-20a9-4a31-8431-52b14220f612",
+              "TaiKhoanId": "bf8edf59-72a4-40b3-84fa-21cc8ec5844c",
+              "MaThaoTac": "074902cd-f17f-436e-aebb-735c5ec9c59b",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:16.3117032+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:16+00:00",
+              "NguoiDuyetId": null,
+              "Id": "ae8bc6ae-9593-4004-b30f-07fdb72d57d9",
+              "GiaSuId": "83a3073a-84de-4eab-8b88-dca50ab58fa1",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_902e1eac58924f2398b414940a0b36d5 Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_902e1eac58924f2398b414940a0b36d5 Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApE8="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "ae8bc6ae-9593-4004-b30f-07fdb72d57d9",
+              "MonHocId": 184,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-027",
+      "title": "Mở lại nhu cầu đã đóng",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /NhuCau/NhuCau/TrangThai",
+      "conditions": "state=DangMo; N1 DaDong và đủ điều kiện/hạn mức.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "DangMo, mốc xác nhận mới; LuotDang ghi MoLai đúng user.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-027; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: state=DangMo; N1 DaDong và đủ điều kiện/hạn mức. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/TrangThai. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: DangMo, mốc xác nhận mới; LuotDang ghi MoLai đúng user. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Đóng N1 trước, lấy RV mới rồi mở; DangMo và có LuotDang.HanhDong=MoLai đúng H.",
+      "outcome": "Passed",
+      "actual": "HTTP 200, application/json; charset=utf-8 {\"ok\": true, \"message\": \"Đã lưu thay đổi.\", \"redirectUrl\": \"/NhuCau/NhuCau\"} Sau thao tác: 1 nhu cầu, 1 liên kết môn, 2 lịch, 2 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_027",
+      "duration": "00:00:01.1517100",
+      "observation": {
+        "caseId": "IT-027",
+        "tag": "IT0203IT_64bcda963d434bda8558a745d7911d9b",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "36125cfb-1826-4165-9754-f123af37b047",
+          "PH": "67ca260f-f1ab-4704-a17c-3a2f414cb049",
+          "GS": "6d3b890e-eb52-4d85-a336-7523156a3567",
+          "HS2": "3fb5a976-08f9-402f-aab7-240f5a54a3be"
+        },
+        "ownedUsers": [
+          "36125cfb-1826-4165-9754-f123af37b047",
+          "67ca260f-f1ab-4704-a17c-3a2f414cb049",
+          "6d3b890e-eb52-4d85-a336-7523156a3567",
+          "3fb5a976-08f9-402f-aab7-240f5a54a3be"
+        ],
+        "subjects": [
+          188,
+          189
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:18+00:00",
+              "NguoiDuyetId": null,
+              "Id": "789c819b-b14c-4a96-a6c4-a015340d9243",
+              "GiaSuId": "6d3b890e-eb52-4d85-a336-7523156a3567",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_64bcda963d434bda8558a745d7911d9b Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_64bcda963d434bda8558a745d7911d9b Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApGE="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "789c819b-b14c-4a96-a6c4-a015340d9243",
+              "MonHocId": 188,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "targetBefore": {
+          "XacNhanConNhuCauLuc": "2026-11-14T05:53:18.5526282+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": null,
+          "MonHocs": [],
+          "CacMonHocId": [
+            188
+          ],
+          "Id": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+          "ChuSoHuuId": "36125cfb-1826-4165-9754-f123af37b047",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 188,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_64bcda963d434bda8558a745d7911d9b",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DangMo",
+          "RowVersion": "AAAAAAAApGM=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:19+00:00"
+        },
+        "targetBeforeSlots": [
+          {
+            "Id": "aca5a079-1142-4c66-aca0-c7826c2890f7",
+            "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+            "ThuTrongTuan": 1,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          },
+          {
+            "Id": "5668cf5d-f5dc-41ef-a65b-0418978f56ea",
+            "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+            "ThuTrongTuan": 3,
+            "GioBatDau": "19:00:00",
+            "GioKetThuc": "20:00:00"
+          }
+        ],
+        "requestPath": "/NhuCau/NhuCau/TrangThai",
+        "input": {
+          "id": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+          "state": "DangMo",
+          "rowVersion": "AAAAAAAApGc="
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/NhuCau/NhuCau\"}"
+        },
+        "closedBeforeReopen": {
+          "XacNhanConNhuCauLuc": "2026-11-13T05:53:18.741947+00:00",
+          "NhacXacNhanLuc": null,
+          "LyDoDong": "ChuNhuCauDong",
+          "MonHocs": [],
+          "CacMonHocId": [
+            188
+          ],
+          "Id": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+          "ChuSoHuuId": "36125cfb-1826-4165-9754-f123af37b047",
+          "LoaiNhuCau": "TimGiaSu",
+          "MonHocId": 188,
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_64bcda963d434bda8558a745d7911d9b",
+          "SoBuoiTuan": 2,
+          "HinhThucHoc": "TrucTuyen",
+          "KhuVuc": null,
+          "DiaChiChiTiet": null,
+          "HocPhiDuKien": 150000.0,
+          "TenNguoiHoc": null,
+          "TuoiNguoiHoc": null,
+          "TrangThai": "DaDong",
+          "RowVersion": "AAAAAAAApGc=",
+          "DonViHocPhi": "VND/Gio",
+          "TaoLuc": "2026-11-14T05:53:19+00:00"
+        },
+        "after": {
+          "needs": [
+            {
+              "XacNhanConNhuCauLuc": "2026-11-14T05:53:18.8609739+00:00",
+              "NhacXacNhanLuc": null,
+              "LyDoDong": null,
+              "MonHocs": [],
+              "CacMonHocId": [
+                188
+              ],
+              "Id": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "ChuSoHuuId": "36125cfb-1826-4165-9754-f123af37b047",
+              "LoaiNhuCau": "TimGiaSu",
+              "MonHocId": 188,
+              "KhoiLop": "Lớp 8",
+              "HocLuc": "Trung bình",
+              "MucTieu": "IT0203IT_64bcda963d434bda8558a745d7911d9b",
+              "SoBuoiTuan": 2,
+              "HinhThucHoc": "TrucTuyen",
+              "KhuVuc": null,
+              "DiaChiChiTiet": null,
+              "HocPhiDuKien": 150000.0,
+              "TenNguoiHoc": null,
+              "TuoiNguoiHoc": null,
+              "TrangThai": "DangMo",
+              "RowVersion": "AAAAAAAApGo=",
+              "DonViHocPhi": "VND/Gio",
+              "TaoLuc": "2026-11-14T05:53:19+00:00"
+            }
+          ],
+          "links": [
+            {
+              "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "MonHocId": 188
+            }
+          ],
+          "slots": [
+            {
+              "Id": "5668cf5d-f5dc-41ef-a65b-0418978f56ea",
+              "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "aca5a079-1142-4c66-aca0-c7826c2890f7",
+              "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "posts": [
+            {
+              "Id": "828f639d-703a-463e-84e0-68ecad76fbdf",
+              "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "TaiKhoanId": "36125cfb-1826-4165-9754-f123af37b047",
+              "MaThaoTac": "165681b5-e206-4170-a296-6e92e460d3a1",
+              "HanhDong": "MoLai",
+              "DangLuc": "2026-11-14T05:53:18.8608703+00:00",
+              "NgayDang": "2026-11-14"
+            },
+            {
+              "Id": "f8f3043b-9b23-49f6-82f0-e9ca598bb8da",
+              "NhuCauId": "2cfd2b32-bb90-4ea5-90bb-7eef0446a35f",
+              "TaiKhoanId": "36125cfb-1826-4165-9754-f123af37b047",
+              "MaThaoTac": "9be50a91-5e84-4e8d-a9af-5b181a144e9a",
+              "HanhDong": "Dang",
+              "DangLuc": "2026-11-14T05:53:18.5704516+00:00",
+              "NgayDang": "2026-11-14"
+            }
+          ],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:18+00:00",
+              "NguoiDuyetId": null,
+              "Id": "789c819b-b14c-4a96-a6c4-a015340d9243",
+              "GiaSuId": "6d3b890e-eb52-4d85-a336-7523156a3567",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_64bcda963d434bda8558a745d7911d9b Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_64bcda963d434bda8558a745d7911d9b Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApGE="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "789c819b-b14c-4a96-a6c4-a015340d9243",
+              "MonHocId": 188,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-028",
+      "title": "Không đăng nhập gọi thao tác ghi",
+      "criterion": "Xác thực",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Không gửi cookie phiên; lấy token antiforgery hợp lệ từ trang công khai nếu cần.",
+      "expectedHttp": "AJAX 401; không chuyển HTML đăng nhập.",
+      "expectedDatabase": "Không đổi dữ liệu nghiệp vụ mục tiêu. Nhật ký an toàn từ chối có thể được thêm.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-028; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Không gửi cookie phiên; lấy token antiforgery hợp lệ từ trang công khai nếu cần. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: AJAX 401; không chuyển HTML đăng nhập. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không đổi dữ liệu nghiệp vụ mục tiêu. Nhật ký an toàn từ chối có thể được thêm. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Client anonymous dùng token từ trang đăng nhập; AJAX POST trả 401; dữ liệu nghiệp vụ không đổi.",
+      "outcome": "Passed",
+      "actual": "HTTP 401, application/json; charset=utf-8 {\"ok\": false, \"message\": \"Phiên đã hết hạn. Vui lòng đăng nhập lại.\"} Sau thao tác: 0 nhu cầu, 0 liên kết môn, 0 lịch, 0 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_028",
+      "duration": "00:00:00.7879881",
+      "observation": {
+        "caseId": "IT-028",
+        "tag": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "be14a4ab-0552-45d8-a540-ca56d68175ad",
+          "PH": "c36afa58-4810-4212-9d38-dd41cc2952bc",
+          "GS": "afb25f3f-54c0-4a87-bd28-df421f5ba79d",
+          "HS2": "18761b43-bf76-4877-96b8-be68602443f9"
+        },
+        "ownedUsers": [
+          "be14a4ab-0552-45d8-a540-ca56d68175ad",
+          "c36afa58-4810-4212-9d38-dd41cc2952bc",
+          "afb25f3f-54c0-4a87-bd28-df421f5ba79d",
+          "18761b43-bf76-4877-96b8-be68602443f9"
+        ],
+        "subjects": [
+          168,
+          169
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:08+00:00",
+              "NguoiDuyetId": null,
+              "Id": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "GiaSuId": "afb25f3f-54c0-4a87-bd28-df421f5ba79d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBo="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "MonHocId": 168,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:08+00:00",
+              "NguoiDuyetId": null,
+              "Id": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "GiaSuId": "afb25f3f-54c0-4a87-bd28-df421f5ba79d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBo="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "MonHocId": 168,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "7d4490af-d194-4687-94e3-a221f81a48c0",
+          "MonHocId": "168",
+          "MonHocIds[0]": "168",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 401,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Phiên đã hết hạn. Vui lòng đăng nhập lại.\"}"
+        },
+        "after": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:08+00:00",
+              "NguoiDuyetId": null,
+              "Id": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "GiaSuId": "afb25f3f-54c0-4a87-bd28-df421f5ba79d",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_f432dea7b8c94aaeb0661f816f4f44dc Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApBo="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "58ee8719-85fc-41f0-b5e3-c4eb77bc3f6b",
+              "MonHocId": 168,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    },
+    {
+      "id": "IT-029",
+      "title": "Thiếu antiforgery token",
+      "criterion": "Xác thực",
+      "endpoint": "POST /NhuCau/NhuCau/Luu",
+      "conditions": "Đăng nhập đúng quyền; bỏ __RequestVerificationToken/header token, giữ cookie.",
+      "expectedHttp": "HTTP 400 do antiforgery; không yêu cầu JSON theo schema của action.",
+      "expectedDatabase": "Không thay đổi dữ liệu nghiệp vụ.",
+      "sqlTemplate": "SELECT * FROM dbo.[NhuCauHoc] WHERE Id=@Need; SELECT * FROM dbo.[NhuCauMonHoc] WHERE NhuCauId=@Need; SELECT * FROM dbo.[KhungGioRanh] WHERE NhuCauId=@Need; SELECT * FROM dbo.[LuotDangNhuCau] WHERE TaiKhoanId=@Actor;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-029; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. H/P hoạt động; môn M1/M2 đang dùng; N1 nhu cầu thuộc H; tag IT-xxx trong MucTieu. Input nền: 2 buổi/tuần, TrucTuyen, 150000 VND/Gio, lịch thứ 1/3 19:00–20:00, MaThaoTac mới. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Đăng nhập đúng quyền; bỏ __RequestVerificationToken/header token, giữ cookie. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /NhuCau/NhuCau/Luu. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: HTTP 400 do antiforgery; không yêu cầu JSON theo schema của action. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không thay đổi dữ liệu nghiệp vụ. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "assertions": "Client có cookie hợp lệ nhưng bỏ token; POST trả 400 từ antiforgery, không thay dữ liệu.",
+      "outcome": "Passed",
+      "actual": "HTTP 400, None Sau thao tác: 0 nhu cầu, 0 liên kết môn, 0 lịch, 0 lượt đăng, 1 hồ sơ, 1 dòng môn dạy của fixture.",
+      "failure": null,
+      "differences": [],
+      "firstFailingAssertion": null,
+      "stack": null,
+      "testName": "Integration0203Tests.IT_029",
+      "duration": "00:00:00.8036641",
+      "observation": {
+        "caseId": "IT-029",
+        "tag": "IT0203IT_e60e8cada9984545971e74933297ed4b",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "2f2717d8-37dd-4211-b668-11726ec12096",
+          "PH": "ba1e5e4a-3b19-4600-9951-3e6934be6c8a",
+          "GS": "1d1d3e4f-1b54-41c0-9105-f89d7617545f",
+          "HS2": "4202c102-c9c3-4e37-94f5-440a84d40f26"
+        },
+        "ownedUsers": [
+          "2f2717d8-37dd-4211-b668-11726ec12096",
+          "ba1e5e4a-3b19-4600-9951-3e6934be6c8a",
+          "1d1d3e4f-1b54-41c0-9105-f89d7617545f",
+          "4202c102-c9c3-4e37-94f5-440a84d40f26"
+        ],
+        "subjects": [
+          174,
+          175
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "before": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:11+00:00",
+              "NguoiDuyetId": null,
+              "Id": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "GiaSuId": "1d1d3e4f-1b54-41c0-9105-f89d7617545f",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e60e8cada9984545971e74933297ed4b Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e60e8cada9984545971e74933297ed4b Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCw="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "MonHocId": 174,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "beforeOperation": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:11+00:00",
+              "NguoiDuyetId": null,
+              "Id": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "GiaSuId": "1d1d3e4f-1b54-41c0-9105-f89d7617545f",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e60e8cada9984545971e74933297ed4b Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e60e8cada9984545971e74933297ed4b Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCw="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "MonHocId": 174,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "requestPath": "/NhuCau/NhuCau/Luu",
+        "input": {
+          "MaThaoTac": "2d7de43e-ccd5-40e2-91ad-690191e55b6f",
+          "MonHocId": "174",
+          "MonHocIds[0]": "174",
+          "KhoiLop": "Lớp 8",
+          "HocLuc": "Trung bình",
+          "MucTieu": "IT0203IT_e60e8cada9984545971e74933297ed4b",
+          "SoBuoiTuan": "2",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhiDuKien": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "BanNhap": "false",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 400,
+          "location": null,
+          "contentType": null,
+          "body": ""
+        },
+        "after": {
+          "needs": [],
+          "links": [],
+          "slots": [],
+          "posts": [],
+          "profiles": [
+            {
+              "DangHienThi": true,
+              "DayTrucTuyen": true,
+              "DayTrucTiep": false,
+              "GuiDuyetLuc": null,
+              "DuyetLuc": "2026-11-14T05:53:11+00:00",
+              "NguoiDuyetId": null,
+              "Id": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "GiaSuId": "1d1d3e4f-1b54-41c0-9105-f89d7617545f",
+              "TrinhDo": "Đại học",
+              "ChuyenMon": "IT0203IT_e60e8cada9984545971e74933297ed4b Toán",
+              "KinhNghiem": "3 năm",
+              "MoTa": "IT0203IT_e60e8cada9984545971e74933297ed4b Ôn tập",
+              "KhuVuc": "Thủ Đức",
+              "TrangThaiDuyet": "DaDuyet",
+              "LyDoTuChoi": null,
+              "RowVersion": "AAAAAAAApCw="
+            }
+          ],
+          "subjects": [
+            {
+              "HocPhiDeXuat": 150000.0,
+              "DonViHocPhi": "VND/Gio",
+              "HoSoGiaSuId": "7dfa53dc-30c6-4ac1-aeaa-68b656600d2e",
+              "MonHocId": 174,
+              "PhamViDay": "Lớp 8"
+            }
+          ]
+        },
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      }
+    }
+  ]
+}

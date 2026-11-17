@@ -1,0 +1,19 @@
+{
+  "application": {
+    "Areas/NhuCau/Controllers/NhuCauController.cs": "b84ef1c2f4094c56c3f492ec4b133b5b171d9e44a0e25ac856a57859283e2563",
+    "Infrastructure/UiResponseFilter.cs": "ed9d1a0f5976acc7c609794051b3649707fc4b8ba24f2b20d0b37683435b4808",
+    "Areas/NhuCau/Services/NhuCauService.cs": "fffa00d6b403c6428d688df55e98c616a6f9545cccf92fa9f72f9c21e2a98fe9",
+    "Areas/NhuCau/Services/HoSoGiaSuService.cs": "5e33cd83457c7068693108351ace4303e8aeec9a37cc4af8b3a0867aa7bbe59f",
+    "Areas/TimKiem/Services/TimKiemService.cs": "1bf0bd86886340b38fe01596bcb36f588249933f29d95e0563605716bb6fc05a",
+    "Areas/TimKiem/Services/EfTimKiemStore.cs": "adee7939bac92fe4cc7332fdc204b90efa7f59b66a3df93979b6b9378287cc9b",
+    "Areas/TimKiem/ViewModels/SearchModels.cs": "5dac0840c72738633cbae5c521e6c771abef40f5400fd5956b14b9ae0c508cd3",
+    "Program.cs": "0a2bc960c660b0f6bdc6c60068fbb514d6ca1d70ab5ae15034b9c39b749926d9",
+    "Infrastructure/KetQua.cs": "2dd0097eb6b0c783254f7138559abd1748a9d1b93fd87bac237033d6741d95c5",
+    "Areas/NhuCau/Services/EfNhuCauStore.cs": "8b89e4ebda88fa8b6a3949e9eecdbb98a59f52a1a718e65a5ae8fbeebb686584"
+  },
+  "sql": {
+    "Database\\00_EduConnect_Full.sql": "e53c31b42c7b943692f67c2a279ce054a648d92c6c9546918f5f08ec417f1078",
+    "Database\\16_AuthenticationProcedures.sql": "f91d24831e14d2a8aaed666baf648ba64c8c1d69eb139f69294e3ea06c4df89e",
+    "Database\\17_ClassEndingMetadata.sql": "469ba32643e7ce06063ab8d666510464e58f2f3bc52531d726f1720f21dd3d43"
+  }
+}

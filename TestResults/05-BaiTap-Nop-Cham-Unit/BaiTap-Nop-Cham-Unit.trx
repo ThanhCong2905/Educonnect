@@ -1,0 +1,830 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b86a6589-3e2f-4458-bc54-c7d74636a9c0" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-14 07:52:24" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T07:52:24.6859841+07:00" queuing="2026-11-14T07:52:24.6859844+07:00" start="2026-11-14T07:52:23.7349800+07:00" finish="2026-11-14T07:52:24.8178897+07:00" />
+  <TestSettings name="default" id="02611349-31d2-448b-a495-07c9847b10b2">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-14_07_52_24" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9326bb37-960f-4e3e-8b1a-92b74fff80f6" testId="8f1e5fbe-2845-4b07-5d1b-d03b4afa5bad" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001079" startTime="2026-11-14T07:52:24.6462538+07:00" endTime="2026-11-14T07:52:24.6462538+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9326bb37-960f-4e3e-8b1a-92b74fff80f6">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-104 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 108&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="41272613-b499-4af7-a28c-2da0a115e7d6" testId="f78f3f1e-23ff-6535-6e34-b5857728442d" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001658" startTime="2026-11-14T07:52:24.6495658+07:00" endTime="2026-11-14T07:52:24.6495658+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41272613-b499-4af7-a28c-2da0a115e7d6">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-091 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 48&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1f16b30f-64f0-4e61-9ba6-24250223f6b6" testId="c013fd75-d5d4-69be-a082-d68d88becd82" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001680" startTime="2026-11-14T07:52:24.6122420+07:00" endTime="2026-11-14T07:52:24.6122421+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1f16b30f-64f0-4e61-9ba6-24250223f6b6">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-088 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có phương thức sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 33&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f9ffa94d-0d66-4a31-a51e-3fbd73286897" testId="5758a2ae-121d-21a2-248c-ba66787dd4a3" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001938" startTime="2026-11-14T07:52:24.6455407+07:00" endTime="2026-11-14T07:52:24.6455408+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9ffa94d-0d66-4a31-a51e-3fbd73286897">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-099 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 88&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9bd5ea23-4c76-46c1-8ea0-f2c5e0344e0f" testId="749b258f-0166-002e-e0b1-e7bde8dc2060" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001381" startTime="2026-11-14T07:52:24.6506756+07:00" endTime="2026-11-14T07:52:24.6506757+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9bd5ea23-4c76-46c1-8ea0-f2c5e0344e0f">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-105 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 113&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4068557b-7395-40de-9113-dde5bbcef56a" testId="1fd6099f-adb9-6b58-dc69-9225ae5c9af7" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0038479" startTime="2026-11-14T07:52:24.6105053+07:00" endTime="2026-11-14T07:52:24.6105054+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4068557b-7395-40de-9113-dde5bbcef56a">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-094 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 63&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="de19883a-40f2-4de4-a2c3-8f9d24917f74" testId="544f5112-0c66-97a3-1b98-3600baca6858" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001856" startTime="2026-11-14T07:52:24.6473254+07:00" endTime="2026-11-14T07:52:24.6473254+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de19883a-40f2-4de4-a2c3-8f9d24917f74">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-096 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 73&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="117690b9-3d1f-44b7-949c-1b1bac277fb2" testId="46aa9ae3-2c5e-b1e9-b45c-c69fdbc264c4" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001477" startTime="2026-11-14T07:52:24.6499111+07:00" endTime="2026-11-14T07:52:24.6499112+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="117690b9-3d1f-44b7-949c-1b1bac277fb2">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-090 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 43&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="872519f3-9be0-4e02-8e2e-03003f738516" testId="0ead7d59-1360-488e-64f3-87de21c80011" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001460" startTime="2026-11-14T07:52:24.6510224+07:00" endTime="2026-11-14T07:52:24.6510224+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="872519f3-9be0-4e02-8e2e-03003f738516">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-089 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 38&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ec4b8605-d0b1-4dab-aaca-70dfead45642" testId="c755f4d8-f6a3-8254-d807-f39259dfa7c3" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001111" startTime="2026-11-14T07:52:24.6466122+07:00" endTime="2026-11-14T07:52:24.6466123+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec4b8605-d0b1-4dab-aaca-70dfead45642">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-087 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có phương thức sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 28&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ca65cc99-75a7-43bf-8ab7-0063bd165e04" testId="bba3e43e-894f-1b75-40b5-df89f77c279f" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001396" startTime="2026-11-14T07:52:24.6136251+07:00" endTime="2026-11-14T07:52:24.6136253+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca65cc99-75a7-43bf-8ab7-0063bd165e04">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-081 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.Sua(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có action sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 79&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e3b713e5-047e-4378-b28c-2dc771c90d87" testId="ccadf0ff-644d-f754-5a7c-78877d6478e9" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001109" startTime="2026-11-14T07:52:24.6411066+07:00" endTime="2026-11-14T07:52:24.6411068+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e3b713e5-047e-4378-b28c-2dc771c90d87">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-085 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 18&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="17a63a96-8492-4b83-a5c1-1e36f7132fee" testId="5fb37165-8fd7-8d10-e1f2-35ed97b5f046" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0038617" startTime="2026-11-14T07:52:24.6114690+07:00" endTime="2026-11-14T07:52:24.6114690+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="17a63a96-8492-4b83-a5c1-1e36f7132fee">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-083 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.ChamBai(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Cham(ChamBaiViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 89&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c6004cab-b95c-4732-b603-5cc8ad5639a0" testId="25b365d2-c9df-c689-9ee2-56d785e2343a" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_080_ModelStateGiaoLoi_GiuModel_KhongGiao" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.1271218" startTime="2026-11-14T07:52:24.7319934+07:00" endTime="2026-11-14T07:52:24.7319937+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6004cab-b95c-4732-b603-5cc8ad5639a0" />
+    <UnitTestResult executionId="20c1380f-e0a0-4051-a15e-4e9fdf3db0f4" testId="8808287c-197a-74a0-67bd-f5c55cbb0dcf" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001249" startTime="2026-11-14T07:52:24.6132314+07:00" endTime="2026-11-14T07:52:24.6132316+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="20c1380f-e0a0-4051-a15e-4e9fdf3db0f4">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-092 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 53&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a03f1fba-cd17-4228-94ef-4a644ab50ca9" testId="4862a31a-34b7-10e1-e46d-812fd40c1d72" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003431" startTime="2026-11-14T07:52:24.6513484+07:00" endTime="2026-11-14T07:52:24.6513485+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a03f1fba-cd17-4228-94ef-4a644ab50ca9">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-098 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: có model public ChamDiemViewModel để kiểm validation.
+Thực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.
+Không thay model khác tên để báo Pass cho model trong thiết kế.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 19&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 83&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3734998d-a739-4d23-95bb-47a6551b1b2f" testId="2e0b1ee4-8eee-af6e-71fd-b9659c96cdd7" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001263" startTime="2026-11-14T07:52:24.6459216+07:00" endTime="2026-11-14T07:52:24.6459216+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3734998d-a739-4d23-95bb-47a6551b1b2f">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-084 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 13&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5685aab2-95f6-49d9-b81e-b9b51b46f53c" testId="a4741ed3-4ea5-d9f4-dc28-1cccde5a0b48" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001765" startTime="2026-11-14T07:52:24.6491787+07:00" endTime="2026-11-14T07:52:24.6491788+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5685aab2-95f6-49d9-b81e-b9b51b46f53c">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-100 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 93&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2fcb13e0-8ea9-4601-9c90-66734b752a58" testId="8ec7b2b3-09d5-e821-5d68-b6f4771ea465" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001599" startTime="2026-11-14T07:52:24.6503143+07:00" endTime="2026-11-14T07:52:24.6503144+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2fcb13e0-8ea9-4601-9c90-66734b752a58">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-093 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 58&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="51a07b76-2b4b-4047-9462-5a8441d8fbee" testId="2a6e87ad-f5ee-e77a-b9e2-808452badc20" testName="EduConnect.HocTap.UnitTests.OutboxDeliveryTest.UT_101_PhatThongBaoLoi_DanhDauThuLai_KhongLapSuKien" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0109921" startTime="2026-11-14T07:52:24.6019738+07:00" endTime="2026-11-14T07:52:24.6020174+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51a07b76-2b4b-4047-9462-5a8441d8fbee" />
+    <UnitTestResult executionId="beea02f7-88e2-46d2-a9de-71bffbff50b6" testId="84978782-f333-2175-2b38-36638e369cff" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001532" startTime="2026-11-14T07:52:24.6516532+07:00" endTime="2026-11-14T07:52:24.6516532+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="beea02f7-88e2-46d2-a9de-71bffbff50b6">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-086 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 23&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1961423b-41ed-48e0-b5b2-6b300fd5ccb1" testId="ec7f8e09-5f50-9a1b-376c-19290a9ed24d" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0392882" startTime="2026-11-14T07:52:24.6451513+07:00" endTime="2026-11-14T07:52:24.6451515+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1961423b-41ed-48e0-b5b2-6b300fd5ccb1">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-097 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: có model public ChamDiemViewModel để kiểm validation.
+Thực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.
+Không thay model khác tên để báo Pass cho model trong thiết kế.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 19&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 78&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="892efedb-f48e-4af5-ad0c-9fe1adc158c7" testId="3f9b5464-3dc1-e1b1-a845-48caaca48d11" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001072" startTime="2026-11-14T07:52:24.6140771+07:00" endTime="2026-11-14T07:52:24.6140772+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="892efedb-f48e-4af5-ad0c-9fe1adc158c7">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-103 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 103&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b782914b-6901-4684-8a93-a7acd13f0e28" testId="245cbfcf-6bdb-1c16-6392-3d1efef90acd" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001318" startTime="2026-11-14T07:52:24.6469793+07:00" endTime="2026-11-14T07:52:24.6469793+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b782914b-6901-4684-8a93-a7acd13f0e28">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-102 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 98&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6942fb91-039f-4111-b1af-72f6730cabda" testId="4103c4ba-9a43-bd91-afdf-4958ce350199" testName="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001050" startTime="2026-11-14T07:52:24.6416730+07:00" endTime="2026-11-14T07:52:24.6416730+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6942fb91-039f-4111-b1af-72f6730cabda">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-095 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs:line 68&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="83e3979d-7a40-468f-9848-b6387f364bb7" testId="1467158a-e33f-bd2f-04f2-338b76810e2b" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001940" startTime="2026-11-14T07:52:24.6126641+07:00" endTime="2026-11-14T07:52:24.6126642+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="83e3979d-7a40-468f-9848-b6387f364bb7">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-082 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.NopBai(NopBaiViewModel).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Nop(NopBaiViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 84&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="0ead7d59-1360-488e-64f3-87de21c80011">
+      <Execution id="872519f3-9be0-4e02-8e2e-03003f738516" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="46aa9ae3-2c5e-b1e9-b45c-c69fdbc264c4">
+      <Execution id="117690b9-3d1f-44b7-949c-1b1bac277fb2" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="749b258f-0166-002e-e0b1-e7bde8dc2060">
+      <Execution id="9bd5ea23-4c76-46c1-8ea0-f2c5e0344e0f" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="3f9b5464-3dc1-e1b1-a845-48caaca48d11">
+      <Execution id="892efedb-f48e-4af5-ad0c-9fe1adc158c7" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_080_ModelStateGiaoLoi_GiuModel_KhongGiao" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="25b365d2-c9df-c689-9ee2-56d785e2343a">
+      <Execution id="c6004cab-b95c-4732-b603-5cc8ad5639a0" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_080_ModelStateGiaoLoi_GiuModel_KhongGiao" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="1467158a-e33f-bd2f-04f2-338b76810e2b">
+      <Execution id="83e3979d-7a40-468f-9848-b6387f364bb7" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_082_ThietKe_NopBai_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="8f1e5fbe-2845-4b07-5d1b-d03b4afa5bad">
+      <Execution id="9326bb37-960f-4e3e-8b1a-92b74fff80f6" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.OutboxDeliveryTest.UT_101_PhatThongBaoLoi_DanhDauThuLai_KhongLapSuKien" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="2a6e87ad-f5ee-e77a-b9e2-808452badc20">
+      <Execution id="51a07b76-2b4b-4047-9462-5a8441d8fbee" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.OutboxDeliveryTest" name="UT_101_PhatThongBaoLoi_DanhDauThuLai_KhongLapSuKien" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="c755f4d8-f6a3-8254-d807-f39259dfa7c3">
+      <Execution id="ec4b8605-d0b1-4dab-aaca-70dfead45642" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="8ec7b2b3-09d5-e821-5d68-b6f4771ea465">
+      <Execution id="2fcb13e0-8ea9-4601-9c90-66734b752a58" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="f78f3f1e-23ff-6535-6e34-b5857728442d">
+      <Execution id="41272613-b499-4af7-a28c-2da0a115e7d6" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="245cbfcf-6bdb-1c16-6392-3d1efef90acd">
+      <Execution id="b782914b-6901-4684-8a93-a7acd13f0e28" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="5fb37165-8fd7-8d10-e1f2-35ed97b5f046">
+      <Execution id="17a63a96-8492-4b83-a5c1-1e36f7132fee" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_083_ThietKe_ChamBai_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="544f5112-0c66-97a3-1b98-3600baca6858">
+      <Execution id="de19883a-40f2-4de4-a2c3-8f9d24917f74" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="ec7f8e09-5f50-9a1b-376c-19290a9ed24d">
+      <Execution id="1961423b-41ed-48e0-b5b2-6b300fd5ccb1" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="a4741ed3-4ea5-d9f4-dc28-1cccde5a0b48">
+      <Execution id="5685aab2-95f6-49d9-b81e-b9b51b46f53c" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="4103c4ba-9a43-bd91-afdf-4958ce350199">
+      <Execution id="6942fb91-039f-4111-b1af-72f6730cabda" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="84978782-f333-2175-2b38-36638e369cff">
+      <Execution id="beea02f7-88e2-46d2-a9de-71bffbff50b6" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="1fd6099f-adb9-6b58-dc69-9225ae5c9af7">
+      <Execution id="4068557b-7395-40de-9113-dde5bbcef56a" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="bba3e43e-894f-1b75-40b5-df89f77c279f">
+      <Execution id="ca65cc99-75a7-43bf-8ab7-0063bd165e04" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_081_ThietKe_Sua_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="8808287c-197a-74a0-67bd-f5c55cbb0dcf">
+      <Execution id="20c1380f-e0a0-4051-a15e-4e9fdf3db0f4" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="ccadf0ff-644d-f754-5a7c-78877d6478e9">
+      <Execution id="e3b713e5-047e-4378-b28c-2dc771c90d87" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="4862a31a-34b7-10e1-e46d-812fd40c1d72">
+      <Execution id="a03f1fba-cd17-4228-94ef-4a644ab50ca9" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="5758a2ae-121d-21a2-248c-ba66787dd4a3">
+      <Execution id="f9ffa94d-0d66-4a31-a51e-3fbd73286897" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="c013fd75-d5d4-69be-a082-d68d88becd82">
+      <Execution id="1f16b30f-64f0-4e61-9ba6-24250223f6b6" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="2e0b1ee4-8eee-af6e-71fd-b9659c96cdd7">
+      <Execution id="3734998d-a739-4d23-95bb-47a6551b1b2f" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.BaiTapServiceTest" name="UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="8f1e5fbe-2845-4b07-5d1b-d03b4afa5bad" executionId="9326bb37-960f-4e3e-8b1a-92b74fff80f6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f78f3f1e-23ff-6535-6e34-b5857728442d" executionId="41272613-b499-4af7-a28c-2da0a115e7d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c013fd75-d5d4-69be-a082-d68d88becd82" executionId="1f16b30f-64f0-4e61-9ba6-24250223f6b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5758a2ae-121d-21a2-248c-ba66787dd4a3" executionId="f9ffa94d-0d66-4a31-a51e-3fbd73286897" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="749b258f-0166-002e-e0b1-e7bde8dc2060" executionId="9bd5ea23-4c76-46c1-8ea0-f2c5e0344e0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1fd6099f-adb9-6b58-dc69-9225ae5c9af7" executionId="4068557b-7395-40de-9113-dde5bbcef56a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="544f5112-0c66-97a3-1b98-3600baca6858" executionId="de19883a-40f2-4de4-a2c3-8f9d24917f74" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="46aa9ae3-2c5e-b1e9-b45c-c69fdbc264c4" executionId="117690b9-3d1f-44b7-949c-1b1bac277fb2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0ead7d59-1360-488e-64f3-87de21c80011" executionId="872519f3-9be0-4e02-8e2e-03003f738516" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c755f4d8-f6a3-8254-d807-f39259dfa7c3" executionId="ec4b8605-d0b1-4dab-aaca-70dfead45642" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bba3e43e-894f-1b75-40b5-df89f77c279f" executionId="ca65cc99-75a7-43bf-8ab7-0063bd165e04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ccadf0ff-644d-f754-5a7c-78877d6478e9" executionId="e3b713e5-047e-4378-b28c-2dc771c90d87" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fb37165-8fd7-8d10-e1f2-35ed97b5f046" executionId="17a63a96-8492-4b83-a5c1-1e36f7132fee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="25b365d2-c9df-c689-9ee2-56d785e2343a" executionId="c6004cab-b95c-4732-b603-5cc8ad5639a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8808287c-197a-74a0-67bd-f5c55cbb0dcf" executionId="20c1380f-e0a0-4051-a15e-4e9fdf3db0f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4862a31a-34b7-10e1-e46d-812fd40c1d72" executionId="a03f1fba-cd17-4228-94ef-4a644ab50ca9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2e0b1ee4-8eee-af6e-71fd-b9659c96cdd7" executionId="3734998d-a739-4d23-95bb-47a6551b1b2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a4741ed3-4ea5-d9f4-dc28-1cccde5a0b48" executionId="5685aab2-95f6-49d9-b81e-b9b51b46f53c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ec7b2b3-09d5-e821-5d68-b6f4771ea465" executionId="2fcb13e0-8ea9-4601-9c90-66734b752a58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a6e87ad-f5ee-e77a-b9e2-808452badc20" executionId="51a07b76-2b4b-4047-9462-5a8441d8fbee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="84978782-f333-2175-2b38-36638e369cff" executionId="beea02f7-88e2-46d2-a9de-71bffbff50b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec7f8e09-5f50-9a1b-376c-19290a9ed24d" executionId="1961423b-41ed-48e0-b5b2-6b300fd5ccb1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f9b5464-3dc1-e1b1-a845-48caaca48d11" executionId="892efedb-f48e-4af5-ad0c-9fe1adc158c7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="245cbfcf-6bdb-1c16-6392-3d1efef90acd" executionId="b782914b-6901-4684-8a93-a7acd13f0e28" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4103c4ba-9a43-bd91-afdf-4958ce350199" executionId="6942fb91-039f-4111-b1af-72f6730cabda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1467158a-e33f-bd2f-04f2-338b76810e2b" executionId="83e3979d-7a40-468f-9848-b6387f364bb7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="26" executed="26" passed="2" failed="24" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.06]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.11]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.12]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.17]       UT-094 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.17]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(63,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-083 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.ChamBai(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Cham(ChamBaiViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(89,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-088 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có phương thức sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(33,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-082 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.NopBai(NopBaiViewModel).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Nop(NopBaiViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(84,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-092 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(53,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-081 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapController.Sua(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có action sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(79,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.18]       UT-103 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.18]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.18]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(103,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.18]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-085 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(18,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-095 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(68,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-097 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: có model public ChamDiemViewModel để kiểm validation.
+Thực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.
+Không thay model khác tên để báo Pass cho model trong thiết kế.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(19,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(78,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-099 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(88,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-084 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(13,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-104 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(108,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-087 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Không có phương thức sửa nội dung và hạn bài tập.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(28,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-102 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(98,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-096 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(73,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-100 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(93,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-091 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(48,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.21]       UT-090 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(43,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       UT-093 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: ChamAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(58,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       UT-105 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(113,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       UT-089 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.NopBaiAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: NopAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(38,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       UT-098 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: có model public ChamDiemViewModel để kiểm validation.
+Thực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.
+Không thay model khác tên để báo Pass cho model trong thiết kế.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(19,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(83,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.22]       UT-086 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GiaoAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.22]         C:\Khóa luận TN\Educonnect\tests\Unit\BaiTapServiceTest.cs(23,0): at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.30]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6081696+07:00">
+        <Text>[xUnit.net 00:00:00.17]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6112057+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6119632+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6123931+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6129620+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6133800+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6138511+07:00">
+        <Text>[xUnit.net 00:00:00.18]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6911364+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6911719+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6911987+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6912245+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6912517+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6912801+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6913067+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6913323+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6913578+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6939391+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6939839+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6940518+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6940960+07:00">
+        <Text>[xUnit.net 00:00:00.22]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6941374+07:00">
+        <Text>[xUnit.net 00:00:00.22]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6942096+07:00">
+        <Text>[xUnit.net 00:00:00.22]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6942513+07:00">
+        <Text>[xUnit.net 00:00:00.22]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:52:24.6943227+07:00">
+        <Text>[xUnit.net 00:00:00.22]     EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

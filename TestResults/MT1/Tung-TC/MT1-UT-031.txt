@@ -1,6 +1,0 @@
-MT1-UT-031
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_031
-Thời lượng: 00:00:00.0019131
-Actual: Assertion đạt: false; ValidationResult.MemberNames chứa SoBuoiTuan; không assert thông báo tiếng Anh/Việt mặc định.
-TRX: TestResults/MT1/MT1-unit.trx

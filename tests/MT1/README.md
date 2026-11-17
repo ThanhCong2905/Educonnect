@@ -1,7 +1,7 @@
 ﻿# Bộ chạy Integration MT1 — TC 014–086
 
 Bộ chạy có **73 hàm test riêng**, đặt tên `MT1_IT_014`…`MT1_IT_086`.
-Mỗi hàm có mã, tên tình huống và kỳ vọng từ sheet **Intergration Test MT1** của bảng TC người dùng. Các ca Unit trong `RulesTests.cs` không được tính vào 73 ca này.
+Mỗi hàm có mã, tên tình huống và kỳ vọng từ sheet **Intergration Test MT1** của bảng TC người dùng.
 
 ## Chạy từ thư mục gốc Educonnect
 

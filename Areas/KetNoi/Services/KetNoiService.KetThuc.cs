@@ -13,9 +13,7 @@ public sealed partial class KetNoiService
         Rules.Check((await current.HienTaiAsync(huy)).Id == actor, "Không có quyền thực hiện thao tác.", 403);
     }
 
-    private Task<DateTimeOffset> GioMayChuAsync(CancellationToken huy) => db.Database
-        .SqlQuery<DateTimeOffset>($"SELECT TODATETIMEOFFSET(SYSUTCDATETIME(), '+00:00') AS Value")
-        .SingleAsync(huy);
+    private Task<DateTimeOffset> GioMayChuAsync(CancellationToken huy) => ending.NowAsync(huy);
 
     public Task<KetQua<Guid>> TaoYeuCauHuyAsync(Guid maLop, string lyDo, byte[] rowVersion,
         Guid maNguoiThucHien, CancellationToken huy) => KetQua<Guid>.ThucHienAsync(async () =>
@@ -24,13 +22,12 @@ public sealed partial class KetNoiService
         lyDo = lyDo?.Trim() ?? "";
         Rules.Check(lyDo.Length is > 0 and <= 2000, "Nhập lý do kết thúc tối đa 2000 ký tự.");
         Rules.Check(rowVersion is { Length: 8 }, "Phiên bản không hợp lệ.");
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, huy);
-        var lop = await db.Set<LopHoc>().FromSqlInterpolated($"SELECT * FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={maLop}")
-            .SingleOrDefaultAsync(huy) ?? throw new LoiNghiepVu("Không tìm thấy lớp.", 404);
+        await using var tx = await ending.BeginAsync(huy);
+        var lop = await ending.LockClassAsync(maLop, huy) ?? throw new LoiNghiepVu("Không tìm thấy lớp.", 404);
         Rules.Check(lop.GiaSuId == maNguoiThucHien || lop.BenHocId == maNguoiThucHien, "Chỉ hai bên chính được yêu cầu kết thúc lớp.", 403);
         Rules.Check(lop.TrangThai == "DangHoatDong", "Lớp không còn hoạt động.", 409);
         Rules.Check(lop.RowVersion.SequenceEqual(rowVersion), "Lớp vừa thay đổi. Hãy tải lại.", 409);
-        Rules.Check(!await db.Set<YeuCauHuyKetNoi>().AnyAsync(x => x.LopHocId == maLop && x.TrangThai == "ChoPhanHoi", huy), "Đang có yêu cầu kết thúc chờ phản hồi.", 409);
+        Rules.Check(!await ending.HasPendingAsync(maLop, huy), "Đang có yêu cầu kết thúc chờ phản hồi.", 409);
         var now = await GioMayChuAsync(huy);
         var yc = new YeuCauHuyKetNoi
         {
@@ -42,10 +39,10 @@ public sealed partial class KetNoiService
             GuiLuc = now,
             HetHanLuc = now.AddHours(72)
         };
-        db.Add(yc);
+        ending.Add(yc);
         notices.Tao(lop.GiaSuId == maNguoiThucHien ? lop.BenHocId : lop.GiaSuId, "KetNoi", maLop,
             "Có yêu cầu kết thúc lớp, cần phản hồi trong 72 giờ.");
-        await db.SaveChangesAsync(huy);
+        await ending.SaveAsync(huy);
         await tx.CommitAsync(huy);
         return yc.Id;
     });
@@ -55,17 +52,16 @@ public sealed partial class KetNoiService
     {
         await KiemTraNguoiThucHienAsync(maNguoiThucHien, huy);
         Rules.Check(rowVersion is { Length: 8 }, "Phiên bản không hợp lệ.");
-        var maLop = await db.Set<YeuCauHuyKetNoi>().AsNoTracking().Where(x => x.Id == maYeuCau)
-            .Select(x => (Guid?)x.LopHocId).SingleOrDefaultAsync(huy) ?? throw new LoiNghiepVu("Không tìm thấy yêu cầu.", 404);
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, huy);
-        var lop = await db.Set<LopHoc>().FromSqlInterpolated($"SELECT * FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={maLop}").SingleAsync(huy);
-        var yc = await db.Set<YeuCauHuyKetNoi>().FromSqlInterpolated($"SELECT * FROM dbo.YeuCauHuyKetNoi WITH (UPDLOCK,HOLDLOCK) WHERE Id={maYeuCau}").SingleAsync(huy);
+        var maLop = await ending.RequestClassIdAsync(maYeuCau, huy) ?? throw new LoiNghiepVu("Không tìm thấy yêu cầu.", 404);
+        await using var tx = await ending.BeginAsync(huy);
+        var lop = await ending.LockClassAsync(maLop, huy) ?? throw new InvalidOperationException("Sequence contains no elements");
+        var yc = await ending.LockRequestAsync(maYeuCau, huy);
         var recipient = yc.NguoiGuiId == lop.GiaSuId ? lop.BenHocId : lop.GiaSuId;
         Rules.Check(maNguoiThucHien == recipient, "Chỉ bên nhận được phản hồi yêu cầu.", 403);
         var now = await GioMayChuAsync(huy);
         Rules.Check(yc.TrangThai == "ChoPhanHoi" && now < yc.HetHanLuc && yc.RowVersion.SequenceEqual(rowVersion), "Yêu cầu đã xử lý, hết hạn hoặc thay đổi.", 409);
         Rules.Check(lop.TrangThai == "DangHoatDong", "Lớp không còn hoạt động.", 409);
-        db.Entry(yc).Property(x => x.RowVersion).OriginalValue = rowVersion;
+        ending.SetVersion(yc, rowVersion);
         yc.TrangThai = dongY ? "ChapNhan" : "TuChoi";
         yc.PhanHoiLuc = now;
         yc.NguoiPhanHoiId = maNguoiThucHien;
@@ -76,7 +72,7 @@ public sealed partial class KetNoiService
             lop.CachKetThuc = "DongY";
         }
         notices.Tao(yc.NguoiGuiId, "KetNoi", maLop, dongY ? "Yêu cầu được chấp nhận. Lớp đã kết thúc." : "Yêu cầu kết thúc bị từ chối. Lớp tiếp tục hoạt động.");
-        await db.SaveChangesAsync(huy);
+        await ending.SaveAsync(huy);
         await tx.CommitAsync(huy);
     });
 }

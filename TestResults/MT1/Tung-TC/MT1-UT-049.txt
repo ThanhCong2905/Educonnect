@@ -1,6 +1,0 @@
-MT1-UT-049
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.TimKiemControllerTests.MT1_UT_049_ModelStateSai_DungTruocKhiDungPhuThuoc
-Thời lượng: 00:00:00.0294900
-Actual: Assertion đạt: Ném LoiNghiepVu chứa Quá dài; 0 lần gọi MonAsync/TimAsync.
-TRX: TestResults/MT1/MT1-unit.trx

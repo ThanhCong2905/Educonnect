@@ -1,0 +1,16 @@
+{
+  "Areas/TimKiem/Services/TimKiemService.cs": "1bf0bd86886340b38fe01596bcb36f588249933f29d95e0563605716bb6fc05a",
+  "Areas/KetNoi/Services/KetNoiService.cs": "45560f0ffe65f5f1ebb8d399b3e6a9a79828ed73ac3aea78b82c4390f1b6d3ff",
+  "Areas/KetNoi/Controllers/KetNoiController.cs": "6831ff3eb08abe6bd22c7154787d4dd6a424bbda4a9ee441cbc0273e6d00627c",
+  "Areas/KetNoi/Services/IKetNoiService.cs": "46d91fae16c59f61879a7d5728e8676e6a5722b6a5261124851ff264d4f9893c",
+  "Areas/NhuCau/Services/HoSoCongKhaiQuery.cs": "d355fe810d4821a8f93df8499e01983119fd17d321deef1bee2ea6a33f9fa72d",
+  "Areas/TimKiem/Services/ITimKiemStore.cs": "027454087d5ad21cadefeacbbf5eea5b17b5c89a48fe00785a33bb5445c3f221",
+  "Areas/TimKiem/Services/EfTimKiemStore.cs": "adee7939bac92fe4cc7332fdc204b90efa7f59b66a3df93979b6b9378287cc9b",
+  "Areas/KetNoi/Services/ILienHeStore.cs": "edc7a6fd928db080f9918517b48757928a368baa6ebd3ccf7b5446001ed1b2bd",
+  "Areas/KetNoi/Services/EfLienHeStore.cs": "7aa6986b6ab2a42922c444f030c714725acc3996bef3402b78a1e74d32e5d21e",
+  "Areas/NhuCau/Services/HoSoCongKhaiMapper.cs": "65a3136bdbaefda18bbb8c2131e88f0ce0efcc405548b02a6ff71fd403a4d1d2",
+  "tests/Unit/TimKiemServiceTest.cs": "e0a14774fce08ff772f244b20d54bcad7ab37f522ff71fe930f019cc259a0c47",
+  "tests/Unit/TimKiemControllerTest.cs": "79bbad99858ab0b1de95bc6e90ea21e2a37c5fe8de355c18a3952ac04eb70d72",
+  "tests/Unit/LienHeTest.cs": "330a6551561b91248035003ce06298a26f01d475fb13f02b498830cf66e11737",
+  "tests/Unit/EduConnect.UnitTests.csproj": "c483fea9605f77cc9e93192d0114618a5466e3c840ec5a665d3bc275430ca788"
+}

@@ -1,6 +1,0 @@
-MT1-UT-050
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_050
-Thời lượng: 00:00:00.0019912
-Actual: View Sua, giữ model và lỗi ModelState; không gọi LuuAsync.
-TRX: TestResults/MT1/MT1-unit.trx

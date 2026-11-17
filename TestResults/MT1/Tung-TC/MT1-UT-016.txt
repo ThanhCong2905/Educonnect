@@ -1,6 +1,0 @@
-MT1-UT-016
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.HocPhiTests.MT1_UT_016
-Thời lượng: 00:00:00.0004036
-Actual: Assertion đạt: LoiNghiepVu(400): Nhập đồng thời học phí và đơn vị.
-TRX: TestResults/MT1/MT1-unit.trx

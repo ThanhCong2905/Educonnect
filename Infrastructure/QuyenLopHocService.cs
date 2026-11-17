@@ -3,7 +3,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class QuyenLopHocService(AppDbContext db, NguoiDungHienTaiService current)
+public sealed class QuyenLopHocService(AppDbContext db, NguoiDungHienTaiService current) : IQuyenLopHocService
 {
     public async Task<LopHoc> KiemTraQuyenXemAsync(Guid id)
     {

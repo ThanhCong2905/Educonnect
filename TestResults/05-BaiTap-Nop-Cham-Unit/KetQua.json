@@ -1,0 +1,651 @@
+{
+  "date": "2026-11-14",
+  "suite": "BaiTap",
+  "counts": {
+    "Passed": 2,
+    "Failed": 24,
+    "NotExecuted": 0
+  },
+  "criteria": "Strict designed public method/model names; missing implementation is Failed, not Blocked",
+  "design_contract_failed": 24,
+  "tests": [
+    {
+      "id": "UT-080",
+      "title": "Dữ liệu không hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_080_ModelStateGiaoLoi_GiuModel_KhongGiao",
+      "outcome": "Passed",
+      "error": "",
+      "stack": "",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "ModelState giao bài lỗi phải giữ model/lỗi và không gọi service giao bài.",
+        "actual": "ViewResult giữ đúng input; ModelState còn lỗi; GiaoAsync không được gọi.",
+        "steps": [
+          "Tạo controller thật; thêm lỗi TieuDe vào ModelState, giữ tiêu đề/nội dung đã nhập.",
+          "Mock các dữ liệu đọc cần để nạp lại form; gọi Giao(m).",
+          "Assert ViewResult giữ đúng model và lỗi; Verify service ghi Times.Never()."
+        ]
+      }
+    },
+    {
+      "id": "UT-081",
+      "title": "Dữ liệu không hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-081 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapController.Sua(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Không có action sửa nội dung và hạn bài tập.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_081_ThietKe_Sua_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 79\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapController.Sua(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapController.Sua(...). Chức năng sửa nội dung/hạn tương ứng cũng chưa có trong code.",
+        "source": "Areas/HocTap/Controllers/BaiTapController.cs — không có khai báo phương thức yêu cầu trong lớp này.",
+        "reason": "Thiếu triển khai chức năng theo thiết kế.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Dữ liệu không hợp lệ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapController.Sua(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapController.Sua(m).",
+        "designed_unit": "BaiTapController.Sua(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapController.Sua(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Không có action sửa nội dung và hạn bài tập thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-082",
+      "title": "Dữ liệu không hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-082 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapController.NopBai(NopBaiViewModel).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Nop(NopBaiViewModel).\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_082_ThietKe_NopBai_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 84\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapController.NopBai(NopBaiViewModel) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapController.NopBai(NopBaiViewModel). Code đang có Nop(NopBaiViewModel); đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Controllers/BaiTapController.cs:93 — `public async Task<IActionResult> Nop(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Dữ liệu không hợp lệ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapController.NopBai(NopBaiViewModel) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapController.NopBai(m).",
+        "designed_unit": "BaiTapController.NopBai(NopBaiViewModel)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapController.NopBai(NopBaiViewModel). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Nop(NopBaiViewModel) thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-083",
+      "title": "Dữ liệu không hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-083 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapController.ChamBai(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Cham(ChamBaiViewModel).\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_083_ThietKe_ChamBai_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 89\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapController.ChamBai(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapController.ChamBai(...). Code đang có Cham(ChamBaiViewModel); đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Controllers/BaiTapController.cs:107 — `public async Task<IActionResult> Cham(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Dữ liệu không hợp lệ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapController.ChamBai(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapController.ChamBai(m).",
+        "designed_unit": "BaiTapController.ChamBai(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapController.ChamBai(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Cham(ChamBaiViewModel) thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-084",
+      "title": "Giao bài hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-084 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GiaoAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_084_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 13\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.GiaoBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.GiaoBaiTapAsync(...). Code đang có GiaoAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:36 — `public async Task GiaoAsync(GiaoBaiTapViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Giao bài hợp lệ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.GiaoBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.GiaoBaiTapAsync(m) / validator tệp.",
+        "designed_unit": "BaiTapService.GiaoBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.GiaoBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GiaoAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-085",
+      "title": "Tệp sai định dạng",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-085 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GiaoAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_085_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 18\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.GiaoBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.GiaoBaiTapAsync(...). Code đang có GiaoAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:36 — `public async Task GiaoAsync(GiaoBaiTapViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Tệp sai định dạng”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.GiaoBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.GiaoBaiTapAsync(m) / validator tệp.",
+        "designed_unit": "BaiTapService.GiaoBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.GiaoBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GiaoAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-086",
+      "title": "Tệp quá dung lượng",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-086 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GiaoAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_086_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 23\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.GiaoBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.GiaoBaiTapAsync(...). Code đang có GiaoAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:36 — `public async Task GiaoAsync(GiaoBaiTapViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Tệp quá dung lượng”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.GiaoBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.GiaoBaiTapAsync(m) / validator tệp.",
+        "designed_unit": "BaiTapService.GiaoBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.GiaoBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GiaoAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-087",
+      "title": "Cập nhật nội dung và hạn",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-087 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Không có phương thức sửa nội dung và hạn bài tập.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_087_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 28\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.CapNhatBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.CapNhatBaiTapAsync(...). Chức năng sửa nội dung/hạn tương ứng cũng chưa có trong code.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs — không có khai báo phương thức yêu cầu trong lớp này.",
+        "reason": "Thiếu triển khai chức năng theo thiết kế.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Cập nhật nội dung và hạn”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.CapNhatBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.CapNhatBaiTapAsync(m).",
+        "designed_unit": "BaiTapService.CapNhatBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.CapNhatBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Không có phương thức sửa nội dung và hạn bài tập thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-088",
+      "title": "Xung đột phiên bản bài tập",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-088 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.CapNhatBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Không có phương thức sửa nội dung và hạn bài tập.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_088_ThietKe_CapNhatBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 33\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.CapNhatBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.CapNhatBaiTapAsync(...). Chức năng sửa nội dung/hạn tương ứng cũng chưa có trong code.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs — không có khai báo phương thức yêu cầu trong lớp này.",
+        "reason": "Thiếu triển khai chức năng theo thiết kế.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Xung đột phiên bản bài tập”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.CapNhatBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.CapNhatBaiTapAsync(m).",
+        "designed_unit": "BaiTapService.CapNhatBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.CapNhatBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Không có phương thức sửa nội dung và hạn bài tập thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-089",
+      "title": "Nộp trước hạn",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-089 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.NopBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: NopAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_089_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 38\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.NopBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.NopBaiAsync(...). Code đang có NopAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:71 — `public async Task NopAsync(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Nộp trước hạn”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.NopBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.NopBaiAsync(m) / validator.",
+        "designed_unit": "BaiTapService.NopBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.NopBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi NopAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-090",
+      "title": "Nộp sau hạn",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-090 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.NopBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: NopAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_090_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 43\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.NopBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.NopBaiAsync(...). Code đang có NopAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:71 — `public async Task NopAsync(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Nộp sau hạn”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.NopBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.NopBaiAsync(m) / validator.",
+        "designed_unit": "BaiTapService.NopBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.NopBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi NopAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-091",
+      "title": "Đúng thời điểm hạn",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-091 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.NopBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: NopAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_091_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 48\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.NopBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.NopBaiAsync(...). Code đang có NopAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:71 — `public async Task NopAsync(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Đúng thời điểm hạn”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.NopBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.NopBaiAsync(m) / validator.",
+        "designed_unit": "BaiTapService.NopBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.NopBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi NopAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-092",
+      "title": "Tệp không hỗ trợ",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-092 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.NopBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: NopAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_092_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 53\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.NopBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.NopBaiAsync(...). Code đang có NopAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:71 — `public async Task NopAsync(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Tệp không hỗ trợ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.NopBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.NopBaiAsync(m) / validator.",
+        "designed_unit": "BaiTapService.NopBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.NopBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi NopAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-093",
+      "title": "Chấm lần đầu thành công",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-093 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_093_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 58\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Chấm lần đầu thành công”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync(m).",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-094",
+      "title": "Chấm lần đầu sai quyền",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-094 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_094_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 63\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Chấm lần đầu sai quyền”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync(m).",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-095",
+      "title": "Sửa kết quả chấm thành công",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-095 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_095_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 68\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Sửa kết quả chấm thành công”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync(m).",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-096",
+      "title": "Sửa kết quả chấm sai quyền",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-096 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_096_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 73\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Sửa kết quả chấm sai quyền”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync(m).",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-097",
+      "title": "Điểm ngoài thang",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-097 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: có model public ChamDiemViewModel để kiểm validation.\nThực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.\nKhông thay model khác tên để báo Pass cho model trong thiết kế.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 19\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_097_ThietKe_ChamDiemViewModel_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 78\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có ChamDiemViewModel đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy ChamDiemViewModel. Code đang có ChamBaiViewModel; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/ViewModels/HocTapInputs.cs:74 — `public sealed class ChamBaiViewModel`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Điểm ngoài thang”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ ChamDiemViewModel và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: ChamDiemViewModel validation.",
+        "designed_unit": "ChamDiemViewModel",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên ChamDiemViewModel. Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamBaiViewModel thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-098",
+      "title": "Thiếu nhận xét bắt buộc",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-098 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: có model public ChamDiemViewModel để kiểm validation.\nThực tế: không tìm thấy model ChamDiemViewModel; code hiện có ChamBaiViewModel.\nKhông thay model khác tên để báo Pass cho model trong thiết kế.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireModel(String id, Assembly assembly, String name, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 19\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_098_ThietKe_ChamDiemViewModel_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 83\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có ChamDiemViewModel đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy ChamDiemViewModel. Code đang có ChamBaiViewModel; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/ViewModels/HocTapInputs.cs:74 — `public sealed class ChamBaiViewModel`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Thiếu nhận xét bắt buộc”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ ChamDiemViewModel và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: ChamDiemViewModel validation.",
+        "designed_unit": "ChamDiemViewModel",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên ChamDiemViewModel. Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamBaiViewModel thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-099",
+      "title": "Sửa điểm với RV cũ",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-099 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_099_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 88\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Sửa điểm với RV cũ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync(m).",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-100",
+      "title": "Lỗi lưu bài tập",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-100 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GiaoAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_100_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 93\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.GiaoBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.GiaoBaiTapAsync(...). Code đang có GiaoAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:36 — `public async Task GiaoAsync(GiaoBaiTapViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Lỗi lưu bài tập”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.GiaoBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.GiaoBaiTapAsync.",
+        "designed_unit": "BaiTapService.GiaoBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.GiaoBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GiaoAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-101",
+      "title": "Lỗi phát thông báo giữ bài đã lưu",
+      "name": "EduConnect.HocTap.UnitTests.OutboxDeliveryTest.UT_101_PhatThongBaoLoi_DanhDauThuLai_KhongLapSuKien",
+      "outcome": "Passed",
+      "error": "",
+      "stack": "",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Khi phát một thông báo thất bại, handler phải yêu cầu thử lại cùng sự kiện, không đánh dấu hoàn tất trước khi phát thành công.",
+        "actual": "Lần phát lỗi gọi retry một lần, không complete; lần thử lại dùng cùng event ID và complete sau khi publish thành công.",
+        "steps": [
+          "Tạo sự kiện đã sẵn sàng xử lý; mock callback publish ném IOException, callback retry/complete ghi nhận số lần gọi.",
+          "Gọi OutboxDelivery.RunAsync thật. Assert retry=1, complete=0, đúng lỗi được ghi nhận.",
+          "Đổi publish thành công và chạy lại cùng sự kiện; assert cùng ID, publish=1, complete=1. Không giả lập một bài tập trong bộ nhớ rồi coi là đã kiểm chứng lưu CSDL."
+        ]
+      }
+    },
+    {
+      "id": "UT-102",
+      "title": "Đủ người nhận có quyền",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-102 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.GiaoBaiTapAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GiaoAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_102_ThietKe_GiaoBaiTapAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 98\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.GiaoBaiTapAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.GiaoBaiTapAsync(...). Code đang có GiaoAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:36 — `public async Task GiaoAsync(GiaoBaiTapViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Đủ người nhận có quyền”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.GiaoBaiTapAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Ca này thuộc luồng giao bài ở UT-084; kiểm phương thức thiết kế của chính luồng đó trước khi kiểm tác dụng phụ.",
+        "designed_unit": "BaiTapService.GiaoBaiTapAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.GiaoBaiTapAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GiaoAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-103",
+      "title": "Chưa có bài nộp",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-103 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_103_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 103\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Chưa có bài nộp”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: BaiTapService.ChamBaiAsync.",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-104",
+      "title": "Đủ cập nhật tiến độ và người nhận",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-104 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.ChamBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: ChamAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_104_ThietKe_ChamBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 108\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.ChamBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.ChamBaiAsync(...). Code đang có ChamAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:110 — `public async Task ChamAsync(ChamBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Đủ cập nhật tiến độ và người nhận”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.ChamBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Ca này thuộc luồng chấm bài ở UT-093/103; kiểm phương thức thiết kế của chính luồng đó trước khi kiểm tác dụng phụ.",
+        "designed_unit": "BaiTapService.ChamBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.ChamBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi ChamAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-105",
+      "title": "Quyền bị thu hồi trong lúc quét",
+      "name": "EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-105 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public BaiTapService.NopBaiAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: NopAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.BaiTapServiceTest.UT_105_ThietKe_NopBaiAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\BaiTapServiceTest.cs:line 113\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có BaiTapService.NopBaiAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy BaiTapService.NopBaiAsync(...). Code đang có NopAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/BaiTapService.cs:71 — `public async Task NopAsync(NopBaiViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Quyền bị thu hồi trong lúc quét”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ BaiTapService.NopBaiAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Ca này thuộc luồng nộp bài ở UT-089; kiểm phương thức thiết kế của chính luồng đó trước khi kiểm tác dụng phụ.",
+        "designed_unit": "BaiTapService.NopBaiAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên BaiTapService.NopBaiAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi NopAsync thay thế."
+        ]
+      }
+    }
+  ]
+}

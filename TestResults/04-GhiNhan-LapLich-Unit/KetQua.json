@@ -1,0 +1,362 @@
+{
+  "date": "2026-11-14",
+  "suite": "LichHoc",
+  "counts": {
+    "Passed": 3,
+    "Failed": 12,
+    "NotExecuted": 0
+  },
+  "criteria": "Strict designed public method/model names; missing implementation is Failed, not Blocked",
+  "design_contract_failed": 8,
+  "tests": [
+    {
+      "id": "UT-065",
+      "title": "Id rỗng",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService",
+      "outcome": "Failed",
+      "error": "Assert.IsType() Failure: Value is not the exact type\r\nExpected: typeof(Microsoft.AspNetCore.Mvc.BadRequestResult)\r\nActual:   typeof(Microsoft.AspNetCore.Mvc.ViewResult)",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 21\r\n--- End of stack trace from previous location ---",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Gọi Buoi(Guid.Empty) phải trả BadRequestResult ngay; không gọi service lấy lịch.",
+        "actual": "Controller vẫn gọi service. Trong unit test, service giả lập trả dữ liệu; action đi tiếp và trả ViewResult. Assert.IsType<BadRequestResult> thất bại.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:89–91",
+        "reason": "Hàm Buoi(Guid id) gọi await service.LayAsync(id) ngay ở đầu hàm; không có điều kiện if (id == Guid.Empty) trước đó.",
+        "impact": "Không đáp ứng nhánh từ chối ID rỗng tại controller theo thiết kế. Không có nghĩa database thật đã lưu lịch có ID rỗng.",
+        "fix": "Bổ sung kiểm tra Guid.Empty trước lời gọi service, trả BadRequestResult; test phải Verify service lấy lịch Times.Never().",
+        "steps": [
+          "Tạo controller thật, HttpContext/TempData giả và các service mock. Cấu hình service trả dữ liệu để quan sát controller có chặn ID rỗng hay không.",
+          "Gọi trực tiếp Buoi(Guid.Empty).",
+          "Assert BadRequestResult; Verify service không được gọi. Thực tế nhận ViewResult nên Fail."
+        ]
+      }
+    },
+    {
+      "id": "UT-066",
+      "title": "Không tìm thấy",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound",
+      "outcome": "Failed",
+      "error": "EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có lịch học.",
+      "stack": "   at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id) in C:\\Khóa luận TN\\Educonnect\\Areas\\HocTap\\Controllers\\LichHocController.cs:line 91\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 27\r\n--- End of stack trace from previous location ---",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Khi service báo lịch không tồn tại, action trả NotFoundResult theo bảng TC.",
+        "actual": "Mock service ném LoiNghiepVu có Status=404. Exception thoát khỏi Buoi; action không trả NotFoundResult.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:91",
+        "reason": "GET Buoi chưa có nhánh bắt kết quả/lỗi không tìm thấy và chuyển thành NotFoundResult.",
+        "impact": "Sai kiểu kết quả và nhánh xử lý lỗi của action so với thiết kế được dùng làm chuẩn. Unit này không kiểm mã HTTP của middleware.",
+        "fix": "Xử lý nhánh không tìm thấy tại action đúng hợp đồng NotFoundResult; giữ assert theo thiết kế, không đổi thành chấp nhận exception để làm test Pass.",
+        "steps": [
+          "Mock LayAsync(id) ném LoiNghiepVu(\"Không có lịch học.\", 404).",
+          "Gọi Buoi(id) trên controller thật.",
+          "Assert kết quả là NotFoundResult. Thực tế có exception thoát ra nên Fail."
+        ]
+      }
+    },
+    {
+      "id": "UT-067",
+      "title": "Không có quyền",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid",
+      "outcome": "Failed",
+      "error": "EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có quyền.",
+      "stack": "   at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id) in C:\\Khóa luận TN\\Educonnect\\Areas\\HocTap\\Controllers\\LichHocController.cs:line 91\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 33\r\n--- End of stack trace from previous location ---",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Khi người dùng không có quyền xem buổi học, action trả ForbidResult.",
+        "actual": "Mock service ném LoiNghiepVu có Status=403; exception thoát khỏi action, không có ForbidResult.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:91",
+        "reason": "Action gọi service trực tiếp, chưa chuyển nhánh từ chối quyền thành ForbidResult theo bảng TC.",
+        "impact": "Sai nhánh phản hồi của controller. Không đánh đồng exception 403 với việc đã trả ForbidResult.",
+        "fix": "Xử lý nhánh từ chối quyền theo hợp đồng action; kiểm thêm service không bị gọi ghi dữ liệu.",
+        "steps": [
+          "Mock service lấy lịch ném LoiNghiepVu(\"Không có quyền.\", 403).",
+          "Gọi Buoi(id).",
+          "Assert ForbidResult. Thực tế exception thoát ra nên Fail."
+        ]
+      }
+    },
+    {
+      "id": "UT-068",
+      "title": "Nạp biểu mẫu",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion",
+      "outcome": "Failed",
+      "error": "UT-068: model đã nạp đúng nhưng controller không truyền RequestAborted xuống service như kỳ vọng thiết kế; các lời gọi hiện chỉ nhận Guid id.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 45\r\n--- End of stack trace from previous location ---",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Nạp đúng model Buoi và truyền đúng mã người thực hiện/cancellation token RequestAborted xuống service theo cột kết quả mong đợi.",
+        "actual": "Id, RowVersion, nội dung và nhận xét đã đúng. Tuy nhiên các lời gọi service chỉ có Guid id; không có đối số CancellationToken từ RequestAborted và không có mã actor của phiên test.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:91–102; Areas/HocTap/Services/ILichHocService.cs:LayAsync/GhiNhanChiTietAsync",
+        "reason": "Hợp đồng đọc lịch/chi tiết hiện tại chỉ nhận ID; controller không chuyển actor/token như bảng TC yêu cầu. Test trước chỉ assert model nên đã bỏ sót phần này.",
+        "impact": "Model đúng nhưng chưa đáp ứng đầy đủ dữ liệu ngữ cảnh mà thiết kế yêu cầu truyền. Vì vậy không được báo Pass toàn bộ UT-068.",
+        "fix": "Đồng bộ chữ ký service đọc buổi và lời gọi controller theo thiết kế để nhận actor/ct; bổ sung Verify đủ tham số rồi chạy lại.",
+        "steps": [
+          "Tạo HttpContext với RequestAborted là token riêng và principal chứa ActorId riêng; mock trả lịch/bản ghi có RV1.",
+          "Gọi Buoi(id), assert model và các trường (đã đạt).",
+          "Đọc các invocation thực trên mock, assert có token bằng RequestAborted và ActorId. Không có token trong đối số nên Fail."
+        ]
+      }
+    },
+    {
+      "id": "UT-069",
+      "title": "ModelState ghi nhận lỗi",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-069 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocController.Buoi(GhiNhanBuoiHocViewModel).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhan(GhiNhanBuoiHocViewModel).\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 53\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocController.Buoi(GhiNhanBuoiHocViewModel) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocController.Buoi(GhiNhanBuoiHocViewModel). Code đang có GhiNhan(GhiNhanBuoiHocViewModel); đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:139 — `public async Task<IActionResult> GhiNhan(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “ModelState ghi nhận lỗi”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocController.Buoi(GhiNhanBuoiHocViewModel) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocController.Buoi(m).",
+        "designed_unit": "LichHocController.Buoi(GhiNhanBuoiHocViewModel)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocController.Buoi(GhiNhanBuoiHocViewModel). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhan(GhiNhanBuoiHocViewModel) thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-070",
+      "title": "Ghi nhận hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-070 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhanAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 17\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.GhiNhanBuoiHocAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.GhiNhanBuoiHocAsync(...). Code đang có GhiNhanAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:124 — `public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Ghi nhận hợp lệ”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.GhiNhanBuoiHocAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.GhiNhanBuoiHocAsync(m).",
+        "designed_unit": "LichHocService.GhiNhanBuoiHocAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.GhiNhanBuoiHocAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhanAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-071",
+      "title": "Sai quyền gia sư",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-071 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhanAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 22\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.GhiNhanBuoiHocAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.GhiNhanBuoiHocAsync(...). Code đang có GhiNhanAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:124 — `public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Sai quyền gia sư”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.GhiNhanBuoiHocAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.GhiNhanBuoiHocAsync(m).",
+        "designed_unit": "LichHocService.GhiNhanBuoiHocAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.GhiNhanBuoiHocAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhanAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-072",
+      "title": "Trạng thái không cho ghi nhận",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-072 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhanAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 27\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.GhiNhanBuoiHocAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.GhiNhanBuoiHocAsync(...). Code đang có GhiNhanAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:124 — `public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Trạng thái không cho ghi nhận”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.GhiNhanBuoiHocAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.GhiNhanBuoiHocAsync(m).",
+        "designed_unit": "LichHocService.GhiNhanBuoiHocAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.GhiNhanBuoiHocAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhanAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-073",
+      "title": "ModelState lịch học lỗi",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_073_ModelStateThemLoi_GiuModel_KhongThem",
+      "outcome": "Passed",
+      "error": "",
+      "stack": "",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Controller nhận ModelState lỗi phải giữ đúng biểu mẫu và không gọi hàm thêm lịch.",
+        "actual": "Model được giữ nguyên, lỗi còn trong ModelState, ThemHangLoatAsync không được gọi.",
+        "steps": [
+          "Tạo LichHangLoatInput có LopHocId và một buổi; thêm lỗi Buoi[0].TieuDe vào ModelState.",
+          "Mock nguồn dữ liệu lớp chỉ để trả lại form; gọi Them(m) thật.",
+          "Assert ViewResult giữ cùng model, ModelState không hợp lệ; Verify ThemHangLoatAsync Times.Never()."
+        ]
+      }
+    },
+    {
+      "id": "UT-074",
+      "title": "Tạo nhiều buổi hợp lệ",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_074_HaiBuoiHopLe_TruyenDuHaiBuoiVaThongBao",
+      "outcome": "Passed",
+      "error": "",
+      "stack": "",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Service phải chuyển đúng hai buổi hợp lệ tới cổng lưu và yêu cầu thông báo lịch học.",
+        "actual": "Đối số cổng lưu chứa đúng lớp, gia sư và hai buổi với tên/giờ đúng; gọi thông báo LichHoc, lưu và commit đúng một lần.",
+        "steps": [
+          "Cố định clock; mock quyền gia sư hợp lệ, cổng lưu và thông báo. Chuẩn bị hai buổi tương lai không giao nhau.",
+          "Gọi ThemHangLoatAsync(m) thật.",
+          "Đọc các đối số đã bắt trên mock: kiểm đúng hai phần tử, LopHocId, GiaSuId, thời gian; Verify thông báo, Save/Commit. Không kiểm dữ liệu trong CSDL."
+        ]
+      }
+    },
+    {
+      "id": "UT-075",
+      "title": "ModelState đổi lịch lỗi",
+      "name": "EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-075 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocController.DoiLich(SuaLichInput).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: Sua(SuaLichInput).\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapControllerTest.cs:line 66\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocController.DoiLich(SuaLichInput) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocController.DoiLich(SuaLichInput). Code đang có Sua(SuaLichInput); đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Controllers/LichHocController.cs:40 — `public async Task<IActionResult> Sua(Guid id)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “ModelState đổi lịch lỗi”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocController.DoiLich(SuaLichInput) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocController.DoiLich(m).",
+        "designed_unit": "LichHocController.DoiLich(SuaLichInput)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocController.DoiLich(SuaLichInput). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi Sua(SuaLichInput) thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-076",
+      "title": "Đổi lịch thành công",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-076 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.DoiLichAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: SuaAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 41\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.DoiLichAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.DoiLichAsync(...). Code đang có SuaAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:43 — `public async Task SuaAsync(SuaLichInput m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Đổi lịch thành công”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.DoiLichAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.DoiLichAsync(m).",
+        "designed_unit": "LichHocService.DoiLichAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.DoiLichAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi SuaAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-077",
+      "title": "Lớp không hoạt động",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-077 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhanAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 46\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.GhiNhanBuoiHocAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.GhiNhanBuoiHocAsync(...). Code đang có GhiNhanAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:124 — `public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Lớp không hoạt động”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.GhiNhanBuoiHocAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.GhiNhanBuoiHocAsync.",
+        "designed_unit": "LichHocService.GhiNhanBuoiHocAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.GhiNhanBuoiHocAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhanAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-078",
+      "title": "Buổi chưa kết thúc",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode",
+      "outcome": "Failed",
+      "error": "UT-078 — FAIL ĐỐI CHIẾU THIẾT KẾ.\nMong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).\nThực tế: không tìm thấy phương thức/overload này.\nCode hiện có: GhiNhanAsync.\nKhông tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.",
+      "stack": "   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\HocTapDesignContract.cs:line 14\r\n   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\LichHocServiceTest.cs:line 51\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)",
+      "test_kind": "DesignContract",
+      "behavior_test_run": false,
+      "diagnosis": {
+        "expected": "Code phải có LichHocService.GhiNhanBuoiHocAsync(...) đúng tên/overload/model trước khi chạy nhánh hành vi của ca này.",
+        "actual": "Không tìm thấy LichHocService.GhiNhanBuoiHocAsync(...). Code đang có GhiNhanAsync; đây không phải tên đơn vị trong thiết kế.",
+        "source": "Areas/HocTap/Services/LichHocService.cs:124 — `public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)`",
+        "reason": "Khai báo trong code không khớp tên/overload/model được yêu cầu; test cũ đã tự thay tên nên bỏ qua sai lệch này.",
+        "impact": "Không có đúng đơn vị để thực hiện tình huống “Buổi chưa kết thúc”. Đây là Fail đối chiếu thiết kế; không phải sự cố môi trường test và không dùng Blocked.",
+        "fix": "Triển khai/đồng bộ LichHocService.GhiNhanBuoiHocAsync(...) và các lời gọi liên quan đúng thiết kế; sau đó viết/chạy phần kiểm hành vi của ca. Không thêm hàm rỗng hoặc đổi kỳ vọng sang tên hiện có chỉ để test Pass.",
+        "basis": "Tên đơn vị ghi trong Unit Test.xlsx: LichHocService.GhiNhanBuoiHocAsync.",
+        "designed_unit": "LichHocService.GhiNhanBuoiHocAsync(...)",
+        "steps": [
+          "Nạp assembly ứng dụng đã build và xác định lớp/model cần kiểm theo bảng thiết kế.",
+          "Liệt kê các khai báo public, tìm đúng tên LichHocService.GhiNhanBuoiHocAsync(...). Nếu là overload, kiểm đúng kiểu tham số đầu vào đã xác định.",
+          "Assert đơn vị được tìm thấy. Thực tế không tìm thấy nên test Fail tại bước này; không gọi GhiNhanAsync thay thế."
+        ]
+      }
+    },
+    {
+      "id": "UT-079",
+      "title": "Thêm buổi giữ buổi ban đầu",
+      "name": "EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_079_ThemBuoi_GiuNguyenBuoiBanDau",
+      "outcome": "Passed",
+      "error": "",
+      "stack": "",
+      "test_kind": "Behavior",
+      "behavior_test_run": true,
+      "diagnosis": {
+        "expected": "Yêu cầu thêm buổi mới không được làm thay đổi đối tượng buổi cũ trong đơn vị đang kiểm tra.",
+        "actual": "Buổi cũ giữ nguyên thời điểm/trạng thái; cổng lưu nhận một yêu cầu thêm buổi mới, đúng lớp.",
+        "steps": [
+          "Chuẩn bị B1 trong fixture và chụp thời điểm/trạng thái; chuẩn bị dữ liệu B2 khác giờ.",
+          "Gọi ThemHangLoatAsync với chỉ B2.",
+          "Assert B1 không bị sửa trong bộ nhớ; Verify yêu cầu gửi cổng lưu có đúng một buổi B2 và đúng lớp."
+        ]
+      }
+    }
+  ]
+}

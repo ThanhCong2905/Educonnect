@@ -1876,3 +1876,26 @@ SELECT DB_NAME() AS DatabaseDaTao,COUNT(*) AS SoBang FROM sys.tables WHERE is_ms
 GO
 SET NOEXEC OFF;
 GO
+
+USE [Educonnect];
+GO
+
+BEGIN TRANSACTION;
+
+ALTER TABLE dbo.HoSoGiaSu
+DROP CONSTRAINT CK_HoSoGiaSu_1;
+
+ALTER TABLE dbo.HoSoGiaSu WITH CHECK
+ADD CONSTRAINT CK_HoSoGiaSu_1
+CHECK (
+    TrangThaiDuyet IN (
+        'BanNhap',
+        'ChoDuyet',
+        'DaDuyet',
+        'CanChinhSua',
+        'TuChoi'
+    )
+);
+
+COMMIT TRANSACTION;
+GO

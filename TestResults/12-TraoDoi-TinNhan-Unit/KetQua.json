@@ -1,0 +1,402 @@
+{
+  "suite": "12. Trao đổi và nhắn tin",
+  "workbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Unit Test.xlsx",
+  "workbookSHA256": "d1c9ebd46f36253b3752d4d8e6fb11617f1c8eab93715ca15be46c68601941f7",
+  "counts": {
+    "Passed": 7,
+    "Failed": 1
+  },
+  "designContractFailures": 0,
+  "runTimes": {
+    "creation": "2026-11-14T15:03:03.1803538+07:00",
+    "queuing": "2026-11-14T15:03:03.1803542+07:00",
+    "start": "2026-11-14T15:03:01.2410251+07:00",
+    "finish": "2026-11-14T15:03:03.1906938+07:00"
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "scope": "Real service/filter/validator logic. Persistence, locks, server clock, Identity, notices or scanner replaced at boundaries. DesignContract cases stop at missing input/type; their business branches are not executed.",
+  "limitations": [
+    "No SQL provider/translation, stored procedure, real transaction rollback or concurrency/lock proof.",
+    "Memory data evaluates LINQ predicates as C# and captures writes/commits; it does not simulate SQL constraints or persistence.",
+    "RowVersion failure is injected at Save to verify service error mapping; no commit is checked, not RAM rollback.",
+    "Policy-labelled cases 345–348 exercise actual permission service guards, not ASP.NET authorization middleware.",
+    "No integration rerun after these dependency refactors."
+  ],
+  "cases": [
+    {
+      "id": "UT-323",
+      "title": "Chưa xác nhận kết nối",
+      "criterion": "Xác thực",
+      "target": "TinNhanService quyền hội thoại",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Chưa có kết nối hoặc đang chờ xác nhận.",
+      "expected": "Từ chối mở kênh theo UC5.1; không trả lịch sử riêng tư.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=403; message=\"Cần thuộc liên hệ đã được chấp nhận để đọc/gửi tin nhắn.\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-323",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 403,
+        "message": "Cần thuộc liên hệ đã được chấp nhận để đọc/gửi tin nhắn.",
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [],
+        "oldText": null,
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_323",
+      "duration": "00:00:00.0092425"
+    },
+    {
+      "id": "UT-324",
+      "title": "Lớp đã kết thúc",
+      "criterion": "Xác thực",
+      "target": "TinNhanService gửi tin",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Người dùng còn quyền đọc nhưng lớp DaKetThuc.",
+      "expected": "Từ chối gửi mới; không thêm tin.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=403; message=\"Bạn không có quyền nhắn tin trong lớp này.\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-324",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 403,
+        "message": "Bạn không có quyền nhắn tin trong lớp này.",
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [
+          "Begin"
+        ],
+        "oldText": null,
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_324",
+      "duration": "00:00:00.0116075"
+    },
+    {
+      "id": "UT-325",
+      "title": "Lịch sử lớp kết thúc được giữ",
+      "criterion": "Đầy đủ",
+      "target": "TinNhanService đọc lịch sử",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lớp kết thúc; người đọc vẫn có quyền xem.",
+      "expected": "Trả lịch sử cũ theo quyền; không xóa hoặc sửa tin.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-325",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 200,
+        "message": null,
+        "history": [
+          {
+            "Id": "60000000-0000-0000-0000-000000000006",
+            "CuocHoiThoaiId": "70000000-0000-0000-0000-000000000007",
+            "NguoiGuiId": "10000000-0000-0000-0000-000000000001",
+            "NoiDung": "A",
+            "GuiLuc": "2026-11-14T10:00:00+07:00",
+            "MaThaoTac": "80000000-0000-0000-0000-000000000008"
+          }
+        ],
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [],
+        "oldText": "A",
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_325",
+      "duration": "00:00:00.3200180"
+    },
+    {
+      "id": "UT-326",
+      "title": "Tin rỗng",
+      "criterion": "Đầy đủ",
+      "target": "TinNhanService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Nội dung rỗng và không tệp.",
+      "expected": "Trả lỗi; không lưu và không báo gửi thành công.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Nhập nội dung hoặc chọn ít nhất một tệp, tối đa 10000 ký tự.\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-326",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 400,
+        "message": "Nhập nội dung hoặc chọn ít nhất một tệp, tối đa 10000 ký tự.",
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [],
+        "oldText": null,
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_326",
+      "duration": "00:00:00.0058957"
+    },
+    {
+      "id": "UT-327",
+      "title": "Gửi tin hợp lệ",
+      "criterion": "Đúng đắn",
+      "target": "TinNhanService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đúng quyền; ClientMessageId=M1, nội dung A.",
+      "expected": "Lưu đúng người gửi/hội thoại/nội dung; chỉ báo thành công sau lưu.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=2; commits=1; Add=A,ChoXuLy",
+      "failure": null,
+      "observation": {
+        "id": "UT-327",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 200,
+        "message": null,
+        "history": null,
+        "added": [
+          {
+            "Id": "fc18e90b-4ea5-49ef-ad76-cba0c294ab3f",
+            "CuocHoiThoaiId": "70000000-0000-0000-0000-000000000007",
+            "NguoiGuiId": "10000000-0000-0000-0000-000000000001",
+            "NoiDung": "A",
+            "GuiLuc": "2026-11-14T08:03:02.7969835+00:00",
+            "MaThaoTac": "80000000-0000-0000-0000-000000000008"
+          },
+          {
+            "Id": "5ed11c85-9d88-435b-ac1d-47e6e4630149",
+            "LoaiSuKien": "TinNhan",
+            "DuLieuToiThieu": "{\"room\":\"70000000-0000-0000-0000-000000000007\",\"target\":\"fc18e90b-4ea5-49ef-ad76-cba0c294ab3f\"}",
+            "TaoLuc": "2026-11-14T08:03:02.8037613+00:00",
+            "TrangThai": "ChoXuLy",
+            "SoLanThu": 0,
+            "ThuLaiLuc": null,
+            "XuLyXongLuc": null,
+            "RowVersion": "",
+            "LeaseId": null,
+            "LeaseHetHanLuc": null
+          }
+        ],
+        "saves": 2,
+        "commits": 1,
+        "order": [
+          "Begin",
+          "Add:TinNhan",
+          "Save",
+          "Add:SuKienChoXuLy",
+          "Save",
+          "Commit"
+        ],
+        "oldText": null,
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_327",
+      "duration": "00:00:00.0325163"
+    },
+    {
+      "id": "UT-328",
+      "title": "Gửi lại cùng nội dung",
+      "criterion": "Đúng đắn",
+      "target": "TinNhanService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. M1 của U1 đã lưu A; U1 còn quyền, gửi lại M1/A.",
+      "expected": "Trả tin đã lưu; không thêm tin hoặc sự kiện trùng.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=0; commits=0; returnType=\"Task\"; Add=; Không thêm trùng đã đạt; nhưng GuiAsync trả Task không mang tin đã lưu như hợp đồng kịch bản.",
+      "failure": {
+        "cause": "Nhánh old != null kiểm hội thoại/nội dung/tệp rồi return; GuiAsync trả Task. Không thêm tin/outbox đã đạt, nhưng không trả tin đã lưu như cột kỳ vọng.",
+        "suggestion": "Chốt hợp đồng retry: nếu cần trả tin đã lưu thì dùng kết quả có dữ liệu/mã tin; nếu chỉ cần hoàn tất không thêm trùng, sửa thiết kế sau khi thống nhất. Không tự đổi kỳ vọng của lần chạy này.",
+        "impact": "Sai hợp đồng giá trị trả về; không phải lỗi tạo tin trùng.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\HocTap\\Services\\TinNhanService.cs",
+            "line": 95,
+            "anchor": "public async Task GuiAsync"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\HocTap\\Services\\TinNhanService.cs",
+            "line": 107,
+            "anchor": "if (old != null)"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-328",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 200,
+        "message": null,
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [
+          "Begin"
+        ],
+        "oldText": "A",
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "returnType": "Task",
+        "assertionFailures": [
+          "Không thêm trùng đã đạt; nhưng GuiAsync trả Task không mang tin đã lưu như hợp đồng kịch bản."
+        ]
+      },
+      "error": "Không thêm trùng đã đạt; nhưng GuiAsync trả Task không mang tin đã lưu như hợp đồng kịch bản.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_328",
+      "duration": "00:00:00.0341286"
+    },
+    {
+      "id": "UT-329",
+      "title": "Cùng mã khác nội dung",
+      "criterion": "Đúng đắn",
+      "target": "TinNhanService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. M1 của U1 đã lưu A; gửi lại M1/B.",
+      "expected": "409; không đổi A sang B.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=409; message=\"Mã thao tác đã dùng cho tin nhắn khác.\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-329",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 409,
+        "message": "Mã thao tác đã dùng cho tin nhắn khác.",
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [
+          "Begin"
+        ],
+        "oldText": "A",
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_329",
+      "duration": "00:00:00.0398742"
+    },
+    {
+      "id": "UT-330",
+      "title": "Gửi lại sau thu hồi quyền",
+      "criterion": "Xác thực",
+      "target": "TinNhanService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. M1 từng thành công; quyền U1 vừa bị thu hồi; gửi lại M1/A.",
+      "expected": "Từ chối do quyền hiện tại; không dùng idempotency để bỏ qua phân quyền.",
+      "steps": [
+        "Tạo TinNhanService thật; nguồn dữ liệu async/filerights/files/transaction giả, fixture mới cho từng ca.",
+        "Seed hội thoại và lớp; đặt trạng thái liên hệ/lớp theo ca. Mã ClientMessageId trong bảng ánh xạ MaThaoTac thật; retry seed tin M1/A đã lưu trước đó.",
+        "UT-323/325 gọi LichSuAsync; các ca còn lại gọi GuiAsync. UT-330 nguồn quyền ném 403 để mô phỏng quyền đã bị thu hồi ngay trước retry.",
+        "Thu exception/status, lịch sử, tin và outbox đã Add, thứ tự Save/Commit; assert không ghi khi từ chối, giữ A khi xung đột, không tạo trùng khi retry. UT-328 kiểm thêm hợp đồng trả tin đã lưu."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=403; message=\"Quyền đã thu hồi\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-330",
+        "mode": "Behavior",
+        "source": "Areas/HocTap/Services/TinNhanService.cs",
+        "status": 403,
+        "message": "Quyền đã thu hồi",
+        "history": null,
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "order": [
+          "Begin"
+        ],
+        "oldText": "A",
+        "mapping": "ClientMessageId trong kịch bản được ánh xạ MaThaoTac của GuiTinNhanViewModel.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_330",
+      "duration": "00:00:00.0129531"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using EduConnect.Mvc.Areas.QuanTri.ViewModels;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
@@ -11,17 +11,17 @@ public sealed partial class QuanTriService
     public async Task NhanXuLyAsync(Guid id, string version)
     {
         var actor = await rights.KiemTraAsync("XuLyBaoCao");
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-        await GiaoDichNghiepVu.KiemTraQuyenQuanTriAsync(db, actor, "XuLyBaoCao");
+        await using var tx = await data.BeginAsync(IsolationLevel.Serializable);
+        await data.CheckAdminAsync( actor, "XuLyBaoCao");
         var report = await db.Set<BaoCaoViPham>().FromSqlInterpolated($"SELECT * FROM dbo.BaoCaoViPham WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}").SingleOrDefaultAsync()
             ?? throw new LoiNghiepVu("Không tìm thấy báo cáo.", 404);
         Rules.Check(report.TrangThai == "ChoXuLy", "Báo cáo đã được tiếp nhận hoặc đã xử lý.", 409);
-        Rules.Concurrency(db, report, version);
+        data.SetVersion( report, version);
         report.TrangThai = "DangXuLy";
         report.NguoiXuLyId = actor;
-        db.Add(new LichSuXuLyBaoCao { BaoCaoId = id, NguoiThucHienId = actor, HanhDong = "NhanXuLy", NoiDung = "Báo cáo đã được tiếp nhận xử lý.", TaoLuc = await GiaoDichNghiepVu.GioMayChuAsync(db) });
+        data.Add(new LichSuXuLyBaoCao { BaoCaoId = id, NguoiThucHienId = actor, HanhDong = "NhanXuLy", NoiDung = "Báo cáo đã được tiếp nhận xử lý.", TaoLuc = await data.NowAsync() });
         rights.GhiNhatKy(actor, "NhanXuLyBaoCao", "BaoCaoViPham", id);
-        await db.SaveChangesAsync();
+        await data.SaveAsync();
         await tx.CommitAsync();
     }
 
@@ -30,29 +30,29 @@ public sealed partial class QuanTriService
         Rules.ValidateInput(input);
         var actor = await rights.KiemTraAsync("XuLyBaoCao");
         Guid? lockedUser = null;
-        await using (var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable))
+        await using (var tx = await data.BeginAsync(IsolationLevel.Serializable))
         {
-            await GiaoDichNghiepVu.KhoaQuanTriAsync(db, actor, "XuLyBaoCao");
-            var report = await db.Set<BaoCaoViPham>().SingleOrDefaultAsync(x => x.Id == input.Id) ?? throw new LoiNghiepVu("Không tìm thấy báo cáo.", 404);
+            await data.LockAdminAsync( actor, "XuLyBaoCao");
+            var report = await data.Query<BaoCaoViPham>().SingleOrDefaultAsync(x => x.Id == input.Id) ?? throw new LoiNghiepVu("Không tìm thấy báo cáo.", 404);
             Rules.Check(report.TrangThai == "DangXuLy" && report.NguoiXuLyId == actor, "Bạn cần nhận xử lý báo cáo trước khi kết luận.", 409);
             Rules.Check(report.NguoiBaoCaoId != actor && report.NguoiBiBaoCaoId != actor, "Quản trị liên quan đến báo cáo cần để quản trị khác xử lý.", 403);
-            Rules.Concurrency(db, report, input.RowVersion);
-            var now = await GiaoDichNghiepVu.GioMayChuAsync(db);
+            data.SetVersion( report, input.RowVersion);
+            var now = await data.NowAsync();
             if (input.KetQua == "XuLy")
             {
                 if (input.BienPhap == "KhoaTaiKhoan")
                 {
                     await rights.KiemTraAsync("QuanLyTaiKhoan");
-                    await GiaoDichNghiepVu.KiemTraQuyenQuanTriAsync(db, actor, "QuanLyTaiKhoan");
+                    await data.CheckAdminAsync( actor, "QuanLyTaiKhoan");
                     Rules.Check(report.NguoiBiBaoCaoId != null, "Báo cáo cũ chưa xác định tài khoản bị báo cáo. Cần bổ sung thông tin trước khi khóa.");
-                    var user = await db.Users.SingleAsync(x => x.Id == report.NguoiBiBaoCaoId);
+                    var user = await data.Query<TaiKhoan>().SingleAsync(x => x.Id == report.NguoiBiBaoCaoId);
                     await ApDungKhoaAsync(user, actor, input.KetLuan, report.Id);
                     lockedUser = user.Id;
                 }
                 else if (input.BienPhap == "AnNoiDung")
                 {
                     Rules.Check(report.LoaiDoiTuong is "HoSoGiaSu" or "NhuCauHoc" or "TinNhan" or "DanhGiaDoiTac", "Loại đối tượng này cần biện pháp phù hợp khác.");
-                    db.Add(new BienPhapQuanTri
+                    data.Add(new BienPhapQuanTri
                     {
                         LoaiDoiTuong = report.LoaiDoiTuong,
                         DoiTuongId = report.DoiTuongId,
@@ -68,7 +68,7 @@ public sealed partial class QuanTriService
             report.KetQua = input.KetQua;
             report.KetLuan = input.KetLuan.Trim();
             report.XuLyLuc = now;
-            db.Add(new LichSuXuLyBaoCao
+            data.Add(new LichSuXuLyBaoCao
             {
                 BaoCaoId = report.Id,
                 NguoiThucHienId = actor,
@@ -80,7 +80,7 @@ public sealed partial class QuanTriService
             if (report.NguoiBiBaoCaoId is Guid recipient)
                 notices.Tao(recipient, "KiemDuyet", report.Id, "Nội dung liên quan đến tài khoản của bạn đã được quản trị xem xét.");
             rights.GhiNhatKy(actor, "XuLyBaoCao", "BaoCaoViPham", report.Id, input.KetQua);
-            await db.SaveChangesAsync();
+            await data.SaveAsync();
             await tx.CommitAsync();
         }
         if (lockedUser is Guid userId)
@@ -93,7 +93,7 @@ public sealed partial class QuanTriService
         var reportPermission = await rights.CoQuyenAsync("XuLyBaoCao");
         Rules.Check(accountPermission || reportPermission, "Bạn chưa có quyền xem biện pháp quản trị.", 403);
         Rules.Check(trang is >= 1 and <= 100000 && (loai == null || loai is "TaiKhoan" or "HoSoGiaSu" or "NhuCauHoc" or "TinNhan" or "DanhGiaDoiTac" or "LopHoc"), "Bộ lọc không hợp lệ.");
-        var query = db.Set<BienPhapQuanTri>().AsNoTracking().Where(x => (loai == null || x.LoaiDoiTuong == loai) && (!conHieuLuc || x.GoLuc == null)
+        var query = data.Query<BienPhapQuanTri>().AsNoTracking().Where(x => (loai == null || x.LoaiDoiTuong == loai) && (!conHieuLuc || x.GoLuc == null)
             && (reportPermission || (accountPermission && (x.Loai == "KhoaTaiKhoan" || x.Loai == "TamDungLop"))));
         return new Page<BienPhapQuanTri>
         {
@@ -107,9 +107,9 @@ public sealed partial class QuanTriService
     public async Task<List<BienPhapQuanTri>> CuaToiAsync()
     {
         var me = await current.HienTaiAsync();
-        var query = from b in db.Set<BienPhapQuanTri>().AsNoTracking()
+        var query = from b in data.Query<BienPhapQuanTri>().AsNoTracking()
                     where (b.LoaiDoiTuong == "TaiKhoan" && b.DoiTuongId == me.Id)
-                      || db.Set<BaoCaoViPham>().Any(r => r.Id == b.BaoCaoId && r.NguoiBiBaoCaoId == me.Id)
+                      || data.Query<BaoCaoViPham>().Any(r => r.Id == b.BaoCaoId && r.NguoiBiBaoCaoId == me.Id)
                     orderby b.ApDungLuc descending
                     select b;
         return await query.ToListAsync();
@@ -118,7 +118,7 @@ public sealed partial class QuanTriService
     public async Task<KetQuaKiemDuyetViewModel> KetQuaLienQuanAsync(Guid id)
     {
         var me = await current.HienTaiAsync();
-        var report = await db.Set<BaoCaoViPham>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.NguoiBiBaoCaoId == me.Id && x.KetLuan != null)
+        var report = await data.Query<BaoCaoViPham>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.NguoiBiBaoCaoId == me.Id && x.KetLuan != null)
             ?? throw new LoiNghiepVu("Không tìm thấy kết quả xử lý.", 404);
         return new KetQuaKiemDuyetViewModel { BaoCaoId = report.Id, KetLuan = report.KetLuan ?? "", KetQua = report.KetQua, TrangThai = report.TrangThai, RowVersion = Convert.ToBase64String(report.RowVersion) };
     }
@@ -127,10 +127,10 @@ public sealed partial class QuanTriService
         => type switch
         {
             "TaiKhoan" => id,
-            "HoSoGiaSu" => await db.Set<HoSoGiaSu>().Where(x => x.Id == id).Select(x => x.GiaSuId).SingleAsync(),
-            "NhuCauHoc" => await db.Set<NhuCauHoc>().Where(x => x.Id == id).Select(x => x.ChuSoHuuId).SingleAsync(),
-            "TinNhan" => await db.Set<TinNhan>().IgnoreQueryFilters().Where(x => x.Id == id).Select(x => x.NguoiGuiId).SingleAsync(),
-            "DanhGiaDoiTac" => await db.Set<DanhGiaDoiTac>().Where(x => x.Id == id).Select(x => x.NguoiGuiId).SingleAsync(),
+            "HoSoGiaSu" => await data.Query<HoSoGiaSu>().Where(x => x.Id == id).Select(x => x.GiaSuId).SingleAsync(),
+            "NhuCauHoc" => await data.Query<NhuCauHoc>().Where(x => x.Id == id).Select(x => x.ChuSoHuuId).SingleAsync(),
+            "TinNhan" => await data.Query<TinNhan>().IgnoreQueryFilters().Where(x => x.Id == id).Select(x => x.NguoiGuiId).SingleAsync(),
+            "DanhGiaDoiTac" => await data.Query<DanhGiaDoiTac>().Where(x => x.Id == id).Select(x => x.NguoiGuiId).SingleAsync(),
             _ => throw new LoiNghiepVu("Loại đối tượng không hợp lệ.")
         };
 }

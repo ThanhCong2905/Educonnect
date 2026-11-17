@@ -1,6 +1,0 @@
-MT1-UT-061
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_061
-Thời lượng: 00:00:00.0411812
-Actual: Form không có khóa lịch: LichRanh rỗng trước khi gọi LuuAsync.
-TRX: TestResults/MT1/MT1-unit.trx

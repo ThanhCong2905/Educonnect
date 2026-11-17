@@ -6,8 +6,10 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.NhuCau.Services;
 
-public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiService current, MonHocCatalog catalog) : INhuCauService
+public sealed partial class NhuCauService(AppDbContext db, INguoiDungHienTaiService current, MonHocCatalog catalog, INhuCauStore? store = null) : INhuCauService
 {
+    private readonly INhuCauStore persistence = store ?? new EfNhuCauStore(db, catalog);
+
     public Task<List<MonHoc>> MonTenAsync() => db.Set<MonHoc>().AsNoTracking().ToListAsync();
     public async Task<List<NhuCauHoc>> LayAsync()
     {
@@ -56,28 +58,28 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
     {
         Rules.ValidateInput(m);
         Rules.Check(user.LoaiNguoi is "HocSinh" or "PhuHuynh", "Gia sư quản lý khả năng nhận dạy trong hồ sơ, không tạo hoặc sửa nhu cầu nhận lớp.", 403);
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, huy);
-        await KhoaTaiKhoanAsync(user.Id, huy);
+        await using var tx = await persistence.BeginAsync(huy);
+        await persistence.LockOwnerAsync(user.Id, huy);
         Rules.Check(m.MaThaoTac != Guid.Empty, "Mã thao tác không hợp lệ. Hãy mở lại biểu mẫu.");
         if (!m.BanNhap)
         {
-            var saved = await db.Set<LuotDangNhuCau>().AsNoTracking().SingleOrDefaultAsync(x => x.TaiKhoanId == user.Id && x.MaThaoTac == m.MaThaoTac, huy);
+            var saved = await persistence.FindOperationAsync(user.Id, m.MaThaoTac, huy);
             if (saved != null)
             {
                 Rules.Check(m.Id == saved.NhuCauId || (m.Id == null && saved.HanhDong == "Dang"), "Mã thao tác đã dùng cho nhu cầu khác.", 409);
                 return saved.NhuCauId;
             }
         }
-        var previous = m.Id == null ? null : await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == m.Id && x.ChuSoHuuId == user.Id, huy);
+        var previous = m.Id == null ? null : await persistence.FindOwnedAsync(m.Id.Value, user.Id, false, huy);
         await KiemTraHanMucAsync(user.Id, m.BanNhap, previous?.Id, huy);
         var posting = !m.BanNhap && previous?.TrangThai != "DangMo";
         if (posting) await KiemTraLuotDangAsync(user.Id, huy);
         var subjects = m.MonHocIds.Distinct().ToList();
         if (m.ChonMonKhac)
-            subjects.Add(await catalog.LayHoacThemAsync(m.TenMonKhac, huy));
+            subjects.Add(await persistence.ResolveSubjectAsync(m.TenMonKhac, huy));
         subjects = subjects.Distinct().ToList();
         Rules.Check(subjects.Count > 0 && subjects.Count <= 10, "Chọn ít nhất một môn học, tối đa 10 môn.");
-        Rules.Check(await db.Set<MonHoc>().CountAsync(x => subjects.Contains(x.Id) && x.DangSuDung, huy) == subjects.Count, "Môn học không hợp lệ.");
+        Rules.Check(await persistence.CountActiveSubjectsAsync(subjects, huy) == subjects.Count, "Môn học không hợp lệ.");
         m.MonHocIds = subjects;
         m.MonHocId = subjects[0];
         if (user.LoaiNguoi == "HocSinh")
@@ -88,12 +90,12 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
         if (!m.BanNhap) await KiemTraTrungAsync(m, user.Id, huy);
         var id = await LuuMotAsync(m, user, huy);
         if (posting) GhiLuotDang(id, user.Id, previous == null ? "Dang" : "MoLai", m.MaThaoTac);
-        var links = await db.Set<NhuCauMonHoc>().Where(x => x.NhuCauId == id).ToListAsync(huy);
-        db.RemoveRange(links.Where(x => !subjects.Contains(x.MonHocId)));
+        var links = await persistence.ReadLinksAsync(id, huy);
+        persistence.RemoveLinks(links.Where(x => !subjects.Contains(x.MonHocId)));
         var existing = links.Select(x => x.MonHocId).ToHashSet();
-        db.AddRange(subjects.Where(subject => !existing.Contains(subject))
+        persistence.AddLinks(subjects.Where(subject => !existing.Contains(subject))
             .Select(subject => new NhuCauMonHoc { NhuCauId = id, MonHocId = subject }));
-        await db.SaveChangesAsync(huy);
+        await persistence.SaveAsync(huy);
         await tx.CommitAsync(huy);
         return id;
     }
@@ -116,15 +118,16 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
         Rules.Check(id != Guid.Empty, "Không tìm thấy nhu cầu của bạn.", 404);
         Rules.Check((await current.HienTaiAsync()).LoaiNguoi is "HocSinh" or "PhuHuynh", "Mở Hồ sơ của tôi để quản lý môn dạy.", 403);
         var me = await current.HienTaiAsync();
-        var n = await db.Set<NhuCauHoc>().AsNoTracking().Include(x => x.MonHocs).SingleOrDefaultAsync(x => x.Id == id && x.ChuSoHuuId == me.Id) ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
+        var n = await persistence.FindOwnedAsync(id, me.Id, false, default) ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu của bạn.", 404);
+        var subject = await persistence.ReadSubjectAsync(n.MonHocId, default);
         return new()
         {
             Id = n.Id,
             RowVersion = Convert.ToBase64String(n.RowVersion),
             MonHocId = n.MonHocId,
             MonHocIds = n.CacMonHocId.ToList(),
-            ChonMonKhac = !await db.Set<MonHoc>().AnyAsync(x => x.Id == n.MonHocId && MonHocCatalog.PhoThong.Contains(x.TenMon)),
-            TenMonKhac = await db.Set<MonHoc>().Where(x => x.Id == n.MonHocId).Select(x => x.TenMon).SingleAsync(),
+            ChonMonKhac = !await persistence.IsCommonSubjectAsync(n.MonHocId, default),
+            TenMonKhac = subject.TenMon,
             KhoiLop = n.KhoiLop,
             HocLuc = n.HocLuc,
             MucTieu = n.MucTieu,
@@ -137,7 +140,7 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             TenNguoiHoc = n.TenNguoiHoc,
             TuoiNguoiHoc = n.TuoiNguoiHoc,
             BanNhap = n.TrangThai == "BanNhap",
-            LichRanh = await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == id).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToListAsync()
+            LichRanh = (await persistence.ReadSlotsAsync(id, default)).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToList()
         };
     });
     private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
@@ -146,7 +149,7 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
         Rules.Check(m.HocPhiDuKien == null || m.HocPhiDuKien > 0, "Nhập học phí lớn hơn 0 hoặc để trống để trao đổi thêm.", field: "HocPhiDuKien");
         if (!m.BanNhap || m.LichRanh.Count > 0)
             Rules.Slots(m.LichRanh);
-        Rules.Check(await db.Set<MonHoc>().AnyAsync(x => x.Id == m.MonHocId && x.DangSuDung, huy), "Môn học không hợp lệ.");
+        Rules.Check(await persistence.CountActiveSubjectsAsync([m.MonHocId], huy) == 1, "Môn học không hợp lệ.");
         if (!m.BanNhap)
         {
             Rules.Check(!string.IsNullOrWhiteSpace(m.MucTieu) && m.SoBuoiTuan is >= 1 and <= 7, "Cần mục tiêu và số buổi từ 1 đến 7.");
@@ -158,13 +161,12 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
                     "Nhập tên người học và tuổi hoặc khối lớp.");
         }
 
-        var n = m.Id == null ? new NhuCauHoc { Id = Guid.NewGuid(), ChuSoHuuId = u.Id, LoaiNhuCau = "TimGiaSu", TaoLuc = DateTimeOffset.UtcNow } : await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == m.Id && x.ChuSoHuuId == u.Id, huy) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
+        var n = m.Id == null ? new NhuCauHoc { Id = Guid.NewGuid(), ChuSoHuuId = u.Id, LoaiNhuCau = "TimGiaSu", TaoLuc = DateTimeOffset.UtcNow } : await persistence.FindOwnedAsync(m.Id.Value, u.Id, true, huy) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
         if (m.Id == null)
-            db.Add(n);
+            persistence.AddNeed(n);
         else
         {
-            Rules.Concurrency(db, n, m.RowVersion);
-            db.Entry(n).Property(x => x.MucTieu).IsModified = true;
+            persistence.SetVersion(n, Rules.Version(m.RowVersion));
         }
         n.MonHocId = m.MonHocId;
         n.KhoiLop = m.KhoiLop;
@@ -185,11 +187,11 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             n.NhacXacNhanLuc = null;
             n.LyDoDong = null;
         }
-        await db.SaveChangesAsync(huy);
-        await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == n.Id).ExecuteDeleteAsync(huy);
+        await persistence.SaveAsync(huy);
+        await persistence.DeleteSlotsAsync(n.Id, huy);
         foreach (var s in m.LichRanh)
-            db.Add(new KhungGioRanh { Id = Guid.NewGuid(), NhuCauId = n.Id, ThuTrongTuan = s.ThuTrongTuan, GioBatDau = s.GioBatDau, GioKetThuc = s.GioKetThuc });
-        await db.SaveChangesAsync(huy);
+            persistence.AddSlot(new KhungGioRanh { Id = Guid.NewGuid(), NhuCauId = n.Id, ThuTrongTuan = s.ThuTrongTuan, GioBatDau = s.GioBatDau, GioKetThuc = s.GioKetThuc });
+        await persistence.SaveAsync(huy);
         return n.Id;
     }
     public async Task TrangThaiAsync(Guid id, string state, string version)

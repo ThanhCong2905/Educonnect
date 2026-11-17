@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using System.Security.Claims;
 using System.Text;
 using EduConnect.Mvc.Data;
@@ -14,9 +14,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace EduConnect.Mvc.Infrastructure;
 
 public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoan> users, SignInManager<TaiKhoan> signIn,
-    PhienDangNhapService sessions, PhienCapNhat realtime, EmailTaiKhoanService email, IConfiguration configuration, TepService files,
-    NhatKyAnToanService auditLog)
+    PhienDangNhapService sessions, PhienCapNhat realtime, EmailTaiKhoanService email, IConfiguration configuration, ITepService files,
+    NhatKyAnToanService auditLog, IServiceDataStore? dataStore = null)
 {
+    private readonly IServiceDataStore data = dataStore ?? new EfServiceDataStore(db);
+
     private static readonly string DummyHash = new PasswordHasher<TaiKhoan>().HashPassword(new TaiKhoan(), Guid.NewGuid().ToString("N"));
     private static readonly string[] PublicRoles = ["HocSinh", "PhuHuynh", "GiaSu"];
 
@@ -25,7 +27,7 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
         if (!PublicRoles.Contains(input.VaiTro))
             return IdentityResult.Failed(new IdentityError { Description = "Vai trò đăng ký không hợp lệ." });
 
-        await using var tx = await db.Database.BeginTransactionAsync();
+        await using var tx = await data.BeginAsync();
         var address = input.Email.Trim();
         var user = new TaiKhoan { Id = Guid.NewGuid(), HoTen = input.HoTen.Trim(), Email = address, UserName = address };
         try
@@ -39,16 +41,16 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
             switch (input.VaiTro)
             {
                 case "HocSinh":
-                    db.Add(new HocSinh { TaiKhoanId = user.Id });
+                    data.Add(new HocSinh { TaiKhoanId = user.Id });
                     break;
                 case "PhuHuynh":
-                    db.Add(new PhuHuynh { TaiKhoanId = user.Id });
+                    data.Add(new PhuHuynh { TaiKhoanId = user.Id });
                     break;
                 case "GiaSu":
-                    db.Add(new GiaSu { TaiKhoanId = user.Id });
+                    data.Add(new GiaSu { TaiKhoanId = user.Id });
                     break;
             }
-            await db.SaveChangesAsync();
+            await data.SaveAsync();
             await tx.CommitAsync();
             auditLog.Ghi("Authentication", "TaiKhoan.DangKy", "ThanhCong", dich: user.Id);
             return IdentityResult.Success;
@@ -77,7 +79,7 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
         if (!correct || user?.TrangThai != "HoatDong")
         {
             audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "ThongTinDangNhapKhongHopLe", dich: user?.Id, dinhDanh: normalized);
-            await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={normalized},@DiaChiIp={ip}");
+            await data.ExecuteAsync($"EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={normalized},@DiaChiIp={ip}");
             return "Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.";
         }
 
@@ -124,7 +126,7 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
     private Task<bool> DangChoAsync(string account, string ip)
     {
         var now = DateTimeOffset.UtcNow;
-        return db.Set<TrangThaiThuDangNhap>().AsNoTracking().AnyAsync(x =>
+        return data.Query<TrangThaiThuDangNhap>().AsNoTracking().AnyAsync(x =>
             ((x.LoaiKhoa == "TaiKhoan" && x.GiaTriKhoa == account) || (x.LoaiKhoa == "DiaChiIp" && x.GiaTriKhoa == ip))
             && x.LanSaiCuoiLuc > now.AddMinutes(-15) && x.ChoDenLuc > now);
     }
@@ -157,7 +159,7 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
         }
         catch (FormatException) { return InvalidLink(); }
 
-        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+        await using var tx = await data.BeginAsync(IsolationLevel.Serializable);
         var result = await users.ResetPasswordAsync(user, token, input.MatKhau);
         if (!result.Succeeded)
             return result;

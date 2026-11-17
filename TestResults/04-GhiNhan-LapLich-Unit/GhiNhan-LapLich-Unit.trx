@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="792e67e5-7eac-4ed8-af23-a5df79e3ce42" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-14 07:51:44" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T07:51:44.2488955+07:00" queuing="2026-11-14T07:51:44.2488961+07:00" start="2026-11-14T07:51:42.8942187+07:00" finish="2026-11-14T07:51:44.3288825+07:00" />
+  <TestSettings name="default" id="7cbde70a-2001-4271-a630-b345655da6b8">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-14_07_51_44" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="649fb829-8b2b-4136-9bc2-1c86ddd2b952" testId="97f7877f-3c94-d191-506d-65fbc287bb92" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001572" startTime="2026-11-14T07:51:44.2012562+07:00" endTime="2026-11-14T07:51:44.2012563+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="649fb829-8b2b-4136-9bc2-1c86ddd2b952">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-070 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 17&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3968296c-e069-4397-8e61-70e4ca4dc011" testId="5a6768d8-8d13-8d70-d631-fad7c310b45a" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0046897" startTime="2026-11-14T07:51:44.1315899+07:00" endTime="2026-11-14T07:51:44.1315901+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3968296c-e069-4397-8e61-70e4ca4dc011">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsType() Failure: Value is not the exact type&#xD;
+Expected: typeof(Microsoft.AspNetCore.Mvc.BadRequestResult)&#xD;
+Actual:   typeof(Microsoft.AspNetCore.Mvc.ViewResult)</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 21&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0291b8b5-21ea-4319-af9f-b9f4736925a0" testId="c9bbb45f-93b0-95ad-2ed4-987301ba945e" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003440" startTime="2026-11-14T07:51:44.0630962+07:00" endTime="2026-11-14T07:51:44.0630966+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0291b8b5-21ea-4319-af9f-b9f4736925a0">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-069 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocController.Buoi(GhiNhanBuoiHocViewModel).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhan(GhiNhanBuoiHocViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 53&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="68a01605-1ef2-4b86-8c74-8f9cf3424eec" testId="018b6de1-20cd-edba-abd7-565a4001d6ae" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001895" startTime="2026-11-14T07:51:44.2006108+07:00" endTime="2026-11-14T07:51:44.2006109+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="68a01605-1ef2-4b86-8c74-8f9cf3424eec">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-071 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 22&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1c664b88-57b1-409b-b29c-6ed393d57d0b" testId="e6470560-b7d9-4686-ba7d-9999562b422d" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001660" startTime="2026-11-14T07:51:44.1225614+07:00" endTime="2026-11-14T07:51:44.1225616+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c664b88-57b1-409b-b29c-6ed393d57d0b">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-075 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocController.DoiLich(SuaLichInput).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Sua(SuaLichInput).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 66&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="df90c65c-0dbd-4e98-ac57-d158f2704acf" testId="4bee0005-5e52-3d79-8bcd-17ebae46c79d" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002492" startTime="2026-11-14T07:51:44.2000201+07:00" endTime="2026-11-14T07:51:44.2000203+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df90c65c-0dbd-4e98-ac57-d158f2704acf">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-072 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 27&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8870dc7d-84cb-448b-8654-2b0b1ec3edff" testId="fb8da32e-3503-4f66-4170-efc02dca5d57" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002333" startTime="2026-11-14T07:51:44.2016422+07:00" endTime="2026-11-14T07:51:44.2016423+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8870dc7d-84cb-448b-8654-2b0b1ec3edff">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-077 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 46&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d75b0547-d6e2-4fe1-b839-4e6558359cd7" testId="fc5a0847-7d23-ac9b-33f3-73c123a25b55" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_073_ModelStateThemLoi_GiuModel_KhongThem" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0042278" startTime="2026-11-14T07:51:44.1266039+07:00" endTime="2026-11-14T07:51:44.1266042+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d75b0547-d6e2-4fe1-b839-4e6558359cd7" />
+    <UnitTestResult executionId="ce1f166d-fd43-4e2d-b631-7fe5bbad2a37" testId="08ed57e7-f732-7d21-adbe-2e519e1ff854" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0014392" startTime="2026-11-14T07:51:44.1332066+07:00" endTime="2026-11-14T07:51:44.1332068+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ce1f166d-fd43-4e2d-b631-7fe5bbad2a37">
+      <Output>
+        <ErrorInfo>
+          <Message>EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có quyền.</Message>
+          <StackTrace>   at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id) in C:\Khóa luận TN\Educonnect\Areas\HocTap\Controllers\LichHocController.cs:line 91&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 33&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aebf9c59-3249-4c72-a330-634d4c47b329" testId="19eb020a-d126-cd9c-99f9-82564e81824a" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_074_HaiBuoiHopLe_TruyenDuHaiBuoiVaThongBao" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2153549" startTime="2026-11-14T07:51:44.1646476+07:00" endTime="2026-11-14T07:51:44.1646481+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aebf9c59-3249-4c72-a330-634d4c47b329" />
+    <UnitTestResult executionId="eb24bc1a-089c-4e6a-bcee-a2141b11e44e" testId="922e5c12-3034-67e9-ec6c-3fb0e81165ec" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_079_ThemBuoi_GiuNguyenBuoiBanDau" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0348619" startTime="2026-11-14T07:51:44.2012997+07:00" endTime="2026-11-14T07:51:44.2012997+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb24bc1a-089c-4e6a-bcee-a2141b11e44e" />
+    <UnitTestResult executionId="935efd9f-6fd5-4f74-abf8-72733f7e5174" testId="4677b8f2-5e35-3ce6-4d83-92629c650160" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0070795" startTime="2026-11-14T07:51:43.9551069+07:00" endTime="2026-11-14T07:51:43.9551400+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="935efd9f-6fd5-4f74-abf8-72733f7e5174">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-076 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.DoiLichAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: SuaAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 41&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="eecac394-53a0-47ad-b80e-42da037876a2" testId="34f7d8f7-6c24-2fa8-dff0-e21b7c56231b" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0599027" startTime="2026-11-14T07:51:44.1219745+07:00" endTime="2026-11-14T07:51:44.1219746+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eecac394-53a0-47ad-b80e-42da037876a2">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-068: model đã nạp đúng nhưng controller không truyền RequestAborted xuống service như kỳ vọng thiết kế; các lời gọi hiện chỉ nhận Guid id.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 45&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4fbc29f7-74c6-4b77-a01a-d5e4d63b6547" testId="beac941e-0692-86a7-f21d-e6a033b78b36" testName="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001700" startTime="2026-11-14T07:51:44.2009410+07:00" endTime="2026-11-14T07:51:44.2009410+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fbc29f7-74c6-4b77-a01a-d5e4d63b6547">
+      <Output>
+        <ErrorInfo>
+          <Message>UT-078 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.</Message>
+          <StackTrace>   at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart) in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs:line 14&#xD;
+   at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode() in C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs:line 51&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="14d4df7e-8e74-4e82-9e3b-497408e5be89" testId="f626a018-7951-a562-246d-dbb4bc3ccb78" testName="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.1276518" startTime="2026-11-14T07:51:44.0617262+07:00" endTime="2026-11-14T07:51:44.0617265+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14d4df7e-8e74-4e82-9e3b-497408e5be89">
+      <Output>
+        <ErrorInfo>
+          <Message>EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có lịch học.</Message>
+          <StackTrace>   at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id) in C:\Khóa luận TN\Educonnect\Areas\HocTap\Controllers\LichHocController.cs:line 91&#xD;
+   at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound() in C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs:line 27&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="e6470560-b7d9-4686-ba7d-9999562b422d">
+      <Execution id="1c664b88-57b1-409b-b29c-6ed393d57d0b" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_075_ThietKe_DoiLich_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="34f7d8f7-6c24-2fa8-dff0-e21b7c56231b">
+      <Execution id="eecac394-53a0-47ad-b80e-42da037876a2" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_068_NapBieuMau_DungIdVaRowVersion" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="5a6768d8-8d13-8d70-d631-fad7c310b45a">
+      <Execution id="3968296c-e069-4397-8e61-70e4ca4dc011" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_065_IdRong_BadRequest_KhongDocService" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_079_ThemBuoi_GiuNguyenBuoiBanDau" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="922e5c12-3034-67e9-ec6c-3fb0e81165ec">
+      <Execution id="eb24bc1a-089c-4e6a-bcee-a2141b11e44e" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_079_ThemBuoi_GiuNguyenBuoiBanDau" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="4677b8f2-5e35-3ce6-4d83-92629c650160">
+      <Execution id="935efd9f-6fd5-4f74-abf8-72733f7e5174" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_073_ModelStateThemLoi_GiuModel_KhongThem" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="fc5a0847-7d23-ac9b-33f3-73c123a25b55">
+      <Execution id="d75b0547-d6e2-4fe1-b839-4e6558359cd7" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_073_ModelStateThemLoi_GiuModel_KhongThem" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="beac941e-0692-86a7-f21d-e6a033b78b36">
+      <Execution id="4fbc29f7-74c6-4b77-a01a-d5e4d63b6547" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_074_HaiBuoiHopLe_TruyenDuHaiBuoiVaThongBao" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="19eb020a-d126-cd9c-99f9-82564e81824a">
+      <Execution id="aebf9c59-3249-4c72-a330-634d4c47b329" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_074_HaiBuoiHopLe_TruyenDuHaiBuoiVaThongBao" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="4bee0005-5e52-3d79-8bcd-17ebae46c79d">
+      <Execution id="df90c65c-0dbd-4e98-ac57-d158f2704acf" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="c9bbb45f-93b0-95ad-2ed4-987301ba945e">
+      <Execution id="0291b8b5-21ea-4319-af9f-b9f4736925a0" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_069_ThietKe_Buoi_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="97f7877f-3c94-d191-506d-65fbc287bb92">
+      <Execution id="649fb829-8b2b-4136-9bc2-1c86ddd2b952" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="018b6de1-20cd-edba-abd7-565a4001d6ae">
+      <Execution id="68a01605-1ef2-4b86-8c74-8f9cf3424eec" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="08ed57e7-f732-7d21-adbe-2e519e1ff854">
+      <Execution id="ce1f166d-fd43-4e2d-b631-7fe5bbad2a37" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_067_KhongCoQuyen_TraForbid" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="fb8da32e-3503-4f66-4170-efc02dca5d57">
+      <Execution id="8870dc7d-84cb-448b-8654-2b0b1ec3edff" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.LichHocServiceTest" name="UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode" />
+    </UnitTest>
+    <UnitTest name="EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\hoctap-bin\debug\net10.0\educonnect.unittests.dll" id="f626a018-7951-a562-246d-dbb4bc3ccb78">
+      <Execution id="14d4df7e-8e74-4e82-9e3b-497408e5be89" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\hoctap-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.HocTap.UnitTests.HocTapControllerTest" name="UT_066_KhongTimThay_TraNotFound" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="97f7877f-3c94-d191-506d-65fbc287bb92" executionId="649fb829-8b2b-4136-9bc2-1c86ddd2b952" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a6768d8-8d13-8d70-d631-fad7c310b45a" executionId="3968296c-e069-4397-8e61-70e4ca4dc011" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9bbb45f-93b0-95ad-2ed4-987301ba945e" executionId="0291b8b5-21ea-4319-af9f-b9f4736925a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="018b6de1-20cd-edba-abd7-565a4001d6ae" executionId="68a01605-1ef2-4b86-8c74-8f9cf3424eec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6470560-b7d9-4686-ba7d-9999562b422d" executionId="1c664b88-57b1-409b-b29c-6ed393d57d0b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4bee0005-5e52-3d79-8bcd-17ebae46c79d" executionId="df90c65c-0dbd-4e98-ac57-d158f2704acf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb8da32e-3503-4f66-4170-efc02dca5d57" executionId="8870dc7d-84cb-448b-8654-2b0b1ec3edff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fc5a0847-7d23-ac9b-33f3-73c123a25b55" executionId="d75b0547-d6e2-4fe1-b839-4e6558359cd7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08ed57e7-f732-7d21-adbe-2e519e1ff854" executionId="ce1f166d-fd43-4e2d-b631-7fe5bbad2a37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="19eb020a-d126-cd9c-99f9-82564e81824a" executionId="aebf9c59-3249-4c72-a330-634d4c47b329" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="922e5c12-3034-67e9-ec6c-3fb0e81165ec" executionId="eb24bc1a-089c-4e6a-bcee-a2141b11e44e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4677b8f2-5e35-3ce6-4d83-92629c650160" executionId="935efd9f-6fd5-4f74-abf8-72733f7e5174" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34f7d8f7-6c24-2fa8-dff0-e21b7c56231b" executionId="eecac394-53a0-47ad-b80e-42da037876a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="beac941e-0692-86a7-f21d-e6a033b78b36" executionId="4fbc29f7-74c6-4b77-a01a-d5e4d63b6547" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f626a018-7951-a562-246d-dbb4bc3ccb78" executionId="14d4df7e-8e74-4e82-9e3b-497408e5be89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="15" executed="15" passed="3" failed="12" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.15]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.15]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.21]       UT-076 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.DoiLichAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: SuaAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.21]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(41,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.21]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.32]       EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có lịch học.&#xD;
+[xUnit.net 00:00:00.32]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.32]         C:\Khóa luận TN\Educonnect\Areas\HocTap\Controllers\LichHocController.cs(91,0): at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id)&#xD;
+[xUnit.net 00:00:00.32]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(27,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound()&#xD;
+[xUnit.net 00:00:00.32]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.32]       UT-069 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocController.Buoi(GhiNhanBuoiHocViewModel).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhan(GhiNhanBuoiHocViewModel).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.32]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.32]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.32]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(53,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.32]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.32]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.38]       UT-068: model đã nạp đúng nhưng controller không truyền RequestAborted xuống service như kỳ vọng thiết kế; các lời gọi hiện chỉ nhận Guid id.&#xD;
+[xUnit.net 00:00:00.38]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.38]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(45,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion()&#xD;
+[xUnit.net 00:00:00.38]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.38]       UT-075 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocController.DoiLich(SuaLichInput).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: Sua(SuaLichInput).
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.38]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.38]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.38]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(66,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.38]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.38]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.39]       Assert.IsType() Failure: Value is not the exact type&#xD;
+[xUnit.net 00:00:00.39]       Expected: typeof(Microsoft.AspNetCore.Mvc.BadRequestResult)&#xD;
+[xUnit.net 00:00:00.39]       Actual:   typeof(Microsoft.AspNetCore.Mvc.ViewResult)&#xD;
+[xUnit.net 00:00:00.39]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.39]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(21,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService()&#xD;
+[xUnit.net 00:00:00.39]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.39]       EduConnect.Mvc.Infrastructure.LoiNghiepVu : Không có quyền.&#xD;
+[xUnit.net 00:00:00.39]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.39]         C:\Khóa luận TN\Educonnect\Areas\HocTap\Controllers\LichHocController.cs(91,0): at EduConnect.Mvc.Areas.HocTap.Controllers.LichHocController.Buoi(Guid id)&#xD;
+[xUnit.net 00:00:00.39]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapControllerTest.cs(33,0): at EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid()&#xD;
+[xUnit.net 00:00:00.39]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.46]       UT-072 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(27,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]       UT-071 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(22,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]       UT-078 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(51,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]       UT-070 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(17,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]       UT-077 — FAIL ĐỐI CHIẾU THIẾT KẾ.
+Mong đợi: code khai báo public LichHocService.GhiNhanBuoiHocAsync(...).
+Thực tế: không tìm thấy phương thức/overload này.
+Code hiện có: GhiNhanAsync.
+Không tự coi phương thức khác tên là tương đương. Chưa chạy phần kiểm hành vi vì hợp đồng thiết kế chưa được triển khai đúng.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\HocTapDesignContract.cs(14,0): at EduConnect.HocTap.UnitTests.HocTapDesignContract.RequireMethod(String id, Type type, String name, Type firstParameter, String actualCounterpart)&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\LichHocServiceTest.cs(46,0): at EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode()&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.46]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.46]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:43.9513488+07:00">
+        <Text>[xUnit.net 00:00:00.21]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_076_ThietKe_DoiLichAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.0616963+07:00">
+        <Text>[xUnit.net 00:00:00.32]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_066_KhongTimThay_TraNotFound [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.0628054+07:00">
+        <Text>[xUnit.net 00:00:00.32]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_069_ThietKe_Buoi_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.1220040+07:00">
+        <Text>[xUnit.net 00:00:00.38]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_068_NapBieuMau_DungIdVaRowVersion [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.1222075+07:00">
+        <Text>[xUnit.net 00:00:00.38]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_075_ThietKe_DoiLich_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.1315765+07:00">
+        <Text>[xUnit.net 00:00:00.39]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_065_IdRong_BadRequest_KhongDocService [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.1331517+07:00">
+        <Text>[xUnit.net 00:00:00.39]     EduConnect.HocTap.UnitTests.HocTapControllerTest.UT_067_KhongCoQuyen_TraForbid [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.2564593+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_072_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.2565167+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_071_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.2565603+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_078_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.2566095+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_070_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T07:51:44.2566503+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.HocTap.UnitTests.LichHocServiceTest.UT_077_ThietKe_GhiNhanBuoiHocAsync_PhaiCoTrongCode [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

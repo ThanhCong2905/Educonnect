@@ -1,6 +1,0 @@
-MT1-UT-059
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_059
-Thời lượng: 00:00:00.0023059
-Actual: LayDeSuaAsync đúng Id 1 lần; giữ model; ChonMonKhac=false; có danh mục.
-TRX: TestResults/MT1/MT1-unit.trx

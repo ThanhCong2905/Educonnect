@@ -9,6 +9,7 @@ namespace EduConnect.Mvc.Areas.KetNoi.Services;
 
 public interface IKetNoiService
 {
+    Task<Dictionary<Guid, LopHoc>> LopTheoLienHeAsync();
     Task<Dictionary<Guid, Guid>> HoiThoaiLienHeAsync();
     Task<Guid?> HoiThoaiAsync(Guid id);
     Task<(List<YeuCauLienHe> Contacts, List<YeuCauKetNoiLopHoc> Requests)> LayAsync();
@@ -25,4 +26,11 @@ public interface IKetNoiService
     Task PhanHoiAsync(Guid id, string action, string version, CancellationToken huy = default);
     Task TuChoiDeXuatAsync(Guid maYeuCau, string rowVersion);
     Task RutYeuCauAsync(Guid maYeuCau, string rowVersion);
+    Task<KetQua<Guid>> GuiYeuCauAsync(GuiYeuCauViewModel duLieu, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua<Guid>> GuiDeXuatAsync(DeXuatLopViewModel duLieu, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua<Guid>> ChapNhanDeXuatAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua> TuChoiDeXuatAsync(Guid maYeuCau, string lyDo, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua> RutYeuCauAsync(Guid maYeuCau, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua<Guid>> TaoYeuCauHuyAsync(Guid maLop, string lyDo, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy);
+    Task<KetQua> PhanHoiHuyAsync(Guid maYeuCau, bool dongY, byte[] rowVersion, Guid maNguoiThucHien, CancellationToken huy);
 }

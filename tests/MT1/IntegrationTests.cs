@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Xunit.Abstractions;
 
-// Oracle: Intergration Test MT1 trong bảng TC người dùng ngày 07/11/2026.
-// Assertion giữ theo TC, không đổi ứng dụng hoặc kỳ vọng chỉ để kết quả xanh.
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
+
 [Trait("Suite", "MT1Integration")]
 public partial class IntegrationTests(ITestOutputHelper output)
 {

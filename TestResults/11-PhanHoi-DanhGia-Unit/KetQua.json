@@ -1,0 +1,309 @@
+{
+  "suite": "11. Phản hồi và đánh giá",
+  "workbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Unit Test.xlsx",
+  "workbookSHA256": "d1c9ebd46f36253b3752d4d8e6fb11617f1c8eab93715ca15be46c68601941f7",
+  "counts": {
+    "Passed": 3,
+    "Failed": 2
+  },
+  "designContractFailures": 1,
+  "runTimes": {
+    "creation": "2026-11-14T15:03:05.0790579+07:00",
+    "queuing": "2026-11-14T15:03:05.0790583+07:00",
+    "start": "2026-11-14T15:03:03.8868768+07:00",
+    "finish": "2026-11-14T15:03:05.0837920+07:00"
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "scope": "Real service/filter/validator logic. Persistence, locks, server clock, Identity, notices or scanner replaced at boundaries. DesignContract cases stop at missing input/type; their business branches are not executed.",
+  "limitations": [
+    "No SQL provider/translation, stored procedure, real transaction rollback or concurrency/lock proof.",
+    "Memory data evaluates LINQ predicates as C# and captures writes/commits; it does not simulate SQL constraints or persistence.",
+    "RowVersion failure is injected at Save to verify service error mapping; no commit is checked, not RAM rollback.",
+    "Policy-labelled cases 345–348 exercise actual permission service guards, not ASP.NET authorization middleware.",
+    "No integration rerun after these dependency refactors."
+  ],
+  "cases": [
+    {
+      "id": "UT-318",
+      "title": "Lưu phản hồi hợp lệ",
+      "criterion": "Đúng đắn",
+      "target": "DanhGiaService.G​uiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Vai trò được phép; lớp C1, kỳ K1, nội dung đủ theo vai trò.",
+      "expected": "Lưu đúng người gửi/lớp/kỳ và nội dung; không ghi đè phản hồi bên khác.",
+      "steps": [
+        "Tạo service DanhGia thật; fake IQueryable async chỉ thay nguồn dữ liệu, transaction, SQL clock/lock. Giữ nguyên biểu thức lọc/validator trong service.",
+        "Seed lớp hoạt động, đợt K1 còn hạn và phản hồi của bên khác; UT-319 bỏ NoiDung, UT-320 thêm đủ ba nguồn K1 và một phản hồi K2; UT-322 có phản hồi RV1/input RV0.",
+        "Gọi GuiAsync hoặc LayTheoLopAsync trực tiếp; UT-322 mock Save ném DbUpdateConcurrencyException để kiểm ánh xạ lỗi và không commit.",
+        "Kiểm người/lớp/kỳ/nội dung, không đụng phản hồi bên khác, không ghi khi validation lỗi; trường lỗi kiểm lại bằng Rules.ValidateInput thật; đối chiếu 409/RowVersion/Commit cho xung đột."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; success=true; message=null; saves=1; commits=1; Add=Phản hồi hợp lệ",
+      "failure": null,
+      "observation": {
+        "id": "UT-318",
+        "mode": "Behavior",
+        "source": "Areas/DanhGia/Services/DanhGiaService.cs",
+        "success": true,
+        "status": 200,
+        "message": null,
+        "added": [
+          {
+            "Id": "58578afb-01c6-47e4-84d6-5b4f91ccd581",
+            "LopHocId": "50000000-0000-0000-0000-000000000005",
+            "NguoiGuiId": "10000000-0000-0000-0000-000000000001",
+            "DotPhanHoiId": "60000000-0000-0000-0000-000000000006",
+            "MocDanhGia": "K1",
+            "NoiDung": "Phản hồi hợp lệ",
+            "MucDoHaiLong": 4,
+            "GuiLuc": "2026-11-14T10:00:00+07:00",
+            "QuyetDinhDeXuat": null,
+            "RowVersion": ""
+          }
+        ],
+        "saves": 1,
+        "commits": 1,
+        "version": null,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_318",
+      "duration": "00:00:00.2486965"
+    },
+    {
+      "id": "UT-319",
+      "title": "Thiếu trường bắt buộc",
+      "criterion": "Đầy đủ",
+      "target": "DanhGiaService validation",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Bỏ một nội dung bắt buộc của vai trò trong fixture.",
+      "expected": "Trả lỗi trường; không lưu; dùng validator thật.",
+      "steps": [
+        "Tạo service DanhGia thật; fake IQueryable async chỉ thay nguồn dữ liệu, transaction, SQL clock/lock. Giữ nguyên biểu thức lọc/validator trong service.",
+        "Seed lớp hoạt động, đợt K1 còn hạn và phản hồi của bên khác; UT-319 bỏ NoiDung, UT-320 thêm đủ ba nguồn K1 và một phản hồi K2; UT-322 có phản hồi RV1/input RV0.",
+        "Gọi GuiAsync hoặc LayTheoLopAsync trực tiếp; UT-322 mock Save ném DbUpdateConcurrencyException để kiểm ánh xạ lỗi và không commit.",
+        "Kiểm người/lớp/kỳ/nội dung, không đụng phản hồi bên khác, không ghi khi validation lỗi; trường lỗi kiểm lại bằng Rules.ValidateInput thật; đối chiếu 409/RowVersion/Commit cho xung đột."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; success=false; message=\"The NoiDung field is required.\"; saves=0; commits=0; Add=",
+      "failure": null,
+      "observation": {
+        "id": "UT-319",
+        "mode": "Behavior",
+        "source": "Areas/DanhGia/Services/DanhGiaService.cs",
+        "success": false,
+        "status": 400,
+        "message": "The NoiDung field is required.",
+        "added": [],
+        "saves": 0,
+        "commits": 0,
+        "version": null,
+        "validatorField": "NoiDung",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_319",
+      "duration": "00:00:00.0056279"
+    },
+    {
+      "id": "UT-320",
+      "title": "Đủ phản hồi của các bên",
+      "criterion": "Đầy đủ",
+      "target": "DanhGiaService tổng hợp",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Có phản hồi riêng của gia sư, học sinh và phụ huynh cùng lớp/kỳ.",
+      "expected": "Kết quả tổng hợp giữ đủ 3 nguồn và đúng kỳ; không trộn kỳ khác.",
+      "steps": [
+        "Tạo service DanhGia thật; fake IQueryable async chỉ thay nguồn dữ liệu, transaction, SQL clock/lock. Giữ nguyên biểu thức lọc/validator trong service.",
+        "Seed lớp hoạt động, đợt K1 còn hạn và phản hồi của bên khác; UT-319 bỏ NoiDung, UT-320 thêm đủ ba nguồn K1 và một phản hồi K2; UT-322 có phản hồi RV1/input RV0.",
+        "Gọi GuiAsync hoặc LayTheoLopAsync trực tiếp; UT-322 mock Save ném DbUpdateConcurrencyException để kiểm ánh xạ lỗi và không commit.",
+        "Kiểm người/lớp/kỳ/nội dung, không đụng phản hồi bên khác, không ghi khi validation lỗi; trường lỗi kiểm lại bằng Rules.ValidateInput thật; đối chiếu 409/RowVersion/Commit cho xung đột."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "success=true; saves=0; số phản hồi=4; Kỳ vọng ba nguồn của K1; thực tế truy vấn chỉ lọc lớp nên trộn cả kỳ K2.",
+      "failure": {
+        "cause": "LayTheoLopAsync chỉ có mã lớp/người thực hiện/token; Where chỉ so LopHocId. Fixture có ba phản hồi K1 và một phản hồi K2 cùng lớp nên trả cả bốn.",
+        "suggestion": "Bổ sung truy vấn theo đợt/kỳ và kiểm kỳ thuộc lớp; hoặc xác định một API tổng hợp theo kỳ khác nếu thiết kế chủ định dùng nó.",
+        "impact": "Tổng hợp theo kỳ không đúng như yêu cầu; không mất ba phản hồi K1.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\DanhGia\\Services\\DanhGiaService.cs",
+            "line": 128,
+            "anchor": "public Task<KetQua<IReadOnlyList<PhieuDanhGia>>> LayTheoLopAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-320",
+        "mode": "Behavior",
+        "source": "Areas/DanhGia/Services/DanhGiaService.cs",
+        "rows": [
+          {
+            "Id": "4e36b5d0-46ca-474e-886b-b82255a6eba1",
+            "LopHocId": "50000000-0000-0000-0000-000000000005",
+            "NguoiGuiId": "20000000-0000-0000-0000-000000000002",
+            "DotPhanHoiId": "60000000-0000-0000-0000-000000000006",
+            "MocDanhGia": "",
+            "NoiDung": "Của gia sư",
+            "MucDoHaiLong": 5,
+            "GuiLuc": "2026-11-14T10:00:00+07:00",
+            "QuyetDinhDeXuat": null,
+            "RowVersion": ""
+          },
+          {
+            "Id": "1cffc34e-757f-43e5-a87c-2c86c7392be5",
+            "LopHocId": "50000000-0000-0000-0000-000000000005",
+            "NguoiGuiId": "10000000-0000-0000-0000-000000000001",
+            "DotPhanHoiId": "60000000-0000-0000-0000-000000000006",
+            "MocDanhGia": "",
+            "NoiDung": "Học sinh",
+            "MucDoHaiLong": null,
+            "GuiLuc": "0001-01-01T00:00:00+00:00",
+            "QuyetDinhDeXuat": null,
+            "RowVersion": ""
+          },
+          {
+            "Id": "6c216e93-be84-4b44-a4fd-dc4107847617",
+            "LopHocId": "50000000-0000-0000-0000-000000000005",
+            "NguoiGuiId": "30000000-0000-0000-0000-000000000003",
+            "DotPhanHoiId": "60000000-0000-0000-0000-000000000006",
+            "MocDanhGia": "",
+            "NoiDung": "Phụ huynh",
+            "MucDoHaiLong": null,
+            "GuiLuc": "0001-01-01T00:00:00+00:00",
+            "QuyetDinhDeXuat": null,
+            "RowVersion": ""
+          },
+          {
+            "Id": "2ed77554-256f-409d-a53f-3c092690be22",
+            "LopHocId": "50000000-0000-0000-0000-000000000005",
+            "NguoiGuiId": "10000000-0000-0000-0000-000000000001",
+            "DotPhanHoiId": "80000000-0000-0000-0000-000000000008",
+            "MocDanhGia": "",
+            "NoiDung": "Kỳ khác",
+            "MucDoHaiLong": null,
+            "GuiLuc": "0001-01-01T00:00:00+00:00",
+            "QuyetDinhDeXuat": null,
+            "RowVersion": ""
+          }
+        ],
+        "success": true,
+        "saves": 0,
+        "assertionFailures": [
+          "Kỳ vọng ba nguồn của K1; thực tế truy vấn chỉ lọc lớp nên trộn cả kỳ K2."
+        ]
+      },
+      "error": "Kỳ vọng ba nguồn của K1; thực tế truy vấn chỉ lọc lớp nên trộn cả kỳ K2.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_320",
+      "duration": "00:00:00.0172952"
+    },
+    {
+      "id": "UT-321",
+      "title": "Gửi lại cùng mã thao tác",
+      "criterion": "Đúng đắn",
+      "target": "DanhGiaService gửi phản hồi",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Cùng người/lớp/kỳ và mã thao tác đã thành công.",
+      "expected": "Trả kết quả đã có; không tạo thêm phản hồi.",
+      "steps": [
+        "Nạp kiểu input thật của phương thức được chỉ định.",
+        "Dùng reflection liệt kê thuộc tính input, kiểm trường mã thao tác hoặc vai trò mà fixture yêu cầu.",
+        "Assert có thể biểu diễn input của ca theo hợp đồng; hiện thiếu nên Fail. Không gọi service với input sai ngữ nghĩa để tạo kết quả giả."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "operationIdProperty=null; GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã thao tác đã thành công để kiểm retry theo thiết kế.",
+      "failure": {
+        "cause": "GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã retry theo kịch bản. Unit kiểm hợp đồng input, không giả vờ đã thực thi nhánh idempotency.",
+        "suggestion": "Thống nhất/triển khai mã thao tác và quy tắc retry tại service, rồi kiểm cùng mã/cùng payload/khác payload/quyền bị thu hồi.",
+        "impact": "Chưa chứng minh retry idempotent theo mã thao tác; không kết luận hệ thống luôn tạo thêm phiếu.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\DanhGia\\ViewModels\\DanhGiaInputs.cs",
+            "line": 28,
+            "anchor": "public sealed class GuiDanhGiaViewModel"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\DanhGia\\Services\\DanhGiaService.cs",
+            "line": 44,
+            "anchor": "public Task<KetQua<Guid>> GuiAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-321",
+        "mode": "DesignContract",
+        "source": "Areas/DanhGia/Services/DanhGiaService.cs",
+        "operationIdProperty": null,
+        "assertionFailures": [
+          "GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã thao tác đã thành công để kiểm retry theo thiết kế."
+        ]
+      },
+      "error": "GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã thao tác đã thành công để kiểm retry theo thiết kế.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_321",
+      "duration": "00:00:00.0059644"
+    },
+    {
+      "id": "UT-322",
+      "title": "Phiên bản phản hồi cũ",
+      "criterion": "Đúng đắn",
+      "target": "DanhGiaService sửa phản hồi",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Phản hồi RV1; input RV0.",
+      "expected": "Xung đột 409; không ghi đè.",
+      "steps": [
+        "Tạo service DanhGia thật; fake IQueryable async chỉ thay nguồn dữ liệu, transaction, SQL clock/lock. Giữ nguyên biểu thức lọc/validator trong service.",
+        "Seed lớp hoạt động, đợt K1 còn hạn và phản hồi của bên khác; UT-319 bỏ NoiDung, UT-320 thêm đủ ba nguồn K1 và một phản hồi K2; UT-322 có phản hồi RV1/input RV0.",
+        "Gọi GuiAsync hoặc LayTheoLopAsync trực tiếp; UT-322 mock Save ném DbUpdateConcurrencyException để kiểm ánh xạ lỗi và không commit.",
+        "Kiểm người/lớp/kỳ/nội dung, không đụng phản hồi bên khác, không ghi khi validation lỗi; trường lỗi kiểm lại bằng Rules.ValidateInput thật; đối chiếu 409/RowVersion/Commit cho xung đột."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=409; success=false; message=\"Dữ liệu vừa được cập nhật. Hãy tải lại trước khi lưu.\"; saves=1; commits=0; Add=Nội dung đã lưu",
+      "failure": null,
+      "observation": {
+        "id": "UT-322",
+        "mode": "Behavior",
+        "source": "Areas/DanhGia/Services/DanhGiaService.cs",
+        "success": false,
+        "status": 409,
+        "message": "Dữ liệu vừa được cập nhật. Hãy tải lại trước khi lưu.",
+        "added": [
+          {
+            "Id": "45fa17c4-f85a-4af9-bcdb-4fbba71e2461",
+            "PhieuDanhGiaId": "dfde0beb-eecf-4b37-ab73-a88ac90ec71b",
+            "NoiDung": "Nội dung đã lưu",
+            "MucDoHaiLong": null,
+            "NguoiSuaId": "10000000-0000-0000-0000-000000000001",
+            "ThayDoiLuc": "2026-11-14T10:00:00+07:00"
+          }
+        ],
+        "saves": 1,
+        "commits": 0,
+        "version": "AAAAAAAAAAA=",
+        "scope": "Mock Save ném concurrency; không khẳng định RAM được rollback hoặc SQL rowversion đã chạy.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_322",
+      "duration": "00:00:00.0083690"
+    }
+  ]
+}

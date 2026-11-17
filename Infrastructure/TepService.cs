@@ -1,4 +1,4 @@
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using EduConnect.Mvc.Data;
@@ -6,7 +6,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null, IConfiguration? configuration = null)
+public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null, IConfiguration? configuration = null, IFileContentScanner? scanner = null) : ITepService
 {
     public bool ChoPhepTepChuaQuet { get; } = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedUploads") == true;
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
@@ -70,7 +70,7 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             var name = Path.GetFileName(f.FileName);
             Rules.Check(name.Length is > 0 and <= 256, "Tên tệp phải từ 1 đến 256 ký tự.", field: "Files");
             if (!ChoPhepTepChuaQuet)
-                await QuetMaDocAsync(bytes);
+                await (scanner != null ? scanner.ScanAsync(bytes) : QuetMaDocAsync(bytes));
             result.Add((name, ext switch
             {
                 ".pdf" => "application/pdf",
@@ -189,4 +189,9 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
         Rules.Check(File.Exists(path), "Tệp không còn trên máy chủ.", 404);
         return path;
     }
+}
+
+public interface IFileContentScanner
+{
+    Task ScanAsync(byte[] content);
 }

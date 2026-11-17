@@ -2,11 +2,10 @@
   <Folder Name="/tests/">
     <Project Path="tests/ChatAttachments/ChatAttachments.csproj" />
     <Project Path="tests/DesignContracts/DesignContracts.csproj" />
+    <Project Path="tests/Integration0203/Integration0203.csproj" />
     <Project Path="tests/MT1/MT1.csproj" />
     <Project Path="tests/ProfileWorkflow/ProfileWorkflow.csproj" />
     <Project Path="tests/UC2/UC2.csproj" />
-  </Folder>
-  <Folder Name="/tests/Unit/">
     <Project Path="tests/Unit/EduConnect.UnitTests.csproj" />
   </Folder>
   <Project Path="EduConnect.Mvc.csproj" />

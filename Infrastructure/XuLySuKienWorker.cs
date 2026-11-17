@@ -59,32 +59,34 @@ public sealed class XuLySuKienWorker(IServiceScopeFactory scopes, IHubContext<Ca
         }
         foreach (var ev in events)
         {
-            try
-            {
-                // Keep one batch from holding a claim beyond its lease and publishing as a stale owner.
+            await OutboxDelivery.RunAsync(ev, token,
+                async () =>
+                {
                 var owned = await db.Database.ExecuteSqlInterpolatedAsync($"""
                     UPDATE dbo.SuKienChoXuLy SET LeaseHetHanLuc=DATEADD(second,60,SYSDATETIMEOFFSET())
                     WHERE Id={ev.Id} AND LeaseId={lease} AND TrangThai='DangXuLy' AND LeaseHetHanLuc>SYSDATETIMEOFFSET()
                     """, token);
-                if (owned == 0) continue;
-                await PhatCapNhatAsync(ev, db, messages, sessions, token);
+                    return owned != 0;
+                },
+                () => PhatCapNhatAsync(ev, db, messages, sessions, token),
+                async () =>
+                {
                 await db.Database.ExecuteSqlInterpolatedAsync($"""
                     UPDATE dbo.SuKienChoXuLy SET TrangThai='HoanTat',XuLyXongLuc=SYSDATETIMEOFFSET(),
                       ThuLaiLuc=NULL,LeaseId=NULL,LeaseHetHanLuc=NULL WHERE Id={ev.Id} AND LeaseId={lease}
                     """, token);
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested) { throw; }
-            catch (Exception ex)
-            {
-                var seconds = Math.Min(60, 1 << Math.Min(ev.SoLanThu, 5));
+                },
+                async seconds =>
+                {
                 await db.Database.ExecuteSqlInterpolatedAsync($"""
                     UPDATE dbo.SuKienChoXuLy SET TrangThai='ChoThuLai',ThuLaiLuc=DATEADD(second,{seconds},SYSDATETIMEOFFSET()),
                       LeaseId=NULL,LeaseHetHanLuc=NULL WHERE Id={ev.Id} AND LeaseId={lease}
                     """, token);
-                log.LogWarning(ex, "Không phát được sự kiện {EventId}; sẽ thử lại.", ev.Id);
-            }
+                },
+                ex => log.LogWarning(ex, "Không phát được sự kiện {EventId}; sẽ thử lại.", ev.Id));
         }
     }
+
     private async Task KiemTraKetNoiAsync(TinNhanService messages, PhienDangNhapService sessions, CancellationToken token)
     {
         foreach (var c in phien.DanhSach())

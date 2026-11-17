@@ -1,0 +1,761 @@
+{
+  "suite": "10. Thành phần dùng chung",
+  "workbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Unit Test.xlsx",
+  "workbookSHA256": "d1c9ebd46f36253b3752d4d8e6fb11617f1c8eab93715ca15be46c68601941f7",
+  "counts": {
+    "Passed": 10,
+    "Failed": 7
+  },
+  "designContractFailures": 5,
+  "runTimes": {
+    "creation": "2026-11-14T15:03:03.0337932+07:00",
+    "queuing": "2026-11-14T15:03:03.0337937+07:00",
+    "start": "2026-11-14T15:03:01.0590565+07:00",
+    "finish": "2026-11-14T15:03:03.1842888+07:00"
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "scope": "Real service/filter/validator logic. Persistence, locks, server clock, Identity, notices or scanner replaced at boundaries. DesignContract cases stop at missing input/type; their business branches are not executed.",
+  "limitations": [
+    "No SQL provider/translation, stored procedure, real transaction rollback or concurrency/lock proof.",
+    "Memory data evaluates LINQ predicates as C# and captures writes/commits; it does not simulate SQL constraints or persistence.",
+    "RowVersion failure is injected at Save to verify service error mapping; no commit is checked, not RAM rollback.",
+    "Policy-labelled cases 345–348 exercise actual permission service guards, not ASP.NET authorization middleware.",
+    "No integration rerun after these dependency refactors."
+  ],
+  "cases": [
+    {
+      "id": "UT-301",
+      "title": "Chuyển lỗi nghiệp vụ AJAX",
+      "criterion": "Đúng đắn",
+      "target": "UIResponseFilter.OnException(context)",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Context AJAX chứa LoiNghiepVu với message và status xác định.",
+      "expected": "Response giữ status/message theo hợp đồng và xử lý exception; không trả success.",
+      "steps": [
+        "Tạo DefaultHttpContext mới; UT-301/302 gán X-Requested-With=XMLHttpRequest; UT-303 response có MemoryStream và chưa bắt đầu.",
+        "Khởi tạo UiResponseFilter thật với TempData factory giả; riêng UT-303 dùng middleware thật và delegate ném LoiNghiepVu 404.",
+        "UT-301 gọi OnException với lỗi 409/message; UT-302 đặt TempData Success, RedirectResult tới /KetNoi/LienHe rồi gọi OnResultExecutionAsync; đếm next.",
+        "Đọc JsonResult/ExceptionHandled hoặc status/body; assert từng giá trị, URL và encoding nội dung lỗi. Không chạy MVC pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=409; handled=true; JSON={\"ok\": false, \"message\": \"Lỗi nghiệp vụ mẫu\", \"errors\": {\"\": [\"Lỗi nghiệp vụ mẫu\"]}}",
+      "failure": null,
+      "observation": {
+        "id": "UT-301",
+        "mode": "Behavior",
+        "source": "Infrastructure/UiResponseFilter.cs",
+        "mapping": "UIResponseFilter trong bảng là UiResponseFilter trong code (khác viết hoa).",
+        "status": 409,
+        "json": {
+          "ok": false,
+          "message": "Lỗi nghiệp vụ mẫu",
+          "errors": {
+            "": [
+              "Lỗi nghiệp vụ mẫu"
+            ]
+          }
+        },
+        "handled": true,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_301",
+      "duration": "00:00:00.0185212"
+    },
+    {
+      "id": "UT-302",
+      "title": "Chuyển success redirect thành JSON",
+      "criterion": "Đúng đắn",
+      "target": "UIResponseFilter.OnResultExecutionAsync(...)",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Action result Success(text)+Redirect LienHe; request AJAX; next delegate giả.",
+      "expected": "Theo sơ đồ: JSON có ok, message, URL đúng; không mất URL chuyển hướng.",
+      "steps": [
+        "Tạo DefaultHttpContext mới; UT-301/302 gán X-Requested-With=XMLHttpRequest; UT-303 response có MemoryStream và chưa bắt đầu.",
+        "Khởi tạo UiResponseFilter thật với TempData factory giả; riêng UT-303 dùng middleware thật và delegate ném LoiNghiepVu 404.",
+        "UT-301 gọi OnException với lỗi 409/message; UT-302 đặt TempData Success, RedirectResult tới /KetNoi/LienHe rồi gọi OnResultExecutionAsync; đếm next.",
+        "Đọc JsonResult/ExceptionHandled hoặc status/body; assert từng giá trị, URL và encoding nội dung lỗi. Không chạy MVC pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "JSON={\"ok\": true, \"message\": \"Đã gửi liên hệ.\", \"redirectUrl\": \"/KetNoi/LienHe\"}",
+      "failure": null,
+      "observation": {
+        "id": "UT-302",
+        "mode": "Behavior",
+        "source": "Infrastructure/UiResponseFilter.cs",
+        "mapping": "UIResponseFilter trong bảng là UiResponseFilter trong code (khác viết hoa).",
+        "json": {
+          "ok": true,
+          "message": "Đã gửi liên hệ.",
+          "redirectUrl": "/KetNoi/LienHe"
+        },
+        "nextCalls": 1,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_302",
+      "duration": "00:00:00.0317172"
+    },
+    {
+      "id": "UT-303",
+      "title": "Chuyển lỗi không tìm thấy",
+      "criterion": "Đúng đắn",
+      "target": "LoiNghiepVuMiddleware.InvokeAsync(context)",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Next delegate ném LoiNghiepVu(message,404); response chưa bắt đầu.",
+      "expected": "HTTP status 404; phản hồi lỗi phù hợp; không đổi thành 200.",
+      "steps": [
+        "Tạo DefaultHttpContext mới; UT-301/302 gán X-Requested-With=XMLHttpRequest; UT-303 response có MemoryStream và chưa bắt đầu.",
+        "Khởi tạo UiResponseFilter thật với TempData factory giả; riêng UT-303 dùng middleware thật và delegate ném LoiNghiepVu 404.",
+        "UT-301 gọi OnException với lỗi 409/message; UT-302 đặt TempData Success, RedirectResult tới /KetNoi/LienHe rồi gọi OnResultExecutionAsync; đếm next.",
+        "Đọc JsonResult/ExceptionHandled hoặc status/body; assert từng giá trị, URL và encoding nội dung lỗi. Không chạy MVC pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=404",
+      "failure": null,
+      "observation": {
+        "id": "UT-303",
+        "mode": "Behavior",
+        "source": "Infrastructure/LoiNghiepVuMiddleware.cs",
+        "mapping": "UIResponseFilter trong bảng là UiResponseFilter trong code (khác viết hoa).",
+        "status": 404,
+        "body": "<!doctype html><html lang='vi'><meta charset='utf-8'><meta name='viewport' content='width=device-width'><title>EduConnect</title><link rel='stylesheet' href='/css/app.css'><main class='error-page'><h1>Chưa thể hoàn tất</h1><p role='alert'>Kh&#244;ng thấy &lt;mẫu&gt;</p><a class='btn' href='/'>Về trang chủ</a><button onclick='history.back()'>Quay lại biểu mẫu</button></main></html>",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_303",
+      "duration": "00:00:00.0101675"
+    },
+    {
+      "id": "UT-304",
+      "title": "Payload tối thiểu đúng yêu cầu",
+      "criterion": "Đúng đắn",
+      "target": "Thông điệp outbox YeuCauKetThucLop",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Qua thao tác tạo yêu cầu thành công với yc.Id=Y1; thu sự kiện gửi lưu.",
+      "expected": "LoaiSuKien=YeuCauKetThucLop, payload có Id=Y1, trạng thái ChoXuLy, TaoLuc=T; không dùng mã lớp thay mã yêu cầu.",
+      "steps": [
+        "Tạo KetThucWorkerFixture mới: service KetNoi, notice service thật; current user, transaction, store và nguồn thời gian giả.",
+        "UT-304 gọi TaoYeuCauHuyAsync; UT-305 khởi tạo LopHocService với KetNoiService thật và gọi XacNhanKetThucAsync để đi qua wrapper.",
+        "Xác nhận thao tác chính thành công/commit và thu đúng một SuKienChoXuLy từ IThongBaoData.",
+        "Đối chiếu LoaiSuKien, mã yêu cầu trong payload, ChoXuLy; UT-304 kiểm TaoLuc=T. Ghi đồng thời mọi sai lệch."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "commits=1; outbox=[{\"type\": \"KetNoi\", \"payload\": \"{\\\"recipient\\\":\\\"20000000-0000-0000-0000-000000000002\\\",\\\"target\\\":\\\"40000000-0000-0000-0000-000000000004\\\"}\", \"time\": \"2026-11-14T08:03:02.9337561+00:00\"}]; Sai LoaiSuKien: kỳ vọng YeuCauKetThucLop; Payload thiếu mã yêu cầu; không dùng mã lớp thay thế.; TaoLuc phải bằng đồng hồ T.",
+      "failure": {
+        "cause": "Service kết thúc lớp gọi notice loại KetNoi với target là mã lớp; ThongBaoService.Tao dùng type/target đó để tạo outbox chỉ gồm recipient và target. TaoLuc dùng DateTimeOffset.UtcNow, không phải đồng hồ T của cổng kết thúc.",
+        "suggestion": "Bổ sung hợp đồng outbox riêng cho tạo yêu cầu/phản hồi, có mã yêu cầu và nguồn thời gian thống nhất; giữ thông báo hiển thị nếu vẫn cần loại KetNoi.",
+        "impact": "Sai hợp đồng consumer theo thiết kế; unit không chạy consumer hoặc gửi thông báo bên ngoài.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\KetNoi\\Services\\KetNoiService.KetThuc.cs",
+            "line": 44,
+            "anchor": "Có yêu cầu kết thúc lớp"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\ThongBaoService.cs",
+            "line": 25,
+            "anchor": "persistence.AddEvent(new SuKienChoXuLy { Id = ev"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-304",
+        "mode": "Behavior",
+        "source": "Areas/KetNoi/Services/KetNoiService.KetThuc.cs",
+        "resultSuccess": true,
+        "requestId": "8913ee75-9964-4c3a-84a1-06c424bddabd",
+        "classId": "40000000-0000-0000-0000-000000000004",
+        "events": [
+          {
+            "Id": "085c0e66-63a1-4cb0-9f35-0d81cbcabdb8",
+            "LoaiSuKien": "KetNoi",
+            "DuLieuToiThieu": "{\"recipient\":\"20000000-0000-0000-0000-000000000002\",\"target\":\"40000000-0000-0000-0000-000000000004\"}",
+            "TaoLuc": "2026-11-14T08:03:02.9337561+00:00",
+            "TrangThai": "ChoXuLy",
+            "SoLanThu": 0,
+            "ThuLaiLuc": null,
+            "XuLyXongLuc": null,
+            "RowVersion": "",
+            "LeaseId": null,
+            "LeaseHetHanLuc": null
+          }
+        ],
+        "commits": 1,
+        "assertionFailures": [
+          "Sai LoaiSuKien: kỳ vọng YeuCauKetThucLop",
+          "Payload thiếu mã yêu cầu; không dùng mã lớp thay thế.",
+          "TaoLuc phải bằng đồng hồ T."
+        ]
+      },
+      "error": "Sai LoaiSuKien: kỳ vọng YeuCauKetThucLop\nPayload thiếu mã yêu cầu; không dùng mã lớp thay thế.\nTaoLuc phải bằng đồng hồ T.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_304",
+      "duration": "00:00:00.0165427"
+    },
+    {
+      "id": "UT-305",
+      "title": "Payload phản hồi đúng yêu cầu",
+      "criterion": "Đúng đắn",
+      "target": "Thông điệp outbox PhanHoiKetThucLop",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Qua PhanHoiHuyAsync thành công Y1; thu sự kiện gửi lưu.",
+      "expected": "LoaiSuKien=PhanHoiKetThucLop, payload có Id=Y1, trạng thái ChoXuLy; không tạo hai sự kiện do đi qua wrapper.",
+      "steps": [
+        "Tạo KetThucWorkerFixture mới: service KetNoi, notice service thật; current user, transaction, store và nguồn thời gian giả.",
+        "UT-304 gọi TaoYeuCauHuyAsync; UT-305 khởi tạo LopHocService với KetNoiService thật và gọi XacNhanKetThucAsync để đi qua wrapper.",
+        "Xác nhận thao tác chính thành công/commit và thu đúng một SuKienChoXuLy từ IThongBaoData.",
+        "Đối chiếu LoaiSuKien, mã yêu cầu trong payload, ChoXuLy; UT-304 kiểm TaoLuc=T. Ghi đồng thời mọi sai lệch."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "commits=1; outbox=[{\"type\": \"KetNoi\", \"payload\": \"{\\\"recipient\\\":\\\"20000000-0000-0000-0000-000000000002\\\",\\\"target\\\":\\\"40000000-0000-0000-0000-000000000004\\\"}\", \"time\": \"2026-11-14T08:03:02.7209335+00:00\"}]; Sai LoaiSuKien: kỳ vọng PhanHoiKetThucLop; Payload thiếu mã yêu cầu; không dùng mã lớp thay thế.",
+      "failure": {
+        "cause": "Service kết thúc lớp gọi notice loại KetNoi với target là mã lớp; ThongBaoService.Tao dùng type/target đó để tạo outbox chỉ gồm recipient và target. Qua wrapper thật chỉ có một sự kiện; phần chống tạo hai sự kiện đạt.",
+        "suggestion": "Bổ sung hợp đồng outbox riêng cho tạo yêu cầu/phản hồi, có mã yêu cầu và nguồn thời gian thống nhất; giữ thông báo hiển thị nếu vẫn cần loại KetNoi.",
+        "impact": "Sai hợp đồng consumer theo thiết kế; unit không chạy consumer hoặc gửi thông báo bên ngoài.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\KetNoi\\Services\\KetNoiService.KetThuc.cs",
+            "line": 50,
+            "anchor": "PhanHoiHuyAsync"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\ThongBaoService.cs",
+            "line": 25,
+            "anchor": "persistence.AddEvent(new SuKienChoXuLy { Id = ev"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-305",
+        "mode": "Behavior",
+        "source": "Areas/KetNoi/Services/KetNoiService.KetThuc.cs",
+        "resultSuccess": true,
+        "requestId": "50000000-0000-0000-0000-000000000005",
+        "classId": "40000000-0000-0000-0000-000000000004",
+        "events": [
+          {
+            "Id": "706a58c3-eba9-4247-8029-760d455980c4",
+            "LoaiSuKien": "KetNoi",
+            "DuLieuToiThieu": "{\"recipient\":\"20000000-0000-0000-0000-000000000002\",\"target\":\"40000000-0000-0000-0000-000000000004\"}",
+            "TaoLuc": "2026-11-14T08:03:02.7209335+00:00",
+            "TrangThai": "ChoXuLy",
+            "SoLanThu": 0,
+            "ThuLaiLuc": null,
+            "XuLyXongLuc": null,
+            "RowVersion": "",
+            "LeaseId": null,
+            "LeaseHetHanLuc": null
+          }
+        ],
+        "commits": 1,
+        "assertionFailures": [
+          "Sai LoaiSuKien: kỳ vọng PhanHoiKetThucLop",
+          "Payload thiếu mã yêu cầu; không dùng mã lớp thay thế."
+        ]
+      },
+      "error": "Sai LoaiSuKien: kỳ vọng PhanHoiKetThucLop\nPayload thiếu mã yêu cầu; không dùng mã lớp thay thế.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_305",
+      "duration": "00:00:00.1768567"
+    },
+    {
+      "id": "UT-306",
+      "title": "Thành viên chỉ Xem không được nhắn tin",
+      "criterion": "Xác thực",
+      "target": "ClassAccessService",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Thành viên đã duyệt nhưng mức Xem; lớp hoạt động; thao tác=nhắn tin.",
+      "expected": "Deny; không gọi cổng ghi dữ liệu của thao tác.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"ClassAccessService\"; found=[]; Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "failure": {
+        "cause": "Assembly ứng dụng không có lớp ClassAccessService được chỉ định trong bảng. Code có QuyenLopHocService nhưng chưa có ánh xạ thiết kế được xác nhận. Đây là Fail hợp đồng thiết kế; nhánh phân quyền cụ thể của ca chưa được chạy.",
+        "suggestion": "Thống nhất ánh xạ với QuyenLopHocService hoặc triển khai lớp/adapter trong thiết kế, sau đó chạy lại nhánh đúng dữ liệu của từng ca. Không tự thêm lớp giả trong project test để báo Pass.",
+        "impact": "Không được suy ra hệ thống đang cho phép sai quyền chỉ từ thiếu tên lớp.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\QuyenLopHocService.cs",
+            "line": 6,
+            "anchor": "public sealed class"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-306",
+        "mode": "DesignContract",
+        "requiredType": "ClassAccessService",
+        "found": [],
+        "source": "Infrastructure/QuyenLopHocService.cs",
+        "explanation": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+        "assertionFailures": [
+          "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass."
+        ]
+      },
+      "error": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_306",
+      "duration": "00:00:00.0003940"
+    },
+    {
+      "id": "UT-307",
+      "title": "Thành viên chỉ Xem không được nộp bài",
+      "criterion": "Xác thực",
+      "target": "ClassAccessService",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Thành viên đã duyệt nhưng mức Xem; lớp hoạt động; thao tác=nộp bài.",
+      "expected": "Deny; không gọi cổng ghi dữ liệu của thao tác.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"ClassAccessService\"; found=[]; Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "failure": {
+        "cause": "Assembly ứng dụng không có lớp ClassAccessService được chỉ định trong bảng. Code có QuyenLopHocService nhưng chưa có ánh xạ thiết kế được xác nhận. Đây là Fail hợp đồng thiết kế; nhánh phân quyền cụ thể của ca chưa được chạy.",
+        "suggestion": "Thống nhất ánh xạ với QuyenLopHocService hoặc triển khai lớp/adapter trong thiết kế, sau đó chạy lại nhánh đúng dữ liệu của từng ca. Không tự thêm lớp giả trong project test để báo Pass.",
+        "impact": "Không được suy ra hệ thống đang cho phép sai quyền chỉ từ thiếu tên lớp.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\QuyenLopHocService.cs",
+            "line": 6,
+            "anchor": "public sealed class"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-307",
+        "mode": "DesignContract",
+        "requiredType": "ClassAccessService",
+        "found": [],
+        "source": "Infrastructure/QuyenLopHocService.cs",
+        "explanation": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+        "assertionFailures": [
+          "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass."
+        ]
+      },
+      "error": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_307",
+      "duration": "00:00:00.0015996"
+    },
+    {
+      "id": "UT-308",
+      "title": "Thành viên chỉ Xem không được gửi phản hồi",
+      "criterion": "Xác thực",
+      "target": "ClassAccessService",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Thành viên đã duyệt nhưng mức Xem; lớp hoạt động; thao tác=gửi phản hồi.",
+      "expected": "Deny; không gọi cổng ghi dữ liệu của thao tác.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"ClassAccessService\"; found=[]; Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "failure": {
+        "cause": "Assembly ứng dụng không có lớp ClassAccessService được chỉ định trong bảng. Code có QuyenLopHocService nhưng chưa có ánh xạ thiết kế được xác nhận. Đây là Fail hợp đồng thiết kế; nhánh phân quyền cụ thể của ca chưa được chạy.",
+        "suggestion": "Thống nhất ánh xạ với QuyenLopHocService hoặc triển khai lớp/adapter trong thiết kế, sau đó chạy lại nhánh đúng dữ liệu của từng ca. Không tự thêm lớp giả trong project test để báo Pass.",
+        "impact": "Không được suy ra hệ thống đang cho phép sai quyền chỉ từ thiếu tên lớp.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\QuyenLopHocService.cs",
+            "line": 6,
+            "anchor": "public sealed class"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-308",
+        "mode": "DesignContract",
+        "requiredType": "ClassAccessService",
+        "found": [],
+        "source": "Infrastructure/QuyenLopHocService.cs",
+        "explanation": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+        "assertionFailures": [
+          "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass."
+        ]
+      },
+      "error": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_308",
+      "duration": "00:00:00.0013869"
+    },
+    {
+      "id": "UT-309",
+      "title": "Quan hệ gia đình không tự cấp quyền",
+      "criterion": "Xác thực",
+      "target": "ClassAccessService",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. P là phụ huynh của H nhưng P chưa được cấp quyền lớp C1.",
+      "expected": "Từ chối quyền lớp nếu không có quan hệ tài nguyên cho phép.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"ClassAccessService\"; found=[]; Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "failure": {
+        "cause": "Assembly ứng dụng không có lớp ClassAccessService được chỉ định trong bảng. Code có QuyenLopHocService nhưng chưa có ánh xạ thiết kế được xác nhận. Đây là Fail hợp đồng thiết kế; nhánh phân quyền cụ thể của ca chưa được chạy.",
+        "suggestion": "Thống nhất ánh xạ với QuyenLopHocService hoặc triển khai lớp/adapter trong thiết kế, sau đó chạy lại nhánh đúng dữ liệu của từng ca. Không tự thêm lớp giả trong project test để báo Pass.",
+        "impact": "Không được suy ra hệ thống đang cho phép sai quyền chỉ từ thiếu tên lớp.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\QuyenLopHocService.cs",
+            "line": 6,
+            "anchor": "public sealed class"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-309",
+        "mode": "DesignContract",
+        "requiredType": "ClassAccessService",
+        "found": [],
+        "source": "Infrastructure/QuyenLopHocService.cs",
+        "explanation": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+        "assertionFailures": [
+          "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass."
+        ]
+      },
+      "error": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_309",
+      "duration": "00:00:00.0378854"
+    },
+    {
+      "id": "UT-310",
+      "title": "Lỗi đọc quyền không thành cho phép",
+      "criterion": "Xác thực",
+      "target": "ClassAccessService",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Nguồn đọc quyền báo lỗi/không xác định.",
+      "expected": "Không trả Allow; truyền lỗi hoặc Deny theo hợp đồng.",
+      "steps": [
+        "Nạp assembly ứng dụng từ project reference của test.",
+        "Tra đúng tên lớp yêu cầu trong bảng, ghi danh sách lớp khớp (hiện rỗng).",
+        "Đối chiếu vị trí triển khai liên quan hiện có; không gọi thay một lớp khác để kết luận hành vi.",
+        "Assert đơn vị thiết kế tồn tại; Fail tại bước này. Nhánh nghiệp vụ riêng chưa được chạy."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "requiredType=\"ClassAccessService\"; found=[]; Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "failure": {
+        "cause": "Assembly ứng dụng không có lớp ClassAccessService được chỉ định trong bảng. Code có QuyenLopHocService nhưng chưa có ánh xạ thiết kế được xác nhận. Đây là Fail hợp đồng thiết kế; nhánh phân quyền cụ thể của ca chưa được chạy.",
+        "suggestion": "Thống nhất ánh xạ với QuyenLopHocService hoặc triển khai lớp/adapter trong thiết kế, sau đó chạy lại nhánh đúng dữ liệu của từng ca. Không tự thêm lớp giả trong project test để báo Pass.",
+        "impact": "Không được suy ra hệ thống đang cho phép sai quyền chỉ từ thiếu tên lớp.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Infrastructure\\QuyenLopHocService.cs",
+            "line": 6,
+            "anchor": "public sealed class"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-310",
+        "mode": "DesignContract",
+        "requiredType": "ClassAccessService",
+        "found": [],
+        "source": "Infrastructure/QuyenLopHocService.cs",
+        "explanation": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+        "assertionFailures": [
+          "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass."
+        ]
+      },
+      "error": "Không có lớp ClassAccessService theo thiết kế; QuyenLopHocService là lớp khác, không được tự thay để kết luận Pass.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_310",
+      "duration": "00:00:00.0004105"
+    },
+    {
+      "id": "UT-311",
+      "title": "Kích thước tệp 9999999 byte",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. PDF sạch có Length=9999999, 1 tệp.",
+      "expected": "Qua ngưỡng dung lượng.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; fileCount=1; eachLength=9999999; returnedLengths=[9999999]; scannerCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-311",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 1,
+        "eachLength": 9999999,
+        "status": 200,
+        "message": null,
+        "field": null,
+        "returnedLengths": [
+          9999999
+        ],
+        "scannerCalls": 1,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_311",
+      "duration": "00:00:00.0227314"
+    },
+    {
+      "id": "UT-312",
+      "title": "Kích thước tệp 10000000 byte",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. PDF sạch có Length=10000000, 1 tệp.",
+      "expected": "Qua ngưỡng dung lượng.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; fileCount=1; eachLength=10000000; returnedLengths=[10000000]; scannerCalls=1",
+      "failure": null,
+      "observation": {
+        "id": "UT-312",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 1,
+        "eachLength": 10000000,
+        "status": 200,
+        "message": null,
+        "field": null,
+        "returnedLengths": [
+          10000000
+        ],
+        "scannerCalls": 1,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_312",
+      "duration": "00:00:00.1791247"
+    },
+    {
+      "id": "UT-313",
+      "title": "Kích thước tệp 10000001 byte",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. PDF sạch có Length=10000001, 1 tệp.",
+      "expected": "Từ chối; không gọi lưu tệp.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Mỗi tệp phải có dữ liệu và không vượt quá 10 MB.\"; fileCount=1; eachLength=10000001; returnedLengths=null; scannerCalls=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-313",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 1,
+        "eachLength": 10000001,
+        "status": 400,
+        "message": "Mỗi tệp phải có dữ liệu và không vượt quá 10 MB.",
+        "field": "Files",
+        "returnedLengths": null,
+        "scannerCalls": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_313",
+      "duration": "00:00:00.0006952"
+    },
+    {
+      "id": "UT-314",
+      "title": "Số lượng 5 tệp",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. 5 tệp sạch, mỗi tệp 1.000.000 byte.",
+      "expected": "Qua ngưỡng số lượng.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; fileCount=5; eachLength=1000000; returnedLengths=[1000000, 1000000, 1000000, 1000000, 1000000]; scannerCalls=5",
+      "failure": null,
+      "observation": {
+        "id": "UT-314",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 5,
+        "eachLength": 1000000,
+        "status": 200,
+        "message": null,
+        "field": null,
+        "returnedLengths": [
+          1000000,
+          1000000,
+          1000000,
+          1000000,
+          1000000
+        ],
+        "scannerCalls": 5,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_314",
+      "duration": "00:00:00.0091226"
+    },
+    {
+      "id": "UT-315",
+      "title": "Số lượng 6 tệp",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. 6 tệp sạch, mỗi tệp 1.000.000 byte.",
+      "expected": "Từ chối do quá 5 tệp; không lưu một phần.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Chọn tối đa 5 tệp mỗi lần gửi.\"; fileCount=6; eachLength=1000000; returnedLengths=null; scannerCalls=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-315",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 6,
+        "eachLength": 1000000,
+        "status": 400,
+        "message": "Chọn tối đa 5 tệp mỗi lần gửi.",
+        "field": "Files",
+        "returnedLengths": null,
+        "scannerCalls": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_315",
+      "duration": "00:00:00.0005473"
+    },
+    {
+      "id": "UT-316",
+      "title": "Tổng dung lượng tối đa",
+      "criterion": "Đầy đủ",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. 5 tệp, mỗi tệp đúng 10.000.000 byte.",
+      "expected": "Qua giới hạn mỗi tệp/số lượng/tổng 50.000.000 byte; còn phải qua kiểm tra nội dung/quét.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; fileCount=5; eachLength=10000000; returnedLengths=[10000000, 10000000, 10000000, 10000000, 10000000]; scannerCalls=5",
+      "failure": null,
+      "observation": {
+        "id": "UT-316",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 5,
+        "eachLength": 10000000,
+        "status": 200,
+        "message": null,
+        "field": null,
+        "returnedLengths": [
+          10000000,
+          10000000,
+          10000000,
+          10000000,
+          10000000
+        ],
+        "scannerCalls": 5,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_316",
+      "duration": "00:00:00.0988972"
+    },
+    {
+      "id": "UT-317",
+      "title": "Từ chối định dạng không hỗ trợ",
+      "criterion": "Xác thực",
+      "target": "TepService validator",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Tệp .exe hoặc định dạng ngoài PDF/JPG/JPEG/PNG/DOCX.",
+      "expected": "Từ chối; không gọi lưu.",
+      "steps": [
+        "Tạo TepService thật ở môi trường Production, IFileContentScanner mock trả hoàn tất; không bật bỏ quét.",
+        "Cấp MemoryStream có số byte thực đúng cột dữ liệu; nội dung bắt đầu %PDF-. UT-317 giữ nội dung PDF nhưng tên .exe để kiểm whitelist.",
+        "Gọi KiemTraAsync thật và bắt LoiNghiepVu nếu có; không gọi hàm LuuAsync.",
+        "Kiểm số phần tử/kích thước kết quả và số lần quét. Ca bị loại phải chưa quét; ca chấp nhận phải quét đủ từng tệp."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Chỉ nhận PDF, JPG, PNG, DOCX.\"; fileCount=1; eachLength=1000000; returnedLengths=null; scannerCalls=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-317",
+        "mode": "Behavior",
+        "source": "Infrastructure/TepService.cs",
+        "fileCount": 1,
+        "eachLength": 1000000,
+        "status": 400,
+        "message": "Chỉ nhận PDF, JPG, PNG, DOCX.",
+        "field": "Files",
+        "returnedLengths": null,
+        "scannerCalls": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_317",
+      "duration": "00:00:00.0013623"
+    }
+  ]
+}

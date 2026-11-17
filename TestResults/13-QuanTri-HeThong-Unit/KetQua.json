@@ -1,0 +1,1158 @@
+{
+  "suite": "13. Quản trị hệ thống",
+  "workbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Unit Test.xlsx",
+  "workbookSHA256": "d1c9ebd46f36253b3752d4d8e6fb11617f1c8eab93715ca15be46c68601941f7",
+  "counts": {
+    "Failed": 7,
+    "Passed": 11
+  },
+  "designContractFailures": 2,
+  "runTimes": {
+    "creation": "2026-11-14T15:03:05.3373013+07:00",
+    "queuing": "2026-11-14T15:03:05.3373017+07:00",
+    "start": "2026-11-14T15:03:04.1560698+07:00",
+    "finish": "2026-11-14T15:03:05.4392360+07:00"
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "scope": "Real service/filter/validator logic. Persistence, locks, server clock, Identity, notices or scanner replaced at boundaries. DesignContract cases stop at missing input/type; their business branches are not executed.",
+  "limitations": [
+    "No SQL provider/translation, stored procedure, real transaction rollback or concurrency/lock proof.",
+    "Memory data evaluates LINQ predicates as C# and captures writes/commits; it does not simulate SQL constraints or persistence.",
+    "RowVersion failure is injected at Save to verify service error mapping; no commit is checked, not RAM rollback.",
+    "Policy-labelled cases 345–348 exercise actual permission service guards, not ASP.NET authorization middleware.",
+    "No integration rerun after these dependency refactors."
+  ],
+  "cases": [
+    {
+      "id": "UT-331",
+      "title": "Tạo báo cáo",
+      "criterion": "Đúng đắn",
+      "target": "BaoCaoViPhamService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Đối tượng tồn tại; lý do/nội dung hợp lệ; tệp tùy chọn sạch.",
+      "expected": "Lưu ChoXuLy đúng đối tượng/người gửi; thông báo admin và xác nhận người gửi.",
+      "steps": [
+        "Khởi tạo BaoCaoViPhamService thật; seed đối tượng tài khoản G tồn tại và admin A hoạt động có quyền XuLyBaoCao.",
+        "UT-331 input hợp lệ; UT-332 seed báo cáo cũ ChoXuLy cùng người/đối tượng nhưng dùng MaThaoTac mới; UT-333 để LyDo rỗng.",
+        "Gọi GuiAsync trực tiếp; thu KetQua, bản ghi thêm và mock notice cho từng người nhận.",
+        "Assert người/đối tượng/trạng thái, không tạo báo cáo trùng, thông tin báo cáo cũ, lỗi LyDo và Save/Commit đúng nhánh."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=200; success=true; message=null; saves=2; Add=ChoXuLy; noticeRecipients=['40000000-0000-0000-0000-000000000004']; Thiếu xác nhận gửi báo cáo cho người gửi.",
+      "failure": {
+        "cause": "Sau khi lưu báo cáo, service chỉ query người có quyền XuLyBaoCao và gửi notice cho họ; không có notice xác nhận người gửi. Fixture có admin hoạt động nên admin nhận đúng, người gửi không nhận.",
+        "suggestion": "Bổ sung xác nhận gửi báo cáo đúng người gửi/mã báo cáo theo hợp đồng; phân biệt notice với giá trị trả về của hàm.",
+        "impact": "Báo cáo vẫn được lưu đúng và admin nhận thông báo; thiếu phần xác nhận qua cổng thông báo.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\BaoCaoViPhamService.cs",
+            "line": 57,
+            "anchor": "foreach (var recipient in recipients)"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-331",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/BaoCaoViPhamService.cs",
+        "success": true,
+        "status": 200,
+        "message": null,
+        "returnedId": "dec87d93-c968-410f-9f65-feeebf50b449",
+        "added": [
+          {
+            "Id": "dec87d93-c968-410f-9f65-feeebf50b449",
+            "NguoiBiBaoCaoId": "20000000-0000-0000-0000-000000000002",
+            "NguoiBaoCaoId": "10000000-0000-0000-0000-000000000001",
+            "LoaiDoiTuong": "TaiKhoan",
+            "DoiTuongId": "20000000-0000-0000-0000-000000000002",
+            "LyDo": "Sai thông tin",
+            "MoTa": "Thông tin cần xem xét lại.",
+            "TrangThai": "ChoXuLy",
+            "NguoiXuLyId": null,
+            "KetLuan": null,
+            "KetQua": null,
+            "XuLyLuc": null,
+            "GuiLuc": "2026-11-14T10:00:00+07:00",
+            "MaThaoTac": "80000000-0000-0000-0000-000000000008",
+            "BanChup": "{\"HoTen\":\"G\"}",
+            "RowVersion": ""
+          }
+        ],
+        "saves": 2,
+        "notices": [
+          {
+            "User": "40000000-0000-0000-0000-000000000004",
+            "Type": "BaoCao",
+            "Target": "dec87d93-c968-410f-9f65-feeebf50b449",
+            "Text": "Có báo cáo vi phạm mới cần xem xét."
+          }
+        ],
+        "assertionFailures": [
+          "Thiếu xác nhận gửi báo cáo cho người gửi."
+        ]
+      },
+      "error": "Thiếu xác nhận gửi báo cáo cho người gửi.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_331",
+      "duration": "00:00:00.0238909"
+    },
+    {
+      "id": "UT-332",
+      "title": "Báo cáo trùng đang chờ",
+      "criterion": "Đúng đắn",
+      "target": "BaoCaoViPhamService.GuiAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. U1 đã có báo cáo cùng đối tượng/sự việc ChoXuLy.",
+      "expected": "Không tạo báo cáo thứ hai; trả thông tin hỗ trợ bổ sung báo cáo cũ theo quyền.",
+      "steps": [
+        "Khởi tạo BaoCaoViPhamService thật; seed đối tượng tài khoản G tồn tại và admin A hoạt động có quyền XuLyBaoCao.",
+        "UT-331 input hợp lệ; UT-332 seed báo cáo cũ ChoXuLy cùng người/đối tượng nhưng dùng MaThaoTac mới; UT-333 để LyDo rỗng.",
+        "Gọi GuiAsync trực tiếp; thu KetQua, bản ghi thêm và mock notice cho từng người nhận.",
+        "Assert người/đối tượng/trạng thái, không tạo báo cáo trùng, thông tin báo cáo cũ, lỗi LyDo và Save/Commit đúng nhánh."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=409; success=false; message=\"Bạn đã có báo cáo đang chờ xử lý cho nội dung này.\"; saves=0; Add=; noticeRecipients=[]; Kỳ vọng thông tin/mã báo cáo cũ để bổ sung; hiện trả 409 và chỉ có message.",
+      "failure": {
+        "cause": "Guard phát hiện báo cáo cùng người/đối tượng chưa xử lý trả 409 với message; không có mã/thông tin báo cáo cũ để hỗ trợ bổ sung. Input dùng mã thao tác mới để kiểm trùng nghiệp vụ, không phải retry cùng thao tác.",
+        "suggestion": "Trả kết quả có mã/thông tin báo cáo cũ theo quyền hoặc bổ sung API điều hướng/bổ sung được thiết kế rõ.",
+        "impact": "Không tạo báo cáo trùng đã đạt; thiếu hợp đồng hỗ trợ bổ sung báo cáo cũ.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\BaoCaoViPhamService.cs",
+            "line": 37,
+            "anchor": "Bạn đã có báo cáo đang chờ xử lý"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-332",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/BaoCaoViPhamService.cs",
+        "success": false,
+        "status": 409,
+        "message": "Bạn đã có báo cáo đang chờ xử lý cho nội dung này.",
+        "added": [],
+        "saves": 0,
+        "notices": [],
+        "assertionFailures": [
+          "Kỳ vọng thông tin/mã báo cáo cũ để bổ sung; hiện trả 409 và chỉ có message."
+        ]
+      },
+      "error": "Kỳ vọng thông tin/mã báo cáo cũ để bổ sung; hiện trả 409 và chỉ có message.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_332",
+      "duration": "00:00:00.2531085"
+    },
+    {
+      "id": "UT-333",
+      "title": "Thiếu lý do",
+      "criterion": "Đầy đủ",
+      "target": "BaoCaoViPhamService validation",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lý do chưa chọn; các trường khác hợp lệ.",
+      "expected": "Lỗi trường lý do; không lưu.",
+      "steps": [
+        "Khởi tạo BaoCaoViPhamService thật; seed đối tượng tài khoản G tồn tại và admin A hoạt động có quyền XuLyBaoCao.",
+        "UT-331 input hợp lệ; UT-332 seed báo cáo cũ ChoXuLy cùng người/đối tượng nhưng dùng MaThaoTac mới; UT-333 để LyDo rỗng.",
+        "Gọi GuiAsync trực tiếp; thu KetQua, bản ghi thêm và mock notice cho từng người nhận.",
+        "Assert người/đối tượng/trạng thái, không tạo báo cáo trùng, thông tin báo cáo cũ, lỗi LyDo và Save/Commit đúng nhánh."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; success=false; message=\"The LyDo field is required.\"; saves=0; Add=; noticeRecipients=[]",
+      "failure": null,
+      "observation": {
+        "id": "UT-333",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/BaoCaoViPhamService.cs",
+        "success": false,
+        "status": 400,
+        "message": "The LyDo field is required.",
+        "added": [],
+        "saves": 0,
+        "notices": [],
+        "validatorField": "LyDo",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_333",
+      "duration": "00:00:00.0069253"
+    },
+    {
+      "id": "UT-334",
+      "title": "Khóa hợp lệ",
+      "criterion": "Đúng đắn",
+      "target": "QuanTriService khóa tài khoản",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin có quyền; tài khoản đang hoạt động; lý do hợp lệ.",
+      "expected": "Tài khoản BiKhoa; lưu lý do và nhật ký; thông báo người dùng; yêu cầu thu hồi phiên.",
+      "steps": [
+        "Tạo QuanTriService thật với current/adminrights/sessions/notice giả và nguồn dữ liệu async. Tài khoản U không có lớp/yêu cầu chờ trong fixture này.",
+        "UT-334 U đang HoatDong có phiên hoạt động; UT-335 U BiKhoa có biện pháp chưa gỡ và phiên đã thu hồi; UT-336 U đã BiKhoa; UT-337 lý do trắng.",
+        "Gọi KhoaTaiKhoanAsync hoặc GoBienPhapAsync thật, dùng ConcurrencyStamp hoặc RowVersion phù hợp.",
+        "Assert trạng thái, biện pháp/lý do, journal callback, notice đúng người, phiên bị thu hồi không phục hồi và số lần Save/Commit; ca no-op không được ghi thêm."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; state=\"BiKhoa\"; saves=1; commits=1; Add=bản ghi; noticeRecipients=[]; Không thông báo trực tiếp cho người dùng bị khóa (fixture không có lớp/yêu cầu đang chờ).",
+      "failure": {
+        "cause": "ApDungKhoaAsync thêm biện pháp, đổi trạng thái/stamp và thu hồi các phiên; notice hiện chỉ gửi đối tác yêu cầu hoặc lớp. Fixture tài khoản không có lớp/yêu cầu đang chờ, không có notice trực tiếp cho tài khoản bị khóa.",
+        "suggestion": "Gửi notice kết quả khóa cho chính tài khoản bị khóa theo thiết kế, giữ nhật ký và thu hồi phiên hiện có.",
+        "impact": "Khóa/thu hồi phiên/lưu lý do/nhật ký đều đạt; thiếu thông báo người dùng.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.cs",
+            "line": 76,
+            "anchor": "internal async Task ApDungKhoaAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-334",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.cs",
+        "status": 200,
+        "message": null,
+        "state": "BiKhoa",
+        "sessionRevoked": "2026-11-14T10:00:00+07:00",
+        "measure": null,
+        "added": [
+          {
+            "Id": "29728dc7-5eed-4d3c-8940-cb8cec93f382",
+            "NguonBienPhapId": null,
+            "LoaiDoiTuong": "TaiKhoan",
+            "DoiTuongId": "10000000-0000-0000-0000-000000000001",
+            "Loai": "KhoaTaiKhoan",
+            "LyDo": "Vi phạm đã xác minh",
+            "BaoCaoId": null,
+            "NguoiApDungId": "40000000-0000-0000-0000-000000000004",
+            "ApDungLuc": "2026-11-14T10:00:00+07:00",
+            "NguoiGoId": null,
+            "GoLuc": null,
+            "LyDoGo": null,
+            "RowVersion": ""
+          }
+        ],
+        "audit": [
+          "KhoaTaiKhoan"
+        ],
+        "saves": 1,
+        "commits": 1,
+        "notices": [],
+        "assertionFailures": [
+          "Không thông báo trực tiếp cho người dùng bị khóa (fixture không có lớp/yêu cầu đang chờ)."
+        ]
+      },
+      "error": "Không thông báo trực tiếp cho người dùng bị khóa (fixture không có lớp/yêu cầu đang chờ).",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_334",
+      "duration": "00:00:00.0098289"
+    },
+    {
+      "id": "UT-335",
+      "title": "Mở khóa hợp lệ",
+      "criterion": "Đúng đắn",
+      "target": "QuanTriService mở khóa",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin có quyền; tài khoản BiKhoa.",
+      "expected": "Chuyển HoatDong; ghi nhật ký, thông báo; không tự phục hồi phiên đã bị thu hồi.",
+      "steps": [
+        "Tạo QuanTriService thật với current/adminrights/sessions/notice giả và nguồn dữ liệu async. Tài khoản U không có lớp/yêu cầu chờ trong fixture này.",
+        "UT-334 U đang HoatDong có phiên hoạt động; UT-335 U BiKhoa có biện pháp chưa gỡ và phiên đã thu hồi; UT-336 U đã BiKhoa; UT-337 lý do trắng.",
+        "Gọi KhoaTaiKhoanAsync hoặc GoBienPhapAsync thật, dùng ConcurrencyStamp hoặc RowVersion phù hợp.",
+        "Assert trạng thái, biện pháp/lý do, journal callback, notice đúng người, phiên bị thu hồi không phục hồi và số lần Save/Commit; ca no-op không được ghi thêm."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; state=\"HoatDong\"; saves=3; commits=1; Add=; noticeRecipients=['10000000-0000-0000-0000-000000000001']",
+      "failure": null,
+      "observation": {
+        "id": "UT-335",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.cs",
+        "status": 200,
+        "message": null,
+        "state": "HoatDong",
+        "sessionRevoked": "2026-11-14T09:58:00+07:00",
+        "measure": {
+          "Id": "70000000-0000-0000-0000-000000000007",
+          "NguonBienPhapId": null,
+          "LoaiDoiTuong": "TaiKhoan",
+          "DoiTuongId": "10000000-0000-0000-0000-000000000001",
+          "Loai": "KhoaTaiKhoan",
+          "LyDo": "Lý do cũ",
+          "BaoCaoId": null,
+          "NguoiApDungId": "40000000-0000-0000-0000-000000000004",
+          "ApDungLuc": "2026-11-13T10:00:00+07:00",
+          "NguoiGoId": "40000000-0000-0000-0000-000000000004",
+          "GoLuc": "2026-11-14T10:00:00+07:00",
+          "LyDoGo": "Đã xử lý",
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "added": [],
+        "audit": [
+          "GoBienPhap"
+        ],
+        "saves": 3,
+        "commits": 1,
+        "notices": [
+          {
+            "User": "10000000-0000-0000-0000-000000000001",
+            "Type": "TaiKhoan",
+            "Target": "10000000-0000-0000-0000-000000000001",
+            "Text": "Tài khoản đã được mở khóa. Bạn có thể đăng nhập lại."
+          }
+        ],
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_335",
+      "duration": "00:00:00.0136306"
+    },
+    {
+      "id": "UT-336",
+      "title": "Không đổi trạng thái trùng",
+      "criterion": "Đúng đắn",
+      "target": "QuanTriService đổi trạng thái",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Tài khoản đã ở trạng thái được yêu cầu.",
+      "expected": "Không cập nhật lại; kết quả không cần thay đổi theo UC.",
+      "steps": [
+        "Tạo QuanTriService thật với current/adminrights/sessions/notice giả và nguồn dữ liệu async. Tài khoản U không có lớp/yêu cầu chờ trong fixture này.",
+        "UT-334 U đang HoatDong có phiên hoạt động; UT-335 U BiKhoa có biện pháp chưa gỡ và phiên đã thu hồi; UT-336 U đã BiKhoa; UT-337 lý do trắng.",
+        "Gọi KhoaTaiKhoanAsync hoặc GoBienPhapAsync thật, dùng ConcurrencyStamp hoặc RowVersion phù hợp.",
+        "Assert trạng thái, biện pháp/lý do, journal callback, notice đúng người, phiên bị thu hồi không phục hồi và số lần Save/Commit; ca no-op không được ghi thêm."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; state=\"BiKhoa\"; saves=1; commits=1; Add=bản ghi; noticeRecipients=[]; Tài khoản đã BiKhoa phải no-op; hiện thêm biện pháp và Save lại.",
+      "failure": {
+        "cause": "KhoaTaiKhoanAsync/ApDungKhoaAsync không chặn trạng thái đã BiKhoa trước khi thêm biện pháp và đổi stamp. Lần yêu cầu trùng vẫn Save/Commit.",
+        "suggestion": "Thêm quy tắc no-op theo trạng thái hiện tại; tránh thêm biện pháp và nhật ký thay đổi trùng nếu UC yêu cầu không đổi.",
+        "impact": "Có thể thêm biện pháp khóa dư và đổi dấu phiên bản dù trạng thái không đổi.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.cs",
+            "line": 61,
+            "anchor": "public async Task KhoaTaiKhoanAsync"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.cs",
+            "line": 87,
+            "anchor": "var measure = new BienPhapQuanTri"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-336",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.cs",
+        "status": 200,
+        "message": null,
+        "state": "BiKhoa",
+        "sessionRevoked": "2026-11-14T10:00:00+07:00",
+        "measure": {
+          "Id": "70000000-0000-0000-0000-000000000007",
+          "NguonBienPhapId": null,
+          "LoaiDoiTuong": "TaiKhoan",
+          "DoiTuongId": "10000000-0000-0000-0000-000000000001",
+          "Loai": "KhoaTaiKhoan",
+          "LyDo": "Lý do cũ",
+          "BaoCaoId": null,
+          "NguoiApDungId": "40000000-0000-0000-0000-000000000004",
+          "ApDungLuc": "2026-11-13T10:00:00+07:00",
+          "NguoiGoId": null,
+          "GoLuc": null,
+          "LyDoGo": null,
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "added": [
+          {
+            "Id": "4b74abb0-5365-40e1-bd3a-309c0fe73a7f",
+            "NguonBienPhapId": null,
+            "LoaiDoiTuong": "TaiKhoan",
+            "DoiTuongId": "10000000-0000-0000-0000-000000000001",
+            "Loai": "KhoaTaiKhoan",
+            "LyDo": "Vi phạm đã xác minh",
+            "BaoCaoId": null,
+            "NguoiApDungId": "40000000-0000-0000-0000-000000000004",
+            "ApDungLuc": "2026-11-14T10:00:00+07:00",
+            "NguoiGoId": null,
+            "GoLuc": null,
+            "LyDoGo": null,
+            "RowVersion": ""
+          }
+        ],
+        "audit": [
+          "KhoaTaiKhoan"
+        ],
+        "saves": 1,
+        "commits": 1,
+        "notices": [],
+        "assertionFailures": [
+          "Tài khoản đã BiKhoa phải no-op; hiện thêm biện pháp và Save lại."
+        ]
+      },
+      "error": "Tài khoản đã BiKhoa phải no-op; hiện thêm biện pháp và Save lại.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_336",
+      "duration": "00:00:00.0219209"
+    },
+    {
+      "id": "UT-337",
+      "title": "Thiếu lý do khóa",
+      "criterion": "Đầy đủ",
+      "target": "QuanTriService khóa tài khoản",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin hợp lệ; lý do trống.",
+      "expected": "Báo lỗi; tài khoản không đổi.",
+      "steps": [
+        "Tạo QuanTriService thật với current/adminrights/sessions/notice giả và nguồn dữ liệu async. Tài khoản U không có lớp/yêu cầu chờ trong fixture này.",
+        "UT-334 U đang HoatDong có phiên hoạt động; UT-335 U BiKhoa có biện pháp chưa gỡ và phiên đã thu hồi; UT-336 U đã BiKhoa; UT-337 lý do trắng.",
+        "Gọi KhoaTaiKhoanAsync hoặc GoBienPhapAsync thật, dùng ConcurrencyStamp hoặc RowVersion phù hợp.",
+        "Assert trạng thái, biện pháp/lý do, journal callback, notice đúng người, phiên bị thu hồi không phục hồi và số lần Save/Commit; ca no-op không được ghi thêm."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=400; message=\"Lý do cần từ 1 đến 2000 ký tự.\"; state=\"HoatDong\"; saves=0; commits=0; Add=; noticeRecipients=[]",
+      "failure": null,
+      "observation": {
+        "id": "UT-337",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.cs",
+        "status": 400,
+        "message": "Lý do cần từ 1 đến 2000 ký tự.",
+        "state": "HoatDong",
+        "sessionRevoked": null,
+        "measure": null,
+        "added": [],
+        "audit": [],
+        "saves": 0,
+        "commits": 0,
+        "notices": [],
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_337",
+      "duration": "00:00:00.0061870"
+    },
+    {
+      "id": "UT-338",
+      "title": "Chấp thuận hồ sơ",
+      "criterion": "Đúng đắn",
+      "target": "HoSoGiaSuService.DuyetAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin hợp lệ; hồ sơ chờ duyệt đủ thông tin.",
+      "expected": "DaDuyet; lưu nhật ký; gửi kết quả đúng gia sư.",
+      "steps": [
+        "Tạo hồ sơ đủ môn/phí/giới thiệu/chuyên môn, hidden, chờ duyệt; actor admin có claim DuyetHoSo. UT-340 bắt đầu CanChinhSua và actor chủ hồ sơ.",
+        "UT-338/339 gọi DuyetAsync thật với quyết định/lý do. UT-340 gọi CapNhatAsync rồi DoiTrangThaiAsync(GuiDuyet) để thực sự gửi lại.",
+        "Thu trạng thái/lý do, NhatKyQuanTri được Add, notice tới gia sư và số lần Save/Commit.",
+        "Assert DaDuyet/CanChinhSua/ChoDuyet đúng ca, hồ sơ chưa tự công khai; ca duyệt có nhật ký và thông báo đúng chủ."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=1; commits=1; Add=bản ghi; noticeRecipients=['20000000-0000-0000-0000-000000000002']",
+      "failure": null,
+      "observation": {
+        "id": "UT-338",
+        "mode": "Behavior",
+        "source": "Areas/NhuCau/Services/HoSoGiaSuService.cs",
+        "status": 200,
+        "message": null,
+        "profile": {
+          "DangHienThi": false,
+          "DayTrucTuyen": true,
+          "DayTrucTiep": false,
+          "GuiDuyetLuc": null,
+          "DuyetLuc": "2026-11-14T08:03:05.2970621+00:00",
+          "NguoiDuyetId": "40000000-0000-0000-0000-000000000004",
+          "Id": "80000000-0000-0000-0000-000000000008",
+          "GiaSuId": "20000000-0000-0000-0000-000000000002",
+          "TrinhDo": "Dai hoc",
+          "ChuyenMon": "Toan",
+          "KinhNghiem": "3 nam",
+          "MoTa": "Gioi thieu day du",
+          "KhuVuc": "Ha Noi",
+          "TrangThaiDuyet": "DaDuyet",
+          "LyDoTuChoi": null,
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "added": [
+          {
+            "Id": "eaf264db-13d0-4519-bbc8-5b11ac641ad1",
+            "NguoiThucHienId": "40000000-0000-0000-0000-000000000004",
+            "ThoiDiem": "2026-11-14T08:03:05.2972461+00:00",
+            "HanhDong": "DuyetHoSo",
+            "LoaiDoiTuong": "HoSoGiaSu",
+            "DoiTuongId": "80000000-0000-0000-0000-000000000008",
+            "KetQua": "DaDuyet",
+            "ChiTiet": null,
+            "MaLienKetYeuCau": "2f6f10fa-084b-420c-a327-0fa5c76afe31"
+          }
+        ],
+        "notices": [
+          {
+            "User": "20000000-0000-0000-0000-000000000002",
+            "Type": "HoSo",
+            "Target": "80000000-0000-0000-0000-000000000008",
+            "Text": "Hồ sơ đã được duyệt. Bạn có thể bật hiển thị."
+          }
+        ],
+        "saves": 1,
+        "commits": 1,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_338",
+      "duration": "00:00:00.0156288"
+    },
+    {
+      "id": "UT-339",
+      "title": "Yêu cầu chỉnh sửa",
+      "criterion": "Đúng đắn",
+      "target": "HoSoGiaSuService.DuyetAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin nhập nội dung cần bổ sung.",
+      "expected": "Hồ sơ sang Yêu cầu chỉnh sửa; lưu nội dung; thông báo đúng gia sư.",
+      "steps": [
+        "Tạo hồ sơ đủ môn/phí/giới thiệu/chuyên môn, hidden, chờ duyệt; actor admin có claim DuyetHoSo. UT-340 bắt đầu CanChinhSua và actor chủ hồ sơ.",
+        "UT-338/339 gọi DuyetAsync thật với quyết định/lý do. UT-340 gọi CapNhatAsync rồi DoiTrangThaiAsync(GuiDuyet) để thực sự gửi lại.",
+        "Thu trạng thái/lý do, NhatKyQuanTri được Add, notice tới gia sư và số lần Save/Commit.",
+        "Assert DaDuyet/CanChinhSua/ChoDuyet đúng ca, hồ sơ chưa tự công khai; ca duyệt có nhật ký và thông báo đúng chủ."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=1; commits=1; Add=bản ghi; noticeRecipients=['20000000-0000-0000-0000-000000000002']",
+      "failure": null,
+      "observation": {
+        "id": "UT-339",
+        "mode": "Behavior",
+        "source": "Areas/NhuCau/Services/HoSoGiaSuService.cs",
+        "status": 200,
+        "message": null,
+        "profile": {
+          "DangHienThi": false,
+          "DayTrucTuyen": true,
+          "DayTrucTiep": false,
+          "GuiDuyetLuc": null,
+          "DuyetLuc": "2026-11-14T08:03:05.331253+00:00",
+          "NguoiDuyetId": "40000000-0000-0000-0000-000000000004",
+          "Id": "80000000-0000-0000-0000-000000000008",
+          "GiaSuId": "20000000-0000-0000-0000-000000000002",
+          "TrinhDo": "Dai hoc",
+          "ChuyenMon": "Toan",
+          "KinhNghiem": "3 nam",
+          "MoTa": "Gioi thieu day du",
+          "KhuVuc": "Ha Noi",
+          "TrangThaiDuyet": "CanChinhSua",
+          "LyDoTuChoi": "Bổ sung bằng cấp",
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "added": [
+          {
+            "Id": "67e564e0-76cf-41f3-af6d-b14567ec0599",
+            "NguoiThucHienId": "40000000-0000-0000-0000-000000000004",
+            "ThoiDiem": "2026-11-14T08:03:05.3312596+00:00",
+            "HanhDong": "DuyetHoSo",
+            "LoaiDoiTuong": "HoSoGiaSu",
+            "DoiTuongId": "80000000-0000-0000-0000-000000000008",
+            "KetQua": "CanChinhSua",
+            "ChiTiet": null,
+            "MaLienKetYeuCau": "7cc4732b-a8fa-418d-8f6d-dac20e31ecff"
+          }
+        ],
+        "notices": [
+          {
+            "User": "20000000-0000-0000-0000-000000000002",
+            "Type": "HoSo",
+            "Target": "80000000-0000-0000-0000-000000000008",
+            "Text": "Hồ sơ cần chỉnh sửa. Xem lý do trong Hồ sơ của tôi."
+          }
+        ],
+        "saves": 1,
+        "commits": 1,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_339",
+      "duration": "00:00:00.0076702"
+    },
+    {
+      "id": "UT-340",
+      "title": "Gửi lại sau chỉnh sửa",
+      "criterion": "Đúng đắn",
+      "target": "HoSoGiaSuService gửi lại hồ sơ",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Hồ sơ yêu cầu chỉnh sửa; chủ hồ sơ cập nhật hợp lệ.",
+      "expected": "Trở lại chờ kiểm duyệt; không tự DaDuyet.",
+      "steps": [
+        "Tạo hồ sơ đủ môn/phí/giới thiệu/chuyên môn, hidden, chờ duyệt; actor admin có claim DuyetHoSo. UT-340 bắt đầu CanChinhSua và actor chủ hồ sơ.",
+        "UT-338/339 gọi DuyetAsync thật với quyết định/lý do. UT-340 gọi CapNhatAsync rồi DoiTrangThaiAsync(GuiDuyet) để thực sự gửi lại.",
+        "Thu trạng thái/lý do, NhatKyQuanTri được Add, notice tới gia sư và số lần Save/Commit.",
+        "Assert DaDuyet/CanChinhSua/ChoDuyet đúng ca, hồ sơ chưa tự công khai; ca duyệt có nhật ký và thông báo đúng chủ."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "status=200; message=null; saves=3; commits=2; Add=; noticeRecipients=[]",
+      "failure": null,
+      "observation": {
+        "id": "UT-340",
+        "mode": "Behavior",
+        "source": "Areas/NhuCau/Services/HoSoGiaSuService.cs",
+        "status": 200,
+        "message": null,
+        "profile": {
+          "DangHienThi": false,
+          "DayTrucTuyen": true,
+          "DayTrucTiep": false,
+          "GuiDuyetLuc": "2026-11-14T08:03:05.1957281+00:00",
+          "DuyetLuc": null,
+          "NguoiDuyetId": null,
+          "Id": "80000000-0000-0000-0000-000000000008",
+          "GiaSuId": "20000000-0000-0000-0000-000000000002",
+          "TrinhDo": "Đại học",
+          "ChuyenMon": "Toán",
+          "KinhNghiem": "3 năm",
+          "MoTa": "Giới thiệu đầy đủ cho hồ sơ",
+          "KhuVuc": "Hà Nội",
+          "TrangThaiDuyet": "ChoDuyet",
+          "LyDoTuChoi": null,
+          "RowVersion": "AQIDBAUGBwg="
+        },
+        "added": [],
+        "notices": [],
+        "saves": 3,
+        "commits": 2,
+        "workflow": "CapNhatAsync lưu BanNhap; bước gửi lại thật là DoiTrangThaiAsync(GuiDuyet), không kết luận chỉ lưu là đã gửi.",
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_340",
+      "duration": "00:00:00.0489376"
+    },
+    {
+      "id": "UT-341",
+      "title": "Gán nhiều vai trò",
+      "criterion": "Đúng đắn",
+      "target": "QuanTriService.PhanQuyenAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin chọn hai vai trò cho một tài khoản.",
+      "expected": "Từ chối tổ hợp sai QT-12; không thay quyền.",
+      "steps": [
+        "Nạp kiểu input thật của phương thức được chỉ định.",
+        "Dùng reflection liệt kê thuộc tính input, kiểm trường mã thao tác hoặc vai trò mà fixture yêu cầu.",
+        "Assert có thể biểu diễn input của ca theo hợp đồng; hiện thiếu nên Fail. Không gọi service với input sai ngữ nghĩa để tạo kết quả giả."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "inputProperties=[\"TaiKhoanId\", \"ConcurrencyStamp\", \"Quyen\", \"LyDo\"]; Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12.",
+      "failure": {
+        "cause": "PhanQuyenAsync nhận PhanQuyenQuanTriViewModel.Quyen với sáu tên quyền quản trị; input không có vai trò tài khoản. Kịch bản lại yêu cầu chọn một/hai vai trò. Unit kiểm hợp đồng input, không nhét HocSinh/GiaSu vào Quyen để tạo một kết quả từ chối giả.",
+        "suggestion": "Bổ sung/định danh đúng use case đổi vai trò và input có vai trò, áp dụng QT-12; hoặc sửa mục tiêu kịch bản nếu thực sự chỉ cấp admin permissions sau khi thống nhất.",
+        "impact": "Chưa thực thi nhánh đổi vai trò, lưu quyền mới hoặc thu hồi phiên của ca này.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.CauHinh.cs",
+            "line": 11,
+            "anchor": "public async Task PhanQuyenAsync"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\ViewModels\\QuanTriInputs.cs",
+            "line": 34,
+            "anchor": "public sealed class PhanQuyenQuanTriViewModel"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-341",
+        "mode": "DesignContract",
+        "source": "Areas/QuanTri/Services/QuanTriService.CauHinh.cs",
+        "inputProperties": [
+          "TaiKhoanId",
+          "ConcurrencyStamp",
+          "Quyen",
+          "LyDo"
+        ],
+        "explanation": "PhanQuyenAsync nhận Quyen quản trị (DuyetHoSo, XuLyBaoCao…), không nhận vai trò tài khoản. Không truyền tên vai trò vào Quyen rồi coi bị từ chối là kiểm đúng QT-12.",
+        "assertionFailures": [
+          "Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12."
+        ]
+      },
+      "error": "Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_341",
+      "duration": "00:00:00.0051813"
+    },
+    {
+      "id": "UT-342",
+      "title": "Đổi quyền hợp lệ",
+      "criterion": "Xác thực",
+      "target": "QuanTriService.PhanQuyenAsync",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin chọn một vai trò hợp lệ.",
+      "expected": "Lưu đúng quyền, nhật ký và yêu cầu thu hồi phiên liên quan; quyền mới dùng cho request tiếp theo.",
+      "steps": [
+        "Nạp kiểu input thật của phương thức được chỉ định.",
+        "Dùng reflection liệt kê thuộc tính input, kiểm trường mã thao tác hoặc vai trò mà fixture yêu cầu.",
+        "Assert có thể biểu diễn input của ca theo hợp đồng; hiện thiếu nên Fail. Không gọi service với input sai ngữ nghĩa để tạo kết quả giả."
+      ],
+      "outcome": "Failed",
+      "mode": "DesignContract",
+      "actual": "inputProperties=[\"TaiKhoanId\", \"ConcurrencyStamp\", \"Quyen\", \"LyDo\"]; Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12.",
+      "failure": {
+        "cause": "PhanQuyenAsync nhận PhanQuyenQuanTriViewModel.Quyen với sáu tên quyền quản trị; input không có vai trò tài khoản. Kịch bản lại yêu cầu chọn một/hai vai trò. Unit kiểm hợp đồng input, không nhét HocSinh/GiaSu vào Quyen để tạo một kết quả từ chối giả.",
+        "suggestion": "Bổ sung/định danh đúng use case đổi vai trò và input có vai trò, áp dụng QT-12; hoặc sửa mục tiêu kịch bản nếu thực sự chỉ cấp admin permissions sau khi thống nhất.",
+        "impact": "Chưa thực thi nhánh đổi vai trò, lưu quyền mới hoặc thu hồi phiên của ca này.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.CauHinh.cs",
+            "line": 11,
+            "anchor": "public async Task PhanQuyenAsync"
+          },
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\ViewModels\\QuanTriInputs.cs",
+            "line": 34,
+            "anchor": "public sealed class PhanQuyenQuanTriViewModel"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-342",
+        "mode": "DesignContract",
+        "source": "Areas/QuanTri/Services/QuanTriService.CauHinh.cs",
+        "inputProperties": [
+          "TaiKhoanId",
+          "ConcurrencyStamp",
+          "Quyen",
+          "LyDo"
+        ],
+        "explanation": "PhanQuyenAsync nhận Quyen quản trị (DuyetHoSo, XuLyBaoCao…), không nhận vai trò tài khoản. Không truyền tên vai trò vào Quyen rồi coi bị từ chối là kiểm đúng QT-12.",
+        "assertionFailures": [
+          "Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12."
+        ]
+      },
+      "error": "Thiếu hợp đồng đổi vai trò ở phương thức đích; chưa thể truyền một/hai vai trò để kiểm QT-12.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_342",
+      "duration": "00:00:00.0041158"
+    },
+    {
+      "id": "UT-343",
+      "title": "Bộ lọc hợp lệ",
+      "criterion": "Đúng đắn",
+      "target": "QuanTriService truy vấn nhật ký",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Admin; dữ liệu A khớp thời gian/người, B không khớp.",
+      "expected": "Trả A; không gọi cổng cập nhật/xóa nhật ký.",
+      "steps": [
+        "Tạo QuanTriService thật với nguồn dữ liệu async; mock admin cho quyền XemNhatKy.",
+        "UT-343 seed A đúng thời gian/người, B cùng thời gian khác người, C ngoài thời gian; UT-344 nguồn nhật ký rỗng.",
+        "Gọi LayNhatKyAsync với tuNgay/denNgay; liệt kê tham số thật để phát hiện thiếu filter người thực hiện.",
+        "Assert danh sách kỳ vọng và không Add/Remove/Save. UT-343 ghi rõ thời gian đã lọc đúng nhưng không biểu diễn được người trong API."
+      ],
+      "outcome": "Failed",
+      "mode": "Behavior",
+      "actual": "saves=0; total=2; Thiếu lọc theo người thực hiện: không có tham số actor, kết quả có cả A và B khác người cùng thời gian.",
+      "failure": {
+        "cause": "LayNhatKyAsync nhận trang/q/tuNgay/denNgay, không có người thực hiện. Hai bản ghi cùng thời gian khác người đều được trả về; bản ghi ngoài thời gian đã bị loại.",
+        "suggestion": "Bổ sung filter mã người thực hiện và áp dụng trước phân trang/count; thêm điều kiện khớp cả thời gian và người.",
+        "impact": "Bộ lọc thời gian/read-only đạt, bộ lọc theo người còn thiếu.",
+        "source": [
+          {
+            "file": "C:\\Khóa luận TN\\Educonnect\\Areas\\QuanTri\\Services\\QuanTriService.CauHinh.cs",
+            "line": 36,
+            "anchor": "public async Task<Page<NhatKyQuanTriRow>> LayNhatKyAsync"
+          }
+        ]
+      },
+      "observation": {
+        "id": "UT-343",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.CauHinh.cs",
+        "items": [
+          {
+            "BanGhi": {
+              "Id": "60000000-0000-0000-0000-000000000006",
+              "NguoiThucHienId": "40000000-0000-0000-0000-000000000004",
+              "ThoiDiem": "2026-11-14T10:00:00+07:00",
+              "HanhDong": "Khoa",
+              "LoaiDoiTuong": "",
+              "DoiTuongId": "",
+              "KetQua": "",
+              "ChiTiet": null,
+              "MaLienKetYeuCau": ""
+            },
+            "HoTen": "Admin"
+          },
+          {
+            "BanGhi": {
+              "Id": "80000000-0000-0000-0000-000000000008",
+              "NguoiThucHienId": "10000000-0000-0000-0000-000000000001",
+              "ThoiDiem": "2026-11-14T10:00:00+07:00",
+              "HanhDong": "Khoa",
+              "LoaiDoiTuong": "",
+              "DoiTuongId": "",
+              "KetQua": "",
+              "ChiTiet": null,
+              "MaLienKetYeuCau": ""
+            },
+            "HoTen": "U1"
+          }
+        ],
+        "total": 2,
+        "saves": 0,
+        "parameters": [
+          "trang",
+          "q",
+          "tuNgay",
+          "denNgay"
+        ],
+        "assertionFailures": [
+          "Thiếu lọc theo người thực hiện: không có tham số actor, kết quả có cả A và B khác người cùng thời gian."
+        ]
+      },
+      "error": "Thiếu lọc theo người thực hiện: không có tham số actor, kết quả có cả A và B khác người cùng thời gian.",
+      "stack": "   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 35\r\n   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\\Khóa luận TN\\Educonnect\\tests\\Unit\\RemainingRunner.cs:line 55\r\n--- End of stack trace from previous location ---",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_343",
+      "duration": "00:00:00.0370536"
+    },
+    {
+      "id": "UT-344",
+      "title": "Không kết quả",
+      "criterion": "Đầy đủ",
+      "target": "QuanTriService truy vấn nhật ký",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Nguồn đọc trả rỗng.",
+      "expected": "Danh sách rỗng, không exception hoặc tạo dữ liệu mới.",
+      "steps": [
+        "Tạo QuanTriService thật với nguồn dữ liệu async; mock admin cho quyền XemNhatKy.",
+        "UT-343 seed A đúng thời gian/người, B cùng thời gian khác người, C ngoài thời gian; UT-344 nguồn nhật ký rỗng.",
+        "Gọi LayNhatKyAsync với tuNgay/denNgay; liệt kê tham số thật để phát hiện thiếu filter người thực hiện.",
+        "Assert danh sách kỳ vọng và không Add/Remove/Save. UT-343 ghi rõ thời gian đã lọc đúng nhưng không biểu diễn được người trong API."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "saves=0; total=0",
+      "failure": null,
+      "observation": {
+        "id": "UT-344",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuanTriService.CauHinh.cs",
+        "items": [],
+        "total": 0,
+        "saves": 0,
+        "parameters": [
+          "trang",
+          "q",
+          "tuNgay",
+          "denNgay"
+        ],
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_344",
+      "duration": "00:00:00.0093770"
+    },
+    {
+      "id": "UT-345",
+      "title": "Vai trò không có quyền quản trị",
+      "criterion": "Xác thực",
+      "target": "QuyenQuanTri policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần lượt tạo principal thuộc Học sinh/Phụ huynh/Gia sư, không cấp quyền quản trị.",
+      "expected": "Policy từ chối; handler nghiệp vụ không được phép ghi/đọc dữ liệu quản trị.",
+      "steps": [
+        "Lần lượt tạo actor HocSinh/PhuHuynh/GiaSu qua mock nguồn người dùng.",
+        "Khởi tạo QuyenQuanTriService thật, không provider EF: nếu vô tình đọc DB sẽ lỗi test.",
+        "Gọi CoQuyenAsync và KiemTraAsync cho quyền được ánh xạ từ nhãn policy; UT-345 kiểm cả sáu quyền quản trị, các ca khác kiểm quyền cụ thể.",
+        "Assert false/403 cho tất cả dataset; không gọi handler nghiệp vụ. Đây là unit guard, không phải kiểm middleware/policy pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "saves=0; 18 datasets guard đều false/403",
+      "failure": null,
+      "observation": {
+        "id": "UT-345",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuyenQuanTriService.cs",
+        "mapping": "Các nhãn policy trong bảng ánh xạ guard CoQuyenAsync/KiemTraAsync của QuyenQuanTriService. Không khẳng định đã chạy ASP.NET authorization pipeline.",
+        "datasets": [
+          {
+            "role": "HocSinh",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "HocSinh",
+            "permission": "XuLyBaoCao",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "HocSinh",
+            "permission": "QuanLyTaiKhoan",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "HocSinh",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "HocSinh",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "HocSinh",
+            "permission": "QuanLyDanhMuc",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "XuLyBaoCao",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "QuanLyTaiKhoan",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "QuanLyDanhMuc",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "XuLyBaoCao",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "QuanLyTaiKhoan",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "QuanLyDanhMuc",
+            "allowed": false,
+            "status": 403
+          }
+        ],
+        "saves": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_345",
+      "duration": "00:00:00.0041137"
+    },
+    {
+      "id": "UT-346",
+      "title": "Vai trò không có quyền quản trị",
+      "criterion": "Xác thực",
+      "target": "QuyenDuyetHoSo policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần lượt tạo principal thuộc Học sinh/Phụ huynh/Gia sư, không cấp quyền quản trị.",
+      "expected": "Policy từ chối; handler nghiệp vụ không được phép ghi/đọc dữ liệu quản trị.",
+      "steps": [
+        "Lần lượt tạo actor HocSinh/PhuHuynh/GiaSu qua mock nguồn người dùng.",
+        "Khởi tạo QuyenQuanTriService thật, không provider EF: nếu vô tình đọc DB sẽ lỗi test.",
+        "Gọi CoQuyenAsync và KiemTraAsync cho quyền được ánh xạ từ nhãn policy; UT-345 kiểm cả sáu quyền quản trị, các ca khác kiểm quyền cụ thể.",
+        "Assert false/403 cho tất cả dataset; không gọi handler nghiệp vụ. Đây là unit guard, không phải kiểm middleware/policy pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "saves=0; 3 datasets guard đều false/403",
+      "failure": null,
+      "observation": {
+        "id": "UT-346",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuyenQuanTriService.cs",
+        "mapping": "Các nhãn policy trong bảng ánh xạ guard CoQuyenAsync/KiemTraAsync của QuyenQuanTriService. Không khẳng định đã chạy ASP.NET authorization pipeline.",
+        "datasets": [
+          {
+            "role": "HocSinh",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "DuyetHoSo",
+            "allowed": false,
+            "status": 403
+          }
+        ],
+        "saves": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_346",
+      "duration": "00:00:00.0038192"
+    },
+    {
+      "id": "UT-347",
+      "title": "Vai trò không có quyền quản trị",
+      "criterion": "Xác thực",
+      "target": "QuyenPhanQuyen policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần lượt tạo principal thuộc Học sinh/Phụ huynh/Gia sư, không cấp quyền quản trị.",
+      "expected": "Policy từ chối; handler nghiệp vụ không được phép ghi/đọc dữ liệu quản trị.",
+      "steps": [
+        "Lần lượt tạo actor HocSinh/PhuHuynh/GiaSu qua mock nguồn người dùng.",
+        "Khởi tạo QuyenQuanTriService thật, không provider EF: nếu vô tình đọc DB sẽ lỗi test.",
+        "Gọi CoQuyenAsync và KiemTraAsync cho quyền được ánh xạ từ nhãn policy; UT-345 kiểm cả sáu quyền quản trị, các ca khác kiểm quyền cụ thể.",
+        "Assert false/403 cho tất cả dataset; không gọi handler nghiệp vụ. Đây là unit guard, không phải kiểm middleware/policy pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "saves=0; 3 datasets guard đều false/403",
+      "failure": null,
+      "observation": {
+        "id": "UT-347",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuyenQuanTriService.cs",
+        "mapping": "Các nhãn policy trong bảng ánh xạ guard CoQuyenAsync/KiemTraAsync của QuyenQuanTriService. Không khẳng định đã chạy ASP.NET authorization pipeline.",
+        "datasets": [
+          {
+            "role": "HocSinh",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "QuanLyQuyen",
+            "allowed": false,
+            "status": 403
+          }
+        ],
+        "saves": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_347",
+      "duration": "00:00:00.0042613"
+    },
+    {
+      "id": "UT-348",
+      "title": "Vai trò không có quyền quản trị",
+      "criterion": "Xác thực",
+      "target": "QuyenXemNhatKy policy",
+      "arrange": "Tạo đối tượng thật cần kiểm tra, fixture mới cho ca này. Dùng U1/U2 là hai người khác nhau, RV1 là byte[8] hiện tại, RV0 là byte[8] khác RV1; cố định đồng hồ nếu cần. Lần lượt tạo principal thuộc Học sinh/Phụ huynh/Gia sư, không cấp quyền quản trị.",
+      "expected": "Policy từ chối; handler nghiệp vụ không được phép ghi/đọc dữ liệu quản trị.",
+      "steps": [
+        "Lần lượt tạo actor HocSinh/PhuHuynh/GiaSu qua mock nguồn người dùng.",
+        "Khởi tạo QuyenQuanTriService thật, không provider EF: nếu vô tình đọc DB sẽ lỗi test.",
+        "Gọi CoQuyenAsync và KiemTraAsync cho quyền được ánh xạ từ nhãn policy; UT-345 kiểm cả sáu quyền quản trị, các ca khác kiểm quyền cụ thể.",
+        "Assert false/403 cho tất cả dataset; không gọi handler nghiệp vụ. Đây là unit guard, không phải kiểm middleware/policy pipeline."
+      ],
+      "outcome": "Passed",
+      "mode": "Behavior",
+      "actual": "saves=0; 3 datasets guard đều false/403",
+      "failure": null,
+      "observation": {
+        "id": "UT-348",
+        "mode": "Behavior",
+        "source": "Areas/QuanTri/Services/QuyenQuanTriService.cs",
+        "mapping": "Các nhãn policy trong bảng ánh xạ guard CoQuyenAsync/KiemTraAsync của QuyenQuanTriService. Không khẳng định đã chạy ASP.NET authorization pipeline.",
+        "datasets": [
+          {
+            "role": "HocSinh",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "PhuHuynh",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          },
+          {
+            "role": "GiaSu",
+            "permission": "XemNhatKy",
+            "allowed": false,
+            "status": 403
+          }
+        ],
+        "saves": 0,
+        "assertionFailures": []
+      },
+      "error": "",
+      "stack": "",
+      "testName": "EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_348",
+      "duration": "00:00:00.0078666"
+    }
+  ]
+}

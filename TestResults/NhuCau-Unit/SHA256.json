@@ -1,0 +1,10 @@
+{
+  "Areas/NhuCau/Services/INhuCauStore.cs": "1cf63fc63a166f27a47368dd6baa5477a27cdde7f0752ce5aae62469e7559728",
+  "Areas/NhuCau/Services/EfNhuCauStore.cs": "8b89e4ebda88fa8b6a3949e9eecdbb98a59f52a1a718e65a5ae8fbeebb686584",
+  "Areas/NhuCau/Services/NhuCauService.cs": "fffa00d6b403c6428d688df55e98c616a6f9545cccf92fa9f72f9c21e2a98fe9",
+  "Areas/NhuCau/Services/NhuCauService.Policy.cs": "4cdf92ed5938cffc7c037f86f4b21666d4e385dda60b7ea5acec03b9a560a099",
+  "tests/Unit/NhuCauControllerTest.cs": "86c9e8e09bcd2571f41d4b9427daf04cd68fbe1555cfdfb1d96d43c4002640b9",
+  "tests/Unit/NhuCauServiceTest.cs": "5b21acef124f0773c8962bb2a6be61d3f9742dce4187f41c1e1cced4b612b970",
+  "tests/Unit/NhuCauSuggestionTest.cs": "451e1094fae889371c988e407f1996f385c127f68141dd1bab37423ca3cc224a",
+  "tests/Unit/EduConnect.UnitTests.csproj": "c483fea9605f77cc9e93192d0114618a5466e3c840ec5a665d3bc275430ca788"
+}

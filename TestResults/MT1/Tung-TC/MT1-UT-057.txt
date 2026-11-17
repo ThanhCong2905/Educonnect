@@ -1,6 +1,0 @@
-MT1-UT-057
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_057
-Thời lượng: 00:00:00.0281448
-Actual: View Index; giữ filter Trang=2, Items=[P1,P2], Total=12; gọi TimKiemAsync 1 lần.
-TRX: TestResults/MT1/MT1-unit.trx

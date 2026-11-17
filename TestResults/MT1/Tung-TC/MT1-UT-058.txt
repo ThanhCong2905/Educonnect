@@ -1,6 +1,0 @@
-MT1-UT-058
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_058
-Thời lượng: 00:00:00.0150670
-Actual: View đúng 2 ứng viên theo Id đầu vào; SoSanhAsync 1 lần.
-TRX: TestResults/MT1/MT1-unit.trx

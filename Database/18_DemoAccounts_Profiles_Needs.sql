@@ -1,4 +1,4 @@
-﻿/* DỮ LIỆU DEMO: 15 gia sư, 15 học sinh, 10 phụ huynh.
+/* DỮ LIỆU DEMO: 15 gia sư, 15 học sinh, 10 phụ huynh.
    Database EduConnect đã nâng cấp đầy đủ. Chạy toàn bộ file.
    Mật khẩu chung: EduConnect@2026; hash Identity V3 với salt riêng.
    Email: giasu01..15, hocsinh01..15, phuhuynh01..10 @demo.educonnect.test.
@@ -128,3 +128,116 @@ BEGIN CATCH
  IF XACT_STATE()<>0 ROLLBACK;
  THROW;
 END CATCH;
+
+
+-- 1. Danh sách tài khoản và vai trò
+SELECT
+    u.Id AS TaiKhoanId,
+    u.HoTen,
+    u.Email,
+    u.TrangThai,
+    r.Name AS VaiTro
+FROM dbo.AspNetUsers u
+JOIN dbo.AspNetUserRoles ur ON ur.UserId = u.Id
+JOIN dbo.AspNetRoles r ON r.Id = ur.RoleId
+WHERE u.TrangThai = 'HoatDong'
+ORDER BY r.Name, u.HoTen;
+
+-- 2. Thống kê dữ liệu các bảng liên quan
+SELECT N'AspNetUsers' AS TenBang, COUNT(*) AS SoLuong FROM dbo.AspNetUsers
+UNION ALL
+SELECT N'GiaSu', COUNT(*) FROM dbo.GiaSu
+UNION ALL
+SELECT N'HocSinh', COUNT(*) FROM dbo.HocSinh
+UNION ALL
+SELECT N'PhuHuynh', COUNT(*) FROM dbo.PhuHuynh
+UNION ALL
+SELECT N'HoSoGiaSu', COUNT(*) FROM dbo.HoSoGiaSu
+UNION ALL
+SELECT N'YeuCauLienHe', COUNT(*) FROM dbo.YeuCauLienHe
+UNION ALL
+SELECT N'YeuCauKetNoiLopHoc', COUNT(*) FROM dbo.YeuCauKetNoiLopHoc
+UNION ALL
+SELECT N'KhungGioDeXuat', COUNT(*) FROM dbo.KhungGioDeXuat
+UNION ALL
+SELECT N'LopHoc', COUNT(*) FROM dbo.LopHoc
+UNION ALL
+SELECT N'ThanhVienLopHoc', COUNT(*) FROM dbo.ThanhVienLopHoc
+UNION ALL
+SELECT N'DanhGiaDoiTac', COUNT(*) FROM dbo.DanhGiaDoiTac;
+
+-- 1. Hai yêu cầu liên hệ hiện có
+SELECT
+    YC.Id AS LienHeId,
+    GS.HoTen AS GiaSu,
+    BH.HoTen AS BenHoc,
+    NG.HoTen AS NguoiGui,
+    YC.TrangThai,
+    YC.NguoiPhanHoiId,
+    YC.PhanHoiLuc,
+    YC.GuiLuc
+FROM dbo.YeuCauLienHe YC
+JOIN dbo.NguoiThamGia GS ON GS.Id = YC.GiaSuId
+JOIN dbo.NguoiThamGia BH ON BH.Id = YC.BenHocId
+JOIN dbo.NguoiThamGia NG ON NG.Id = YC.NguoiGuiId
+ORDER BY YC.GuiLuc DESC;
+
+-- 2. Yêu cầu kết nối lớp học hiện có
+SELECT
+    YC.Id AS YeuCauId,
+    GS.HoTen AS GiaSu,
+    BH.HoTen AS BenHoc,
+    YC.TrangThai,
+    YC.TenLopDuKien,
+    YC.MonHocId,
+    YC.NhuCauId,
+    YC.HetHanLuc,
+    CONVERT(varchar(18), YC.RowVersion, 1) AS RowVersion,
+    (SELECT COUNT(*)
+     FROM dbo.KhungGioDeXuat K
+     WHERE K.YeuCauKetNoiId = YC.Id) AS SoKhungGio,
+    (SELECT COUNT(*)
+     FROM dbo.LopHoc L
+     WHERE L.YeuCauKetNoiId = YC.Id) AS SoLopDaTao
+FROM dbo.YeuCauKetNoiLopHoc YC
+JOIN dbo.NguoiThamGia GS ON GS.Id = YC.GiaSuId
+JOIN dbo.NguoiThamGia BH ON BH.Id = YC.BenHocId;
+
+-- 3. Hồ sơ gia sư đã được duyệt và môn học đăng ký
+SELECT
+    GS.HoTen,
+    HS.GiaSuId,
+    HS.Id AS HoSoId,
+    HS.TrangThaiDuyet,
+    MH.Id AS MonHocId,
+    MH.TenMon
+FROM dbo.HoSoGiaSu HS
+JOIN dbo.NguoiThamGia GS ON GS.Id = HS.GiaSuId
+LEFT JOIN dbo.HoSoGiaSuMonDay HSM ON HSM.HoSoGiaSuId = HS.Id
+LEFT JOIN dbo.MonHoc MH ON MH.Id = HSM.MonHocId
+WHERE HS.TrangThaiDuyet = 'DaDuyet'
+ORDER BY GS.HoTen, MH.TenMon;
+
+-- 4. Nhu cầu học đang mở của học sinh/phụ huynh
+SELECT
+    N.Id AS NhuCauId,
+    NT.HoTen AS ChuSoHuu,
+    NT.LoaiNguoi,
+    N.MonHocId,
+    MH.TenMon,
+    N.MucTieu,
+    N.SoBuoiTuan,
+    N.HinhThucHoc,
+    N.HocPhiDuKien,
+    N.DonViHocPhi,
+    N.TenNguoiHoc,
+    N.TuoiNguoiHoc,
+    N.TrangThai
+FROM dbo.NhuCauHoc N
+JOIN dbo.NguoiThamGia NT ON NT.Id = N.ChuSoHuuId
+JOIN dbo.MonHoc MH ON MH.Id = N.MonHocId
+WHERE N.TrangThai = 'DangMo'
+ORDER BY NT.HoTen;
+
+select *from dbo.YeuCauKetNoiLopHoc
+select *from dbo.YeuCauLienHe

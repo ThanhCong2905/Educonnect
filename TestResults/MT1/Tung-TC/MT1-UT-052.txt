@@ -1,6 +1,0 @@
-MT1-UT-052
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_052
-Thời lượng: 00:00:00.0015858
-Actual: View Sua, giữ model; lỗi chung “Môn học không hợp lệ.”
-TRX: TestResults/MT1/MT1-unit.trx

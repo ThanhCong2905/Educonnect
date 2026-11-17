@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
-public sealed class LopHocController(LopHocService service, BaiTapService tasks, TinNhanService chat) : BaseController
+public sealed class LopHocController(ILopHocService service, IBaiTapService tasks, TinNhanService chat) : BaseController
 {
     public async Task<IActionResult> Index()
     {
@@ -106,7 +106,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
     [HttpPost]
     public async Task<IActionResult> XacNhanKetThuc(Guid maYeuCau, byte[] rowVersion)
     {
-        var actor = await HttpContext.RequestServices.GetRequiredService<EduConnect.Mvc.Infrastructure.NguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted);
+        var actor = await HttpContext.RequestServices.GetRequiredService<EduConnect.Mvc.Infrastructure.INguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted);
         (await service.XacNhanKetThucAsync(maYeuCau, rowVersion, actor.Id, HttpContext.RequestAborted)).BaoLoiNeuThatBai();
         Success();
         return RedirectToAction(nameof(Index));

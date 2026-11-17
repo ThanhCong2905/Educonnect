@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="90f91303-6679-47c0-8892-cdc8b5a23696" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-14 15:03:05" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T15:03:05.0790579+07:00" queuing="2026-11-14T15:03:05.0790583+07:00" start="2026-11-14T15:03:03.8868768+07:00" finish="2026-11-14T15:03:05.0837920+07:00" />
+  <TestSettings name="default" id="9bcbe1a9-8a69-466b-b6e1-a42a281cf554">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-14_15_03_05" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="09e40ee1-b2fc-4355-b92e-da070ddda8bf" testId="a1590e6e-0be9-7ecf-cfc6-5c9619e3a650" testName="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_319" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0056279" startTime="2026-11-14T15:03:04.9143928+07:00" endTime="2026-11-14T15:03:04.9143931+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="09e40ee1-b2fc-4355-b92e-da070ddda8bf">
+      <Output>
+        <StdOut>OBSERVATION_JSON:{"id":"UT-319","mode":"Behavior","source":"Areas/DanhGia/Services/DanhGiaService.cs","success":false,"status":400,"message":"The NoiDung field is required.","added":[],"saves":0,"commits":0,"version":null,"validatorField":"NoiDung","assertionFailures":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9462f528-aba0-45b2-82de-4c49d51c1b71" testId="a250b80e-4a89-4244-df8d-902f39f60b1a" testName="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_318" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.2486965" startTime="2026-11-14T15:03:04.8755657+07:00" endTime="2026-11-14T15:03:04.8756069+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9462f528-aba0-45b2-82de-4c49d51c1b71">
+      <Output>
+        <StdOut>OBSERVATION_JSON:{"id":"UT-318","mode":"Behavior","source":"Areas/DanhGia/Services/DanhGiaService.cs","success":true,"status":200,"message":null,"added":[{"Id":"58578afb-01c6-47e4-84d6-5b4f91ccd581","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"10000000-0000-0000-0000-000000000001","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"K1","NoiDung":"Ph\u1EA3n h\u1ED3i h\u1EE3p l\u1EC7","MucDoHaiLong":4,"GuiLuc":"2026-11-14T10:00:00+07:00","QuyetDinhDeXuat":null,"RowVersion":""}],"saves":1,"commits":1,"version":null,"assertionFailures":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="06755c78-0cd9-4e82-a288-9bbbe3637c18" testId="5be8487f-c1f9-fec4-bd6a-e54d1285b8b0" testName="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_321" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0059644" startTime="2026-11-14T15:03:04.9096709+07:00" endTime="2026-11-14T15:03:04.9096710+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06755c78-0cd9-4e82-a288-9bbbe3637c18">
+      <Output>
+        <StdOut>OBSERVATION_JSON:{"id":"UT-321","mode":"DesignContract","source":"Areas/DanhGia/Services/DanhGiaService.cs","operationIdProperty":null,"assertionFailures":["GuiDanhGiaViewModel kh\u00F4ng c\u00F3 MaThaoTac; kh\u00F4ng truy\u1EC1n \u0111\u01B0\u1EE3c m\u00E3 thao t\u00E1c \u0111\u00E3 th\u00E0nh c\u00F4ng \u0111\u1EC3 ki\u1EC3m retry theo thi\u1EBFt k\u1EBF."]}</StdOut>
+        <ErrorInfo>
+          <Message>GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã thao tác đã thành công để kiểm retry theo thiết kế.</Message>
+          <StackTrace>   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs:line 35&#xD;
+   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs:line 55&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0eb6c9f4-0977-4044-b746-dc48eb89221f" testId="ea4dc587-7e65-9032-3de9-1393a2d93e55" testName="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_320" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0172952" startTime="2026-11-14T15:03:04.9084048+07:00" endTime="2026-11-14T15:03:04.9084051+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0eb6c9f4-0977-4044-b746-dc48eb89221f">
+      <Output>
+        <StdOut>OBSERVATION_JSON:{"id":"UT-320","mode":"Behavior","source":"Areas/DanhGia/Services/DanhGiaService.cs","rows":[{"Id":"4e36b5d0-46ca-474e-886b-b82255a6eba1","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"20000000-0000-0000-0000-000000000002","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"C\u1EE7a gia s\u01B0","MucDoHaiLong":5,"GuiLuc":"2026-11-14T10:00:00+07:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"1cffc34e-757f-43e5-a87c-2c86c7392be5","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"10000000-0000-0000-0000-000000000001","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"H\u1ECDc sinh","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"6c216e93-be84-4b44-a4fd-dc4107847617","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"30000000-0000-0000-0000-000000000003","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"Ph\u1EE5 huynh","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"2ed77554-256f-409d-a53f-3c092690be22","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"10000000-0000-0000-0000-000000000001","DotPhanHoiId":"80000000-0000-0000-0000-000000000008","MocDanhGia":"","NoiDung":"K\u1EF3 kh\u00E1c","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""}],"success":true,"saves":0,"assertionFailures":["K\u1EF3 v\u1ECDng ba ngu\u1ED3n c\u1EE7a K1; th\u1EF1c t\u1EBF truy v\u1EA5n ch\u1EC9 l\u1ECDc l\u1EDBp n\u00EAn tr\u1ED9n c\u1EA3 k\u1EF3 K2."]}</StdOut>
+        <ErrorInfo>
+          <Message>Kỳ vọng ba nguồn của K1; thực tế truy vấn chỉ lọc lớp nên trộn cả kỳ K2.</Message>
+          <StackTrace>   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish() in C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs:line 35&#xD;
+   at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n) in C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs:line 55&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0a8b9e88-f301-41ce-a0ac-ae5f9e42ee81" testId="2ae1bfa1-32ef-6dca-b9f6-d4d3e3bcf4f9" testName="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_322" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0083690" startTime="2026-11-14T15:03:04.9228163+07:00" endTime="2026-11-14T15:03:04.9228165+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a8b9e88-f301-41ce-a0ac-ae5f9e42ee81">
+      <Output>
+        <StdOut>OBSERVATION_JSON:{"id":"UT-322","mode":"Behavior","source":"Areas/DanhGia/Services/DanhGiaService.cs","success":false,"status":409,"message":"D\u1EEF li\u1EC7u v\u1EEBa \u0111\u01B0\u1EE3c c\u1EADp nh\u1EADt. H\u00E3y t\u1EA3i l\u1EA1i tr\u01B0\u1EDBc khi l\u01B0u.","added":[{"Id":"45fa17c4-f85a-4af9-bcdb-4fbba71e2461","PhieuDanhGiaId":"dfde0beb-eecf-4b37-ab73-a88ac90ec71b","NoiDung":"N\u1ED9i dung \u0111\u00E3 l\u01B0u","MucDoHaiLong":null,"NguoiSuaId":"10000000-0000-0000-0000-000000000001","ThayDoiLuc":"2026-11-14T10:00:00+07:00"}],"saves":1,"commits":0,"version":"AAAAAAAAAAA=","scope":"Mock Save n\u00E9m concurrency; kh\u00F4ng kh\u1EB3ng \u0111\u1ECBnh RAM \u0111\u01B0\u1EE3c rollback ho\u1EB7c SQL rowversion \u0111\u00E3 ch\u1EA1y.","assertionFailures":[]}</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_321" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\remaining-unit-bin\debug\net10.0\educonnect.unittests.dll" id="5be8487f-c1f9-fec4-bd6a-e54d1285b8b0">
+      <Execution id="06755c78-0cd9-4e82-a288-9bbbe3637c18" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\remaining-unit-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.Remaining.UnitTests.RemainingUnitTest" name="UT_321" />
+    </UnitTest>
+    <UnitTest name="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_322" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\remaining-unit-bin\debug\net10.0\educonnect.unittests.dll" id="2ae1bfa1-32ef-6dca-b9f6-d4d3e3bcf4f9">
+      <Execution id="0a8b9e88-f301-41ce-a0ac-ae5f9e42ee81" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\remaining-unit-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.Remaining.UnitTests.RemainingUnitTest" name="UT_322" />
+    </UnitTest>
+    <UnitTest name="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_319" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\remaining-unit-bin\debug\net10.0\educonnect.unittests.dll" id="a1590e6e-0be9-7ecf-cfc6-5c9619e3a650">
+      <Execution id="09e40ee1-b2fc-4355-b92e-da070ddda8bf" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\remaining-unit-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.Remaining.UnitTests.RemainingUnitTest" name="UT_319" />
+    </UnitTest>
+    <UnitTest name="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_320" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\remaining-unit-bin\debug\net10.0\educonnect.unittests.dll" id="ea4dc587-7e65-9032-3de9-1393a2d93e55">
+      <Execution id="0eb6c9f4-0977-4044-b746-dc48eb89221f" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\remaining-unit-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.Remaining.UnitTests.RemainingUnitTest" name="UT_320" />
+    </UnitTest>
+    <UnitTest name="EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_318" storage="c:\users\nguyen thi yen\documents\codex\2026-11-13\un\work\remaining-unit-bin\debug\net10.0\educonnect.unittests.dll" id="a250b80e-4a89-4244-df8d-902f39f60b1a">
+      <Execution id="9462f528-aba0-45b2-82de-4c49d51c1b71" />
+      <TestMethod codeBase="C:\Users\NGUYEN THI YEN\Documents\Codex\2026-11-13\un\work\remaining-unit-bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="EduConnect.Remaining.UnitTests.RemainingUnitTest" name="UT_318" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="a1590e6e-0be9-7ecf-cfc6-5c9619e3a650" executionId="09e40ee1-b2fc-4355-b92e-da070ddda8bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a250b80e-4a89-4244-df8d-902f39f60b1a" executionId="9462f528-aba0-45b2-82de-4c49d51c1b71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5be8487f-c1f9-fec4-bd6a-e54d1285b8b0" executionId="06755c78-0cd9-4e82-a288-9bbbe3637c18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea4dc587-7e65-9032-3de9-1393a2d93e55" executionId="0eb6c9f4-0977-4044-b746-dc48eb89221f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ae1bfa1-32ef-6dca-b9f6-d4d3e3bcf4f9" executionId="0a8b9e88-f301-41ce-a0ac-ae5f9e42ee81" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="3" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.13]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.14]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.46]       Kỳ vọng ba nguồn của K1; thực tế truy vấn chỉ lọc lớp nên trộn cả kỳ K2.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs(35,0): at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish()&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs(55,0): at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n)&#xD;
+[xUnit.net 00:00:00.46]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.46]       Output:&#xD;
+[xUnit.net 00:00:00.46]         OBSERVATION_JSON:{"id":"UT-320","mode":"Behavior","source":"Areas/DanhGia/Services/DanhGiaService.cs","rows":[{"Id":"4e36b5d0-46ca-474e-886b-b82255a6eba1","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"20000000-0000-0000-0000-000000000002","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"C\u1EE7a gia s\u01B0","MucDoHaiLong":5,"GuiLuc":"2026-11-14T10:00:00+07:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"1cffc34e-757f-43e5-a87c-2c86c7392be5","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"10000000-0000-0000-0000-000000000001","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"H\u1ECDc sinh","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"6c216e93-be84-4b44-a4fd-dc4107847617","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"30000000-0000-0000-0000-000000000003","DotPhanHoiId":"60000000-0000-0000-0000-000000000006","MocDanhGia":"","NoiDung":"Ph\u1EE5 huynh","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""},{"Id":"2ed77554-256f-409d-a53f-3c092690be22","LopHocId":"50000000-0000-0000-0000-000000000005","NguoiGuiId":"10000000-0000-0000-0000-000000000001","DotPhanHoiId":"80000000-0000-0000-0000-000000000008","MocDanhGia":"","NoiDung":"K\u1EF3 kh\u00E1c","MucDoHaiLong":null,"GuiLuc":"0001-01-01T00:00:00+00:00","QuyetDinhDeXuat":null,"RowVersion":""}],"success":true,"saves":0,"assertionFailures":["K\u1EF3 v\u1ECDng ba ngu\u1ED3n c\u1EE7a K1; th\u1EF1c t\u1EBF truy v\u1EA5n ch\u1EC9 l\u1ECDc l\u1EDBp n\u00EAn tr\u1ED9n c\u1EA3 k\u1EF3 K2."]}&#xD;
+[xUnit.net 00:00:00.46]       GuiDanhGiaViewModel không có MaThaoTac; không truyền được mã thao tác đã thành công để kiểm retry theo thiết kế.&#xD;
+[xUnit.net 00:00:00.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs(35,0): at EduConnect.Remaining.UnitTests.RemainingUnitTest.Finish()&#xD;
+[xUnit.net 00:00:00.46]         C:\Khóa luận TN\Educonnect\tests\Unit\RemainingRunner.cs(55,0): at EduConnect.Remaining.UnitTests.RemainingUnitTest.Run(Int32 n)&#xD;
+[xUnit.net 00:00:00.46]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.46]       Output:&#xD;
+[xUnit.net 00:00:00.46]         OBSERVATION_JSON:{"id":"UT-321","mode":"DesignContract","source":"Areas/DanhGia/Services/DanhGiaService.cs","operationIdProperty":null,"assertionFailures":["GuiDanhGiaViewModel kh\u00F4ng c\u00F3 MaThaoTac; kh\u00F4ng truy\u1EC1n \u0111\u01B0\u1EE3c m\u00E3 thao t\u00E1c \u0111\u00E3 th\u00E0nh c\u00F4ng \u0111\u1EC3 ki\u1EC3m retry theo thi\u1EBFt k\u1EBF."]}&#xD;
+[xUnit.net 00:00:00.48]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T15:03:04.9052273+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_320 [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-14T15:03:04.9093650+07:00">
+        <Text>[xUnit.net 00:00:00.46]     EduConnect.Remaining.UnitTests.RemainingUnitTest.UT_321 [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

@@ -1,6 +1,0 @@
-MT1-UT-063
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_063
-Thời lượng: 00:00:00.0081599
-Actual: View đúng chi tiết, Contact, chat và Related; truyền đúng owner và contact Id.
-TRX: TestResults/MT1/MT1-unit.trx

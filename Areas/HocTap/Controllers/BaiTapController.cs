@@ -8,7 +8,7 @@ namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
 [RequestSizeLimit(52000000)]
-public sealed class BaiTapController(BaiTapService service, LopHocService classes, TepService files, QuyenLopHocService rights) : BaseController
+public sealed class BaiTapController(IBaiTapService service, ILopHocService classes, ITepService files, IQuyenLopHocService rights) : BaseController
 {
     public async Task<IActionResult> Giao(Guid id, Guid? buoi)
     {

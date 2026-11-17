@@ -21,26 +21,7 @@ internal sealed class HoSoCongKhaiQuery(AppDbContext db)
         return hs.Select(h =>
         {
             var monDay = subjects.Where(s => s.HoSoGiaSuId == h.Id).Select(s => s.Row).OrderBy(s => s.TenMon).ToList();
-            return new HoSoGiaSuCongKhaiViewModel
-            {
-                Id = h.Id,
-                ChuSoHuuId = h.GiaSuId,
-                LoaiNguoi = "GiaSu",
-                HoTen = people[h.GiaSuId].HoTen,
-                AnhDaiDienUrl = people[h.GiaSuId].AnhDaiDien == null ? null : $"/TaiKhoan/Anh/{h.GiaSuId}",
-                TrinhDo = h.TrinhDo,
-                ChuyenMon = h.ChuyenMon,
-                KinhNghiem = h.KinhNghiem,
-                MoTa = h.MoTa,
-                KhuVuc = h.KhuVuc,
-                KhuVucGiaSu = h.KhuVuc,
-                DayTrucTuyen = h.DayTrucTuyen,
-                DayTrucTiep = h.DayTrucTiep,
-                HinhThucHoc = h.DayTrucTuyen && h.DayTrucTiep ? "CaHai" : h.DayTrucTuyen ? "TrucTuyen" : "TrucTiep",
-                TaoLuc = h.DuyetLuc ?? DateTimeOffset.MinValue,
-                MonTheoHoSo = monDay,
-                MonDay = monDay.Select(m => m.TenMon).ToList()
-            };
+            return HoSoCongKhaiMapper.Map(h, people[h.GiaSuId].HoTen, people[h.GiaSuId].AnhDaiDien, monDay);
         }).ToList();
     }
 }

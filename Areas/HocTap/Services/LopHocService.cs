@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.HocTap.Services;
 
-public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections)
+public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, ThongBaoService notices, EduConnect.Mvc.Areas.KetNoi.Services.IKetNoiService connections) : ILopHocService
 {
     public async Task<List<LopHoc>> LayAsync()
     {
@@ -173,7 +173,7 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
-    private EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService KetNoi => connections;
+    private EduConnect.Mvc.Areas.KetNoi.Services.IKetNoiService KetNoi => connections;
 
     private Task KhoaThanhVienLopAsync(Guid id)
         => db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}");

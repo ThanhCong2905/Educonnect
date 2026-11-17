@@ -1,6 +1,0 @@
-MT1-UT-055
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.ControllerIsolationTests.MT1_UT_055
-Thời lượng: 00:00:00.0005349
-Actual: CapNhatAsync đúng model 1 lần; Redirect Sua; có Success.
-TRX: TestResults/MT1/MT1-unit.trx

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.HocTap.Controllers;
 
 [Area("HocTap")]
-public sealed class LichHocController(LichHocService service, LopHocService classes, BaiTapService tasks) : BaseController
+public sealed class LichHocController(ILichHocService service, ILopHocService classes, IBaiTapService tasks) : BaseController
 {
     private void ThemLoi(Exception ex)
     {

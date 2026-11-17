@@ -1,0 +1,8 @@
+{
+  "Areas/KetNoi/Controllers/KetNoiController.cs": "9517b23b60dc255278b5fa93bae450d700f704c53d74d4513ec462a830b90820",
+  "Areas/HocTap/Controllers/LopHocController.cs": "2877f0d294427f9fd5d202184a79998d4483e858c24a9a1b2129cdd5b985f505",
+  "tests/Unit/ControllerKetNoiKetThucTest.cs": "582eb0bd93f07931db1fd20c1610c1e310878888fdf3e405467e2250b69bfdee",
+  "tests/Unit/ControllerKetNoiKetThucRunner.cs": "441d1ad308ac0c4616c1749a11b87c98b9018c41b062b115deff18ca26d5529a",
+  "tests/Unit/ControllerKetNoiKetThucFixture.cs": "2b5107e87d4f4f96068d77be9444b8323a3479995d857b6299e986e9c856e941",
+  "tests/Unit/EduConnect.UnitTests.csproj": "c483fea9605f77cc9e93192d0114618a5466e3c840ec5a665d3bc275430ca788"
+}

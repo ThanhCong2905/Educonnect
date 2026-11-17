@@ -12,8 +12,7 @@ public sealed partial class KetNoiService
         {
             await KiemTraNguoiThucHienAsync(maNguoiThucHien, huy);
             if (duLieu.MaDoiTuong != Guid.Empty)
-                duLieu.LienHeId = await db.Set<YeuCauLienHe>().Where(x => x.GiaSuId == duLieu.MaDoiTuong && x.BenHocId == maNguoiThucHien && x.TrangThai == "ChapNhan")
-                    .Select(x => x.Id).SingleOrDefaultAsync(huy);
+                duLieu.LienHeId = await persistence.FindAcceptedContactIdAsync(duLieu.MaDoiTuong, maNguoiThucHien, huy);
             return await GuiYeuCauAsync((GuiYeuCauInput)duLieu, huy);
         });
 

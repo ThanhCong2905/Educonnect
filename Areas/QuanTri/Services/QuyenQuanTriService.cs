@@ -1,11 +1,11 @@
-using EduConnect.Mvc.Data;
+﻿using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Mvc.Areas.QuanTri.Services;
 
-public sealed class QuyenQuanTriService(AppDbContext db, NguoiDungHienTaiService current, IHttpContextAccessor http)
+public sealed class QuyenQuanTriService(AppDbContext db, INguoiDungHienTaiService current, IHttpContextAccessor http) : IQuyenQuanTriService
 {
     private HashSet<string>? granted;
     public const string ClaimType = "EduConnect.AdminPermission";

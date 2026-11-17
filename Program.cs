@@ -1,4 +1,4 @@
-
+﻿
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Areas.NhuCau.Services;
@@ -73,7 +73,9 @@ builder.Services.AddScoped<KiemTraCookieTaiKhoan>();
 builder.Services.AddScoped<TaiKhoanService>();
 builder.Services.AddScoped<EmailTaiKhoanService>();
 builder.Services.AddScoped<ThongBaoService>();
+builder.Services.AddScoped<IThongBaoService>(sp => sp.GetRequiredService<ThongBaoService>());
 builder.Services.AddScoped<QuyenLopHocService>();
+builder.Services.AddScoped<IQuyenLopHocService>(sp => sp.GetRequiredService<QuyenLopHocService>());
 builder.Services.AddScoped<NhuCauService>();
 builder.Services.AddScoped<INhuCauService>(sp => sp.GetRequiredService<NhuCauService>());
 builder.Services.AddScoped<MonHocCatalog>();
@@ -84,11 +86,15 @@ builder.Services.AddScoped<ITimKiemService>(sp => sp.GetRequiredService<TimKiemS
 builder.Services.AddScoped<KetNoiService>();
 builder.Services.AddScoped<IKetNoiService>(sp => sp.GetRequiredService<KetNoiService>());
 builder.Services.AddScoped<LopHocService>();
+builder.Services.AddScoped<ILopHocService>(sp => sp.GetRequiredService<LopHocService>());
 builder.Services.AddScoped<LienKetTaiKhoanService>();
 builder.Services.AddScoped<LichHocService>();
+builder.Services.AddScoped<ILichHocService>(sp => sp.GetRequiredService<LichHocService>());
 builder.Services.AddScoped<BaiTapService>();
+builder.Services.AddScoped<IBaiTapService>(sp => sp.GetRequiredService<BaiTapService>());
 builder.Services.AddScoped<TinNhanService>();
 builder.Services.AddScoped<TepService>();
+builder.Services.AddScoped<ITepService>(sp => sp.GetRequiredService<TepService>());
 builder.Services.AddScoped<BangCapService>();
 builder.Services.AddScoped<IBangCapService>(sp => sp.GetRequiredService<BangCapService>());
 builder.Services.AddScoped<EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaService>();
@@ -99,6 +105,8 @@ builder.Services.AddScoped<EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService>
 builder.Services.AddScoped<EduConnect.Mvc.Areas.QuanTri.Services.BaoCaoViPhamService>();
 builder.Services.AddHostedService<BaoTriWorker>();
 builder.Services.AddHostedService<XuLySuKienWorker>();
+builder.Services.AddScoped<IPhienDangNhapService>(sp => sp.GetRequiredService<PhienDangNhapService>());
+builder.Services.AddScoped<EduConnect.Mvc.Areas.QuanTri.Services.IQuyenQuanTriService>(sp => sp.GetRequiredService<EduConnect.Mvc.Areas.QuanTri.Services.QuyenQuanTriService>());
 var app = builder.Build();
 app.UseMiddleware<LoiNghiepVuMiddleware>();
 app.UseStaticFiles();

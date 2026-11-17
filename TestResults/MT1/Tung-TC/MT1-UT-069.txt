@@ -1,6 +1,0 @@
-MT1-UT-069
-Kết quả: Pass
-Test: EduConnect.UnitTests.MT1.InputValidationTests.MT1_UT_069
-Thời lượng: 00:00:00.0003508
-Actual: Assertion đạt: true; không lỗi.
-TRX: TestResults/MT1/MT1-unit.trx

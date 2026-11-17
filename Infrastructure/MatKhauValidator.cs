@@ -1,10 +1,10 @@
-using System.Text;
+﻿using System.Text;
 using EduConnect.Mvc.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class MatKhauValidator(IConfiguration configuration) : IPasswordValidator<TaiKhoan>
+public sealed class MatKhauValidator(IConfiguration configuration, IPasswordBlocklist? passwordBlocklist = null) : IPasswordValidator<TaiKhoan>
 {
     private static readonly HashSet<string> Common = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -19,7 +19,7 @@ public sealed class MatKhauValidator(IConfiguration configuration) : IPasswordVa
         if (length is < 15 or > 64)
             return Task.FromResult(Failure("Mật khẩu cần từ 15 đến 64 ký tự. Bạn có thể dùng một câu dễ nhớ."));
 
-        var blocked = Common.Contains(password!);
+        var blocked = Common.Contains(password!) || passwordBlocklist?.Contains(password!) == true;
         var blocklist = configuration["Authentication:PasswordBlocklistFile"];
         if (!blocked && !string.IsNullOrWhiteSpace(blocklist))
             blocked = File.ReadLines(blocklist).Any(line => string.Equals(line, password, StringComparison.OrdinalIgnoreCase));
@@ -39,4 +39,9 @@ public sealed class LoiTaiKhoan : IdentityErrorDescriber
     public override IdentityError InvalidEmail(string? email) => new() { Code = nameof(InvalidEmail), Description = "Email chưa đúng định dạng." };
     public override IdentityError InvalidToken() => new() { Code = nameof(InvalidToken), Description = "Liên kết đã hết hạn hoặc đã được sử dụng. Hãy yêu cầu liên kết mới." };
     public override IdentityError ConcurrencyFailure() => new() { Code = nameof(ConcurrencyFailure), Description = "Tài khoản vừa thay đổi. Vui lòng thử lại." };
+}
+
+public interface IPasswordBlocklist
+{
+    bool Contains(string password);
 }

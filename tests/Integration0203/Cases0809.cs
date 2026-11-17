@@ -1,0 +1,35 @@
+using Xunit;
+public sealed partial class Integration0203Tests {
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_087()=>Run08(87);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_088()=>Run08(88);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_089()=>Run08(89);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_090()=>Run08(90);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_091()=>Run08(91);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_092()=>Run08(92);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_093()=>Run08(93);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_094()=>Run08(94);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_095()=>Run08(95);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_096()=>Run08(96);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_097()=>Run08(97);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_098()=>Run08(98);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_099()=>Run08(99);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_100()=>Run08(100);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_101()=>Run08(101);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_102()=>Run08(102);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_103()=>Run08(103);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_104()=>Run08(104);
+[Fact,Trait("Suite","IT08BaiTapCham")] public System.Threading.Tasks.Task IT_105()=>Run08(105);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_106()=>Run09(106);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_107()=>Run09(107);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_108()=>Run09(108);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_109()=>Run09(109);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_110()=>Run09(110);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_111()=>Run09(111);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_112()=>Run09(112);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_113()=>Run09(113);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_114()=>Run09(114);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_115()=>Run09(115);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_116()=>Run09(116);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_117()=>Run09(117);
+[Fact,Trait("Suite","IT09TepChat")] public System.Threading.Tasks.Task IT_118()=>Run09(118);
+}

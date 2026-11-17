@@ -4,15 +4,13 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Infrastructure;
 
-public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService current)
+public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService current, IThongBaoData? data = null) : IThongBaoService
 {
+    private readonly IThongBaoData persistence = data ?? new EfThongBaoData(db);
     public async Task TaoChoLopAsync(Guid lopHocId, string type, Guid target, string text, Guid? loaiTru = null)
     {
-        var lop = await db.Set<LopHoc>().SingleAsync(x => x.Id == lopHocId);
-        var recipients = await db.Set<ThanhVienLopHoc>()
-            .Where(x => x.LopHocId == lopHocId && x.TrangThaiDuyet == "DaDuyet" && x.RoiLopLuc == null
-                && db.Set<LienKetPhuHuynhHocSinh>().Any(l => l.Id == x.LienKetId && l.TrangThai == "DaLienKet" && l.KetThucLuc == null))
-            .Select(x => x.TaiKhoanId).ToListAsync();
+        var lop = await persistence.ReadClassAsync(lopHocId);
+        var recipients = await persistence.ReadEligibleMemberIdsAsync(lopHocId);
         recipients.Add(lop.GiaSuId);
         recipients.Add(lop.BenHocId);
         foreach (var id in recipients.Distinct().Where(id => id != loaiTru))
@@ -24,8 +22,8 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
     {
         var ev = Guid.NewGuid();
         var now = DateTimeOffset.UtcNow;
-        db.Add(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "ChoXuLy" });
-        db.Add(new ThongBao { Id = Guid.NewGuid(), NguoiNhanId = recipient, LoaiThongBao = type, DoiTuongId = target, NoiDungTomTat = text, TaoLuc = now, MaSuKien = ev });
+        persistence.AddEvent(new SuKienChoXuLy { Id = ev, LoaiSuKien = type, DuLieuToiThieu = JsonSerializer.Serialize(new { recipient, target }), TaoLuc = now, TrangThai = "ChoXuLy" });
+        persistence.AddNotice(new ThongBao { Id = Guid.NewGuid(), NguoiNhanId = recipient, LoaiThongBao = type, DoiTuongId = target, NoiDungTomTat = text, TaoLuc = now, MaSuKien = ev });
     }
     public async Task<List<ThongBao>> LayAsync()
     {
@@ -58,7 +56,7 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
         var now=await GiaoDichNghiepVu.GioMayChuAsync(db);
         var changed=await db.Set<ThongBao>().Where(x=>x.NguoiNhanId==me.Id&&x.DaDocLuc==null).ExecuteUpdateAsync(s=>s.SetProperty(x=>x.DaDocLuc,now));
         if(changed>0)
-            db.Add(new SuKienChoXuLy { Id=Guid.NewGuid(),LoaiSuKien="ThongBaoDaDoc",DuLieuToiThieu=JsonSerializer.Serialize(new { recipient=me.Id,target=Guid.Empty }),TaoLuc=now,TrangThai="ChoXuLy" });
+            persistence.AddEvent(new SuKienChoXuLy { Id=Guid.NewGuid(),LoaiSuKien="ThongBaoDaDoc",DuLieuToiThieu=JsonSerializer.Serialize(new { recipient=me.Id,target=Guid.Empty }),TaoLuc=now,TrangThai="ChoXuLy" });
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
@@ -69,7 +67,7 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
         if (n.DaDocLuc == null)
         {
             n.DaDocLuc = DateTimeOffset.UtcNow;
-            db.Add(new SuKienChoXuLy { Id = Guid.NewGuid(), LoaiSuKien = "ThongBaoDaDoc", DuLieuToiThieu = JsonSerializer.Serialize(new { recipient = me.Id, target = n.Id }), TaoLuc = DateTimeOffset.UtcNow, TrangThai = "ChoXuLy" });
+            persistence.AddEvent(new SuKienChoXuLy { Id = Guid.NewGuid(), LoaiSuKien = "ThongBaoDaDoc", DuLieuToiThieu = JsonSerializer.Serialize(new { recipient = me.Id, target = n.Id }), TaoLuc = DateTimeOffset.UtcNow, TrangThai = "ChoXuLy" });
         }
         await db.SaveChangesAsync();
         return n;

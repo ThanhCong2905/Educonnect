@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Mvc.Areas.KetNoi.Controllers;
 
 [Area("KetNoi")]
-public sealed class KetNoiController(KetNoiService service, NhuCauService needs) : BaseController
+public sealed class KetNoiController(IKetNoiService service, INhuCauService needs) : BaseController
 {
     public async Task<IActionResult> Index()
     {
@@ -124,7 +124,7 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
         Success();
         return RedirectToAction(nameof(Index));
     }
-    private async Task<Guid> ActorAsync() => (await HttpContext.RequestServices.GetRequiredService<NguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted)).Id;
+    private async Task<Guid> ActorAsync() => (await HttpContext.RequestServices.GetRequiredService<INguoiDungHienTaiService>().HienTaiAsync(HttpContext.RequestAborted)).Id;
 
     [HttpPost]
     public async Task<IActionResult> HuyKetNoi(Guid maLop, string lyDo, byte[] rowVersion)

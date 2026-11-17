@@ -1,0 +1,214 @@
+{
+  "date": "2026-11-14",
+  "timezone": "Asia/Saigon",
+  "counts": {
+    "Passed": 16,
+    "Failed": 3,
+    "NotExecuted": 1
+  },
+  "removed": [
+    "UT-292"
+  ],
+  "tests": [
+    {
+      "id": "UT-001",
+      "original_id": "UT-001",
+      "title": "Mở biểu mẫu tạo",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_001_Tao_MoBieuMau_KhongTaoNhuCau",
+      "message": "",
+      "duration": "00:00:00.0768711",
+      "note": "View Tao, model mới và danh mục môn đúng; không gọi tạo/lưu."
+    },
+    {
+      "id": "UT-002",
+      "original_id": "UT-002",
+      "title": "ModelState không hợp lệ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_002_ModelStateKhongHopLe_GiuDuLieu_KhongTao",
+      "message": "",
+      "duration": "00:00:00.0031934",
+      "note": "ModelState lỗi: giữ dữ liệu, không gọi service tạo."
+    },
+    {
+      "id": "UT-003",
+      "original_id": "UT-003",
+      "title": "Tạo nhu cầu — đăng công khai",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_003_TaoCongKhai_DungChuMonLich_MotGiaoDich",
+      "message": "",
+      "duration": "00:00:00.3125971",
+      "note": "Service thật tạo đúng chủ/môn/lịch/DangMo; thêm một nhu cầu, commit một giao dịch."
+    },
+    {
+      "id": "UT-004",
+      "original_id": "UT-004",
+      "title": "Tạo nhu cầu — lưu nháp",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_004_TaoNhap_DungChuMonLich_KhongTinhLuotDang",
+      "message": "",
+      "duration": "00:00:00.0162532",
+      "note": "Service thật tạo BanNhap đúng dữ liệu; không ghi lượt đăng."
+    },
+    {
+      "id": "UT-005",
+      "original_id": "UT-005",
+      "title": "Môn không tồn tại",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_005_MonKhongTonTai_KhongGhi",
+      "message": "",
+      "duration": "00:00:00.0180108",
+      "note": "Môn không tồn tại: lỗi 400, không thêm hoặc lưu nhu cầu/lịch."
+    },
+    {
+      "id": "UT-006",
+      "original_id": "UT-006",
+      "title": "Môn ngừng sử dụng",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_006_MonNgungSuDung_KhongGhi",
+      "message": "",
+      "duration": "00:00:00.0242548",
+      "note": "Môn ngừng sử dụng: lỗi 400, không thêm hoặc lưu."
+    },
+    {
+      "id": "UT-007",
+      "original_id": "UT-007",
+      "title": "Lịch rảnh sai khoảng giờ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_007_LichDaoNguoc_KhongGhi",
+      "message": "",
+      "duration": "00:00:00.0151309",
+      "note": "Lịch 19:00–18:00: lỗi 400, không ghi."
+    },
+    {
+      "id": "UT-008",
+      "original_id": "UT-008",
+      "title": "Tạo công khai thành công",
+      "outcome": "Failed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_008_TaoCongKhai_ChuyenDanhSach_ThongBaoTaoThanhCong",
+      "message": "Assert.Equal() Failure: Values differ\r\nExpected: Tạo nhu cầu thành công\r\nActual:   Đã lưu thay đổi.",
+      "duration": "00:00:00.0053991",
+      "note": "Redirect và tham số service đúng; thông báo mong đợi “Tạo nhu cầu thành công”, thực tế “Đã lưu thay đổi.”."
+    },
+    {
+      "id": "UT-009",
+      "original_id": "UT-009",
+      "title": "Tạo nháp thành công",
+      "outcome": "Failed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_009_TaoNhap_ChuyenDanhSach_ThongBaoLuuNhap",
+      "message": "Assert.Equal() Failure: Values differ\r\nExpected: Đã lưu nháp\r\nActual:   Đã lưu thay đổi.",
+      "duration": "00:00:00.0061577",
+      "note": "Redirect và tham số service đúng; mong đợi “Đã lưu nháp”, thực tế “Đã lưu thay đổi.”."
+    },
+    {
+      "id": "UT-010",
+      "original_id": "UT-010",
+      "title": "Service từ chối nghiệp vụ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_010_ServiceTuChoi_GiuModel_HienLoi_KhongBaoThanhCong",
+      "message": "",
+      "duration": "00:00:00.0316944",
+      "note": "Trả View Tao, giữ dữ liệu, có lỗi ModelState và không có thông báo thành công. Chỉ xác nhận thông điệp tổng quát, không khẳng định gắn lỗi vào từng trường."
+    },
+    {
+      "id": "UT-011",
+      "original_id": "UT-011",
+      "title": "Nạp dữ liệu của chủ sở hữu",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_011_NapSua_DuIdPhienBanMonVaHaiLich",
+      "message": "",
+      "duration": "00:00:00.0224754",
+      "note": "Nạp đúng Id, RowVersion, hai môn, dữ liệu chính và hai lịch; không ghi."
+    },
+    {
+      "id": "UT-012",
+      "original_id": "UT-012",
+      "title": "Không đọc nhu cầu người khác",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_012_NhuCauCuaNguoiKhac_KhongLoNoiDung",
+      "message": "",
+      "duration": "00:00:00.0318970",
+      "note": "Repository nhận đúng owner U1, không trả dữ liệu nhu cầu U2; lỗi 404; không đọc lịch hoặc ghi."
+    },
+    {
+      "id": "UT-013",
+      "original_id": "UT-013",
+      "title": "ModelState sửa không hợp lệ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_013_ModelStateSuaKhongHopLe_GiuIdPhienBan_KhongCapNhat",
+      "message": "",
+      "duration": "00:00:00.0088066",
+      "note": "ModelState sửa lỗi: giữ Id/RV/dữ liệu, không gọi cập nhật."
+    },
+    {
+      "id": "UT-014",
+      "original_id": "UT-014",
+      "title": "Thay lịch và mở bản nháp",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_014_MoBanNhap_ThayToanBoLich_KhongCongDon",
+      "message": "",
+      "duration": "00:00:00.0268057",
+      "note": "BanNhap → DangMo; truyền đúng RV1; gọi xóa lịch cũ trước khi thêm đúng hai lịch mới; commit một lần."
+    },
+    {
+      "id": "UT-015",
+      "original_id": "UT-015",
+      "title": "Sai chủ sở hữu",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_015_CapNhatSaiChu_KhongGhiDe",
+      "message": "",
+      "duration": "00:00:00.0151489",
+      "note": "Sai chủ: lỗi 403; không Save hoặc thay lịch; snapshot ban đầu giữ nguyên."
+    },
+    {
+      "id": "UT-016",
+      "original_id": "UT-016",
+      "title": "Phiên bản cũ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_016_PhienBanCu_ChuyenDungRV_VaXuLyXungDot",
+      "message": "",
+      "duration": "00:00:00.0237162",
+      "note": "Truyền đúng RV0 xuống store; khi store mô phỏng DbUpdateConcurrencyException, service trả 409; không xóa lịch/commit. Không kiểm chứng concurrency thật của SQL."
+    },
+    {
+      "id": "UT-017",
+      "original_id": "UT-017",
+      "title": "Môn không hợp lệ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_017_CapNhatMonNgungSuDung_KhongGhiDe",
+      "message": "",
+      "duration": "00:00:00.0175145",
+      "note": "Môn ngừng sử dụng khi sửa: lỗi 400; không ghi đè. Biến thể được chọn theo “không tồn tại hoặc ngừng sử dụng” trong bảng gốc."
+    },
+    {
+      "id": "UT-018",
+      "original_id": "UT-018",
+      "title": "Lịch rảnh không hợp lệ",
+      "outcome": "Passed",
+      "name": "EduConnect.UnitTests.NhuCauServiceTest.UT_018_CapNhatLichBangGio_KhongGhiDe",
+      "message": "",
+      "duration": "00:00:00.0262454",
+      "note": "Giờ bắt đầu bằng kết thúc: lỗi 400; không ghi đè."
+    },
+    {
+      "id": "UT-019",
+      "original_id": "UT-019",
+      "title": "Cập nhật thành công",
+      "outcome": "Failed",
+      "name": "EduConnect.UnitTests.NhuCauControllerTest.UT_019_CapNhat_DungIdDuLieuPhienBan_ThongBaoCapNhat",
+      "message": "Assert.Equal() Failure: Values differ\r\nExpected: Cập nhật nhu cầu thành công\r\nActual:   Đã lưu thay đổi.",
+      "duration": "00:00:00.2326969",
+      "note": "Redirect và tham số Id/vm/RV/U1/ct đúng; mong đợi “Cập nhật nhu cầu thành công”, thực tế “Đã lưu thay đổi.”."
+    },
+    {
+      "id": "UT-020",
+      "original_id": "UT-293",
+      "title": "Không bỏ sót gợi ý ban đầu",
+      "outcome": "NotExecuted",
+      "name": "EduConnect.UnitTests.NhuCauSuggestionTest.UT_020_KhongBoSotGoiYBanDau_SauTaoNhuCau",
+      "message": "UT-020 (trước đây UT-293): chưa có đơn vị điều phối sau tạo gọi nguồn gợi ý theo N1. NhuCauController chỉ chuyển Index; INhuCauService chưa có hợp đồng nhận/trả H1,H2. Không dùng test GoiYRules để thay thế luồng này.",
+      "duration": "00:00:00.0010000",
+      "note": "UT-293 đổi thành UT-020 trong phạm vi bộ 20 ca này. Skip/Blocked: chưa có luồng điều phối sau tạo nhận N1 và gọi nguồn gợi ý trả H1/H2. Không thay bằng test GoiYRules."
+    }
+  ]
+}

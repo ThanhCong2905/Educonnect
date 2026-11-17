@@ -1,0 +1,2533 @@
+{
+  "suite": "04 Lien he De xuat",
+  "sourceWorkbook": "C:\\Users\\NGUYEN THI YEN\\Downloads\\Integration Test.xlsx",
+  "workbookSHA256": "69a0b6be100a0c89ab108c089386ba8d68a011a9b4f9b27e7bfca56c1e05f2dc",
+  "runTimes": {
+    "creation": "2026-11-14T15:43:35.9005652+07:00",
+    "queuing": "2026-11-14T15:43:35.9005655+07:00",
+    "start": "2026-11-14T15:43:29.6450430+07:00",
+    "finish": "2026-11-14T15:43:50.3128372+07:00"
+  },
+  "counts": {
+    "Passed": 13,
+    "Failed": 0,
+    "NotExecuted": 0
+  },
+  "database": "LAPTOP-3L2V1AFT\\SQLEXPRESS / EduConnect_Verification_IT0203",
+  "scope": "Real HTTP TestServer, MVC binding/filter/antiforgery, real Identity/cookie and SQL sessions, services/EF/procedures/SQL Server. No mock business dependencies.",
+  "configuration": {
+    "environment": "Development",
+    "DemoPublishProfiles": false,
+    "backgroundWorkers": "BaoTriWorker/XuLySuKienWorker stopped; event publishing/delivery not tested",
+    "SQLLogin": "Windows integrated identity; privileged test operator, not least-privilege application-role test"
+  },
+  "sqlSourceHashes": {
+    "Database/00_EduConnect_Full.sql": "e53c31b42c7b943692f67c2a279ce054a648d92c6c9546918f5f08ec417f1078",
+    "Database/16_AuthenticationProcedures.sql": "f91d24831e14d2a8aaed666baf648ba64c8c1d69eb139f69294e3ea06c4df89e",
+    "Database/17_ClassEndingMetadata.sql": "469ba32643e7ce06063ab8d666510464e58f2f3bc52531d726f1720f21dd3d43"
+  },
+  "sourceHashes": {
+    "tests/Integration0203/Cases04.cs": "70df4a578ce44d909ffa95489e379f276b7b9d4b1a569bdf5bd028c9e66e6651",
+    "tests/Integration0203/ContactProposalIntegrationTests.cs": "838b414a8159ad672fa8c3838435bafda8d5a71487c1cb3cc0bd2414d9c2c790",
+    "tests/Integration0203/IntegrationHarness.cs": "ac360aaaff8c3fb5c6e67491cb6688db65cb84a8bdb3df1b222a1a4287a98837",
+    "tests/Integration0203/Integration0203.csproj": "89bdc1869c00a1ec2689f3663390e4e60bf4ad664cd32538bb2760a6d24b1356",
+    "tests/Integration0203/IntegrationTests.cs": "94884602d7b6bc57df2ab24297bbf8528fb4f7e8cfe199e9b33119408eac1c15",
+    "tests/Integration0203/Cases.cs": "74d3e49c8a9c1ffa74ad2328f07925ac2f66b1c637dee71cfdf68d593491ff90",
+    "Areas/KetNoi/Controllers/KetNoiController.cs": "9517b23b60dc255278b5fa93bae450d700f704c53d74d4513ec462a830b90820",
+    "Areas/KetNoi/Services/KetNoiService.cs": "1d7d416636b1646e937bbaabd17d55471ec8a39a9f8b824025696f75c293cd55",
+    "Areas/KetNoi/Services/KetNoiService.YeuCau.cs": "215726c848f50ba0bd5f5605e0c8459b30e33dd23b0100827e38bdb5d6aa814f",
+    "Areas/KetNoi/Services/EfKetNoiStore.cs": "814dd99abb24d8b9685090008d37ce1f9b2be7ec368b41d1b564ad272970c400",
+    "Areas/KetNoi/Services/EfLienHeStore.cs": "7aa6986b6ab2a42922c444f030c714725acc3996bef3402b78a1e74d32e5d21e",
+    "Areas/KetNoi/Services/IKetNoiStore.cs": "47764919c0042be2e7c8883a87d51aa35a3690dde587965a37254a8ce58c5d52",
+    "Areas/KetNoi/Services/ILienHeStore.cs": "edc7a6fd928db080f9918517b48757928a368baa6ebd3ccf7b5446001ed1b2bd",
+    "Areas/KetNoi/ViewModels/KetNoiInput.cs": "e9416251c26cdc7c6f4a70d2ae5ba65eec0d9129cb913c5b5b342140246bd6ec",
+    "Infrastructure/UiResponseFilter.cs": "ed9d1a0f5976acc7c609794051b3649707fc4b8ba24f2b20d0b37683435b4808",
+    "Infrastructure/BusinessRules.cs": "73e73a7e87f02e6210cc06e9f0de4646309020d1133ea9189e1f5bad5b27a6e0",
+    "Infrastructure/KetQua.cs": "2dd0097eb6b0c783254f7138559abd1748a9d1b93fd87bac237033d6741d95c5",
+    "Infrastructure/TaiKhoanService.cs": "7a0b29a38be5c41cbc89b5b9a4c7c0823fc9cbe867fe7b02aea25de2ba6d6ea6",
+    "Infrastructure/PhienDangNhapService.cs": "0a947ad50d766a14611daf0e0b3276d07843fd8a9ddd2c94c20fa617446bceec",
+    "Program.cs": "675364396c2051ae0386026c5ff3c52edf45ebe1989b347b081657ada82ad873",
+    "Database/00_EduConnect_Full.sql": "e53c31b42c7b943692f67c2a279ce054a648d92c6c9546918f5f08ec417f1078",
+    "Database/16_AuthenticationProcedures.sql": "f91d24831e14d2a8aaed666baf648ba64c8c1d69eb139f69294e3ea06c4df89e",
+    "Database/17_ClassEndingMetadata.sql": "469ba32643e7ce06063ab8d666510464e58f2f3bc52531d726f1720f21dd3d43"
+  },
+  "databaseDefinitionVerification": "DatabaseName                                                                                                                     ServerName                                                                                                                      \n-------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------\nEduConnect_Verification_IT0203                                                                                                   LAPTOP-3L2V1AFT\\SQLEXPRESS                                                                                                      \nRemainingITFixtureUsers\n-----------------------\n                      0\nProcedureName                                                                                                                    modify_date             DefinitionSHA256                                                \n-------------------------------------------------------------------------------------------------------------------------------- ----------------------- ----------------------------------------------------------------\nusp_GuiYeuCauKetNoi                                                                                                              2026-11-14 12:41:35.257 F9971CF49A67E6255159DA8A32459668EDEC9612E45C08B6DC80D7528A725CBB\nusp_GuiDeXuatLop                                                                                                                 2026-11-14 12:41:35.587 E96C908D587B73375E6D0520B2148614AC31722675600D08104E5F6D5B0E2D7F\n",
+  "regression": {
+    "oldCases": 26,
+    "counts": {
+      "Passed": 21,
+      "Failed": 5
+    },
+    "changed": [],
+    "failIds": [
+      "IT-022",
+      "IT-023",
+      "IT-025",
+      "IT-034",
+      "IT-037"
+    ]
+  },
+  "cleanup": "All13 cases cleaned owned IDs; RemainingITFixtureUsers=0 after main run. Anonymous safety audit events may remain in dedicated DB. No database recreated or schema/business source altered.",
+  "cases": [
+    {
+      "id": "IT-042",
+      "title": "Gửi liên hệ hợp lệ",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "H gửi G; LoiNhan=\" Xin học \".",
+      "expectedHttp": "200 JSON ok=true, redirectUrl nội bộ.",
+      "expectedDatabase": "ChoPhanHoi; lời nhắn trim; notice/outbox đúng người nhận; không tạo lớp.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-042; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: H gửi G; LoiNhan=\" Xin học \". B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 200 JSON ok=true, redirectUrl nội bộ. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: ChoPhanHoi; lời nhắn trim; notice/outbox đúng người nhận; không tạo lớp. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Gửi DoiTuongId=G và LoiNhan=\" Xin học \".",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 200 JSON ok=true, URL nội bộ /KetNoi/KetNoi/LienHe. SQL có đúng một ChoPhanHoi, lời nhắn Xin học đã trim, notice/outbox đúng gia sư và mã liên hệ; chưa có lớp.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-042",
+        "tag": "IT0203IT_132f1048d6f246468b668cd045d4d0e0",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "bcd4f09c-c938-486d-a7a9-44453a799962",
+          "PH": "ebe75d8d-0ab4-4a2e-9bee-0a714aa93ee4",
+          "GS": "cc8dc088-4f14-4931-9526-f67d7e878c1f",
+          "HS2": "f2a594d2-b3bb-47be-a9a4-2f5ea481d9e5"
+        },
+        "ownedUsers": [
+          "bcd4f09c-c938-486d-a7a9-44453a799962",
+          "ebe75d8d-0ab4-4a2e-9bee-0a714aa93ee4",
+          "cc8dc088-4f14-4931-9526-f67d7e878c1f",
+          "f2a594d2-b3bb-47be-a9a4-2f5ea481d9e5"
+        ],
+        "subjects": [
+          220,
+          221
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiLienHe",
+        "input": {
+          "DoiTuongId": "cc8dc088-4f14-4931-9526-f67d7e878c1f",
+          "LoiNhan": " Xin học "
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 g\\u1EEDi y\\u00EAu c\\u1EA7u li\\u00EAn h\\u1EC7.\",\"redirectUrl\":\"/KetNoi/KetNoi/LienHe\"}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "050e9d47-e13a-435a-b285-96dd34cc9b33",
+              "GiaSuId": "cc8dc088-4f14-4931-9526-f67d7e878c1f",
+              "BenHocId": "bcd4f09c-c938-486d-a7a9-44453a799962",
+              "NguoiGuiId": "bcd4f09c-c938-486d-a7a9-44453a799962",
+              "LoiNhan": "Xin học",
+              "TrangThai": "ChoPhanHoi",
+              "GuiLuc": "2026-11-14T08:43:37+00:00",
+              "NguoiPhanHoiId": null,
+              "PhanHoiLuc": null,
+              "RowVersion": "AAAAAAAA4rE="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "09148bfd-4493-48e9-89e4-a4d2eb67cb5f",
+              "NguoiNhanId": "cc8dc088-4f14-4931-9526-f67d7e878c1f",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "050e9d47-e13a-435a-b285-96dd34cc9b33",
+              "NoiDungTomTat": "IT0203IT_132f1048d6f246468b668cd045d4d0e0 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "12771940-379f-4df3-b29f-d87a9d4d987e"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "12771940-379f-4df3-b29f-d87a9d4d987e",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"cc8dc088-4f14-4931-9526-f67d7e878c1f\",\"target\":\"050e9d47-e13a-435a-b285-96dd34cc9b33\"}",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4rA=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "DECLARE @r int; EXEC @r=sys.sp_getapplock @Resource=@p0,@LockMode='Exclusive',@LockOwner='Transaction',@LockTimeout=15000; IF @r<0 THROW 51200,N'Đang có thao tác trên hồ sơ. Hãy thử lại.',1;"
+        ],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_042",
+      "duration": "00:00:01.2277535"
+    },
+    {
+      "id": "IT-043",
+      "title": "Thiếu lời nhắn",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "LoiNhan rỗng.",
+      "expectedHttp": "422 JSON errors có LoiNhan.",
+      "expectedDatabase": "Không thêm yêu cầu hoặc notice nghiệp vụ.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-043; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: LoiNhan rỗng. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 422 JSON errors có LoiNhan. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không thêm yêu cầu hoặc notice nghiệp vụ. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Gửi cùng form nhưng LoiNhan rỗng.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 422 JSON errors có LoiNhan; trước/sau không có liên hệ, yêu cầu, thông báo hoặc sự kiện mới.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-043",
+        "tag": "IT0203IT_2195c76f96b64e499055fc63feaaef26",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "423899f4-0f0b-4442-8b4f-70042224d009",
+          "PH": "91130e16-f6a4-4047-8f87-ff78e40ce170",
+          "GS": "56763880-2279-4520-be68-d07b65f428fe",
+          "HS2": "0b636cbf-0a9d-4ca3-b30a-ea6c889f1ccc"
+        },
+        "ownedUsers": [
+          "423899f4-0f0b-4442-8b4f-70042224d009",
+          "91130e16-f6a4-4047-8f87-ff78e40ce170",
+          "56763880-2279-4520-be68-d07b65f428fe",
+          "0b636cbf-0a9d-4ca3-b30a-ea6c889f1ccc"
+        ],
+        "subjects": [
+          230,
+          231
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiLienHe",
+        "input": {
+          "DoiTuongId": "56763880-2279-4520-be68-d07b65f428fe",
+          "LoiNhan": ""
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"LoiNhan\":[\"L\\u1EDDi nh\\u1EAFn kh\\u00F4ng \\u0111\\u01B0\\u1EE3c \\u0111\\u1EC3 tr\\u1ED1ng.\"]}}"
+        },
+        "after": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_043",
+      "duration": "00:00:01.1946379"
+    },
+    {
+      "id": "IT-044",
+      "title": "Liên hệ trùng đồng thời",
+      "criterion": "Đúng đắn",
+      "endpoint": "Hai HTTP POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "Hai client cùng H/G gửi cùng lúc; token riêng.",
+      "expectedHttp": "Một thành công, request còn lại bị từ chối/xung đột.",
+      "expectedDatabase": "Unique UQ_DangDung_YeuCauLienHe bảo vệ một liên hệ hoạt động.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-044; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Hai client cùng H/G gửi cùng lúc; token riêng. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi Hai HTTP POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Một thành công, request còn lại bị từ chối/xung đột. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Unique UQ_DangDung_YeuCauLienHe bảo vệ một liên hệ hoạt động. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Tạo hai client đăng nhập H, lấy hai token riêng; dùng TaskCompletionSource làm barrier rồi Task.WhenAll hai POST. Đọc cả hai response trước khi kiểm dữ liệu.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "Hai client, token riêng, cùng bắt đầu qua barrier: nhận 400 và 200. SQL chỉ có một liên hệ hoạt động và một cặp notice/outbox; unique index UQ_DangDung_YeuCauLienHe tồn tại.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-044",
+        "tag": "IT0203IT_b6ecd6eaf04040058c3040b43f226c80",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "e906748b-a3a6-43c7-b0e1-365f376bc084",
+          "PH": "6af0374f-8fb0-4d7d-8545-2095fae39a7e",
+          "GS": "ffeba995-35a1-4e2d-8ad7-506d16df7efd",
+          "HS2": "a50cbf27-25a3-4418-bbd1-c7b7d53dd99b"
+        },
+        "ownedUsers": [
+          "e906748b-a3a6-43c7-b0e1-365f376bc084",
+          "6af0374f-8fb0-4d7d-8545-2095fae39a7e",
+          "ffeba995-35a1-4e2d-8ad7-506d16df7efd",
+          "a50cbf27-25a3-4418-bbd1-c7b7d53dd99b"
+        ],
+        "subjects": [
+          228,
+          229
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 g\\u1EEDi y\\u00EAu c\\u1EA7u li\\u00EAn h\\u1EC7.\",\"redirectUrl\":\"/KetNoi/KetNoi/LienHe\"}"
+        },
+        "parallelResponses": [
+          {
+            "status": 400,
+            "location": null,
+            "contentType": "application/json; charset=utf-8",
+            "body": "{\"ok\":false,\"message\":\"Hai b\\u00EAn \\u0111\\u00E3 li\\u00EAn h\\u1EC7 ho\\u1EB7c \\u0111ang ch\\u1EDD ph\\u1EA3n h\\u1ED3i.\",\"errors\":{\"\":[\"Hai b\\u00EAn \\u0111\\u00E3 li\\u00EAn h\\u1EC7 ho\\u1EB7c \\u0111ang ch\\u1EDD ph\\u1EA3n h\\u1ED3i.\"]}}"
+          },
+          {
+            "status": 200,
+            "location": null,
+            "contentType": "application/json; charset=utf-8",
+            "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 g\\u1EEDi y\\u00EAu c\\u1EA7u li\\u00EAn h\\u1EC7.\",\"redirectUrl\":\"/KetNoi/KetNoi/LienHe\"}"
+          }
+        ],
+        "statuses": [
+          400,
+          200
+        ],
+        "uniqueIndex": "UQ_DangDung_YeuCauLienHe",
+        "after": {
+          "Contacts": [
+            {
+              "Id": "0e1fac1f-abf7-416d-a562-88fdc3fffdba",
+              "GiaSuId": "ffeba995-35a1-4e2d-8ad7-506d16df7efd",
+              "BenHocId": "e906748b-a3a6-43c7-b0e1-365f376bc084",
+              "NguoiGuiId": "e906748b-a3a6-43c7-b0e1-365f376bc084",
+              "LoiNhan": "Xin học",
+              "TrangThai": "ChoPhanHoi",
+              "GuiLuc": "2026-11-14T08:43:42+00:00",
+              "NguoiPhanHoiId": null,
+              "PhanHoiLuc": null,
+              "RowVersion": "AAAAAAAA4u0="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "f5bcdb1d-73bd-4e3d-b5aa-7c978cf5668f",
+              "NguoiNhanId": "ffeba995-35a1-4e2d-8ad7-506d16df7efd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "0e1fac1f-abf7-416d-a562-88fdc3fffdba",
+              "NoiDungTomTat": "IT0203IT_b6ecd6eaf04040058c3040b43f226c80 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:42+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "ac60f156-5dcc-494c-9e6d-e37c859998b6"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "ac60f156-5dcc-494c-9e6d-e37c859998b6",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"ffeba995-35a1-4e2d-8ad7-506d16df7efd\",\"target\":\"0e1fac1f-abf7-416d-a562-88fdc3fffdba\"}",
+              "TaoLuc": "2026-11-14T08:43:42+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4uw=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "DECLARE @r int; EXEC @r=sys.sp_getapplock @Resource=@p0,@LockMode='Exclusive',@LockOwner='Transaction',@LockTimeout=15000; IF @r<0 THROW 51200,N'Đang có thao tác trên hồ sơ. Hãy thử lại.',1;",
+          "DECLARE @r int; EXEC @r=sys.sp_getapplock @Resource=@p0,@LockMode='Exclusive',@LockOwner='Transaction',@LockTimeout=15000; IF @r<0 THROW 51200,N'Đang có thao tác trên hồ sơ. Hãy thử lại.',1;"
+        ],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_044",
+      "duration": "00:00:01.4370626"
+    },
+    {
+      "id": "IT-045",
+      "title": "Tự gửi liên hệ",
+      "criterion": "Xác thực",
+      "endpoint": "POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "DoiTuongId bằng actor.",
+      "expectedHttp": 400.0,
+      "expectedDatabase": "Không tạo yêu cầu.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-045; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: DoiTuongId bằng actor. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 400. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không tạo yêu cầu. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Gửi DoiTuongId=H trong phiên H.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 400; không thêm liên hệ, yêu cầu, hội thoại, lớp, notice/outbox.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-045",
+        "tag": "IT0203IT_7e0b6feab4194b4096ef947ea406d11d",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "7e90c3d0-eefd-47e8-9e5e-da42dacd35fe",
+          "PH": "c5eb1d8e-8e2a-4f52-81b8-c4c7c183732f",
+          "GS": "285645c2-2a62-4651-ae81-1824eaa2c096",
+          "HS2": "244417ec-5365-4deb-b1ac-bba3b45fbf29"
+        },
+        "ownedUsers": [
+          "7e90c3d0-eefd-47e8-9e5e-da42dacd35fe",
+          "c5eb1d8e-8e2a-4f52-81b8-c4c7c183732f",
+          "285645c2-2a62-4651-ae81-1824eaa2c096",
+          "244417ec-5365-4deb-b1ac-bba3b45fbf29"
+        ],
+        "subjects": [
+          237,
+          238
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiLienHe",
+        "input": {
+          "DoiTuongId": "7e90c3d0-eefd-47e8-9e5e-da42dacd35fe",
+          "LoiNhan": " Xin học "
+        },
+        "http": {
+          "status": 400,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Li\\u00EAn h\\u1EC7 c\\u1EA7n m\\u1ED9t gia s\\u01B0 v\\u00E0 m\\u1ED9t b\\u00EAn h\\u1ECDc.\",\"errors\":{\"\":[\"Li\\u00EAn h\\u1EC7 c\\u1EA7n m\\u1ED9t gia s\\u01B0 v\\u00E0 m\\u1ED9t b\\u00EAn h\\u1ECDc.\"]}}"
+        },
+        "after": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_045",
+      "duration": "00:00:01.0348024"
+    },
+    {
+      "id": "IT-046",
+      "title": "Chấp nhận liên hệ tạo hội thoại",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /KetNoi/KetNoi/PhanHoiLienHe",
+      "conditions": "Đúng người nhận, action theo hợp đồng chấp nhận, RV hiện tại.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "LH=ChapNhan; hội thoại TruocKetNoi chỉ một; chưa tạo LopHoc.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-046; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Đúng người nhận, action theo hợp đồng chấp nhận, RV hiện tại. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/PhanHoiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: LH=ChapNhan; hội thoại TruocKetNoi chỉ một; chưa tạo LopHoc. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Fixture tạo liên hệ ChoPhanHoi; G POST action=ChapNhan cùng id và RowVersion hiện tại.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 200 JSON thành công. Liên hệ ChapNhan, đúng người phản hồi; có đúng một hội thoại TruocKetNoi gắn liên hệ; chưa tạo yêu cầu/lớp.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-046",
+        "tag": "IT0203IT_9d22f23fe7a147708fb17d26861050b5",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+          "PH": "0d2cfb51-8126-4756-b1f9-3425d012eb57",
+          "GS": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+          "HS2": "d34a57a4-885d-4334-a660-5e864a01b52c"
+        },
+        "ownedUsers": [
+          "08e50b81-b3d0-4253-a287-bfdc13da8460",
+          "0d2cfb51-8126-4756-b1f9-3425d012eb57",
+          "a3c4fe89-990b-469b-9475-2b54b44a9450",
+          "d34a57a4-885d-4334-a660-5e864a01b52c"
+        ],
+        "subjects": [
+          239,
+          240
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+        "needId": null,
+        "before": {
+          "Contacts": [
+            {
+              "Id": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+              "GiaSuId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "BenHocId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "NguoiGuiId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChoPhanHoi",
+              "GuiLuc": "2026-11-14T08:43:48+00:00",
+              "NguoiPhanHoiId": null,
+              "PhanHoiLuc": null,
+              "RowVersion": "AAAAAAAA4xg="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "153a9581-0a98-4fa9-985b-85d3acd6096c",
+              "NguoiNhanId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+              "NoiDungTomTat": "IT0203IT_9d22f23fe7a147708fb17d26861050b5 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "907496be-4f2b-4e2f-b17d-43d4301ee0f5"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "907496be-4f2b-4e2f-b17d-43d4301ee0f5",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"a3c4fe89-990b-469b-9475-2b54b44a9450\",\"target\":\"13b990bb-6a0c-4010-b482-c0ffdccbad79\"}",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4xc=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/PhanHoiLienHe",
+        "input": {
+          "id": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+          "action": "ChapNhan",
+          "rowVersion": "AAAAAAAA4xg="
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/KetNoi/KetNoi/LienHe\"}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+              "GiaSuId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "BenHocId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "NguoiGuiId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:48+00:00",
+              "NguoiPhanHoiId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "PhanHoiLuc": "2026-11-14T08:43:48+00:00",
+              "RowVersion": "AAAAAAAA4xw="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "3391e37c-b656-44db-9e5a-48e58b010926",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "BenHocId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "LienHeId": "13b990bb-6a0c-4010-b482-c0ffdccbad79"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "4eddddc8-2e72-432d-a2ef-1a9ebb4753c3",
+              "NguoiNhanId": "08e50b81-b3d0-4253-a287-bfdc13da8460",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+              "NoiDungTomTat": "IT0203IT_9d22f23fe7a147708fb17d26861050b5 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "57a7fe4c-eb6f-4625-bc40-a10a2916cd5f"
+            },
+            {
+              "Id": "153a9581-0a98-4fa9-985b-85d3acd6096c",
+              "NguoiNhanId": "a3c4fe89-990b-469b-9475-2b54b44a9450",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "13b990bb-6a0c-4010-b482-c0ffdccbad79",
+              "NoiDungTomTat": "IT0203IT_9d22f23fe7a147708fb17d26861050b5 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "907496be-4f2b-4e2f-b17d-43d4301ee0f5"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "907496be-4f2b-4e2f-b17d-43d4301ee0f5",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"a3c4fe89-990b-469b-9475-2b54b44a9450\",\"target\":\"13b990bb-6a0c-4010-b482-c0ffdccbad79\"}",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4xc=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "57a7fe4c-eb6f-4625-bc40-a10a2916cd5f",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"08e50b81-b3d0-4253-a287-bfdc13da8460\",\"target\":\"13b990bb-6a0c-4010-b482-c0ffdccbad79\"}",
+              "TaoLuc": "2026-11-14T08:43:48+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4x0=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_046",
+      "duration": "00:00:01.1107068"
+    },
+    {
+      "id": "IT-047",
+      "title": "Sai người phản hồi liên hệ",
+      "criterion": "Xác thực",
+      "endpoint": "POST /KetNoi/KetNoi/PhanHoiLienHe",
+      "conditions": "X dùng Id LH1/RV hiện tại.",
+      "expectedHttp": 403.0,
+      "expectedDatabase": "LH không đổi; không tạo hội thoại.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-047; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: X dùng Id LH1/RV hiện tại. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/PhanHoiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: 403. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: LH không đổi; không tạo hội thoại. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Fixture tạo liên hệ H/G ChoPhanHoi; tài khoản H2 dùng id và RowVersion thật để phản hồi.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 403; bản ghi liên hệ và RowVersion giữ nguyên; không thêm hội thoại hoặc dữ liệu nghiệp vụ.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-047",
+        "tag": "IT0203IT_108133f54291495aa7d04f5ecde178df",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "85ea4350-61fb-481b-a196-f02f9000357a",
+          "PH": "298740eb-7342-495c-a127-903134261cd2",
+          "GS": "804494a5-fe1b-4100-9850-1b828e4b2453",
+          "HS2": "30a46504-c181-4d7e-b4c4-c1849bf40b43"
+        },
+        "ownedUsers": [
+          "85ea4350-61fb-481b-a196-f02f9000357a",
+          "298740eb-7342-495c-a127-903134261cd2",
+          "804494a5-fe1b-4100-9850-1b828e4b2453",
+          "30a46504-c181-4d7e-b4c4-c1849bf40b43"
+        ],
+        "subjects": [
+          243,
+          244
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+        "needId": null,
+        "before": {
+          "Contacts": [
+            {
+              "Id": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+              "GiaSuId": "804494a5-fe1b-4100-9850-1b828e4b2453",
+              "BenHocId": "85ea4350-61fb-481b-a196-f02f9000357a",
+              "NguoiGuiId": "85ea4350-61fb-481b-a196-f02f9000357a",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChoPhanHoi",
+              "GuiLuc": "2026-11-14T08:43:49+00:00",
+              "NguoiPhanHoiId": null,
+              "PhanHoiLuc": null,
+              "RowVersion": "AAAAAAAA4yU="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "6d867d03-f92f-4238-b5fe-b80718405a8d",
+              "NguoiNhanId": "804494a5-fe1b-4100-9850-1b828e4b2453",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+              "NoiDungTomTat": "IT0203IT_108133f54291495aa7d04f5ecde178df HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:49+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "602b4fae-9d6e-4dba-9836-5bfb2d84f05e"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "602b4fae-9d6e-4dba-9836-5bfb2d84f05e",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"804494a5-fe1b-4100-9850-1b828e4b2453\",\"target\":\"9a341c22-f671-4eb5-98f7-9b031aa474a7\"}",
+              "TaoLuc": "2026-11-14T08:43:49+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4yQ=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/PhanHoiLienHe",
+        "input": {
+          "id": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+          "action": "ChapNhan",
+          "rowVersion": "AAAAAAAA4yU="
+        },
+        "http": {
+          "status": 403,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Kh\\u00F4ng c\\u00F3 quy\\u1EC1n ph\\u1EA3n h\\u1ED3i.\",\"errors\":{\"\":[\"Kh\\u00F4ng c\\u00F3 quy\\u1EC1n ph\\u1EA3n h\\u1ED3i.\"]}}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+              "GiaSuId": "804494a5-fe1b-4100-9850-1b828e4b2453",
+              "BenHocId": "85ea4350-61fb-481b-a196-f02f9000357a",
+              "NguoiGuiId": "85ea4350-61fb-481b-a196-f02f9000357a",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChoPhanHoi",
+              "GuiLuc": "2026-11-14T08:43:49+00:00",
+              "NguoiPhanHoiId": null,
+              "PhanHoiLuc": null,
+              "RowVersion": "AAAAAAAA4yU="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "6d867d03-f92f-4238-b5fe-b80718405a8d",
+              "NguoiNhanId": "804494a5-fe1b-4100-9850-1b828e4b2453",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "9a341c22-f671-4eb5-98f7-9b031aa474a7",
+              "NoiDungTomTat": "IT0203IT_108133f54291495aa7d04f5ecde178df HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:49+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "602b4fae-9d6e-4dba-9836-5bfb2d84f05e"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "602b4fae-9d6e-4dba-9836-5bfb2d84f05e",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"804494a5-fe1b-4100-9850-1b828e4b2453\",\"target\":\"9a341c22-f671-4eb5-98f7-9b031aa474a7\"}",
+              "TaoLuc": "2026-11-14T08:43:49+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4yQ=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_047",
+      "duration": "00:00:01.2125813"
+    },
+    {
+      "id": "IT-048",
+      "title": "Bên học gửi yêu cầu kết nối",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /KetNoi/KetNoi/GuiYeuCau",
+      "conditions": "LH1 ChapNhan; H gửi lời nhắn hợp lệ.",
+      "expectedHttp": "Thành công.",
+      "expectedDatabase": "Yêu cầu ChoGiaSu; hạn=GuiLuc+72h; chưa tạo lớp.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-048; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: LH1 ChapNhan; H gửi lời nhắn hợp lệ. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiYeuCau. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Yêu cầu ChoGiaSu; hạn=GuiLuc+72h; chưa tạo lớp. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Fixture chấp nhận liên hệ H/G và tạo nhu cầu N1; H POST GuiYeuCau với LH1/N1 và lời nhắn hợp lệ.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 200 JSON thành công. Có đúng một ChoGiaSu, đúng H/LH1/N1; HetHanLuc bằng GuiLuc+72 giờ, chưa tạo lớp.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-048",
+        "tag": "IT0203IT_9b4e8a07ee534548b453d41b73222b17",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+          "PH": "f9106fab-2aa8-43eb-a8e0-9a3200305efb",
+          "GS": "43320fb9-733f-4e2e-9397-8016b360d952",
+          "HS2": "5835f3d1-59c1-4141-8910-f03da8c44298"
+        },
+        "ownedUsers": [
+          "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+          "f9106fab-2aa8-43eb-a8e0-9a3200305efb",
+          "43320fb9-733f-4e2e-9397-8016b360d952",
+          "5835f3d1-59c1-4141-8910-f03da8c44298"
+        ],
+        "subjects": [
+          218,
+          219
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+        "needId": "71a99cb1-6614-45a5-93d4-2d147ce520f6",
+        "before": {
+          "Contacts": [
+            {
+              "Id": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "GiaSuId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "BenHocId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "NguoiGuiId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:33+00:00",
+              "NguoiPhanHoiId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "PhanHoiLuc": "2026-11-14T08:43:33+00:00",
+              "RowVersion": "AAAAAAAA4pc="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "b935af87-1ce4-4125-8064-bac7984e521f",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "BenHocId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "LienHeId": "238007e7-148c-46c5-8f4b-90dee6a00c29"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "6fa05fbc-2fde-4a5d-afc7-07cf88755491",
+              "NguoiNhanId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "NoiDungTomTat": "IT0203IT_9b4e8a07ee534548b453d41b73222b17 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "8749b4bd-5d36-4586-b75c-b89d7d1e36f0"
+            },
+            {
+              "Id": "773625bd-375f-4bba-927f-bda979acd78c",
+              "NguoiNhanId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "NoiDungTomTat": "IT0203IT_9b4e8a07ee534548b453d41b73222b17 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "d634a4db-3272-497e-ba5e-17950b8fa4f0"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "d634a4db-3272-497e-ba5e-17950b8fa4f0",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"3f7ab5e9-0da4-4343-ad67-fa65940721c7\",\"target\":\"238007e7-148c-46c5-8f4b-90dee6a00c29\"}",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4pg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "8749b4bd-5d36-4586-b75c-b89d7d1e36f0",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"43320fb9-733f-4e2e-9397-8016b360d952\",\"target\":\"238007e7-148c-46c5-8f4b-90dee6a00c29\"}",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4pQ=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiYeuCau",
+        "input": {
+          "LienHeId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+          "NhuCauId": "71a99cb1-6614-45a5-93d4-2d147ce520f6",
+          "LoiNhan": " Muốn kết nối lớp "
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\",\"redirectUrl\":\"/KetNoi/KetNoi\"}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "GiaSuId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "BenHocId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "NguoiGuiId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:33+00:00",
+              "NguoiPhanHoiId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "PhanHoiLuc": "2026-11-14T08:43:33+00:00",
+              "RowVersion": "AAAAAAAA4pc="
+            }
+          ],
+          "Requests": [
+            {
+              "Id": "59cce006-8205-47df-99cf-bb624876367f",
+              "GiaSuId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "BenHocId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "NguoiGuiId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "NhuCauId": "71a99cb1-6614-45a5-93d4-2d147ce520f6",
+              "LoiNhan": " Muốn kết nối lớp ",
+              "TrangThai": "ChoGiaSu",
+              "GuiLuc": "2026-11-14T08:43:35+00:00",
+              "HetHanLuc": "2026-11-17T08:43:35+00:00",
+              "TenLopDuKien": null,
+              "MonHocId": null,
+              "MucTieu": null,
+              "SoBuoiTuan": null,
+              "ThoiLuongPhut": null,
+              "BatDauHocLuc": null,
+              "HinhThucHoc": null,
+              "DiaDiem": null,
+              "HocPhi": null,
+              "RowVersion": "AAAAAAAA4qM=",
+              "DonViHocPhi": null,
+              "LienHeId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "NguoiDeXuatId": null,
+              "DeXuatLuc": null
+            }
+          ],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "b935af87-1ce4-4125-8064-bac7984e521f",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "BenHocId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "LienHeId": "238007e7-148c-46c5-8f4b-90dee6a00c29"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "6fa05fbc-2fde-4a5d-afc7-07cf88755491",
+              "NguoiNhanId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "NoiDungTomTat": "IT0203IT_9b4e8a07ee534548b453d41b73222b17 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "8749b4bd-5d36-4586-b75c-b89d7d1e36f0"
+            },
+            {
+              "Id": "773625bd-375f-4bba-927f-bda979acd78c",
+              "NguoiNhanId": "3f7ab5e9-0da4-4343-ad67-fa65940721c7",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "238007e7-148c-46c5-8f4b-90dee6a00c29",
+              "NoiDungTomTat": "IT0203IT_9b4e8a07ee534548b453d41b73222b17 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "d634a4db-3272-497e-ba5e-17950b8fa4f0"
+            },
+            {
+              "Id": "76ab726d-2966-43bd-aae8-db6e4fafce28",
+              "NguoiNhanId": "43320fb9-733f-4e2e-9397-8016b360d952",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "59cce006-8205-47df-99cf-bb624876367f",
+              "NoiDungTomTat": "Có yêu cầu kết nối mới.",
+              "TaoLuc": "2026-11-14T08:43:35+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "0314737b-6aac-4248-bb1b-7e3790d49f6d"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "d634a4db-3272-497e-ba5e-17950b8fa4f0",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"3f7ab5e9-0da4-4343-ad67-fa65940721c7\",\"target\":\"238007e7-148c-46c5-8f4b-90dee6a00c29\"}",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4pg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "0314737b-6aac-4248-bb1b-7e3790d49f6d",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"43320fb9-733f-4e2e-9397-8016b360d952\",\"target\":\"59cce006-8205-47df-99cf-bb624876367f\"}",
+              "TaoLuc": "2026-11-14T08:43:35+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4qk=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "8749b4bd-5d36-4586-b75c-b89d7d1e36f0",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"43320fb9-733f-4e2e-9397-8016b360d952\",\"target\":\"238007e7-148c-46c5-8f4b-90dee6a00c29\"}",
+              "TaoLuc": "2026-11-14T08:43:33+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4pQ=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "EXEC dbo.usp_GuiYeuCauKetNoi @LienHeId=@p0,@BenHocId=@p1,@LoiNhan=@p2,@NhuCauId=@p3"
+        ],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_048",
+      "duration": "00:00:05.1413196"
+    },
+    {
+      "id": "IT-049",
+      "title": "Gia sư tạo đề xuất đầy đủ",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /KetNoi/KetNoi/DeXuat",
+      "conditions": "Đề xuất nền, đúng LH1 và môn trong hồ sơ.",
+      "expectedHttp": "Thành công; tên route là DeXuat, không GuiDeXuat.",
+      "expectedDatabase": "ChoBenHoc; 2 KhungGioDeXuat; DeXuatLuc/hạn 72h; đúng phí/đơn vị.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-049; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Đề xuất nền, đúng LH1 và môn trong hồ sơ. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/DeXuat. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Thành công; tên route là DeXuat, không GuiDeXuat. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: ChoBenHoc; 2 KhungGioDeXuat; DeXuatLuc/hạn 72h; đúng phí/đơn vị. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Fixture LH1 ChapNhan/N1 hai môn; G gửi đủ điều kiện lớp và hai khung 19:00–20:00 qua route DeXuat.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 200 JSON thành công. Một ChoBenHoc, đúng gia sư/môn/phí 150000 VND/Gio; hai khung thứ 1/3, mỗi khung 60 phút; hạn DeXuatLuc+72 giờ.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-049",
+        "tag": "IT0203IT_9c1ef65ddfdb4a7cb956d2570f8ea40d",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+          "PH": "5d3cba8c-57c2-41ff-b890-3a61e1605127",
+          "GS": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+          "HS2": "6d2ce0e5-7c92-4923-b7c9-fe0e5b36debc"
+        },
+        "ownedUsers": [
+          "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+          "5d3cba8c-57c2-41ff-b890-3a61e1605127",
+          "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+          "6d2ce0e5-7c92-4923-b7c9-fe0e5b36debc"
+        ],
+        "subjects": [
+          232,
+          233
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+        "needId": "613b4971-9ada-4fa1-9766-fd39e2bb1cdd",
+        "before": {
+          "Contacts": [
+            {
+              "Id": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "GiaSuId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "BenHocId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "NguoiGuiId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:44+00:00",
+              "NguoiPhanHoiId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "PhanHoiLuc": "2026-11-14T08:43:44+00:00",
+              "RowVersion": "AAAAAAAA4vk="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "a4015194-2563-4074-82a4-3294a6bfcc39",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "BenHocId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "LienHeId": "79504652-a57e-4b8a-bfd4-7715ee127bcd"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "47a4aa2b-18c2-4095-b628-572d3dde4012",
+              "NguoiNhanId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "NoiDungTomTat": "IT0203IT_9c1ef65ddfdb4a7cb956d2570f8ea40d GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "e884450b-b837-48e3-871d-2ee500a7c946"
+            },
+            {
+              "Id": "bef5b034-dc1a-4c96-8563-73837b0b119f",
+              "NguoiNhanId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "NoiDungTomTat": "IT0203IT_9c1ef65ddfdb4a7cb956d2570f8ea40d HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "138c6ec0-0516-42e8-9204-9064a31b0e6b"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "e884450b-b837-48e3-871d-2ee500a7c946",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"ca4ccd52-8edb-4884-9b1e-f239c12bd8bd\",\"target\":\"79504652-a57e-4b8a-bfd4-7715ee127bcd\"}",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4vo=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "138c6ec0-0516-42e8-9204-9064a31b0e6b",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"50f68f3d-db07-4eff-b6bb-445ebef74a71\",\"target\":\"79504652-a57e-4b8a-bfd4-7715ee127bcd\"}",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4vc=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/DeXuat",
+        "input": {
+          "LienHeId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+          "NhuCauId": "613b4971-9ada-4fa1-9766-fd39e2bb1cdd",
+          "TenLop": "Toán tích hợp IT-049",
+          "MonHocId": "232",
+          "MucTieu": "Ôn Toán lớp 8",
+          "SoBuoiTuan": "2",
+          "ThoiLuongPhut": "60",
+          "BatDauHocLuc": "2026-11-17T19:00",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhi": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 200,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":true,\"message\":\"\\u0110\\u00E3 g\\u1EEDi \\u0111\\u1EC1 xu\\u1EA5t \\u0111\\u1EC3 b\\u00EAn h\\u1ECDc x\\u00E1c nh\\u1EADn.\",\"redirectUrl\":\"/KetNoi/KetNoi\"}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "GiaSuId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "BenHocId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "NguoiGuiId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:44+00:00",
+              "NguoiPhanHoiId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "PhanHoiLuc": "2026-11-14T08:43:44+00:00",
+              "RowVersion": "AAAAAAAA4vk="
+            }
+          ],
+          "Requests": [
+            {
+              "Id": "9da256d7-bc56-447e-a015-54308875c297",
+              "GiaSuId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "BenHocId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "NguoiGuiId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "NhuCauId": "613b4971-9ada-4fa1-9766-fd39e2bb1cdd",
+              "LoiNhan": null,
+              "TrangThai": "ChoBenHoc",
+              "GuiLuc": "2026-11-14T08:43:45+00:00",
+              "HetHanLuc": "2026-11-17T08:43:45+00:00",
+              "TenLopDuKien": "Toán tích hợp IT-049",
+              "MonHocId": 232,
+              "MucTieu": "Ôn Toán lớp 8",
+              "SoBuoiTuan": 2,
+              "ThoiLuongPhut": 60,
+              "BatDauHocLuc": "2026-11-17T19:00:00+07:00",
+              "HinhThucHoc": "TrucTuyen",
+              "DiaDiem": null,
+              "HocPhi": 150000.0,
+              "RowVersion": "AAAAAAAA4v8=",
+              "DonViHocPhi": "VND/Gio",
+              "LienHeId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "NguoiDeXuatId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "DeXuatLuc": "2026-11-14T08:43:45+00:00"
+            }
+          ],
+          "Slots": [
+            {
+              "Id": "4ea2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "9da256d7-bc56-447e-a015-54308875c297",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            },
+            {
+              "Id": "4fa2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "9da256d7-bc56-447e-a015-54308875c297",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "19:00:00",
+              "GioKetThuc": "20:00:00"
+            }
+          ],
+          "Rooms": [
+            {
+              "Id": "a4015194-2563-4074-82a4-3294a6bfcc39",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "BenHocId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "LienHeId": "79504652-a57e-4b8a-bfd4-7715ee127bcd"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "47a4aa2b-18c2-4095-b628-572d3dde4012",
+              "NguoiNhanId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "NoiDungTomTat": "IT0203IT_9c1ef65ddfdb4a7cb956d2570f8ea40d GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "e884450b-b837-48e3-871d-2ee500a7c946"
+            },
+            {
+              "Id": "bef5b034-dc1a-4c96-8563-73837b0b119f",
+              "NguoiNhanId": "50f68f3d-db07-4eff-b6bb-445ebef74a71",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "79504652-a57e-4b8a-bfd4-7715ee127bcd",
+              "NoiDungTomTat": "IT0203IT_9c1ef65ddfdb4a7cb956d2570f8ea40d HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "138c6ec0-0516-42e8-9204-9064a31b0e6b"
+            },
+            {
+              "Id": "fae4f8e1-fe6d-469a-8b63-b448323b3a6d",
+              "NguoiNhanId": "ca4ccd52-8edb-4884-9b1e-f239c12bd8bd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "9da256d7-bc56-447e-a015-54308875c297",
+              "NoiDungTomTat": "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "fbfdca97-b582-480c-ad66-e9eb0bb21eb9"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "e884450b-b837-48e3-871d-2ee500a7c946",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"ca4ccd52-8edb-4884-9b1e-f239c12bd8bd\",\"target\":\"79504652-a57e-4b8a-bfd4-7715ee127bcd\"}",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4vo=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "138c6ec0-0516-42e8-9204-9064a31b0e6b",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"50f68f3d-db07-4eff-b6bb-445ebef74a71\",\"target\":\"79504652-a57e-4b8a-bfd4-7715ee127bcd\"}",
+              "TaoLuc": "2026-11-14T08:43:44+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4vc=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "fbfdca97-b582-480c-ad66-e9eb0bb21eb9",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"ca4ccd52-8edb-4884-9b1e-f239c12bd8bd\",\"target\":\"9da256d7-bc56-447e-a015-54308875c297\"}",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4wE=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "EXEC dbo.usp_GuiDeXuatLop @LienHeId=@p0,@GiaSuId=@p1,@TenLop=@p2,@MonHocId=@p3,@MucTieu=@p4,@SoBuoiTuan=@p5,@ThoiLuongPhut=@p6,@BatDauHocLuc=@p7,@HinhThucHoc=@p8,@HocPhi=@p9,@DonViHocPhi=@p10,@KhungGioJson=@p11,@DiaDiem=@p12,@NhuCauId=@p13,@YeuCauId=@p14,@RowVersionCu=@RowVersionValue"
+        ],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_049",
+      "duration": "00:00:01.2857794"
+    },
+    {
+      "id": "IT-050",
+      "title": "Môn không thuộc nhu cầu nhiều môn",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /KetNoi/KetNoi/DeXuat",
+      "conditions": "N1 chọn M1/M2; đề xuất M3 không thuộc N1.",
+      "expectedHttp": "Từ chối; form AJAX báo lỗi.",
+      "expectedDatabase": "Không lưu yêu cầu/khung mới.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-050; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: N1 chọn M1/M2; đề xuất M3 không thuộc N1. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/DeXuat. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Từ chối; form AJAX báo lỗi. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không lưu yêu cầu/khung mới. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "N1 có M1/M2; tạo M3 đang dùng và thêm M3 vào hồ sơ G; G đề xuất M3 gắn N1 để loại trừ nguyên nhân môn không thuộc hồ sơ.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 422 JSON lỗi môn không thuộc nhu cầu. SQL51131 thật được ghi nhận; không thêm yêu cầu/khung hoặc thay đổi notice/outbox. M3 có trong hồ sơ gia sư để chỉ kiểm điều kiện không thuộc N1.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-050",
+        "tag": "IT0203IT_b276b01469b1422db9acc4e1e2527512",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+          "PH": "3f37754e-90b1-4213-87c8-f7b3fa4f3b85",
+          "GS": "03efed61-67b0-46e5-8d12-76297af4c279",
+          "HS2": "b8a9038b-c58b-4043-972d-77436cd7178f"
+        },
+        "ownedUsers": [
+          "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+          "3f37754e-90b1-4213-87c8-f7b3fa4f3b85",
+          "03efed61-67b0-46e5-8d12-76297af4c279",
+          "b8a9038b-c58b-4043-972d-77436cd7178f"
+        ],
+        "subjects": [
+          234,
+          235,
+          236
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "subjectOutsideNeed": 236,
+        "needSubjects": [
+          234,
+          235
+        ],
+        "contactId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+        "needId": "af6953f4-327f-42ff-87d9-bdcaef664464",
+        "before": {
+          "Contacts": [
+            {
+              "Id": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "GiaSuId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "BenHocId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "NguoiGuiId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:45+00:00",
+              "NguoiPhanHoiId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "PhanHoiLuc": "2026-11-14T08:43:45+00:00",
+              "RowVersion": "AAAAAAAA4wc="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "0d7e243a-94f1-444d-9349-260309df3865",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "BenHocId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "LienHeId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "0b035aa8-a4ef-4191-9890-8b5331793ae7",
+              "NguoiNhanId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "NoiDungTomTat": "IT0203IT_b276b01469b1422db9acc4e1e2527512 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "2316f059-57d6-4c31-a3f4-fe7af138eebf"
+            },
+            {
+              "Id": "b425606b-51be-4c84-abfb-e0823ceba863",
+              "NguoiNhanId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "NoiDungTomTat": "IT0203IT_b276b01469b1422db9acc4e1e2527512 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "f7a0b5fb-0ac3-4c2e-90d5-3a7ed8cef16b"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "f7a0b5fb-0ac3-4c2e-90d5-3a7ed8cef16b",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"03efed61-67b0-46e5-8d12-76297af4c279\",\"target\":\"fc2bd270-acb4-469a-9607-a8a7901fb4cf\"}",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4wU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "2316f059-57d6-4c31-a3f4-fe7af138eebf",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c\",\"target\":\"fc2bd270-acb4-469a-9607-a8a7901fb4cf\"}",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4wg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/DeXuat",
+        "input": {
+          "LienHeId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+          "NhuCauId": "af6953f4-327f-42ff-87d9-bdcaef664464",
+          "TenLop": "Toán tích hợp IT-050",
+          "MonHocId": "236",
+          "MucTieu": "Ôn Toán lớp 8",
+          "SoBuoiTuan": "2",
+          "ThoiLuongPhut": "60",
+          "BatDauHocLuc": "2026-11-17T19:00",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhi": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00"
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"M\\u00F4n \\u0111\\u1EC1 xu\\u1EA5t kh\\u00F4ng thu\\u1ED9c nhu c\\u1EA7u h\\u1ECDc \\u0111ang m\\u1EDF.\"]}}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "GiaSuId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "BenHocId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "NguoiGuiId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:45+00:00",
+              "NguoiPhanHoiId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "PhanHoiLuc": "2026-11-14T08:43:45+00:00",
+              "RowVersion": "AAAAAAAA4wc="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "0d7e243a-94f1-444d-9349-260309df3865",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "BenHocId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "LienHeId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "0b035aa8-a4ef-4191-9890-8b5331793ae7",
+              "NguoiNhanId": "6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "NoiDungTomTat": "IT0203IT_b276b01469b1422db9acc4e1e2527512 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "2316f059-57d6-4c31-a3f4-fe7af138eebf"
+            },
+            {
+              "Id": "b425606b-51be-4c84-abfb-e0823ceba863",
+              "NguoiNhanId": "03efed61-67b0-46e5-8d12-76297af4c279",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "fc2bd270-acb4-469a-9607-a8a7901fb4cf",
+              "NoiDungTomTat": "IT0203IT_b276b01469b1422db9acc4e1e2527512 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "f7a0b5fb-0ac3-4c2e-90d5-3a7ed8cef16b"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "f7a0b5fb-0ac3-4c2e-90d5-3a7ed8cef16b",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"03efed61-67b0-46e5-8d12-76297af4c279\",\"target\":\"fc2bd270-acb4-469a-9607-a8a7901fb4cf\"}",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4wU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "2316f059-57d6-4c31-a3f4-fe7af138eebf",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"6c388a6b-9d87-4d53-a2ad-f02e6e85dd9c\",\"target\":\"fc2bd270-acb4-469a-9607-a8a7901fb4cf\"}",
+              "TaoLuc": "2026-11-14T08:43:45+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4wg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "EXEC dbo.usp_GuiDeXuatLop @LienHeId=@p0,@GiaSuId=@p1,@TenLop=@p2,@MonHocId=@p3,@MucTieu=@p4,@SoBuoiTuan=@p5,@ThoiLuongPhut=@p6,@BatDauHocLuc=@p7,@HinhThucHoc=@p8,@HocPhi=@p9,@DonViHocPhi=@p10,@KhungGioJson=@p11,@DiaDiem=@p12,@NhuCauId=@p13,@YeuCauId=@p14,@RowVersionCu=@RowVersionValue"
+        ],
+        "sqlErrorNumbers": [
+          51131
+        ],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_050",
+      "duration": "00:00:01.2448621"
+    },
+    {
+      "id": "IT-051",
+      "title": "Sửa đề xuất RV cũ",
+      "criterion": "Đúng đắn",
+      "endpoint": "POST /KetNoi/KetNoi/DeXuat",
+      "conditions": "YeuCauId đã có; RowVersion cũ; lịch mới.",
+      "expectedHttp": "Lỗi phiên bản; form AJAX không báo ok=true.",
+      "expectedDatabase": "Không xóa/ghi đè khung cũ; SQL 51139 được ánh xạ.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-051; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: YeuCauId đã có; RowVersion cũ; lịch mới. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/DeXuat. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Lỗi phiên bản; form AJAX không báo ok=true. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không xóa/ghi đè khung cũ; SQL 51139 được ánh xạ. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Dùng service/SQL thật tạo đề xuất v1, giữ RV1; cập nhật v2 và hai khung bằng RV1; HTTP gửi lại RV1, tên/lịch khác. Kiểm toàn bộ bản v2 và khung giữ nguyên; interceptor phải thu SqlException 51139.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 422 JSON lỗi phiên bản; SQL51139 thật. Gửi RowVersion từ lần lưu thứ nhất sau khi lần thứ hai đã cập nhật; yêu cầu, RowVersion và hai khung hiện tại giữ nguyên.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-051",
+        "tag": "IT0203IT_f421b2dd07294d6ab37230835a8ea6eb",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+          "PH": "7842b431-9bcd-4482-b3a8-5eded98149b6",
+          "GS": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+          "HS2": "492c71fa-dad5-46cf-ac9e-d7f583da7c3e"
+        },
+        "ownedUsers": [
+          "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+          "7842b431-9bcd-4482-b3a8-5eded98149b6",
+          "946255b6-9897-4aa5-b20e-73da29e73cbd",
+          "492c71fa-dad5-46cf-ac9e-d7f583da7c3e"
+        ],
+        "subjects": [
+          224,
+          225
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "requestId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+        "staleVersion": "AAAAAAAA4tA=",
+        "currentVersion": "AAAAAAAA4tQ=",
+        "contactId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+        "needId": "ad0981c2-816b-4114-bb7e-4593dcd4f7a1",
+        "before": {
+          "Contacts": [
+            {
+              "Id": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "NguoiGuiId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:39+00:00",
+              "NguoiPhanHoiId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "PhanHoiLuc": "2026-11-14T08:43:39+00:00",
+              "RowVersion": "AAAAAAAA4sI="
+            }
+          ],
+          "Requests": [
+            {
+              "Id": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "NguoiGuiId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "NhuCauId": "ad0981c2-816b-4114-bb7e-4593dcd4f7a1",
+              "LoiNhan": null,
+              "TrangThai": "ChoBenHoc",
+              "GuiLuc": "2026-11-14T08:43:39+00:00",
+              "HetHanLuc": "2026-11-17T08:43:39+00:00",
+              "TenLopDuKien": "Phiên bản mới fixture",
+              "MonHocId": 224,
+              "MucTieu": "Ôn Toán lớp 8",
+              "SoBuoiTuan": 2,
+              "ThoiLuongPhut": 60,
+              "BatDauHocLuc": "2026-11-17T19:00:00+07:00",
+              "HinhThucHoc": "TrucTuyen",
+              "DiaDiem": null,
+              "HocPhi": 150000.0,
+              "RowVersion": "AAAAAAAA4tQ=",
+              "DonViHocPhi": "VND/Gio",
+              "LienHeId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NguoiDeXuatId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "DeXuatLuc": "2026-11-14T08:43:39+00:00"
+            }
+          ],
+          "Slots": [
+            {
+              "Id": "4ca2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "18:00:00",
+              "GioKetThuc": "19:00:00"
+            },
+            {
+              "Id": "4da2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "18:00:00",
+              "GioKetThuc": "19:00:00"
+            }
+          ],
+          "Rooms": [
+            {
+              "Id": "4a6cdc12-24c9-45de-96fa-5a18c650174b",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "LienHeId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "373a2d0c-6554-4d09-9c29-01848d914d93",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "NoiDungTomTat": "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "fbd6285b-4d23-4fd8-b461-af076587a408"
+            },
+            {
+              "Id": "b03d93f0-0ea7-4493-840f-0627f63e69bc",
+              "NguoiNhanId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NoiDungTomTat": "IT0203IT_f421b2dd07294d6ab37230835a8ea6eb HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "c1785cfc-7829-4bb7-b1b3-cbe93dd6cb5a"
+            },
+            {
+              "Id": "9cbf7ce3-2ba2-420b-8ed0-429b7511c02a",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "NoiDungTomTat": "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "624db25c-8e70-48cc-9165-7a2caa6909e8"
+            },
+            {
+              "Id": "322e883d-6c24-4248-85ce-cb6ed0ac5ef8",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NoiDungTomTat": "IT0203IT_f421b2dd07294d6ab37230835a8ea6eb GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "651f3293-6db5-4b9a-99d5-f963d4f03c21"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "624db25c-8e70-48cc-9165-7a2caa6909e8",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"6bb8540f-2be1-4c1d-9016-37bfedfd27ff\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4tM=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "fbd6285b-4d23-4fd8-b461-af076587a408",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"6bb8540f-2be1-4c1d-9016-37bfedfd27ff\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4tU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "c1785cfc-7829-4bb7-b1b3-cbe93dd6cb5a",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"946255b6-9897-4aa5-b20e-73da29e73cbd\",\"target\":\"0bd8a58f-f709-4b7c-9dfb-c0f5254f1945\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4sA=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "651f3293-6db5-4b9a-99d5-f963d4f03c21",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"0bd8a58f-f709-4b7c-9dfb-c0f5254f1945\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4sM=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/DeXuat",
+        "input": {
+          "LienHeId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+          "NhuCauId": "ad0981c2-816b-4114-bb7e-4593dcd4f7a1",
+          "TenLop": "KHÔNG ĐƯỢC GHI ĐÈ",
+          "MonHocId": "224",
+          "MucTieu": "Ôn Toán lớp 8",
+          "SoBuoiTuan": "2",
+          "ThoiLuongPhut": "60",
+          "BatDauHocLuc": "2026-11-17T19:00",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhi": "150000",
+          "DonViHocPhi": "VND/Gio",
+          "LichRanh[0].ThuTrongTuan": "1",
+          "LichRanh[0].GioBatDau": "19:00",
+          "LichRanh[0].GioKetThuc": "20:00",
+          "LichRanh[1].ThuTrongTuan": "3",
+          "LichRanh[1].GioBatDau": "19:00",
+          "LichRanh[1].GioKetThuc": "20:00",
+          "Id": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+          "RowVersion": "AAAAAAAA4tA="
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 \\u0111\\u1ED5i phi\\u00EAn b\\u1EA3n, h\\u1EBFt h\\u1EA1n ho\\u1EB7c kh\\u00F4ng thu\\u1ED9c gia s\\u01B0.\"]}}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "NguoiGuiId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:39+00:00",
+              "NguoiPhanHoiId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "PhanHoiLuc": "2026-11-14T08:43:39+00:00",
+              "RowVersion": "AAAAAAAA4sI="
+            }
+          ],
+          "Requests": [
+            {
+              "Id": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "NguoiGuiId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "NhuCauId": "ad0981c2-816b-4114-bb7e-4593dcd4f7a1",
+              "LoiNhan": null,
+              "TrangThai": "ChoBenHoc",
+              "GuiLuc": "2026-11-14T08:43:39+00:00",
+              "HetHanLuc": "2026-11-17T08:43:39+00:00",
+              "TenLopDuKien": "Phiên bản mới fixture",
+              "MonHocId": 224,
+              "MucTieu": "Ôn Toán lớp 8",
+              "SoBuoiTuan": 2,
+              "ThoiLuongPhut": 60,
+              "BatDauHocLuc": "2026-11-17T19:00:00+07:00",
+              "HinhThucHoc": "TrucTuyen",
+              "DiaDiem": null,
+              "HocPhi": 150000.0,
+              "RowVersion": "AAAAAAAA4tQ=",
+              "DonViHocPhi": "VND/Gio",
+              "LienHeId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NguoiDeXuatId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "DeXuatLuc": "2026-11-14T08:43:39+00:00"
+            }
+          ],
+          "Slots": [
+            {
+              "Id": "4ca2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "ThuTrongTuan": 1,
+              "GioBatDau": "18:00:00",
+              "GioKetThuc": "19:00:00"
+            },
+            {
+              "Id": "4da2487c-07e0-f111-a50f-005056c00003",
+              "YeuCauKetNoiId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "ThuTrongTuan": 3,
+              "GioBatDau": "18:00:00",
+              "GioKetThuc": "19:00:00"
+            }
+          ],
+          "Rooms": [
+            {
+              "Id": "4a6cdc12-24c9-45de-96fa-5a18c650174b",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "BenHocId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "LienHeId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "373a2d0c-6554-4d09-9c29-01848d914d93",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "NoiDungTomTat": "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "fbd6285b-4d23-4fd8-b461-af076587a408"
+            },
+            {
+              "Id": "b03d93f0-0ea7-4493-840f-0627f63e69bc",
+              "NguoiNhanId": "946255b6-9897-4aa5-b20e-73da29e73cbd",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NoiDungTomTat": "IT0203IT_f421b2dd07294d6ab37230835a8ea6eb HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "c1785cfc-7829-4bb7-b1b3-cbe93dd6cb5a"
+            },
+            {
+              "Id": "9cbf7ce3-2ba2-420b-8ed0-429b7511c02a",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "6bb8540f-2be1-4c1d-9016-37bfedfd27ff",
+              "NoiDungTomTat": "Gia sư gửi đề xuất lớp. Hãy xem lại toàn bộ điều kiện trước khi xác nhận.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "624db25c-8e70-48cc-9165-7a2caa6909e8"
+            },
+            {
+              "Id": "322e883d-6c24-4248-85ce-cb6ed0ac5ef8",
+              "NguoiNhanId": "80d066d7-b5f1-4d88-b5b9-b1fcb054f769",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "0bd8a58f-f709-4b7c-9dfb-c0f5254f1945",
+              "NoiDungTomTat": "IT0203IT_f421b2dd07294d6ab37230835a8ea6eb GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "651f3293-6db5-4b9a-99d5-f963d4f03c21"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "624db25c-8e70-48cc-9165-7a2caa6909e8",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"6bb8540f-2be1-4c1d-9016-37bfedfd27ff\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4tM=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "fbd6285b-4d23-4fd8-b461-af076587a408",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"6bb8540f-2be1-4c1d-9016-37bfedfd27ff\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4tU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "c1785cfc-7829-4bb7-b1b3-cbe93dd6cb5a",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"946255b6-9897-4aa5-b20e-73da29e73cbd\",\"target\":\"0bd8a58f-f709-4b7c-9dfb-c0f5254f1945\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4sA=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "651f3293-6db5-4b9a-99d5-f963d4f03c21",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"80d066d7-b5f1-4d88-b5b9-b1fcb054f769\",\"target\":\"0bd8a58f-f709-4b7c-9dfb-c0f5254f1945\"}",
+              "TaoLuc": "2026-11-14T08:43:39+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4sM=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [
+          "EXEC dbo.usp_GuiDeXuatLop @LienHeId=@p0,@GiaSuId=@p1,@TenLop=@p2,@MonHocId=@p3,@MucTieu=@p4,@SoBuoiTuan=@p5,@ThoiLuongPhut=@p6,@BatDauHocLuc=@p7,@HinhThucHoc=@p8,@HocPhi=@p9,@DonViHocPhi=@p10,@KhungGioJson=@p11,@DiaDiem=@p12,@NhuCauId=@p13,@YeuCauId=@p14,@RowVersionCu=@RowVersionValue"
+        ],
+        "sqlErrorNumbers": [
+          51139
+        ],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_051",
+      "duration": "00:00:01.7092689"
+    },
+    {
+      "id": "IT-052",
+      "title": "Bỏ danh sách lịch khỏi form",
+      "criterion": "Đầy đủ",
+      "endpoint": "POST /KetNoi/KetNoi/DeXuat",
+      "conditions": "Không gửi khóa LichRanh[i]; các trường khác đủ.",
+      "expectedHttp": "Lỗi dữ liệu, không dùng lịch mặc định để thành công.",
+      "expectedDatabase": "Không thêm đề xuất/khung.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-052; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Không gửi khóa LichRanh[i]; các trường khác đủ. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/DeXuat. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: Lỗi dữ liệu, không dùng lịch mặc định để thành công. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không thêm đề xuất/khung. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Giữ điều kiện lớp hợp lệ nhưng bỏ toàn bộ khóa LichRanh[i] khỏi form POST.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 422 JSON lỗi cần 1–35 khung giờ; không dùng lịch mặc định để thành công, không gọi procedure tạo đề xuất, dữ liệu trước/sau giữ nguyên.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-052",
+        "tag": "IT0203IT_78e7b5563740472f9ee9dda5d1872280",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+          "PH": "21af7708-dfd1-45de-90fd-1b56a4cc2bcc",
+          "GS": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+          "HS2": "aed1fcf3-1cfd-4cbd-a208-a0f488c9c230"
+        },
+        "ownedUsers": [
+          "5329d709-1ac8-40d1-9b84-7575f73bf594",
+          "21af7708-dfd1-45de-90fd-1b56a4cc2bcc",
+          "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+          "aed1fcf3-1cfd-4cbd-a208-a0f488c9c230"
+        ],
+        "subjects": [
+          222,
+          223
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+        "needId": "a22407fc-a472-4797-9787-b7fe91b44d93",
+        "before": {
+          "Contacts": [
+            {
+              "Id": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "GiaSuId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "BenHocId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "NguoiGuiId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:37+00:00",
+              "NguoiPhanHoiId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "PhanHoiLuc": "2026-11-14T08:43:37+00:00",
+              "RowVersion": "AAAAAAAA4rc="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "c4f46cd6-7d25-4c18-93aa-b5dd0afd352d",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "BenHocId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "LienHeId": "718498fd-e8c5-4bbd-8b62-3541a4b03533"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "d4035b64-014e-4cf6-a007-215575c4aab4",
+              "NguoiNhanId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "NoiDungTomTat": "IT0203IT_78e7b5563740472f9ee9dda5d1872280 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "7fc6e638-29d1-427f-a36c-766cf3be5617"
+            },
+            {
+              "Id": "0408e82c-7548-460d-973a-3f9a3fb3433d",
+              "NguoiNhanId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "NoiDungTomTat": "IT0203IT_78e7b5563740472f9ee9dda5d1872280 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "17bb51ce-3d02-4216-9f8b-cea062bb9667"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "7fc6e638-29d1-427f-a36c-766cf3be5617",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"5329d709-1ac8-40d1-9b84-7575f73bf594\",\"target\":\"718498fd-e8c5-4bbd-8b62-3541a4b03533\"}",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4rg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "17bb51ce-3d02-4216-9f8b-cea062bb9667",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"118cb20c-7363-4d05-b7c7-7fb240846bcf\",\"target\":\"718498fd-e8c5-4bbd-8b62-3541a4b03533\"}",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4rU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "requestPath": "/KetNoi/KetNoi/DeXuat",
+        "input": {
+          "LienHeId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+          "NhuCauId": "a22407fc-a472-4797-9787-b7fe91b44d93",
+          "TenLop": "Toán tích hợp IT-052",
+          "MonHocId": "222",
+          "MucTieu": "Ôn Toán lớp 8",
+          "SoBuoiTuan": "2",
+          "ThoiLuongPhut": "60",
+          "BatDauHocLuc": "2026-11-17T19:00",
+          "HinhThucHoc": "TrucTuyen",
+          "HocPhi": "150000",
+          "DonViHocPhi": "VND/Gio"
+        },
+        "http": {
+          "status": 422,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\",\"errors\":{\"\":[\"C\\u1EA7n t\\u1EEB 1 \\u0111\\u1EBFn 35 khung gi\\u1EDD.\"]}}"
+        },
+        "after": {
+          "Contacts": [
+            {
+              "Id": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "GiaSuId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "BenHocId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "NguoiGuiId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LoiNhan": "Liên hệ fixture",
+              "TrangThai": "ChapNhan",
+              "GuiLuc": "2026-11-14T08:43:37+00:00",
+              "NguoiPhanHoiId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "PhanHoiLuc": "2026-11-14T08:43:37+00:00",
+              "RowVersion": "AAAAAAAA4rc="
+            }
+          ],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [
+            {
+              "Id": "c4f46cd6-7d25-4c18-93aa-b5dd0afd352d",
+              "LoaiHoiThoai": "TruocKetNoi",
+              "GiaSuId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "BenHocId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LopHocId": null,
+              "HoiThoaiTruocKetNoiId": null,
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "LienHeId": "718498fd-e8c5-4bbd-8b62-3541a4b03533"
+            }
+          ],
+          "Classes": [],
+          "Notices": [
+            {
+              "Id": "d4035b64-014e-4cf6-a007-215575c4aab4",
+              "NguoiNhanId": "5329d709-1ac8-40d1-9b84-7575f73bf594",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "NoiDungTomTat": "IT0203IT_78e7b5563740472f9ee9dda5d1872280 GS-A: Đã chấp nhận liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "7fc6e638-29d1-427f-a36c-766cf3be5617"
+            },
+            {
+              "Id": "0408e82c-7548-460d-973a-3f9a3fb3433d",
+              "NguoiNhanId": "118cb20c-7363-4d05-b7c7-7fb240846bcf",
+              "LoaiThongBao": "KetNoi",
+              "DoiTuongId": "718498fd-e8c5-4bbd-8b62-3541a4b03533",
+              "NoiDungTomTat": "IT0203IT_78e7b5563740472f9ee9dda5d1872280 HS-A gửi yêu cầu liên hệ.",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "DaDocLuc": null,
+              "MaSuKien": "17bb51ce-3d02-4216-9f8b-cea062bb9667"
+            }
+          ],
+          "Events": [
+            {
+              "Id": "7fc6e638-29d1-427f-a36c-766cf3be5617",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"5329d709-1ac8-40d1-9b84-7575f73bf594\",\"target\":\"718498fd-e8c5-4bbd-8b62-3541a4b03533\"}",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4rg=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            },
+            {
+              "Id": "17bb51ce-3d02-4216-9f8b-cea062bb9667",
+              "LoaiSuKien": "KetNoi",
+              "DuLieuToiThieu": "{\"recipient\":\"118cb20c-7363-4d05-b7c7-7fb240846bcf\",\"target\":\"718498fd-e8c5-4bbd-8b62-3541a4b03533\"}",
+              "TaoLuc": "2026-11-14T08:43:37+00:00",
+              "TrangThai": "ChoXuLy",
+              "SoLanThu": 0,
+              "ThuLaiLuc": null,
+              "XuLyXongLuc": null,
+              "RowVersion": "AAAAAAAA4rU=",
+              "LeaseId": null,
+              "LeaseHetHanLuc": null
+            }
+          ]
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_052",
+      "duration": "00:00:01.1976783"
+    },
+    {
+      "id": "IT-053",
+      "title": "Không đăng nhập gọi thao tác ghi",
+      "criterion": "Xác thực",
+      "endpoint": "POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "Không gửi cookie phiên; lấy token antiforgery hợp lệ từ trang công khai nếu cần.",
+      "expectedHttp": "AJAX 401; không chuyển HTML đăng nhập.",
+      "expectedDatabase": "Không đổi dữ liệu nghiệp vụ mục tiêu. Nhật ký an toàn từ chối có thể được thêm.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-053; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Không gửi cookie phiên; lấy token antiforgery hợp lệ từ trang công khai nếu cần. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: AJAX 401; không chuyển HTML đăng nhập. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không đổi dữ liệu nghiệp vụ mục tiêu. Nhật ký an toàn từ chối có thể được thêm. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Client anonymous lấy token công khai; POST AJAX không cookie phiên.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "AJAX HTTP 401, không Location và không HTML đăng nhập; dữ liệu nghiệp vụ giữ nguyên. Token lấy từ trang đăng nhập bằng client anonymous.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-053",
+        "tag": "IT0203IT_2b15bb6d57bf4ec6a45661df000b71a0",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "8ba5230b-74ea-4098-861f-80ea67cc2153",
+          "PH": "e49ceb36-899a-4c08-bd53-a9bdfac58a39",
+          "GS": "bd44e0cb-8dc3-4165-87ea-78f2e853a1e3",
+          "HS2": "90be47d7-245a-49e7-9abd-41bcd431677e"
+        },
+        "ownedUsers": [
+          "8ba5230b-74ea-4098-861f-80ea67cc2153",
+          "e49ceb36-899a-4c08-bd53-a9bdfac58a39",
+          "bd44e0cb-8dc3-4165-87ea-78f2e853a1e3",
+          "90be47d7-245a-49e7-9abd-41bcd431677e"
+        ],
+        "subjects": [
+          241,
+          242
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiLienHe",
+        "input": {
+          "DoiTuongId": "bd44e0cb-8dc3-4165-87ea-78f2e853a1e3",
+          "LoiNhan": " Xin học "
+        },
+        "http": {
+          "status": 401,
+          "location": null,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"ok\":false,\"message\":\"Phiên đã hết hạn. Vui lòng đăng nhập lại.\"}"
+        },
+        "after": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_053",
+      "duration": "00:00:00.6535454"
+    },
+    {
+      "id": "IT-054",
+      "title": "Thiếu antiforgery token",
+      "criterion": "Xác thực",
+      "endpoint": "POST /KetNoi/KetNoi/GuiLienHe",
+      "conditions": "Đăng nhập đúng quyền; bỏ __RequestVerificationToken/header token, giữ cookie.",
+      "expectedHttp": "HTTP 400 do antiforgery; không yêu cầu JSON theo schema của action.",
+      "expectedDatabase": "Không thay đổi dữ liệu nghiệp vụ.",
+      "sqlTemplate": "SELECT * FROM dbo.[YeuCauLienHe] WHERE Id=@Contact; SELECT * FROM dbo.[YeuCauKetNoiLopHoc] WHERE LienHeId=@Contact; SELECT * FROM dbo.[KhungGioDeXuat] WHERE YeuCauKetNoiId=@Request; SELECT * FROM dbo.[CuocHoiThoai] WHERE LienHeId=@Contact;",
+      "stepsFromWorkbook": "B1. Khởi tạo fixture cho ca IT-054; đối chiếu SELECT DB_NAME(), @@SERVERNAME; ghi phiên bản app và SHA-256 nguồn SQL. B2. G và H hoạt động; hồ sơ G công khai; LH1 liên hệ mới/chấp nhận theo ca; N1 nhu cầu H; đề xuất nền: Toán, 2 buổi, 60 phút, start tương lai, 150000 VND/Gio, hai khung. Đọc trạng thái ban đầu bằng truy vấn cột SQL; lưu số dòng, RowVersion và các ID liên quan. B3. Thiết lập điều kiện riêng: Đăng nhập đúng quyền; bỏ __RequestVerificationToken/header token, giữ cookie. B4. Tạo HttpClient riêng cho đúng tài khoản, AllowAutoRedirect=false. Ca đăng ký/đăng nhập/quên hoặc đặt lại mật khẩu và ca kiểm tra chưa đăng nhập dùng client anonymous. Các ca nghiệp vụ còn lại đăng nhập thật bằng Identity/cookie và phiên SQL. GET form cùng client để lấy cookie antiforgery và __RequestVerificationToken. B5. Gửi POST /KetNoi/KetNoi/GuiLienHe. Nếu cột phản hồi/ghi chú yêu cầu form thường thì KHÔNG thêm header AJAX; các POST khác thêm X-Requested-With: XMLHttpRequest; dùng form-urlencoded đúng tên tham số, multipart cho tệp. Đưa dữ liệu cột Đầu vào vào request; bỏ token/cookie chỉ khi ca yêu cầu. B6. Thu status, Content-Type, Location hoặc JSON/body trước khi theo redirect. Đối chiếu: HTTP 400 do antiforgery; không yêu cầu JSON theo schema của action. B7. Mở DI scope/DbContext AsNoTracking hoặc connection mới sau request để chạy SQL cột kiểm tra. Đối chiếu: Không thay đổi dữ liệu nghiệp vụ. B8. Đối chiếu cả dữ liệu phải đổi và dữ liệu không được đổi; kiểm tra lỗi không sinh bản ghi mồ côi hoặc duplicate. Với outbox, chờ có giới hạn và đọc lại, không sleep tùy ý rồi kết luận. B9. Ghi actual status/body/SQL trước–sau, thời gian, test name và TRX; chỉ đánh Đạt sau assertions. Reset database fixture/snapshot và tệp test theo thứ tự FK. Không trông chờ rollback transaction của test để hủy HTTP request đã commit.",
+      "stepsExecuted": [
+        "Đối chiếu DB_NAME/@@SERVERNAME; tạo fixture có tag và bốn tài khoản hoạt động, môn/hồ sơ đủ điều kiện; service dùng SQL thật để chuẩn bị khi cần.",
+        "Chụp Contacts/Requests/Slots/Rooms/Classes/Notices/Events qua DbContext mới AsNoTracking trước thao tác.",
+        "Tạo HttpClient riêng AllowAutoRedirect=false; đăng nhập qua Identity/cookie và phiên SQL thật, trừ IT-053 anonymous. GET form cùng client để lấy antiforgery, trừ IT-054.",
+        "Client đăng nhập H thật; POST AJAX không __RequestVerificationToken, giữ cookie.",
+        "Thu status, Content-Type, Location hoặc JSON/body trước redirect; so với phản hồi kỳ vọng.",
+        "Mở DbContext mới đọc lại dữ liệu nghiệp vụ, so cả bản ghi phải đổi và không được đổi; kiểm số lượng, ID, RowVersion, thông báo/outbox hoặc lỗi SQL theo ca.",
+        "Dừng host kiểm thử, xóa đúng ID fixture theo thứ tự khóa ngoại; xóa khung trước yêu cầu lớp. Lưu quan sát và TRX, không xóa dữ liệu ngoài fixture."
+      ],
+      "outcome": "Passed",
+      "actual": "HTTP 400 do antiforgery; giữ cookie đăng nhập nhưng bỏ token. Không thêm hoặc thay đổi dữ liệu nghiệp vụ; không áp đặt JSON của action.",
+      "failure": null,
+      "differences": [],
+      "observation": {
+        "caseId": "IT-054",
+        "tag": "IT0203IT_9885dec25998441d9c5d1626bb3181ac",
+        "database": "EduConnect_Verification_IT0203",
+        "actors": {
+          "HS": "11141906-f8d8-4cdb-8d08-cf116e467536",
+          "PH": "178c3ed8-4ab4-46f0-bb2d-f188ed7d8f72",
+          "GS": "e85af166-4415-41ad-b8fa-387985cfe411",
+          "HS2": "958851dc-8252-46ae-a22a-c993de2df37e"
+        },
+        "ownedUsers": [
+          "11141906-f8d8-4cdb-8d08-cf116e467536",
+          "178c3ed8-4ab4-46f0-bb2d-f188ed7d8f72",
+          "e85af166-4415-41ad-b8fa-387985cfe411",
+          "958851dc-8252-46ae-a22a-c993de2df37e"
+        ],
+        "subjects": [
+          226,
+          227
+        ],
+        "serverDatabase": "EduConnect_Verification_IT0203|LAPTOP-3L2V1AFT\\SQLEXPRESS",
+        "contactId": null,
+        "needId": null,
+        "before": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "requestPath": "/KetNoi/KetNoi/GuiLienHe",
+        "input": {
+          "DoiTuongId": "e85af166-4415-41ad-b8fa-387985cfe411",
+          "LoiNhan": " Xin học "
+        },
+        "http": {
+          "status": 400,
+          "location": null,
+          "contentType": null,
+          "body": ""
+        },
+        "after": {
+          "Contacts": [],
+          "Requests": [],
+          "Slots": [],
+          "Rooms": [],
+          "Classes": [],
+          "Notices": [],
+          "Events": []
+        },
+        "sqlCommands": [],
+        "sqlErrorNumbers": [],
+        "cleanup": "Đã dọn fixture theo đúng Id sở hữu; không xóa dữ liệu ngoài ca.",
+        "assertionDifferences": [],
+        "exception": null
+      },
+      "testName": "Integration0203Tests.IT_054",
+      "duration": "00:00:00.9972904"
+    }
+  ]
+}

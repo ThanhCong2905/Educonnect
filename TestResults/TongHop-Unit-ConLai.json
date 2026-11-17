@@ -1,0 +1,79 @@
+{
+  "groups": [
+    {
+      "group": 10,
+      "sheet": "10. Thành phần dùng chung",
+      "folder": "10-ThanhPhan-DungChung-Unit",
+      "counts": {
+        "Passed": 10,
+        "Failed": 7
+      },
+      "contractFails": 5
+    },
+    {
+      "group": 11,
+      "sheet": "11. Phản hồi và đánh giá",
+      "folder": "11-PhanHoi-DanhGia-Unit",
+      "counts": {
+        "Passed": 3,
+        "Failed": 2
+      },
+      "contractFails": 1
+    },
+    {
+      "group": 12,
+      "sheet": "12. Trao đổi và nhắn tin",
+      "folder": "12-TraoDoi-TinNhan-Unit",
+      "counts": {
+        "Passed": 7,
+        "Failed": 1
+      },
+      "contractFails": 0
+    },
+    {
+      "group": 13,
+      "sheet": "13. Quản trị hệ thống",
+      "folder": "13-QuanTri-HeThong-Unit",
+      "counts": {
+        "Failed": 7,
+        "Passed": 11
+      },
+      "contractFails": 2
+    },
+    {
+      "group": 14,
+      "sheet": "14. Tài khoản và hồ sơ",
+      "folder": "14-TaiKhoan-HoSo-Unit",
+      "counts": {
+        "Passed": 10,
+        "Failed": 13
+      },
+      "contractFails": 10
+    }
+  ],
+  "newCounts": {
+    "Passed": 41,
+    "Failed": 30
+  },
+  "regression": {
+    "total": 328,
+    "counts": {
+      "Passed": 183,
+      "Failed": 142,
+      "NotExecuted": 3
+    },
+    "comparedOldCases": 257,
+    "changedOldCases": [],
+    "oldSkipped": [
+      "UT-020",
+      "UT-028",
+      "UT-064"
+    ]
+  },
+  "runTimes": {
+    "creation": "2026-11-14T15:03:18.1078693+07:00",
+    "queuing": "2026-11-14T15:03:18.1078694+07:00",
+    "start": "2026-11-14T15:03:17.1423199+07:00",
+    "finish": "2026-11-14T15:03:19.2396297+07:00"
+  }
+}
