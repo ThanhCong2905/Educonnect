@@ -93,12 +93,13 @@
             <p class="muted">@Rules.Label(Model.Lop.HinhThucHoc) · @item.TrangThai</p>
             <div class="lesson-preview-actions">
                 <a class="btn btn-primary" href="@Url.Action("Buoi", "LichHoc", new { id = item.Lich.Id })">Chi tiết buổi học</a>
-                @if (canChange || canRest)
+                @if (canChange || canRest || tutor && active && item.Buoi?.TrangThai == "DaNghi" && item.Buoi.CanHocBu)
                 {
                     <div class="dropdown">
                         <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Thao tác buổi học">•••</button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             @if (canChange) { <li><a data-modal class="dropdown-item" href="@Url.Action("Sua", "LichHoc", new { id = item.Lich.Id })">Điều chỉnh lịch</a></li> }
+                            @if(tutor && active && item.Buoi?.TrangThai == "DaNghi" && item.Buoi.CanHocBu){<li><a data-modal class="dropdown-item" href="@Url.Action("Sua", "LichHoc", new { id = item.Lich.Id })">Xếp lịch bù</a></li>}
                             @if (canRest) { <li><a data-modal class="dropdown-item" href="@Url.Action("Nghi", "LichHoc", new { id = item.Lich.Id })">Thông báo nghỉ</a></li> }
                         </ul>
                     </div>

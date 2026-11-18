@@ -46,7 +46,7 @@
     @if(chats.TryGetValue(contact.Id,out var chat)){<a class="btn btn-outline-primary" href="/HocTap/TinNhan/Index?id=@chat">Nhắn tin</a>}
     @if(connected!=null){<a class="btn btn-primary" asp-area="HocTap" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@connected.Id">Vào lớp học</a>}
     else if(pending!=null){<a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@pending.Id">Xem yêu cầu đang chờ</a>}
-    else{<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}
+    else if(me.LoaiNguoi=="GiaSu"){<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@contact.Id">Đề xuất lớp học</a>}else{<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#connection-request-modal" data-contact-id="@contact.Id" data-contact-name="@other?.HoTen">Gửi nhu cầu học</button>}
    </div>
   }else{<p class="muted">@(contact.TrangThai=="DaRut"?"Lời mời đã được rút.":"Lời mời này đã được xử lý.")</p>}
   </div>
@@ -62,7 +62,8 @@
    <p class="muted">Trao đổi với <strong data-contact-recipient></strong> về nhu cầu và điều kiện học của bạn.</p>
    <form method="post" asp-action="GuiYeuCau">
     <input name="LienHeId" type="hidden">
-    <label>Nhu cầu học<select class="form-select" name="NhuCauId"><option value="">Chưa gắn nhu cầu</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id">@string.Join(", ", subjects.Where(s=>need.CacMonHocId.Contains(s.Id)).Select(s=>s.TenMon)) · @need.KhoiLop · @need.MucTieu</option>}</select></label>
+    <label>Nhu cầu học<select class="form-select" name="NhuCauId" data-request-need required><option value="">Chọn nhu cầu của bạn</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id" data-goal="@need.MucTieu">@string.Join(", ", subjects.Where(s=>need.CacMonHocId.Contains(s.Id)).Select(s=>s.TenMon)) · @need.KhoiLop · @Rules.Date(need.TaoLuc)</option>}</select></label>
+    <div class="soft" data-request-preview hidden><strong>Mục tiêu học tập</strong><p class="mb-0" data-request-goal></p></div>
     <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" placeholder="Môn học, lịch mong muốn và những điều bạn muốn trao đổi"></textarea></label>
     <div class="actions"><button class="btn btn-primary">Gửi yêu cầu</button><button class="btn quiet" type="button" data-bs-dismiss="modal">Để sau</button></div>
    </form>

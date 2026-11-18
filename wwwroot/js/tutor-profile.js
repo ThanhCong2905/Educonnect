@@ -54,12 +54,19 @@
   }
   if(event.target.matches('[data-subject-select]'))custom(event.target);
   if(event.target.form?.hasAttribute('data-tutor-profile'))evidenceVisibility(event.target.form);
+  if(event.target.matches('[data-request-need]')){
+   const preview=event.target.form?.querySelector('[data-request-preview]');
+   if(preview){
+    preview.hidden=!event.target.value;
+    preview.querySelector('[data-request-goal]').textContent=event.target.selectedOptions[0]?.dataset.goal||'';
+   }
+  }
   if(event.target.matches('[data-proposal-need]')){
    const option=event.target.selectedOptions[0],form=event.target.form;
    if(!option?.value||!form)return;
-   for(const [name,key] of [['MucTieu','goal'],['SoBuoiTuan','sessions'],['HinhThucHoc','mode'],['DiaDiem','address']]){
+   for(const [name,key] of [['TenNguoiHoc','learner'],['MonHocId','subject'],['MucTieu','goal'],['SoBuoiTuan','sessions'],['HinhThucHoc','mode'],['DiaDiem','address']]){
     const input=form.elements.namedItem(name);
-    if(input&&option.dataset[key]!=null){input.value=option.dataset[key];input.dispatchEvent(new Event('change',{bubbles:true}));}
+    if(input&&option.dataset[key]!=null&&(key!=='learner'||option.dataset[key])){input.value=option.dataset[key];input.dispatchEvent(new Event('change',{bubbles:true}));}
    }
   }
  });

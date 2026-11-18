@@ -27,27 +27,34 @@
         }
     </div>
 </div>
+<div class="lesson-workspace">
 <article class="card lesson-summary">
-    <span class="badge rounded-pill align-self-start">@SuKienLichViewModel.TrangThaiBuoi(s, b, DateTimeOffset.UtcNow)</span>
+    @{var lessonStatus = SuKienLichViewModel.TrangThaiBuoi(s, b, DateTimeOffset.UtcNow);}
+    <span class="badge rounded-pill align-self-start event-@(new SuKienLichViewModel { Lich = s, TrangThai = lessonStatus }.Kieu)">@lessonStatus</span>
+    <h2>Thông tin buổi học</h2>
+    <dl class="lesson-facts"><div><dt>Lớp học</dt><dd>@c.TenLop</dd></div><div><dt>Người học</dt><dd>@c.TenNguoiHoc</dd></div><div><dt>Hình thức</dt><dd>@Rules.Label(c.HinhThucHoc)</dd></div></dl>
     @if (s.LichGocId != null)
     {
         <div class="mt-3"><a class="btn btn-outline-primary" asp-action="Buoi" asp-route-id="@s.LichGocId">@(s.LaBuoiBu ? "Xem buổi nghỉ gốc" : "Xem lịch gốc")</a></div>
     }
     @if (b?.GhiNhanLuc != null)
     {
-        <h2 class="mt-3">Nội dung giảng dạy</h2><p class="pre">@b.NoiDungGiangDay</p>
-        <h3>Nhận xét / lý do</h3><p class="pre">@b.NhanXet</p><small>Cập nhật @Rules.Date(b.CapNhatLuc)</small>
+        <h2 class="mt-3">Nội dung buổi học</h2><p class="pre">@b.NoiDungGiangDay</p>
+        @if(!string.IsNullOrWhiteSpace(b.NhanXet)){<h3>@(b.KetQuaBuoiHoc=="KhongDienRa"?"Lý do không diễn ra":"Nhận xét")</h3><p class="pre">@b.NhanXet</p>}<small>Cập nhật @Rules.Date(b.CapNhatLuc)</small>
     }
-    else { <p class="muted mt-3 mb-0">Chưa có ghi nhận sau buổi học.</p> }
+
 </article>
 @if (canManage && s.TrangThai == "DaLenLich" && s.KetThucLuc <= DateTimeOffset.UtcNow)
 {
-    <details class="card lesson-record" open="@(b?.GhiNhanLuc == null || !ViewData.ModelState.IsValid)">
+    <details class="card lesson-record" open>
         <summary>@(b?.GhiNhanLuc == null ? "Ghi nhận buổi học" : "Sửa ghi nhận")</summary>
-        <form asp-action="GhiNhan" method="post" class="form-wide">
+        <form data-lesson-record asp-action="GhiNhan" method="post" class="form-wide">
             <div asp-validation-summary="All" class="validation" role="alert"></div>
             <input asp-for="LichHocId" type="hidden"><input asp-for="RowVersion" type="hidden">
-            <label>Kết quả<select class="form-select" asp-for="KetQuaBuoiHoc"><option value="DaDienRa">Đã diễn ra</option><option value="KhongDienRa">Không diễn ra</option></select></label>
+            <fieldset class="lesson-outcome"><legend>Kết quả buổi học</legend>
+                <label><input type="radio" asp-for="KetQuaBuoiHoc" value="DaDienRa">Đã diễn ra</label>
+                <label><input type="radio" asp-for="KetQuaBuoiHoc" value="KhongDienRa">Không diễn ra</label>
+            </fieldset>
             <div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
                 @foreach (var item in new[] { ("TrangThaiGiaSu", "Gia sư", Model.TrangThaiGiaSu), ("TrangThaiBenHoc", "Bên học", Model.TrangThaiBenHoc) })
                 {
@@ -57,13 +64,14 @@
                     </select></label>
                 }
             </div>
-            <label>Nội dung giảng dạy<textarea class="form-control" asp-for="NoiDung" maxlength="10000" rows="4"></textarea><span asp-validation-for="NoiDung"></span></label>
-            <label>Nhận xét / lý do không diễn ra<textarea class="form-control" asp-for="NhanXet" required maxlength="2000" rows="3"></textarea><span asp-validation-for="NhanXet"></span></label>
-            <label class="check"><input asp-for="CanHocBu" type="checkbox">Cần học bù nếu buổi không diễn ra</label>
+            <label>Nội dung buổi học<textarea class="form-control" asp-for="NoiDung" maxlength="10000" rows="4"></textarea><span asp-validation-for="NoiDung"></span></label>
+            <label><span data-record-comment-label>Nhận xét</span><textarea class="form-control" asp-for="NhanXet" maxlength="2000" rows="3"></textarea><span asp-validation-for="NhanXet"></span></label>
+            <label class="check" data-record-rest><input asp-for="CanHocBu" type="checkbox">Cần học bù</label>
             <button class="btn btn-primary justify-self-start">Lưu ghi nhận</button>
         </form>
     </details>
 }
+</div>
 @if (b != null) { @await Html.PartialAsync("_BuoiHoatDong", b) }
 @if (ViewBag.ScheduleHistory is List<LichSuDieuChinhLich> changes && changes.Count > 0)
 {

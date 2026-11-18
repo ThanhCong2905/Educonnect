@@ -1,0 +1,7 @@
+@model string
+@{ var classes = Model == "lophoc"; ViewData["Title"] = classes ? "Lớp học" : "Liên hệ & kết nối"; }
+<h1>@ViewData["Title"]</h1>
+<section class="card guest-signin-prompt">
+    <p>@(classes ? "Đăng nhập để xem lớp học của bạn." : "Đăng nhập để gửi yêu cầu liên hệ.")</p>
+    <div class="actions"><a class="btn btn-primary" asp-controller="TaiKhoan" asp-action="DangNhap" asp-route-returnUrl="@(classes ? "/HocTap/LopHoc/Index" : "/KetNoi/KetNoi/LienHe")">Đăng nhập</a></div>
+</section>

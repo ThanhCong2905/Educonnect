@@ -1,15 +1,19 @@
 @model TaoBaoCaoViewModel
 @{ViewData["Title"]="Báo cáo vi phạm";}
 <h1>Báo cáo vi phạm</h1>
-<form method="post" enctype="multipart/form-data" class="card">
+<div class="report-workspace">
+<form method="post" enctype="multipart/form-data" class="card report-form">
     <div asp-validation-summary="All" class="validation" role="alert"></div>
     <input asp-for="MaThaoTac" type="hidden"><input asp-for="LoaiDoiTuong" type="hidden"><input asp-for="DoiTuongId" type="hidden">
     <label asp-for="LyDo">Lý do báo cáo <span class="required-mark" aria-hidden="true">*</span></label>
     <input asp-for="LyDo" class="form-control" maxlength="2000" required><span asp-validation-for="LyDo"></span>
-    <label asp-for="MoTa" class="mt-3">Nội dung cần xem xét <span class="required-mark" aria-hidden="true">*</span></label>
-    <textarea asp-for="MoTa" class="form-control" rows="6" minlength="10" maxlength="4000" required></textarea><span asp-validation-for="MoTa"></span>
+    <label asp-for="MoTa" class="mt-3">Mô tả <span class="required-mark" aria-hidden="true">*</span></label>
+    <textarea asp-for="MoTa" class="form-control" rows="5" minlength="10" maxlength="4000" required></textarea><span asp-validation-for="MoTa"></span>
     <label asp-for="Files" class="mt-3">Bằng chứng đính kèm</label>
-    <input asp-for="Files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx" class="form-control">
-    <p class="muted mt-2">Tối đa 5 tệp, mỗi tệp 10 MB. Bằng chứng chỉ dành cho người gửi và quản trị có quyền xử lý.</p>
-    <button class="btn btn-primary align-self-start mt-3">Gửi báo cáo</button>
+    <div data-file-picker><label class="report-upload"><img src="/images/ui/journal-plus.svg" alt=""><span>Thêm ảnh hoặc tệp</span><input asp-for="Files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx"></label><ul data-file-selection></ul></div>
+    <p class="muted mt-2">Tối đa 5 tệp · 10 MB mỗi tệp</p>
+    <div class="form-footer"><a class="btn btn-outline-primary" asp-action="Index" data-page-back>Quay lại</a><button class="btn btn-primary">Gửi báo cáo</button></div>
 </form>
+
+<aside class="report-context"><section class="card"><h2>Nội dung báo cáo</h2><dl class="lesson-facts"><div><dt>Đối tượng</dt><dd>@Rules.Label(Model.LoaiDoiTuong)</dd></div></dl><p class="muted">Báo cáo được gửi riêng cho quản trị xem xét.</p><a class="btn btn-outline-primary" asp-action="Index">Báo cáo của tôi</a></section></aside>
+</div>

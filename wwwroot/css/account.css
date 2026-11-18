@@ -72,6 +72,8 @@
 .account-card .form-control:focus { border-color: var(--account-primary); box-shadow: 0 0 0 3px #b91e5914; }
 .account-card .input-validation-error { border-color: #b42318; }
 .account-password { position: relative; }
+.account-password input::-ms-reveal,
+.account-password input::-ms-clear { display:none; }
 .account-password .form-control { padding-right: 64px; }
 .password-toggle {
     position: absolute;

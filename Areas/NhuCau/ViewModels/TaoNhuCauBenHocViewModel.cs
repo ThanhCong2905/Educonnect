@@ -41,7 +41,7 @@ public sealed class TaoNhuCauBenHocViewModel
     public static TaoNhuCauBenHocViewModel FromInput(NhuCauInput m) => new()
     {
         MaNhuCau = m.Id, MaThaoTac = m.MaThaoTac, RowVersion = string.IsNullOrEmpty(m.RowVersion) ? null : Rules.Version(m.RowVersion),
-        MonHocIds = [.. m.MonHocIds], MonHocId = m.MonHocIds.FirstOrDefault(), ChonMonKhac = m.ChonMonKhac,
+        MonHocIds = [.. m.MonHocIds], MonHocId = m.MonHocIds.FirstOrDefault(m.MonHocId), ChonMonKhac = m.ChonMonKhac,
         TenMonKhac = m.TenMonKhac, KhoiLop = m.KhoiLop, HocLuc = m.HocLuc, MucTieu = m.MucTieu,
         SoBuoiTuan = m.SoBuoiTuan, HinhThucHoc = m.HinhThucHoc, KhuVuc = m.KhuVuc,
         PhuongXa = m.PhuongXa, DiaChiChiTiet = m.DiaChiChiTiet, HocPhiDuKien = m.HocPhiDuKien, DonViHocPhi = m.DonViHocPhi,

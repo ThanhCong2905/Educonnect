@@ -32,7 +32,7 @@ public class IntegrationTests
         await using var db=new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
         var http=new DefaultHttpContext{Session=new MemorySession()};
         var current=new NguoiDungHienTaiService(db,new HttpContextAccessor{HttpContext=http});
-        var needs=new NhuCauService(db,current,new MonHocCatalog(db));var search=new TimKiemService(db,current);
+        var needs=new NhuCauService(db, current);var search=new TimKiemService(db,current);
         var learner=Guid.NewGuid();var parent=Guid.NewGuid();var tutor=Guid.NewGuid();var profile=Guid.NewGuid();var tag="MT1_"+Guid.NewGuid().ToString("N");
         var proof=new Dictionary<string,object?>{{"caseId",id},{"database",new SqlConnectionStringBuilder(cs).InitialCatalog},{"tag",tag}};
         try

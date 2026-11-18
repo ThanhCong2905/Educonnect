@@ -33,6 +33,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
     {
         ValidateInput();
         var c = await service.ChiTietAsync(id);
+        if (tab == "assignments") return RedirectToAction(nameof(ChiTiet), new { id, tab = "lessons" });
         ViewBag.Tab = tab;
         ViewBag.Month = month;
         ViewBag.State = state;
@@ -45,7 +46,7 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         if (tab == "schedule")
             ViewBag.Week = EduConnect.Mvc.Areas.HocTap.ViewModels.LichTuanViewModel.Tao(c,
                 ViewBag.Schedules, ViewBag.Records, week, DateTimeOffset.UtcNow);
-        ViewBag.Tasks = tab == "assignments" ? await tasks.LayAsync(id) : new List<BaiTapGiao>();
+        ViewBag.Tasks = tab == "lessons" ? (await tasks.LayAsync(id)).Where(x => x.BuoiHocId == null).ToList() : new List<BaiTapGiao>();
         if (tab == "chat") ViewBag.Chat = await chat.TheoLopAsync(id);
         if (tab == "overview")
         {

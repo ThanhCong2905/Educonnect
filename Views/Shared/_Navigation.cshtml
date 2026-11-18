@@ -28,16 +28,16 @@
         }
         else
         {
-            <a href="@(link.Item1 == "/TimKiem/TimKiem/Index" ? "/TimKiem/TimKiem/GiaSu" : link.Item1)" class="@(link.Item4 ? "selected" : "")" aria-current="@(link.Item4 ? "page" : null)"><img src="/images/ui/@(link.Item3).svg" alt="">@link.Item2</a>
+            <a href="@(link.Item1 == "/TimKiem/TimKiem/Index" ? "/TimKiem/TimKiem/GiaSu" : link.Item1)" class="@(link.Item4 ? "selected" : "")" aria-current="@(link.Item4 ? "page" : null)"><img src="/images/ui/@(link.Item3).svg" alt="">@link.Item2@{var badgeKey=link.Item3=="link-45deg"?"connections":link.Item3=="collection"?"classes":"";}@if(badgeKey!=""){<span class="menu-unread" data-menu-unread="@badgeKey" hidden></span>}</a>
         }
         @if (link.Item1 == "/TimKiem/TimKiem/Index" && me.LoaiNguoi is "HocSinh" or "PhuHuynh")
         {
-            <a href="/NhuCau/NhuCau/Index" class="@(area == "NhuCau" && !personal ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Nhu cầu của tôi</a>
+            <a href="/NhuCau/NhuCau/Index" class="@(area == "NhuCau" && !personal ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Nhu cầu của tôi<span class="menu-unread" data-menu-unread="needs" hidden></span></a>
         }
     }
     var reports = area == "QuanTri";
     <details class="nav-group @(reports ? "active" : "")" open="@reports">
-        <summary><img src="/images/ui/flag.svg" alt="">Báo cáo & hỗ trợ</summary>
+        <summary><img src="/images/ui/flag.svg" alt="">Báo cáo & hỗ trợ<span class="menu-unread" data-menu-unread="reports" hidden></span></summary>
         <div class="nav-group-links">
             <a href="/QuanTri/BaoCaoViPham/Index" class="@(reports && action is "Index" or "ChiTiet" ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Báo cáo của tôi</a>
             <a href="/QuanTri/BaoCaoViPham/KiemDuyet" class="@(reports && action is "KiemDuyet" or "KetQua" ? "selected" : "")"><img src="/images/ui/shield-check.svg" alt="">Kết quả kiểm duyệt</a>
@@ -58,7 +58,7 @@ else
                 @if (approve) { <a href="/QuanTri/HoSo/Index" class="@(controller == "HoSo" ? "selected" : "")"><img src="/images/ui/person-badge.svg" alt="">Duyệt hồ sơ</a> }
                 @if (report)
                 {
-                    <a href="/QuanTri/QuanTri/NhuCau" class="@(action is "NhuCau" or "NhuCauChiTiet" or "XuLyNhuCau" ? "selected" : "")"><img src="/images/ui/collection.svg" alt="">Hậu kiểm nhu cầu</a>
+                    <a href="/QuanTri/QuanTri/NhuCau" class="@(action is "NhuCau" or "NhuCauChiTiet" or "XuLyNhuCau" ? "selected" : "")"><img src="/images/ui/search.svg" alt="">Hậu kiểm nhu cầu</a>
                     <a href="/QuanTri/BaoCaoViPham/Index?quanTri=true" class="@(controller == "BaoCaoViPham" ? "selected" : "")"><img src="/images/ui/flag.svg" alt="">Xử lý báo cáo</a>
                     <a href="/QuanTri/QuanTri/NoiDung" class="@(action == "NoiDung" ? "selected" : "")"><img src="/images/ui/collection.svg" alt="">Biện pháp kiểm duyệt</a>
                 }
@@ -83,4 +83,4 @@ else
         </details>
     }
 }
-<a href="/TaiKhoan/HoSo" class="@(personal ? "selected" : "")"><img src="/images/ui/person-badge.svg" alt="">Trang cá nhân</a>
+<a data-modal href="/Home/ThongBao" class="notification"><img src="/images/ui/bell.svg" alt="">Thông báo<b id="notification-badge" hidden="@((int?)ViewData["UnreadCount"] == 0)">@ViewData["UnreadCount"]</b></a>

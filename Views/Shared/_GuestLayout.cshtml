@@ -1,6 +1,6 @@
 @{
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
-    var home = ViewContext.RouteData.Values["controller"]?.ToString() == "Home";
+    var home = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index";
     var search = ViewContext.RouteData.Values["controller"]?.ToString() == "TimKiem"
         && ViewContext.RouteData.Values["action"]?.ToString() is "Index" or "Tim" or "GiaSu" or "NhuCau";
     var needs = ViewData["SearchType"] as string == "NhuCau";
@@ -25,8 +25,10 @@
         <p class="eyebrow">KHÁM PHÁ EDUCONNECT</p>
         <nav aria-label="Điều hướng chính">
             <a href="/" class="@(home ? "selected" : "")"><img src="/images/ui/house-door.svg" alt="">Trang chủ</a>
-            <a href="/TimKiem/TimKiem/GiaSu" class="@(!home && !needs ? "selected" : "")"><img src="/images/ui/search.svg" alt="">Tìm gia sư</a>
-            <a href="/TimKiem/TimKiem/NhuCau" class="@(!home && needs ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Tìm nhu cầu học</a>
+            <a href="/TimKiem/TimKiem/GiaSu" class="@(search && !needs ? "selected" : "")"><img src="/images/ui/search.svg" alt="">Tìm gia sư</a>
+            <a href="/TimKiem/TimKiem/NhuCau" class="@(search && needs ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Tìm nhu cầu học</a>
+            <a href="/Home/KhamPha?muc=ketnoi"><img src="/images/ui/link-45deg.svg" alt="">Liên hệ &amp; kết nối</a>
+            <a href="/Home/KhamPha?muc=lophoc"><img src="/images/ui/collection.svg" alt="">Lớp học</a>
         </nav>
         <div class="sidebar-bottom"><div class="soft"><strong>Bắt đầu việc học cùng EduConnect</strong><p>Tạo tài khoản để liên hệ và thống nhất lớp học.</p><a class="btn btn-primary" href="/TaiKhoan/DangKy">Đăng ký</a></div></div>
     </aside>

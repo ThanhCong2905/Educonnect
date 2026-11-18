@@ -161,6 +161,7 @@ public sealed class KhungGioRanh
 }
 public sealed class YeuCauKetNoiLopHoc
 {
+    public string? TenNguoiHoc { get; set; }
     public Guid Id
     {
         get; set;

@@ -1,6 +1,8 @@
 # Database EduConnect
 
-Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 20. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 22. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+
+Database đã đến script 21 chạy `22_OptionalLessonComment.sql` để cho phép bỏ trống nhận xét của buổi đã diễn ra. Buổi không diễn ra vẫn phải có lý do. Bản cài mới đã có thay đổi này trong file 00.
 
 Máy khác cài mới chỉ chạy file 00 rồi đổi tên SQL Server trong chuỗi kết nối. Database đang sử dụng không chạy lại file 00; chỉ nâng cấp nếu thiếu cấu trúc. Các file nâng cấp riêng được giữ để hỗ trợ database của phiên bản cũ.
 
@@ -51,7 +53,7 @@ Script thêm ba bảng `LuotDangNhuCau`, `LienKetPhuHuynhHocSinh` và `LichSuDie
 
 ## Quản trị và các chức năng bổ sung
 
-SQL 00 đã tích hợp các nâng cấp đến 20. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu chạy lần lượt các nâng cấp từ 14 đến 20 sau khi sao lưu. Database đã nâng cấp đến 18 chạy `19_NeedModeration.sql` rồi `20_AdministrativeAreas.sql`. Bản đã đến 19 chỉ chạy script 20. Không chạy lại SQL 00 lên database đang sử dụng.
+SQL 00 đã tích hợp các nâng cấp đến 21. Cài mới chỉ chạy `00_EduConnect_Full.sql`. Database 41 bảng đang có dữ liệu chạy lần lượt các nâng cấp từ 14 đến 21 sau khi sao lưu. Bản đã đến 20 chỉ chạy `21_SingleSubjectProposalFlow.sql`. Script 21 chuyển nhu cầu cũ về môn đại diện, giới hạn một môn và bổ sung tên người học trong đề xuất lớp. Không chạy lại SQL 00 lên database đang sử dụng.
 
 Tạo quản trị đầu tiên từ thư mục gốc dự án, với cùng connection string của web.
 

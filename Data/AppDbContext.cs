@@ -115,6 +115,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
             e.ToTable("NhuCauMonHoc");
             e.HasKey(x => new { x.NhuCauId, x.MonHocId });
             e.HasIndex(x => new { x.MonHocId, x.NhuCauId });
+            e.HasIndex(x => x.NhuCauId).IsUnique().HasDatabaseName("UQ_NhuCauMonHoc_MotMon");
             e.HasOne<MonHoc>().WithMany().HasForeignKey(x => x.MonHocId).OnDelete(DeleteBehavior.Restrict);
         });
         b.Entity<NhuCauHoc>(e =>
@@ -153,6 +154,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         });
         b.Entity<YeuCauKetNoiLopHoc>(e =>
         {
+            e.Property(x => x.TenNguoiHoc).HasColumnType("nvarchar(256)");
             e.ToTable("YeuCauKetNoiLopHoc", t => t.UseSqlOutputClause(false));
             e.HasKey(x => new { x.Id });
             e.Property(x => x.Id).HasColumnType("uniqueidentifier").IsRequired().ValueGeneratedNever();

@@ -78,7 +78,7 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
         {
             audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "ThongTinDangNhapKhongHopLe", dich: user?.Id, dinhDanh: normalized);
             await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={normalized},@DiaChiIp={ip}");
-            return "Email hoặc mật khẩu chưa đúng, hoặc tài khoản hiện không thể đăng nhập.";
+            return "Không thể đăng nhập. Vui lòng kiểm tra email và mật khẩu.";
         }
 
         var roles = await users.GetRolesAsync(user);

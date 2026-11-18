@@ -48,6 +48,21 @@ public sealed class ThongBaoService(AppDbContext db, NguoiDungHienTaiService cur
         var me = await current.HienTaiAsync();
         return await db.Set<ThongBao>().CountAsync(x => x.NguoiNhanId == me.Id && x.DaDocLuc == null);
     }
+    public async Task<Dictionary<string, int>> ChuaDocTheoMucAsync()
+    {
+        var me = await current.HienTaiAsync();
+        var rows = await db.Set<ThongBao>().Where(x => x.NguoiNhanId == me.Id && x.DaDocLuc == null)
+            .GroupBy(x => x.LoaiThongBao).Select(g => new { Type = g.Key, Count = g.Count() }).ToListAsync();
+        return rows.GroupBy(x => x.Type switch
+        {
+            "KetNoi" or "LoiMoiLop" => "connections",
+            "LichHoc" or "BaiTap" or "ThanhVien" or "NhacViec" or "PhanHoi" => "classes",
+            "BaoCao" or "KiemDuyet" => "reports",
+            "HoSo" or "TaiKhoan" or "LienKetTaiKhoan" or "DanhGiaDoiTac" => "account",
+            "NhuCau" => "needs",
+            _ => "other"
+        }).ToDictionary(g => g.Key, g => g.Sum(x => x.Count));
+    }
     public async Task<Page<ThongBao>> PhanTrangAsync(int trang=1,string? state=null,string? q=null,string? loai=null)
     {
         Rules.Check(trang is >=1 and <=100000&&(q?.Length??0)<=100,"Trang hoặc từ khóa không hợp lệ.");

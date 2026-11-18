@@ -38,7 +38,7 @@
 .embedded-view .in-class-chat > h1, .embedded-view .in-class-chat .chat-header { display: none; }
 .embedded-view .in-class-chat .chat-panel { border-radius: 10px; }
 @media (max-width: 767px) {
-    .class-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; overflow: visible; }
+    .class-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; overflow: visible; }
     .class-tabs a { min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 10px 2px; font-size: 12px; white-space: normal; text-align: center; }
     .next-lesson { align-items: flex-start; flex-direction: column; }
     .class-chat-frame { height: clamp(420px, calc(100dvh - 260px), 640px); }
@@ -70,12 +70,14 @@
 .week-event small { font-size: 12px; line-height: 1.4; white-space: nowrap; }
 .week-event strong { font-size: 14px; font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .week-event > span { font-size: 12px; color: var(--muted); }
-.event-completed { background: #f0f2f5; border-color: #e1e5eb; }
-.event-absent, .event-cancelled { background: #fafafa; border-color: #e0e3e8; color: #596474; }
+.event-completed { background: #edf7f1; border-color: #b9ddc8; color: #246846; }
+.event-absent { background: #fff6e5; border-color: #ead2a1; color: #815c19; }
+.event-cancelled { background: #fceeee; border-color: #e9bebe; color: #9a3e3e; }
 .event-cancelled strong { text-decoration: line-through; }
 .event-makeup { background: #fff5e5; border-color: #eddfc8; }
-.event-ongoing { background: #f8dce7; border-color: var(--accent); }
-.event-unrecorded { background: #f1f4f8; border-color: #dce3ec; }
+.event-planned { background: #eef3fa; border-color: #c7d7eb; color: #355b85; }
+.event-ongoing { background: #e8f5f5; border-color: #aacfcf; color: #236a6a; }
+.event-unrecorded { background: #fff6e5; border-color: #ead2a1; color: #815c19; }
 .week-event:hover, .week-event:focus-visible { color: var(--ink); border-color: var(--accent); box-shadow: 0 2px 8px #18223015; }
 .week-agenda { display: none; }
 .week-empty { padding: 18px 22px; margin: 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
@@ -158,3 +160,25 @@
 @media (prefers-reduced-motion: reduce) {
     .week-event, .lesson-list-item { transition: none; }
 }
+.lesson-workspace { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr); align-items:start; gap:24px; margin:24px 0; }
+.lesson-workspace > .lesson-summary { grid-column:2; grid-row:1; margin:0; }
+.lesson-workspace > .lesson-record { grid-column:1; grid-row:1; margin:0; }
+.lesson-workspace:not(:has(> .lesson-record)) { grid-template-columns:1fr; }
+.lesson-workspace:not(:has(> .lesson-record)) > .lesson-summary { grid-column:1; }
+.lesson-summary h2 { font-size:18px; margin:20px 0 16px; }
+.lesson-summary h3 { font-size:15px; margin:20px 0 8px; }
+.lesson-facts { display:grid; grid-template-columns:minmax(0,1fr); gap:0; margin:16px 0; }
+.lesson-facts > div { display:flex; justify-content:space-between; align-items:baseline; gap:20px; padding:12px 0; border-bottom:1px solid var(--line); }
+.lesson-facts dt { color:var(--muted); font-weight:400; font-size:13px; }
+.lesson-facts dd { margin:0; text-align:right; font-size:14px; overflow-wrap:anywhere; }
+.lesson-outcome { border:0; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:10px; }
+.lesson-outcome legend { font-size:14px; font-weight:600; margin-bottom:12px; }
+.lesson-outcome label { display:flex; align-items:center; gap:8px; padding:11px 16px; border:1px solid var(--line); border-radius:8px; cursor:pointer; margin:0; }
+.lesson-outcome label:has(input:checked) { color:var(--accent); background:#fcf0f5; border-color:#d798b3; }
+.lesson-outcome input { margin:0; accent-color:var(--accent); }
+.lesson-record > summary { font-size:19px; font-weight:600; }
+.lesson-record .form-wide { width:100%; max-width:none; }
+.lesson-record .edu-form-grid { margin-bottom:0; }
+.lesson-record .lesson-outcome label { display:flex; flex-direction:row; align-items:center; gap:8px; }
+.lesson-record form > button:last-child { width:auto; min-width:150px; justify-self:end; }
+@media(max-width:850px){.lesson-workspace{grid-template-columns:1fr;gap:16px}.lesson-workspace>.lesson-summary,.lesson-workspace>.lesson-record{grid-column:1;grid-row:auto}.lesson-workspace>.lesson-record{order:-1}}

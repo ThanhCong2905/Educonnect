@@ -38,7 +38,7 @@ public sealed class GhiNhanBuoiHocViewModel
     {
         get; set;
     }
-    [Required, StringLength(2000)] public string NhanXet { get; set; } = ""; public string TrangThaiGiaSu { get; set; } = "CoMat"; public string TrangThaiBenHoc { get; set; } = "CoMat";
+    [StringLength(2000)] public string? NhanXet { get; set; } public string TrangThaiGiaSu { get; set; } = "CoMat"; public string TrangThaiBenHoc { get; set; } = "CoMat";
 }
 public sealed class GiaoBaiTapViewModel
 {

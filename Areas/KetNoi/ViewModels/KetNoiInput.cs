@@ -61,6 +61,8 @@ public sealed class PhanHoiHuyViewModel
 }
 public sealed class DeXuatLopViewModel
 {
+    [Required(ErrorMessage = "Nhập tên người học."), StringLength(256, ErrorMessage = "Tên người học tối đa 256 ký tự.")]
+    public string TenNguoiHoc { get; set; } = "";
     [StringLength(2000)] public string? LoiNhan { get; set; }
     public Guid LienHeId
     {

@@ -20,7 +20,7 @@ if (!database.StartsWith("EduConnect_Verification_")) throw new Exception("Verif
 using var db = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
 var http = new DefaultHttpContext { Session = new TestSession() };
 var current = new NguoiDungHienTaiService(db, new HttpContextAccessor { HttpContext = http });
-var needs = new NhuCauService(db, current, new MonHocCatalog(db));
+var needs = new NhuCauService(db, current);
 var rights = new QuyenLopHocService(db, current);
 var profile = new HoSoGiaSuService(db, current, new MonHocCatalog(db), new TepService(db, current, rights, new TestEnv()), new ThongBaoService(db, current));
 var search = new TimKiemService(db, current);

@@ -41,7 +41,7 @@
             <div class="heading"><h3>Buổi đã ghi nhận</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=lessons">Xem các buổi</a></div>
             @foreach(var lesson in recordedLessons)
             {
-                <a class="progress-record" href="/HocTap/LichHoc/Buoi/@lesson.LichHocId"><span>@lesson.TieuDe</span><span class="badge rounded-pill">@Rules.Label(lesson.TrangThai)</span></a>
+                <a class="progress-record" href="/HocTap/LichHoc/Buoi/@lesson.LichHocId"><span>@lesson.TieuDe</span><span class="badge rounded-pill @(lesson.TrangThai == "DaHoc" ? "event-completed" : lesson.TrangThai == "DaNghi" ? "event-absent" : "event-unrecorded")">@Rules.Label(lesson.TrangThai)</span></a>
             }
             @if(recordedLessons.Count == 0){<p class="muted">Chưa có buổi học được ghi nhận trong khoảng đã chọn.</p>}
         </section></div>

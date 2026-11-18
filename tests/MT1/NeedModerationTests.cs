@@ -17,7 +17,7 @@ public sealed class NeedModerationTests
     private static NguoiDungHienTaiService Current(AppDbContext db, Guid id)
         => new(db, new HttpContextAccessor { HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, id.ToString())], "Test")) } });
 
-    private static NhuCauService Needs(AppDbContext db, Guid id) => new(db, Current(db, id), new MonHocCatalog(db));
+    private static NhuCauService Needs(AppDbContext db, Guid id) => new(db, Current(db, id));
 
     private static QuanTriService AdminService(AppDbContext db, Guid id)
     {

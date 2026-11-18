@@ -51,7 +51,7 @@ public sealed class AdministrativeAreaTests
         await using var db = Open();
         var seed = await Seed(db);
         var current = Current(db, seed.Learner);
-        var needs = new NhuCauService(db, current, new MonHocCatalog(db));
+        var needs = new NhuCauService(db, current);
         var input = new TaoNhuCauBenHocViewModel
         {
             MonHocIds = [1], MucTieu = "Ôn tập khu vực " + seed.Learner, HinhThucHoc = "TrucTiep",
@@ -76,7 +76,7 @@ public sealed class AdministrativeAreaTests
     {
         await using var db = Open();
         var seed = await Seed(db);
-        var needs = new NhuCauService(db, Current(db, seed.Learner), new MonHocCatalog(db));
+        var needs = new NhuCauService(db, Current(db, seed.Learner));
         var result = await needs.TaoNhuCauHocAsync(new()
         {
             MonHocIds = [1], MucTieu = "Ôn tập", HinhThucHoc = "TrucTiep", KhuVuc = "Hồ Chí Minh", PhuongXa = "Phường Ba Đình"

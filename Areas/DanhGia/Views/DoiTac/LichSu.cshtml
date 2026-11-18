@@ -1,5 +1,5 @@
 @model List<LichSuDanhGiaDoiTac>
 @{ViewData["Title"]="Lịch sử đánh giá";}
 <h1>Lịch sử đánh giá</h1>
-@foreach(var r in Model){<article class="card mb-3"><small>@Rules.Date(r.ThayDoiLuc)</small><strong>@r.SoSao/5</strong><p class="pre">@r.NhanXet</p>@if(r.PhanHoi!=null){<p class="pre">@r.PhanHoi</p>}</article>}
+@foreach(var r in Model){<article class="card review-card history-entry mb-3"><small>@Rules.Date(r.ThayDoiLuc)</small><span class="review-stars" aria-label="@r.SoSao trên 5 sao">@(new string('★',r.SoSao))</span><p class="pre">@r.NhanXet</p>@if(r.PhanHoi!=null){<p class="pre">@r.PhanHoi</p>}</article>}
 @if(Model.Count==0){<div class="empty">Đánh giá chưa được chỉnh sửa.</div>}

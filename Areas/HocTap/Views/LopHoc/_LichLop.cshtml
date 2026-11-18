@@ -25,7 +25,7 @@
         <a class="lesson-list-item" asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@schedule.Id">
             <time datetime="@schedule.BatDauLuc.ToString("O")"><strong>@schedule.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("dd/MM")</strong><span>@schedule.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("yyyy")</span></time>
             <div class="lesson-list-content"><h3>@schedule.TieuDe</h3><p>@schedule.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm") – @schedule.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")@(schedule.LaBuoiBu ? " · Buổi học bù" : "")</p></div>
-            <span class="badge rounded-pill">@status</span><span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="badge rounded-pill event-@(new SuKienLichViewModel { Lich = schedule, TrangThai = status }.Kieu)">@status</span><span class="carousel-control-next-icon" aria-hidden="true"></span>
         </a>
     }
     @if (schedules.Count == 0) { <p class="empty">Chưa có buổi học trong khoảng đã chọn.</p> }

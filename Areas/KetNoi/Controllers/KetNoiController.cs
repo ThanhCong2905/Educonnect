@@ -91,6 +91,8 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
     {
         var r = await service.ChiTietAsync(id);
         ViewBag.Slots = await service.KhungAsync(id);
+        if (r.NguoiDeXuatId == null && r.NhuCauId != null)
+            ViewBag.RequestNeed = (await service.NhuCauDeXuatAsync(r.LienHeId)).FirstOrDefault(x => x.Id == r.NhuCauId);
         return View(r);
     }
     [HttpPost]

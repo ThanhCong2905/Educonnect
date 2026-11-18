@@ -195,7 +195,7 @@
    if(chat&&(force||!connected||round%10===0)&&!document.querySelector('#workspace-modal.show'))await chatRefresh(chat);
    if(force||round===1||round%(connected?20:5)===0){
     const badge=document.getElementById('notification-badge');
-    if(badge){try{const response=await fetch('/Home/ChuaDoc',{headers,cache:'no-store'});if(response.ok){const data=await response.json();badge.textContent=data.count;badge.hidden=!data.count;badge.setAttribute('aria-label',data.count+' thông báo chưa đọc');}}catch{}}
+    if(badge){try{const response=await fetch('/Home/ChuaDoc',{headers,cache:'no-store'});if(response.ok){const data=await response.json();badge.textContent=data.count;badge.hidden=!data.count;document.querySelectorAll('[data-menu-unread]').forEach(dot=>{const count=data.sections?.[dot.dataset.menuUnread]||0;dot.hidden=!count;dot.textContent=count>99?'99+':count;dot.setAttribute('aria-label',count+' cập nhật chưa đọc');});badge.setAttribute('aria-label',data.count+' thông báo chưa đọc');}}catch{}}
     const notices=document.getElementById('notification-list');
     if(notices&&!notices.querySelector('[data-submitting]')){const fresh=await load(notices,'/Home/ThongBao',true);if(fresh){const parent=notices.closest('.modal-body'),top=parent?.scrollTop;swap(notices,fresh);ui.markRequired(notices);if(parent)parent.scrollTop=top;}}
    }

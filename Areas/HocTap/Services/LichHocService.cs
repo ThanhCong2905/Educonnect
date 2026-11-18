@@ -131,7 +131,7 @@ public sealed partial class LichHocService(AppDbContext db, NguoiDungHienTaiServ
         Rules.Check(m.KetQuaBuoiHoc != "DaDienRa" || !string.IsNullOrWhiteSpace(m.NoiDung), "Cần nội dung giảng dạy.");
         Rules.Check(m.KetQuaBuoiHoc != "KhongDienRa" || m.TrangThaiGiaSu != "CoMat" || m.TrangThaiBenHoc != "CoMat", "Buổi không diễn ra cần ghi nhận bên vắng và lý do.");
         Rules.Check(m.TrangThaiGiaSu is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc" && m.TrangThaiBenHoc is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc", "Trạng thái tham dự không hợp lệ.");
-        Rules.Check(!string.IsNullOrWhiteSpace(m.NhanXet) && m.NhanXet.Length <= 2000 && (m.NoiDung?.Length ?? 0) <= 10000, "Cần nhận xét tối đa 2000 ký tự và nội dung tối đa 10000 ký tự.");
+        Rules.Check((m.KetQuaBuoiHoc != "KhongDienRa" || !string.IsNullOrWhiteSpace(m.NhanXet)) && (m.NhanXet?.Length ?? 0) <= 2000 && (m.NoiDung?.Length ?? 0) <= 10000, "Nhận xét tối đa 2.000 ký tự, nội dung tối đa 10.000 ký tự. Buổi không diễn ra cần có lý do.");
         var rv = Rules.SqlVersion(m.RowVersion);
         await using var tx = await db.Database.BeginTransactionAsync();
         await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanBuoiHoc @LichHocId={m.LichHocId},@GiaSuId={u.Id},@KetQuaBuoiHoc={m.KetQuaBuoiHoc},@NhanXet={m.NhanXet},@TrangThaiGiaSu={m.TrangThaiGiaSu},@TrangThaiBenHoc={m.TrangThaiBenHoc},@NoiDung={m.NoiDung},@RowVersionCu={rv},@CanHocBu={m.CanHocBu}");

@@ -28,7 +28,7 @@ public sealed class ProposalRegressionTests
             User = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, seed.Learner.ToString())], "Test"))
         };
         var current = new NguoiDungHienTaiService(db, new HttpContextAccessor { HttpContext = http });
-        var needs = new NhuCauService(db, current, new MonHocCatalog(db));
+        var needs = new NhuCauService(db, current);
         var input = new TaoNhuCauBenHocViewModel { MonHocIds = [1], MucTieu = "Ôn tập", BanNhap = draft };
         if (update)
         {
@@ -91,17 +91,33 @@ public sealed class ProposalRegressionTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task Either_side_can_propose_and_only_recipient_accepts_once(bool tutorSends)
+    public async Task Tutor_proposes_directly_or_after_learning_request_and_learner_accepts_once(bool tutorSends)
     {
         await using var db = Open();
         var seed = await Seed(db);
-        var sender = tutorSends ? seed.Tutor : seed.Learner;
-        var recipient = tutorSends ? seed.Learner : seed.Tutor;
-        var input = new DeXuatLopViewModel { LienHeId = seed.Contact, TenLop = "Lớp kiểm thử", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LoiNhan = "Đề xuất hai chiều", LichRanh = [new SlotInput { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
+        var sender = seed.Tutor;
+        var recipient = seed.Learner;
+        var input = new DeXuatLopViewModel { TenNguoiHoc = "Người học kiểm thử", LienHeId = seed.Contact, TenLop = "Lớp kiểm thử", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LoiNhan = "Đề xuất hai chiều", LichRanh = [new SlotInput { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
+        await Assert.ThrowsAsync<LoiNghiepVu>(() => Service(db, seed.Learner).GuiDeXuatAsync(input));
+        if (!tutorSends)
+        {
+            var need = new NhuCauHoc { Id = Guid.NewGuid(), ChuSoHuuId = seed.Learner, MonHocId = 1, LoaiNhuCau = "TimGiaSu", TrangThai = "DangMo", HinhThucHoc = "TrucTuyen", MucTieu = "Ôn tập", TaoLuc = DateTimeOffset.UtcNow };
+            db.Add(need);
+            await db.SaveChangesAsync();
+            input.NhuCauId = need.Id;
+            input.Id = await Service(db, seed.Learner).GuiYeuCauAsync(new() { LienHeId = seed.Contact, NhuCauId = need.Id, LoiNhan = "Nhờ gia sư chuẩn bị đề xuất cho nhu cầu này." });
+            var pending = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == input.Id);
+            Assert.Equal("ChoGiaSu", pending.TrangThai);
+            input.RowVersion = Convert.ToBase64String(pending.RowVersion);
+            await Assert.ThrowsAsync<LoiNghiepVu>(() => Service(db, seed.Tutor).ChapNhanDeXuatAsync(pending.Id, input.RowVersion));
+        }
         var request = await Service(db, sender).GuiDeXuatAsync(input);
         var saved = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(row => row.Id == request);
         Assert.Equal(sender, saved.NguoiDeXuatId);
-        Assert.Equal(tutorSends ? "ChoBenHoc" : "ChoGiaSu", saved.TrangThai);
+        Assert.Equal("ChoBenHoc", saved.TrangThai);
+        Assert.Equal(input.NhuCauId, saved.NhuCauId);
+        Assert.Equal(input.TenNguoiHoc, saved.TenNguoiHoc);
+        Assert.InRange((saved.HetHanLuc - saved.DeXuatLuc!.Value).TotalHours, 71.99, 72.01);
         Assert.Equal("Đề xuất hai chiều", saved.LoiNhan);
         await Assert.ThrowsAsync<LoiNghiepVu>(() => Service(db, sender).ChapNhanDeXuatAsync(request, Convert.ToBase64String(saved.RowVersion)));
         var classroom = await Service(db, recipient).ChapNhanDeXuatAsync(request, Convert.ToBase64String(saved.RowVersion));

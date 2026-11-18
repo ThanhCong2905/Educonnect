@@ -9,6 +9,14 @@ namespace EduConnect.Mvc.Controllers;
 public sealed class HomeController(TimKiemService search, ThongBaoService notices, LopHocService classes, EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService connections) : BaseController
 {
     [AllowAnonymous, HttpGet]
+    public IActionResult KhamPha(string muc = "ketnoi")
+    {
+        if (muc is not ("ketnoi" or "lophoc")) return NotFound();
+        if (User.Identity?.IsAuthenticated == true)
+            return Redirect(muc == "ketnoi" ? "/KetNoi/KetNoi/LienHe" : "/HocTap/LopHoc/Index");
+        return View(model: muc);
+    }
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> Index()
     {
         if (User.Identity?.IsAuthenticated != true)
@@ -36,7 +44,7 @@ public sealed class HomeController(TimKiemService search, ThongBaoService notice
         Success("Đã đánh dấu tất cả thông báo là đã đọc.");
         return RedirectToAction(nameof(ThongBao));
     }
-    public async Task<IActionResult> ChuaDoc() => Json(new { count = await notices.ChuaDocAsync() });
+    public async Task<IActionResult> ChuaDoc() => Json(new { count = await notices.ChuaDocAsync(), sections = await notices.ChuaDocTheoMucAsync() });
     [HttpPost]
     public async Task<IActionResult> Doc(Guid id)
     {
