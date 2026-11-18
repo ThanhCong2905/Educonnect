@@ -67,7 +67,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     {
         Rules.ValidateInput(f);
         var needs = f.LoaiDoiTuong == "NhuCau" || f.LoaiDoiTuong == null && me?.LoaiNguoi == "GiaSu";
-        Rules.Check(!needs || me?.LoaiNguoi == "GiaSu", "Đăng nhập tài khoản gia sư để tìm nhu cầu học.", me == null ? 401 : 403);
+        Rules.Check(!needs || me == null || me.LoaiNguoi == "GiaSu", "Tài khoản này sử dụng chức năng tìm gia sư.", 403);
         Rules.Check(needs || me?.LoaiNguoi != "GiaSu", "Tài khoản gia sư sử dụng chức năng tìm nhu cầu học.", 403);
         f.LoaiDoiTuong = needs ? "NhuCau" : "GiaSu";
         Rules.Check(DiaGioiHanhChinh.HopLe(f.KhuVuc, f.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(f.PhuongXa));
@@ -117,7 +117,8 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         }
         Rules.Check(f.ThuTrongTuan == null || f.ThuTrongTuan <= 6, "Thứ không hợp lệ.");
         Rules.Check(f.GioBatDau == null || f.GioKetThuc == null || f.GioBatDau < f.GioKetThuc, "Giờ bắt đầu phải trước giờ kết thúc.");
-        var n = NhuCauCongKhai().Where(x => x.ChuSoHuuId != me!.Id);
+        var n = NhuCauCongKhai();
+        if (me != null) n = n.Where(x => x.ChuSoHuuId != me.Id);
         if (!string.IsNullOrWhiteSpace(f.TuKhoa))
             n = n.Where(x => x.HoTen.Contains(f.TuKhoa) || (x.TenMon.Contains(f.TuKhoa) || db.Set<NhuCauMonHoc>().Any(d => d.NhuCauId == x.Id && db.Set<MonHoc>().Any(m => m.Id == d.MonHocId && m.TenMon.Contains(f.TuKhoa)))) || (x.MucTieu != null && x.MucTieu.Contains(f.TuKhoa)));
         var subjectIds = f.MonHocIds.Concat(f.MonHocId.HasValue ? [f.MonHocId.Value] : Array.Empty<int>()).Distinct().ToList();
@@ -190,9 +191,9 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         var h = await HoSoCongKhai().SingleOrDefaultAsync(x => x.Id == id, huy);
         if (h != null)
             return (await HoSoRowsAsync([h], huy)).Single();
-        var viewer = await current.HienTaiAsync(huy);
+        var viewer = await current.NguoiXemAsync(null, huy);
         var n = await NhuCauCongKhai().SingleOrDefaultAsync(x => x.Id == id, huy) ?? throw new LoiNghiepVu("Hồ sơ hoặc nhu cầu đang ẩn, chưa được duyệt hoặc không còn công khai.", 404);
-        Rules.Check(viewer.LoaiNguoi == "GiaSu" || viewer.Id == n.ChuSoHuuId, "Nhu cầu học dành cho gia sư và người đăng.", 403);
+        Rules.Check(viewer == null || viewer.LoaiNguoi == "GiaSu" || viewer.Id == n.ChuSoHuuId, "Nhu cầu học dành cho gia sư và người đăng.", 403);
         await SlotsAsync([n], huy);
         return n;
     }

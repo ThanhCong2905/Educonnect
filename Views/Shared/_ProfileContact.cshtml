@@ -4,7 +4,7 @@
 <aside class="card profile-contact">
 <h2>Liên hệ & trao đổi</h2>
 @if(me == null){
- <p class="muted">Đăng nhập để gửi lời mời và trao đổi với gia sư.</p>
+ <p class="muted">Đăng nhập để gửi lời mời và trao đổi về việc học.</p>
  <a class="btn btn-primary" asp-area="" asp-controller="TaiKhoan" asp-action="DangNhap" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">Đăng nhập để liên hệ</a>
 }else if(me.Id==Model.ChuSoHuuId){
  @if(Model.LoaiNguoi=="GiaSu"){<p class="muted">Đây là hồ sơ của bạn.</p><a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Chỉnh sửa hồ sơ</a>}else{<p class="muted">Đây là nhu cầu của bạn.</p><a class="btn btn-outline-primary" href="/NhuCau/NhuCau/Sua/@Model.Id">Chỉnh sửa nhu cầu</a>}

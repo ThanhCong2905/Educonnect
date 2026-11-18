@@ -24,7 +24,7 @@ public sealed class TimKiemController(TimKiemService service, NhuCauService need
         return Tim(f);
     }
 
-    [Authorize(Roles = "GiaSu"), HttpGet]
+    [AllowAnonymous, HttpGet]
     public Task<IActionResult> NhuCau(BoLocTimKiemViewModel f)
     {
         f.LoaiDoiTuong = "NhuCau";
@@ -35,8 +35,6 @@ public sealed class TimKiemController(TimKiemService service, NhuCauService need
     public async Task<IActionResult> Tim(BoLocTimKiemViewModel boLoc)
     {
         ValidateInput();
-        if (boLoc.LoaiDoiTuong == "NhuCau" && User.Identity?.IsAuthenticated != true)
-            return Challenge(new AuthenticationProperties { RedirectUri = Request.Path + Request.QueryString });
         ViewBag.Subjects = await needs.MonAsync();
         var result = await service.TimKiemAsync(boLoc, (await current.NguoiXemAsync())?.Id, HttpContext.RequestAborted);
         var page = result.DuLieu;
@@ -51,7 +49,7 @@ public sealed class TimKiemController(TimKiemService service, NhuCauService need
             var n = await service.ChiTietAsync(id);
             if (n.LoaiNguoi == "GiaSu")
                 return RedirectToAction("ChiTiet", "HoSoGiaSu", new { area = "NhuCau", maHoSo = id });
-            var contact = await contacts.LienHeVoiAsync(n.ChuSoHuuId);
+            var contact = User.Identity?.IsAuthenticated == true ? await contacts.LienHeVoiAsync(n.ChuSoHuuId) : null;
             ViewBag.Contact = contact;
             ViewBag.ContactChat = contact?.TrangThai == "ChapNhan" ? await contacts.HoiThoaiAsync(contact.Id) : null;
             ViewBag.Related = await service.LienQuanAsync(n.ChuSoHuuId, n.Id);

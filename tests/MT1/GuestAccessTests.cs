@@ -67,7 +67,7 @@ public sealed class GuestAccessTests
         await using var tx = await db.Database.BeginTransactionAsync();
         var seed = await ProposalRegressionTests.Seed(db);
         var guest = new TimKiemService(db, Reader(db));
-        Assert.Equal(401, (await guest.TimKiemAsync(new() { LoaiDoiTuong = "NhuCau" }, null, default)).MaTrangThai);
+        Assert.True((await guest.TimKiemAsync(new() { LoaiDoiTuong = "NhuCau" }, null, default)).ThanhCong);
         Assert.Equal(401, (await guest.TimKiemAsync(new(), seed.Tutor, default)).MaTrangThai);
         var student = new TimKiemService(db, Reader(db, seed.Learner));
         Assert.Equal(403, (await student.TimKiemAsync(new() { LoaiDoiTuong = "NhuCau" }, seed.Learner, default)).MaTrangThai);
@@ -89,7 +89,7 @@ public sealed class GuestAccessTests
     }
 
     [Fact]
-    public async Task Guest_can_compare_public_tutors_but_cannot_open_learning_needs()
+    public async Task Guest_can_compare_public_tutors_and_open_public_learning_needs()
     {
         await using var db = ProposalRegressionTests.Open();
         await using var tx = await db.Database.BeginTransactionAsync();
@@ -104,8 +104,10 @@ public sealed class GuestAccessTests
             LoaiNhuCau = "TimGiaSu", TrangThai = "DangMo", HinhThucHoc = "TrucTuyen", MucTieu = "Ôn tập kiến thức" };
         db.Add(need);
         await db.SaveChangesAsync();
-        var error = await Assert.ThrowsAsync<LoiNghiepVu>(() => search.ChiTietAsync(need.Id));
-        Assert.Equal(401, error.Status);
+        Assert.Equal(need.Id, (await search.ChiTietAsync(need.Id)).Id);
+        need.TrangThai = "DaDong";
+        await db.SaveChangesAsync();
+        Assert.Equal(404, (await Assert.ThrowsAsync<LoiNghiepVu>(() => search.ChiTietAsync(need.Id))).Status);
         Assert.False((await search.SoSanhAsync([ids[0], need.Id], null, default)).ThanhCong);
     }
 
@@ -125,12 +127,10 @@ public sealed class GuestAccessTests
     }
 
     [Fact]
-    public void Needs_endpoint_requires_tutor_role()
+    public void Needs_endpoint_allows_public_read_access()
     {
         var action = typeof(TimKiemController).GetMethod(nameof(TimKiemController.NhuCau))!;
-        var attribute = Assert.Single(action.GetCustomAttributes(typeof(AuthorizeAttribute), true).Cast<AuthorizeAttribute>());
-        Assert.Equal("GiaSu", attribute.Roles);
-        Assert.Empty(action.GetCustomAttributes(typeof(AllowAnonymousAttribute), true));
+        Assert.Single(action.GetCustomAttributes(typeof(AllowAnonymousAttribute), true));
     }
 
     [Theory]

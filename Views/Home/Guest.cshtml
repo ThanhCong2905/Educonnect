@@ -11,9 +11,21 @@
     </div>
     <aside class="card">
         <h2>Bạn là gia sư?</h2>
-        <p>Đăng nhập để tìm nhu cầu học và trao đổi với Học sinh, Phụ huynh.</p>
+        <p>Xem môn học, mục tiêu và lịch học mong muốn của Học sinh, Phụ huynh.</p>
         <a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a>
     </aside>
+</section>
+<section aria-labelledby="public-needs-title">
+    <div class="heading"><h2 id="public-needs-title">Nhu cầu học đang mở</h2><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Xem danh sách</a></div>
+    @{ var needs = ViewBag.PublicNeeds as List<UngVienViewModel> ?? []; }
+    @if (needs.Count > 0)
+    {
+        <div class="cards">@foreach (var need in needs) { <partial name="_Candidate" model="need" /> }</div>
+    }
+    else
+    {
+        <p class="empty">Chưa có nhu cầu học đang mở.</p>
+    }
 </section>
 <section aria-labelledby="public-tutors-title">
     <div class="heading"><h2 id="public-tutors-title">Gia sư đang nhận dạy</h2><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/GiaSu">Xem danh sách</a></div>

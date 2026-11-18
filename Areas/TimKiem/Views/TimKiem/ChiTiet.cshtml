@@ -122,7 +122,7 @@
     </section>
 }
 
-@if(!preview)
+@if(!preview && (tutor || User.Identity?.IsAuthenticated == true))
 {
     <section class="card mt-4 profile-review-actions">
         <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId"/>

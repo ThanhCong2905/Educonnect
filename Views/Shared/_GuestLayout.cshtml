@@ -2,7 +2,8 @@
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
     var home = ViewContext.RouteData.Values["controller"]?.ToString() == "Home";
     var search = ViewContext.RouteData.Values["controller"]?.ToString() == "TimKiem"
-        && ViewContext.RouteData.Values["action"]?.ToString() is "Index" or "Tim" or "GiaSu";
+        && ViewContext.RouteData.Values["action"]?.ToString() is "Index" or "Tim" or "GiaSu" or "NhuCau";
+    var needs = ViewData["SearchType"] as string == "NhuCau";
 }
 <!doctype html>
 <html lang="vi">
@@ -16,27 +17,39 @@
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
 </head>
-<body class="guest-page">
-    <header class="guest-header">
-        <a class="guest-brand" href="/"><img src="/images/auth/logo.png" alt="EduConnect"></a>
-        <nav class="guest-links" aria-label="Điều hướng chính">
-            <a href="/TimKiem/TimKiem/GiaSu">Tìm gia sư</a>
-            <a href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a>
+<body>
+    <button type="button" class="btn mobile-menu" aria-label="Mở menu" aria-expanded="false" aria-controls="navigation">☰</button>
+    <aside class="sidebar" id="navigation">
+        <a class="brand" href="/"><img src="/images/auth/logo.png" alt="EduConnect"></a>
+        <p class="eyebrow">KHÁM PHÁ EDUCONNECT</p>
+        <nav aria-label="Điều hướng chính">
+            <a href="/" class="@(home ? "selected" : "")"><img src="/images/ui/house-door.svg" alt="">Trang chủ</a>
+            <a href="/TimKiem/TimKiem/GiaSu" class="@(!home && !needs ? "selected" : "")"><img src="/images/ui/search.svg" alt="">Tìm gia sư</a>
+            <a href="/TimKiem/TimKiem/NhuCau" class="@(!home && needs ? "selected" : "")"><img src="/images/ui/journal-plus.svg" alt="">Tìm nhu cầu học</a>
         </nav>
-        <div class="actions guest-account">
+        <div class="sidebar-bottom"><div class="soft"><strong>Bắt đầu việc học cùng EduConnect</strong><p>Tạo tài khoản để liên hệ và thống nhất lớp học.</p><a class="btn btn-primary" href="/TaiKhoan/DangKy">Đăng ký</a></div></div>
+    </aside>
+    <div class="shell">
+    <header>
+        <nav class="breadcrumbs" aria-label="Đường dẫn"><ol>
+            @if (!home) { <li><a href="/">Trang chủ</a></li> }
+            <li><span aria-current="page">@(home ? "Trang chủ" : ViewData["Title"])</span></li>
+        </ol></nav>
+        <div class="header-actions">
             <a class="btn btn-outline-primary" asp-area="" asp-controller="TaiKhoan" asp-action="DangNhap" asp-route-returnUrl="@returnUrl">Đăng nhập</a>
             <a class="btn btn-primary" href="/TaiKhoan/DangKy">Đăng ký</a>
         </div>
     </header>
-    <main class="guest-main">
+    <main class="container-fluid">
         <partial name="_Notifications" />
         @if (!home)
         {
-            <a class="btn btn-outline-primary page-back" href="@(search ? "/" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false">← Quay lại</a>
+            <a class="btn btn-outline-primary page-back" href="@(search ? "/" : needs ? "/TimKiem/TimKiem/NhuCau" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false">← Quay lại</a>
         }
         @RenderBody()
     </main>
     <footer><strong>EduConnect</strong><span>Kết nối gia sư và người học.</span><span>© @DateTime.Today.Year EduConnect</span></footer>
+    </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/confirmations.js" asp-append-version="true" defer></script>
     <script src="~/js/account-profile.js" asp-append-version="true" defer></script>

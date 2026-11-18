@@ -15,7 +15,8 @@ public sealed class HomeController(TimKiemService search, ThongBaoService notice
         {
             var filter = new BoLocTimKiemViewModel { LoaiDoiTuong = "GiaSu" };
             var page = (await search.TimKiemAsync(filter, null, HttpContext.RequestAborted)).DuLieu;
-            return View("Guest", page.Items.Take(3).ToList());
+            ViewBag.PublicNeeds = (await search.TimKiemAsync(new() { LoaiDoiTuong = "NhuCau" }, null, HttpContext.RequestAborted)).DuLieu.Items.Take(6).ToList();
+            return View("Guest", page.Items.Take(6).ToList());
         }
         if(User.IsInRole("QuanTri")) return Redirect("/QuanTri/QuanTri/Index");
         var (items, has) = await search.GoiYAsync();
