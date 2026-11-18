@@ -25,20 +25,24 @@ public sealed class LienKetTaiKhoanService(AppDbContext db, NguoiDungHienTaiServ
     public async Task GuiDeNghiAsync(string email)
     {
         var me = await current.HienTaiAsync();
-        Rules.Check(me.LoaiNguoi == "PhuHuynh", "Chỉ phụ huynh gửi đề nghị liên kết.", 403);
+        Rules.Check(me.LoaiNguoi is "PhuHuynh" or "HocSinh", "Chỉ phụ huynh và học sinh được gửi đề nghị liên kết.", 403);
+        var receiverRole = me.LoaiNguoi == "PhuHuynh" ? "HocSinh" : "PhuHuynh";
+        var receiverLabel = receiverRole == "HocSinh" ? "học sinh" : "phụ huynh";
         email = email?.Trim() ?? "";
-        Rules.Check(email.Length <= 256 && new EmailAddressAttribute().IsValid(email), "Nhập đúng email học sinh.", field: "email");
+        Rules.Check(email.Length <= 256 && new EmailAddressAttribute().IsValid(email), $"Nhập đúng email {receiverLabel}.", field: "email");
         var normalized = email.ToUpperInvariant();
-        var student = await (from user in db.Set<TaiKhoan>()
-                             join role in db.Set<HocSinh>() on user.Id equals role.TaiKhoanId
-                             where user.NormalizedEmail == normalized && user.TrangThai == "HoatDong"
-                             select user).SingleOrDefaultAsync();
-        Rules.Check(student != null, "Không tìm thấy tài khoản học sinh phù hợp.", 404);
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-        Rules.Check(!await db.Set<LienKetPhuHuynhHocSinh>().AnyAsync(x => x.PhuHuynhId == me.Id && x.HocSinhId == student!.Id && x.KetThucLuc == null), "Đã có đề nghị hoặc liên kết với tài khoản này.", 409);
-        var link = new LienKetPhuHuynhHocSinh { Id = Guid.NewGuid(), PhuHuynhId = me.Id, HocSinhId = student!.Id, NguoiGuiId = me.Id, GuiLuc = DateTimeOffset.UtcNow };
+        var receiver = await (from user in db.Set<TaiKhoan>()
+                              join person in db.Set<NguoiThamGia>() on user.Id equals person.Id
+                              where user.NormalizedEmail == normalized && user.TrangThai == "HoatDong" && person.LoaiNguoi == receiverRole
+                              select user).SingleOrDefaultAsync();
+        Rules.Check(receiver != null, $"Không tìm thấy tài khoản {receiverLabel} phù hợp.", 404);
+        var parentId = me.LoaiNguoi == "PhuHuynh" ? me.Id : receiver!.Id;
+        var studentId = me.LoaiNguoi == "HocSinh" ? me.Id : receiver!.Id;
+        Rules.Check(!await db.Set<LienKetPhuHuynhHocSinh>().AnyAsync(x => x.PhuHuynhId == parentId && x.HocSinhId == studentId && x.KetThucLuc == null), "Đã có đề nghị hoặc liên kết với tài khoản này.", 409);
+        var link = new LienKetPhuHuynhHocSinh { Id = Guid.NewGuid(), PhuHuynhId = parentId, HocSinhId = studentId, NguoiGuiId = me.Id, GuiLuc = DateTimeOffset.UtcNow };
         db.Add(link);
-        notices.Tao(student.Id, "LienKetTaiKhoan", link.Id, me.HoTen + " đề nghị liên kết tài khoản.");
+        notices.Tao(receiver!.Id, "LienKetTaiKhoan", link.Id, me.HoTen + " đề nghị liên kết tài khoản.");
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }
@@ -47,7 +51,7 @@ public sealed class LienKetTaiKhoanService(AppDbContext db, NguoiDungHienTaiServ
     {
         var me = await current.HienTaiAsync();
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-        var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.Id == id && x.HocSinhId == me.Id)
+        var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.Id == id && (x.HocSinhId == me.Id || x.PhuHuynhId == me.Id) && x.NguoiGuiId != me.Id)
             ?? throw new LoiNghiepVu("Không tìm thấy đề nghị của bạn.", 404);
         Rules.Check(link.TrangThai == "ChoXacNhan" && link.KetThucLuc == null, "Đề nghị đã được xử lý.", 409);
         Rules.Concurrency(db, link, version);
@@ -60,7 +64,7 @@ public sealed class LienKetTaiKhoanService(AppDbContext db, NguoiDungHienTaiServ
             link.KetThucLuc = now;
             link.NguoiKetThucId = me.Id;
         }
-        notices.Tao(link.PhuHuynhId, "LienKetTaiKhoan", link.Id, me.HoTen + (dongY ? " đã đồng ý liên kết." : " đã từ chối liên kết."));
+        notices.Tao(link.NguoiGuiId, "LienKetTaiKhoan", link.Id, me.HoTen + (dongY ? " đã đồng ý liên kết." : " đã từ chối liên kết."));
         await db.SaveChangesAsync();
         await tx.CommitAsync();
     }

@@ -117,7 +117,7 @@ CREATE TABLE dbo.[YeuCauKetNoiLopHoc] (
     [NguoiDeXuatId] uniqueidentifier NULL,
     [DeXuatLuc] datetimeoffset(0) NULL,
     CONSTRAINT [PK_YeuCauKetNoiLopHoc] PRIMARY KEY ([Id]),
-    CONSTRAINT [CK_YeuCauKetNoiLopHoc_1] CHECK ([TrangThai] IN (N'ChoGiaSu', N'ChoBenHoc', N'DaChapNhan', N'TuChoi', N'DaRut', N'HetHan')),
+    CONSTRAINT [CK_YeuCauKetNoiLopHoc_1] CHECK ([TrangThai] IN (N'ChoGiaSu', N'ChoBenHoc', N'DaChapNhan', N'TuChoi', N'DaRut', N'HetHan', N'NhuCauDaKetNoi')),
     CONSTRAINT [CK_YeuCauKetNoiLopHoc_2] CHECK ([SoBuoiTuan] > 0),
     CONSTRAINT [CK_YeuCauKetNoiLopHoc_3] CHECK ([ThoiLuongPhut] > 0),
     CONSTRAINT [CK_YeuCauKetNoiLopHoc_4] CHECK ([HinhThucHoc] IN (N'TrucTuyen', N'TrucTiep')),
@@ -1471,7 +1471,7 @@ BEGIN
         KetThucLuc datetimeoffset NULL,
         NguoiKetThucId uniqueidentifier NULL REFERENCES dbo.AspNetUsers(Id),
         RowVersion rowversion NOT NULL,
-        CONSTRAINT CK_LienKet_Cap CHECK (PhuHuynhId<>HocSinhId AND NguoiGuiId=PhuHuynhId),
+        CONSTRAINT CK_LienKet_Cap CHECK (PhuHuynhId<>HocSinhId AND NguoiGuiId IN(PhuHuynhId,HocSinhId)),
         CONSTRAINT CK_LienKet_TrangThai CHECK (TrangThai IN('ChoXacNhan','DaLienKet','TuChoi','DaHuy')),
         CONSTRAINT CK_LienKet_ThoiGian CHECK ((XacNhanLuc IS NULL OR XacNhanLuc>=GuiLuc) AND (KetThucLuc IS NULL OR KetThucLuc>=GuiLuc)),
         CONSTRAINT CK_LienKet_HieuLuc CHECK (
@@ -1906,7 +1906,7 @@ BEGIN
  THROW 51114,N'Nhu cầu gắn yêu cầu kết nối phải thuộc bên học.',1;
  IF EXISTS(SELECT 1 FROM inserted i WHERE i.TrangThai='ChoGiaSu' AND (i.NguoiGuiId<>i.BenHocId OR (i.NguoiDeXuatId IS NOT NULL AND i.NguoiDeXuatId<>i.BenHocId)))
  THROW 51115,N'Chờ gia sư là yêu cầu ban đầu của bên học, chưa có đề xuất.',1;
- IF EXISTS(SELECT 1 FROM inserted i JOIN deleted d ON d.Id=i.Id WHERE d.TrangThai IN ('DaChapNhan','TuChoi','DaRut','HetHan'))
+ IF EXISTS(SELECT 1 FROM inserted i JOIN deleted d ON d.Id=i.Id WHERE d.TrangThai IN ('DaChapNhan','TuChoi','DaRut','HetHan','NhuCauDaKetNoi'))
  THROW 51116,N'Yêu cầu đã đóng không được sửa hoặc chuyển trạng thái lại.',1;
 END;
 GO
@@ -2321,12 +2321,13 @@ BEGIN
  SET @Now=TODATETIMEOFFSET(SYSUTCDATETIME(),'+00:00');
  IF EXISTS(SELECT 1 FROM dbo.AspNetUsers WHERE Id IN(@GiaSuId,@BenHocId) AND TrangThai<>'HoatDong') THROW 51140,N'Tài khoản hiện không hoạt động.',1;
  IF NOT EXISTS(SELECT 1 FROM dbo.YeuCauLienHe WHERE Id=@LienHeId AND TrangThai='ChapNhan') THROW 51140,N'Liên hệ không còn hiệu lực.',1;
- IF @NhuCauId IS NOT NULL AND NOT EXISTS(SELECT 1 FROM dbo.NhuCauHoc WITH(UPDLOCK,HOLDLOCK) WHERE Id=@NhuCauId AND ChuSoHuuId=@BenHocId AND TrangThai='DangMo') THROW 51131,N'Nhu cầu không còn mở.',1;
  IF @TrangThai='DaChapNhan'
  BEGIN
   SELECT @LopId=Id FROM dbo.LopHoc WHERE YeuCauKetNoiId=@YeuCauId;
   COMMIT;SELECT * FROM dbo.LopHoc WHERE Id=@LopId;RETURN;
  END;
+ IF @TrangThai='NhuCauDaKetNoi' THROW 51152,N'Nhu cầu đã được kết nối. Đề nghị này đã kết thúc.',1;
+ IF @NhuCauId IS NOT NULL AND NOT EXISTS(SELECT 1 FROM dbo.NhuCauHoc WITH(UPDLOCK,HOLDLOCK) WHERE Id=@NhuCauId AND ChuSoHuuId=@BenHocId AND TrangThai='DangMo') THROW 51131,N'Nhu cầu không còn mở.',1;
  IF @NhuCauId IS NOT NULL AND EXISTS(SELECT 1 FROM dbo.BienPhapQuanTri WITH(UPDLOCK,HOLDLOCK) WHERE LoaiDoiTuong='NhuCauHoc' AND DoiTuongId=@NhuCauId AND Loai='AnNoiDung' AND GoLuc IS NULL) THROW 51152,N'Nhu cầu đang bị ẩn để quản trị xem xét.',1;
  IF NOT EXISTS(SELECT 1 FROM dbo.YeuCauKetNoiLopHoc WHERE Id=@YeuCauId AND (TrangThai='ChoBenHoc' AND @NguoiThucHienId=@BenHocId AND NguoiDeXuatId=@GiaSuId) AND RowVersion=@RowVersionCu AND HetHanLuc>@Now) THROW 51152,N'Đề xuất không còn hiệu lực hoặc đã đổi phiên bản.',1;
  IF NOT EXISTS(SELECT 1 FROM dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@YeuCauId) THROW 51153,N'Đề xuất chưa có lịch dự kiến.',1;
@@ -2349,6 +2350,23 @@ BEGIN
  FROM dbo.KhungGioDeXuat s CROSS JOIN dbo.LopHoc c WHERE s.YeuCauKetNoiId=@YeuCauId AND c.Id=@LopId FOR JSON PATH);
  EXEC dbo.usp_ThemLichHocHangLoat @LopHocId=@LopId,@GiaSuId=@GiaSuId,@DanhSachBuoiJson=@Json;
  UPDATE dbo.YeuCauKetNoiLopHoc SET TrangThai='DaChapNhan' WHERE Id=@YeuCauId;
+ UPDATE dbo.NhuCauHoc SET TrangThai='DaDong',LyDoDong=N'DaKetNoi',NhacXacNhanLuc=NULL
+ WHERE Id=@NhuCauId AND ChuSoHuuId=@BenHocId AND TrangThai='DangMo';
+ DECLARE @KetThuc TABLE(Id uniqueidentifier,GiaSuId uniqueidentifier,BenHocId uniqueidentifier);
+ UPDATE r SET TrangThai='NhuCauDaKetNoi'
+ OUTPUT inserted.Id,inserted.GiaSuId,inserted.BenHocId INTO @KetThuc
+ FROM dbo.YeuCauKetNoiLopHoc r
+ WHERE r.TrangThai IN('ChoGiaSu','ChoBenHoc') AND r.HetHanLuc>@Now AND r.NhuCauId=@NhuCauId AND r.Id<>@YeuCauId;
+ DECLARE @ThongBaoKetThuc TABLE(MaSuKien uniqueidentifier,NguoiNhanId uniqueidentifier,YeuCauId uniqueidentifier);
+ INSERT @ThongBaoKetThuc
+ SELECT NEWID(),p.NguoiNhanId,k.Id FROM @KetThuc k
+ CROSS APPLY(VALUES(k.GiaSuId),(k.BenHocId)) p(NguoiNhanId);
+ INSERT dbo.SuKienChoXuLy(Id,LoaiSuKien,DuLieuToiThieu,TaoLuc,TrangThai)
+ SELECT b.MaSuKien,N'KetNoi',(SELECT b.NguoiNhanId AS recipient,b.YeuCauId AS target FOR JSON PATH,WITHOUT_ARRAY_WRAPPER),@Now,'ChoXuLy'
+ FROM @ThongBaoKetThuc b;
+ INSERT dbo.ThongBao(Id,NguoiNhanId,LoaiThongBao,DoiTuongId,NoiDungTomTat,TaoLuc,MaSuKien)
+ SELECT NEWID(),NguoiNhanId,'KetNoi',YeuCauId,N'Nhu cầu đã được kết nối. Đề nghị này đã kết thúc.',@Now,MaSuKien
+ FROM @ThongBaoKetThuc;
  COMMIT;SELECT * FROM dbo.LopHoc WHERE Id=@LopId;
  END TRY BEGIN CATCH IF XACT_STATE()<>0 ROLLBACK;THROW;END CATCH;
 END;

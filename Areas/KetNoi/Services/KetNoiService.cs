@@ -155,6 +155,7 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
             };
         var u = await current.HienTaiAsync();
         var r = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && x.LienHeId == contact && (x.GiaSuId == u.Id || x.BenHocId == u.Id)) ?? throw new LoiNghiepVu("Không có yêu cầu này.", 404);
+        Rules.Check(r.TrangThai != "NhuCauDaKetNoi", "Nhu cầu đã được kết nối. Đề nghị này đã kết thúc.", 409);
         var slots = await db.Set<KhungGioDeXuat>().Where(x => x.YeuCauKetNoiId == id).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToListAsync();
         var need = await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == r.NhuCauId);
         return new()
@@ -219,7 +220,9 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
         var resource = "EduConnect:ChapNhan:" + id;
         await db.Database.ExecuteSqlInterpolatedAsync($"DECLARE @Result int; EXEC @Result=sys.sp_getapplock @Resource={resource}, @LockMode='Exclusive', @LockOwner='Transaction', @LockTimeout=15000; IF @Result<0 THROW 51152,N'Yêu cầu đang được xử lý, hãy thử lại.',1;", huy);
         var r = await ChiTietAsync(id);
-        Rules.Check(r.BenHocId == u.Id && r.NguoiDeXuatId == r.GiaSuId, "Chỉ bên học được xác nhận đề xuất của gia sư để tạo lớp.", 403);
+        Rules.Check(r.BenHocId == u.Id, "Chỉ bên học được xác nhận đề xuất của gia sư để tạo lớp.", 403);
+        Rules.Check(r.TrangThai != "NhuCauDaKetNoi", "Nhu cầu đã được kết nối. Đề nghị này đã kết thúc.", 409);
+        Rules.Check(r.NguoiDeXuatId == r.GiaSuId, "Chỉ bên học được xác nhận đề xuất của gia sư để tạo lớp.", 403);
         if (r.TrangThai == "DaChapNhan")
             return await db.Set<LopHoc>().Where(x => x.YeuCauKetNoiId == id).Select(x => x.Id).SingleAsync();
         var rv = Rules.Version(version);

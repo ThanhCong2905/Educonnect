@@ -36,7 +36,7 @@ BEGIN
         KetThucLuc datetimeoffset NULL,
         NguoiKetThucId uniqueidentifier NULL REFERENCES dbo.AspNetUsers(Id),
         RowVersion rowversion NOT NULL,
-        CONSTRAINT CK_LienKet_Cap CHECK (PhuHuynhId<>HocSinhId AND NguoiGuiId=PhuHuynhId),
+        CONSTRAINT CK_LienKet_Cap CHECK (PhuHuynhId<>HocSinhId AND NguoiGuiId IN(PhuHuynhId,HocSinhId)),
         CONSTRAINT CK_LienKet_TrangThai CHECK (TrangThai IN('ChoXacNhan','DaLienKet','TuChoi','DaHuy')),
         CONSTRAINT CK_LienKet_ThoiGian CHECK ((XacNhanLuc IS NULL OR XacNhanLuc>=GuiLuc) AND (KetThucLuc IS NULL OR KetThucLuc>=GuiLuc)),
         CONSTRAINT CK_LienKet_HieuLuc CHECK (

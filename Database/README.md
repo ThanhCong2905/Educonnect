@@ -1,8 +1,14 @@
 # Database EduConnect
 
-Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 22. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 25. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
 Database đã đến script 21 chạy `22_OptionalLessonComment.sql` để cho phép bỏ trống nhận xét của buổi đã diễn ra. Buổi không diễn ra vẫn phải có lý do. Bản cài mới đã có thay đổi này trong file 00.
+
+Database đã đến script 22 chạy `23_LienKetTaiKhoanHaiChieu.sql` để cho phép Học sinh hoặc Phụ huynh gửi đề nghị liên kết. Chỉ bên nhận được đồng ý hoặc từ chối; mỗi cặp chỉ có một đề nghị hoặc liên kết còn hiệu lực. File 00 đã có ràng buộc mới, không thêm bảng hay cột.
+
+Database đã đến script 23 chạy `24_DongNhuCauDaKetNoi.sql`. Khi tạo lớp thành công, procedure đóng nhu cầu gắn với đề xuất trong cùng giao dịch, ghi `LyDoDong=DaKetNoi` và bỏ nhắc xác nhận. Nếu tạo lớp thất bại, nhu cầu vẫn mở. Script cũng đóng các nhu cầu đang mở đã có lớp đang hoạt động. File 00 đã cập nhật procedure cho cài mới; không thêm bảng hay cột.
+
+Database đã đến script 24 chạy `25_KetThucDeXuatCungNhuCau.sql`. Khi tạo lớp, các yêu cầu/đề xuất còn chờ và chưa hết hạn của cùng nhu cầu chuyển sang `NhuCauDaKetNoi` (Nhu cầu đã được kết nối). Mỗi đề nghị kết thúc có thông báo và sự kiện chờ phát cho hai tài khoản liên quan, lưu cùng giao dịch. Đề nghị đã từ chối/rút/hết hạn và các nhu cầu khác giữ nguyên. Script cũng xử lý các đề nghị còn chờ gắn nhu cầu đã đóng có lớp đang hoạt động; chạy lại không gửi thông báo lặp.
 
 Máy khác cài mới chỉ chạy file 00 rồi đổi tên SQL Server trong chuỗi kết nối. Database đang sử dụng không chạy lại file 00; chỉ nâng cấp nếu thiếu cấu trúc. Các file nâng cấp riêng được giữ để hỗ trợ database của phiên bản cũ.
 

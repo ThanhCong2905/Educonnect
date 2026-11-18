@@ -129,6 +129,7 @@ public static class Rules
         "ChoGiaSu" => "Chờ gia sư",
         "ChoBenHoc" => "Chờ bên học",
         "DaChapNhan" => "Đã tạo lớp",
+        "NhuCauDaKetNoi" => "Nhu cầu đã được kết nối",
         "HetHan" => "Hết hạn",
         "DangHoatDong" => "Đang học",
         "DaKetThuc" => "Đã kết thúc",
