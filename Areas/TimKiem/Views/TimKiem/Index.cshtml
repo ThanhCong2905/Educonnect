@@ -5,13 +5,6 @@
     if (!tutor) sortingOptions.AddRange([("DanhGia", "Đánh giá cao nhất"), ("HocVien", "Nhiều bên học nhất")]);
 }
 <div id="search-content" data-ajax-page="search" data-search-kind="@f.LoaiDoiTuong">
-@if (User.Identity?.IsAuthenticated != true)
-{
-<nav class="actions search-kind-tabs" aria-label="Loại tìm kiếm">
-    <a class="btn @(!tutor?"btn-primary":"btn-outline-primary")" href="/TimKiem/TimKiem/GiaSu" aria-current="@(!tutor?"page":null)">Tìm gia sư</a>
-    <a class="btn @(tutor?"btn-primary":"btn-outline-primary")" href="/TimKiem/TimKiem/NhuCau" aria-current="@(tutor?"page":null)">Tìm nhu cầu học</a>
-</nav>
-}
 <h1>@(tutor?"Tìm nhu cầu học":"Tìm gia sư")</h1>
 <form method="get" asp-action="@searchAction" id="search-filters"><input type="hidden" name="LoaiDoiTuong" value="@f.LoaiDoiTuong"><div class="searchbox search-keyword"><input class="form-control" name="TuKhoa" maxlength="100" value="@f.TuKhoa" aria-label="Từ khóa" placeholder="Tên hoặc môn học"><button class="btn btn-primary">Tìm kiếm</button></div>
 <details class="card search-filter-panel" open="@(f.MonHocId.HasValue || !string.IsNullOrEmpty(f.KhoiLop) || !string.IsNullOrEmpty(f.HinhThucHoc) || !string.IsNullOrEmpty(f.KhuVuc) || f.HocPhiToiDa.HasValue || f.TrinhDo != null || f.ThuTrongTuan.HasValue)"><summary>Bộ lọc tìm kiếm</summary><div class="search-filter-body"><div class="search-basic-grid"><label>Môn học<select class="form-select" name="MonHocId"><option value="">Tất cả môn</option>@foreach(var s in ((List<MonHoc>)ViewBag.Subjects).OrderBy(subject => MonHocCatalog.ThuTuHienThi(subject.TenMon))){<option value="@s.Id" selected="@(f.MonHocId==s.Id)">@s.TenMon</option>}</select></label><label>@(tutor?"Khối lớp":"Phạm vi dạy")<select class="form-select" name="KhoiLop"><option value="">Tất cả lớp</option>@for(var grade=1;grade<=12;grade++){<option value="Lớp @grade" selected="@(f.KhoiLop==$"Lớp {grade}")">Lớp @grade</option>}</select></label><label>Hình thức<select class="form-select" name="HinhThucHoc"><option value="">Tất cả</option><option value="TrucTuyen" selected="@(f.HinhThucHoc=="TrucTuyen")">Trực tuyến</option><option value="TrucTiep" selected="@(f.HinhThucHoc=="TrucTiep")">Trực tiếp</option></select></label><partial name="_KhuVucPicker" model="new EduConnect.Mvc.ViewModels.KhuVucPickerViewModel(f.KhuVuc, f.PhuongXa)" /></div>

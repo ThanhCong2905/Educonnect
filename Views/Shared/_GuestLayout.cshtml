@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/guest.css" asp-append-version="true">
 </head>
 <body>
     <button type="button" class="btn mobile-menu" aria-label="Mở menu" aria-expanded="false" aria-controls="navigation">☰</button>
@@ -31,10 +32,16 @@
     </aside>
     <div class="shell">
     <header>
+        <div class="guest-header-navigation">
+        @if (!home)
+        {
+            <a class="guest-back" href="@(search ? "/" : needs ? "/TimKiem/TimKiem/NhuCau" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false" aria-label="Quay lại" title="Quay lại"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14" /></svg></a>
+        }
         <nav class="breadcrumbs" aria-label="Đường dẫn"><ol>
             @if (!home) { <li><a href="/">Trang chủ</a></li> }
             <li><span aria-current="page">@(home ? "Trang chủ" : ViewData["Title"])</span></li>
         </ol></nav>
+        </div>
         <div class="header-actions">
             <a class="btn btn-outline-primary" asp-area="" asp-controller="TaiKhoan" asp-action="DangNhap" asp-route-returnUrl="@returnUrl">Đăng nhập</a>
             <a class="btn btn-primary" href="/TaiKhoan/DangKy">Đăng ký</a>
@@ -42,10 +49,6 @@
     </header>
     <main class="container-fluid">
         <partial name="_Notifications" />
-        @if (!home)
-        {
-            <a class="btn btn-outline-primary page-back" href="@(search ? "/" : needs ? "/TimKiem/TimKiem/NhuCau" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false">← Quay lại</a>
-        }
         @RenderBody()
     </main>
     <footer><strong>EduConnect</strong><span>Kết nối gia sư và người học.</span><span>© @DateTime.Today.Year EduConnect</span></footer>
