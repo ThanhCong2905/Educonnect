@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d0a01ef8-549b-440e-9acd-ad85c14d7ff8" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-18 22:29:59" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-18T22:29:59.3709231+07:00" queuing="2026-11-18T22:29:59.3709235+07:00" start="2026-11-18T22:29:58.2369487+07:00" finish="2026-11-18T22:29:59.4951677+07:00" />
+  <TestSettings name="default" id="368030ad-bb95-4288-b015-617ee2ebbce8">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-18_22_29_59" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7a4b8fec-e76b-4a01-899b-baf398d4b9c6" testId="a4702105-9003-1da8-5ba5-434ef307774c" testName="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 400)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0122752" startTime="2026-11-18T22:29:59.3192933+07:00" endTime="2026-11-18T22:29:59.3192937+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a4b8fec-e76b-4a01-899b-baf398d4b9c6" />
+    <UnitTestResult executionId="d73cc166-935a-4827-9399-3bb9ffb18ea5" testId="91f632a1-df77-ea56-489e-762025dc17c6" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;TuChoi&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0005758" startTime="2026-11-18T22:29:59.3062978+07:00" endTime="2026-11-18T22:29:59.3062979+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d73cc166-935a-4827-9399-3bb9ffb18ea5" />
+    <UnitTestResult executionId="50b74ba6-0301-492d-963e-1068e54ff132" testId="6d882f67-65d5-b89e-32d9-7e71888bd656" testName="ControllerGuardTests.Cancelled_end_confirmation_stops_before_accessing_connection_service" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0088974" startTime="2026-11-18T22:29:59.3422062+07:00" endTime="2026-11-18T22:29:59.3422063+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="50b74ba6-0301-492d-963e-1068e54ff132" />
+    <UnitTestResult executionId="fc855ee5-0871-4d1d-9d12-e42491fcc86c" testId="68f983ac-387d-283a-6f24-dfd787c2ba7d" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;HuyKetNoi&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0007750" startTime="2026-11-18T22:29:59.3063140+07:00" endTime="2026-11-18T22:29:59.3063141+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc855ee5-0871-4d1d-9d12-e42491fcc86c" />
+    <UnitTestResult executionId="501375dd-c246-4ecb-a1e3-b9d60866ae81" testId="08ecd487-7b4d-a625-e076-2bafa2ea115b" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;ChapNhan&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006668" startTime="2026-11-18T22:29:59.3067287+07:00" endTime="2026-11-18T22:29:59.3067287+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="501375dd-c246-4ecb-a1e3-b9d60866ae81" />
+    <UnitTestResult executionId="b6dd2bfc-e950-4867-8373-ee10ea440766" testId="16a868d4-0c59-4da0-86ba-99465bf38fd4" testName="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 403)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000420" startTime="2026-11-18T22:29:59.3420117+07:00" endTime="2026-11-18T22:29:59.3420118+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b6dd2bfc-e950-4867-8373-ee10ea440766" />
+    <UnitTestResult executionId="103ecfed-e9b4-489c-9a68-2f2a491d7b18" testId="ce72e5c6-6388-361e-e891-79e4a1ea0608" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;Rut&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0009109" startTime="2026-11-18T22:29:59.3062678+07:00" endTime="2026-11-18T22:29:59.3062678+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="103ecfed-e9b4-489c-9a68-2f2a491d7b18" />
+    <UnitTestResult executionId="36d8f0b1-8f57-4117-b428-86cc524e140e" testId="34d78c20-73d6-fa5f-9ff7-2339e099900e" testName="ControllerGuardTests.Invalid_end_confirmation_stops_before_loading_actor" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0023282" startTime="2026-11-18T22:29:59.3422495+07:00" endTime="2026-11-18T22:29:59.3422495+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36d8f0b1-8f57-4117-b428-86cc524e140e" />
+    <UnitTestResult executionId="ae9f6fca-a020-413b-9d8a-9705aa95cedd" testId="22fc9a60-a01c-4db2-800f-2dcf841c2bbb" testName="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 404)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000577" startTime="2026-11-18T22:29:59.3198753+07:00" endTime="2026-11-18T22:29:59.3198753+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae9f6fca-a020-413b-9d8a-9705aa95cedd" />
+    <UnitTestResult executionId="ea2b75ed-8862-4ddc-9bf6-75875e7184cd" testId="1cb70b26-ae57-60ff-01cf-3a4df76c9986" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;GuiYeuCau&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0251369" startTime="2026-11-18T22:29:59.3029387+07:00" endTime="2026-11-18T22:29:59.3029741+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea2b75ed-8862-4ddc-9bf6-75875e7184cd" />
+    <UnitTestResult executionId="f41d5a59-0144-4fe5-a847-528077d1d9d1" testId="4c306dae-f828-b609-18bb-6bc9d4fbc741" testName="ControllerGuardTests.Invalid_search_model_stops_before_loading_catalog" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0038291" startTime="2026-11-18T22:29:59.3421808+07:00" endTime="2026-11-18T22:29:59.3421809+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f41d5a59-0144-4fe5-a847-528077d1d9d1" />
+    <UnitTestResult executionId="d9f883e9-f07b-4510-86d9-fdd5d203e720" testId="2af258be-eeb8-7b6e-8c21-66cb60463418" testName="ControllerGuardTests.Unexpected_error_does_not_expose_internal_details" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0008909" startTime="2026-11-18T22:29:59.3422260+07:00" endTime="2026-11-18T22:29:59.3422261+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9f883e9-f07b-4510-86d9-fdd5d203e720" />
+    <UnitTestResult executionId="49282206-ba18-4950-a06a-6546ff18c823" testId="a3a75626-c87e-9084-8654-2e0a16488ad7" testName="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;PhanHoiHuy&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0015424" startTime="2026-11-18T22:29:59.3058741+07:00" endTime="2026-11-18T22:29:59.3058741+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="49282206-ba18-4950-a06a-6546ff18c823" />
+    <UnitTestResult executionId="03c3db75-1182-4e1c-830f-3c8a2fe554b6" testId="1b079b1e-3714-b12a-7333-7b9dfe84d5dc" testName="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 409)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0004357" startTime="2026-11-18T22:29:59.3197889+07:00" endTime="2026-11-18T22:29:59.3197890+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03c3db75-1182-4e1c-830f-3c8a2fe554b6" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;PhanHoiHuy&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="a3a75626-c87e-9084-8654-2e0a16488ad7">
+      <Execution id="49282206-ba18-4950-a06a-6546ff18c823" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 400)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="a4702105-9003-1da8-5ba5-434ef307774c">
+      <Execution id="7a4b8fec-e76b-4a01-899b-baf398d4b9c6" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Middleware_maps_business_error_to_http_status" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 403)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="16a868d4-0c59-4da0-86ba-99465bf38fd4">
+      <Execution id="b6dd2bfc-e950-4867-8373-ee10ea440766" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Middleware_maps_business_error_to_http_status" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;TuChoi&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="91f632a1-df77-ea56-489e-762025dc17c6">
+      <Execution id="d73cc166-935a-4827-9399-3bb9ffb18ea5" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_end_confirmation_stops_before_loading_actor" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="34d78c20-73d6-fa5f-9ff7-2339e099900e">
+      <Execution id="36d8f0b1-8f57-4117-b428-86cc524e140e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_end_confirmation_stops_before_loading_actor" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Unexpected_error_does_not_expose_internal_details" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="2af258be-eeb8-7b6e-8c21-66cb60463418">
+      <Execution id="d9f883e9-f07b-4510-86d9-fdd5d203e720" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Unexpected_error_does_not_expose_internal_details" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;HuyKetNoi&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="68f983ac-387d-283a-6f24-dfd787c2ba7d">
+      <Execution id="fc855ee5-0871-4d1d-9d12-e42491fcc86c" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;Rut&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ce72e5c6-6388-361e-e891-79e4a1ea0608">
+      <Execution id="103ecfed-e9b4-489c-9a68-2f2a491d7b18" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 404)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="22fc9a60-a01c-4db2-800f-2dcf841c2bbb">
+      <Execution id="ae9f6fca-a020-413b-9d8a-9705aa95cedd" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Middleware_maps_business_error_to_http_status" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_search_model_stops_before_loading_catalog" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4c306dae-f828-b609-18bb-6bc9d4fbc741">
+      <Execution id="f41d5a59-0144-4fe5-a847-528077d1d9d1" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_search_model_stops_before_loading_catalog" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;GuiYeuCau&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1cb70b26-ae57-60ff-01cf-3a4df76c9986">
+      <Execution id="ea2b75ed-8862-4ddc-9bf6-75875e7184cd" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 409)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1b079b1e-3714-b12a-7333-7b9dfe84d5dc">
+      <Execution id="03c3db75-1182-4e1c-830f-3c8a2fe554b6" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Middleware_maps_business_error_to_http_status" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Cancelled_end_confirmation_stops_before_accessing_connection_service" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6d882f67-65d5-b89e-32d9-7e71888bd656">
+      <Execution id="50b74ba6-0301-492d-963e-1068e54ff132" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Cancelled_end_confirmation_stops_before_accessing_connection_service" />
+    </UnitTest>
+    <UnitTest name="ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: &quot;ChapNhan&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="08ecd487-7b4d-a625-e076-2bafa2ea115b">
+      <Execution id="501375dd-c246-4ecb-a1e3-b9d60866ae81" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ControllerGuardTests" name="Invalid_model_stops_before_accessing_services" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="a4702105-9003-1da8-5ba5-434ef307774c" executionId="7a4b8fec-e76b-4a01-899b-baf398d4b9c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="91f632a1-df77-ea56-489e-762025dc17c6" executionId="d73cc166-935a-4827-9399-3bb9ffb18ea5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d882f67-65d5-b89e-32d9-7e71888bd656" executionId="50b74ba6-0301-492d-963e-1068e54ff132" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="68f983ac-387d-283a-6f24-dfd787c2ba7d" executionId="fc855ee5-0871-4d1d-9d12-e42491fcc86c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08ecd487-7b4d-a625-e076-2bafa2ea115b" executionId="501375dd-c246-4ecb-a1e3-b9d60866ae81" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16a868d4-0c59-4da0-86ba-99465bf38fd4" executionId="b6dd2bfc-e950-4867-8373-ee10ea440766" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ce72e5c6-6388-361e-e891-79e4a1ea0608" executionId="103ecfed-e9b4-489c-9a68-2f2a491d7b18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34d78c20-73d6-fa5f-9ff7-2339e099900e" executionId="36d8f0b1-8f57-4117-b428-86cc524e140e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="22fc9a60-a01c-4db2-800f-2dcf841c2bbb" executionId="ae9f6fca-a020-413b-9d8a-9705aa95cedd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1cb70b26-ae57-60ff-01cf-3a4df76c9986" executionId="ea2b75ed-8862-4ddc-9bf6-75875e7184cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c306dae-f828-b609-18bb-6bc9d4fbc741" executionId="f41d5a59-0144-4fe5-a847-528077d1d9d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2af258be-eeb8-7b6e-8c21-66cb60463418" executionId="d9f883e9-f07b-4510-86d9-fdd5d203e720" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a3a75626-c87e-9084-8654-2e0a16488ad7" executionId="49282206-ba18-4950-a06a-6546ff18c823" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b079b1e-3714-b12a-7333-7b9dfe84d5dc" executionId="03c3db75-1182-4e1c-830f-3c8a2fe554b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="14" executed="14" passed="14" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.10]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.17]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.18]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.28]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

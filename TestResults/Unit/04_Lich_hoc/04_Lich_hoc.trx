@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="7ded16ee-a063-461e-8cc8-ce2543b68621" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-18 22:30:02" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-18T22:30:02.5812202+07:00" queuing="2026-11-18T22:30:02.5812206+07:00" start="2026-11-18T22:30:01.5824965+07:00" finish="2026-11-18T22:30:02.6429055+07:00" />
+  <TestSettings name="default" id="695d9f39-006e-4af7-bdf9-bc3b8e0ffce9">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-18_22_30_02" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="22b61ace-e003-4c8e-bdfc-c92ef1326a5a" testId="401ea923-55c3-d34c-c866-d8e6ca64ba9b" testName="ClassCalendarTests.Past_unrecorded_lesson_has_specific_status" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001381" startTime="2026-11-18T22:30:02.5316907+07:00" endTime="2026-11-18T22:30:02.5316908+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22b61ace-e003-4c8e-bdfc-c92ef1326a5a" />
+    <UnitTestResult executionId="466d6d9d-86b6-4158-99ce-1d80a24e842f" testId="6a39c901-3aca-bf58-f37d-c2b6c5fb9380" testName="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DangDienRa&quot;, expected: &quot;Đang diễn ra&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0092690" startTime="2026-11-18T22:30:02.5254769+07:00" endTime="2026-11-18T22:30:02.5255218+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="466d6d9d-86b6-4158-99ce-1d80a24e842f" />
+    <UnitTestResult executionId="4a1b41eb-f25c-4428-9ed8-d22accf8041c" testId="f77a5dd9-2744-aacb-694c-6c066f9dabdc" testName="ClassCalendarTests.Rejects_unrepresentable_week_without_date_overflow" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006246" startTime="2026-11-18T22:30:02.5587223+07:00" endTime="2026-11-18T22:30:02.5587223+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a1b41eb-f25c-4428-9ed8-d22accf8041c" />
+    <UnitTestResult executionId="65041aa5-c2df-4c0b-95f8-034111115648" testId="3cbc036f-6b5a-be41-31fc-ccdb94e2b57f" testName="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaHuy&quot;, lesson: &quot;DuKien&quot;, expected: &quot;Đã hủy&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000083" startTime="2026-11-18T22:30:02.5286895+07:00" endTime="2026-11-18T22:30:02.5286895+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="65041aa5-c2df-4c0b-95f8-034111115648" />
+    <UnitTestResult executionId="3d2e9f6c-07a7-49ef-85a7-633d6e09564f" testId="4ceb6f0b-93b5-3ef9-04b2-46f865e1230a" testName="ClassCalendarTests.Overlapping_history_uses_separate_lanes_and_adjacent_lessons_reuse_lane" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0025117" startTime="2026-11-18T22:30:02.5588718+07:00" endTime="2026-11-18T22:30:02.5588718+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d2e9f6c-07a7-49ef-85a7-633d6e09564f" />
+    <UnitTestResult executionId="32759070-b06f-4d10-8160-f091676f3f64" testId="8e5f5add-e210-59c2-1356-fb8e8405c2a0" testName="ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2027, m: 1, d: 1, wy: 2026, wm: 12, wd: 28)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003387" startTime="2026-11-18T22:30:02.5315172+07:00" endTime="2026-11-18T22:30:02.5315173+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32759070-b06f-4d10-8160-f091676f3f64" />
+    <UnitTestResult executionId="25f7486a-e6cb-4e34-86af-b6ec07bdd25f" testId="c25bdb89-6744-9572-d0ca-b09bcd75aa0f" testName="ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2026, m: 11, d: 22, wy: 2026, wm: 11, wd: 16)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0059076" startTime="2026-11-18T22:30:02.5311869+07:00" endTime="2026-11-18T22:30:02.5311869+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25f7486a-e6cb-4e34-86af-b6ec07bdd25f" />
+    <UnitTestResult executionId="81ab6cf0-06b7-49d8-9ba9-20e673c74d4e" testId="1d2f6263-a54b-1924-747c-16663635a48f" testName="ClassCalendarTests.Uses_Vietnam_date_and_Monday_as_week_start" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0008476" startTime="2026-11-18T22:30:02.5588961+07:00" endTime="2026-11-18T22:30:02.5588962+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81ab6cf0-06b7-49d8-9ba9-20e673c74d4e" />
+    <UnitTestResult executionId="5cf0be9a-5630-4c6b-8eef-060933934790" testId="545531a1-642c-0c15-b28c-eb2a884c385a" testName="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DaNghi&quot;, expected: &quot;Đã nghỉ&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001964" startTime="2026-11-18T22:30:02.5283427+07:00" endTime="2026-11-18T22:30:02.5283427+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5cf0be9a-5630-4c6b-8eef-060933934790" />
+    <UnitTestResult executionId="1bf7ea7a-ce5a-4d8f-8904-3071dad92355" testId="58610c0d-5417-1bd3-9457-32997cd0d569" testName="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaDieuChinh&quot;, lesson: &quot;DaHoc&quot;, expected: &quot;Đã đổi lịch&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000030" startTime="2026-11-18T22:30:02.5287156+07:00" endTime="2026-11-18T22:30:02.5287156+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bf7ea7a-ce5a-4d8f-8904-3071dad92355" />
+    <UnitTestResult executionId="a435c72c-7048-441b-9015-f35be4cec7f6" testId="7213ffbd-b61b-feb7-937a-f26599571907" testName="ClassCalendarTests.Filters_boundaries_and_splits_overnight_lesson" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0080719" startTime="2026-11-18T22:30:02.5398614+07:00" endTime="2026-11-18T22:30:02.5398618+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a435c72c-7048-441b-9015-f35be4cec7f6" />
+    <UnitTestResult executionId="841827fb-63da-41ac-8d93-010e2ba82ed2" testId="a195b51a-6266-549e-68da-6fc1290cb371" testName="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DaHoc&quot;, expected: &quot;Đã học&quot;)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000040" startTime="2026-11-18T22:30:02.5287331+07:00" endTime="2026-11-18T22:30:02.5287331+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="841827fb-63da-41ac-8d93-010e2ba82ed2" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2026, m: 11, d: 22, wy: 2026, wm: 11, wd: 16)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="c25bdb89-6744-9572-d0ca-b09bcd75aa0f">
+      <Execution id="25f7486a-e6cb-4e34-86af-b6ec07bdd25f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Normalizes_requested_week_across_month_and_year" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Past_unrecorded_lesson_has_specific_status" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="401ea923-55c3-d34c-c866-d8e6ca64ba9b">
+      <Execution id="22b61ace-e003-4c8e-bdfc-c92ef1326a5a" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Past_unrecorded_lesson_has_specific_status" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Rejects_unrepresentable_week_without_date_overflow" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="f77a5dd9-2744-aacb-694c-6c066f9dabdc">
+      <Execution id="4a1b41eb-f25c-4428-9ed8-d22accf8041c" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Rejects_unrepresentable_week_without_date_overflow" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2027, m: 1, d: 1, wy: 2026, wm: 12, wd: 28)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="8e5f5add-e210-59c2-1356-fb8e8405c2a0">
+      <Execution id="32759070-b06f-4d10-8160-f091676f3f64" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Normalizes_requested_week_across_month_and_year" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaHuy&quot;, lesson: &quot;DuKien&quot;, expected: &quot;Đã hủy&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="3cbc036f-6b5a-be41-31fc-ccdb94e2b57f">
+      <Execution id="65041aa5-c2df-4c0b-95f8-034111115648" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Resolves_schedule_and_lesson_status" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DaNghi&quot;, expected: &quot;Đã nghỉ&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="545531a1-642c-0c15-b28c-eb2a884c385a">
+      <Execution id="5cf0be9a-5630-4c6b-8eef-060933934790" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Resolves_schedule_and_lesson_status" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Overlapping_history_uses_separate_lanes_and_adjacent_lessons_reuse_lane" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4ceb6f0b-93b5-3ef9-04b2-46f865e1230a">
+      <Execution id="3d2e9f6c-07a7-49ef-85a7-633d6e09564f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Overlapping_history_uses_separate_lanes_and_adjacent_lessons_reuse_lane" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Filters_boundaries_and_splits_overnight_lesson" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="7213ffbd-b61b-feb7-937a-f26599571907">
+      <Execution id="a435c72c-7048-441b-9015-f35be4cec7f6" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Filters_boundaries_and_splits_overnight_lesson" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaDieuChinh&quot;, lesson: &quot;DaHoc&quot;, expected: &quot;Đã đổi lịch&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="58610c0d-5417-1bd3-9457-32997cd0d569">
+      <Execution id="1bf7ea7a-ce5a-4d8f-8904-3071dad92355" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Resolves_schedule_and_lesson_status" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Uses_Vietnam_date_and_Monday_as_week_start" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1d2f6263-a54b-1924-747c-16663635a48f">
+      <Execution id="81ab6cf0-06b7-49d8-9ba9-20e673c74d4e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Uses_Vietnam_date_and_Monday_as_week_start" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DangDienRa&quot;, expected: &quot;Đang diễn ra&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="6a39c901-3aca-bf58-f37d-c2b6c5fb9380">
+      <Execution id="466d6d9d-86b6-4158-99ce-1d80a24e842f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Resolves_schedule_and_lesson_status" />
+    </UnitTest>
+    <UnitTest name="ClassCalendarTests.Resolves_schedule_and_lesson_status(state: &quot;DaLenLich&quot;, lesson: &quot;DaHoc&quot;, expected: &quot;Đã học&quot;)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="a195b51a-6266-549e-68da-6fc1290cb371">
+      <Execution id="841827fb-63da-41ac-8d93-010e2ba82ed2" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="ClassCalendarTests" name="Resolves_schedule_and_lesson_status" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="401ea923-55c3-d34c-c866-d8e6ca64ba9b" executionId="22b61ace-e003-4c8e-bdfc-c92ef1326a5a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a39c901-3aca-bf58-f37d-c2b6c5fb9380" executionId="466d6d9d-86b6-4158-99ce-1d80a24e842f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f77a5dd9-2744-aacb-694c-6c066f9dabdc" executionId="4a1b41eb-f25c-4428-9ed8-d22accf8041c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3cbc036f-6b5a-be41-31fc-ccdb94e2b57f" executionId="65041aa5-c2df-4c0b-95f8-034111115648" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ceb6f0b-93b5-3ef9-04b2-46f865e1230a" executionId="3d2e9f6c-07a7-49ef-85a7-633d6e09564f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e5f5add-e210-59c2-1356-fb8e8405c2a0" executionId="32759070-b06f-4d10-8160-f091676f3f64" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c25bdb89-6744-9572-d0ca-b09bcd75aa0f" executionId="25f7486a-e6cb-4e34-86af-b6ec07bdd25f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d2f6263-a54b-1924-747c-16663635a48f" executionId="81ab6cf0-06b7-49d8-9ba9-20e673c74d4e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="545531a1-642c-0c15-b28c-eb2a884c385a" executionId="5cf0be9a-5630-4c6b-8eef-060933934790" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="58610c0d-5417-1bd3-9457-32997cd0d569" executionId="1bf7ea7a-ce5a-4d8f-8904-3071dad92355" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7213ffbd-b61b-feb7-937a-f26599571907" executionId="a435c72c-7048-441b-9015-f35be4cec7f6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a195b51a-6266-549e-68da-6fc1290cb371" executionId="841827fb-63da-41ac-8d93-010e2ba82ed2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="12" executed="12" passed="12" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.12]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.13]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.21]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

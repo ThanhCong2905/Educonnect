@@ -1,0 +1,49 @@
+{"caseId":"RULES-070","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng LoiNhan; The field LoiNhan must be a string with a maximum length of 256.","elapsedMs":13,"utc":"2026-11-18T15:29:52.8971948+00:00"}
+{"caseId":"RULES-023","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":8,"utc":"2026-11-18T15:29:52.9422707+00:00"}
+{"caseId":"RULES-006","status":"Pass","actual":"Status=400; C\u00E1c khung gi\u1EDD c\u00F9ng ng\u00E0y kh\u00F4ng \u0111\u01B0\u1EE3c ch\u1ED3ng l\u1EA5n.","elapsedMs":1,"utc":"2026-11-18T15:29:52.9457717+00:00"}
+{"caseId":"RULES-001","status":"Pass","actual":"Status=400; C\u1EA7n t\u1EEB 1 \u0111\u1EBFn 35 khung gi\u1EDD.","elapsedMs":0,"utc":"2026-11-18T15:29:52.9475143+00:00"}
+{"caseId":"RULES-029","status":"Pass","actual":"T\u1EEB ch\u1ED1i phi\u00EAn b\u1EA3n; Status=400.","elapsedMs":0,"utc":"2026-11-18T15:29:52.9784277+00:00"}
+{"caseId":"RULES-021","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn h\u1ECDc ph\u00ED 0, \u0111\u01A1n v\u1ECB VND/Gio.","elapsedMs":0,"utc":"2026-11-18T15:29:52.9797135+00:00"}
+{"caseId":"RULES-009","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn 1 khung; kh\u00F4ng n\u00E9m ngo\u1EA1i l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0128809+00:00"}
+{"caseId":"RULES-068","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng LoiNhan; The LoiNhan field is required.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0141391+00:00"}
+{"caseId":"RULES-045","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":5,"utc":"2026-11-18T15:29:53.0202919+00:00"}
+{"caseId":"RULES-015","status":"Pass","actual":"Status=400; Nh\u1EADp \u0111\u1ED3ng th\u1EDDi h\u1ECDc ph\u00ED v\u00E0 \u0111\u01A1n v\u1ECB.","elapsedMs":1,"utc":"2026-11-18T15:29:53.0490461+00:00"}
+{"caseId":"RULES-036","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng HinhThucHoc; The HinhThucHoc field is required.","elapsedMs":2,"utc":"2026-11-18T15:29:53.0523763+00:00"}
+{"caseId":"RULES-030","status":"Pass","actual":"T\u1EEB ch\u1ED1i phi\u00EAn b\u1EA3n; Status=400.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0533134+00:00"}
+{"caseId":"RULES-005","status":"Pass","actual":"Status=400; Th\u1EE9 ho\u1EB7c gi\u1EDD c\u1EE7a khung gi\u1EDD kh\u00F4ng h\u1EE3p l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0859597+00:00"}
+{"caseId":"RULES-027","status":"Pass","actual":"T\u1EEB ch\u1ED1i phi\u00EAn b\u1EA3n; Status=400.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0868338+00:00"}
+{"caseId":"RULES-031","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng SoBuoiTuan; The field SoBuoiTuan must be between 1 and 7.","elapsedMs":1,"utc":"2026-11-18T15:29:53.088873+00:00"}
+{"caseId":"RULES-040","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.0902634+00:00"}
+{"caseId":"RULES-041","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1207127+00:00"}
+{"caseId":"RULES-046","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng TuKhoa; T\u1EEB kh\u00F3a t\u1ED1i \u0111a 100 k\u00FD t\u1EF1.","elapsedMs":1,"utc":"2026-11-18T15:29:53.1229252+00:00"}
+{"caseId":"RULES-032","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1238337+00:00"}
+{"caseId":"RULES-010","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn 35 khung; kh\u00F4ng n\u00E9m ngo\u1EA1i l\u1EC7.","elapsedMs":1,"utc":"2026-11-18T15:29:53.1565972+00:00"}
+{"caseId":"RULES-014","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn h\u1ECDc ph\u00ED null, \u0111\u01A1n v\u1ECB null.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1576573+00:00"}
+{"caseId":"RULES-035","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng HinhThucHoc; The field HinhThucHoc must match the regular expression \u0027TrucTuyen|TrucTiep\u0027.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1586379+00:00"}
+{"caseId":"RULES-008","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn 2 khung; kh\u00F4ng n\u00E9m ngo\u1EA1i l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1593866+00:00"}
+{"caseId":"RULES-025","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":0,"utc":"2026-11-18T15:29:53.191327+00:00"}
+{"caseId":"RULES-024","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn h\u1ECDc ph\u00ED null, \u0111\u01A1n v\u1ECB .","elapsedMs":0,"utc":"2026-11-18T15:29:53.1921594+00:00"}
+{"caseId":"RULES-007","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn 2 khung; kh\u00F4ng n\u00E9m ngo\u1EA1i l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.1929935+00:00"}
+{"caseId":"RULES-019","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":1,"utc":"2026-11-18T15:29:53.2275921+00:00"}
+{"caseId":"RULES-033","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.2288035+00:00"}
+{"caseId":"RULES-043","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng TenMonKhac; The field TenMonKhac must be a string with a maximum length of 100.","elapsedMs":1,"utc":"2026-11-18T15:29:53.2614699+00:00"}
+{"caseId":"RULES-003","status":"Pass","actual":"Status=400; Th\u1EE9 ho\u1EB7c gi\u1EDD c\u1EE7a khung gi\u1EDD kh\u00F4ng h\u1EE3p l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.2624052+00:00"}
+{"caseId":"RULES-016","status":"Pass","actual":"Status=400; Nh\u1EADp \u0111\u1ED3ng th\u1EDDi h\u1ECDc ph\u00ED v\u00E0 \u0111\u01A1n v\u1ECB.","elapsedMs":1,"utc":"2026-11-18T15:29:53.2963655+00:00"}
+{"caseId":"RULES-018","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":0,"utc":"2026-11-18T15:29:53.2974679+00:00"}
+{"caseId":"RULES-028","status":"Pass","actual":"T\u1EEB ch\u1ED1i phi\u00EAn b\u1EA3n; Status=400.","elapsedMs":0,"utc":"2026-11-18T15:29:53.3292091+00:00"}
+{"caseId":"RULES-026","status":"Pass","actual":"Gi\u1EA3i m\u00E3 \u0111\u00FAng 8 byte 01..08.","elapsedMs":0,"utc":"2026-11-18T15:29:53.33131+00:00"}
+{"caseId":"RULES-022","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":1,"utc":"2026-11-18T15:29:53.3640707+00:00"}
+{"caseId":"RULES-020","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":0,"utc":"2026-11-18T15:29:53.365153+00:00"}
+{"caseId":"RULES-013","status":"Pass","actual":"Status=400; C\u00E1c khung gi\u1EDD c\u00F9ng ng\u00E0y kh\u00F4ng \u0111\u01B0\u1EE3c ch\u1ED3ng l\u1EA5n.","elapsedMs":1,"utc":"2026-11-18T15:29:53.4014442+00:00"}
+{"caseId":"RULES-042","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng TuoiNguoiHoc; The field TuoiNguoiHoc must be between 1 and 120.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4029171+00:00"}
+{"caseId":"RULES-034","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng SoBuoiTuan; The field SoBuoiTuan must be between 1 and 7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4045563+00:00"}
+{"caseId":"RULES-069","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4059698+00:00"}
+{"caseId":"RULES-044","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng HoTen; Nh\u1EADp h\u1ECD t\u00EAn.; Gi\u1EDBi thi\u1EC7u c\u1EA7n t\u1EEB 100 \u0111\u1EBFn 4.000 k\u00FD t\u1EF1.","elapsedMs":2,"utc":"2026-11-18T15:29:53.4088744+00:00"}
+{"caseId":"RULES-002","status":"Pass","actual":"Status=400; C\u1EA7n t\u1EEB 1 \u0111\u1EBFn 35 khung gi\u1EDD.","elapsedMs":0,"utc":"2026-11-18T15:29:53.409594+00:00"}
+{"caseId":"RULES-012","status":"Pass","actual":"Status=400; C\u00E1c khung gi\u1EDD c\u00F9ng ng\u00E0y kh\u00F4ng \u0111\u01B0\u1EE3c ch\u1ED3ng l\u1EA5n.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4102866+00:00"}
+{"caseId":"RULES-017","status":"Pass","actual":"Status=400; H\u1ECDc ph\u00ED ph\u1EA3i l\u00E0 s\u1ED1 VND nguy\u00EAn kh\u00F4ng \u00E2m; ch\u1ECDn \u0111\u00FAng \u0111\u01A1n v\u1ECB.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4110692+00:00"}
+{"caseId":"RULES-004","status":"Pass","actual":"Status=400; Th\u1EE9 ho\u1EB7c gi\u1EDD c\u1EE7a khung gi\u1EDD kh\u00F4ng h\u1EE3p l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4116697+00:00"}
+{"caseId":"RULES-037","status":"Pass","actual":"Validation h\u1EE3p l\u1EC7; 0 l\u1ED7i.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4123259+00:00"}
+{"caseId":"RULES-011","status":"Pass","actual":"Ch\u1EA5p nh\u1EADn 1 khung; kh\u00F4ng n\u00E9m ngo\u1EA1i l\u1EC7.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4129343+00:00"}
+{"caseId":"RULES-039","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng TuoiNguoiHoc; The field TuoiNguoiHoc must be between 1 and 120.","elapsedMs":0,"utc":"2026-11-18T15:29:53.4135886+00:00"}
+{"caseId":"RULES-038","status":"Pass","actual":"Validation t\u1EEB ch\u1ED1i \u0111\u00FAng tr\u01B0\u1EDDng MucTieu; The field MucTieu must be a string with a maximum length of 2000.","elapsedMs":0,"utc":"2026-11-18T15:29:53.414245+00:00"}

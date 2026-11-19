@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="adca9d1b-7060-43cb-9b15-4037d3167d67" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-18 22:30:05" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-18T22:30:05.5338617+07:00" queuing="2026-11-18T22:30:05.5338622+07:00" start="2026-11-18T22:30:04.3521708+07:00" finish="2026-11-18T22:30:05.5423712+07:00" />
+  <TestSettings name="default" id="719827d0-74aa-41c5-a87e-421d7a5448c3">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-18_22_30_05" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="b5b3affb-d4f7-4188-96a0-08e0523eecd8" testId="dfdb3beb-0f50-29bd-ec71-1501a4644e5d" testName="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: &quot;Phường Ba Đình&quot;, expected: True)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0284175" startTime="2026-11-18T22:30:05.3367531+07:00" endTime="2026-11-18T22:30:05.3367871+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5b3affb-d4f7-4188-96a0-08e0523eecd8" />
+    <UnitTestResult executionId="ae0bb94f-5bd2-4cb5-835b-37b25ae6ce6b" testId="3a8fa076-27f1-7245-f86a-d96a39c20391" testName="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: null, ward: &quot;Phường Ba Đình&quot;, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002812" startTime="2026-11-18T22:30:05.3403779+07:00" endTime="2026-11-18T22:30:05.3403780+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae0bb94f-5bd2-4cb5-835b-37b25ae6ce6b" />
+    <UnitTestResult executionId="66516dab-7128-486d-a87c-815c3fce95bb" testId="ab5147c5-a8a6-42fd-deb3-b0dbd009aeb2" testName="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: &quot;Quận Ba Đình&quot;, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000027" startTime="2026-11-18T22:30:05.3409685+07:00" endTime="2026-11-18T22:30:05.3409686+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66516dab-7128-486d-a87c-815c3fce95bb" />
+    <UnitTestResult executionId="cd64b4cb-9cbb-4be1-b340-ef015e31b70b" testId="24a6a796-742e-afcf-80e6-a2f33955291f" testName="AdministrativeAreaTests.Catalog_covers_all_provinces_without_duplicate_wards" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0023929" startTime="2026-11-18T22:30:05.3510710+07:00" endTime="2026-11-18T22:30:05.3510717+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd64b4cb-9cbb-4be1-b340-ef015e31b70b" />
+    <UnitTestResult executionId="21b55b40-500a-44a6-baa1-4744cbdf9599" testId="5f6b83ae-44d3-933f-6fca-37fc03ad97aa" testName="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hồ Chí Minh&quot;, ward: &quot;Phường Ba Đình&quot;, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000058" startTime="2026-11-18T22:30:05.3409426+07:00" endTime="2026-11-18T22:30:05.3409427+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21b55b40-500a-44a6-baa1-4744cbdf9599" />
+    <UnitTestResult executionId="a792173a-b462-43dc-abb3-aaba63bbda30" testId="2bd30301-9a2f-8d43-0ef2-427e11e38d60" testName="AdministrativeAreaTests.Common_subjects_come_before_other_subjects" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0121933" startTime="2026-11-18T22:30:05.3485768+07:00" endTime="2026-11-18T22:30:05.3485774+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a792173a-b462-43dc-abb3-aaba63bbda30" />
+    <UnitTestResult executionId="009216fc-9c89-4781-be54-5174575105de" testId="f77f148b-e6e6-b0da-f0d2-516d7a184893" testName="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: null, expected: True)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000082" startTime="2026-11-18T22:30:05.3408991+07:00" endTime="2026-11-18T22:30:05.3408991+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="009216fc-9c89-4781-be54-5174575105de" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="AdministrativeAreaTests.Catalog_covers_all_provinces_without_duplicate_wards" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="24a6a796-742e-afcf-80e6-a2f33955291f">
+      <Execution id="cd64b4cb-9cbb-4be1-b340-ef015e31b70b" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Catalog_covers_all_provinces_without_duplicate_wards" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Common_subjects_come_before_other_subjects" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="2bd30301-9a2f-8d43-0ef2-427e11e38d60">
+      <Execution id="a792173a-b462-43dc-abb3-aaba63bbda30" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Common_subjects_come_before_other_subjects" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: null, ward: &quot;Phường Ba Đình&quot;, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="3a8fa076-27f1-7245-f86a-d96a39c20391">
+      <Execution id="ae0bb94f-5bd2-4cb5-835b-37b25ae6ce6b" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Ward_must_belong_to_the_selected_province" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: null, expected: True)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="f77f148b-e6e6-b0da-f0d2-516d7a184893">
+      <Execution id="009216fc-9c89-4781-be54-5174575105de" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Ward_must_belong_to_the_selected_province" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hồ Chí Minh&quot;, ward: &quot;Phường Ba Đình&quot;, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5f6b83ae-44d3-933f-6fca-37fc03ad97aa">
+      <Execution id="21b55b40-500a-44a6-baa1-4744cbdf9599" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Ward_must_belong_to_the_selected_province" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: &quot;Phường Ba Đình&quot;, expected: True)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="dfdb3beb-0f50-29bd-ec71-1501a4644e5d">
+      <Execution id="b5b3affb-d4f7-4188-96a0-08e0523eecd8" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Ward_must_belong_to_the_selected_province" />
+    </UnitTest>
+    <UnitTest name="AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: &quot;Hà Nội&quot;, ward: &quot;Quận Ba Đình&quot;, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ab5147c5-a8a6-42fd-deb3-b0dbd009aeb2">
+      <Execution id="66516dab-7128-486d-a87c-815c3fce95bb" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AdministrativeAreaTests" name="Ward_must_belong_to_the_selected_province" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="dfdb3beb-0f50-29bd-ec71-1501a4644e5d" executionId="b5b3affb-d4f7-4188-96a0-08e0523eecd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3a8fa076-27f1-7245-f86a-d96a39c20391" executionId="ae0bb94f-5bd2-4cb5-835b-37b25ae6ce6b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab5147c5-a8a6-42fd-deb3-b0dbd009aeb2" executionId="66516dab-7128-486d-a87c-815c3fce95bb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="24a6a796-742e-afcf-80e6-a2f33955291f" executionId="cd64b4cb-9cbb-4be1-b340-ef015e31b70b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f6b83ae-44d3-933f-6fca-37fc03ad97aa" executionId="21b55b40-500a-44a6-baa1-4744cbdf9599" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2bd30301-9a2f-8d43-0ef2-427e11e38d60" executionId="a792173a-b462-43dc-abb3-aaba63bbda30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f77f148b-e6e6-b0da-f0d2-516d7a184893" executionId="009216fc-9c89-4781-be54-5174575105de" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="7" executed="7" passed="7" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.12]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.13]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.22]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

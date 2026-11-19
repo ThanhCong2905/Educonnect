@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="cceb234e-fee0-45e4-b72d-4a95aae66144" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-18 22:30:08" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-18T22:30:08.8276885+07:00" queuing="2026-11-18T22:30:08.8276889+07:00" start="2026-11-18T22:30:07.4469502+07:00" finish="2026-11-18T22:30:08.8328700+07:00" />
+  <TestSettings name="default" id="68454200-1176-48e9-b135-3e016ab6f082">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-18_22_30_08" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5e764ec2-068b-4e72-bdd6-d3ba245a6094" testId="423b31c7-a97f-bd1c-5afe-0560846ada71" testName="GuestAccessTests.Anonymous_reader_has_no_account_and_cannot_supply_an_actor_id" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0198358" startTime="2026-11-18T22:30:08.6276010+07:00" endTime="2026-11-18T22:30:08.6276384+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5e764ec2-068b-4e72-bdd6-d3ba245a6094" />
+    <UnitTestResult executionId="9c994990-3c30-4fbd-8841-73a301be49ae" testId="5192c491-d48f-5ae3-15e4-6415b7bceb08" testName="GuestAccessTests.Needs_endpoint_allows_public_read_access" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0069883" startTime="2026-11-18T22:30:08.6341201+07:00" endTime="2026-11-18T22:30:08.6341204+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c994990-3c30-4fbd-8841-73a301be49ae" />
+    <UnitTestResult executionId="4a1a33e8-024e-4b6b-afba-782dd4ebc1f1" testId="5cc63c4b-cd4d-8055-0092-50d5251fa688" testName="GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 1)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0073364" startTime="2026-11-18T22:30:08.6414988+07:00" endTime="2026-11-18T22:30:08.6414992+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a1a33e8-024e-4b6b-afba-782dd4ebc1f1" />
+    <UnitTestResult executionId="df23eaf6-48a2-4a73-b4fc-c0503c106031" testId="871dbe70-3411-69eb-61ab-ace3f08974c2" testName="GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 4)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002495" startTime="2026-11-18T22:30:08.6417649+07:00" endTime="2026-11-18T22:30:08.6417649+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df23eaf6-48a2-4a73-b4fc-c0503c106031" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 4)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="871dbe70-3411-69eb-61ab-ace3f08974c2">
+      <Execution id="df23eaf6-48a2-4a73-b4fc-c0503c106031" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="GuestAccessTests" name="Guest_comparison_rejects_invalid_selection_count" />
+    </UnitTest>
+    <UnitTest name="GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 1)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5cc63c4b-cd4d-8055-0092-50d5251fa688">
+      <Execution id="4a1a33e8-024e-4b6b-afba-782dd4ebc1f1" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="GuestAccessTests" name="Guest_comparison_rejects_invalid_selection_count" />
+    </UnitTest>
+    <UnitTest name="GuestAccessTests.Anonymous_reader_has_no_account_and_cannot_supply_an_actor_id" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="423b31c7-a97f-bd1c-5afe-0560846ada71">
+      <Execution id="5e764ec2-068b-4e72-bdd6-d3ba245a6094" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="GuestAccessTests" name="Anonymous_reader_has_no_account_and_cannot_supply_an_actor_id" />
+    </UnitTest>
+    <UnitTest name="GuestAccessTests.Needs_endpoint_allows_public_read_access" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5192c491-d48f-5ae3-15e4-6415b7bceb08">
+      <Execution id="9c994990-3c30-4fbd-8841-73a301be49ae" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="GuestAccessTests" name="Needs_endpoint_allows_public_read_access" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="423b31c7-a97f-bd1c-5afe-0560846ada71" executionId="5e764ec2-068b-4e72-bdd6-d3ba245a6094" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5192c491-d48f-5ae3-15e4-6415b7bceb08" executionId="9c994990-3c30-4fbd-8841-73a301be49ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5cc63c4b-cd4d-8055-0092-50d5251fa688" executionId="4a1a33e8-024e-4b6b-afba-782dd4ebc1f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="871dbe70-3411-69eb-61ab-ace3f08974c2" executionId="df23eaf6-48a2-4a73-b4fc-c0503c106031" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.07]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.13]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.13]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.21]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

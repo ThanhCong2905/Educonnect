@@ -1,0 +1,187 @@
+{
+  "summary": {
+    "id": "03_Controller_Middleware",
+    "name": "Controller và middleware",
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "other": 0,
+    "trx": "C:\\Khóa luận TN\\EduConnect1\\TestResults\\Unit\\03_Controller_Middleware\\03_Controller_Middleware.trx",
+    "times": {
+      "creation": "2026-11-18T22:29:59.3709231+07:00",
+      "queuing": "2026-11-18T22:29:59.3709235+07:00",
+      "start": "2026-11-18T22:29:58.2369487+07:00",
+      "finish": "2026-11-18T22:29:59.4951677+07:00"
+    }
+  },
+  "results": [
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 400)",
+      "class": "ControllerGuardTests",
+      "method": "Middleware_maps_business_error_to_http_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0122752",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 82,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"TuChoi\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0005758",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Cancelled_end_confirmation_stops_before_accessing_connection_service",
+      "class": "ControllerGuardTests",
+      "method": "Cancelled_end_confirmation_stops_before_accessing_connection_service",
+      "outcome": "Passed",
+      "duration": "00:00:00.0088974",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 65,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"HuyKetNoi\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0007750",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"ChapNhan\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0006668",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 403)",
+      "class": "ControllerGuardTests",
+      "method": "Middleware_maps_business_error_to_http_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000420",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 82,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"Rut\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0009109",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_end_confirmation_stops_before_loading_actor",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_end_confirmation_stops_before_loading_actor",
+      "outcome": "Passed",
+      "duration": "00:00:00.0023282",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 44,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 404)",
+      "class": "ControllerGuardTests",
+      "method": "Middleware_maps_business_error_to_http_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000577",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 82,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"GuiYeuCau\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0251369",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_search_model_stops_before_loading_catalog",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_search_model_stops_before_loading_catalog",
+      "outcome": "Passed",
+      "duration": "00:00:00.0038291",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 56,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Unexpected_error_does_not_expose_internal_details",
+      "class": "ControllerGuardTests",
+      "method": "Unexpected_error_does_not_expose_internal_details",
+      "outcome": "Passed",
+      "duration": "00:00:00.0008909",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 96,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Invalid_model_stops_before_accessing_services(action: \"PhanHoiHuy\")",
+      "class": "ControllerGuardTests",
+      "method": "Invalid_model_stops_before_accessing_services",
+      "outcome": "Passed",
+      "duration": "00:00:00.0015424",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 22,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "03_Controller_Middleware",
+      "test": "ControllerGuardTests.Middleware_maps_business_error_to_http_status(status: 409)",
+      "class": "ControllerGuardTests",
+      "method": "Middleware_maps_business_error_to_http_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0004357",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ControllerGuardTests.cs",
+      "line": 82,
+      "message": "",
+      "stack": ""
+    }
+  ]
+}

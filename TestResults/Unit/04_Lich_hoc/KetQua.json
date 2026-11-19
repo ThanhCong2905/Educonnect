@@ -1,0 +1,163 @@
+{
+  "summary": {
+    "id": "04_Lich_hoc",
+    "name": "Lịch học",
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "other": 0,
+    "trx": "C:\\Khóa luận TN\\EduConnect1\\TestResults\\Unit\\04_Lich_hoc\\04_Lich_hoc.trx",
+    "times": {
+      "creation": "2026-11-18T22:30:02.5812202+07:00",
+      "queuing": "2026-11-18T22:30:02.5812206+07:00",
+      "start": "2026-11-18T22:30:01.5824965+07:00",
+      "finish": "2026-11-18T22:30:02.6429055+07:00"
+    }
+  },
+  "results": [
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Past_unrecorded_lesson_has_specific_status",
+      "class": "ClassCalendarTests",
+      "method": "Past_unrecorded_lesson_has_specific_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0001381",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 78,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Resolves_schedule_and_lesson_status(state: \"DaLenLich\", lesson: \"DangDienRa\", expected: \"Đang diễn ra\")",
+      "class": "ClassCalendarTests",
+      "method": "Resolves_schedule_and_lesson_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0092690",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 71,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Rejects_unrepresentable_week_without_date_overflow",
+      "class": "ClassCalendarTests",
+      "method": "Rejects_unrepresentable_week_without_date_overflow",
+      "outcome": "Passed",
+      "duration": "00:00:00.0006246",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 85,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Resolves_schedule_and_lesson_status(state: \"DaHuy\", lesson: \"DuKien\", expected: \"Đã hủy\")",
+      "class": "ClassCalendarTests",
+      "method": "Resolves_schedule_and_lesson_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000083",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 71,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Overlapping_history_uses_separate_lanes_and_adjacent_lessons_reuse_lane",
+      "class": "ClassCalendarTests",
+      "method": "Overlapping_history_uses_separate_lanes_and_adjacent_lessons_reuse_lane",
+      "outcome": "Passed",
+      "duration": "00:00:00.0025117",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 51,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2027, m: 1, d: 1, wy: 2026, wm: 12, wd: 28)",
+      "class": "ClassCalendarTests",
+      "method": "Normalizes_requested_week_across_month_and_year",
+      "outcome": "Passed",
+      "duration": "00:00:00.0003387",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 27,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Normalizes_requested_week_across_month_and_year(y: 2026, m: 11, d: 22, wy: 2026, wm: 11, wd: 16)",
+      "class": "ClassCalendarTests",
+      "method": "Normalizes_requested_week_across_month_and_year",
+      "outcome": "Passed",
+      "duration": "00:00:00.0059076",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 27,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Uses_Vietnam_date_and_Monday_as_week_start",
+      "class": "ClassCalendarTests",
+      "method": "Uses_Vietnam_date_and_Monday_as_week_start",
+      "outcome": "Passed",
+      "duration": "00:00:00.0008476",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 16,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Resolves_schedule_and_lesson_status(state: \"DaLenLich\", lesson: \"DaNghi\", expected: \"Đã nghỉ\")",
+      "class": "ClassCalendarTests",
+      "method": "Resolves_schedule_and_lesson_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0001964",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 71,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Resolves_schedule_and_lesson_status(state: \"DaDieuChinh\", lesson: \"DaHoc\", expected: \"Đã đổi lịch\")",
+      "class": "ClassCalendarTests",
+      "method": "Resolves_schedule_and_lesson_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000030",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 71,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Filters_boundaries_and_splits_overnight_lesson",
+      "class": "ClassCalendarTests",
+      "method": "Filters_boundaries_and_splits_overnight_lesson",
+      "outcome": "Passed",
+      "duration": "00:00:00.0080719",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 34,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "04_Lich_hoc",
+      "test": "ClassCalendarTests.Resolves_schedule_and_lesson_status(state: \"DaLenLich\", lesson: \"DaHoc\", expected: \"Đã học\")",
+      "class": "ClassCalendarTests",
+      "method": "Resolves_schedule_and_lesson_status",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000040",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\ClassCalendarTests.cs",
+      "line": 71,
+      "message": "",
+      "stack": ""
+    }
+  ]
+}

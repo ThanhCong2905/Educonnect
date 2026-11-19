@@ -1,0 +1,13 @@
+{
+  "AdministrativeAreaTests.cs": "43c3ca9a429f760640183196da6b316a88afba9d68608046f6f4d195c1d83cc7",
+  "ClassCalendarTests.cs": "50321a8fb6fc22e4e220176bba48c1764bb2f2ed58abdaa66370f5edd82fd6f9",
+  "ControllerGuardTests.cs": "531d212f397d415a86a3f424cc0292a81da00c2f71ec1409311c842741b04a2a",
+  "EduConnect.UnitTests.csproj": "7e9eeda800bc2061fa06c6efa79ed2c91b6b709db9ee291df6c0013330f347c6",
+  "FieldValidationTests.cs": "5ad98b9185b62dbacbd30db5768e39c6df6aed20086e4f8a25cd51856e3ad895",
+  "GuestAccessTests.cs": "5a031ed0930251671615b8eab4f3a527775a2f2f325a54165e7a547a83a775b9",
+  "InputBoundaryTests.cs": "d0425568dd7f8dd72fc5ab64df69be35c76c112a2c412f012818fcbf4236a1bc",
+  "ProfileInputTests.cs": "a452b3e5e14930b2c1a4a67c989155391a843b89793780ef38dc9dcd94bbd7f1",
+  "README.md": "e8f12fdf5b76b1fd917f4bb2b8d7c966fe8221b4086765597503b6dab5601c7b",
+  "RulesTests.cs": "0b6295c6f6303447bcbea73f9ab190a7bd01e045c00c491f4a0ef1a67ccddd7d",
+  "Run-UnitTests.ps1": "608f6820b363bcbb2c11ea04f5f1329b92748faa711cbb6decd266711649387c"
+}

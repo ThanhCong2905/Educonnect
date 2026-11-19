@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "id": "06_Khach_Xac_thuc",
+    "name": "Khách và xác thực",
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "other": 0,
+    "trx": "C:\\Khóa luận TN\\EduConnect1\\TestResults\\Unit\\06_Khach_Xac_thuc\\06_Khach_Xac_thuc.trx",
+    "times": {
+      "creation": "2026-11-18T22:30:08.8276885+07:00",
+      "queuing": "2026-11-18T22:30:08.8276889+07:00",
+      "start": "2026-11-18T22:30:07.4469502+07:00",
+      "finish": "2026-11-18T22:30:08.8328700+07:00"
+    }
+  },
+  "results": [
+    {
+      "group": "06_Khach_Xac_thuc",
+      "test": "GuestAccessTests.Anonymous_reader_has_no_account_and_cannot_supply_an_actor_id",
+      "class": "GuestAccessTests",
+      "method": "Anonymous_reader_has_no_account_and_cannot_supply_an_actor_id",
+      "outcome": "Passed",
+      "duration": "00:00:00.0198358",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\GuestAccessTests.cs",
+      "line": 25,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "06_Khach_Xac_thuc",
+      "test": "GuestAccessTests.Needs_endpoint_allows_public_read_access",
+      "class": "GuestAccessTests",
+      "method": "Needs_endpoint_allows_public_read_access",
+      "outcome": "Passed",
+      "duration": "00:00:00.0069883",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\GuestAccessTests.cs",
+      "line": 35,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "06_Khach_Xac_thuc",
+      "test": "GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 1)",
+      "class": "GuestAccessTests",
+      "method": "Guest_comparison_rejects_invalid_selection_count",
+      "outcome": "Passed",
+      "duration": "00:00:00.0073364",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\GuestAccessTests.cs",
+      "line": 44,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "06_Khach_Xac_thuc",
+      "test": "GuestAccessTests.Guest_comparison_rejects_invalid_selection_count(count: 4)",
+      "class": "GuestAccessTests",
+      "method": "Guest_comparison_rejects_invalid_selection_count",
+      "outcome": "Passed",
+      "duration": "00:00:00.0002495",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\GuestAccessTests.cs",
+      "line": 44,
+      "message": "",
+      "stack": ""
+    }
+  ]
+}

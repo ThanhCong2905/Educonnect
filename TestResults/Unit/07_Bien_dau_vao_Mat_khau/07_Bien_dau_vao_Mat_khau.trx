@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="060b5e30-a504-4de0-9828-e0b0584aed8d" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-18 22:30:11" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-18T22:30:11.9591474+07:00" queuing="2026-11-18T22:30:11.9591481+07:00" start="2026-11-18T22:30:10.8780384+07:00" finish="2026-11-18T22:30:12.0913160+07:00" />
+  <TestSettings name="default" id="a34287fd-59ed-4b15-8df3-af2546a8e436">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-18_22_30_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="22d1830b-1412-4bf8-9132-20735cf01f68" testId="14e48af1-9500-0d8b-5281-4de804ae54fa" testName="InputBoundaryTests.Input_boundary_021" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0011287" startTime="2026-11-18T22:30:11.9089253+07:00" endTime="2026-11-18T22:30:11.9089253+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22d1830b-1412-4bf8-9132-20735cf01f68" />
+    <UnitTestResult executionId="82a2055c-daec-4eb4-b806-4ccc03aa486a" testId="a5be4eaf-cf9c-b4b3-983b-830ef35d2609" testName="InputBoundaryTests.Input_boundary_016" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001709" startTime="2026-11-18T22:30:11.9310822+07:00" endTime="2026-11-18T22:30:11.9310822+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="82a2055c-daec-4eb4-b806-4ccc03aa486a" />
+    <UnitTestResult executionId="97b7bdb6-71eb-436e-ad36-f970bb6efcfe" testId="8e053abc-e244-7dbc-97e8-0c350175e282" testName="InputBoundaryTests.Input_boundary_013" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002071" startTime="2026-11-18T22:30:11.9311592+07:00" endTime="2026-11-18T22:30:11.9311592+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97b7bdb6-71eb-436e-ad36-f970bb6efcfe" />
+    <UnitTestResult executionId="92cb9958-2351-40db-8531-c1ec2a53189b" testId="ddb207d5-5693-bc4b-3567-483f4ae77b13" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 14, emoji: False, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001605" startTime="2026-11-18T22:30:11.9001360+07:00" endTime="2026-11-18T22:30:11.9001360+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92cb9958-2351-40db-8531-c1ec2a53189b" />
+    <UnitTestResult executionId="4a82ebe6-629f-453c-90bf-f107379efec3" testId="2eeec479-85e7-b326-b7a3-d5618a2d9397" testName="InputBoundaryTests.Input_boundary_014" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0018489" startTime="2026-11-18T22:30:11.9297757+07:00" endTime="2026-11-18T22:30:11.9297757+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a82ebe6-629f-453c-90bf-f107379efec3" />
+    <UnitTestResult executionId="8cadb915-097f-4932-a6af-953c5c2ac855" testId="5f89675c-e51c-3399-39db-f539260b1e97" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 65, emoji: True, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000257" startTime="2026-11-18T22:30:11.9002007+07:00" endTime="2026-11-18T22:30:11.9002007+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8cadb915-097f-4932-a6af-953c5c2ac855" />
+    <UnitTestResult executionId="125d0072-687f-41e5-8fce-208ec2f7683c" testId="4f327f09-df21-ea33-c713-9eb7e77e7194" testName="InputBoundaryTests.Input_boundary_007" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001054" startTime="2026-11-18T22:30:11.9311008+07:00" endTime="2026-11-18T22:30:11.9311009+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="125d0072-687f-41e5-8fce-208ec2f7683c" />
+    <UnitTestResult executionId="8ce77561-ecd0-4342-bf3e-3eb8a0232140" testId="a6e80d29-90a1-cc87-9184-104aae5a86fd" testName="InputBoundaryTests.Input_boundary_018" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0078495" startTime="2026-11-18T22:30:11.9049649+07:00" endTime="2026-11-18T22:30:11.9049655+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ce77561-ecd0-4342-bf3e-3eb8a0232140" />
+    <UnitTestResult executionId="9b721aeb-a16a-4fd4-a728-58a4e90191e1" testId="ceef9b71-47e5-533c-10b4-02cf34f5b40a" testName="InputBoundaryTests.Input_boundary_024" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0006169" startTime="2026-11-18T22:30:11.9298407+07:00" endTime="2026-11-18T22:30:11.9298407+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9b721aeb-a16a-4fd4-a728-58a4e90191e1" />
+    <UnitTestResult executionId="62bfe030-c163-4855-8127-c73ee7ec87b9" testId="5c3e0289-3265-09c0-b431-95d3c79547a8" testName="InputBoundaryTests.Input_boundary_012" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0021112" startTime="2026-11-18T22:30:11.9314917+07:00" endTime="2026-11-18T22:30:11.9314917+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62bfe030-c163-4855-8127-c73ee7ec87b9" />
+    <UnitTestResult executionId="460b7961-e076-4284-ba98-c35182e31b42" testId="4ba25c31-bce8-b8b3-3629-59733290bd6e" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 64, emoji: False, expected: True)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000132" startTime="2026-11-18T22:30:11.9001638+07:00" endTime="2026-11-18T22:30:11.9001639+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="460b7961-e076-4284-ba98-c35182e31b42" />
+    <UnitTestResult executionId="0d01dfd4-ea18-479d-829a-47e635071c32" testId="49f7b4ca-3014-780a-aa55-9febe672b280" testName="InputBoundaryTests.Input_boundary_023" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003965" startTime="2026-11-18T22:30:11.9298012+07:00" endTime="2026-11-18T22:30:11.9298012+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0d01dfd4-ea18-479d-829a-47e635071c32" />
+    <UnitTestResult executionId="e6d6cc92-6491-492a-8a7b-8998db8bad29" testId="46d2def8-eef2-0376-bf86-5dc0923fe5f4" testName="InputBoundaryTests.Input_boundary_001" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001775" startTime="2026-11-18T22:30:11.9298206+07:00" endTime="2026-11-18T22:30:11.9298207+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6d6cc92-6491-492a-8a7b-8998db8bad29" />
+    <UnitTestResult executionId="8a56668c-14b6-4039-b161-844e5c359fcc" testId="1e9e2ecc-a46b-e5b7-352c-e3915e64e6d4" testName="InputBoundaryTests.Input_boundary_020" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003152" startTime="2026-11-18T22:30:11.9315116+07:00" endTime="2026-11-18T22:30:11.9315117+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a56668c-14b6-4039-b161-844e5c359fcc" />
+    <UnitTestResult executionId="02586327-4a90-4955-bdf7-efdf8b94980e" testId="c5fe349a-ec3c-530b-7baa-f26bba9be509" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 65, emoji: False, expected: False)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000044" startTime="2026-11-18T22:30:11.9001806+07:00" endTime="2026-11-18T22:30:11.9001806+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02586327-4a90-4955-bdf7-efdf8b94980e" />
+    <UnitTestResult executionId="a087a64c-e113-4dd7-a8d3-106b0bb86aa9" testId="26aa8439-beac-a332-b1f6-8dbe5feb0712" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 15, emoji: False, expected: True)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0003189" startTime="2026-11-18T22:30:11.8997863+07:00" endTime="2026-11-18T22:30:11.8997863+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a087a64c-e113-4dd7-a8d3-106b0bb86aa9" />
+    <UnitTestResult executionId="2f9481b6-35d3-422e-9906-6aa659bfbdac" testId="9135011e-7ff3-3259-3bdb-710e86497997" testName="InputBoundaryTests.Input_boundary_005" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001399" startTime="2026-11-18T22:30:11.9310288+07:00" endTime="2026-11-18T22:30:11.9310288+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f9481b6-35d3-422e-9906-6aa659bfbdac" />
+    <UnitTestResult executionId="3c8ade34-c148-4e0a-b353-cb0074dd2f01" testId="cc0d55b1-fea3-3822-33d0-be5f5d9ecd58" testName="InputBoundaryTests.Input_boundary_022" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001210" startTime="2026-11-18T22:30:11.9311958+07:00" endTime="2026-11-18T22:30:11.9311959+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3c8ade34-c148-4e0a-b353-cb0074dd2f01" />
+    <UnitTestResult executionId="b0d40e14-87b8-46a7-b9c3-4c22fddb7429" testId="57d8c9bc-bb09-5a29-166a-c14de75264fa" testName="InputBoundaryTests.Input_boundary_015" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0009706" startTime="2026-11-18T22:30:11.9311401+07:00" endTime="2026-11-18T22:30:11.9311401+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b0d40e14-87b8-46a7-b9c3-4c22fddb7429" />
+    <UnitTestResult executionId="c6060ae5-160b-4ceb-8151-95aacc73b74e" testId="e97c7211-4f34-9f13-001c-d7685e0c7ac6" testName="InputBoundaryTests.Input_boundary_002" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0002305" startTime="2026-11-18T22:30:11.9297113+07:00" endTime="2026-11-18T22:30:11.9297114+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6060ae5-160b-4ceb-8151-95aacc73b74e" />
+    <UnitTestResult executionId="45b6dff1-7554-45d9-8f2c-e1fdf434537d" testId="fb117da0-bcf3-ce2d-2a00-064f08fe8723" testName="InputBoundaryTests.Input_boundary_006" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0027247" startTime="2026-11-18T22:30:11.9077556+07:00" endTime="2026-11-18T22:30:11.9077556+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="45b6dff1-7554-45d9-8f2c-e1fdf434537d" />
+    <UnitTestResult executionId="9bb9a9e9-076f-4325-bb15-8e51da79f911" testId="5daeb6c0-2aee-8133-0b47-61fe757a9990" testName="InputBoundaryTests.Input_boundary_004" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001488" startTime="2026-11-18T22:30:11.9311774+07:00" endTime="2026-11-18T22:30:11.9311774+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9bb9a9e9-076f-4325-bb15-8e51da79f911" />
+    <UnitTestResult executionId="a9848dea-713c-40e6-a2e8-6f20772f2b3e" testId="fa6f5b9d-1b7a-5454-98e6-5a0771375632" testName="InputBoundaryTests.Input_boundary_019" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0016460" startTime="2026-11-18T22:30:11.9297362+07:00" endTime="2026-11-18T22:30:11.9297363+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9848dea-713c-40e6-a2e8-6f20772f2b3e" />
+    <UnitTestResult executionId="b7d14333-6d6e-44a0-a735-ccf4356b81b1" testId="f93d1ba3-6337-94c4-473d-5fb48e60a304" testName="InputBoundaryTests.Input_boundary_008" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001103" startTime="2026-11-18T22:30:11.9298596+07:00" endTime="2026-11-18T22:30:11.9298596+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b7d14333-6d6e-44a0-a735-ccf4356b81b1" />
+    <UnitTestResult executionId="32e66fdd-593b-42e8-a1ea-52b1f68123a8" testId="09a950ca-2aab-53d6-1ca0-69f795cdd914" testName="InputBoundaryTests.Input_boundary_009" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0010276" startTime="2026-11-18T22:30:11.9295514+07:00" endTime="2026-11-18T22:30:11.9295514+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32e66fdd-593b-42e8-a1ea-52b1f68123a8" />
+    <UnitTestResult executionId="d2c38ad5-5dc1-4caa-be2c-61e9802f9854" testId="407f7a10-51fb-3fc7-ff9b-3f51681dedaa" testName="InputBoundaryTests.Input_boundary_011" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001996" startTime="2026-11-18T22:30:11.9314691+07:00" endTime="2026-11-18T22:30:11.9314691+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d2c38ad5-5dc1-4caa-be2c-61e9802f9854" />
+    <UnitTestResult executionId="48bbd38a-9771-4f31-8fd2-eb10396a6925" testId="9cfaa373-ee93-d72d-3244-60be4d49a10a" testName="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 64, emoji: True, expected: True)" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0095552" startTime="2026-11-18T22:30:11.8967219+07:00" endTime="2026-11-18T22:30:11.8967518+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="48bbd38a-9771-4f31-8fd2-eb10396a6925" />
+    <UnitTestResult executionId="168d4cb5-33fc-4bbf-8625-1b7399af95d8" testId="39ce177c-333e-d55d-d1f1-589844a00350" testName="InputBoundaryTests.Input_boundary_017" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0000898" startTime="2026-11-18T22:30:11.9311203+07:00" endTime="2026-11-18T22:30:11.9311204+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="168d4cb5-33fc-4bbf-8625-1b7399af95d8" />
+    <UnitTestResult executionId="36dd7e0f-45f9-42ec-96f3-610a5dc6da06" testId="b278a772-69c2-6f22-9e91-bccc2be17dbc" testName="InputBoundaryTests.Input_boundary_010" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0007433" startTime="2026-11-18T22:30:11.9310614+07:00" endTime="2026-11-18T22:30:11.9310614+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36dd7e0f-45f9-42ec-96f3-610a5dc6da06" />
+    <UnitTestResult executionId="1b8ad87f-7988-462d-b1e5-1dabe148bfe3" testId="1b25a775-e9ec-f682-da45-fe2323907199" testName="InputBoundaryTests.Input_boundary_003" computerName="LAPTOP-3L2V1AFT" duration="00:00:00.0001821" startTime="2026-11-18T22:30:11.9297565+07:00" endTime="2026-11-18T22:30:11.9297566+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b8ad87f-7988-462d-b1e5-1dabe148bfe3" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="InputBoundaryTests.Input_boundary_013" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="8e053abc-e244-7dbc-97e8-0c350175e282">
+      <Execution id="97b7bdb6-71eb-436e-ad36-f970bb6efcfe" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_013" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_011" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="407f7a10-51fb-3fc7-ff9b-3f51681dedaa">
+      <Execution id="d2c38ad5-5dc1-4caa-be2c-61e9802f9854" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_011" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_010" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="b278a772-69c2-6f22-9e91-bccc2be17dbc">
+      <Execution id="36dd7e0f-45f9-42ec-96f3-610a5dc6da06" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_010" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_022" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="cc0d55b1-fea3-3822-33d0-be5f5d9ecd58">
+      <Execution id="3c8ade34-c148-4e0a-b353-cb0074dd2f01" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_022" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_014" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="2eeec479-85e7-b326-b7a3-d5618a2d9397">
+      <Execution id="4a82ebe6-629f-453c-90bf-f107379efec3" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_014" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_015" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="57d8c9bc-bb09-5a29-166a-c14de75264fa">
+      <Execution id="b0d40e14-87b8-46a7-b9c3-4c22fddb7429" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_015" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_008" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="f93d1ba3-6337-94c4-473d-5fb48e60a304">
+      <Execution id="b7d14333-6d6e-44a0-a735-ccf4356b81b1" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_008" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_003" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1b25a775-e9ec-f682-da45-fe2323907199">
+      <Execution id="1b8ad87f-7988-462d-b1e5-1dabe148bfe3" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_003" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_018" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="a6e80d29-90a1-cc87-9184-104aae5a86fd">
+      <Execution id="8ce77561-ecd0-4342-bf3e-3eb8a0232140" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_018" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 64, emoji: True, expected: True)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9cfaa373-ee93-d72d-3244-60be4d49a10a">
+      <Execution id="48bbd38a-9771-4f31-8fd2-eb10396a6925" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 64, emoji: False, expected: True)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4ba25c31-bce8-b8b3-3629-59733290bd6e">
+      <Execution id="460b7961-e076-4284-ba98-c35182e31b42" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_002" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="e97c7211-4f34-9f13-001c-d7685e0c7ac6">
+      <Execution id="c6060ae5-160b-4ceb-8151-95aacc73b74e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_002" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_005" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="9135011e-7ff3-3259-3bdb-710e86497997">
+      <Execution id="2f9481b6-35d3-422e-9906-6aa659bfbdac" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_005" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_004" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5daeb6c0-2aee-8133-0b47-61fe757a9990">
+      <Execution id="9bb9a9e9-076f-4325-bb15-8e51da79f911" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_004" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_023" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="49f7b4ca-3014-780a-aa55-9febe672b280">
+      <Execution id="0d01dfd4-ea18-479d-829a-47e635071c32" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_023" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_007" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="4f327f09-df21-ea33-c713-9eb7e77e7194">
+      <Execution id="125d0072-687f-41e5-8fce-208ec2f7683c" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_007" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_012" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5c3e0289-3265-09c0-b431-95d3c79547a8">
+      <Execution id="62bfe030-c163-4855-8127-c73ee7ec87b9" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_012" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_006" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="fb117da0-bcf3-ce2d-2a00-064f08fe8723">
+      <Execution id="45b6dff1-7554-45d9-8f2c-e1fdf434537d" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_006" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_017" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="39ce177c-333e-d55d-d1f1-589844a00350">
+      <Execution id="168d4cb5-33fc-4bbf-8625-1b7399af95d8" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_017" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_009" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="09a950ca-2aab-53d6-1ca0-69f795cdd914">
+      <Execution id="32e66fdd-593b-42e8-a1ea-52b1f68123a8" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_009" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 65, emoji: False, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="c5fe349a-ec3c-530b-7baa-f26bba9be509">
+      <Execution id="02586327-4a90-4955-bdf7-efdf8b94980e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_001" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="46d2def8-eef2-0376-bf86-5dc0923fe5f4">
+      <Execution id="e6d6cc92-6491-492a-8a7b-8998db8bad29" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_001" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_020" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="1e9e2ecc-a46b-e5b7-352c-e3915e64e6d4">
+      <Execution id="8a56668c-14b6-4039-b161-844e5c359fcc" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_020" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_016" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="a5be4eaf-cf9c-b4b3-983b-830ef35d2609">
+      <Execution id="82a2055c-daec-4eb4-b806-4ccc03aa486a" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_016" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_024" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ceef9b71-47e5-533c-10b4-02cf34f5b40a">
+      <Execution id="9b721aeb-a16a-4fd4-a728-58a4e90191e1" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_024" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_021" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="14e48af1-9500-0d8b-5281-4de804ae54fa">
+      <Execution id="22d1830b-1412-4bf8-9132-20735cf01f68" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_021" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 15, emoji: False, expected: True)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="26aa8439-beac-a332-b1f6-8dbe5feb0712">
+      <Execution id="a087a64c-e113-4dd7-a8d3-106b0bb86aa9" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 14, emoji: False, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="ddb207d5-5693-bc4b-3567-483f4ae77b13">
+      <Execution id="92cb9958-2351-40db-8531-c1ec2a53189b" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Password_length_counts_Unicode_scalars(length: 65, emoji: True, expected: False)" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="5f89675c-e51c-3399-39db-f539260b1e97">
+      <Execution id="8cadb915-097f-4932-a6af-953c5c2ac855" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Password_length_counts_Unicode_scalars" />
+    </UnitTest>
+    <UnitTest name="InputBoundaryTests.Input_boundary_019" storage="c:\khóa luận tn\educonnect1\tests\unit\bin\debug\net10.0\educonnect.unittests.dll" id="fa6f5b9d-1b7a-5454-98e6-5a0771375632">
+      <Execution id="a9848dea-713c-40e6-a2e8-6f20772f2b3e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\Unit\bin\Debug\net10.0\EduConnect.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="InputBoundaryTests" name="Input_boundary_019" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="14e48af1-9500-0d8b-5281-4de804ae54fa" executionId="22d1830b-1412-4bf8-9132-20735cf01f68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a5be4eaf-cf9c-b4b3-983b-830ef35d2609" executionId="82a2055c-daec-4eb4-b806-4ccc03aa486a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e053abc-e244-7dbc-97e8-0c350175e282" executionId="97b7bdb6-71eb-436e-ad36-f970bb6efcfe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ddb207d5-5693-bc4b-3567-483f4ae77b13" executionId="92cb9958-2351-40db-8531-c1ec2a53189b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2eeec479-85e7-b326-b7a3-d5618a2d9397" executionId="4a82ebe6-629f-453c-90bf-f107379efec3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f89675c-e51c-3399-39db-f539260b1e97" executionId="8cadb915-097f-4932-a6af-953c5c2ac855" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f327f09-df21-ea33-c713-9eb7e77e7194" executionId="125d0072-687f-41e5-8fce-208ec2f7683c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a6e80d29-90a1-cc87-9184-104aae5a86fd" executionId="8ce77561-ecd0-4342-bf3e-3eb8a0232140" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ceef9b71-47e5-533c-10b4-02cf34f5b40a" executionId="9b721aeb-a16a-4fd4-a728-58a4e90191e1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c3e0289-3265-09c0-b431-95d3c79547a8" executionId="62bfe030-c163-4855-8127-c73ee7ec87b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ba25c31-bce8-b8b3-3629-59733290bd6e" executionId="460b7961-e076-4284-ba98-c35182e31b42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49f7b4ca-3014-780a-aa55-9febe672b280" executionId="0d01dfd4-ea18-479d-829a-47e635071c32" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="46d2def8-eef2-0376-bf86-5dc0923fe5f4" executionId="e6d6cc92-6491-492a-8a7b-8998db8bad29" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1e9e2ecc-a46b-e5b7-352c-e3915e64e6d4" executionId="8a56668c-14b6-4039-b161-844e5c359fcc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5fe349a-ec3c-530b-7baa-f26bba9be509" executionId="02586327-4a90-4955-bdf7-efdf8b94980e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="26aa8439-beac-a332-b1f6-8dbe5feb0712" executionId="a087a64c-e113-4dd7-a8d3-106b0bb86aa9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9135011e-7ff3-3259-3bdb-710e86497997" executionId="2f9481b6-35d3-422e-9906-6aa659bfbdac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc0d55b1-fea3-3822-33d0-be5f5d9ecd58" executionId="3c8ade34-c148-4e0a-b353-cb0074dd2f01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="57d8c9bc-bb09-5a29-166a-c14de75264fa" executionId="b0d40e14-87b8-46a7-b9c3-4c22fddb7429" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e97c7211-4f34-9f13-001c-d7685e0c7ac6" executionId="c6060ae5-160b-4ceb-8151-95aacc73b74e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb117da0-bcf3-ce2d-2a00-064f08fe8723" executionId="45b6dff1-7554-45d9-8f2c-e1fdf434537d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5daeb6c0-2aee-8133-0b47-61fe757a9990" executionId="9bb9a9e9-076f-4325-bb15-8e51da79f911" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa6f5b9d-1b7a-5454-98e6-5a0771375632" executionId="a9848dea-713c-40e6-a2e8-6f20772f2b3e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f93d1ba3-6337-94c4-473d-5fb48e60a304" executionId="b7d14333-6d6e-44a0-a735-ccf4356b81b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="09a950ca-2aab-53d6-1ca0-69f795cdd914" executionId="32e66fdd-593b-42e8-a1ea-52b1f68123a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="407f7a10-51fb-3fc7-ff9b-3f51681dedaa" executionId="d2c38ad5-5dc1-4caa-be2c-61e9802f9854" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9cfaa373-ee93-d72d-3244-60be4d49a10a" executionId="48bbd38a-9771-4f31-8fd2-eb10396a6925" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39ce177c-333e-d55d-d1f1-589844a00350" executionId="168d4cb5-33fc-4bbf-8625-1b7399af95d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b278a772-69c2-6f22-9e91-bccc2be17dbc" executionId="36dd7e0f-45f9-42ec-96f3-610a5dc6da06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b25a775-e9ec-f682-da45-fe2323907199" executionId="1b8ad87f-7988-462d-b1e5-1dabe148bfe3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="30" executed="30" passed="30" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.16]   Starting:    EduConnect.UnitTests&#xD;
+[xUnit.net 00:00:00.25]   Finished:    EduConnect.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,103 @@
+{
+  "summary": {
+    "id": "05_Dia_gioi_Danh_muc",
+    "name": "Địa giới và danh mục",
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "other": 0,
+    "trx": "C:\\Khóa luận TN\\EduConnect1\\TestResults\\Unit\\05_Dia_gioi_Danh_muc\\05_Dia_gioi_Danh_muc.trx",
+    "times": {
+      "creation": "2026-11-18T22:30:05.5338617+07:00",
+      "queuing": "2026-11-18T22:30:05.5338622+07:00",
+      "start": "2026-11-18T22:30:04.3521708+07:00",
+      "finish": "2026-11-18T22:30:05.5423712+07:00"
+    }
+  },
+  "results": [
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: \"Hà Nội\", ward: \"Phường Ba Đình\", expected: True)",
+      "class": "AdministrativeAreaTests",
+      "method": "Ward_must_belong_to_the_selected_province",
+      "outcome": "Passed",
+      "duration": "00:00:00.0284175",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 33,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: null, ward: \"Phường Ba Đình\", expected: False)",
+      "class": "AdministrativeAreaTests",
+      "method": "Ward_must_belong_to_the_selected_province",
+      "outcome": "Passed",
+      "duration": "00:00:00.0002812",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 33,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: \"Hà Nội\", ward: \"Quận Ba Đình\", expected: False)",
+      "class": "AdministrativeAreaTests",
+      "method": "Ward_must_belong_to_the_selected_province",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000027",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 33,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Catalog_covers_all_provinces_without_duplicate_wards",
+      "class": "AdministrativeAreaTests",
+      "method": "Catalog_covers_all_provinces_without_duplicate_wards",
+      "outcome": "Passed",
+      "duration": "00:00:00.0023929",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 15,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: \"Hồ Chí Minh\", ward: \"Phường Ba Đình\", expected: False)",
+      "class": "AdministrativeAreaTests",
+      "method": "Ward_must_belong_to_the_selected_province",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000058",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 33,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Common_subjects_come_before_other_subjects",
+      "class": "AdministrativeAreaTests",
+      "method": "Common_subjects_come_before_other_subjects",
+      "outcome": "Passed",
+      "duration": "00:00:00.0121933",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 37,
+      "message": "",
+      "stack": ""
+    },
+    {
+      "group": "05_Dia_gioi_Danh_muc",
+      "test": "AdministrativeAreaTests.Ward_must_belong_to_the_selected_province(province: \"Hà Nội\", ward: null, expected: True)",
+      "class": "AdministrativeAreaTests",
+      "method": "Ward_must_belong_to_the_selected_province",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000082",
+      "source": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\AdministrativeAreaTests.cs",
+      "line": 33,
+      "message": "",
+      "stack": ""
+    }
+  ]
+}
