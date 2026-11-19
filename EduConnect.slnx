@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Unit/">
+    <Project Path="tests/Unit/EduConnect.UnitTests.csproj" />
+  </Folder>
   <Project Path="EduConnect.Mvc.csproj" />
 </Solution>
