@@ -15,17 +15,33 @@ public sealed class QuanTriController(QuanTriService service, QuyenQuanTriServic
         Rules.Check(ModelState.IsValid, "Bộ lọc nhật ký chưa đúng định dạng.");
         return View(await query.LayAsync(filter, HttpContext.RequestAborted));
     }
-    public async Task<IActionResult> Index() => View(await service.TongQuanAsync());
+    public async Task<IActionResult> Index() => View(await service.TongQuanAsync(HttpContext.RequestAborted));
+    [HttpGet]
+    public async Task<IActionResult> TimNhanh(string? q)
+    {
+        var keyword = q?.Trim() ?? "";
+        ViewData["TuKhoa"] = keyword;
+        if (keyword.Length is < 2 or > 100)
+        {
+            ModelState.AddModelError("", "Nhập từ 2 đến 100 ký tự để tìm.");
+            return View(new List<KetQuaTimQuanTri>());
+        }
+        return View(await service.TimNhanhAsync(keyword, HttpContext.RequestAborted));
+    }
     public async Task<IActionResult> TaiKhoan(int trang = 1, string? q = null, string? role = null, string? state = null)
         => View(await service.LayTaiKhoanAsync(trang, q, role, state));
     public async Task<IActionResult> ChiTiet(Guid id) => View(await service.TaiKhoanAsync(id));
     public async Task<IActionResult> XemNhatKy(int trang = 1, string? q = null, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null)
         => View(await service.LayNhatKyAsync(trang, q, tuNgay, denNgay));
-    public async Task<IActionResult> NoiDung(int trang = 1, string? loai = null, bool conHieuLuc = true)
-        => View(await service.BienPhapAsync(trang, loai, conHieuLuc));
+    public async Task<IActionResult> NoiDung(int trang = 1, string? loai = null, bool conHieuLuc = true, Guid? baoCao = null)
+    {
+        var page = await service.BienPhapAsync(trang, loai, conHieuLuc, baoCao);
+        ViewData["MeasureSubjects"] = await service.TenDoiTuongBienPhapAsync(page.Items);
+        return View(page);
+    }
 
-    public async Task<IActionResult> NhuCau(int trang = 1, string? q = null, string? state = null, bool? dangAn = null)
-        => View(await service.LayNhuCauHauKiemAsync(trang, q, state, dangAn));
+    public async Task<IActionResult> NhuCau(int trang = 1, string? q = null, string? state = null, bool? dangAn = null, bool canXemXet = false)
+        => View(await service.LayNhuCauHauKiemAsync(trang, q, state, dangAn, canXemXet, HttpContext.RequestAborted));
 
     public async Task<IActionResult> NhuCauChiTiet(Guid id)
         => View(await service.XemNhuCauHauKiemAsync(id));

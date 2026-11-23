@@ -2,6 +2,10 @@
 <div class="need-summary">
     <div class="chips">
         <span>@Model.TenMon</span>
+        @if (Model.PhanKhoaHoc != 0)
+        {
+            <span>@(Model.PhanKhoaHoc == 7 ? "Toàn bộ môn" : PhamViMonHoc.MoTaPhan(Model.PhanKhoaHoc))</span>
+        }
         @if (!string.IsNullOrWhiteSpace(Model.KhoiLop))
         {
             <span>@(int.TryParse(Model.KhoiLop, out _) ? "Lớp " + Model.KhoiLop : Model.KhoiLop)</span>

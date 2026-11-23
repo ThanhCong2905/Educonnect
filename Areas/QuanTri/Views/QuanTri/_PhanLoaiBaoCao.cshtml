@@ -1,0 +1,51 @@
+@using System.Globalization
+@model List<BaoCaoTheoDoiTuong>
+@{
+    var total = Model.Sum(item => item.SoLuong);
+    var palette = new Dictionary<string, string>
+    {
+        ["HoSoGiaSu"] = "#b4235a", ["NhuCauHoc"] = "#6555a5", ["TaiKhoan"] = "#26716c",
+        ["TinNhan"] = "#ae622c", ["DanhGiaDoiTac"] = "#85516f", ["LopHoc"] = "#496d9e"
+    };
+    string Color(string type) => palette.GetValueOrDefault(type, "#526071");
+    string Label(string type) => type switch
+    {
+        "HoSoGiaSu" => "Hồ sơ gia sư", "NhuCauHoc" => "Nhu cầu học", "TaiKhoan" => "Tài khoản",
+        "TinNhan" => "Tin nhắn", "DanhGiaDoiTac" => "Đánh giá", "LopHoc" => "Lớp học", _ => "Khác"
+    };
+    var end = 0;
+    var segments = new List<string>();
+    foreach (var item in Model)
+    {
+        var begin = end;
+        end += item.SoLuong;
+        var start = (100d * begin / total).ToString("0.######", CultureInfo.InvariantCulture);
+        var stop = (100d * end / total).ToString("0.######", CultureInfo.InvariantCulture);
+        segments.Add($"{Color(item.Loai)} {start}% {stop}%");
+    }
+}
+<section class="card admin-chart-card">
+    <div class="admin-chart-heading">
+        <h2>Phân loại báo cáo</h2>
+        <p>Theo đối tượng bị báo cáo · 6 tháng gần nhất</p>
+    </div>
+    @if (total == 0)
+    {
+        <p class="admin-chart-empty">Chưa có báo cáo trong kỳ này.</p>
+    }
+    else
+    {
+        <div class="report-donut-layout">
+            <div class="report-donut" style="--report-segments: @string.Join(", ", segments)" aria-hidden="true">
+                <div><strong>@total</strong><span>Báo cáo</span></div>
+            </div>
+            <ul class="chart-legend report-legend" aria-label="Số báo cáo theo đối tượng">
+                @foreach (var item in Model)
+                {
+                    <li><span class="chart-dot" style="--series-color: @Color(item.Loai)" aria-hidden="true"></span><span>@Label(item.Loai)</span><strong>@item.SoLuong</strong></li>
+                }
+            </ul>
+        </div>
+    }
+    <a class="btn btn-outline-primary chart-link" asp-controller="BaoCaoViPham" asp-action="Index" asp-route-quanTri="true">Mở danh sách báo cáo</a>
+</section>

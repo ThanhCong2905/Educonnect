@@ -41,6 +41,17 @@
         </div>
     </div>
     <small id="password-help" class="text-secondary">Mật khẩu từ 15–64 ký tự, có thể chứa khoảng trắng.</small>
+    <div class="policy-acceptance">
+        <div class="form-check">
+            <input asp-for="DongYChinhSach" class="form-check-input" required aria-describedby="policy-error">
+            <span>
+                <label asp-for="DongYChinhSach" class="form-check-label">Tôi đã đọc và đồng ý với</label>
+                <a href="/huong-dan/dieu-khoan" target="_blank" rel="noopener">điều khoản sử dụng</a>
+                và <a href="/huong-dan/bao-mat" target="_blank" rel="noopener">chính sách bảo mật</a>.
+            </span>
+        </div>
+        <span id="policy-error" asp-validation-for="DongYChinhSach" class="text-danger"></span>
+    </div>
     <button class="btn btn-primary w-100 account-submit" type="submit">Tạo tài khoản</button>
 </form>
 <p class="account-footer">Đã có tài khoản? <a asp-action="DangNhap">Đăng nhập</a></p>

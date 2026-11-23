@@ -7,8 +7,11 @@ public sealed class NhuCauHauKiemRow
 {
     public NhuCauHoc NhuCau { get; set; } = null!;
     public string HoTen { get; set; } = "";
+    public string MonHoc { get; set; } = "";
     public bool DangAn { get; set; }
     public int BaoCaoCho { get; set; }
+    public int LuotDangGanDay { get; set; }
+    public List<string> DauHieu { get; set; } = [];
 }
 
 public sealed class NhuCauHauKiemViewModel
@@ -20,6 +23,7 @@ public sealed class NhuCauHauKiemViewModel
     public List<BienPhapQuanTri> BienPhap { get; set; } = [];
     public List<BaoCaoViPham> BaoCao { get; set; } = [];
     public List<NhatKyQuanTri> LichSu { get; set; } = [];
+    public List<string> DauHieu { get; set; } = [];
 }
 
 public sealed class XuLyNhuCauViewModel

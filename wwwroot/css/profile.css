@@ -21,8 +21,27 @@
 .sidebar nav .nav-group-links img { width: 18px; height: 18px; }
 .avatar { overflow: hidden; }
 .avatar img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.avatar img[hidden] { display: none; }
+.avatar.avatar-tone-0 { background: #f7e3eb; color: #8e2b50; }
+.avatar.avatar-tone-1 { background: #dfeef4; color: #285972; }
+.avatar.avatar-tone-2 { background: #e2efe7; color: #2c624b; }
+.avatar.avatar-tone-3 { background: #f5ebda; color: #775518; }
 .account-menu { color: var(--ink); }
 .account-menu:hover { color: var(--accent); }
+.account-menu-label, .person > :last-child { min-width: 0; }
+.account-menu .avatar, .person > .avatar { flex-shrink: 0; }
+.person .person-name, .person > div > h3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; text-wrap: balance; line-height: 1.3; }
+.account-menu .person-name { font-size: .94rem; line-height: 1.3; }
+.account-menu-label small { margin-top: .2rem; }
+.account-details-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .65rem; margin-bottom: .85rem; }
+.account-details-heading h2 { margin: 0; }
+.account-details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.4rem; margin: 0; }
+.account-details > div { min-width: 0; display: grid; gap: .3rem; padding: .9rem 0; border-top: 1px solid var(--line); }
+.account-details > div:last-child { grid-column: 1 / -1; }
+.account-details dt { color: var(--muted); font-size: .85rem; font-weight: 500; }
+.account-details dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.subject-edit summary { width: fit-content; cursor: pointer; color: var(--accent); }
+@media (max-width: 520px) { .account-details { grid-template-columns: minmax(0, 1fr); } }
 .account-hero { display: flex; flex-direction: row; align-items: center; gap: 24px; margin-bottom: 24px; }
 .account-avatar { width: 88px; height: 88px; font-size: 32px; }
 .avatar-editor { position: relative; flex-shrink: 0; }
@@ -31,7 +50,10 @@
 .avatar-camera:hover { background: var(--page); }
 .avatar-camera:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 .avatar-editor [data-file-selection] { display: none; }
-.page-back { flex-shrink: 0; min-height: 36px; padding: 6px 12px; }
+.page-back { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex-shrink: 0; padding: 0; border: 1px solid #d6bac5; border-radius: 50%; background: #fff; color: var(--accent); transition: background-color .15s, color .15s; }
+.page-back:hover, .page-back:focus-visible { background: var(--subtle); color: #941c49; }
+.page-back:active { background: #f7dce8; color: #80183e; }
+.page-back:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .audit-table { min-width: 960px; table-layout: fixed; width: 100%; }
 .audit-table th { white-space: nowrap; }
 .audit-table th:nth-child(1) { width: 16%; }
@@ -43,8 +65,6 @@
 .audit-table td:nth-child(1), .audit-table td:nth-child(4), .audit-table summary { white-space: nowrap; }
 .header-navigation { display: flex; align-items: center; gap: 16px; min-width: 0; }
 @media (max-width: 560px) {
-    .page-back { font-size: 16px; padding: 6px 8px; min-width: 36px; }
-    .page-back-text { display: none; }
     .header-navigation { gap: 8px; }
     .header-navigation .breadcrumbs li:not(:last-child) { display: none; }
     .header-navigation .breadcrumbs li::before { display: none; }
@@ -77,6 +97,13 @@
 .review-reply { background: var(--page); border-radius: 8px; padding: 16px; margin-top: 16px; }
 .review-reply p { margin: 8px 0 0; }
 .detail-hero .avatar { width: 72px; height: 72px; font-size: 28px; }
+.detail-content > .card { margin: 0; }
+.split > .detail-content > .card { margin-bottom: 0; }
+.detail-content { display: grid; gap: 16px; }
+.detail-section .detail-description + .detail-facts { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.profile-side { display: grid; gap: 12px; }
+.profile-side .profile-contact { border-top: 1px solid var(--line); }
+.profile-report { justify-self: start; }
 @media (max-width: 900px) {
     .account-grid { grid-template-columns: minmax(0, 1fr); }
 }

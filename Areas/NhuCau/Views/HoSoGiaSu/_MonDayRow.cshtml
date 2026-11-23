@@ -6,8 +6,8 @@
     var submittedGrades = Model.LopDay.Count > 0 || ViewData.ModelState.ContainsKey($"MonDay[{i}].LopDay");
     var savedGrades = EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.LopDay(Model.PhamViDay);
 }
-<div class="subject-fee-row" data-subject-row>
-<label>Môn dạy<select class="form-select" name="MonDay[@i].MonHocId" data-subject-select>@foreach(var s in subjects){<option value="@s.Id" selected="@(Model.MonHocId==s.Id)">@s.TenMon</option>}<option value="0" selected="@(Model.MonHocId==0)">Khác</option></select></label>
+<div class="subject-fee-row" data-subject-row data-subject-scope>
+<label>Môn dạy<select class="form-select" name="MonDay[@i].MonHocId" data-subject-select data-scope-subject>@foreach(var s in subjects){var range = PhamViMonHoc.Khoi(s.TenMon);<option data-grade-from="@range.Tu" data-grade-to="@range.Den" data-integrated="@PhamViMonHoc.LaKhoaHocTuNhien(s.TenMon).ToString().ToLowerInvariant()" value="@s.Id" selected="@(Model.MonHocId==s.Id)">@s.TenMon</option>}<option value="0" selected="@(Model.MonHocId==0)">Khác</option></select></label>
 <label data-custom-subject hidden="@(Model.MonHocId!=0)">Tên môn khác<input class="form-control" name="MonDay[@i].TenMonKhac" value="@Model.TenMonKhac" maxlength="100" disabled="@(Model.MonHocId!=0)"></label>
 
 <label>Phí đề xuất (VND)<input class="form-control" name="MonDay[@i].HocPhiDeXuat" value="@Model.HocPhiDeXuat?.ToString(System.Globalization.CultureInfo.InvariantCulture)" type="number" min="0" step="1"></label>
@@ -18,21 +18,23 @@
     <div class="grade-options">
         @for (var grade = 1; grade <= 12; grade++)
         {
-            <label class="grade-option">
-                <input class="form-check-input" type="checkbox" name="MonDay[@i].LopDay" value="@grade" checked="@(submittedGrades ? Model.LopDay.Contains(grade) : savedGrades.Contains($"Lớp {grade}"))">
-                <span>Lớp @grade</span>
-            </label>
+            var selected = submittedGrades ? Model.LopDay.Contains(grade) : savedGrades.Contains($"Lớp {grade}");
+            <div class="subject-grade" data-grade-parts="@grade">
+                <label class="grade-option">
+                    <input class="form-check-input" type="checkbox" name="MonDay[@i].LopDay" value="@grade" checked="@selected" data-grade-choice>
+                    <span>Lớp @grade</span>
+                </label>
+                <div class="subject-parts" data-tutor-parts hidden aria-label="Phần kiến thức lớp @grade">
+                    @for (var part = 0; part < PhamViMonHoc.TenPhan.Count; part++)
+                    {
+                        var key = grade * 10 + part + 1;
+                        var checkedPart = submittedGrades ? Model.PhanTheoLop.Contains(key) : (Model.PhanKhoaHoc & PhamViMonHoc.BitPhan(grade, part)) != 0;
+                        <label><input class="form-check-input" type="checkbox" name="MonDay[@i].PhanTheoLop" value="@key" checked="@checkedPart"> @PhamViMonHoc.TenPhan[part]</label>
+                    }
+                </div>
+            </div>
         }
     </div>
-    <input type="hidden" name="MonDay[@i].PhamViDay" value="@Model.PhamViDay">
+    @Html.ValidationMessage($"MonDay[{i}].LopDay")
 </fieldset>
-<div class="subject-evidence">
-    @await Html.PartialAsync("_MinhChung", ((List<TepDinhKem>)ViewBag.Certificates).FirstOrDefault(file => file.Id == Model.MinhChungId), new ViewDataDictionary(ViewData)
-    {
-        ["FileField"] = $"MonDay[{i}].TepMinhChung",
-        ["IdField"] = $"MonDay[{i}].MinhChungId",
-        ["CurrentId"] = Model.MinhChungId,
-        ["EvidenceTitle"] = "Minh chứng môn dạy"
-    })
-</div>
 </div>

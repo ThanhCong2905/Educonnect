@@ -13,6 +13,16 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
         DanhGiaQuanTriMapping.Configure(b);
         b.Entity<TinNhan>().HasQueryFilter(x=>!Set<BienPhapQuanTri>().Any(m=>m.LoaiDoiTuong=="TinNhan"&&m.DoiTuongId==x.Id&&m.Loai=="AnNoiDung"&&m.GoLuc==null));
         b.Entity<LichSuDieuChinhLich>().ToTable("LichSuDieuChinhLich");
+        b.Entity<LichSuQuyenThanhVien>(e =>
+        {
+            e.ToTable("LichSuQuyenThanhVien");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.MucQuyenCu).HasMaxLength(32).IsUnicode(false);
+            e.Property(x => x.MucQuyenMoi).HasMaxLength(32).IsUnicode(false);
+            e.HasIndex(x => new { x.ThanhVienId, x.ThayDoiLuc });
+            e.HasOne<ThanhVienLopHoc>().WithMany().HasForeignKey(x => x.ThanhVienId).OnDelete(DeleteBehavior.NoAction);
+            e.HasOne<TaiKhoan>().WithMany().HasForeignKey(x => x.NguoiThucHienId).OnDelete(DeleteBehavior.NoAction);
+        });
         b.Entity<LuotDangNhuCau>(e =>
         {
             e.ToTable("LuotDangNhuCau");

@@ -19,15 +19,34 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
 {
     private static readonly string DummyHash = new PasswordHasher<TaiKhoan>().HashPassword(new TaiKhoan(), Guid.NewGuid().ToString("N"));
     private static readonly string[] PublicRoles = ["HocSinh", "PhuHuynh", "GiaSu"];
+    private const string EmailVerificationRequired = "EduConnect.EmailVerificationRequired";
+
+    public bool YeuCauXacMinhEmailMoi => configuration.GetValue("Authentication:RequireVerifiedNewEmail", email.CoSmtp);
+    public bool CoTheGuiEmailTaiKhoan => email.SanSang && !string.IsNullOrWhiteSpace(configuration["Authentication:PublicOrigin"]);
+
+    public const string PhienBanChinhSach = "2026-11-19";
 
     public async Task<IdentityResult> DangKyAsync(DangKyInput input)
     {
+        if (!input.DongYChinhSach)
+            return IdentityResult.Failed(new IdentityError { Description = "Bạn chưa đồng ý với chính sách của EduConnect." });
+
         if (!PublicRoles.Contains(input.VaiTro))
             return IdentityResult.Failed(new IdentityError { Description = "Vai trò đăng ký không hợp lệ." });
 
-        await using var tx = await db.Database.BeginTransactionAsync();
         var address = input.Email.Trim();
-        var user = new TaiKhoan { Id = Guid.NewGuid(), HoTen = input.HoTen.Trim(), Email = address, UserName = address };
+        var verify = YeuCauXacMinhEmailMoi;
+        if (verify && !email.ChapNhanDiaChi(address))
+            return IdentityResult.Failed(new IdentityError { Description = "Hãy dùng địa chỉ email có thể nhận thư xác minh." });
+        if (verify && !CoTheGuiEmailTaiKhoan)
+            return IdentityResult.Failed(new IdentityError { Description = "EduConnect chưa thể gửi thư xác minh lúc này. Bạn thử lại sau nhé." });
+
+        await using var tx = await db.Database.BeginTransactionAsync();
+        var user = new TaiKhoan
+        {
+            Id = Guid.NewGuid(), HoTen = input.HoTen.Trim(), Email = address, UserName = address,
+            PhienBanChinhSach = PhienBanChinhSach, DongYChinhSachLuc = DateTimeOffset.UtcNow
+        };
         try
         {
             var created = await users.CreateAsync(user, input.MatKhau);
@@ -36,6 +55,15 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
             var assigned = await users.AddToRoleAsync(user, input.VaiTro);
             if (!assigned.Succeeded)
                 return assigned;
+            if (verify)
+            {
+                var required = await users.AddClaimsAsync(user, [
+                    new Claim(EmailVerificationRequired, "true"),
+                    new Claim(LanThuGuiXacMinh, DateTimeOffset.UtcNow.ToString("O"))
+                ]);
+                if (!required.Succeeded)
+                    return required;
+            }
             switch (input.VaiTro)
             {
                 case "HocSinh":
@@ -51,6 +79,8 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
             await db.SaveChangesAsync();
             await tx.CommitAsync();
             auditLog.Ghi("Authentication", "TaiKhoan.DangKy", "ThanhCong", dich: user.Id);
+            if (verify)
+                await GuiXacMinhNguoiDungAsync(user);
             return IdentityResult.Success;
         }
         catch (DbUpdateException ex) when (ex.InnerException is SqlException { Number: 2601 or 2627 })
@@ -79,6 +109,11 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
             audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "ThongTinDangNhapKhongHopLe", dich: user?.Id, dinhDanh: normalized);
             await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanDangNhapSai @TaiKhoanChuanHoa={normalized},@DiaChiIp={ip}");
             return "Không thể đăng nhập. Vui lòng kiểm tra email và mật khẩu.";
+        }
+        if (!user.EmailConfirmed && await ChoXacMinhAsync(user))
+        {
+            audit.Ghi("Authentication", "TaiKhoan.DangNhap", "ThatBai", "ChuaXacMinhEmail", dich: user.Id);
+            return "Bạn cần xác minh email trước khi đăng nhập. Hãy kiểm tra hộp thư hoặc gửi lại thư xác minh.";
         }
 
         var roles = await users.GetRolesAsync(user);
@@ -132,23 +167,17 @@ public sealed partial class TaiKhoanService(AppDbContext db, UserManager<TaiKhoa
     public async Task QuenMatKhauAsync(string address)
     {
         var user = await users.FindByEmailAsync(address.Trim());
-        if (user?.TrangThai != "HoatDong")
+        if (user?.TrangThai != "HoatDong" || !user.EmailConfirmed || !CoTheGuiEmailTaiKhoan)
             return;
         var token = await users.GeneratePasswordResetTokenAsync(user);
-        var encoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-        var origin = configuration["Authentication:PublicOrigin"] ?? throw new InvalidOperationException("Cần cấu hình địa chỉ công khai của ứng dụng.");
-        var link = QueryHelpers.AddQueryString(origin.TrimEnd('/') + "/TaiKhoan/DatLaiMatKhau", new Dictionary<string, string?>
-        {
-            ["email"] = user.Email,
-            ["ma"] = encoded
-        });
+        var link = TaoLienKet("DatLaiMatKhau", "email", user.Email!, token);
         await email.GuiDatLaiMatKhauAsync(user.Email!, link);
     }
 
     public async Task<IdentityResult> DatLaiMatKhauAsync(DatLaiMatKhauInput input)
     {
         var user = await users.FindByEmailAsync(input.Email.Trim());
-        if (user?.TrangThai != "HoatDong")
+        if (user?.TrangThai != "HoatDong" || !user.EmailConfirmed)
             return InvalidLink();
         string token;
         try

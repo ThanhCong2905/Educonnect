@@ -1,6 +1,10 @@
 using System.IO.Compression;
+using System.Buffers.Binary;
 using System.Security.Cryptography;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +13,7 @@ namespace EduConnect.Mvc.Infrastructure;
 public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current, QuyenLopHocService rights, IWebHostEnvironment env, ILogger<TepService>? logger = null, IConfiguration? configuration = null)
 {
     public bool ChoPhepTepChuaQuet { get; } = env.IsDevelopment() && configuration?.GetValue<bool>("FileScanning:AllowUnscannedUploads") == true;
+    public static bool XemTrucTiepDuoc(string format) => format is "image/jpeg" or "image/png" or "application/pdf";
     private string Root => Path.Combine(env.ContentRootPath, "uploads");
     public string? DuongDanAnhDaiDien(string? key)
         => key != null && System.Text.RegularExpressions.Regex.IsMatch(key, @"\Aavatars/[0-9a-f]{32}\.(?:jpg|png)\z")
@@ -84,6 +89,10 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
 
     private async Task QuetMaDocAsync(byte[] bytes)
     {
+        var clamdPort = configuration?.GetValue<int>("FileScanning:ClamdPort") ?? 0;
+        if (clamdPort is > 0 and <= 65535 && await QuetQuaClamdAsync(bytes, clamdPort))
+            return;
+
         var scanner = Path.Combine(env.ContentRootPath, "tools", "clamav", OperatingSystem.IsWindows() ? "clamscan.exe" : "clamscan");
         Rules.Check(File.Exists(scanner), "Tính năng tải tệp chưa sẵn sàng. Vui lòng liên hệ người quản lý hệ thống.");
         var quarantine = Path.Combine(Root, ".quarantine");
@@ -127,6 +136,53 @@ public sealed class TepService(AppDbContext db, NguoiDungHienTaiService current,
             throw new LoiNghiepVu("Chưa thể kiểm tra an toàn của tệp. Hãy thử lại sau.");
         }
         finally { if (File.Exists(path)) File.Delete(path); }
+    }
+
+    private async Task<bool> QuetQuaClamdAsync(byte[] bytes, int port)
+    {
+        try
+        {
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(12));
+            using var client = new TcpClient(AddressFamily.InterNetwork);
+            await client.ConnectAsync(IPAddress.Loopback, port, timeout.Token);
+            await using var stream = client.GetStream();
+            await stream.WriteAsync("zINSTREAM\0"u8.ToArray(), timeout.Token);
+            var length = new byte[4];
+            const int chunkSize = 65536;
+            for (var offset = 0; offset < bytes.Length; offset += chunkSize)
+            {
+                var count = Math.Min(chunkSize, bytes.Length - offset);
+                BinaryPrimitives.WriteInt32BigEndian(length, count);
+                await stream.WriteAsync(length, timeout.Token);
+                await stream.WriteAsync(bytes.AsMemory(offset, count), timeout.Token);
+            }
+            Array.Clear(length);
+            await stream.WriteAsync(length, timeout.Token);
+
+            var response = new byte[2048];
+            var used = 0;
+            while (used < response.Length)
+            {
+                var read = await stream.ReadAsync(response.AsMemory(used), timeout.Token);
+                if (read == 0) break;
+                var end = Array.IndexOf(response, (byte)0, used, read);
+                if (end >= 0)
+                {
+                    var result = Encoding.UTF8.GetString(response, 0, end);
+                    Rules.Check(!result.EndsWith(" FOUND", StringComparison.Ordinal),
+                        "Tệp bị từ chối vì không an toàn.", field: "Files");
+                    if (result == "stream: OK") return true;
+                    break;
+                }
+                used += read;
+            }
+        }
+        catch (Exception ex) when (ex is IOException or SocketException or OperationCanceledException)
+        {
+            logger?.LogDebug(ex, "Không kết nối được ClamAV qua cổng nội bộ {Port}.", port);
+        }
+        logger?.LogDebug("Dùng clamscan để quét tệp khi clamd chưa trả kết quả.");
+        return false;
     }
     private static bool Docx(byte[] bytes)
     {

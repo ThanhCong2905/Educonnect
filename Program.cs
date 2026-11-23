@@ -64,7 +64,9 @@ builder.Services.AddRateLimiter(o =>
             Window = TimeSpan.FromMinutes(15),
             QueueLimit = 0
         }));
-    o.OnRejected = async (c, token) => await c.HttpContext.Response.WriteAsync("Bạn đã gửi nhiều yêu cầu. Vui lòng chờ rồi thử lại.", token);
+    o.OnRejected = (c, token) => TrangLoi.LaTrangWeb(c.HttpContext.Request)
+        ? ValueTask.CompletedTask
+        : new ValueTask(c.HttpContext.Response.WriteAsync("Bạn đã gửi nhiều yêu cầu. Vui lòng chờ rồi thử lại.", token));
 });
 builder.Services.AddScoped<NguoiDungHienTaiService>();
 builder.Services.AddScoped<PhienDangNhapService>();
@@ -96,6 +98,9 @@ builder.Services.AddHostedService<XuLySuKienWorker>();
 var app = builder.Build();
 app.UseMiddleware<LoiNghiepVuMiddleware>();
 app.UseStaticFiles();
+app.UseStatusCodePages(status => TrangLoi.LaTrangWeb(status.HttpContext.Request)
+    ? TrangLoi.HienThiAsync(status.HttpContext)
+    : Task.CompletedTask);
 app.UseRouting();
 app.UseSession();
 app.UseMiddleware<NhatKyAnToanMiddleware>();
@@ -116,6 +121,7 @@ app.Use(async (context, next) =>
 app.MapHub<CapNhatThoiGianThucHub>("/cap-nhat");
 app.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapFallback(() => Results.NotFound()).AllowAnonymous();
 app.Run();
 public partial class Program
 {

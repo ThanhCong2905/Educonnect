@@ -8,7 +8,7 @@ const { execFileSync } = require('node:child_process');
 const base = process.env.AUTH_TEST_URL || 'http://127.0.0.1:5299';
 const database = process.env.AUTH_TEST_DATABASE;
 assert.ok(database?.startsWith('EduConnect_Verification_'), 'Chỉ chạy trên database kiểm thử.');
-const evidence = path.resolve('.backups/login/auth-results');
+const evidence = path.resolve(process.env.AUTH_TEST_EVIDENCE || '.backups/login/auth-results');
 fs.mkdirSync(evidence, { recursive: true });
 const results = [];
 const suffix = crypto.randomUUID().replaceAll('-', '');
@@ -63,20 +63,23 @@ async function run(id, name, action) {
     const guest = await browser.newContext();
     const guestClient = guest.request;
     try {
-        await run('AUTH-01', 'Database chuẩn có 38 bảng và view tài khoản', async () => {
-            assert.equal(Number(sql('SELECT COUNT(*) FROM sys.tables WHERE is_ms_shipped=0')), 38);
+        await run('AUTH-01', 'Database chuẩn có 50 bảng và view tài khoản', async () => {
+            assert.equal(Number(sql('SELECT COUNT(*) FROM sys.tables WHERE is_ms_shipped=0')), 50);
             assert.equal(Number(sql("SELECT COUNT(*) FROM sys.views WHERE name='NguoiThamGia'")), 1);
             assert.equal(Number(sql("SELECT COUNT(*) FROM sys.tables WHERE name='NguoiThamGia'")), 0);
         });
-        await run('AUTH-02', 'Khách phải đăng nhập trước khi mở nghiệp vụ', async () => {
-            for (const route of ['/', '/NhuCau/NhuCau/Tao', '/TimKiem/TimKiem/Index', '/HocTap/TinNhan/Index']) {
+        await run('AUTH-02', 'Khách xem được trang công khai và cần đăng nhập vào nghiệp vụ riêng', async () => {
+            for (const route of ['/', '/TimKiem/TimKiem/GiaSu', '/TimKiem/TimKiem/NhuCau']) {
+                assert.equal((await guestClient.get(base + route, { maxRedirects: 0 })).status(), 200, route);
+            }
+            for (const route of ['/NhuCau/NhuCau/Tao', '/HocTap/TinNhan/Index']) {
                 const response = await guestClient.get(base + route, { maxRedirects: 0 });
                 assert.equal(response.status(), 302);
                 assert.ok(response.headers().location.includes('/TaiKhoan/DangNhap'));
             }
         });
-        await run('AUTH-03', 'AJAX và SignalR từ khách trả 401', async () => {
-            assert.equal((await guestClient.get(base + '/TimKiem/TimKiem/Index', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })).status(), 401);
+        await run('AUTH-03', 'Khách dùng AJAX tìm kiếm công khai và bị chặn SignalR', async () => {
+            assert.equal((await guestClient.get(base + '/TimKiem/TimKiem/GiaSu', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })).status(), 200);
             assert.equal((await guestClient.post(base + '/cap-nhat/negotiate?negotiateVersion=1')).status(), 401);
         });
         await run('AUTH-04', 'Đăng ký thiếu CSRF bị chặn', async () => {
@@ -84,12 +87,12 @@ async function run(id, name, action) {
         });
         await run('AUTH-05', 'Đăng ký không được tự cấp vai trò quản trị', async () => {
             const email = `admin-${suffix}@example.test`;
-            const response = await post(guestClient, '/TaiKhoan/DangKy', { HoTen: 'Không cấp quyền', Email: email, VaiTro: 'QuanTri', MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
+            const response = await post(guestClient, '/TaiKhoan/DangKy', {DongYChinhSach:'true', HoTen: 'Không cấp quyền', Email: email, VaiTro: 'QuanTri', MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
             assert.equal(response.status(), 200);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM AspNetUsers WHERE Email='${email}'`)), 0);
         });
         await run('AUTH-06', 'Mật khẩu phổ biến bị từ chối', async () => {
-            const response = await post(guestClient, '/TaiKhoan/DangKy', { HoTen: 'Mật khẩu phổ biến', Email: `weak-${suffix}@example.test`, VaiTro: 'HocSinh', MatKhau: 'passwordpassword', XacNhanMatKhau: 'passwordpassword' }, '/TaiKhoan/DangKy');
+            const response = await post(guestClient, '/TaiKhoan/DangKy', {DongYChinhSach:'true', HoTen: 'Mật khẩu phổ biến', Email: `weak-${suffix}@example.test`, VaiTro: 'HocSinh', MatKhau: 'passwordpassword', XacNhanMatKhau: 'passwordpassword' }, '/TaiKhoan/DangKy');
             assert.equal(response.status(), 200);
             assert.ok((await response.text()).includes('PasswordPolicy') === false);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM AspNetUsers WHERE Email='weak-${suffix}@example.test'`)), 0);
@@ -97,7 +100,7 @@ async function run(id, name, action) {
         for (const role of ['HocSinh', 'PhuHuynh', 'GiaSu']) {
             await run('REGISTER-' + role, 'Đăng ký và đăng nhập ' + role, async () => {
                 const email = `${role.toLowerCase()}-${suffix}@example.test`;
-                const response = await post(guestClient, '/TaiKhoan/DangKy', { HoTen: suffix + ' ' + role, Email: email, VaiTro: role, MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
+                const response = await post(guestClient, '/TaiKhoan/DangKy', {DongYChinhSach:'true', HoTen: suffix + ' ' + role, Email: email, VaiTro: role, MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
                 assert.equal(response.status(), 302);
                 const user = rows(`SELECT u.Id,u.HoTen,u.PasswordHash,r.Name AS VaiTro FROM AspNetUsers u JOIN AspNetUserRoles ur ON ur.UserId=u.Id JOIN AspNetRoles r ON r.Id=ur.RoleId WHERE u.Email='${email}'`)[0];
                 assert.ok(user?.Id);
@@ -120,7 +123,7 @@ async function run(id, name, action) {
         const parent = accounts.PhuHuynh;
         const tutor = accounts.GiaSu;
         await run('AUTH-10', 'Email trùng khác hoa thường chỉ có một tài khoản', async () => {
-            const response = await post(guestClient, '/TaiKhoan/DangKy', { HoTen: 'Đăng ký trùng', Email: learner.email.toUpperCase(), VaiTro: 'GiaSu', MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
+            const response = await post(guestClient, '/TaiKhoan/DangKy', {DongYChinhSach:'true', HoTen: 'Đăng ký trùng', Email: learner.email.toUpperCase(), VaiTro: 'GiaSu', MatKhau: password, XacNhanMatKhau: password }, '/TaiKhoan/DangKy');
             assert.equal(response.status(), 200);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM AspNetUsers WHERE NormalizedEmail='${learner.email.toUpperCase()}'`)), 1);
         });
@@ -132,23 +135,31 @@ async function run(id, name, action) {
         await run('AUTH-12', 'Gia sư không tạo nhu cầu học', async () => {
             assert.equal((await tutor.request.get(base + '/NhuCau/NhuCau/Tao', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })).status(), 403);
         });
-        await run('AUTH-13', 'Lưu hồ sơ và công khai theo cấu hình demo', async () => {
+        await run('AUTH-13', 'Lưu minh chứng và kiểm tra điều kiện công khai hồ sơ', async () => {
             const input = {
-                HoTen: suffix + ' GiaSu', TrinhDo: 'Đại học', ChuyenMon: 'Toán', KinhNghiem: '3 năm', KhuVuc: 'Hà Nội', MoTa: 'bio_' + suffix + ' ' + 'Giới thiệu kinh nghiệm giảng dạy. '.repeat(35), DayTrucTuyen: 'true',
-                'MonDay[0].MonHocId': '1', 'MonDay[0].PhamViDay': 'Lớp 10–12', 'MonDay[0].HocPhiDeXuat': '150000', 'MonDay[0].DonViHocPhi': 'VND/Gio'
+                HoTen: suffix + ' GiaSu', TrinhDo: 'Đại học', KinhNghiem: 'Chưa có', KhuVuc: 'Hà Nội', MoTa: 'bio_' + suffix + ' ' + 'Giới thiệu kinh nghiệm giảng dạy. '.repeat(35), DayTrucTuyen: 'true',
+                'MonDay[0].MonHocId': '1', 'MonDay[0].LopDay': '10', 'MonDay[0].HocPhiDeXuat': '150000', 'MonDay[0].DonViHocPhi': 'VND/Gio'
             };
-            const saved = await post(tutor.request, '/NhuCau/HoSoGiaSu/Luu', input, '/NhuCau/HoSoGiaSu/Sua');
+            const profileForm = '/NhuCau/HoSoGiaSu/Sua';
+            const saved = await tutor.request.post(base + '/NhuCau/HoSoGiaSu/Luu', {
+                multipart: { ...input, __RequestVerificationToken: await token(tutor.request, profileForm),
+                    TepTrinhDo: { name: 'minh-chung.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/nD8AAAAASUVORK5CYII=', 'base64') } },
+                maxRedirects: 0
+            });
             assert.equal(saved.status(), 302);
             const profile = rows(`SELECT Id,RowVersion FROM HoSoGiaSu WHERE GiaSuId='${tutor.id}'`)[0];
             assert.ok(profile?.Id);
             tutor.profileId = profile.Id;
-            const publish = await post(tutor.request, '/NhuCau/HoSoGiaSu/TrangThai', { operation: 'Hien', rowVersion: profile.RowVersion }, '/NhuCau/HoSoGiaSu/Sua');
+            assert.equal((await guestClient.get(base + '/NhuCau/HoSoGiaSu/ChiTiet?maHoSo=' + profile.Id)).status(), 404);
+            // Approval is covered separately by the profile workflow tests.
+            sql(`UPDATE HoSoGiaSu SET TrangThaiDuyet='DaDuyet' WHERE Id='${profile.Id}'`);
+            const version = rows(`SELECT RowVersion FROM HoSoGiaSu WHERE Id='${profile.Id}'`)[0].RowVersion;
+            const publish = await post(tutor.request, '/NhuCau/HoSoGiaSu/TrangThai', { operation: 'Hien', rowVersion: version }, profileForm);
             assert.equal(publish.status(), 302);
             const search = await learner.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
             assert.equal(search.status(), 200);
             const searchHtml = await search.text();
             assert.ok(searchHtml.toLowerCase().includes(profile.Id.toLowerCase()));
-            assert.ok(searchHtml.includes('candidate-professional'));
             assert.ok(!searchHtml.includes('bio_' + suffix));
             const detail = await learner.request.get(base + '/NhuCau/HoSoGiaSu/ChiTiet?maHoSo=' + profile.Id);
             assert.equal(detail.status(), 200);
@@ -157,8 +168,7 @@ async function run(id, name, action) {
             try {
                 await page.goto(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
                 const card = page.locator('[data-candidate-id="' + profile.Id.toLowerCase() + '"]');
-                assert.deepEqual(await card.locator('.candidate-professional dt').allTextContents(), ['Chuyên môn', 'Kinh nghiệm']);
-                assert.ok((await card.locator('.candidate-professional').innerText()).includes('3 năm'));
+                assert.match(await card.innerText(), /Chưa có/);
                 await page.screenshot({ path: path.join(evidence, 'tutor-search-desktop.png'), fullPage: true });
                 await page.setViewportSize({ width: 390, height: 844 });
                 assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -168,7 +178,7 @@ async function run(id, name, action) {
         });
         await run('AUTH-14', 'Tạo nhu cầu lấy đúng chủ từ danh tính đăng nhập', async () => {
             const form = {
-                'MonHocIds[0]': '1', 'MonHocIds[1]': '2', MucTieu: suffix + ' nhu cầu', KhoiLop: 'Lớp 10', SoBuoiTuan: '2', HinhThucHoc: 'TrucTuyen', BanNhap: 'false', HocPhiDuKien: '150000', DonViHocPhi: 'VND/Gio',
+                MonHocId: '1', MucTieu: suffix + ' nhu cầu', KhoiLop: 'Lớp 10', SoBuoiTuan: '2', HinhThucHoc: 'TrucTuyen', BanNhap: 'false', HocPhiDuKien: '150000', DonViHocPhi: 'VND/Gio',
                 'LichRanh[0].ThuTrongTuan': '1', 'LichRanh[0].GioBatDau': '19:00', 'LichRanh[0].GioKetThuc': '20:00', ChuSoHuuId: tutor.id
             };
             const saved = await post(learner.request, '/NhuCau/NhuCau/TaoNhuCauHoc', form, '/NhuCau/NhuCau/Tao');
@@ -177,13 +187,11 @@ async function run(id, name, action) {
             assert.equal(need?.ChuSoHuuId.toLowerCase(), learner.id.toLowerCase());
             learner.needId = need.Id;
             learner.needForm = form;
-            assert.deepEqual(subjects(need.Id), [1, 2]);
+            assert.deepEqual(subjects(need.Id), [1]);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM NhuCauHoc WHERE ChuSoHuuId='${learner.id}'`)), 1);
-            for (const subject of [1, 2]) {
-                const filtered = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix + '&MonHocId=' + subject);
-                assert.equal(filtered.status(), 200);
-                assert.ok((await filtered.text()).toLowerCase().includes(need.Id.toLowerCase()));
-            }
+            const filtered = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix + '&MonHocId=1');
+            assert.equal(filtered.status(), 200);
+            assert.ok((await filtered.text()).toLowerCase().includes(need.Id.toLowerCase()));
 
             const response = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix);
             assert.ok((await response.text()).toLowerCase().includes(need.Id.toLowerCase()));
@@ -224,28 +232,26 @@ async function run(id, name, action) {
                 await publicPage.close();
             }
         });
-        await run('NEED-MULTI', 'Sửa nhiều môn giữ một nhu cầu, chặn lưu phiên bản cũ', async () => {
+        await run('NEED-SUBJECT', 'Đổi môn giữ một nhu cầu, chặn lưu phiên bản cũ', async () => {
             const need = rows(`SELECT Id,RowVersion FROM NhuCauHoc WHERE Id='${learner.needId}'`)[0];
-            const form = { ...learner.needForm, 'MonHocIds[0]': '2', 'MonHocIds[1]': '3', MaNhuCau: need.Id, RowVersion: need.RowVersion };
+            const form = { ...learner.needForm, MonHocId: '3', MaNhuCau: need.Id, RowVersion: need.RowVersion };
             const route = '/NhuCau/NhuCau/CapNhat?maNhuCau=' + need.Id;
             const edit = '/NhuCau/NhuCau/Sua/' + need.Id;
             const saved = await post(learner.request, route, form, edit);
             assert.equal(saved.status(), 302);
-            assert.deepEqual(subjects(need.Id), [2, 3]);
+            assert.deepEqual(subjects(need.Id), [3]);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM NhuCauHoc WHERE ChuSoHuuId='${learner.id}'`)), 1);
             const html = await (await learner.request.get(base + edit)).text();
-            assert.ok(/name="MonHocIds"[^>]*value="2"/.test(html) || html.includes('value="2"'));
-            const stale = await post(learner.request, route, { ...form, 'MonHocIds[0]': '1' }, edit);
+            assert.match(html, /<option[^>]*(?=[^>]*value="3")(?=[^>]*selected)[^>]*>/);
+            const stale = await post(learner.request, route, { ...form, MonHocId: '1' }, edit);
             assert.equal(stale.status(), 200);
             assert.ok((await stale.text()).includes('validation-summary-errors'));
-            assert.deepEqual(subjects(need.Id), [2, 3]);
+            assert.deepEqual(subjects(need.Id), [3]);
             const filtered = await tutor.request.get(base + '/TimKiem/TimKiem/Tim?TuKhoa=' + suffix + '&MonHocId=3');
             assert.ok((await filtered.text()).toLowerCase().includes(need.Id.toLowerCase()));
-            for (const [subject, expectedError] of [[2, 2627], [999999, 547]]) {
-                const error = sql(`BEGIN TRY INSERT NhuCauMonHoc(NhuCauId,MonHocId) VALUES('${need.Id}',${subject}); SELECT 0; END TRY BEGIN CATCH SELECT ERROR_NUMBER(); END CATCH`);
-                assert.equal(Number(error), expectedError);
-            }
-            assert.deepEqual(subjects(need.Id), [2, 3]);
+            const secondSubject = sql(`BEGIN TRY INSERT NhuCauMonHoc(NhuCauId,MonHocId) VALUES('${need.Id}',1); SELECT 0; END TRY BEGIN CATCH SELECT ERROR_NUMBER(); END CATCH`);
+            assert.equal(Number(secondSubject), 2601);
+            assert.deepEqual(subjects(need.Id), [3]);
         });
         await run('AUTH-15', 'Người khác không sửa được nhu cầu', async () => {
             assert.equal((await parent.request.get(base + '/NhuCau/NhuCau/Sua/' + learner.needId)).status(), 404);
@@ -256,6 +262,7 @@ async function run(id, name, action) {
             assert.ok((await (await learner.request.get(base + '/')).text()).toLowerCase().includes(learner.id.toLowerCase()));
         });
         await run('AUTH-17', 'Quên mật khẩu có thông báo chung', async () => {
+            sql(`UPDATE AspNetUsers SET EmailConfirmed=1 WHERE Id='${learner.id}'`);
             for (const address of [learner.email, `missing-${suffix}@example.test`]) {
                 const response = await post(guestClient, '/TaiKhoan/QuenMatKhau', { Email: address }, '/TaiKhoan/QuenMatKhau');
                 assert.equal(response.status(), 200);
@@ -277,7 +284,7 @@ async function run(id, name, action) {
             learner.oldCookies = await learner.context.cookies();
             const response = await post(guestClient, '/TaiKhoan/DatLaiMatKhau', { Email: learner.email, Ma: link.searchParams.get('ma'), MatKhau: replacementPassword, XacNhanMatKhau: replacementPassword }, link.pathname + link.search);
             assert.equal(response.status(), 302);
-            const old = await learner.request.get(base + '/', { maxRedirects: 0 });
+            const old = await learner.request.get(base + '/TaiKhoan/HoSo', { maxRedirects: 0 });
             assert.equal(old.status(), 302);
             const sessionCount = Number(sql(`SELECT COUNT(*) FROM PhienDangNhap WHERE TaiKhoanId='${learner.id}' AND ThuHoiLuc IS NULL`));
             assert.equal(sessionCount, 0);
@@ -291,8 +298,11 @@ async function run(id, name, action) {
             assert.ok(!html.includes('value="' + password + '"'));
         });
         await run('AUTH-21', 'Mật khẩu cũ bị từ chối, mật khẩu mới đăng nhập được', async () => {
+            // This suite shares a loopback IP. Test the password independently of the wait window.
+            sql('DELETE FROM TrangThaiThuDangNhap');
             const old = await post(guestClient, '/TaiKhoan/DangNhap', { Email: learner.email, MatKhau: password });
             assert.equal(old.status(), 200);
+            assert.match(await old.text(), /mật khẩu|m&#x1EAD;t kh&#x1EA9;u/i);
             const fresh = await post(learner.request, '/TaiKhoan/DangNhap', { Email: learner.email, MatKhau: replacementPassword });
             assert.equal(fresh.status(), 302);
         });
@@ -313,17 +323,17 @@ async function run(id, name, action) {
             assert.equal(response.status(), 302);
             await page.waitForFunction(() => window.authHubClosed === true, { timeout: 10000 });
             await page.close();
-            assert.equal((await clone.request.get(base + '/', { maxRedirects: 0 })).status(), 302);
+            assert.equal((await clone.request.get(base + '/TaiKhoan/HoSo', { maxRedirects: 0 })).status(), 302);
             assert.equal(Number(sql(`SELECT COUNT(*) FROM PhienDangNhap WHERE TaiKhoanId='${parent.id}' AND ThuHoiLuc IS NULL`)), 0);
             await clone.close();
         });
         await run('AUTH-23', 'Phiên hết hạn sau 30 phút không hoạt động', async () => {
             sql(`UPDATE PhienDangNhap SET TaoLuc=DATEADD(minute,-40,SYSDATETIMEOFFSET()),HoatDongCuoiLuc=DATEADD(minute,-31,SYSDATETIMEOFFSET()) WHERE TaiKhoanId='${tutor.id}' AND ThuHoiLuc IS NULL`);
-            assert.equal((await tutor.request.get(base + '/', { maxRedirects: 0 })).status(), 302);
+            assert.equal((await tutor.request.get(base + '/TaiKhoan/HoSo', { maxRedirects: 0 })).status(), 302);
         });
         await run('AUTH-24', 'Tài khoản bị khóa không dùng lại phiên đăng nhập', async () => {
             sql(`UPDATE AspNetUsers SET TrangThai='BiKhoa' WHERE Id='${learner.id}'`);
-            assert.equal((await learner.request.get(base + '/', { maxRedirects: 0 })).status(), 302);
+            assert.equal((await learner.request.get(base + '/TaiKhoan/HoSo', { maxRedirects: 0 })).status(), 302);
             sql(`UPDATE AspNetUsers SET TrangThai='HoatDong' WHERE Id='${learner.id}'`);
         });
         await run('AUTH-25', 'Chặn returnUrl bên ngoài ứng dụng', async () => {

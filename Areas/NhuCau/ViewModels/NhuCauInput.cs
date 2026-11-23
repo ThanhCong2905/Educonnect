@@ -4,6 +4,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.ViewModels;
 
 public sealed class NhuCauInput
 {
+    [Range(0, 7)] public byte PhanKhoaHoc { get; set; }
     public Guid MaThaoTac { get; set; } = Guid.NewGuid();
     public List<int> MonHocIds { get; set; } = []; public bool ChonMonKhac
     {
@@ -28,18 +29,15 @@ public sealed class NhuCauInput
     {
         get; set;
     }
-    [StringLength(256)]
-    public string? HocLuc
-    {
-        get; set;
-    }
     [StringLength(2000)]
     public string? MucTieu
     {
         get; set;
     }
     [Range(1, 7)] public int? SoBuoiTuan { get; set; } = 2;
-    [Required, RegularExpression("TrucTuyen|TrucTiep")] public string HinhThucHoc { get; set; } = "TrucTuyen";
+    [Required, RegularExpression("TrucTuyen|TrucTiep|CaHai", ErrorMessage = "Chọn hình thức học trong danh sách.")]
+    public string HinhThucHoc { get; set; } = "TrucTuyen";
+    public bool CoHocTrucTiep => HinhThucHoc is "TrucTiep" or "CaHai";
     [StringLength(256)]
     public string? KhuVuc
     {
@@ -117,7 +115,8 @@ public sealed class HoSoInput
 public sealed class MonDayInput
 {
     public Guid? MinhChungId { get; set; }
-    public IFormFile? TepMinhChung { get; set; }
+    public List<int> PhanTheoLop { get; set; } = [];
+    public long PhanKhoaHoc { get; set; }
     public List<int> LopDay { get; set; } = [];
     public int MonHocId { get; set; }
     [StringLength(100)] public string? TenMonKhac { get; set; }

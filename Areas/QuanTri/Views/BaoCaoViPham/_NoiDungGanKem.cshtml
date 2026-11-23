@@ -1,0 +1,12 @@
+@model NoiDungBaoCao
+<div class="report-source">
+    <strong>@Model.TieuDe</strong>
+    @if (Model.GuiLuc is { } date)
+    {
+        <time datetime="@date.ToString("O")">@Rules.Date(date)</time>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.NoiDung))
+    {
+        <p class="pre">@Model.NoiDung</p>
+    }
+</div>

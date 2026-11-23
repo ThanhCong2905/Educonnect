@@ -18,7 +18,7 @@
     const bar=document.createElement('div');bar.className='recovery-notice';
     const text=document.createElement('span');text.textContent='Có nội dung chưa gửi trong tab này.';
     const restore=document.createElement('button');restore.type='button';restore.className='btn btn-outline-primary btn-sm';restore.textContent='Khôi phục';
-    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-secondary btn-sm';discard.textContent='Bỏ bản lưu';
+    const discard=document.createElement('button');discard.type='button';discard.className='btn btn-outline-primary btn-sm';discard.textContent='Bỏ bản lưu';
     bar.append(text,restore,discard);form.prepend(bar);
     discard.onclick=()=>{sessionStorage.removeItem(key);bar.remove();};
     restore.onclick=()=>{

@@ -28,7 +28,7 @@
         try {
             const data = await loadCatalog();
             if (province.value !== selectedProvince) return;
-            ward.replaceChildren(new Option('Tất cả phường / xã', ''));
+            ward.replaceChildren(new Option(group.dataset.wardPlaceholder || 'Tất cả phường / xã', ''));
             for (const name of data.provinces[selectedProvince] ?? []) ward.add(new Option(name, name));
             ward.disabled = false;
         } catch {

@@ -49,9 +49,11 @@
 .week-navigation { flex-wrap: wrap; gap: 14px; min-width: 0; }
 .week-navigation h2 { font-size: 19px; font-weight: 650; margin: 0; }
 .week-arrows { gap: 6px; }
-.calendar-arrow.btn { min-width: 40px; width: 40px; height: 40px; min-height: 40px; padding: 10px; border-color: #d0d5dd; }
-.calendar-arrow .carousel-control-prev-icon, .calendar-arrow .carousel-control-next-icon { display: block; width: 18px; height: 18px; filter: brightness(0); }
-.calendar-today.btn { border-color: #d0d5dd; color: var(--ink); min-height: 40px; padding: 8px 12px; }
+.calendar-arrow.btn { min-width: 40px; width: 40px; height: 40px; min-height: 40px; padding: 10px; }
+.calendar-arrow span { width: 8px; height: 8px; border: solid currentColor; border-width: 2px 2px 0 0; background: none; }
+.calendar-arrow .carousel-control-prev-icon { transform: translateX(1px) rotate(-135deg); }
+.calendar-arrow .carousel-control-next-icon { transform: translateX(-1px) rotate(45deg); }
+.calendar-today.btn { min-height: 40px; padding: 8px 12px; }
 .week-grid-head, .week-grid-body { display: grid; grid-template-columns: 60px repeat(7, minmax(0, 1fr)); }
 .week-grid-head { border-block: 1px solid var(--line); }
 .week-zone { align-self: end; text-align: center; font-size: 10px; color: var(--muted); padding-bottom: 12px; }
@@ -81,6 +83,8 @@
 .week-event:hover, .week-event:focus-visible { color: var(--ink); border-color: var(--accent); box-shadow: 0 2px 8px #18223015; }
 .week-agenda { display: none; }
 .week-empty { padding: 18px 22px; margin: 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.week-empty p { margin: 0 0 12px; }
+.week-empty p:last-child { margin-bottom: 0; }
 .lesson-preview { position: fixed; z-index: 1040; width: 350px; max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overflow: auto; padding: 20px; border: 1px solid #d0d5dd; border-radius: 12px; background: #fff; box-shadow: 0 8px 28px #18223024; }
 .lesson-preview[hidden] { display: none; }
 .lesson-preview:focus { outline: none; }
@@ -114,7 +118,6 @@
 .schedule-builder .calendar { margin-block: 12px; }
 .schedule-builder [data-schedule-list] { display: grid; gap: 12px; }
 .schedule-builder .schedule-row { margin: 0; padding: 14px; background: #f8f9fb; border: 1px solid var(--line); border-radius: 8px; }
-.schedule-builder .schedule-row .btn { border: 1px solid #d0d5dd; background: #fff; }
 .schedule-builder .schedule-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 22px; }
 .schedule-builder details summary { font-size: 14px; font-weight: 500; cursor: pointer; }
 .schedule-builder details[open] summary { margin-bottom: 18px; }

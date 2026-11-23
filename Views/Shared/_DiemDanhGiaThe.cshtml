@@ -1,0 +1,13 @@
+@model UngVienViewModel
+<div class="card-rating">
+    @if (Model.DiemDanhGia is decimal average)
+    {
+        <partial name="_SaoDanhGia" model="average" />
+        <strong>@average.ToString("0.0")</strong>
+        <small>(@Model.SoDanhGia đánh giá)</small>
+    }
+    else
+    {
+        <small>Chưa có đánh giá</small>
+    }
+</div>

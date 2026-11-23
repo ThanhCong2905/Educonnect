@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
 
@@ -16,7 +17,11 @@ public sealed class TaoBaoCaoViewModel
     [Required, StringLength(2000)] public string LyDo { get; set; } = "";
     [Required, StringLength(4000, MinimumLength = 10)] public string MoTa { get; set; } = "";
     public List<IFormFile> Files { get; set; } = [];
+    [BindNever] public NoiDungBaoCao? NoiDungGanKem { get; set; }
 }
+
+public sealed record TepNguonBaoCao(Guid Id, string Ten);
+public sealed record NoiDungBaoCao(string TieuDe, string? NoiDung = null, DateTimeOffset? GuiLuc = null, List<TepNguonBaoCao>? Tep = null);
 
 public sealed class XuLyBaoCaoViewModel
 {
@@ -42,11 +47,17 @@ public sealed class PhanQuyenQuanTriViewModel
     [Required, StringLength(2000)] public string LyDo { get; set; } = "";
 }
 
+public sealed record TaiKhoanBaoCao(Guid Id, string HoTen);
+
 public sealed class BaoCaoChiTietViewModel
 {
     public BaoCaoViPham BaoCao { get; set; } = null!;
     public List<LichSuXuLyBaoCao> LichSu { get; set; } = [];
     public List<TepDinhKem> Tep { get; set; } = [];
+    public NoiDungBaoCao? NoiDungGanKem { get; set; }
+    public IReadOnlyDictionary<Guid, TaiKhoanBaoCao> TaiKhoan { get; set; } = new Dictionary<Guid, TaiKhoanBaoCao>();
+    public int SoBaoCaoCuaNguoiGui { get; set; }
+    public List<BienPhapQuanTri> BienPhap { get; set; } = [];
     public bool CoTheXuLy
     {
         get; set;
@@ -72,7 +83,15 @@ public sealed class QuanTriDashboard
         get; set;
     }
     public List<NhatKyQuanTriRow> GanDay { get; set; } = [];
+    public Dictionary<string, int> HoSoTheoTrangThai { get; set; } = [];
+    public List<DangKyTheoThang> DangKy { get; set; } = [];
+    public List<BaoCaoTheoDoiTuong> PhanLoaiBaoCao { get; set; } = [];
+    public Page<NhuCauHauKiemRow> CanXemXet { get; set; } = new();
 }
+
+public sealed record DangKyTheoThang(string Thang, int GiaSu, int HocSinh, int PhuHuynh);
+public sealed record BaoCaoTheoDoiTuong(string Loai, int SoLuong);
+public sealed record KetQuaTimQuanTri(string Loai, Guid Id, string TieuDe, string TrangThai);
 
 public sealed class NhatKyQuanTriRow
 {

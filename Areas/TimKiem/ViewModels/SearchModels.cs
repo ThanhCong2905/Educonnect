@@ -5,6 +5,9 @@ namespace EduConnect.Mvc.Areas.TimKiem.ViewModels;
 
 public sealed class BoLocTimKiemViewModel
 {
+    [Range(1, 3)] public int? MucPhuHop { get; set; }
+    [Range(1, 5)] public int? SoSaoToiThieu { get; set; }
+    [Range(1, 3)] public int? PhanKhoaHoc { get; set; }
     [RegularExpression("GiaSu|NhuCau", ErrorMessage = "Chọn tìm gia sư hoặc nhu cầu học.")]
     public string? LoaiDoiTuong { get; set; }
 
@@ -49,7 +52,7 @@ public sealed class BoLocTimKiemViewModel
     {
         get; set;
     }
-    [Required(ErrorMessage = "Chọn cách sắp xếp."), RegularExpression("MoiNhat|Ten|HocPhiTang|HocPhiGiam|DanhGia|HocVien", ErrorMessage = "Chọn cách sắp xếp trong danh sách.")]
+    [Required(ErrorMessage = "Chọn cách sắp xếp."), RegularExpression("MoiNhat|Ten|HocPhiTang|HocPhiGiam|DanhGia|HocVien|PhuHop", ErrorMessage = "Chọn cách sắp xếp trong danh sách.")]
     public string SapXep { get; set; } = "MoiNhat";
     [Range(1, 100000, ErrorMessage = "Số trang phải từ 1 đến 100000.")] public int Trang { get; set; } = 1;
 }
@@ -65,6 +68,7 @@ public class UngVienViewModel
     public List<MonDayCongKhai> MonTheoHoSo { get; set; } = [];
     public bool DayTrucTuyen { get; set; }
     public bool DayTrucTiep { get; set; }
+    public byte PhanKhoaHoc { get; set; }
     public string? ChuyenMon
     {
         get; set;
@@ -130,6 +134,8 @@ public sealed class MonDayCongKhai
     public int MonHocId { get; set; }
     public string TenMon { get; set; } = "";
     public string PhamViDay { get; set; } = "";
+    public long? MatNaKhoi { get; set; }
+    public long PhanKhoaHoc { get; set; }
     public decimal? HocPhi { get; set; }
     public string? DonVi { get; set; }
 }

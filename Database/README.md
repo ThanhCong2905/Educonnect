@@ -1,6 +1,6 @@
 # Database EduConnect
 
-Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 49 bảng và các nâng cấp đến script 25. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 50 bảng và các nâng cấp đến script 28. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
 Database đã đến script 21 chạy `22_OptionalLessonComment.sql` để cho phép bỏ trống nhận xét của buổi đã diễn ra. Buổi không diễn ra vẫn phải có lý do. Bản cài mới đã có thay đổi này trong file 00.
 
@@ -10,7 +10,13 @@ Database đã đến script 23 chạy `24_DongNhuCauDaKetNoi.sql`. Khi tạo l�
 
 Database đã đến script 24 chạy `25_KetThucDeXuatCungNhuCau.sql`. Khi tạo lớp, các yêu cầu/đề xuất còn chờ và chưa hết hạn của cùng nhu cầu chuyển sang `NhuCauDaKetNoi` (Nhu cầu đã được kết nối). Mỗi đề nghị kết thúc có thông báo và sự kiện chờ phát cho hai tài khoản liên quan, lưu cùng giao dịch. Đề nghị đã từ chối/rút/hết hạn và các nhu cầu khác giữ nguyên. Script cũng xử lý các đề nghị còn chờ gắn nhu cầu đã đóng có lớp đang hoạt động; chạy lại không gửi thông báo lặp.
 
+Database đã đến script 25 chạy `26_HoanThienLuongNghiepVu.sql`. Script thêm `LichSuQuyenThanhVien` để lưu người đổi và quyền trước/sau; dữ liệu cũ không được tự tạo lịch sử giả. Procedure lập đề xuất bỏ tham số lời nhắn, giữ nội dung yêu cầu ban đầu. Dùng cùng bản code đã cập nhật và khởi động lại ứng dụng sau nâng cấp.
+
 Máy khác cài mới chỉ chạy file 00 rồi đổi tên SQL Server trong chuỗi kết nối. Database đang sử dụng không chạy lại file 00; chỉ nâng cấp nếu thiếu cấu trúc. Các file nâng cấp riêng được giữ để hỗ trợ database của phiên bản cũ.
+
+Database đã đến script 26 chạy `27_PhamViMonHoc_ChinhSach.sql` trước khi dùng code mới. Script thêm cột cho phạm vi môn dạy, phần Khoa học tự nhiên của nhu cầu và thời điểm, phiên bản chính sách khi đăng ký. Bản cũ giữ nguyên tên môn, lịch sử và minh chứng đã lưu. Tài khoản cũ để trống thông tin đồng ý. Script không thêm bảng.
+
+Database đã đến script 27 chạy `28_HinhThucNhuCau.sql` trước khi dùng code mới. Nhu cầu có thể chọn `TrucTuyen`, `TrucTiep` hoặc `CaHai`. Đề xuất và lớp học vẫn lưu một hình thức đã thống nhất. Bản nâng cấp giữ nguyên dữ liệu hiện có và số bảng.
 
 ## Cài mới
 
@@ -35,7 +41,19 @@ Role SQL `KLTN_App` chứa quyền của ứng dụng. Người vận hành gán
 
 ## Tệp tải lên
 
-Development hiện bật `FileScanning:AllowUnscannedUploads` để thử tải tệp khi chưa dùng ClamAV. Tệp được lưu ở trạng thái `ChoQuet`, vẫn kiểm tra định dạng, dung lượng và quyền truy cập. Ngoài Development, ứng dụng yêu cầu ClamAV và dữ liệu nhận diện tại `tools/clamav`, chỉ cho sử dụng tệp đã quét sạch. Nội dung tải lên nằm trong `uploads`, SQL lưu metadata. Sao lưu cả database và thư mục này.
+### Tệp đính kèm và ClamAV
+
+Ứng dụng gọi `tools/clamav/clamscan.exe` trên Windows hoặc `tools/clamav/clamscan` trên Linux. Đặt bộ nhận diện trong `tools/clamav/database`. Các tệp đã kiểm tra sạch mang trạng thái `Sach`. Tệp cũ còn `ChoQuet` cần được quét và ghi kết quả trước khi sử dụng lại. Dữ liệu tệp nằm trong `uploads`; sao lưu thư mục này cùng CSDL.
+
+Để tải tệp nhanh hơn trên Windows, chạy `.\tools\Start-ClamAv.ps1` với bản ClamAV đã giải nén đầy đủ. Sau đó đặt `$env:FileScanning__ClamdPort = '3310'` trong PowerShell trước khi chạy web. ClamAV giữ bộ nhận diện trong bộ nhớ và chỉ nhận kết nối từ `127.0.0.1`. Khi dịch vụ chưa sẵn sàng, ứng dụng quay về cách quét từng tệp bằng `clamscan`.
+
+Trên máy Windows đã chuẩn bị ClamAV, chạy lệnh sau từ thư mục dự án để cập nhật bộ nhận diện. `freshclam.conf` cần trỏ `DatabaseDirectory` đến thư mục bộ nhận diện của dự án.
+
+```powershell
+& .\tools\clamav\freshclam.exe --config-file=.\tools\clamav\freshclam.conf
+```
+
+Tệp chương trình và bộ nhận diện cài riêng trên máy chạy web. Môi trường kiểm thử cô lập có thể chủ động đặt `FileScanning__AllowUnscannedUploads=true` nếu cần chạy một ca kiểm thử không dùng máy quét. Ngoài Development, ứng dụng luôn yêu cầu quét thành công.
 
 ## Lời mời thành viên lớp
 

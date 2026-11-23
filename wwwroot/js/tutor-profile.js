@@ -66,7 +66,10 @@
    if(!option?.value||!form)return;
    for(const [name,key] of [['TenNguoiHoc','learner'],['MonHocId','subject'],['MucTieu','goal'],['SoBuoiTuan','sessions'],['HinhThucHoc','mode'],['DiaDiem','address']]){
     const input=form.elements.namedItem(name);
-    if(input&&option.dataset[key]!=null&&(key!=='learner'||option.dataset[key])){input.value=option.dataset[key];input.dispatchEvent(new Event('change',{bubbles:true}));}
+    if(input&&option.dataset[key]!=null&&(key!=='learner'||option.dataset[key])){
+     input.value=key==='mode'&&option.dataset.mode==='CaHai'?'':option.dataset[key];
+     input.dispatchEvent(new Event('change',{bubbles:true}));
+    }
    }
   }
  });

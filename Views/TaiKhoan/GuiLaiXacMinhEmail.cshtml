@@ -1,0 +1,10 @@
+@model EduConnect.Mvc.ViewModels.QuenMatKhauInput
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Gửi lại thư xác minh"; }
+<form asp-action="GuiLaiXacMinhEmail" method="post">
+    <div asp-validation-summary="ModelOnly" class="account-errors" role="alert"></div>
+    <label asp-for="Email" class="form-label">Email đăng ký</label>
+    <input asp-for="Email" class="form-control" type="email" autocomplete="email" required>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <button class="btn btn-primary w-100 account-submit" type="submit">Gửi lại thư</button>
+</form>
+<p class="account-footer"><a asp-action="DangNhap">Quay lại đăng nhập</a></p>

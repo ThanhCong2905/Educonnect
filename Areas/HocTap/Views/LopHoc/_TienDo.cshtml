@@ -38,7 +38,7 @@
     </div>
     <div class="row g-4">
         <div class="col-lg-6"><section class="card h-100">
-            <div class="heading"><h3>Buổi đã ghi nhận</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=lessons">Xem các buổi</a></div>
+            <h3>Buổi đã ghi nhận</h3>
             @foreach(var lesson in recordedLessons)
             {
                 <a class="progress-record" href="/HocTap/LichHoc/Buoi/@lesson.LichHocId"><span>@lesson.TieuDe</span><span class="badge rounded-pill @(lesson.TrangThai == "DaHoc" ? "event-completed" : lesson.TrangThai == "DaNghi" ? "event-absent" : "event-unrecorded")">@Rules.Label(lesson.TrangThai)</span></a>
@@ -46,7 +46,7 @@
             @if(recordedLessons.Count == 0){<p class="muted">Chưa có buổi học được ghi nhận trong khoảng đã chọn.</p>}
         </section></div>
         <div class="col-lg-6"><section class="card h-100">
-            <div class="heading"><h3>Kết quả gần đây</h3><a class="btn btn-outline-primary btn-sm" href="/HocTap/LopHoc/ChiTiet/@Model.Lop.Id?tab=assignments">Xem bài tập</a></div>
+            <div class="heading"><h3>Kết quả gần đây</h3><a class="btn btn-outline-primary btn-sm" asp-area="HocTap" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@Model.Lop.Id" asp-route-tab="lessons">Xem các buổi học</a></div>
             @foreach(var grade in Model.Diem.Take(5))
             {
                 <a class="progress-record" href="/HocTap/BaiTap/ChiTiet/@grade.BaiTapId"><span>@grade.TieuDe<small>@Rules.Date(grade.ChamLuc)</small></span><strong>@(grade.Diem?.ToString("0.##") ?? "Đã nhận xét")</strong></a>

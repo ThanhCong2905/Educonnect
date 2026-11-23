@@ -50,6 +50,10 @@ else if(tutor && active)
                 </div>
             </form>
         }
+        @if(!primary && (tutor || me.Id == lop.BenHocId || me.Id == member.TaiKhoanId))
+        {
+            <div class="actions"><a data-modal class="btn btn-outline-primary" asp-action="LichSuQuyen" asp-route-member="@member.Id">Lịch sử quyền</a></div>
+        }
     </article>
 }
 </div>

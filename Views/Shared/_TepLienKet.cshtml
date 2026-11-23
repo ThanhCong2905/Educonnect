@@ -1,0 +1,10 @@
+@model EduConnect.Mvc.ViewModels.TepLienKetViewModel
+@if (TepService.XemTrucTiepDuoc(Model.Tep.LoaiNoiDung))
+{
+    <a class="file" asp-action="@Model.HanhDong" asp-route-id="@Model.Tep.Id" asp-route-xem="true"
+       data-file-preview="@Model.Tep.LoaiNoiDung" data-file-name="@Model.Tep.TenGoc" target="_blank" rel="noopener">Xem @Model.Tep.TenGoc</a>
+}
+else
+{
+    <a class="file" asp-action="@Model.HanhDong" asp-route-id="@Model.Tep.Id">Tải @Model.Tep.TenGoc</a>
+}

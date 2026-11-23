@@ -10,17 +10,72 @@ namespace EduConnect.Mvc.Areas.QuanTri.Services;
 public sealed partial class QuanTriService(AppDbContext db, NguoiDungHienTaiService current, QuyenQuanTriService rights,
     PhienDangNhapService sessions, ThongBaoService notices, PhienCapNhat realtime)
 {
-    public async Task<QuanTriDashboard> TongQuanAsync()
+    public async Task<QuanTriDashboard> TongQuanAsync(CancellationToken huy = default)
     {
         Rules.Check((await current.HienTaiAsync()).LoaiNguoi == "QuanTri", "Chỉ quản trị được xem màn hình này.", 403);
+        var duyetHoSo = await rights.CoQuyenAsync("DuyetHoSo");
+        var xuLyBaoCao = await rights.CoQuyenAsync("XuLyBaoCao");
+        var quanLyTaiKhoan = await rights.CoQuyenAsync("QuanLyTaiKhoan");
+        var today = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(7));
+        var firstMonth = new DateTimeOffset(today.Year, today.Month, 1, 0, 0, 0, today.Offset).AddMonths(-5);
+        var hoSo = duyetHoSo
+            ? await db.Set<HoSoGiaSu>().GroupBy(x => x.TrangThaiDuyet)
+                .Select(x => new { TrangThai = x.Key, SoHoSo = x.Count() }).ToDictionaryAsync(x => x.TrangThai, x => x.SoHoSo)
+            : new Dictionary<string, int>();
         return new QuanTriDashboard
         {
-            HoSoChoDuyet = await rights.CoQuyenAsync("DuyetHoSo") ? await db.Set<HoSoGiaSu>().CountAsync(x => x.TrangThaiDuyet == "ChoDuyet") : 0,
-            BaoCaoChoXuLy = await rights.CoQuyenAsync("XuLyBaoCao") ? await db.Set<BaoCaoViPham>().CountAsync(x => x.TrangThai != "DaXuLy") : 0,
-            TaiKhoanBiKhoa = await rights.CoQuyenAsync("QuanLyTaiKhoan") ? await db.Users.CountAsync(x => x.TrangThai == "BiKhoa") : 0,
-            LopTamDung = await rights.CoQuyenAsync("QuanLyTaiKhoan") ? await db.Set<LopHoc>().CountAsync(x => x.TrangThai == "TamDung") : 0,
-            GanDay = await rights.CoQuyenAsync("XemNhatKy") ? await (from n in db.Set<NhatKyQuanTri>().AsNoTracking() join u in db.Users on n.NguoiThucHienId equals u.Id orderby n.ThoiDiem descending, n.Id select new NhatKyQuanTriRow { BanGhi = n, HoTen = u.HoTen }).Take(10).ToListAsync() : []
+            HoSoChoDuyet = hoSo.GetValueOrDefault("ChoDuyet"),
+            HoSoTheoTrangThai = hoSo,
+            BaoCaoChoXuLy = xuLyBaoCao ? await db.Set<BaoCaoViPham>().CountAsync(x => x.TrangThai != "DaXuLy", huy) : 0,
+            TaiKhoanBiKhoa = quanLyTaiKhoan ? await db.Users.CountAsync(x => x.TrangThai == "BiKhoa", huy) : 0,
+            LopTamDung = quanLyTaiKhoan ? await db.Set<LopHoc>().CountAsync(x => x.TrangThai == "TamDung", huy) : 0,
+            DangKy = quanLyTaiKhoan ? await LayDangKyTheoThangAsync(firstMonth, today, huy) : [],
+            PhanLoaiBaoCao = xuLyBaoCao ? await db.Set<BaoCaoViPham>().Where(x => x.GuiLuc >= firstMonth && x.GuiLuc <= today)
+                .GroupBy(x => x.LoaiDoiTuong).Select(x => new { Loai = x.Key, SoLuong = x.Count() })
+                .OrderByDescending(x => x.SoLuong).ThenBy(x => x.Loai)
+                .Select(x => new BaoCaoTheoDoiTuong(x.Loai, x.SoLuong)).ToListAsync(huy) : [],
+            CanXemXet = xuLyBaoCao ? await LayNhuCauCanXemXetAsync(LayHangHauKiem(DateTimeOffset.UtcNow.AddDays(-7)), 1, 5, huy) : new(),
+            GanDay = await rights.CoQuyenAsync("XemNhatKy") ? await (from n in db.Set<NhatKyQuanTri>().AsNoTracking() join u in db.Users on n.NguoiThucHienId equals u.Id orderby n.ThoiDiem descending, n.Id select new NhatKyQuanTriRow { BanGhi = n, HoTen = u.HoTen }).Take(5).ToListAsync() : []
         };
+    }
+
+    public async Task<List<KetQuaTimQuanTri>> TimNhanhAsync(string keyword, CancellationToken cancellationToken)
+    {
+        Rules.Check(keyword.Length is >= 2 and <= 100, "Nhập từ 2 đến 100 ký tự để tìm.");
+        var result = new List<KetQuaTimQuanTri>();
+        if (await rights.CoQuyenAsync("DuyetHoSo"))
+        {
+            result.AddRange(await (from profile in db.Set<HoSoGiaSu>().AsNoTracking()
+                join user in db.Users.AsNoTracking() on profile.GiaSuId equals user.Id
+                where user.HoTen.Contains(keyword)
+                orderby user.HoTen, profile.Id
+                select new KetQuaTimQuanTri("Hồ sơ gia sư", profile.Id, user.HoTen, profile.TrangThaiDuyet))
+                .Take(5).ToListAsync(cancellationToken));
+        }
+        var accountAccess = await rights.CoQuyenAsync("QuanLyTaiKhoan");
+        if (accountAccess || await rights.CoQuyenAsync("QuanLyQuyen"))
+        {
+            result.AddRange(await db.Users.AsNoTracking()
+                .Where(user => user.HoTen.Contains(keyword) || user.Email!.Contains(keyword))
+                .OrderBy(user => user.HoTen).ThenBy(user => user.Id)
+                .Select(user => new KetQuaTimQuanTri("Tài khoản", user.Id, user.HoTen, user.TrangThai))
+                .Take(5).ToListAsync(cancellationToken));
+        }
+        if (accountAccess)
+        {
+            result.AddRange(await db.Set<LopHoc>().AsNoTracking().Where(item => item.TenLop.Contains(keyword))
+                .OrderBy(item => item.TenLop).ThenBy(item => item.Id)
+                .Select(item => new KetQuaTimQuanTri("Lớp học", item.Id, item.TenLop, item.TrangThai))
+                .Take(5).ToListAsync(cancellationToken));
+        }
+        if (await rights.CoQuyenAsync("XuLyBaoCao"))
+        {
+            result.AddRange(await db.Set<BaoCaoViPham>().AsNoTracking().Where(report => report.LyDo.Contains(keyword))
+                .OrderByDescending(report => report.Id)
+                .Select(report => new KetQuaTimQuanTri("Báo cáo", report.Id, report.LyDo, report.TrangThai))
+                .Take(5).ToListAsync(cancellationToken));
+        }
+        return result;
     }
 
     public async Task<TaiKhoanQuanTriPage> LayTaiKhoanAsync(int trang = 1, string? q = null, string? role = null, string? state = null)

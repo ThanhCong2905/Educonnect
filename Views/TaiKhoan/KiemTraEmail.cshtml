@@ -1,0 +1,36 @@
+@model EduConnect.Mvc.ViewModels.TrangThaiXacMinhEmailViewModel
+@{ Layout = "_AuthLayout"; ViewData["Title"] = "Kiểm tra email"; }
+<div data-email-verification data-wait-seconds="@Model.GiayCho"
+    data-status-url="@(Model.TheoDoi ? Url.Action("TrangThaiXacMinhEmail") : null)">
+    <div data-verification-success role="status" hidden="@(!Model.DaXacMinh)">
+        <p class="verification-status verified">Email đã được xác minh.</p>
+        <a asp-action="DangNhap" class="btn btn-primary w-100">Tiếp tục đăng nhập</a>
+    </div>
+    <div data-verification-pending hidden="@Model.DaXacMinh">
+        <p class="verification-status">Chờ xác minh</p>
+        @if (Model.TheoDoi)
+        {
+            <p>Mở thư EduConnect tại <strong>@Model.Email</strong>, bấm liên kết rồi chọn <strong>Xác minh email</strong>. Bạn có thể giữ trang này mở để xem kết quả.</p>
+        }
+        else
+        {
+            <p>Nếu địa chỉ đang chờ xác minh, EduConnect sẽ gửi thư tới <strong>@(Model.Email ?? "email của bạn")</strong>.</p>
+        }
+        <p class="text-secondary">Chưa thấy thư? Hãy kiểm tra mục Thư rác. Liên kết có hiệu lực trong 30 phút.</p>
+        @if (Model.Email is { } address)
+        {
+            <form asp-action="GuiLaiXacMinhEmail" method="post" data-verification-resend>
+                <input type="hidden" name="Email" value="@address">
+                <button class="btn btn-outline-primary w-100" type="submit" disabled="@(Model.GiayCho > 0)">
+                    @(Model.GiayCho > 0 ? $"Gửi lại sau {Model.GiayCho} giây" : "Gửi lại thư xác minh")
+                </button>
+            </form>
+            <noscript><a asp-action="KiemTraEmail">Cập nhật trạng thái</a></noscript>
+        }
+        else
+        {
+            <a asp-action="GuiLaiXacMinhEmail" class="btn btn-outline-primary w-100">Gửi lại thư xác minh</a>
+        }
+        <p class="account-footer">Gõ nhầm email? <a asp-action="DangKy">Đăng ký bằng địa chỉ đúng</a></p>
+    </div>
+</div>

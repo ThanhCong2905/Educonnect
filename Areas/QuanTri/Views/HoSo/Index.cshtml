@@ -12,9 +12,9 @@
 @foreach(var h in Model.Items)
 {
     <article class="card">
-        <span class="badge rounded-pill">@Rules.Label(h.TrangThaiDuyet)</span>
+        <span class="admin-state align-self-start" data-state="@h.TrangThaiDuyet">@Rules.Label(h.TrangThaiDuyet)</span>
         <h2>@names.GetValueOrDefault(h.GiaSuId,"Gia sư")</h2>
-        <p>@h.TrinhDo · @h.ChuyenMon</p>
+        <p>@h.TrinhDo · @h.KinhNghiem</p>
         <p>Gửi duyệt @Rules.Date(h.GuiDuyetLuc)</p>
         <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@h.Id">Xem hồ sơ</a>
     </article>

@@ -1,13 +1,54 @@
 @model DanhGiaCongKhaiPage
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Đánh giá người dùng";var me=await Current.NguoiXemAsync();}
-<h1>Đánh giá về @Model.HoTen</h1><section class="review-overview"><span class="review-stars" aria-hidden="true">★</span><p class="fs-5">@(Model.TrungBinh==null?"Chưa có đánh giá":$"{Model.TrungBinh:0.0}/5 · {Model.DanhGia.Total} đánh giá")</p></section>
-@foreach(var r in Model.DanhGia.Items)
-{
-    <article class="card review-card mb-3"><div class="heading"><span class="review-stars" aria-label="@r.SoSao trên 5 sao">@(new string('★',r.SoSao))<span class="review-stars-empty">@(new string('☆',5-r.SoSao))</span></span><small>@Rules.Date(r.GuiLuc)</small></div><p class="pre">@r.NhanXet</p>
-    @if(!string.IsNullOrWhiteSpace(r.PhanHoi)){<div class="review-reply"><strong>Phản hồi của người được đánh giá</strong><p class="pre">@r.PhanHoi</p></div>}
-    @if(me!=null){<div class="actions">@if(me.Id==r.NguoiGuiId||me.Id==r.NguoiNhanId){<a class="btn btn-outline-primary" data-modal asp-action="LichSu" asp-route-id="@r.Id">Lịch sử</a>}@if(me.Id!=r.NguoiGuiId){<a class="btn btn-outline-primary" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=DanhGiaDoiTac&doiTuongId=@r.Id">Báo cáo</a>}</div>}
-    @if(me?.Id==r.NguoiNhanId){<details class="mt-3"><summary>@(r.PhanHoi==null?"Viết phản hồi":"Sửa phản hồi")</summary><form method="post" asp-action="PhanHoi"><input name="DanhGiaId" value="@r.Id" type="hidden"><input name="RowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><label>Phản hồi <span class="required-mark" aria-hidden="true">*</span><textarea name="NoiDung" class="form-control" rows="3" maxlength="2000" required>@r.PhanHoi</textarea></label><button class="btn btn-outline-primary mt-2">Lưu phản hồi</button></form></details>}
-    </article>
+@{
+    ViewData["Title"] = "Đánh giá người dùng";
+    var me = await Current.NguoiXemAsync();
 }
-<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.DanhGia.Trang,Model.DanhGia.Total)"/>
+<h1>Đánh giá về @Model.HoTen</h1>
+<section class="card review-overview" aria-label="Điểm đánh giá">
+    <partial name="_PhanBoDanhGia" model="Model" />
+</section>
+<div class="review-list">
+    @foreach (var review in Model.DanhGia.Items)
+    {
+        <article class="card review-entry">
+            <div class="review-entry-heading">
+                <partial name="_SaoDanhGia" model="@((decimal)review.SoSao)" />
+                <time datetime="@review.GuiLuc.ToString("O")">@Rules.Date(review.GuiLuc)</time>
+            </div>
+            <p class="pre">@review.NhanXet</p>
+            @if (!string.IsNullOrWhiteSpace(review.PhanHoi))
+            {
+                <div class="review-reply"><strong>Phản hồi</strong><p class="pre">@review.PhanHoi</p></div>
+            }
+            @if (me != null)
+            {
+                <div class="actions review-entry-actions">
+                    @if (me.Id == review.NguoiGuiId || me.Id == review.NguoiNhanId)
+                    {
+                        <a class="btn btn-outline-primary btn-sm" data-modal asp-action="LichSu" asp-route-id="@review.Id">Lịch sử</a>
+                    }
+                    @if (me.Id != review.NguoiGuiId)
+                    {
+                        <a class="report-icon" aria-label="Báo cáo vi phạm đánh giá" title="Báo cáo vi phạm" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=DanhGiaDoiTac&doiTuongId=@review.Id"></a>
+                    }
+                </div>
+            }
+            @if (me?.Id == review.NguoiNhanId)
+            {
+                <details class="review-response">
+                    <summary>@(review.PhanHoi == null ? "Viết phản hồi" : "Sửa phản hồi")</summary>
+                    <form method="post" asp-action="PhanHoi">
+                        <input name="DanhGiaId" value="@review.Id" type="hidden">
+                        <input name="RowVersion" value="@Convert.ToBase64String(review.RowVersion)" type="hidden">
+                        <label>Phản hồi <span class="required-mark" aria-hidden="true">*</span>
+                            <textarea name="NoiDung" class="form-control" rows="3" maxlength="2000" required>@review.PhanHoi</textarea>
+                        </label>
+                        <button class="btn btn-outline-primary mt-2">Lưu phản hồi</button>
+                    </form>
+                </details>
+            }
+        </article>
+    }
+</div>
+<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.DanhGia.Trang, Model.DanhGia.Total, Model.DanhGia.KichThuocTrang)" />

@@ -1,0 +1,26 @@
+@model EduConnect.Mvc.Areas.DanhGia.ViewModels.DanhGiaCongKhaiPage
+@if (Model.TrungBinh is decimal average)
+{
+    <div class="rating-overview">
+        <div class="rating-score">
+            <div><strong>@average.ToString("0.0")</strong><span> / 5</span></div>
+            <partial name="_SaoDanhGia" model="average" />
+            <small>@Model.DanhGia.Total lượt đánh giá</small>
+        </div>
+        <div class="rating-breakdown">
+            @for (var stars = 5; stars >= 1; stars--)
+            {
+                var count = Model.TheoSoSao.GetValueOrDefault(stars);
+                <div class="rating-row">
+                    <span>@stars <span aria-hidden="true">★</span></span>
+                    <progress value="@count" max="@Model.DanhGia.Total" aria-label="@stars sao, @count lượt"></progress>
+                    <span aria-hidden="true">@count</span>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="muted mb-0">Chưa có đánh giá.</p>
+}

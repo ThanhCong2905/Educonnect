@@ -1,7 +1,121 @@
 @model Page<BaoCaoViPham>
-@{ViewData["Title"]=ViewBag.QuanTri is true?"Xử lý báo cáo":"Báo cáo của tôi";var admin=ViewBag.QuanTri is true;}
-<h1>@ViewData["Title"]</h1>
-<form method="get" class="card"><input name="quanTri" value="@admin.ToString().ToLowerInvariant()" type="hidden"><div class="row g-3 align-items-end"><div class="col-md-6"><label>Tìm báo cáo<input class="form-control" name="q" value="@Context.Request.Query["q"]" maxlength="100"></label></div><div class="col-md-4"><label>Trạng thái<select class="form-select" name="state"><option value="">Tất cả</option>@foreach(var s in new[]{"ChoXuLy","DangXuLy","DaXuLy"}){<option value="@s" selected="@(Context.Request.Query["state"]==s)">@Rules.Label(s)</option>}</select></label></div><div class="col-md-2"><button class="btn btn-primary">Tìm kiếm</button></div></div></form>
-<div class="stack">@foreach(var r in Model.Items){<a class="card" asp-action="ChiTiet" asp-route-maBaoCao="@r.Id"><div class="heading"><span class="badge rounded-pill">@Rules.Label(r.TrangThai)</span><small>@Rules.Date(r.GuiLuc)</small></div><h2>@r.LyDo</h2><p class="muted">@Rules.Label(r.LoaiDoiTuong) @(r.KetQua==null?"":"· "+Rules.Label(r.KetQua))</p></a>}</div>
-@if(Model.Items.Count==0){<div class="empty">Chưa có báo cáo phù hợp.</div>}
-<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.Total)"/>
+@{
+    var admin = ViewBag.QuanTri is true;
+    ViewData["Title"] = admin ? "Xử lý báo cáo" : "Báo cáo của tôi";
+    var query = Context.Request.Query["q"].ToString();
+    var state = Context.Request.Query["state"].ToString();
+    var reporterFilter = ViewData["ReporterFilter"] as Guid?;
+    var accounts = ViewData["ReportAccounts"] as IReadOnlyDictionary<Guid, TaiKhoanBaoCao>;
+    var filteredReporter = reporterFilter is Guid reporterId ? accounts?.GetValueOrDefault(reporterId) : null;
+    var back = Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString;
+    var filters = new List<(string Value, string Name)> { ("ChoXuLy", "Chờ tiếp nhận"), ("DangXuLy", "Đang xử lý"), ("DaXuLy", "Đã xử lý") };
+    if (admin)
+    {
+        filters.Insert(0, ("ChuaXuLy", "Chưa xử lý xong"));
+        filters.Insert(3, ("ToiDangXuLy", "Tôi đang xử lý"));
+    }
+}
+
+<div class="report-page">
+    <h1>@ViewData["Title"]</h1>
+    @if (admin)
+    {
+        <nav class="report-queue" aria-label="Hàng chờ báo cáo">
+            <a class="btn @(state.Length == 0 ? "btn-primary" : "btn-outline-primary")" asp-action="Index"
+               asp-route-quanTri="true" asp-route-q="@query" asp-route-nguoiGui="@reporterFilter" aria-current="@(state.Length == 0 ? "page" : null)">Tất cả</a>
+            @foreach (var filter in filters)
+            {
+                <a class="btn @(state == filter.Value ? "btn-primary" : "btn-outline-primary")" asp-action="Index"
+                   asp-route-quanTri="true" asp-route-state="@filter.Value" asp-route-q="@query" asp-route-nguoiGui="@reporterFilter"
+                   aria-current="@(state == filter.Value ? "page" : null)">@filter.Name</a>
+            }
+        </nav>
+    }
+    <form method="get" class="card report-filters @(admin ? "report-filters-admin" : "")">
+        <input name="quanTri" value="@admin.ToString().ToLowerInvariant()" type="hidden">
+        @if (reporterFilter.HasValue)
+        {
+            <input name="nguoiGui" value="@reporterFilter" type="hidden">
+            <p class="report-filter-note">
+                Người gửi: <strong>@(filteredReporter?.HoTen ?? "Tài khoản đã chọn")</strong>
+                <a asp-action="Index" asp-route-quanTri="true" asp-route-state="@state" asp-route-q="@query">Bỏ lọc người gửi</a>
+            </p>
+        }
+        <label>
+            Tìm báo cáo
+            <input class="form-control" name="q" value="@query" maxlength="100" placeholder="@(admin ? "Lý do, nội dung, tên, email hoặc mã báo cáo" : "Lý do, nội dung hoặc mã báo cáo")">
+        </label>
+        @if (admin)
+        {
+            <input name="state" value="@state" type="hidden">
+        }
+        else
+        {
+            <label>
+                Trạng thái
+                <select class="form-select" name="state">
+                    <option value="">Tất cả</option>
+                    @foreach (var item in filters)
+                    {
+                        <option value="@item.Value" selected="@(state == item.Value)">@item.Name</option>
+                    }
+                </select>
+            </label>
+        }
+        <div class="report-filter-actions">
+            <button class="btn btn-primary">Tìm kiếm</button>
+            @if (query.Length > 0 || state.Length > 0 || reporterFilter.HasValue)
+            {
+                <a class="btn btn-outline-primary" asp-action="Index" asp-route-quanTri="@admin.ToString().ToLowerInvariant()">Xóa bộ lọc</a>
+            }
+        </div>
+    </form>
+
+    <p class="report-count">@Model.Total báo cáo</p>
+    @if (Model.Items.Count == 0)
+    {
+        <p class="card report-empty">@(query.Length > 0 || state.Length > 0 || reporterFilter.HasValue ? "Không tìm thấy báo cáo phù hợp." : "Chưa có báo cáo.")</p>
+    }
+    else
+    {
+        <div class="report-list">
+            @foreach (var report in Model.Items)
+            {
+                <article class="report-list-item">
+                    <div class="report-list-body">
+                        <div class="report-meta">
+                            <span>@Rules.Label(report.LoaiDoiTuong)</span>
+                            <time datetime="@report.GuiLuc.ToString("O")">@Rules.Date(report.GuiLuc)</time>
+                        </div>
+                        <h2>@report.LyDo</h2>
+                        <p class="report-excerpt">@report.MoTa</p>
+                        @if (admin)
+                        {
+                            var reporter = accounts?.GetValueOrDefault(report.NguoiBaoCaoId);
+                            var subject = report.NguoiBiBaoCaoId is Guid subjectId ? accounts?.GetValueOrDefault(subjectId) : null;
+                            var handler = report.NguoiXuLyId is Guid handlerId ? accounts?.GetValueOrDefault(handlerId) : null;
+                            <dl class="report-people-list">
+                                <div><dt>Người gửi</dt><dd>@(reporter?.HoTen ?? "Chưa xác định")</dd></div>
+                                <div><dt>Bị báo cáo</dt><dd>@(subject?.HoTen ?? "Chưa xác định")</dd></div>
+                                <div><dt>Phụ trách</dt><dd>@(handler?.HoTen ?? "Chưa tiếp nhận")</dd></div>
+                            </dl>
+                        }
+                    </div>
+                    <div class="report-list-actions">
+                        <span class="badge report-state" data-state="@report.TrangThai">@Rules.Label(report.TrangThai)</span>
+                        @if (!string.IsNullOrEmpty(report.KetQua))
+                        {
+                            <small>@Rules.Label(report.KetQua)</small>
+                        }
+                        @if (admin)
+                        {
+                            <small title="@report.Id">Mã @(report.Id.ToString("N")[..8])</small>
+                        }
+                        <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-maBaoCao="@report.Id" asp-route-quayLai="@back" aria-label="Xem báo cáo: @report.LyDo">Xem báo cáo</a>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    <partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang, Model.Total)" />
+</div>

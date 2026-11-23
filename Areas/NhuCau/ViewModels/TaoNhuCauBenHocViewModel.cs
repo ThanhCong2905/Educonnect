@@ -5,6 +5,7 @@ namespace EduConnect.Mvc.Areas.NhuCau.ViewModels;
 
 public sealed class TaoNhuCauBenHocViewModel
 {
+    [Range(0, 7)] public byte PhanKhoaHoc { get; set; }
     public Guid MaThaoTac { get; set; } = Guid.NewGuid();
     public Guid? MaNhuCau { get; set; }
     public byte[]? RowVersion { get; set; }
@@ -13,10 +14,9 @@ public sealed class TaoNhuCauBenHocViewModel
     public bool ChonMonKhac { get; set; }
     [StringLength(100)] public string? TenMonKhac { get; set; }
     [StringLength(256)] public string? KhoiLop { get; set; }
-    [StringLength(256)] public string? HocLuc { get; set; }
     [StringLength(2000)] public string? MucTieu { get; set; }
     [Range(1, 7)] public int? SoBuoiTuan { get; set; } = 2;
-    [Required, RegularExpression("TrucTuyen|TrucTiep")]
+    [Required, RegularExpression("TrucTuyen|TrucTiep|CaHai", ErrorMessage = "Chọn hình thức học trong danh sách.")]
     public string HinhThucHoc { get; set; } = "TrucTuyen";
     [StringLength(256)] public string? KhuVuc { get; set; }
     [StringLength(256)] public string? PhuongXa { get; set; }
@@ -32,7 +32,7 @@ public sealed class TaoNhuCauBenHocViewModel
     {
         Id = MaNhuCau, MaThaoTac = MaThaoTac, RowVersion = RowVersion == null ? null : Convert.ToBase64String(RowVersion),
         MonHocIds = MonHocIds.Count > 0 ? [.. MonHocIds] : MonHocId > 0 ? [MonHocId] : [], MonHocId = MonHocId, ChonMonKhac = ChonMonKhac,
-        TenMonKhac = TenMonKhac, KhoiLop = KhoiLop, HocLuc = HocLuc, MucTieu = MucTieu,
+        TenMonKhac = TenMonKhac, KhoiLop = KhoiLop, PhanKhoaHoc = PhanKhoaHoc, MucTieu = MucTieu,
         SoBuoiTuan = SoBuoiTuan, HinhThucHoc = HinhThucHoc, KhuVuc = KhuVuc,
         PhuongXa = PhuongXa, DiaChiChiTiet = DiaChiChiTiet, HocPhiDuKien = HocPhiDuKien, DonViHocPhi = DonViHocPhi,
         TenNguoiHoc = TenNguoiHoc, TuoiNguoiHoc = TuoiNguoiHoc, BanNhap = BanNhap, LichRanh = [.. LichRanh]
@@ -42,7 +42,7 @@ public sealed class TaoNhuCauBenHocViewModel
     {
         MaNhuCau = m.Id, MaThaoTac = m.MaThaoTac, RowVersion = string.IsNullOrEmpty(m.RowVersion) ? null : Rules.Version(m.RowVersion),
         MonHocIds = [.. m.MonHocIds], MonHocId = m.MonHocIds.FirstOrDefault(m.MonHocId), ChonMonKhac = m.ChonMonKhac,
-        TenMonKhac = m.TenMonKhac, KhoiLop = m.KhoiLop, HocLuc = m.HocLuc, MucTieu = m.MucTieu,
+        TenMonKhac = m.TenMonKhac, KhoiLop = m.KhoiLop, PhanKhoaHoc = m.PhanKhoaHoc, MucTieu = m.MucTieu,
         SoBuoiTuan = m.SoBuoiTuan, HinhThucHoc = m.HinhThucHoc, KhuVuc = m.KhuVuc,
         PhuongXa = m.PhuongXa, DiaChiChiTiet = m.DiaChiChiTiet, HocPhiDuKien = m.HocPhiDuKien, DonViHocPhi = m.DonViHocPhi,
         TenNguoiHoc = m.TenNguoiHoc, TuoiNguoiHoc = m.TuoiNguoiHoc, BanNhap = m.BanNhap, LichRanh = [.. m.LichRanh]

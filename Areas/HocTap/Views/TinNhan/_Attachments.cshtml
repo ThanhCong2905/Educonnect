@@ -4,7 +4,9 @@
 var size=file.KichThuoc<1000?file.KichThuoc+" B":file.KichThuoc<1000000?(file.KichThuoc/1000d).ToString("0.0")+" KB":(file.KichThuoc/1000000d).ToString("0.00")+" MB";
 <div class="message-attachment">
 @if(file.LoaiNoiDung is "image/jpeg" or "image/png"){
-<a asp-action="Tai" asp-route-id="@file.Id" asp-route-xem="true" target="_blank" rel="noopener" aria-label="Xem ảnh @file.TenGoc"><img class="message-image" src="@Url.Action("Tai",new{id=file.Id,xem=true})" alt="@file.TenGoc" loading="lazy" width="260" height="180"></a>
+<a asp-action="Tai" asp-route-id="@file.Id" asp-route-xem="true" data-file-preview="@file.LoaiNoiDung" data-file-name="@file.TenGoc" target="_blank" rel="noopener" aria-label="Xem ảnh @file.TenGoc"><img class="message-image" src="@Url.Action("Tai",new{id=file.Id,xem=true})" alt="@file.TenGoc" loading="lazy" width="260" height="180"></a>
+}else if(file.LoaiNoiDung == "application/pdf"){
+<a asp-action="Tai" asp-route-id="@file.Id" asp-route-xem="true" data-file-preview="application/pdf" data-file-name="@file.TenGoc" target="_blank" rel="noopener">Xem PDF</a>
 }
 <a asp-action="Tai" asp-route-id="@file.Id">@file.TenGoc</a><small>@size · Tải xuống</small>
 </div>

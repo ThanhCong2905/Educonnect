@@ -1,0 +1,68 @@
+@using System.Globalization
+@model List<DangKyTheoThang>
+@{
+    var series = new[]
+    {
+        (Name: "Gia sư", Css: "tutor", Values: Model.Select(x => x.GiaSu).ToArray()),
+        (Name: "Học sinh", Css: "learner", Values: Model.Select(x => x.HocSinh).ToArray()),
+        (Name: "Phụ huynh", Css: "parent", Values: Model.Select(x => x.PhuHuynh).ToArray())
+    };
+    var max = series.SelectMany(x => x.Values).DefaultIfEmpty().Max();
+    var step = Math.Max(1, max <= 12 ? (max + 3) / 4 : ((max + 19) / 20) * 5);
+    var labelLast = Model.LastOrDefault()?.Thang;
+    double X(int i) => 42 + 404.0 * i / Math.Max(1, Model.Count - 1);
+    double Y(int value) => 170 - 140.0 * value / (step * 4);
+    string F(double n) => n.ToString("0.##", CultureInfo.InvariantCulture);
+}
+<section class="card admin-chart-card">
+    <div class="admin-chart-heading">
+        <h2>Tài khoản đăng ký</h2>
+        <p>Theo vai trò · 6 tháng gần nhất</p>
+    </div>
+    @if (max == 0)
+    {
+        <p class="admin-chart-empty">Chưa có số liệu đăng ký trong kỳ này.</p>
+    }
+    else
+    {
+        <svg class="admin-line-chart" viewBox="0 0 470 207" role="img" aria-label="Số tài khoản đăng ký theo tháng, đến @labelLast">
+            @for (var i = 0; i <= 4; i++)
+            {
+                var y = Y(i * step);
+                <g><line x1="42" x2="446" y1="@F(y)" y2="@F(y)" />
+                    <text x="33" y="@F(y + 4)" text-anchor="end">@(i * step)</text></g>
+            }
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <g><text x="@F(X(i))" y="194" text-anchor="middle">@($"T{Model[i].Thang[..2]}")</text></g>
+            }
+            @foreach (var item in series)
+            {
+                <g class="chart-series-@item.Css">
+                    <polyline points="@string.Join(" ", item.Values.Select((value, i) => $"{F(X(i))},{F(Y(value))}"))" />
+                    @for (var i = 0; i < item.Values.Length; i++)
+                    {
+                        <circle cx="@F(X(i))" cy="@F(Y(item.Values[i]))" r="4">
+                            <title>@item.Name · @Model[i].Thang · @item.Values[i] đăng ký</title>
+                        </circle>
+                    }
+                </g>
+            }
+        </svg>
+        <ul class="chart-legend">
+            @foreach (var item in series)
+            {
+                <li><span class="chart-dot chart-series-@item.Css" aria-hidden="true"></span>@item.Name</li>
+            }
+        </ul>
+        <details class="chart-data">
+            <summary>Xem số liệu theo tháng</summary>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead><tr><th scope="col">Tháng</th><th scope="col">Gia sư</th><th scope="col">Học sinh</th><th scope="col">Phụ huynh</th></tr></thead>
+                    <tbody>@foreach (var item in Model) { <tr><th scope="row">@item.Thang</th><td>@item.GiaSu</td><td>@item.HocSinh</td><td>@item.PhuHuynh</td></tr> }</tbody>
+                </table>
+            </div>
+        </details>
+    }
+</section>

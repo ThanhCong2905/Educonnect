@@ -28,7 +28,7 @@ else
     <p>Hạn nộp: @Rules.Date(Model.HanNopLuc)</p>
     <p class="pre">@Model.NoiDung</p>
     @if (!string.IsNullOrWhiteSpace(Model.TieuChiCham)) { <p>Tiêu chí: @Model.TieuChiCham</p> }
-    @foreach (var f in files.Where(x => x.BaiTapGiaoId == Model.Id)) { <a class="file" asp-action="Tai" asp-route-id="@f.Id">↓ @f.TenGoc</a> }
+    @foreach (var f in files.Where(x => x.BaiTapGiaoId == Model.Id)) { <partial name="_TepLienKet" model='new EduConnect.Mvc.ViewModels.TepLienKetViewModel(f, "Tai")' /> }
 </article>
 @if (!tutor && canSubmit && c.TrangThai == "DangHoatDong" && results.Count == 0)
 {
@@ -52,7 +52,7 @@ else
         <h3>Lần @n.LanNop · @(n.NopLuc > Model.HanNopLuc ? "Nộp muộn" : "Đã nộp")</h3>
         <small>@Rules.Date(n.NopLuc)</small>
         <p class="pre">@n.NoiDung</p>
-        @foreach (var f in files.Where(x => x.BaiTapNopId == n.Id)) { <a class="file" asp-action="Tai" asp-route-id="@f.Id">↓ @f.TenGoc</a> }
+        @foreach (var f in files.Where(x => x.BaiTapNopId == n.Id)) { <partial name="_TepLienKet" model='new EduConnect.Mvc.ViewModels.TepLienKetViewModel(f, "Tai")' /> }
         @if (result != null)
         {
             <div class="alert alert-success notice success"><strong>@(result.Diem == null ? "Nhận xét không có điểm" : "Điểm: " + result.Diem)</strong><p class="pre">@result.NhanXet</p></div>

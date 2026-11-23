@@ -5,29 +5,15 @@
     <span class="btn btn-primary" aria-current="page">An toàn AAA</span>
     <a class="btn btn-outline-primary" asp-action="XemNhatKy">Thao tác quản trị</a>
 </nav>
-<form method="get" class="card">
+<form method="get" class="card mb-3">
     <div class="row g-3 align-items-end">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label>Tài khoản, sự kiện hoặc mã yêu cầu
                 <input class="form-control" name="q" maxlength="100" value="@Context.Request.Query["q"]">
             </label>
         </div>
-        <div class="col-md-3">
-            <label>Địa chỉ IP
-                <input class="form-control" name="ip" maxlength="45" value="@Context.Request.Query["ip"]">
-            </label>
-        </div>
-        <div class="col-md-3">
-            <label>Nhóm sự kiện
-                <select class="form-select" name="nhom">
-                    <option value="">Tất cả</option>
-                    <option value="Authentication" selected="@(Context.Request.Query["nhom"] == "Authentication")">Xác thực</option>
-                    <option value="Authorization" selected="@(Context.Request.Query["nhom"] == "Authorization")">Kiểm tra quyền</option>
-                    <option value="Accounting" selected="@(Context.Request.Query["nhom"] == "Accounting")">Thao tác</option>
-                </select>
-            </label>
-        </div>
-        <div class="col-md-3">
+
+        <div class="col-md-2">
             <label>Kết quả
                 <select class="form-select" name="ketQua">
                     <option value="">Tất cả</option>
@@ -50,14 +36,34 @@
                 <input class="form-control" type="date" name="denNgay" value="@Context.Request.Query["denNgay"]">
             </label>
         </div>
-        <div class="col-md-3 actions">
-            <button class="btn btn-primary">Lọc</button>
-            <a class="btn btn-outline-primary" asp-action="NhatKyAnToan">Xóa bộ lọc</a>
+    </div>
+    <details class="audit-extra" open="@(Context.Request.Query["ip"].ToString().Length > 0 || Context.Request.Query["nhom"].ToString().Length > 0)">
+        <summary>Lọc nâng cao</summary>
+        <div class="row g-3 align-items-end mt-1">
+            <div class="col-md-6">
+                <label>Địa chỉ IP
+                    <input class="form-control" name="ip" maxlength="45" value="@Context.Request.Query["ip"]">
+                </label>
+            </div>
+            <div class="col-md-6">
+                <label>Nhóm sự kiện
+                    <select class="form-select" name="nhom">
+                        <option value="">Tất cả</option>
+                        <option value="Authentication" selected="@(Context.Request.Query["nhom"] == "Authentication")">Xác thực</option>
+                        <option value="Authorization" selected="@(Context.Request.Query["nhom"] == "Authorization")">Kiểm tra quyền</option>
+                        <option value="Accounting" selected="@(Context.Request.Query["nhom"] == "Accounting")">Thao tác</option>
+                    </select>
+                </label>
+            </div>
         </div>
+    </details>
+    <div class="actions">
+        <button class="btn btn-primary">Lọc</button>
+        <a class="btn btn-outline-primary" asp-action="NhatKyAnToan">Xóa bộ lọc</a>
     </div>
 </form>
 <div class="card table-responsive">
-    <table class="table audit-table">
+    <table class="table table-striped audit-table admin-log">
         <thead>
             <tr><th>Thời điểm</th><th>Tài khoản</th><th>Sự kiện</th><th>Kết quả</th><th>IP</th><th>Chi tiết</th></tr>
         </thead>
@@ -66,14 +72,14 @@
             {
                 var n = row.BanGhi;
                 <tr>
-                    <td>@Rules.Date(n.ThoiDiem)</td>
-                    <td>@(row.HoTen ?? "Chưa xác thực")<small class="d-block">@row.Email</small></td>
-                    <td>
+                    <td data-label="Thời điểm"><time datetime="@n.ThoiDiem.ToString("O")">@Rules.Date(n.ThoiDiem)</time></td>
+                    <td data-label="Tài khoản">@(row.HoTen ?? "Chưa xác thực")<small class="d-block">@row.Email</small></td>
+                    <td data-label="Sự kiện">
                         @row.TenSuKien
                         <small class="d-block">@(n.Nhom == "Authentication" ? "Xác thực" : n.Nhom == "Authorization" ? "Kiểm tra quyền" : "Thao tác")</small>
                     </td>
-                    <td>@(n.KetQua == "ThanhCong" ? "Thành công" : n.KetQua == "ThatBai" ? "Thất bại" : "Từ chối")</td>
-                    <td>@n.DiaChiIp</td>
+                    <td data-label="Kết quả"><span class="admin-state" data-state="@n.KetQua">@(n.KetQua == "ThanhCong" ? "Thành công" : n.KetQua == "ThatBai" ? "Thất bại" : "Từ chối")</span></td>
+                    <td data-label="IP"><span class="audit-ip">@n.DiaChiIp</span></td>
                     <td>
                         <details>
                             <summary>Xem chi tiết</summary>
@@ -84,7 +90,19 @@
                                 <p>Tài khoản được truy cập · @row.TaiKhoanDich</p>
                             }
                             <p>@n.LyDo</p>
-                            <small>Mã yêu cầu · @n.MaYeuCau</small>
+                            <dl class="audit-copy-fields">
+                                @foreach (var field in new[] { (Label: "Email", Value: row.Email), (Label: "IP", Value: n.DiaChiIp), (Label: "Mã yêu cầu", Value: n.MaYeuCau) })
+                                {
+                                    if (string.IsNullOrEmpty(field.Value)) { continue; }
+                                    <dt>@field.Label</dt>
+                                    <dd>
+                                        <span>@field.Value</span>
+                                        <button class="btn btn-outline-primary btn-sm" type="button" data-admin-copy="@field.Value"
+                                                aria-label="Sao chép @field.Label">Sao chép</button>
+                                    </dd>
+                                }
+                            </dl>
+                            <p class="muted mb-0" data-copy-status role="status"></p>
                             @if (n.DinhDanhBam != null)
                             {
                                 <small class="d-block text-break">Mã định danh đã băm · @n.DinhDanhBam</small>

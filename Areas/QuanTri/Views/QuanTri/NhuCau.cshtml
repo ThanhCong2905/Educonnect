@@ -8,6 +8,7 @@
         <div class="col-md-3"><label class="w-100">Kiểm duyệt<select name="dangAn" class="form-select"><option value="">Tất cả</option><option value="true" selected="@(Context.Request.Query["dangAn"]=="true")">Đang bị ẩn</option><option value="false" selected="@(Context.Request.Query["dangAn"]=="false")">Đã gỡ / chưa có biện pháp ẩn</option></select></label></div>
         <div class="col-md-1"><button class="btn btn-primary">Lọc</button></div>
     </div>
+    <label class="check mt-3"><input class="form-check-input" name="canXemXet" type="checkbox" value="true" checked="@(Context.Request.Query["canXemXet"] == "true")">Chỉ hiện nhu cầu cần xem xét</label>
 </form>
 <div class="table-responsive card">
     <table class="table align-middle">
@@ -16,7 +17,14 @@
         @foreach(var row in Model.Items)
         {
             <tr>
-                <td>@row.HoTen</td><td class="text-wrap">@row.NhuCau.MucTieu</td><td>@Rules.Fee(row.NhuCau.HocPhiDuKien, row.NhuCau.DonViHocPhi)</td>
+                <td>@row.HoTen</td>
+                <td class="text-wrap">
+                    @if (row.DauHieu.Count > 0)
+                    {
+                        <ul class="priority-signals mt-0">@foreach (var flag in row.DauHieu) { <li>@flag</li> }</ul>
+                    }
+                    <p class="report-excerpt text-body">@row.NhuCau.MucTieu</p>
+                </td><td>@Rules.Fee(row.NhuCau.HocPhiDuKien, row.NhuCau.DonViHocPhi)</td>
                 <td><span class="badge rounded-pill">@Rules.Label(row.NhuCau.TrangThai)</span>@if(row.DangAn){<span class="badge badge-warning rounded-pill">Ẩn khỏi tìm kiếm</span>}</td>
                 <td>@row.BaoCaoCho</td><td><a class="btn btn-outline-primary text-nowrap" asp-action="NhuCauChiTiet" asp-route-id="@row.NhuCau.Id">Xem nhu cầu</a></td>
             </tr>

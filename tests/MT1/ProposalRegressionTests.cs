@@ -97,7 +97,7 @@ public sealed class ProposalRegressionTests
         var seed = await Seed(db);
         var sender = seed.Tutor;
         var recipient = seed.Learner;
-        var input = new DeXuatLopViewModel { TenNguoiHoc = "Người học kiểm thử", LienHeId = seed.Contact, TenLop = "Lớp kiểm thử", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LoiNhan = "Đề xuất hai chiều", LichRanh = [new SlotInput { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
+        var input = new DeXuatLopViewModel { TenNguoiHoc = "Người học kiểm thử", LienHeId = seed.Contact, TenLop = "Lớp kiểm thử", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LichRanh = [new SlotInput { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
         await Assert.ThrowsAsync<LoiNghiepVu>(() => Service(db, seed.Learner).GuiDeXuatAsync(input));
         if (!tutorSends)
         {
@@ -118,7 +118,7 @@ public sealed class ProposalRegressionTests
         Assert.Equal(input.NhuCauId, saved.NhuCauId);
         Assert.Equal(input.TenNguoiHoc, saved.TenNguoiHoc);
         Assert.InRange((saved.HetHanLuc - saved.DeXuatLuc!.Value).TotalHours, 71.99, 72.01);
-        Assert.Equal("Đề xuất hai chiều", saved.LoiNhan);
+        Assert.Equal(tutorSends ? null : "Nhờ gia sư chuẩn bị đề xuất cho nhu cầu này.", saved.LoiNhan);
         await Assert.ThrowsAsync<LoiNghiepVu>(() => Service(db, sender).ChapNhanDeXuatAsync(request, Convert.ToBase64String(saved.RowVersion)));
         var classroom = await Service(db, recipient).ChapNhanDeXuatAsync(request, Convert.ToBase64String(saved.RowVersion));
         Assert.Equal(classroom, await Service(db, recipient).ChapNhanDeXuatAsync(request, Convert.ToBase64String(saved.RowVersion)));

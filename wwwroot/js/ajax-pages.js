@@ -42,7 +42,7 @@
   const active=root.contains(document.activeElement)?document.activeElement:null;
   const focusName=active?.getAttribute('name'),focusId=active?.id;
   rememberDraft(root);rememberComparison(root);
-  if(historyMode)history[historyMode+'State']({eduRegion:root.id},'',url);
+  if(historyMode)history[historyMode+'State']({...history.state,eduRegion:root.id,eduCanGoBack:historyMode==='push'||history.state?.eduCanGoBack===true},'',url);
   if(root.dataset.searchKind!==fresh.dataset.searchKind)selected.clear();
   root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
@@ -114,10 +114,19 @@
   sender.textContent=item.sender;body.className='pre';body.textContent=item.text;time.textContent=item.time;article.append(sender);if(item.text)article.append(body);
   if(item.attachments?.length){const list=document.createElement('div');list.className='message-attachments';for(const f of item.attachments){
    const block=document.createElement('div');block.className='message-attachment';const url='/HocTap/TinNhan/Tai/'+encodeURIComponent(f.id);
-   if(['image/png','image/jpeg'].includes(f.mime)){const view=document.createElement('a');view.href=url+'?xem=true';view.target='_blank';view.rel='noopener';view.setAttribute('aria-label','Xem ảnh '+f.name);const img=document.createElement('img');img.className='message-image';img.src=view.href;img.alt=f.name;img.loading='lazy';img.width=260;img.height=180;view.append(img);block.append(view);}
+   if(['image/png','image/jpeg','application/pdf'].includes(f.mime)){
+    const view=document.createElement('a');view.href=url+'?xem=true';view.target='_blank';view.rel='noopener';view.dataset.filePreview=f.mime;view.dataset.fileName=f.name;
+    if(f.mime==='application/pdf')view.textContent='Xem PDF';
+    else{view.setAttribute('aria-label','Xem ảnh '+f.name);const img=document.createElement('img');img.className='message-image';img.src=view.href;img.alt=f.name;img.loading='lazy';img.width=260;img.height=180;view.append(img);}
+    block.append(view);
+   }
    const link=document.createElement('a');link.href=url;link.textContent=f.name;const size=document.createElement('small');size.textContent=ui.fileSize(f.size)+' · Tải xuống';block.append(link,size);list.append(block);
   }article.append(list);}article.append(time);
-  if(!item.mine){const report=document.createElement('a');report.href='/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TinNhan&doiTuongId='+encodeURIComponent(item.id);report.textContent='Báo cáo';report.className='message-report';report.setAttribute('data-modal','');article.append(report);}
+  if(!item.mine){
+   const report=document.createElement('a');report.href='/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TinNhan&doiTuongId='+encodeURIComponent(item.id);
+   report.className='report-icon message-report';report.title='Báo cáo vi phạm';report.setAttribute('aria-label','Báo cáo vi phạm tin nhắn');
+   report.setAttribute('data-modal','');article.append(report);
+  }
   return article;
  }
  async function chatData(root,direction,cursor){
@@ -374,8 +383,8 @@
  const unsubscribe=window.EduRealtime?.subscribe(event=>{
   if(event.type==='state'){
    let hint=document.querySelector('[data-realtime-status]');
-   if(!hint){hint=document.createElement('small');hint.dataset.realtimeStatus='';hint.className='text-muted ms-2';hint.setAttribute('role','status');(document.querySelector('.chat-header')||document.querySelector('.shell>header'))?.append(hint);}
-   if(hint){hint.hidden=event.connected;hint.textContent=event.stopped?'Phiên đã thay đổi. Hãy tải lại trang.':'Đang kết nối lại · vẫn có thể thao tác';}
+   if(!hint){hint=document.createElement('p');hint.dataset.realtimeStatus='';hint.className='realtime-status';hint.setAttribute('role','status');(document.querySelector('.chat-header')||document.querySelector('.shell>header'))?.after(hint);}
+   if(hint){hint.hidden=event.connected;hint.textContent=event.stopped?'Phiên đã thay đổi. Hãy tải lại trang.':'Đang kết nối lại…';}
   }else if(event.type==='resync'){poll(true);refreshConnections();}
   else if(event.type==='update'){
    if(event.data.loai!=='TinNhan'||event.data.hoiThoaiId===document.querySelector('#chat-content')?.dataset.chatId)poll(true);

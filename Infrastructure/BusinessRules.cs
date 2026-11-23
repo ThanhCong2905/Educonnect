@@ -112,6 +112,8 @@ public static class Rules
         "XemNhatKy" => "Xem nhật ký",
         "QuanLyDanhMuc" => "Quản lý danh mục",
         "BoSung" => "Bổ sung thông tin",
+        "NhanXuLy" or "TiepNhan" => "Đã tiếp nhận",
+        "PhanHoiNguoiBaoCao" => "Quản trị viên phản hồi",
         "DeNghiXemLai" => "Đề nghị xem lại",
         "ChoDuyet" => "Chờ duyệt",
         "DaDuyet" => "Đã duyệt",

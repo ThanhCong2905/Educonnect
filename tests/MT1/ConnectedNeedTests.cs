@@ -28,7 +28,7 @@ public sealed class ConnectedNeedTests
     private static DeXuatLopViewModel Proposal(Guid contact, Guid? need = null) => new()
     {
         TenNguoiHoc = "Người học kiểm thử", LienHeId = contact, NhuCauId = need, TenLop = "Lớp kiểm thử đóng nhu cầu",
-        MucTieu = "Ôn tập", LoiNhan = "Đề xuất lớp theo nhu cầu học.", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7),
+        MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7),
         LichRanh = [new() { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }]
     };
 

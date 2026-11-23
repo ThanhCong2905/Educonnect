@@ -34,7 +34,7 @@ const version=(table,id)=>Buffer.from(sql(`SELECT RowVersion FROM ${table} WHERE
   for(const [key,role]of [['student','HocSinh'],['parent','PhuHuynh'],['other','HocSinh'],['tutor','GiaSu']]) {
    const context=await browser.newContext();const c=context.request;
    const email=`fv-${key}-${suffix}@example.test`,password='Học cùng EduConnect 2026!';
-   const register=await post(c,'/TaiKhoan/DangKy',{HoTen:`Kiểm thử ${key}`,Email:email,VaiTro:role,MatKhau:password,XacNhanMatKhau:password},'/TaiKhoan/DangKy');
+   const register=await post(c,'/TaiKhoan/DangKy',{DongYChinhSach:'true', HoTen:`Kiểm thử ${key}`,Email:email,VaiTro:role,MatKhau:password,XacNhanMatKhau:password},'/TaiKhoan/DangKy');
    assert.equal(register.status(),302,await register.text());
    const login=await post(c,'/TaiKhoan/DangNhap',{Email:email,MatKhau:password});assert.equal(login.status(),302,await login.text());
    users[key]={context,c,email,id:sql(`SELECT Id FROM AspNetUsers WHERE Email='${email}'`)};

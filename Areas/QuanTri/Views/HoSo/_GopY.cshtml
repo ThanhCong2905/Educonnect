@@ -1,0 +1,9 @@
+@model string
+<label class="check review-check">
+    <input type="checkbox" class="form-check-input" data-review-field aria-controls="review-note-@Model">
+    Cần sửa mục này<span class="visually-hidden"> · @HoSoDuyetFields.Labels[Model]</span>
+</label>
+<div id="review-note-@Model" class="review-field-note" hidden>
+    <label for="review-input-@Model">Góp ý về @HoSoDuyetFields.Labels[Model].ToLowerInvariant()</label>
+    <textarea id="review-input-@Model" class="form-control" name="gopY[@Model]" rows="2" maxlength="300" disabled>@((ViewBag.GopY as Dictionary<string, string>)?.GetValueOrDefault(Model))</textarea>
+</div>

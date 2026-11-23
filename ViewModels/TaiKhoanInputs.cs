@@ -35,6 +35,7 @@ public sealed class DoiMatKhauInput
 
 public sealed class DangKyInput
 {
+    public bool DongYChinhSach { get; set; }
     [Required(ErrorMessage = "Nhập họ tên."), StringLength(256)]
     public string HoTen { get; set; } = "";
     [Required(ErrorMessage = "Nhập email."), EmailAddress(ErrorMessage = "Email chưa đúng định dạng."), StringLength(256)]
@@ -64,6 +65,14 @@ public sealed class QuenMatKhauInput
     [Required(ErrorMessage = "Nhập email."), EmailAddress(ErrorMessage = "Email chưa đúng định dạng."), StringLength(256)]
     public string Email { get; set; } = "";
 }
+
+public sealed class XacMinhEmailInput
+{
+    public Guid Id { get; set; }
+    [Required, StringLength(2048)] public string Ma { get; set; } = "";
+}
+
+public sealed record TrangThaiXacMinhEmailViewModel(string? Email, bool DaXacMinh, int GiayCho, bool TheoDoi);
 
 public sealed class DatLaiMatKhauInput
 {

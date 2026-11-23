@@ -8,6 +8,7 @@ public sealed class LichTuanViewModel
     public LopHoc Lop { get; init; } = null!;
     public DateOnly TuNgay { get; init; }
     public DateOnly HomNay { get; init; }
+    public DateOnly? NgayBuoiTiepTheo { get; init; }
     public int GioDau { get; init; }
     public int GioCuoi { get; init; }
     public List<SuKienLichViewModel> SuKien { get; init; } = [];
@@ -21,6 +22,9 @@ public sealed class LichTuanViewModel
         Rules.Check(dauTuan.DayNumber >= 7 && dauTuan.DayNumber <= DateOnly.MaxValue.DayNumber - 14,
             "Tuần nằm ngoài khoảng ngày được hỗ trợ.", field: "week");
         var ghiNhan = buoi.ToDictionary(x => x.LichHocId);
+        var buoiTiepTheo = lich.Where(x => x.BatDauLuc > bayGio && x.TrangThai == "DaLenLich" &&
+                (!ghiNhan.TryGetValue(x.Id, out var record) || record.TrangThai == "DuKien"))
+            .MinBy(x => x.BatDauLuc);
         var suKien = new List<SuKienLichViewModel>();
         for (var cot = 0; cot < 7; cot++)
         {
@@ -43,7 +47,11 @@ public sealed class LichTuanViewModel
         XepCot(suKien);
         var gioDau = suKien.Count == 0 ? 8 : Math.Clamp((int)(suKien.Min(x => x.PhutDau) / 60) - 1, 0, 16);
         var gioCuoi = suKien.Count == 0 ? 22 : Math.Clamp((int)Math.Ceiling(suKien.Max(x => x.PhutCuoi) / 60) + 1, gioDau + 4, 24);
-        return new LichTuanViewModel { Lop = lop, TuNgay = dauTuan, HomNay = homNay, GioDau = gioDau, GioCuoi = gioCuoi, SuKien = suKien };
+        return new LichTuanViewModel
+        {
+            Lop = lop, TuNgay = dauTuan, HomNay = homNay, GioDau = gioDau, GioCuoi = gioCuoi, SuKien = suKien,
+            NgayBuoiTiepTheo = buoiTiepTheo == null ? null : DateOnly.FromDateTime(buoiTiepTheo.BatDauLuc.ToOffset(TimeSpan.FromHours(7)).DateTime)
+        };
     }
 
     private static void XepCot(List<SuKienLichViewModel> suKien)

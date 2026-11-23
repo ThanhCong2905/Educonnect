@@ -1,5 +1,6 @@
 ﻿using EduConnect.Mvc.Areas.NhuCau.Services;
 using EduConnect.Mvc.Controllers;
+using EduConnect.Mvc.Areas.QuanTri.ViewModels;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using EduConnect.Mvc.Infrastructure;
@@ -22,16 +23,35 @@ public sealed class HoSoController(HoSoGiaSuService service,AppDbContext db):Bas
     {
         var model=await service.XemDuyetAsync(id);
         ViewBag.Id=id;
-        ViewBag.Certificates=await db.Set<TepDinhKem>().AsNoTracking().Where(x=>x.HoSoGiaSuId==id).ToListAsync();
-        ViewBag.Subjects=await db.Set<MonHoc>().AsNoTracking().ToListAsync();
-        return View(model);
+        ViewBag.Certificates=await db.Set<TepDinhKem>().AsNoTracking().Where(x=>x.HoSoGiaSuId==id).OrderBy(x=>x.TaoLuc).ToListAsync();
+        ViewBag.Subjects=await db.Set<MonHoc>().AsNoTracking().ToDictionaryAsync(x=>x.Id, x=>x.TenMon);
+        return View(nameof(ChiTiet), model);
     }
     [HttpPost]
-    public async Task<IActionResult> Duyet(Guid id,string rowVersion,bool approve,string? reason,string? quyetDinh=null)
+    public async Task<IActionResult> Duyet(Guid id, string rowVersion, bool approve, string? reason,
+        string? quyetDinh = null, [FromForm(Name = "gopY")] Dictionary<string, string>? gopY = null)
     {
         try
         {
-            await service.DuyetAsync(id,rowVersion,approve,reason,quyetDinh=="TuChoi");
+            var reviewReason = reason;
+            var tuChoi = quyetDinh == "TuChoi";
+            if (!approve)
+            {
+                Rules.Check(!tuChoi || !string.IsNullOrWhiteSpace(reason), "Nhập lý do từ chối.", field: nameof(reason));
+                var notes = gopY ?? [];
+                foreach (var (key, content) in notes)
+                {
+                    Rules.Check(HoSoDuyetFields.Labels.TryGetValue(key, out var label), "Mục góp ý không hợp lệ.");
+                    Rules.Check(!string.IsNullOrWhiteSpace(content) && content.Length <= 300,
+                        $"Nhập góp ý cho mục {label}, tối đa 300 ký tự.", field: $"gopY[{key}]");
+                }
+                var lines = HoSoDuyetFields.Labels.Where(item => notes.ContainsKey(item.Key))
+                    .Select(item => $"{item.Value}: {notes[item.Key].Trim()}").ToList();
+                if (!string.IsNullOrWhiteSpace(reason)) lines.Insert(0, reason.Trim());
+                Rules.Check(lines.Count > 0, "Chọn ít nhất một mục và ghi nội dung cần sửa.");
+                reviewReason = string.Join("\n\n", lines);
+            }
+            await service.DuyetAsync(id, rowVersion, approve, reviewReason, tuChoi);
             Success();
             return RedirectToAction(nameof(Index));
         }
@@ -39,6 +59,7 @@ public sealed class HoSoController(HoSoGiaSuService service,AppDbContext db):Bas
         {
             ModelState.AddModelError(ex.Truong??"",ex.Message);
             ViewBag.Reason=reason;
+            ViewBag.GopY=gopY;
             return await ChiTiet(id);
         }
     }

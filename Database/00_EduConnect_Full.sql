@@ -1,4 +1,4 @@
-/* EduConnect. Cài mới 49 bảng, Identity và nghiệp vụ hiện tại.
+/* EduConnect. Cài mới 50 bảng, Identity và nghiệp vụ hiện tại.
 Nguồn tài khoản: 01_HoanChinh_TaiKhoan_BaoMat_CapNhat (1).sql.
 NguoiThamGia là view đọc tài khoản và vai trò từ Identity.
 Chạy toàn bộ trên database mới. Tạo tài khoản bằng chức năng đăng ký. */
@@ -73,7 +73,7 @@ CREATE TABLE dbo.[NhuCauHoc] (
     CONSTRAINT [PK_NhuCauHoc] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_NhuCauHoc_1] CHECK ([LoaiNhuCau] IN (N'TimGiaSu', N'NhanLop')),
     CONSTRAINT [CK_NhuCauHoc_2] CHECK ([SoBuoiTuan] > 0),
-    CONSTRAINT [CK_NhuCauHoc_3] CHECK ([HinhThucHoc] IN (N'TrucTuyen', N'TrucTiep')),
+    CONSTRAINT [CK_NhuCauHoc_3] CHECK ([HinhThucHoc] IN ('TrucTuyen', 'TrucTiep', 'CaHai')),
     CONSTRAINT [CK_NhuCauHoc_4] CHECK ([HocPhiDuKien] >= 0),
     CONSTRAINT [CK_NhuCauHoc_5] CHECK ([TuoiNguoiHoc] > 0),
     CONSTRAINT [CK_NhuCauHoc_6] CHECK ([TrangThai] IN (N'BanNhap', N'DangMo', N'DaDong')),
@@ -2249,7 +2249,7 @@ CREATE OR ALTER PROCEDURE dbo.usp_GuiDeXuatLop
  @LienHeId uniqueidentifier,@GiaSuId uniqueidentifier,@TenLop nvarchar(256),@MonHocId int,@MucTieu nvarchar(2000),
  @SoBuoiTuan int,@ThoiLuongPhut int,@BatDauHocLuc datetimeoffset(0),@HinhThucHoc varchar(32),
  @HocPhi decimal(18,2),@DonViHocPhi varchar(16),@KhungGioJson nvarchar(max),
- @DiaDiem nvarchar(500)=NULL,@NhuCauId uniqueidentifier=NULL,@YeuCauId uniqueidentifier=NULL,@RowVersionCu binary(8)=NULL,@NguoiThucHienId uniqueidentifier=NULL,@LoiNhan nvarchar(2000)=NULL,@TenNguoiHoc nvarchar(256)=NULL
+ @DiaDiem nvarchar(500)=NULL,@NhuCauId uniqueidentifier=NULL,@YeuCauId uniqueidentifier=NULL,@RowVersionCu binary(8)=NULL,@NguoiThucHienId uniqueidentifier=NULL,@TenNguoiHoc nvarchar(256)=NULL
 AS
 BEGIN
  SET NOCOUNT ON;SET XACT_ABORT ON;
@@ -2293,7 +2293,7 @@ BEGIN
   WHERE Id=@YeuCauId AND LienHeId=@LienHeId AND GiaSuId=@GiaSuId AND (NguoiDeXuatId=@NguoiThucHienId OR TrangThai='ChoGiaSu') AND TrangThai IN ('ChoGiaSu','ChoBenHoc') AND HetHanLuc>@Now AND RowVersion=@RowVersionCu;
   IF @@ROWCOUNT<>1 THROW 51139,N'Yêu cầu đã đổi phiên bản, hết hạn hoặc không thuộc gia sư.',1;
  END;
- UPDATE dbo.YeuCauKetNoiLopHoc SET LoiNhan=@LoiNhan,TenNguoiHoc=LTRIM(RTRIM(@TenNguoiHoc)) WHERE Id=@YeuCauId;
+ UPDATE dbo.YeuCauKetNoiLopHoc SET TenNguoiHoc=LTRIM(RTRIM(@TenNguoiHoc)) WHERE Id=@YeuCauId;
  DELETE dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@YeuCauId;
  INSERT dbo.KhungGioDeXuat(YeuCauKetNoiId,ThuTrongTuan,GioBatDau,GioKetThuc) SELECT @YeuCauId,Thu,BatDau,KetThuc FROM @Slots;
  COMMIT;SELECT * FROM dbo.YeuCauKetNoiLopHoc WHERE Id=@YeuCauId;
@@ -2436,4 +2436,69 @@ BEGIN
  COMMIT;SELECT * FROM dbo.BuoiHoc WHERE Id=@Id;
  END TRY BEGIN CATCH IF XACT_STATE()<>0 ROLLBACK;THROW;END CATCH;
 END;
+GO
+
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+IF OBJECT_ID(N'dbo.LichSuQuyenThanhVien',N'U') IS NULL
+BEGIN
+ CREATE TABLE dbo.LichSuQuyenThanhVien(
+  Id uniqueidentifier NOT NULL CONSTRAINT PK_LichSuQuyenThanhVien PRIMARY KEY,
+  ThanhVienId uniqueidentifier NOT NULL,
+  NguoiThucHienId uniqueidentifier NOT NULL,
+  MucQuyenCu varchar(32) NULL,
+  MucQuyenMoi varchar(32) NOT NULL,
+  ChoPhepNopBaiCu bit NOT NULL,
+  ChoPhepNopBaiMoi bit NOT NULL,
+  ThayDoiLuc datetimeoffset NOT NULL,
+  CONSTRAINT FK_LichSuQuyen_ThanhVien FOREIGN KEY(ThanhVienId) REFERENCES dbo.ThanhVienLopHoc(Id),
+  CONSTRAINT FK_LichSuQuyen_NguoiThucHien FOREIGN KEY(NguoiThucHienId) REFERENCES dbo.AspNetUsers(Id),
+  CONSTRAINT CK_LichSuQuyen_Muc CHECK((MucQuyenCu IS NULL OR MucQuyenCu IN('Xem','ChinhSua')) AND MucQuyenMoi IN('Xem','ChinhSua')),
+  CONSTRAINT CK_LichSuQuyen_NopBai CHECK(MucQuyenMoi='ChinhSua' OR ChoPhepNopBaiMoi=0)
+ );
+ CREATE INDEX IX_LichSuQuyen_ThanhVien_ThoiDiem ON dbo.LichSuQuyenThanhVien(ThanhVienId,ThayDoiLuc DESC);
+END;
+IF DATABASE_PRINCIPAL_ID(N'KLTN_App') IS NOT NULL
+BEGIN
+ GRANT SELECT,INSERT ON dbo.LichSuQuyenThanhVien TO KLTN_App;
+ DENY UPDATE,DELETE ON dbo.LichSuQuyenThanhVien TO KLTN_App;
+END;
+COMMIT;
+GO
+
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+IF COL_LENGTH('dbo.HoSoGiaSuMonDay','MatNaKhoi') IS NULL
+    ALTER TABLE dbo.HoSoGiaSuMonDay ADD MatNaKhoi bigint NULL;
+IF COL_LENGTH('dbo.HoSoGiaSuMonDay','PhanKhoaHoc') IS NULL
+    ALTER TABLE dbo.HoSoGiaSuMonDay ADD PhanKhoaHoc bigint NOT NULL CONSTRAINT DF_MonDay_PhanKhoaHoc DEFAULT (0);
+IF COL_LENGTH('dbo.NhuCauHoc','PhanKhoaHoc') IS NULL
+    ALTER TABLE dbo.NhuCauHoc ADD PhanKhoaHoc tinyint NOT NULL CONSTRAINT DF_NhuCau_PhanKhoaHoc DEFAULT (0),
+        CONSTRAINT CK_NhuCau_PhanKhoaHoc CHECK (PhanKhoaHoc BETWEEN 0 AND 7);
+IF COL_LENGTH('dbo.AspNetUsers','PhienBanChinhSach') IS NULL
+    ALTER TABLE dbo.AspNetUsers ADD PhienBanChinhSach nvarchar(20) NULL, DongYChinhSachLuc datetimeoffset(7) NULL;
+IF NOT EXISTS (SELECT 1 FROM dbo.MonHoc WHERE TenMon = N'Khoa học tự nhiên')
+    INSERT dbo.MonHoc (TenMon, DangSuDung) VALUES (N'Khoa học tự nhiên', 1);
+IF NOT EXISTS (SELECT 1 FROM dbo.MonHoc WHERE TenMon = N'Tiếng Việt')
+    INSERT dbo.MonHoc (TenMon, DangSuDung) VALUES (N'Tiếng Việt', 1);
+IF NOT EXISTS (SELECT 1 FROM dbo.MonHoc WHERE TenMon = N'Lịch sử và Địa lí')
+    INSERT dbo.MonHoc (TenMon, DangSuDung) VALUES (N'Lịch sử và Địa lí', 1);
+EXEC sp_executesql N'
+    UPDATE day SET MatNaKhoi = scope.Mask
+    FROM dbo.HoSoGiaSuMonDay AS day
+    CROSS APPLY (
+        SELECT SUM(DISTINCT CONVERT(bigint, POWER(2, grade.Lop - 1))) AS Mask
+        FROM (VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12)) AS grade(Lop)
+        WHERE EXISTS (
+            SELECT 1 FROM STRING_SPLIT(REPLACE(REPLACE(REPLACE(REPLACE(LOWER(day.PhamViDay), N''lớp'', N''''), N'' '', N''''), N''–'', N''-''), N''—'', N''-''), '','') AS part
+            CROSS APPLY (VALUES(CHARINDEX(''-'', part.value))) AS dash(Pos)
+            WHERE TRY_CONVERT(int, part.value) = grade.Lop
+               OR dash.Pos > 0 AND grade.Lop BETWEEN TRY_CONVERT(int, LEFT(part.value, NULLIF(dash.Pos, 0) - 1))
+                   AND TRY_CONVERT(int, SUBSTRING(part.value, dash.Pos + 1, 20))
+        )
+    ) AS scope
+    WHERE day.MatNaKhoi IS NULL AND scope.Mask IS NOT NULL;';
+COMMIT;
 GO

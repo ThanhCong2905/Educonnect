@@ -86,7 +86,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         !db.Set<BienPhapQuanTri>().Any(b => b.LoaiDoiTuong == "DanhGiaDoiTac" && b.DoiTuongId == x.Id && b.Loai == "AnNoiDung" && b.GoLuc == null)
         && db.Users.Any(u => u.Id == x.NguoiNhanId && u.TrangThai == "HoatDong"));
 
-    public async Task<DanhGiaCongKhaiPage> LayAsync(Guid taiKhoan, int trang = 1)
+    public async Task<DanhGiaCongKhaiPage> LayAsync(Guid taiKhoan, int trang = 1, bool noiBat = false)
     {
         Rules.Check(trang is >= 1 and <= 100000, "Trang không hợp lệ.");
         var me = await current.NguoiXemAsync();
@@ -99,17 +99,26 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         Rules.Check(person.LoaiNguoi == "GiaSu" || me?.LoaiNguoi == "GiaSu" || me?.Id == taiKhoan || moderator,
             "Đánh giá bên học dành cho gia sư và tài khoản liên quan.", 403);
         var query = CongKhai().Where(x => x.NguoiNhanId == taiKhoan);
+        var counts = await query.GroupBy(x => x.SoSao)
+            .Select(group => new { Stars = group.Key, Total = group.Count() })
+            .ToDictionaryAsync(group => group.Stars, group => group.Total);
+        var total = counts.Values.Sum();
+        const int pageSize = 20;
+        var items = noiBat
+            ? await query.OrderByDescending(x => x.SoSao).ThenByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Take(3).ToListAsync()
+            : await query.OrderByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Skip((trang - 1) * pageSize).Take(pageSize).ToListAsync();
         return new DanhGiaCongKhaiPage
         {
             TaiKhoanId = taiKhoan,
             HoTen = person.HoTen,
-            TrungBinh = await query.Select(x => (decimal?)x.SoSao).AverageAsync(),
+            TrungBinh = total > 0 ? counts.Sum(rating => (decimal)rating.Key * rating.Value) / total : null,
+            TheoSoSao = counts,
             DanhGia = new Page<DanhGiaDoiTac>
             {
                 Trang = trang,
-                KichThuocTrang = 20,
-                Total = await query.CountAsync(),
-                Items = await query.OrderByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Skip((trang - 1) * 20).Take(20).ToListAsync()
+                KichThuocTrang = noiBat ? 3 : pageSize,
+                Total = total,
+                Items = items
             }
         };
     }

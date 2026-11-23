@@ -1,0 +1,110 @@
+@model EduConnect.Mvc.ViewModels.HuongDanViewModel
+@{
+    Layout = User.Identity?.IsAuthenticated == true ? "_Layout" : "_GuestLayout";
+    ViewData["Title"] = Model.Muc.Ten;
+    var signedIn = User.Identity?.IsAuthenticated == true;
+    var tutor = User.IsInRole("GiaSu");
+    var policy = Model.Muc.Ma is "bao-mat" or "dieu-khoan";
+}
+<div class="guide-page @(policy ? "policy-page" : "")">
+    <header class="guide-intro">
+        <h1>@Model.Muc.Ten</h1>
+        <p>@Model.Muc.MoTa</p>
+    </header>
+    @if (policy)
+    {
+        <nav class="policy-nav" aria-label="Chính sách EduConnect">
+            @if (Model.Muc.Ma == "bao-mat")
+            {
+                <span aria-current="page">Bảo mật</span>
+                <a href="/huong-dan/dieu-khoan">Điều khoản sử dụng</a>
+            }
+            else
+            {
+                <a href="/huong-dan/bao-mat">Bảo mật</a>
+                <span aria-current="page">Điều khoản sử dụng</span>
+            }
+        </nav>
+    }
+    @switch (Model.Muc.Ma)
+    {
+        case "cach-hoat-dong":
+            <section class="guide-grid" aria-label="Các bước kết nối">
+                <article class="card"><img src="/images/ui/search.svg" alt=""><h2>1. Tìm người phù hợp</h2><p>Bạn có thể xem trước các hồ sơ gia sư và nhu cầu học. Thử lọc theo môn, khối lớp hoặc khoảng học phí để thu hẹp danh sách.</p></article>
+                <article class="card"><img src="/images/ui/chat-dots.svg" alt=""><h2>2. Gửi liên hệ</h2><p>Khi tìm được người phù hợp, hãy đăng nhập và gửi lời mời liên hệ. Bạn có thể nhắn tin riêng sau khi người kia đồng ý.</p></article>
+                <article class="card"><img src="/images/ui/journal-plus.svg" alt=""><h2>3. Thống nhất lớp học</h2><p>Gia sư gửi đề xuất lớp sau khi trao đổi. Bên học xem lại lịch, học phí và hình thức học rồi xác nhận để mở lớp.</p></article>
+            </section>
+            <div class="actions mt-4">
+                @if (!signedIn || !tutor) { <a class="btn btn-primary" href="/TimKiem/TimKiem/GiaSu">Tìm gia sư</a> }
+                @if (!signedIn || tutor) { <a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a> }
+            </div>
+            break;
+        case "duyet-ho-so":
+            <section class="guide-grid" aria-label="Các bước duyệt hồ sơ">
+                <article class="card"><h2>1. Chuẩn bị tệp</h2><p>Chọn ảnh hoặc bản scan rõ nét của giấy tờ chứng minh trình độ đã khai. Nếu bạn có kinh nghiệm giảng dạy, hãy đính kèm giấy xác nhận hoặc tài liệu liên quan đến môn và khối lớp bạn đăng ký.</p></article>
+                <article class="card"><h2>2. Lưu và gửi duyệt</h2><p>Kiểm tra thông tin, đọc lại phạm vi dạy rồi bấm <strong>Lưu hồ sơ</strong> và <strong>Gửi duyệt</strong>. Chỉ gửi tệp của mình và che dữ liệu riêng không cần thiết.</p></article>
+                <article class="card"><h2>3. Theo dõi kết quả</h2><p>Xem trạng thái trong hồ sơ và mục Thông báo. Nếu cần bổ sung, đọc lý do, sửa đúng mục rồi gửi lại.</p></article>
+            </section>
+            <section class="card guide-content mt-3"><h2>Khi nào có kết quả?</h2>
+                @if (Model.NgayLamViecDuyetHoSo is > 0) { <p>Dự kiến trong @Model.NgayLamViecDuyetHoSo ngày làm việc kể từ khi gửi đủ thông tin.</p> }
+                else { <p>Bạn sẽ nhận thông báo khi quản trị viên xem xong hồ sơ. Nếu cần bổ sung giấy tờ, thông báo sẽ ghi phần cần sửa để bạn gửi lại.</p> }
+                @if (tutor) { <a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Mở hồ sơ của tôi</a> }
+            </section>
+            break;
+        case "bao-cao":
+            <section class="guide-grid" aria-label="Các bước báo cáo">
+                <article class="card"><h2>1. Mở nội dung cần báo cáo</h2><p>Chọn <strong>Báo cáo vi phạm</strong> hoặc biểu tượng cảnh báo bên cạnh tin nhắn, hồ sơ hay đánh giá. EduConnect sẽ hiển thị nội dung được gửi kèm để bạn kiểm tra.</p></article>
+                <article class="card"><h2>2. Mô tả việc đã xảy ra</h2><p>Chọn lý do và kể ngắn gọn bạn gặp vấn đề ở đâu, vào lúc nào. Nếu gửi ảnh chụp màn hình, hãy che số điện thoại và các thông tin riêng không liên quan.</p></article>
+                <article class="card"><h2>3. Theo dõi kết quả</h2><p>Mở danh sách báo cáo để xem tiến độ. Nếu có thêm thông tin hoặc bạn muốn quản trị viên xem lại quyết định, hãy mở báo cáo đó để gửi bổ sung.</p></article>
+            </section>
+            @if (signedIn) { <a href="/QuanTri/BaoCaoViPham/Index" class="btn btn-outline-primary mt-3">Xem báo cáo của tôi</a> }
+            <p class="guide-note">Nếu vụ việc có nguy cơ gây hại ngay, hãy liên hệ cơ quan có thẩm quyền. Báo cáo trên EduConnect được quản trị viên tiếp nhận để xử lý trong hệ thống.</p>
+            break;
+        case "bao-mat":
+            <article class="card policy-document">
+                <section aria-labelledby="privacy-data">
+                    <h2 id="privacy-data">Dữ liệu nào được sử dụng?</h2>
+                    <dl class="policy-data">
+                        <div><dt>Hồ sơ và nhu cầu công khai</dt><dd>Khách xem được tên, ảnh, môn học và nội dung bạn công khai để tìm gia sư hoặc người học.</dd></div>
+                        <div><dt>Thông tin tài khoản</dt><dd>Email, số điện thoại và phiên đăng nhập phục vụ quản lý tài khoản. Mật khẩu được lưu dưới dạng băm.</dd></div>
+                        <div><dt>Tệp minh chứng</dt><dd>Chủ hồ sơ và quản trị viên có quyền duyệt dùng để xác minh thông tin.</dd></div>
+                        <div><dt>Tin nhắn, lịch học và báo cáo</dt><dd>Quyền xem phụ thuộc vào hội thoại, lớp học hoặc vai trò xử lý báo cáo.</dd></div>
+                    </dl>
+                </section>
+                <section aria-labelledby="privacy-control">
+                    <h2 id="privacy-control">Quản lý thông tin của bạn</h2>
+                    <p>Bạn có thể sửa thông tin trong Trang cá nhân. Để dừng hiển thị công khai, hãy ẩn hồ sơ hoặc đóng nhu cầu đang đăng.</p>
+                    <p>Tránh đưa số giấy tờ, số điện thoại hoặc địa chỉ nhà của trẻ em vào mô tả công khai. Phụ huynh hoặc người đại diện nên kiểm tra thông tin trước khi gửi.</p>
+                    @if (!string.IsNullOrWhiteSpace(Model.EmailHoTro))
+                    {
+                        <p>Để yêu cầu truy cập, sửa, xóa hoặc hạn chế xử lý dữ liệu, liên hệ <a href="mailto:@Model.EmailHoTro">@Model.EmailHoTro</a>.</p>
+                    }
+                </section>
+                <section class="policy-sources" aria-labelledby="privacy-sources">
+                    <h2 id="privacy-sources">Văn bản tham khảo</h2>
+                    <ul><li><a href="https://vanban.chinhphu.vn/?docid=214590&amp;pageid=27160&amp;typegroupid=3">Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15</a></li>
+                        <li><a href="https://vanban.chinhphu.vn/?docid=216387&amp;pageid=27160">Nghị định 356/2025/NĐ-CP</a></li></ul>
+                </section>
+            </article>
+            break;
+        case "dieu-khoan":
+            <article class="card policy-document">
+                <section aria-labelledby="terms-use">
+                    <h2 id="terms-use">Sử dụng EduConnect</h2>
+                    <ul><li>Khai đúng thông tin và chỉ tải tài liệu mà bạn có quyền sử dụng.</li><li>Tôn trọng người khác. Không mạo danh, quấy rối, gửi rác hoặc công khai dữ liệu riêng của người khác.</li><li>Hai bên xác nhận lịch, học phí và điều kiện học trước khi bắt đầu.</li></ul>
+                </section>
+                <section aria-labelledby="terms-reports">
+                    <h2 id="terms-reports">Báo cáo và xử lý vi phạm</h2>
+                    <p>Quản trị viên xem nội dung và minh chứng trước khi quyết định ẩn nội dung hoặc khóa tài khoản. Người liên quan có thể đề nghị xem lại từ thông báo hoặc trang theo dõi báo cáo.</p>
+                    <a href="/huong-dan/bao-cao" class="policy-related">Cách gửi và theo dõi báo cáo</a>
+                </section>
+                <section class="policy-sources" aria-labelledby="terms-law">
+                    <h2 id="terms-law">Quy định về dạy thêm</h2>
+                    <p>Kiểm tra các quy định áp dụng trước khi tổ chức dạy thêm. Điều 4 quy định không tổ chức dạy thêm cho học sinh tiểu học, trừ bồi dưỡng nghệ thuật, thể dục thể thao và rèn luyện kỹ năng sống. Một số hoạt động ngoài nội dung chương trình môn học thực hiện theo quy định khác của pháp luật.</p>
+                    <ul><li><a href="https://vanban.chinhphu.vn/?classid=1&amp;docid=212362&amp;pageid=27160&amp;typegroupid=6">Thông tư 29/2024/TT-BGDĐT</a></li>
+                        <li><a href="https://chinhphu.vn/?docid=217679&amp;pageid=27160">Thông tư sửa đổi 19/2026/TT-BGDĐT</a></li></ul>
+                </section>
+            </article>
+            break;
+    }
+</div>

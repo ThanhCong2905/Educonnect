@@ -9,7 +9,7 @@
   function rememberForms(root){root.querySelectorAll('form[method="post"],form[method="POST"]').forEach(form=>{if(!baselines.has(form))baselines.set(form,fingerprint(form));});}
   function confirmDiscard(element,event){
     if(discardAllowed.delete(element))return;
-    const changed=[...element.querySelectorAll('form')].find(form=>baselines.has(form)&&fingerprint(form)!==baselines.get(form));
+    const changed=[...element.querySelectorAll('form')].find(form=>!completedForms.has(form)&&baselines.has(form)&&fingerprint(form)!==baselines.get(form));
     if(!changed)return;
     event.preventDefault();
     const existing=element.querySelector('[data-discard-warning]');if(existing){existing.querySelector('button')?.focus();return;}
@@ -66,6 +66,9 @@
       if(!response.ok){const problem=await response.json().catch(()=>({message:'Không thể mở nội dung. Hãy thử lại.'}));throw new Error(problem.message||'Không thể mở nội dung.');}
       const html=await response.text();const template=document.createElement('template');template.innerHTML=html;
       template.content.querySelectorAll('script').forEach(script=>script.remove());
+      template.content.querySelectorAll('[data-page-back],a').forEach(link=>{
+        if(link.hasAttribute('data-page-back')||link.hasAttribute('data-bs-dismiss')||/^(?:←\s*)?(?:Quay lại|Về lớp học|Về quản lý hồ sơ|Buổi học|Bài tập của lớp|Danh sách buổi học)(?:\s|$)/.test(link.textContent.trim()))link.remove();
+      });
       const heading=template.content.querySelector('h1');if(heading){document.getElementById('workspace-modal-title').textContent=heading.textContent;heading.remove();}
       template.content.querySelectorAll('form').forEach(form=>{if(!form.getAttribute('action'))form.setAttribute('action',target.href);});
       content.replaceChildren(template.content);content.dataset.url=target.href;

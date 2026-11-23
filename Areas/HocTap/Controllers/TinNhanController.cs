@@ -73,9 +73,6 @@ public sealed class TinNhanController(TinNhanService service) : BaseController
     public async Task<IActionResult> Tai(Guid id,bool xem=false)
     {
         var (file,path)=await service.TaiTepAsync(id);
-        Response.Headers.XContentTypeOptions="nosniff";
-        Response.Headers.CacheControl="private, no-store";
-        if(xem&&file.LoaiNoiDung is "image/jpeg" or "image/png")return PhysicalFile(path,file.LoaiNoiDung);
-        return PhysicalFile(path,file.LoaiNoiDung,file.TenGoc);
+        return TraTep(file, path, xem);
     }
 }

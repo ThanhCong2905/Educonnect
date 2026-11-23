@@ -1,10 +1,93 @@
 @model QuanTriDashboard
 @inject QuyenQuanTriService Rights
-@{ViewData["Title"]="Tổng quan quản trị";}
-<h1>Tổng quan quản trị</h1>
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
-    @if(await Rights.CoQuyenAsync("DuyetHoSo")){<div class="col"><a class="card h-100" href="/QuanTri/HoSo/Index"><span class="d-block">Hồ sơ chờ duyệt</span><strong class="fs-2 d-block mt-2">@Model.HoSoChoDuyet</strong></a></div>}
-    @if(await Rights.CoQuyenAsync("XuLyBaoCao")){<div class="col"><a class="card h-100" href="/QuanTri/BaoCaoViPham/Index?quanTri=true"><span class="d-block">Báo cáo chưa xử lý</span><strong class="fs-2 d-block mt-2">@Model.BaoCaoChoXuLy</strong></a></div>}
-    @if(await Rights.CoQuyenAsync("QuanLyTaiKhoan")){<div class="col"><a class="card h-100" asp-action="TaiKhoan" asp-route-state="BiKhoa"><span class="d-block">Tài khoản bị khóa</span><strong class="fs-2 d-block mt-2">@Model.TaiKhoanBiKhoa</strong></a></div><div class="col"><a class="card h-100" asp-action="NoiDung" asp-route-loai="LopHoc"><span class="d-block">Lớp đang tạm dừng</span><strong class="fs-2 d-block mt-2">@Model.LopTamDung</strong></a></div>}
+@{
+    ViewData["Title"] = "Tổng quan quản trị";
+    var review = await Rights.CoQuyenAsync("DuyetHoSo");
+    var reports = await Rights.CoQuyenAsync("XuLyBaoCao");
+    var accounts = await Rights.CoQuyenAsync("QuanLyTaiKhoan");
+    var audit = await Rights.CoQuyenAsync("XemNhatKy");
+    var states = new[] { "ChoDuyet", "CanChinhSua", "DaDuyet", "TuChoi" };
+    var maximum = Math.Max(1, states.Max(state => Model.HoSoTheoTrangThai.GetValueOrDefault(state)));
+}
+<div class="admin-dashboard">
+    <h1>Tổng quan quản trị</h1>
+    @if (review || reports)
+    {
+        <h2>Việc cần xử lý</h2>
+    }
+    <div class="admin-metrics">
+        @if (review)
+        {
+            <a class="admin-metric" asp-controller="HoSo" asp-action="Index">
+                <span class="admin-metric-icon"><img src="/images/ui/person-badge.svg" alt=""></span>
+                <span>Hồ sơ chờ duyệt</span><strong>@Model.HoSoChoDuyet</strong>
+            </a>
+        }
+        @if (reports)
+        {
+            <a class="admin-metric" asp-controller="BaoCaoViPham" asp-action="Index" asp-route-quanTri="true" asp-route-state="ChuaXuLy">
+                <span class="admin-metric-icon metric-amber"><img src="/images/ui/flag.svg" alt=""></span>
+                <span>Báo cáo chưa xử lý</span><strong>@Model.BaoCaoChoXuLy</strong>
+            </a>
+        }
+        @if (accounts)
+        {
+            <a class="admin-metric" asp-action="TaiKhoan" asp-route-state="BiKhoa">
+                <span class="admin-metric-icon metric-lavender"><img src="/images/ui/shield-check.svg" alt=""></span>
+                <span>Tài khoản bị khóa</span><strong>@Model.TaiKhoanBiKhoa</strong>
+            </a>
+            <div class="admin-metric">
+                <span class="admin-metric-icon metric-mint"><img src="/images/ui/collection.svg" alt=""></span>
+                <span>Lớp đang tạm dừng</span><strong>@Model.LopTamDung</strong>
+            </div>
+        }
+    </div>
+    @if (!review && !reports && !accounts && !audit)
+    {
+        <p class="empty">Các mục quản trị được hiển thị theo quyền của tài khoản.</p>
+    }
+    @if (reports) { <partial name="_NhuCauCanXemXet" model="Model.CanXemXet" /> }
+    <div class="admin-charts">
+        @if (accounts) { <partial name="_DangKyTheoThang" model="Model.DangKy" /> }
+        @if (reports) { <partial name="_PhanLoaiBaoCao" model="Model.PhanLoaiBaoCao" /> }
+    </div>
+    <div class="admin-panels">
+        @if (review)
+        {
+            <section class="card admin-panel">
+                <h2>Hồ sơ theo trạng thái</h2>
+                <ul class="admin-bars">
+                    @foreach (var state in states)
+                    {
+                        var count = Model.HoSoTheoTrangThai.GetValueOrDefault(state);
+                        <li data-state="@state"><a asp-controller="HoSo" asp-action="Index" asp-route-state="@state">@Rules.Label(state)</a>
+                            <meter min="0" max="@maximum" value="@count" aria-label="@Rules.Label(state)"></meter><strong>@count</strong></li>
+                    }
+                </ul>
+            </section>
+        }
+        @if (audit)
+        {
+            <section class="card admin-panel">
+                <div class="admin-panel-heading"><h2>Hoạt động gần đây</h2><a class="btn btn-outline-primary" asp-action="XemNhatKy">Xem nhật ký</a></div>
+                @if (Model.GanDay.Count == 0)
+                {
+                    <p class="admin-empty">Chưa có thao tác quản trị.</p>
+                }
+                else
+                {
+                    <ol class="admin-events">
+                        @foreach (var row in Model.GanDay)
+                        {
+                            var entry = row.BanGhi;
+                            <li><span class="admin-event-icon" aria-hidden="true"><img src="/images/ui/clock-history.svg" alt=""></span>
+                                <div><strong>@Rules.Label(entry.HanhDong)</strong><p>@row.HoTen · <time datetime="@entry.ThoiDiem.ToString("O")">@Rules.Date(entry.ThoiDiem)</time></p></div>
+                                <span class="admin-state" data-state="@entry.KetQua">@Rules.Label(entry.KetQua)</span>
+                            </li>
+                        }
+                    </ol>
+                }
+            </section>
+        }
+    </div>
 </div>
-@if(Model.GanDay.Count>0){<section class="card mt-4"><h2>Hoạt động quản trị gần đây</h2>@foreach(var row in Model.GanDay){<article class="audit-entry"><time>@Rules.Date(row.BanGhi.ThoiDiem)</time><div><strong>@row.HoTen</strong><p>@Rules.Label(row.BanGhi.HanhDong)</p></div><span class="badge rounded-pill">@Rules.Label(row.BanGhi.KetQua)</span></article>}<a class="btn btn-outline-primary" asp-action="XemNhatKy">Xem nhật ký</a></section>}

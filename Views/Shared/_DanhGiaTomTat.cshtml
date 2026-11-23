@@ -1,6 +1,24 @@
 @model Guid
 @inject EduConnect.Mvc.Areas.DanhGia.Services.DanhGiaDoiTacService Reviews
-@{var summary=await Reviews.LayAsync(Model);}
-<div class="review-summary-copy"><h2>Đánh giá từ người dùng</h2>
-<p>@(summary.TrungBinh.HasValue?$"{summary.TrungBinh:0.0}/5 · {summary.DanhGia.Total} đánh giá":"Chưa có đánh giá")</p></div>
-<a class="btn btn-outline-primary align-self-start" href="/DanhGia/DoiTac/ChiTiet/@Model">Xem đánh giá</a>
+@{ var summary = await Reviews.LayAsync(Model, noiBat: true); }
+<partial name="_PhanBoDanhGia" model="summary" />
+@if (summary.DanhGia.Items.Count > 0)
+{
+    <div class="review-list">
+        @foreach (var review in summary.DanhGia.Items)
+        {
+            <article class="review-entry">
+                <div class="review-entry-heading">
+                    <partial name="_SaoDanhGia" model="@((decimal)review.SoSao)" />
+                    <time datetime="@review.GuiLuc.ToString("O")">@Rules.Date(review.GuiLuc)</time>
+                </div>
+                <p class="pre">@review.NhanXet</p>
+                @if (!string.IsNullOrWhiteSpace(review.PhanHoi))
+                {
+                    <div class="review-reply"><strong>Phản hồi</strong><p class="pre">@review.PhanHoi</p></div>
+                }
+            </article>
+        }
+    </div>
+    <a class="btn btn-outline-primary mt-3" asp-area="DanhGia" asp-controller="DoiTac" asp-action="ChiTiet" asp-route-id="@Model">Xem tất cả @summary.DanhGia.Total đánh giá</a>
+}

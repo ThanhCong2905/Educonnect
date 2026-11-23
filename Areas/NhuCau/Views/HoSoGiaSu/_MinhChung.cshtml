@@ -21,7 +21,15 @@
     @if (Model != null)
     {
         <div class="profile-evidence-current" data-saved-evidence>
-            <a asp-action="BangCap" asp-route-id="@Model.Id">@Model.TenGoc</a>
+            @if (TepService.XemTrucTiepDuoc(Model.LoaiNoiDung))
+            {
+                <a asp-action="BangCap" asp-route-id="@Model.Id" asp-route-xem="true" data-file-preview="@Model.LoaiNoiDung"
+                   data-file-name="@Model.TenGoc" target="_blank" rel="noopener">@Model.TenGoc</a>
+            }
+            else
+            {
+                <a asp-action="BangCap" asp-route-id="@Model.Id">@Model.TenGoc</a>
+            }
             @if (Model.TrangThaiQuet == "ChoQuet")
             {
                 <small class="muted">Chưa quét mã độc</small>

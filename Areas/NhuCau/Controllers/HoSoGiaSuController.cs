@@ -63,11 +63,10 @@ public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService 
         Success("Đã tải bằng cấp lên hồ sơ.");
         return RedirectToAction(nameof(Sua));
     }
-    public async Task<IActionResult> BangCap(Guid id)
+    public async Task<IActionResult> BangCap(Guid id, bool xem = false)
     {
         var (f, path) = await certificates.TaiAsync(id);
-        Response.Headers.XContentTypeOptions = "nosniff";
-        return PhysicalFile(path, f.LoaiNoiDung, f.TenGoc);
+        return TraTep(f, path, xem);
     }
     [HttpPost]
     public async Task<IActionResult> XoaBangCap(Guid id)

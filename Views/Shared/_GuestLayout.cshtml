@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/guest.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/help.css" asp-append-version="true">
 </head>
 <body>
     <button type="button" class="btn mobile-menu" aria-label="Mở menu" aria-expanded="false" aria-controls="navigation">☰</button>
@@ -35,10 +36,7 @@
     <div class="shell">
     <header>
         <div class="guest-header-navigation">
-        @if (!home)
-        {
-            <a class="guest-back" href="@(search ? "/" : needs ? "/TimKiem/TimKiem/NhuCau" : "/TimKiem/TimKiem/GiaSu")" data-page-back data-parent-page="false" aria-label="Quay lại" title="Quay lại"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14" /></svg></a>
-        }
+        <partial name="_PageBack" />
         <nav class="breadcrumbs" aria-label="Đường dẫn"><ol>
             @if (!home) { <li><a href="/">Trang chủ</a></li> }
             <li><span aria-current="page">@(home ? "Trang chủ" : ViewData["Title"])</span></li>
@@ -53,7 +51,7 @@
         <partial name="_Notifications" />
         @RenderBody()
     </main>
-    <footer><strong>EduConnect</strong><span>Kết nối gia sư và người học.</span><span>© @DateTime.Today.Year EduConnect</span></footer>
+    <partial name="_SiteFooter" />
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/confirmations.js" asp-append-version="true" defer></script>
@@ -63,7 +61,7 @@
     <script src="~/js/notifications.js" asp-append-version="true" defer></script>
     <script src="~/js/navigation.js" asp-append-version="true" defer></script>
     <script src="~/js/ajax-pages.js" asp-append-version="true" defer></script>
-    <script src="~/js/areas.js" asp-append-version="true" defer></script>
+    <script src="~/js/subject-scope.js" asp-append-version="true" defer></script><script src="~/js/areas.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

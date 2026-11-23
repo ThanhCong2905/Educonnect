@@ -1,6 +1,7 @@
 using EduConnect.Mvc.Areas.NhuCau.ViewModels;
 using EduConnect.Mvc.Areas.TimKiem.ViewModels;
 using EduConnect.Mvc.Data;
+using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,10 +25,19 @@ internal sealed class HoSoCongKhaiQuery(AppDbContext db)
         var learners = await db.Set<LopHoc>().AsNoTracking().Where(lop => owners.Contains(lop.GiaSuId) && lop.TrangThai != "DaHuy")
             .GroupBy(lop => lop.GiaSuId).Select(group => new { Id = group.Key, Count = group.Select(lop => lop.BenHocId).Distinct().Count() })
             .ToDictionaryAsync(group => group.Id, huy);
-        var subjects = await (from d in db.Set<HoSoGiaSuMonDay>() join m in db.Set<MonHoc>() on d.MonHocId equals m.Id where ids.Contains(d.HoSoGiaSuId) select new { d.HoSoGiaSuId, Row = new MonDayCongKhai { MonHocId = m.Id, TenMon = m.TenMon, PhamViDay = d.PhamViDay, HocPhi = d.HocPhiDeXuat, DonVi = d.DonViHocPhi } }).ToListAsync(huy);
+        var subjects = await (from d in db.Set<HoSoGiaSuMonDay>()
+                              join m in db.Set<MonHoc>() on d.MonHocId equals m.Id
+                              where ids.Contains(d.HoSoGiaSuId)
+                              select new { d.HoSoGiaSuId, Subject = d, m.TenMon }).ToListAsync(huy);
         return hs.Select(h =>
         {
-            var monDay = subjects.Where(s => s.HoSoGiaSuId == h.Id).Select(s => s.Row).OrderBy(s => s.TenMon).ToList();
+            var monDay = subjects.Where(s => s.HoSoGiaSuId == h.Id).OrderBy(s => s.TenMon).Select(s => new MonDayCongKhai
+            {
+                MonHocId = s.Subject.MonHocId, TenMon = s.TenMon,
+                PhamViDay = PhamViMonHoc.MoTaPhamVi(s.Subject.PhamViDay, s.Subject.PhanKhoaHoc),
+                MatNaKhoi = s.Subject.MatNaKhoi, PhanKhoaHoc = s.Subject.PhanKhoaHoc,
+                HocPhi = s.Subject.HocPhiDeXuat, DonVi = s.Subject.DonViHocPhi
+            }).ToList();
             return new HoSoGiaSuCongKhaiViewModel
             {
                 Id = h.Id,

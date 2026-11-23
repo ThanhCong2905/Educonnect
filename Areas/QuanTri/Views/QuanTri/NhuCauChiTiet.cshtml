@@ -15,14 +15,20 @@
         }
     </div>
 </div>
+@if (Model.DauHieu.Count > 0)
+{
+    <section class="card admin-panel mb-4" aria-label="Dấu hiệu hậu kiểm">
+        <h2>Dấu hiệu cần xem xét</h2>
+        <ul class="priority-signals">@foreach (var flag in Model.DauHieu) { <li>@flag</li> }</ul>
+    </section>
+}
 <section class="card mb-4">
     <h2>@Model.MonHoc</h2>
     <p class="pre">@need.MucTieu</p>
     <dl>
         <dt>Khối lớp</dt><dd>@need.KhoiLop</dd>
-        <dt>Học lực</dt><dd>@need.HocLuc</dd>
         <dt>Hình thức</dt><dd>@Rules.Label(need.HinhThucHoc)</dd>
-        @if (need.HinhThucHoc == "TrucTiep")
+        @if (need.HinhThucHoc is "TrucTiep" or "CaHai")
         {
             <dt>Khu vực</dt><dd>@string.Join(", ", new[] { need.PhuongXa, need.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd>
             <dt>Địa chỉ chi tiết</dt><dd>@need.DiaChiChiTiet</dd>
@@ -106,14 +112,12 @@
 </section>
 <section class="card">
     <h2>Lịch sử hậu kiểm</h2>
-    @foreach (var item in Model.LichSu)
-    {
-        <article class="border-top py-3">
-            <strong>@Rules.Label(item.HanhDong)</strong>
-            <p class="pre">@item.ChiTiet</p>
-            <small>@Rules.Date(item.ThoiDiem)</small>
-        </article>
-    }
+    <ol class="admin-history">
+        @foreach (var item in Model.LichSu)
+        {
+            <li><details><summary><strong>@Rules.Label(item.HanhDong)</strong><time datetime="@item.ThoiDiem.ToString("O")">@Rules.Date(item.ThoiDiem)</time></summary><p class="pre">@item.ChiTiet</p></details></li>
+        }
+    </ol>
     @if (Model.LichSu.Count == 0)
     {
         <p class="muted mb-0">Chưa có thao tác hậu kiểm.</p>

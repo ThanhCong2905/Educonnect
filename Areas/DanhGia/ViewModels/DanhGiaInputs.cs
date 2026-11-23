@@ -122,4 +122,5 @@ public sealed class DanhGiaCongKhaiPage
         get; set;
     }
     public Page<DanhGiaDoiTac> DanhGia { get; set; } = new();
+    public IReadOnlyDictionary<int, int> TheoSoSao { get; init; } = new Dictionary<int, int>();
 }

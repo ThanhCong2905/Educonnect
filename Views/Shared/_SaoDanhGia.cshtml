@@ -1,0 +1,8 @@
+@model decimal
+@{
+    var width = (Model * 20).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+}
+<span class="rating-stars" role="img" aria-label="@Model.ToString("0.#") trên 5 sao">
+    <span aria-hidden="true">★★★★★</span>
+    <span class="rating-stars-fill" style="--rating-fill: @(width)%" aria-hidden="true">★★★★★</span>
+</span>

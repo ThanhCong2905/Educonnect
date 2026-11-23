@@ -42,7 +42,7 @@ async function main() {
         for(const [key,role] of [['tutor','GiaSu'],['student','HocSinh'],['parent','PhuHuynh'],['other','HocSinh'],['admin','HocSinh'],['admin2','HocSinh'],['limited','HocSinh']]) {
             const context=await browser.newContext(); const c=context.request;
             const email=`full-${key}-${suffix}@example.test`;
-            const r=await post(c,'/TaiKhoan/DangKy',{HoTen:`Kiểm thử ${key}`,Email:email,VaiTro:role,MatKhau:password,XacNhanMatKhau:password},'/TaiKhoan/DangKy');
+            const r=await post(c,'/TaiKhoan/DangKy',{DongYChinhSach:'true', HoTen:`Kiểm thử ${key}`,Email:email,VaiTro:role,MatKhau:password,XacNhanMatKhau:password},'/TaiKhoan/DangKy');
             assert.equal(r.status(),302,await r.text());
             const id=sql(`SELECT Id FROM AspNetUsers WHERE Email='${email}'`);
             people[key]={context,c,email,id};
@@ -67,6 +67,16 @@ async function main() {
             assert.equal(sql(`SELECT COUNT(*) FROM DotPhanHoi WHERE LopHocId='${lop}'`), '0');
         });
         await check('Trang tiến độ hoạt động từ lớp học',async()=>assert.equal((await student.c.get(base+progress)).status(),200));
+        await check('Tiến độ mở thẳng danh sách buổi học', async () => {
+            const page = await student.context.newPage();
+            try {
+                await page.goto(base + `/HocTap/LopHoc/ChiTiet/${lop}`);
+                const link = page.getByRole('link', { name: 'Xem các buổi học', exact: true });
+                assert.match(await link.getAttribute('href'), /[?&]tab=lessons(?:&|$)/);
+                await link.click();
+                await page.waitForURL(url => url.searchParams.get('tab') === 'lessons');
+            } finally { await page.close(); }
+        });
         await check('Người ngoài không xem tiến độ lớp',async()=>assert.equal((await other.c.get(base+progress)).status(),403));
         const linked=crypto.randomUUID();
         sql(`INSERT LienKetPhuHuynhHocSinh(Id,PhuHuynhId,HocSinhId,NguoiGuiId,TrangThai,GuiLuc,XacNhanLuc) VALUES('${linked}','${parent.id}','${student.id}','${parent.id}','DaLienKet',SYSDATETIMEOFFSET(),SYSDATETIMEOFFSET());
@@ -127,7 +137,50 @@ async function main() {
         await check('Thông báo mở trong modal, thao tác đọc giữ trang nền',async()=>{const p=await student.context.newPage();await p.goto(base+'/TaiKhoan/HoSo');await p.locator('a.notification').click();await p.locator('#notification-list').waitFor();const at=p.url();const mark=p.locator('[data-mark-all-notices] button');if(await mark.count())await mark.click();assert.equal(p.url(),at);assert.ok(await p.locator('#notification-list').isVisible());await p.keyboard.press('Escape');await p.close();});
         const profile=sql(`SELECT Id FROM HoSoGiaSu WHERE GiaSuId='${tutor.id}'`);
         await check('Quản trị thiếu quyền không mở chi tiết hồ sơ',async()=>assert.equal((await limited.c.get(base+'/QuanTri/HoSo/ChiTiet/'+profile)).status(),403));
-        await check('Duyệt hồ sơ có phiên bản, yêu cầu sửa và từ chối lưu lý do',async()=>{for(const [approve,decision,state]of [['false','CanChinhSua','CanChinhSua'],['false','TuChoi','TuChoi'],['true','Duyet','DaDuyet']]){sql(`UPDATE HoSoGiaSu SET DangHienThi=0,TrangThaiDuyet='ChoDuyet' WHERE Id='${profile}'`);assert.equal((await post(admin.c,'/QuanTri/HoSo/Duyet',{id:profile,rowVersion:version('HoSoGiaSu',profile),approve,quyetDinh:decision,reason:'Cần kiểm tra thông tin chuyên môn.'})).status(),302);assert.equal(sql(`SELECT TrangThaiDuyet FROM HoSoGiaSu WHERE Id='${profile}'`),state);}assert.equal(sql(`SELECT DangHienThi FROM HoSoGiaSu WHERE Id='${profile}'`),'0');});
+        const pendingProfile = () => sql(`UPDATE HoSoGiaSu SET DangHienThi=0,TrangThaiDuyet='ChoDuyet' WHERE Id='${profile}'`);
+        const reviewProfile = (approve, decision, reason = '') => post(admin.c, '/QuanTri/HoSo/Duyet', {
+            id: profile, rowVersion: version('HoSoGiaSu', profile), approve, quyetDinh: decision, reason
+        }, '/QuanTri/HoSo/ChiTiet/' + profile);
+        await check('Hồ sơ thiếu minh chứng giữ trang chi tiết và hiện lỗi', async () => {
+            sql(`UPDATE HoSoGiaSu SET KinhNghiem=N'Chưa có', MoTa=REPLICATE(N'Ôn tập theo từng chủ đề. ', 6) WHERE Id='${profile}'`);
+            pendingProfile();
+            const reason = 'Ghi chú đang nhập';
+            const response = await reviewProfile('true', 'Duyet', reason);
+            assert.equal(response.status(), 200);
+            const html = plain(await response.text());
+            assert.match(html, /Chọn minh chứng trình độ đã lưu trong hồ sơ/);
+            assert.match(html, new RegExp(reason));
+            assert.equal(sql(`SELECT TrangThaiDuyet FROM HoSoGiaSu WHERE Id='${profile}'`), 'ChoDuyet');
+        });
+        await check('Yêu cầu chỉnh sửa và từ chối hồ sơ lưu lý do', async () => {
+            const reason = 'Cần kiểm tra thông tin chuyên môn.';
+            for (const state of ['CanChinhSua', 'TuChoi']) {
+                pendingProfile();
+                assert.equal((await reviewProfile('false', state, reason)).status(), 302);
+                assert.equal(sql(`SELECT TrangThaiDuyet FROM HoSoGiaSu WHERE Id='${profile}'`), state);
+                assert.equal(sql(`SELECT LyDoTuChoi FROM HoSoGiaSu WHERE Id='${profile}'`), reason);
+            }
+        });
+        await check('Hồ sơ đủ minh chứng được duyệt sau khi gửi từ tài khoản Gia sư', async () => {
+            const formPath = '/NhuCau/HoSoGiaSu/Sua';
+            const upload = await tutor.c.post(base+'/NhuCau/HoSoGiaSu/Luu', {
+                multipart: {
+                    __RequestVerificationToken: await token(tutor.c, formPath), RowVersion: version('HoSoGiaSu', profile),
+                    HoTen: 'Kiểm thử tutor', TrinhDo: 'Đại học', KinhNghiem: 'Chưa có', KhuVuc: 'Hà Nội',
+                    MoTa: 'Tôi hướng dẫn học sinh ôn lại kiến thức trên lớp, luyện bài tập theo từng chủ đề và theo dõi tiến độ sau mỗi buổi học.',
+                    DayTrucTuyen: 'true', 'MonDay[0].MonHocId': String(subject), 'MonDay[0].LopDay': '10',
+                    'MonDay[0].HocPhiDeXuat': '150000', 'MonDay[0].DonViHocPhi': 'VND/Gio',
+                    TepTrinhDo: { name: 'minh-chung.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/nD8AAAAASUVORK5CYII=', 'base64') }
+                }, maxRedirects: 0
+            });
+            assert.equal(upload.status(), 302);
+            assert.equal((await post(tutor.c, '/NhuCau/HoSoGiaSu/TrangThai', {
+                operation: 'GuiDuyet', rowVersion: version('HoSoGiaSu', profile)
+            }, formPath)).status(), 302);
+            assert.equal((await reviewProfile('true', 'Duyet')).status(), 302);
+            assert.equal(sql(`SELECT TrangThaiDuyet FROM HoSoGiaSu WHERE Id='${profile}'`), 'DaDuyet');
+            assert.equal(sql(`SELECT DangHienThi FROM HoSoGiaSu WHERE Id='${profile}'`), '0');
+        });
         await check('Đánh giá đã gửi không được sửa lại',async()=>{sql(`UPDATE LopHoc SET TrangThai='DaKetThuc',KetThucLuc=SYSDATETIMEOFFSET(),CachKetThuc='DongY' WHERE Id='${lop}'`);const old=sql(`SELECT NhanXet FROM DanhGiaDoiTac WHERE Id='${review}'`);const r=await post(student.c,'/DanhGia/DoiTac/Gui',{MaLop:lop,SoSao:1,NhanXet:'Thử gửi đánh giá lần thứ hai.',XacNhanRiengTu:'true',RowVersion:version('DanhGiaDoiTac',review)});assert.match(plain(await r.text()),/chỉ được đánh giá một lần/);assert.equal(sql(`SELECT NhanXet FROM DanhGiaDoiTac WHERE Id='${review}'`),old);sql(`UPDATE LopHoc SET TrangThai='DangHoatDong',KetThucLuc=NULL,CachKetThuc=NULL WHERE Id='${lop}'`);});
         const room=crypto.randomUUID(),hidden=crypto.randomUUID(),visible=crypto.randomUUID();
         sql(`INSERT CuocHoiThoai(Id,LoaiHoiThoai,GiaSuId,BenHocId,LopHocId,TaoLuc) VALUES('${room}','TheoLop','${tutor.id}','${student.id}','${lop}',SYSDATETIMEOFFSET());

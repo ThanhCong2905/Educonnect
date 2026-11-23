@@ -1,0 +1,105 @@
+@model EduConnect.Mvc.ViewModels.BangHocPhi
+@{
+    Layout = User.Identity?.IsAuthenticated == true ? "_Layout" : "_GuestLayout";
+    ViewData["Title"] = "Học phí gia sư";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var canFindTutors = !User.IsInRole("GiaSu");
+    string Range(EduConnect.Mvc.ViewModels.MucPhiCongKhai band) => band.ThapNhat == band.CaoNhat
+        ? band.ThapNhat.ToString("N0", culture) : $"{band.ThapNhat.ToString("N0", culture)} – {band.CaoNhat.ToString("N0", culture)}";
+}
+<div class="guide-page fee-page">
+    <header class="guide-intro fee-intro">
+        <div><h1>Học phí gia sư</h1><p>Chọn môn và xem khoảng học phí trước khi trao đổi với gia sư.</p></div>
+        @if (canFindTutors) { <a href="/TimKiem/TimKiem/GiaSu" class="btn btn-primary">Tìm gia sư</a> }
+    </header>
+    <section class="fee-card" aria-labelledby="fee-table-title">
+        <div class="fee-card-head">
+            <div><h2 id="fee-table-title">Học phí gia sư đang đăng</h2><p>Bảng dùng giá công khai lúc <time datetime="@Model.XemLuc.ToString("O")">@Model.XemLuc.ToString("HH:mm 'ngày' dd/MM/yyyy")</time> (giờ Việt Nam).</p></div>
+            <form method="get" action="/huong-dan/hoc-phi" class="fee-filter">
+                <label>Môn học<select class="form-select" name="monHocId"><option value="">Tất cả môn</option>@foreach (var mon in Model.MonHoc) { <option value="@mon.Id" selected="@(Model.MonHocId == mon.Id)">@mon.Ten</option> }</select></label>
+                <label>Cách tính<select class="form-select" name="donVi"><option value="VND/Gio" selected="@(Model.DonVi == "VND/Gio")">Theo giờ</option><option value="VND/Buoi" selected="@(Model.DonVi == "VND/Buoi")">Theo buổi</option></select></label>
+                <button type="submit" class="btn btn-outline-primary">Xem học phí</button>
+            </form>
+        </div>
+        <dl class="fee-overview">
+            @foreach (var unit in new[] { (Code: "VND/Gio", Title: "Theo giờ"), (Code: "VND/Buoi", Title: "Theo buổi") })
+            {
+                <div>
+                    <dt>@unit.Title</dt>
+                    @if (Model.MucPhiHienHanh.TryGetValue(unit.Code, out var band))
+                    {
+                        <dd><strong>@Range(band) ₫</strong><small>@band.SoMucPhi mức phí công khai</small></dd>
+                    }
+                    else { <dd>Chưa có dữ liệu</dd> }
+                </div>
+            }
+        </dl>
+        <div class="fee-breakdown"><h3>Theo lớp và trình độ</h3><p>Đơn vị @(Model.DonVi == "VND/Buoi" ? "đồng/buổi" : "đồng/giờ")</p></div>
+        @if (Model.CacLop.All(row => row.Chung == null))
+        {
+            <p class="fee-empty">Chưa có gia sư công khai giá theo lựa chọn này. Bạn thử đổi cách tính hoặc chọn môn khác nhé.</p>
+        }
+        else
+        {
+            <div class="fee-table-scroll" tabindex="0" role="region" aria-label="Bảng học phí, có thể cuộn ngang">
+                <table class="fee-table">
+                    <thead><tr><th scope="col">Lớp</th><th scope="col">Khoảng chung</th>@foreach (var degree in Model.TrinhDo) { <th scope="col">@degree</th> }</tr></thead>
+                    <tbody>
+                    @foreach (var row in Model.CacLop)
+                    {
+                        <tr><th scope="row">Lớp @row.Lop</th>
+                        @foreach (var band in new[] { row.Chung }.Concat(row.TheoTrinhDo))
+                        {
+                            <td class="@(band == null ? "fee-unavailable" : "fee-available")">
+                                @if (band != null) { <strong>@Range(band)</strong><small>@band.SoMucPhi mức phí</small> }
+                                else { <span aria-label="Chưa có dữ liệu">—</span> }
+                            </td>
+                        }
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="fee-mobile" aria-label="Học phí theo lớp">
+                @foreach (var row in Model.CacLop.Where(row => row.Chung != null))
+                {
+                    var band = row.Chung!;
+                    <details>
+                        <summary><strong>Lớp @row.Lop</strong><span>@Range(band)</span></summary>
+                        <dl>
+                            <div><dt>Khoảng chung</dt><dd>@band.SoMucPhi mức phí</dd></div>
+                            @for (var index = 0; index < Model.TrinhDo.Count; index++)
+                            {
+                                if (row.TheoTrinhDo[index] is { } degreeBand)
+                                {
+                                    <div><dt>@Model.TrinhDo[index]</dt><dd>@Range(degreeBand) <small>(@degreeBand.SoMucPhi mức phí)</small></dd></div>
+                                }
+                            }
+                        </dl>
+                    </details>
+                }
+                <p>Chạm vào từng lớp để xem giá theo trình độ gia sư.</p>
+            </div>
+        }
+        <p class="fee-footnote">Khoảng giá đi từ mức thấp nhất đến cao nhất trong các hồ sơ đang công khai. Bảng tổng hợp tính mỗi môn dạy có thu phí một lần. Trong bảng theo lớp, cùng mức giá có thể xuất hiện ở nhiều lớp nếu gia sư đăng ký dạy các lớp đó.</p>
+    </section>
+    <section class="fee-faq" aria-labelledby="fee-faq-title">
+        <h2 id="fee-faq-title">Câu hỏi về học phí</h2>
+        <details>
+            <summary>So sánh giá theo giờ và theo buổi như thế nào?</summary>
+            <p>Giá theo giờ tính trên 60 phút. Ví dụ, nếu hai bên tính theo đúng thời lượng, mức 120.000 ₫/giờ tương đương 180.000 ₫ cho 90 phút. Còn với giá theo buổi, hãy xem buổi đó kéo dài bao lâu trong đề xuất lớp rồi so sánh.</p>
+        </details>
+        <details>
+            <summary>Tôi cần thống nhất học phí với gia sư ở bước nào?</summary>
+            <p>Bạn có thể hỏi học phí ngay khi nhắn tin với gia sư. Trước khi xác nhận đề xuất lớp, hãy kiểm tra lại mức tiền, cách tính theo giờ hay theo buổi và thời lượng. Đó là thông tin hai bên có thể xem lại trong lớp.</p>
+        </details>
+        <details>
+            <summary>Tôi thanh toán học phí ở đâu?</summary>
+            <p>Bạn và gia sư tự thống nhất cách trả và thời điểm trả. Chẳng hạn, hai bên có thể chọn trả sau mỗi buổi hoặc thanh toán theo tháng. EduConnect lưu mức học phí đã thống nhất trong đề xuất lớp.</p>
+        </details>
+        <details>
+            <summary>Tôi có thể xem thêm giá ở đâu?</summary>
+            <p>Bạn có thể tham khảo <a href="https://giasumienphi.com/hoc-phi">bảng giá của Gia Sư Miễn Phí</a>. Khi đối chiếu, hãy chọn cùng khối lớp và so giá cho cùng số phút học.</p>
+        </details>
+    </section>
+</div>

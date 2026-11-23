@@ -8,30 +8,24 @@ namespace EduConnect.Mvc.Areas.QuanTri.Services;
 
 public sealed partial class QuanTriService
 {
-    public async Task<Page<NhuCauHauKiemRow>> LayNhuCauHauKiemAsync(int trang = 1, string? q = null, string? state = null, bool? dangAn = null)
+    public async Task<Page<NhuCauHauKiemRow>> LayNhuCauHauKiemAsync(int trang = 1, string? q = null,
+        string? state = null, bool? dangAn = null, bool canXemXet = false, CancellationToken huy = default)
     {
         await rights.KiemTraAsync("XuLyBaoCao");
         Rules.Check(trang is >= 1 and <= 100000 && (q?.Length ?? 0) <= 100, "Trang hoặc từ khóa không hợp lệ.");
         Rules.Check(state == null || state is "DangMo" or "DaDong", "Chọn trạng thái đang mở hoặc đã đóng.");
         q = q?.Trim();
-        var query = from need in db.Set<NhuCauHoc>().AsNoTracking()
-                    join owner in db.Users on need.ChuSoHuuId equals owner.Id
-                    where need.LoaiNhuCau == "TimGiaSu" && need.TrangThai != "BanNhap"
-                        && (state == null || need.TrangThai == state)
-                        && (q == null || owner.HoTen.Contains(q) || (need.MucTieu != null && need.MucTieu.Contains(q)))
-                    select new NhuCauHauKiemRow
-                    {
-                        NhuCau = need,
-                        HoTen = owner.HoTen,
-                        DangAn = db.Set<BienPhapQuanTri>().Any(b => b.LoaiDoiTuong == "NhuCauHoc" && b.DoiTuongId == need.Id && b.Loai == "AnNoiDung" && b.GoLuc == null),
-                        BaoCaoCho = db.Set<BaoCaoViPham>().Count(b => b.LoaiDoiTuong == "NhuCauHoc" && b.DoiTuongId == need.Id && b.TrangThai != "DaXuLy")
-                    };
+        var query = LayHangHauKiem(DateTimeOffset.UtcNow.AddDays(-7));
+        if (q?.Length > 0) query = query.Where(row => row.HoTen.Contains(q) || row.NhuCau.MucTieu!.Contains(q));
+        if (state != null) query = query.Where(row => row.NhuCau.TrangThai == state);
         if (dangAn.HasValue) query = query.Where(row => row.DangAn == dangAn.Value);
+        if (canXemXet) return await LayNhuCauCanXemXetAsync(query, trang, 20, huy);
+        var items = await query.OrderByDescending(row => row.NhuCau.TaoLuc).ThenBy(row => row.NhuCau.Id)
+            .Skip((trang - 1) * 20).Take(20).ToListAsync(huy);
+        await DanhDauNhuCauAsync(items, huy);
         return new Page<NhuCauHauKiemRow>
         {
-            Trang = trang, KichThuocTrang = 20, Total = await query.CountAsync(),
-            Items = await query.OrderByDescending(row => row.NhuCau.TaoLuc).ThenBy(row => row.NhuCau.Id)
-                .Skip((trang - 1) * 20).Take(20).ToListAsync()
+            Trang = trang, KichThuocTrang = 20, Total = await query.CountAsync(huy), Items = items
         };
     }
 
@@ -42,10 +36,13 @@ public sealed partial class QuanTriService
             .SingleOrDefaultAsync(x => x.Id == id && x.LoaiNhuCau == "TimGiaSu" && x.TrangThai != "BanNhap")
             ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu đã đăng.", 404);
         var subjects = need.CacMonHocId.ToList();
+        var row = await LayHangHauKiem(DateTimeOffset.UtcNow.AddDays(-7)).SingleAsync(item => item.NhuCau.Id == id);
+        await DanhDauNhuCauAsync([row], default);
         return new NhuCauHauKiemViewModel
         {
             NhuCau = need,
-            HoTen = await db.Users.Where(x => x.Id == need.ChuSoHuuId).Select(x => x.HoTen).SingleAsync(),
+            HoTen = row.HoTen,
+            DauHieu = row.DauHieu,
             MonHoc = string.Join(", ", await db.Set<MonHoc>().Where(x => subjects.Contains(x.Id)).OrderBy(x => x.Id).Select(x => x.TenMon).ToListAsync()),
             KhungGio = await db.Set<KhungGioRanh>().AsNoTracking().Where(x => x.NhuCauId == id).OrderBy(x => x.ThuTrongTuan).ThenBy(x => x.GioBatDau).ToListAsync(),
             BienPhap = await db.Set<BienPhapQuanTri>().AsNoTracking().Where(x => x.LoaiDoiTuong == "NhuCauHoc" && x.DoiTuongId == id).OrderByDescending(x => x.ApDungLuc).ToListAsync(),

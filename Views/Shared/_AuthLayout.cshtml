@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/fonts.css">
     <link rel="stylesheet" href="~/css/account.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/notifications.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/help.css" asp-append-version="true">
 </head>
 <body class="account-page">
     <header class="account-header">
@@ -32,7 +33,7 @@
             @RenderBody()
         </section>
     </main>
-    <footer class="account-site-footer">© @DateTime.Now.Year EduConnect</footer>
+    <partial name="_SiteFooter" />
     <script src="~/js/notifications.js" asp-append-version="true" defer></script>
     <script src="~/js/account.js" asp-append-version="true" defer></script>
 </body>

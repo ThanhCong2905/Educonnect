@@ -1,0 +1,34 @@
+@model Page<NhuCauHauKiemRow>
+<section class="card admin-panel admin-priority">
+    <div class="admin-panel-heading">
+        <h2>Nhu cầu cần xem xét <span class="admin-priority-count">@Model.Total</span></h2>
+        <a class="btn btn-outline-primary" asp-action="NhuCau" asp-route-canXemXet="true">Mở hậu kiểm</a>
+    </div>
+    @if (Model.Items.Count == 0)
+    {
+        <p class="admin-empty">Chưa thấy dấu hiệu cần xem xét trong các nhu cầu đang mở.</p>
+    }
+    else
+    {
+        <ul class="priority-list">
+            @foreach (var row in Model.Items)
+            {
+                <li>
+                    <div>
+                        <a asp-action="NhuCauChiTiet" asp-route-id="@row.NhuCau.Id">@row.MonHoc · @row.HoTen</a>
+                        @if (!string.IsNullOrWhiteSpace(row.NhuCau.MucTieu)) { <p>@row.NhuCau.MucTieu</p> }
+                        <ul class="priority-signals">
+                            @foreach (var flag in row.DauHieu) { <li>@flag</li> }
+                        </ul>
+                    </div>
+                    <strong class="priority-fee">@Rules.Fee(row.NhuCau.HocPhiDuKien, row.NhuCau.DonViHocPhi)</strong>
+                </li>
+            }
+        </ul>
+    }
+    <details class="chart-data">
+        <summary>Cách xác định dấu hiệu</summary>
+        <p>Học phí được đánh dấu khi thấp hơn một nửa hoặc cao hơn gấp đôi trung vị của ít nhất 5 mức phí gia sư công khai cùng môn và đơn vị. Học phí miễn phí được bỏ qua khi so sánh.</p>
+        <p>Dấu hiệu khác gồm nhu cầu có báo cáo chưa xử lý xong hoặc có từ 3 lượt đăng hay mở lại trong 7 ngày. Mỗi trường hợp cần được quản trị xem xét trước khi xử lý.</p>
+    </details>
+</section>

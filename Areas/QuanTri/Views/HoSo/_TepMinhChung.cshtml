@@ -1,0 +1,25 @@
+@model TepDinhKem
+@inject TepService Files
+@{
+    var download = Url.Action("BangCap", "HoSoGiaSu", new { area = "NhuCau", id = Model.Id });
+    var preview = Url.Action("BangCap", "HoSoGiaSu", new { area = "NhuCau", id = Model.Id, xem = true });
+    var available = Model.TrangThaiQuet == "Sach" || (Files.ChoPhepTepChuaQuet && Model.TrangThaiQuet == "ChoQuet");
+}
+<div class="review-evidence">
+    <span>@Model.TenGoc</span>
+    @if (available)
+    {
+        <div class="actions">
+            @if (TepService.XemTrucTiepDuoc(Model.LoaiNoiDung))
+            {
+                <a class="btn btn-outline-primary" href="@preview" data-file-preview="@Model.LoaiNoiDung" data-file-name="@Model.TenGoc"
+                   data-file-download="@download" target="_blank" rel="noopener">Xem minh chứng</a>
+            }
+            <a class="btn btn-outline-primary" href="@download" aria-label="Tải xuống @Model.TenGoc">Tải xuống</a>
+        </div>
+    }
+    else
+    {
+        <small>@(Model.TrangThaiQuet == "ChoQuet" ? "Đang chờ kiểm tra tệp" : "Tệp chưa khả dụng")</small>
+    }
+</div>

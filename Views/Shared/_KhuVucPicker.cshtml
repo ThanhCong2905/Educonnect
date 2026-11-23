@@ -1,9 +1,9 @@
 @model EduConnect.Mvc.ViewModels.KhuVucPickerViewModel
-<div class="area-picker" data-area-picker>
+<div class="area-picker" data-area-picker data-ward-placeholder="@(Model.ChonKhuVuc ? "Chọn phường / xã" : "Tất cả phường / xã")">
     <label>
         Tỉnh / thành phố
         <select class="form-select" name="KhuVuc" data-province required="@Model.BatBuoc">
-            <option value="">@(Model.BatBuoc ? "Chọn tỉnh / thành phố" : "Tất cả tỉnh / thành phố")</option>
+            <option value="">@(Model.BatBuoc || Model.ChonKhuVuc ? "Chọn tỉnh / thành phố" : "Tất cả tỉnh / thành phố")</option>
             @foreach (var area in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.KhuVuc)
             {
                 <option value="@area" selected="@(Model.TinhThanh == area)">@area</option>
@@ -14,7 +14,7 @@
     <label>
         Phường / xã
         <select class="form-select" name="PhuongXa" data-ward disabled="@(string.IsNullOrEmpty(Model.TinhThanh))">
-            <option value="">@(string.IsNullOrEmpty(Model.TinhThanh) ? "Chọn tỉnh / thành phố trước" : "Tất cả phường / xã")</option>
+            <option value="">@(string.IsNullOrEmpty(Model.TinhThanh) ? "Chọn tỉnh / thành phố trước" : Model.ChonKhuVuc ? "Chọn phường / xã" : "Tất cả phường / xã")</option>
             @foreach (var ward in DiaGioiHanhChinh.PhuongXa(Model.TinhThanh))
             {
                 <option value="@ward" selected="@(Model.PhuongXa == ward)">@ward</option>

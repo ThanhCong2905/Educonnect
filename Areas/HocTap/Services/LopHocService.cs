@@ -156,6 +156,8 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         Rules.Check(m.RoiLopLuc == null && (m.TrangThaiDuyet is "ChoDuyet" or "DaDuyet"), "Đề nghị này đã được xử lý.", 409);
         Rules.Check(m.TrangThaiDuyet != "ChoDuyet" || m.DongYThamGiaLuc != null, "Người được mời cần đồng ý trước khi gia sư duyệt.", 409);
         Rules.Concurrency(db, m, version);
+        var oldPermission = m.MucQuyen;
+        var oldSubmission = m.ChoPhepNopBai;
         if (action == "DaDuyet")
         {
             var link = await db.Set<LienKetPhuHuynhHocSinh>().SingleOrDefaultAsync(x => x.Id == m.LienKetId && x.TrangThai == "DaLienKet" && x.KetThucLuc == null)
@@ -174,6 +176,17 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         m.TrangThaiDuyet = action;
         m.MucQuyen = action == "DaDuyet" ? permission : m.MucQuyen;
         if (action == "DaDuyet") m.ChoPhepNopBai = permission == "ChinhSua" && choPhepNopBai;
+        if (action == "DaDuyet" && (oldPermission != m.MucQuyen || oldSubmission != m.ChoPhepNopBai))
+        {
+            var actor = await current.HienTaiAsync();
+            db.Add(new LichSuQuyenThanhVien
+            {
+                Id = Guid.NewGuid(), ThanhVienId = m.Id, NguoiThucHienId = actor.Id,
+                MucQuyenCu = oldPermission, MucQuyenMoi = m.MucQuyen!,
+                ChoPhepNopBaiCu = oldSubmission, ChoPhepNopBaiMoi = m.ChoPhepNopBai,
+                ThayDoiLuc = await GiaoDichNghiepVu.GioMayChuAsync(db)
+            });
+        }
         if (m.DuyetLuc == null) m.DuyetLuc = DateTimeOffset.UtcNow;
         if (action == "DaRoiLop")
             m.RoiLopLuc = DateTimeOffset.UtcNow;
@@ -183,6 +196,21 @@ public sealed partial class LopHocService(AppDbContext db, NguoiDungHienTaiServi
         await tx.CommitAsync();
     }
     private EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService KetNoi => connections;
+
+    public async Task<List<LichSuQuyenViewModel>> LichSuQuyenAsync(Guid member)
+    {
+        var row = await db.Set<ThanhVienLopHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == member)
+            ?? throw new LoiNghiepVu("Không tìm thấy thành viên.", 404);
+        var lop = await rights.KiemTraQuyenXemAsync(row.LopHocId);
+        var me = await current.HienTaiAsync();
+        Rules.Check(me.Id == lop.GiaSuId || me.Id == lop.BenHocId || me.Id == row.TaiKhoanId,
+            "Bạn không có quyền xem lịch sử này.", 403);
+        return await (from history in db.Set<LichSuQuyenThanhVien>().AsNoTracking()
+                      join actor in db.Users on history.NguoiThucHienId equals actor.Id
+                      where history.ThanhVienId == member
+                      orderby history.ThayDoiLuc descending, history.Id descending
+                      select new LichSuQuyenViewModel(history, actor.HoTen)).ToListAsync();
+    }
 
     private Task KhoaThanhVienLopAsync(Guid id)
         => db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}");

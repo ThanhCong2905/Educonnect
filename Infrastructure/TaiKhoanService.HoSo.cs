@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using EduConnect.Mvc.Areas.NhuCau.Services;
+using EduConnect.Mvc.Areas.TimKiem.Services;
 
 namespace EduConnect.Mvc.Infrastructure;
 
@@ -31,12 +32,14 @@ public sealed partial class TaiKhoanService
 
     public async Task<(string Path, string ContentType)> LayAnhCongKhaiAsync(Guid id)
     {
-        Rules.Check(await new HoSoCongKhaiQuery(db).CongKhai().AnyAsync(profile => profile.GiaSuId == id),
-            "Không tìm thấy ảnh đại diện công khai.", 404);
-        return await LayAnhAsync(id);
+        if (await new HoSoCongKhaiQuery(db).CongKhai().AnyAsync(profile => profile.GiaSuId == id) ||
+            await TimKiemService.NhuCauCongKhai(db).AnyAsync(need => need.ChuSoHuuId == id))
+            return await LayAnhCaNhanAsync(id);
+
+        throw new LoiNghiepVu("Không tìm thấy ảnh đại diện công khai.", 404);
     }
 
-    public async Task<(string Path, string ContentType)> LayAnhAsync(Guid id)
+    public async Task<(string Path, string ContentType)> LayAnhCaNhanAsync(Guid id)
     {
         var key = await db.Users.AsNoTracking().Where(x => x.Id == id && x.TrangThai == "HoatDong")
             .Select(x => x.AnhDaiDien).SingleOrDefaultAsync();
@@ -52,6 +55,10 @@ public sealed partial class TaiKhoanService
         string? retired = null;
         try
         {
+            Rules.Check(input.AnhDaiDienFile == null || !input.XoaAnhDaiDien, "Chọn thay ảnh hoặc xóa ảnh hiện tại.", field: nameof(input.AnhDaiDienFile));
+            if (input.AnhDaiDienFile != null)
+                uploaded = await files.LuuAnhDaiDienAsync(input.AnhDaiDienFile);
+
             await using var tx = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
             var user = await TaiKhoanDangNhapAsync(http);
             Rules.Check(user.ConcurrencyStamp == input.ConcurrencyStamp, "Thông tin đã thay đổi. Hãy tải lại trước khi lưu.", 409);
@@ -65,10 +72,8 @@ public sealed partial class TaiKhoanService
             }
             user.HoTen = input.HoTen.Trim();
             user.PhoneNumber = string.IsNullOrWhiteSpace(input.SoDienThoai) ? null : input.SoDienThoai.Trim();
-            Rules.Check(input.AnhDaiDienFile == null || !input.XoaAnhDaiDien, "Chọn thay ảnh hoặc xóa ảnh hiện tại.", field: nameof(input.AnhDaiDienFile));
-            if (input.AnhDaiDienFile != null)
+            if (uploaded != null)
             {
-                uploaded = await files.LuuAnhDaiDienAsync(input.AnhDaiDienFile);
                 retired = user.AnhDaiDien;
                 user.AnhDaiDien = uploaded;
             }

@@ -117,10 +117,9 @@ public sealed class BaiTapController(BaiTapService service, LopHocService classe
         ViewBag.ChamInput = m;
         return m.BaiTapGiaoId == Guid.Empty ? BadRequest(ModelState) : await ChiTiet(m.BaiTapGiaoId);
     }
-    public async Task<IActionResult> Tai(Guid id)
+    public async Task<IActionResult> Tai(Guid id, bool xem = false)
     {
         var (f, path) = await files.TaiAsync(id);
-        Response.Headers.XContentTypeOptions = "nosniff";
-        return PhysicalFile(path, f.LoaiNoiDung, f.TenGoc);
+        return TraTep(f, path, xem);
     }
 }

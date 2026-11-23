@@ -70,6 +70,9 @@ public sealed class LopHocController(LopHocService service, BaiTapService tasks,
         ViewBag.Cancellations = await service.HuyAsync(id);
         return View(lop);
     }
+    [HttpGet]
+    public async Task<IActionResult> LichSuQuyen(Guid member)
+        => View(await service.LichSuQuyenAsync(member));
     [HttpPost]
     public async Task<IActionResult> DeNghi(Guid id, string email)
     {

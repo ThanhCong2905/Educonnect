@@ -81,7 +81,13 @@
     </div>
     @if (Model.SuKien.Count == 0)
     {
-        <p class="week-empty">Tuần này chưa có lịch học.@if (tutor && active) { <span> Chọn Thêm lịch học để xếp buổi.</span> }</p>
+        <div class="week-empty">
+            <p>Tuần này chưa có lịch học.</p>
+            @if (active && Model.NgayBuoiTiepTheo is { } nextDay)
+            {
+                <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@Model.Lop.Id" asp-route-tab="schedule" asp-route-week="@nextDay.ToString("yyyy-MM-dd")">Đến buổi tiếp theo (@nextDay.ToString("dd/MM"))</a>
+            }
+        </div>
     }
     @foreach (var item in Model.SuKien)
     {

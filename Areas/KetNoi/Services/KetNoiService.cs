@@ -164,7 +164,6 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
             TenNguoiHoc = r.TenNguoiHoc ?? need?.TenNguoiHoc ?? learnerName,
             LienHeId = contact,
             NhuCauId = r.NhuCauId,
-            LoiNhan = r.LoiNhan,
             RowVersion = Convert.ToBase64String(r.RowVersion),
             TenLop = r.TenLopDuKien ?? "",
             MonHocId = r.MonHocId ?? need?.MonHocId ?? 1,
@@ -172,7 +171,7 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
             SoBuoiTuan = r.SoBuoiTuan ?? need?.SoBuoiTuan ?? 1,
             ThoiLuongPhut = r.ThoiLuongPhut ?? 90,
             BatDauHocLuc = r.BatDauHocLuc?.ToOffset(TimeSpan.FromHours(7)).DateTime ?? DateTime.Today.AddDays(2),
-            HinhThucHoc = r.HinhThucHoc ?? need?.HinhThucHoc ?? "TrucTuyen",
+            HinhThucHoc = r.HinhThucHoc ?? (need?.HinhThucHoc == "CaHai" ? "" : need?.HinhThucHoc ?? "TrucTuyen"),
             DiaDiem = r.DiaDiem ?? need?.DiaChiChiTiet,
             HocPhi = r.HocPhi ?? need?.HocPhiDuKien ?? 0,
             DonViHocPhi = r.DonViHocPhi ?? need?.DonViHocPhi ?? "VND/Gio",
@@ -198,7 +197,7 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
         var rv = Rules.SqlVersion(m.Id == null ? null : m.RowVersion);
         await using var tx = await db.Database.BeginTransactionAsync(huy);
         await KiemTraLopDangHoatDongAsync(m.LienHeId, huy);
-        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiDeXuatLop @LienHeId={m.LienHeId},@GiaSuId={c.GiaSuId},@TenLop={m.TenLop},@MonHocId={m.MonHocId},@MucTieu={m.MucTieu},@SoBuoiTuan={m.SoBuoiTuan},@ThoiLuongPhut={m.ThoiLuongPhut},@BatDauHocLuc={start},@HinhThucHoc={m.HinhThucHoc},@HocPhi={m.HocPhi},@DonViHocPhi={m.DonViHocPhi},@KhungGioJson={json},@DiaDiem={m.DiaDiem},@NhuCauId={m.NhuCauId},@YeuCauId={m.Id},@RowVersionCu={rv},@NguoiThucHienId={u.Id},@LoiNhan={m.LoiNhan},@TenNguoiHoc={m.TenNguoiHoc}", huy);
+        await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GuiDeXuatLop @LienHeId={m.LienHeId},@GiaSuId={c.GiaSuId},@TenLop={m.TenLop},@MonHocId={m.MonHocId},@MucTieu={m.MucTieu},@SoBuoiTuan={m.SoBuoiTuan},@ThoiLuongPhut={m.ThoiLuongPhut},@BatDauHocLuc={start},@HinhThucHoc={m.HinhThucHoc},@HocPhi={m.HocPhi},@DonViHocPhi={m.DonViHocPhi},@KhungGioJson={json},@DiaDiem={m.DiaDiem},@NhuCauId={m.NhuCauId},@YeuCauId={m.Id},@RowVersionCu={rv},@NguoiThucHienId={u.Id},@TenNguoiHoc={m.TenNguoiHoc}", huy);
         var target = await db.Set<YeuCauKetNoiLopHoc>().Where(x => x.LienHeId == m.LienHeId && x.NguoiDeXuatId == u.Id && (x.TrangThai == "ChoBenHoc" || x.TrangThai == "ChoGiaSu")).OrderByDescending(x => x.DeXuatLuc).Select(x => x.Id).FirstAsync(huy);
         notices.Tao(u.Id == c.GiaSuId ? c.BenHocId : c.GiaSuId, "KetNoi", target, "Có đề xuất lớp mới. Hãy xem lại điều kiện trước khi xác nhận.");
         await db.SaveChangesAsync(huy);

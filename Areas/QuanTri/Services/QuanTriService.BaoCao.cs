@@ -25,6 +25,35 @@ public sealed partial class QuanTriService
         await tx.CommitAsync();
     }
 
+    public async Task PhanHoiNguoiBaoCaoAsync(Guid id, string? text, CancellationToken token)
+    {
+        var actor = await rights.KiemTraAsync("XuLyBaoCao");
+        var message = text?.Trim();
+        Rules.Check(!string.IsNullOrEmpty(message) && message.Length <= 2000, "Phản hồi cần từ 1 đến 2.000 ký tự.");
+        await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, token);
+        await GiaoDichNghiepVu.KiemTraQuyenQuanTriAsync(db, actor, "XuLyBaoCao");
+        var report = await db.Set<BaoCaoViPham>()
+            .FromSqlInterpolated($"SELECT * FROM dbo.BaoCaoViPham WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}")
+            .SingleOrDefaultAsync(token) ?? throw new LoiNghiepVu("Không tìm thấy báo cáo.", 404);
+        Rules.Check(report.NguoiXuLyId == actor && report.TrangThai is ("DangXuLy" or "DaXuLy") &&
+            report.NguoiBaoCaoId != actor && report.NguoiBiBaoCaoId != actor, "Bạn không phụ trách báo cáo này.", 403);
+
+        var now = await GiaoDichNghiepVu.GioMayChuAsync(db);
+        var recent = now.AddMinutes(-1);
+        Rules.Check(!await db.Set<LichSuXuLyBaoCao>().AnyAsync(entry => entry.BaoCaoId == id &&
+            entry.HanhDong == "PhanHoiNguoiBaoCao" && entry.NguoiThucHienId == actor && entry.TaoLuc >= recent, token),
+            "Bạn vừa gửi phản hồi. Hãy đợi một phút trước khi gửi tiếp.", 429);
+        db.Add(new LichSuXuLyBaoCao
+        {
+            BaoCaoId = id, NguoiThucHienId = actor, HanhDong = "PhanHoiNguoiBaoCao",
+            NoiDung = message!, TaoLuc = now
+        });
+        notices.Tao(report.NguoiBaoCaoId, "BaoCao", id, "Quản trị viên đã phản hồi báo cáo của bạn.");
+        rights.GhiNhatKy(actor, "PhanHoiNguoiBaoCao", "BaoCaoViPham", id);
+        await db.SaveChangesAsync(token);
+        await tx.CommitAsync(token);
+    }
+
     public async Task XuLyBaoCaoAsync(XuLyBaoCaoViewModel input)
     {
         Rules.ValidateInput(input);
@@ -87,14 +116,14 @@ public sealed partial class QuanTriService
             realtime.ThuHoiNguoi(userId);
     }
 
-    public async Task<Page<BienPhapQuanTri>> BienPhapAsync(int trang = 1, string? loai = null, bool conHieuLuc = true)
+    public async Task<Page<BienPhapQuanTri>> BienPhapAsync(int trang = 1, string? loai = null, bool conHieuLuc = true, Guid? baoCao = null)
     {
         var accountPermission = await rights.CoQuyenAsync("QuanLyTaiKhoan");
         var reportPermission = await rights.CoQuyenAsync("XuLyBaoCao");
         Rules.Check(accountPermission || reportPermission, "Bạn chưa có quyền xem biện pháp quản trị.", 403);
         Rules.Check(trang is >= 1 and <= 100000 && (loai == null || loai is "TaiKhoan" or "HoSoGiaSu" or "NhuCauHoc" or "TinNhan" or "DanhGiaDoiTac" or "LopHoc"), "Bộ lọc không hợp lệ.");
         var query = db.Set<BienPhapQuanTri>().AsNoTracking().Where(x => (loai == null || x.LoaiDoiTuong == loai) && (!conHieuLuc || x.GoLuc == null)
-            && (reportPermission || (accountPermission && (x.Loai == "KhoaTaiKhoan" || x.Loai == "TamDungLop"))));
+            && (baoCao == null || x.BaoCaoId == baoCao) && (reportPermission || (accountPermission && (x.Loai == "KhoaTaiKhoan" || x.Loai == "TamDungLop"))));
         return new Page<BienPhapQuanTri>
         {
             Trang = trang,
@@ -102,6 +131,28 @@ public sealed partial class QuanTriService
             Total = await query.CountAsync(),
             Items = await query.OrderByDescending(x => x.ApDungLuc).ThenBy(x => x.Id).Skip((trang - 1) * 20).Take(20).ToListAsync()
         };
+    }
+
+    public async Task<IReadOnlyDictionary<Guid, string>> TenDoiTuongBienPhapAsync(IEnumerable<BienPhapQuanTri> measures)
+    {
+        Rules.Check(await rights.CoQuyenAsync("XuLyBaoCao") || await rights.CoQuyenAsync("QuanLyTaiKhoan"),
+            "Bạn chưa có quyền xem biện pháp quản trị.", 403);
+        var grouped = measures.ToLookup(measure => measure.LoaiDoiTuong, measure => measure.DoiTuongId);
+        var accounts = grouped["TaiKhoan"].ToArray();
+        var classes = grouped["LopHoc"].ToArray();
+        var needs = grouped["NhuCauHoc"].ToArray();
+        var profiles = grouped["HoSoGiaSu"].ToArray();
+        var names = await db.Users.AsNoTracking().Where(u => accounts.Contains(u.Id)).ToDictionaryAsync(u => u.Id, u => u.HoTen);
+        foreach (var item in await db.Set<LopHoc>().AsNoTracking().Where(x => classes.Contains(x.Id)).Select(x => new { x.Id, Name = x.TenLop }).ToListAsync())
+            names[item.Id] = item.Name;
+        foreach (var item in await db.Set<NhuCauHoc>().AsNoTracking().Where(x => needs.Contains(x.Id) && x.MucTieu != null).Select(x => new { x.Id, Name = x.MucTieu! }).ToListAsync())
+            names[item.Id] = item.Name;
+        foreach (var item in await (from profile in db.Set<HoSoGiaSu>().AsNoTracking()
+                                   join user in db.Users on profile.GiaSuId equals user.Id
+                                   where profiles.Contains(profile.Id)
+                                   select new { profile.Id, Name = user.HoTen }).ToListAsync())
+            names[item.Id] = item.Name;
+        return names;
     }
 
     public async Task<List<BienPhapQuanTri>> CuaToiAsync()

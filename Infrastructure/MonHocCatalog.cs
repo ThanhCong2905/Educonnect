@@ -5,7 +5,8 @@ namespace EduConnect.Mvc.Infrastructure;
 
 public sealed class MonHocCatalog(AppDbContext db)
 {
-    public static readonly string[] PhoThong = ["Toán Học", "Ngữ Văn", "Tiếng Anh", "Lịch Sử", "Địa Lý", "Sinh học", "Hóa Học", "Vật Lý", "GDCD"];
+    public static readonly string[] PhoThong = ["Toán Học", "Ngữ Văn", "Tiếng Anh", "Tiếng Việt", PhamViMonHoc.KhoaHocTuNhien,
+        "Lịch Sử", "Địa Lý", "Lịch sử và Địa lí", "Sinh học", "Hóa Học", "Vật Lý", "GDCD"];
     public static int ThuTuHienThi(string tenMon)
     {
         if (tenMon.Equals("Tiếng Việt", StringComparison.OrdinalIgnoreCase)) return 1;

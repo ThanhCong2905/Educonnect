@@ -1,7 +1,84 @@
 @model Page<BienPhapQuanTri>
-@{ViewData["Title"]="Biện pháp kiểm duyệt";}
-<h1>Biện pháp kiểm duyệt</h1>
-<form method="get" class="card"><div class="row g-3 align-items-end"><div class="col-md-5"><label>Loại đối tượng<select name="loai" class="form-select"><option value="">Tất cả</option>@foreach(var t in new[]{"TaiKhoan","HoSoGiaSu","NhuCauHoc","TinNhan","DanhGiaDoiTac","LopHoc"}){<option value="@t" selected="@(Context.Request.Query["loai"]==t)">@Rules.Label(t)</option>}</select></label></div><div class="col-md-5"><label>Hiệu lực<select name="conHieuLuc" class="form-select"><option value="true">Đang hiệu lực</option><option value="false" selected="@(Context.Request.Query["conHieuLuc"]=="false")">Toàn bộ</option></select></label></div><div class="col-md-2"><button class="btn btn-primary">Lọc</button></div></div></form>
-@foreach(var b in Model.Items){<article class="card mb-3"><div class="heading"><h2>@Rules.Label(b.LoaiDoiTuong)</h2><span class="badge rounded-pill">@(b.GoLuc==null?"Đang hiệu lực":"Đã gỡ")</span></div><p>@b.LyDo</p><small>@Rules.Date(b.ApDungLuc)</small>@if(b.BaoCaoId!=null){<a class="btn btn-outline-primary" href="/QuanTri/BaoCaoViPham/ChiTiet?maBaoCao=@b.BaoCaoId">Báo cáo liên quan</a>}@if(b.GoLuc==null&&b.NguonBienPhapId==null){<details class="mt-3"><summary>Gỡ biện pháp</summary><form method="post" asp-action="GoBienPhap" class="mt-2"><input name="id" value="@b.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(b.RowVersion)" type="hidden"><label>Lý do <span class="required-mark" aria-hidden="true">*</span><input name="reason" maxlength="2000" class="form-control" required></label><button class="btn btn-outline-primary mt-3">Xác nhận gỡ</button></form></details>}</article>}
-@if(Model.Items.Count==0){<div class="empty">Chưa có biện pháp phù hợp.</div>}
-<partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.Total)"/>
+@inject QuyenQuanTriService Rights
+@{
+    ViewData["Title"] = "Biện pháp kiểm duyệt";
+    var names = ViewData["MeasureSubjects"] as IReadOnlyDictionary<Guid, string>;
+    var relatedReport = Context.Request.Query["baoCao"].ToString();
+    var canViewReports = await Rights.CoQuyenAsync("XuLyBaoCao");
+    var canViewAccounts = await Rights.CoQuyenAsync("QuanLyTaiKhoan");
+}
+<div class="report-page">
+    <h1>Biện pháp kiểm duyệt</h1>
+    <form method="get" class="card report-filters mb-3">
+        @if (relatedReport.Length > 0)
+        {
+            <input name="baoCao" value="@relatedReport" type="hidden">
+            <p class="report-filter-note">Biện pháp của báo cáo đã chọn · <a asp-action="NoiDung">Xem tất cả</a></p>
+        }
+        <label>
+            Loại đối tượng
+            <select name="loai" class="form-select">
+                <option value="">Tất cả</option>
+                @foreach (var type in new[] { "TaiKhoan", "HoSoGiaSu", "NhuCauHoc", "TinNhan", "DanhGiaDoiTac", "LopHoc" })
+                {
+                    <option value="@type" selected="@(Context.Request.Query["loai"] == type)">@Rules.Label(type)</option>
+                }
+            </select>
+        </label>
+        <label>
+            Hiệu lực
+            <select name="conHieuLuc" class="form-select">
+                <option value="true">Đang hiệu lực</option>
+                <option value="false" selected="@(Context.Request.Query["conHieuLuc"] == "false")">Toàn bộ</option>
+            </select>
+        </label>
+        <button class="btn btn-primary">Lọc</button>
+    </form>
+
+    @if (Model.Items.Count == 0) { <p class="empty">Chưa có biện pháp phù hợp.</p> }
+    <div class="report-detail-column">
+        @foreach (var measure in Model.Items)
+        {
+            var subject = names?.GetValueOrDefault(measure.DoiTuongId) ?? $"{Rules.Label(measure.LoaiDoiTuong)} · {measure.DoiTuongId.ToString("N")[..8]}";
+            <article class="card report-panel">
+                <div class="report-meta">
+                    <span>@Rules.Label(measure.Loai)</span>
+                    <time datetime="@measure.ApDungLuc.ToString("O")">@Rules.Date(measure.ApDungLuc)</time>
+                    <span class="badge @(measure.GoLuc == null ? "badge-warning" : "")">@(measure.GoLuc == null ? "Đang hiệu lực" : "Đã gỡ")</span>
+                </div>
+                <h2 class="report-measure-subject">@subject</h2>
+                <p class="pre mb-0">@measure.LyDo</p>
+                <div class="report-queue mt-3">
+                    @if (measure.BaoCaoId is Guid id && canViewReports)
+                    {
+                        <a class="btn btn-outline-primary" asp-controller="BaoCaoViPham" asp-action="ChiTiet" asp-route-maBaoCao="@id">Xem báo cáo</a>
+                    }
+                    @if (measure.LoaiDoiTuong == "TaiKhoan" && canViewAccounts)
+                    {
+                        <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@measure.DoiTuongId">Xem tài khoản</a>
+                    }
+                    @if (measure.LoaiDoiTuong == "NhuCauHoc" && canViewReports)
+                    {
+                        <a class="btn btn-outline-primary" asp-action="NhuCauChiTiet" asp-route-id="@measure.DoiTuongId">Xem nhu cầu</a>
+                    }
+                </div>
+                @if (measure.GoLuc == null && measure.NguonBienPhapId == null && (measure.Loai == "KhoaTaiKhoan" ? canViewAccounts : canViewReports))
+                {
+                    <details class="report-decision">
+                        <summary>Gỡ biện pháp</summary>
+                        <form method="post" asp-action="GoBienPhap" class="mt-3">
+                            <input name="id" value="@measure.Id" type="hidden">
+                            <input name="rowVersion" value="@Convert.ToBase64String(measure.RowVersion)" type="hidden">
+                            <label>
+                                <span>Lý do <span class="required-mark" aria-hidden="true">*</span></span>
+                                <input name="reason" maxlength="2000" class="form-control" required>
+                            </label>
+                            <button class="btn btn-outline-primary">Xác nhận gỡ</button>
+                        </form>
+                    </details>
+                }
+            </article>
+        }
+    </div>
+    <partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang, Model.Total)" />
+</div>

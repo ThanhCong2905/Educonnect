@@ -1,0 +1,9 @@
+@model string
+@{
+    var id = "evidence-tip-" + Guid.NewGuid().ToString("N");
+}
+<div class="evidence-tip mb-2">
+    <button type="button" class="evidence-tip-icon" aria-label="Cách chuẩn bị minh chứng" aria-describedby="@id">!</button>
+    <span>Chuẩn bị minh chứng</span>
+    <span class="evidence-tip-text" id="@id" role="tooltip">@Model</span>
+</div>

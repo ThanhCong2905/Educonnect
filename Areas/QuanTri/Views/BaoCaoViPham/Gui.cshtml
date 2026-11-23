@@ -2,18 +2,32 @@
 @{ViewData["Title"]="Báo cáo vi phạm";}
 <h1>Báo cáo vi phạm</h1>
 <div class="report-workspace">
-<form method="post" enctype="multipart/form-data" class="card report-form">
+    @if (Model.NoiDungGanKem is { } content)
+    {
+        <aside class="card report-context">
+            <h2>Nội dung gửi kèm</h2>
+            <span class="report-target-kind">@Rules.Label(Model.LoaiDoiTuong)</span>
+            <partial name="_NoiDungGanKem" model="content" />
+            @if (content.Tep is { Count: > 0 } files)
+            {
+                <ul class="report-source-files">
+                    @foreach (var file in files) { <li>@file.Ten</li> }
+                </ul>
+            }
+        </aside>
+    }
+<form asp-action="Gui" method="post" enctype="multipart/form-data" class="card report-form">
     <div asp-validation-summary="All" class="validation" role="alert"></div>
     <input asp-for="MaThaoTac" type="hidden"><input asp-for="LoaiDoiTuong" type="hidden"><input asp-for="DoiTuongId" type="hidden">
     <label asp-for="LyDo">Lý do báo cáo <span class="required-mark" aria-hidden="true">*</span></label>
     <input asp-for="LyDo" class="form-control" maxlength="2000" required><span asp-validation-for="LyDo"></span>
     <label asp-for="MoTa" class="mt-3">Mô tả <span class="required-mark" aria-hidden="true">*</span></label>
     <textarea asp-for="MoTa" class="form-control" rows="5" minlength="10" maxlength="4000" required></textarea><span asp-validation-for="MoTa"></span>
-    <label asp-for="Files" class="mt-3">Bằng chứng đính kèm</label>
-    <div data-file-picker><label class="report-upload"><img src="/images/ui/journal-plus.svg" alt=""><span>Thêm ảnh hoặc tệp</span><input asp-for="Files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx"></label><ul data-file-selection></ul></div>
-    <p class="muted mt-2">Tối đa 5 tệp · 10 MB mỗi tệp</p>
+    <details class="report-extra">
+        <summary>Thêm bằng chứng</summary>
+        <div data-file-picker><label class="report-upload"><img src="/images/ui/journal-plus.svg" alt=""><span>Chọn ảnh hoặc tệp</span><input asp-for="Files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx"></label><ul data-file-selection></ul></div>
+        <p class="muted mt-2 mb-0">Tối đa 5 tệp, mỗi tệp không quá 10 MB.</p>
+    </details>
     <div class="form-footer"><a class="btn btn-outline-primary" asp-action="Index" data-page-back>Quay lại</a><button class="btn btn-primary">Gửi báo cáo</button></div>
 </form>
-
-<aside class="report-context"><section class="card"><h2>Nội dung báo cáo</h2><dl class="lesson-facts"><div><dt>Đối tượng</dt><dd>@Rules.Label(Model.LoaiDoiTuong)</dd></div></dl><p class="muted">Báo cáo được gửi riêng cho quản trị xem xét.</p><a class="btn btn-outline-primary" asp-action="Index">Báo cáo của tôi</a></section></aside>
 </div>

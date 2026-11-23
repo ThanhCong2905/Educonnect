@@ -1,5 +1,7 @@
 .account-page {
     --account-primary: #b4235a;
+    --account-pressed: #80183e;
+    --account-hover: #941c49;
     --account-soft: #f58caf;
     --account-border: #efcad8;
     min-height: 100vh;
@@ -11,8 +13,8 @@
     font-family: EduSans, sans-serif;
     font-size: 14px;
 }
-.account-page a { color: var(--account-primary); text-decoration: none; }
-.account-page a:hover { color: #951647; }
+.account-page a:not(.btn) { color: var(--account-primary); text-decoration: none; }
+.account-page a:not(.btn):hover { color: #951647; }
 .account-page :focus-visible { outline: 3px solid #b91e59; outline-offset: 3px; }
 .account-header {
     min-height: 72px;
@@ -33,10 +35,11 @@
     border: 1px solid var(--account-border);
     border-radius: 8px;
     font-weight: 600;
-    color: #2d3748;
+    color: var(--account-primary);
 }
 .account-nav a[aria-current="page"] { background: var(--account-primary); border-color: var(--account-primary); color: #fff; }
-.account-nav a:hover { background: #fce9f0; color: #2d3748; }
+.account-nav a:hover { background: #fceef3; color: var(--account-hover); }
+.account-nav a[aria-current="page"]:hover { background: var(--account-hover); color: #fff; }
 .account-container {
     flex: 1;
     display: flex;
@@ -84,38 +87,57 @@
     border: 0;
     border-radius: 6px;
     background: transparent;
-    color: #626c7e;
+    color: var(--account-primary);
     font: inherit;
     font-size: 12px;
     font-weight: 600;
 }
-.password-toggle:hover { color: var(--account-primary); background: #fff3f7; }
+.password-toggle:hover, .password-toggle:focus-visible { color: var(--account-hover); background: #fceef3; }
+.password-toggle:active { color: var(--account-pressed); background: #f7dce8; }
 .required-mark { color: #b42318; }
 .account-card .text-danger { display: block; margin-top: 6px; color: #b42318 !important; font-size: 13px; }
 .account-card .field-validation-valid, .validation-summary-valid { display: none; }
-.account-errors { margin: 20px 0; padding: 12px 14px; color: #97271f; background: #fff4f2; border: 1px solid #f1c5bf; border-radius: 8px; }
-.account-errors ul { padding-left: 18px; margin: 0; }
+.account-errors { margin: 20px 0; padding: 12px 14px; color: #97271f; background: #fff7f6; border: 1px solid #efd8d5; border-radius: 8px; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.account-errors ul { list-style: none; padding: 0; margin: 0; }
+.account-errors li + li { margin-top: 6px; }
 .account-forgot { text-align: right; margin: 16px 0 24px; }
 .account-submit {
     min-height: 46px;
     margin-top: 24px;
-    border: 1px solid var(--account-primary);
     border-radius: 8px;
-    background: var(--account-primary);
-    color: #fff;
     font-size: 15px;
     font-weight: 700;
 }
 .account-forgot + .account-submit { margin-top: 0; }
-.account-submit:hover, .account-submit:focus-visible, .account-submit:active {
-    background: #951c4a !important;
-    border-color: #951c4a !important;
-    color: #fff !important;
+.account-card .btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--account-primary);
+    --bs-btn-border-color: var(--account-primary);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--account-hover);
+    --bs-btn-hover-border-color: var(--account-hover);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--account-pressed);
+    --bs-btn-active-border-color: var(--account-pressed);
+    --bs-btn-focus-shadow-rgb: 180,35,90;
 }
-.account-card .btn-primary { --bs-btn-bg: var(--account-primary); --bs-btn-border-color: var(--account-primary); --bs-btn-color: #fff; --bs-btn-hover-bg: #951c4a; --bs-btn-hover-border-color: #951c4a; --bs-btn-hover-color: #fff; color: #fff; }
+.account-card .btn-outline-primary {
+    --bs-btn-color: var(--account-primary);
+    --bs-btn-border-color: var(--account-border);
+    --bs-btn-hover-color: var(--account-hover);
+    --bs-btn-hover-bg: #fceef3;
+    --bs-btn-hover-border-color: var(--account-primary);
+    --bs-btn-active-color: var(--account-pressed);
+    --bs-btn-active-bg: #f7dce8;
+    --bs-btn-active-border-color: var(--account-primary);
+    --bs-btn-focus-shadow-rgb: 180,35,90;
+}
 .account-card .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 .account-footer { text-align: center; margin: 28px 0 0; }
 .account-footer a { font-weight: 600; }
+.verification-status { display: inline-block; padding: 5px 11px; border-radius: 20px; background: #fff3dd; color: #754711; font-size: 14px; font-weight: 600; }
+.verification-status.verified { background: #e8f3eb; color: #236447; }
+.account-card [data-verification-resend] button:disabled { background: #faf1f5; color: #79596a; border-color: #ecd5df; opacity: 1; }
 .account-roles { padding: 0; margin: 0 0 18px; border: 0; }
 .account-roles legend { float: none; width: auto; margin: 0 0 8px; font-size: 14px; font-weight: 500; }
 .account-role-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }

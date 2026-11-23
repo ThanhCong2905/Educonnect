@@ -1,9 +1,18 @@
 (() => {
-  const ui = window.EduConnect;
+  const ui = window.EduConnect = window.EduConnect || {};
   const back = document.querySelector('[data-page-back]');
   const backLabels = /^(Quay lại|Về lớp học|Về quản lý hồ sơ|Về lớp học của tôi|← Buổi học|← Bài tập của lớp|← Danh sách buổi học)$/;
   let leaving = false;
   let pending;
+  if (typeof history.state?.eduCanGoBack !== 'boolean') {
+    let canGoBack = false;
+    try {
+      const source = new URL(document.referrer);
+      canGoBack = source.origin === location.origin && source.href !== location.href && history.length > 1
+        && !/\/TaiKhoan\/(DangNhap|DangXuat|DangKy|QuenMatKhau|DatLaiMatKhau|Anh)(\/|$)/i.test(source.pathname);
+    } catch { }
+    history.replaceState({ ...history.state, eduCanGoBack: canGoBack }, '', location.href);
+  }
   ui.confirmPageLeave = () => {
     if (pending) return pending;
     const previous = document.activeElement;
@@ -30,20 +39,24 @@
     const local = [...document.querySelectorAll('main a[href]')].find(a => !a.closest('.modal') && backLabels.test(a.textContent.trim()));
     if (local) {
       const url = new URL(local.href, location.href);
-      if (url.origin === location.origin) { back.href = url.href; local.hidden = true; }
-    } else if (back.dataset.parentPage !== 'true' && document.referrer) {
-      const referrer = new URL(document.referrer);
-      if (referrer.origin === location.origin && referrer.href !== location.href
-          && !/\/TaiKhoan\/(DangNhap|DangXuat|DangKy|QuenMatKhau|DatLaiMatKhau|Anh)(\/|$)/i.test(referrer.pathname))
-        back.href = referrer.href;
+      if (url.origin === location.origin && url.href !== location.href) { back.href = url.href; local.hidden = true; }
     }
   }
   document.addEventListener('DOMContentLoaded', configureBack);
   document.addEventListener('click', async event => {
     const link = event.target.closest('a[href]');
-    if (!link || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || link.target === '_blank' || link.hasAttribute('download')) return;
+    if (!link || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || link.target === '_blank' || link.hasAttribute('download')) return;
     if (link.closest('.modal') && backLabels.test(link.textContent.trim())) {
       event.preventDefault(); bootstrap.Modal.getInstance(link.closest('.modal'))?.hide(); return;
+    }
+    if (link === back) {
+      event.preventDefault();
+      if (leaving) return;
+      if (ui.hasUnsavedChanges?.() && !await ui.confirmPageLeave()) return;
+      leaving = true;
+      if (back.dataset.pageBackDirect !== 'true' && history.state?.eduCanGoBack === true && history.length > 1) history.back();
+      else location.replace(link.href);
+      return;
     }
     if (link.hasAttribute('data-modal') || link.getAttribute('href').startsWith('#') || !ui.hasUnsavedChanges?.()) return;
     event.preventDefault();
@@ -65,6 +78,7 @@
     }
   }, true);
   window.addEventListener('pageshow', () => { leaving = false; });
+  window.addEventListener('popstate', () => { leaving = false; });
   window.addEventListener('beforeunload', event => {
     if (!leaving && ui.hasUnsavedChanges?.()) { event.preventDefault(); event.returnValue = ''; }
   });

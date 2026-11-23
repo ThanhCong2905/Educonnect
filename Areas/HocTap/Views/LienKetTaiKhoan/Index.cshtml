@@ -5,7 +5,7 @@
 @if (me.LoaiNguoi is "PhuHuynh" or "HocSinh")
 {
     var receiverLabel = me.LoaiNguoi == "PhuHuynh" ? "học sinh" : "phụ huynh";
-    <form method="post" asp-action="GuiDeNghi" class="card">
+    <form method="post" asp-action="GuiDeNghi" class="card mb-3">
         <h2>Liên kết với @receiverLabel</h2>
         <label>Email @receiverLabel <span class="required-mark">*</span><input class="form-control" type="email" name="email" required maxlength="256" autocomplete="off"></label>
         <div class="actions"><button class="btn btn-primary">Gửi đề nghị</button></div>

@@ -1,0 +1,39 @@
+@model List<KetQuaTimQuanTri>
+@{
+    ViewData["Title"] = "Tìm kiếm nhanh";
+    var keyword = ViewData["TuKhoa"] as string;
+}
+<div class="heading admin-heading"><h1>Tìm kiếm nhanh</h1><a class="btn btn-outline-primary" asp-action="Index">Về tổng quan</a></div>
+<div asp-validation-summary="All" class="validation" role="alert"></div>
+@if (ViewData.ModelState.IsValid)
+{
+    @if (Model.Count == 0) { <p class="empty">Không tìm thấy kết quả cho “@keyword”.</p> }
+    else
+    {
+        <div class="admin-panels">
+            @foreach (var group in Model.GroupBy(item => item.Loai))
+            {
+                <section class="card admin-panel">
+                    <h2>@group.Key</h2>
+                    <ul class="admin-events">
+                        @foreach (var item in group)
+                        {
+                            var next = item.Loai switch
+                            {
+                                "Hồ sơ gia sư" => Url.Action("ChiTiet", "HoSo", new { item.Id }),
+                                "Tài khoản" => Url.Action("ChiTiet", "QuanTri", new { item.Id }),
+                                "Báo cáo" => Url.Action("ChiTiet", "BaoCaoViPham", new { maBaoCao = item.Id }),
+                                _ => null
+                            };
+                            <li>
+                                @if (next == null) { <strong>@item.TieuDe</strong> }
+                                else { <a href="@next">@item.TieuDe</a> }
+                                <span class="admin-state" data-state="@item.TrangThai">@Rules.Label(item.TrangThai)</span>
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+        </div>
+    }
+}

@@ -1,19 +1,14 @@
 @model List<UngVienViewModel>
 @{ ViewData["Title"] = "Kết nối gia sư và người học"; }
-<section class="guest-intro">
-    <div>
-        <h1>Tìm gia sư phù hợp với việc học của bạn</h1>
-        <p>Xem môn dạy, kinh nghiệm và học phí. Trao đổi với gia sư trước khi thống nhất lớp học.</p>
-        <div class="actions">
-            <a class="btn btn-primary" href="/TimKiem/TimKiem/GiaSu">Tìm gia sư</a>
-            <a class="btn btn-outline-primary" href="/TaiKhoan/DangKy">Tạo tài khoản</a>
-        </div>
+<section class="study-hero">
+    <div class="study-hero-content">
+        <h1>Tìm kiếm</h1>
+        <form asp-area="TimKiem" asp-controller="TimKiem" asp-action="GiaSu" method="get" class="searchbox">
+            <input type="search" class="form-control" name="TuKhoa" maxlength="100" aria-label="Từ khóa tìm kiếm" placeholder="Tên gia sư hoặc môn học">
+            <button class="btn btn-primary">Tìm kiếm</button>
+        </form>
     </div>
-    <aside class="card">
-        <h2>Bạn là gia sư?</h2>
-        <p>Xem môn học, mục tiêu và lịch học mong muốn của Học sinh, Phụ huynh.</p>
-        <a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Tìm nhu cầu học</a>
-    </aside>
+    <img src="~/images/home-study.webp" asp-append-version="true" width="1080" height="720" alt="" fetchpriority="high">
 </section>
 <section aria-labelledby="public-needs-title">
     <div class="heading"><h2 id="public-needs-title">Nhu cầu học đang mở</h2><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/NhuCau">Xem danh sách</a></div>

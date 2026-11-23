@@ -39,7 +39,7 @@ public sealed class NeedModerationTests
     }
 
     private static TaoNhuCauBenHocViewModel Input(string goal = "Ôn tập", decimal fee = 20000)
-        => new() { MonHocIds = [1, 2], MucTieu = goal, KhoiLop = "Lớp 12", HocLuc = "Khá", SoBuoiTuan = 1, HocPhiDuKien = fee, DonViHocPhi = "VND/Gio" };
+        => new() { MonHocIds = [1, 2], MucTieu = goal, KhoiLop = "Lớp 12", SoBuoiTuan = 1, HocPhiDuKien = fee, DonViHocPhi = "VND/Gio" };
 
     [Theory]
     [InlineData(0)]

@@ -39,12 +39,17 @@ window.EduConnect.init = (root) => {
     });
   }
   function modes() {
-    const mode = $('[data-mode]');
-    if (mode) $$('[data-inperson]').forEach(row => row.hidden = mode.value !== 'TrucTiep');
-    if(mode){const form=mode.closest('form');const location=form.querySelector('[name="DiaDiem"]')||(form.querySelector('.subject-picker')?form.querySelector('[name="KhuVuc"]'):null);if(location)location.required=mode.value==='TrucTiep';window.EduConnect.markRequired?.(form);}
+    const mode = $('select[data-mode]');
+    if (!mode) return;
+    const hasInPerson = mode.value === 'TrucTiep' || mode.value === 'CaHai';
+    $$('[data-inperson]').forEach(group => { group.hidden = !hasInPerson; });
+    const form = mode.form;
+    const location = form?.querySelector('[data-inperson] [name="KhuVuc"], [name="DiaDiem"]');
+    if (location) location.required = hasInPerson;
+    if (form) window.EduConnect.markRequired?.(form);
   }
   modes();
-  $('[data-mode]')?.addEventListener('change', modes);
+  $('select[data-mode]')?.addEventListener('change', modes);
   $$('[name="KetQuaBuoiHoc"]').forEach(select=>{const form=select.closest('form'),input=form.querySelector('[name="NoiDung"]');if(!input)return;const update=()=>{input.required=select.value==='DaDienRa';window.EduConnect.markRequired?.(form);};select.addEventListener('change',update);update();});
   $$('a[data-page]').forEach(link => {
     const url = new URL(link.href);
@@ -90,6 +95,7 @@ window.EduConnect.init = (root) => {
   window.EduConnect.initClassCalendar?.(root);
   window.EduConnect.initFilePickers?.(root);
   window.EduConnect.markRequired?.(root);
+  window.EduConnect.initSubjectScope?.(root);
   window.EduConnect.rememberForms?.(root);
 };
 window.EduConnect.init();

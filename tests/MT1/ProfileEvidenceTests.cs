@@ -14,8 +14,6 @@ public sealed class ProfileEvidenceTests
     [InlineData(false, "Chưa có", false, "TepTrinhDo")]
     [InlineData(false, "1–3 năm", false, "TepTrinhDo")]
     [InlineData(true, "1–3 năm", false, "TepKinhNghiem")]
-    [InlineData(true, "Chưa có", false, "MonDay[0].TepMinhChung")]
-    [InlineData(true, "1–3 năm", true, "MonDay[0].TepMinhChung")]
     public async Task Save_reports_missing_evidence_before_writing_files(
         bool hasDegree, string experience, bool hasExperience, string expectedField)
     {

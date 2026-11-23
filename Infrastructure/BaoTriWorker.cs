@@ -35,7 +35,20 @@ public sealed partial class BaoTriWorker(IServiceScopeFactory scopes, ILogger<Ba
     {
         using var scope = scopes.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await db.Database.ExecuteSqlRawAsync("UPDATE dbo.YeuCauKetNoiLopHoc SET TrangThai='HetHan' WHERE TrangThai IN ('ChoGiaSu','ChoBenHoc') AND HetHanLuc<=SYSDATETIMEOFFSET()", huy);
+        var notices = scope.ServiceProvider.GetRequiredService<ThongBaoService>();
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
+        var now = await GiaoDichNghiepVu.GioMayChuAsync(db, huy);
+        var requests = await db.Set<YeuCauKetNoiLopHoc>()
+            .FromSqlInterpolated($"SELECT TOP (200) * FROM dbo.YeuCauKetNoiLopHoc WITH (UPDLOCK,READPAST,ROWLOCK) WHERE TrangThai IN ('ChoGiaSu','ChoBenHoc') AND HetHanLuc<={now} ORDER BY HetHanLuc,Id")
+            .ToListAsync(huy);
+        foreach (var request in requests)
+        {
+            request.TrangThai = "HetHan";
+            foreach (var recipient in new[] { request.GiaSuId, request.BenHocId })
+                notices.Tao(recipient, "KetNoi", request.Id, "Yêu cầu kết nối đã hết hạn sau 72 giờ không có phản hồi.");
+        }
+        await db.SaveChangesAsync(huy);
+        await tx.CommitAsync(huy);
     }
 
     private async Task XuLyNhacHocTapAsync(CancellationToken huy)

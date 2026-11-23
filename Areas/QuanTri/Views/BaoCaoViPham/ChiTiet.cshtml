@@ -1,25 +1,275 @@
 @model BaoCaoChiTietViewModel
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Chi tiết báo cáo";var r=Model.BaoCao;var me=await Current.HienTaiAsync();var input=ViewBag.XuLy as XuLyBaoCaoViewModel;}
-<div class="heading"><h1>Chi tiết báo cáo</h1><span class="badge rounded-pill">@Rules.Label(r.TrangThai)</span></div>
-<section class="card"><small>Gửi @Rules.Date(r.GuiLuc)</small><h2>@r.LyDo</h2><p class="pre">@r.MoTa</p>
-    <h3>Bằng chứng</h3>@foreach(var f in Model.Tep){<a asp-action="Tep" asp-route-id="@f.Id">@f.TenGoc</a>}@if(Model.Tep.Count==0){<p class="muted">Chưa đính kèm tệp.</p>}
-    @if(Model.CoTheXuLy){<details class="mt-3"><summary>Nội dung tại thời điểm báo cáo</summary><pre class="text-wrap">@r.BanChup</pre></details>}
-</section>
-@if(r.KetLuan!=null){<section class="card"><h2>Kết quả đã ghi nhận</h2><strong>@Rules.Label(r.KetQua)</strong><p class="pre">@r.KetLuan</p><small>@Rules.Date(r.XuLyLuc)</small></section>}
-@if(Model.CoTheXuLy&&r.TrangThai=="ChoXuLy"){<form method="post" asp-action="NhanXuLy" class="actions mb-4"><input name="id" value="@r.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><button class="btn btn-primary">Nhận xử lý</button></form>}
-@if(Model.CoTheXuLy&&r.TrangThai=="DangXuLy"&&r.NguoiXuLyId==me.Id)
-{
-    <form method="post" asp-action="XuLy" class="card"><h2>Kết luận xử lý</h2><div asp-validation-summary="All" class="validation" role="alert"></div>
-        <input name="Id" value="@r.Id" type="hidden"><input name="RowVersion" value="@(input?.RowVersion??Convert.ToBase64String(r.RowVersion))" type="hidden">
-        <label>Kết quả <span class="required-mark" aria-hidden="true">*</span><select name="KetQua" class="form-select"><option value="XuLy" selected="@(input?.KetQua!="BacBo")">Xử lý</option><option value="BacBo" selected="@(input?.KetQua=="BacBo")">Bác bỏ do chưa đủ căn cứ</option></select></label>
-        <label class="mt-3">Biện pháp khi xử lý<select name="BienPhap" class="form-select"><option value="NhacNho">Nhắc nhở</option><option value="AnNoiDung" selected="@(input?.BienPhap=="AnNoiDung")">Ẩn nội dung vi phạm</option><option value="KhoaTaiKhoan" selected="@(input?.BienPhap=="KhoaTaiKhoan")">Khóa tài khoản liên quan</option></select></label>
-        <label class="mt-3">Kết luận <span class="required-mark" aria-hidden="true">*</span><textarea name="KetLuan" maxlength="2000" rows="5" class="form-control" required>@input?.KetLuan</textarea></label>
-        <button class="btn btn-primary align-self-start mt-3">Lưu kết quả</button>
-    </form>
+@inject QuyenQuanTriService Rights
+@{
+    ViewData["Title"] = "Chi tiết báo cáo";
+    ViewData["ReportListIsAdmin"] = Model.CoTheXuLy;
+    var report = Model.BaoCao;
+    var me = await Current.HienTaiAsync();
+    var input = ViewBag.XuLy as XuLyBaoCaoViewModel;
+    var canTake = Model.CoTheXuLy && report.TrangThai == "ChoXuLy";
+    var canResolve = Model.CoTheXuLy && report.TrangThai == "DangXuLy" && report.NguoiXuLyId == me.Id;
+    var canSupplement = report.NguoiBaoCaoId == me.Id;
+    var closed = report.TrangThai == "DaXuLy";
+    var back = ViewData["ReportListUrl"] as string;
+    var replyError = ViewData["ReplyError"] as string;
+    var canManageAccounts = Model.CoTheXuLy && await Rights.CoQuyenAsync("QuanLyTaiKhoan");
+    var canHide = report.LoaiDoiTuong is "HoSoGiaSu" or "NhuCauHoc" or "TinNhan" or "DanhGiaDoiTac";
+    var canReply = Model.CoTheXuLy && report.NguoiXuLyId == me.Id &&
+        report.TrangThai is ("DangXuLy" or "DaXuLy") && report.NguoiBaoCaoId != me.Id && report.NguoiBiBaoCaoId != me.Id;
+    var related = new (string Label, Guid? Id)[] { ("Người báo cáo", report.NguoiBaoCaoId),
+        ("Người bị báo cáo", report.NguoiBiBaoCaoId), ("Quản trị viên phụ trách", report.NguoiXuLyId) };
 }
-@if(r.NguoiBaoCaoId==me.Id)
-{
-    <details class="card"><summary>@(r.TrangThai=="DaXuLy"?"Đề nghị xem lại kết quả":"Bổ sung thông tin")</summary><form method="post" asp-action="BoSung" class="mt-3"><input name="id" value="@r.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(r.RowVersion)" type="hidden"><input name="xemLai" value="@((r.TrangThai=="DaXuLy").ToString().ToLowerInvariant())" type="hidden"><label>Nội dung <span class="required-mark" aria-hidden="true">*</span><textarea name="text" maxlength="2000" rows="4" required class="form-control"></textarea></label><button class="btn btn-outline-primary mt-3">Gửi bổ sung</button></form></details>
-}
-<section class="card"><h2>Lịch sử xử lý</h2>@foreach(var h in Model.LichSu){<div class="border-top py-3"><small>@Rules.Date(h.TaoLuc)</small><strong class="d-block">@Rules.Label(h.HanhDong)</strong><p class="pre">@h.NoiDung</p></div>}@if(Model.LichSu.Count==0){<p class="muted">Báo cáo đang chờ tiếp nhận.</p>}</section>
+
+<div class="report-page">
+    <div class="report-title">
+        <h1>Chi tiết báo cáo</h1>
+        <span class="badge report-state" data-state="@report.TrangThai">@Rules.Label(report.TrangThai)</span>
+    </div>
+    <div class="report-detail-grid">
+        <div class="report-detail-column">
+            <section class="card report-panel">
+                <h2>Nội dung báo cáo</h2>
+                <h3 class="report-reason">@report.LyDo</h3>
+                <p class="pre mb-0">@report.MoTa</p>
+                @if (Model.Tep.Count > 0)
+                {
+                    <div class="report-evidence">
+                        <h3>Bằng chứng đính kèm (@Model.Tep.Count)</h3>
+                        @foreach (var file in Model.Tep)
+                        {
+                            <partial name="_TepLienKet" model='new EduConnect.Mvc.ViewModels.TepLienKetViewModel(file, "Tep")' />
+                        }
+                    </div>
+                }
+            </section>
+
+            @if (Model.CoTheXuLy)
+            {
+                <section class="card report-panel">
+                    <h2>Nội dung lúc báo cáo</h2>
+                    @if (Model.NoiDungGanKem is { } content)
+                    {
+                        <partial name="_NoiDungGanKem" model="content" />
+                        @if (content.Tep is { Count: > 0 } files)
+                        {
+                            <div class="report-evidence">
+                                <h3>Tệp trong tin nhắn (@files.Count)</h3>
+                                <div class="report-file-links">
+                                    @foreach (var file in files)
+                                    {
+                                        <a class="btn btn-outline-primary" asp-action="TepTinNhan" asp-route-maBaoCao="@report.Id" asp-route-id="@file.Id"
+                                           asp-route-xem="true" target="_blank" rel="noopener">@file.Ten</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        var snapshot = report.BanChup.Trim();
+                        if (snapshot.Length > 0 && snapshot[0] is not ('{' or '['))
+                        {
+                            <p class="pre mb-0">@snapshot</p>
+                        }
+                        else
+                        {
+                            <p class="muted mb-0">Không có nội dung gốc để xem.</p>
+                        }
+                    }
+                </section>
+            }
+
+            <section class="card report-panel">
+                <h2>Lịch sử xử lý</h2>
+                <ol class="report-timeline">
+                    <li>
+                        <div class="report-event">
+                            <strong>Gửi báo cáo</strong>
+                            <time datetime="@report.GuiLuc.ToString("O")">@Rules.Date(report.GuiLuc)</time>
+                        </div>
+                    </li>
+                    @foreach (var entry in Model.LichSu)
+                    {
+                        var action = Rules.Label(entry.HanhDong);
+                        <li>
+                            @if (entry.HanhDong is "NhanXuLy" or "TiepNhan" || string.IsNullOrWhiteSpace(entry.NoiDung))
+                            {
+                                <div class="report-event">
+                                    <strong>@action</strong>
+                                    <time datetime="@entry.TaoLuc.ToString("O")">@Rules.Date(entry.TaoLuc)</time>
+                                </div>
+                            }
+                            else if (entry.HanhDong == "PhanHoiNguoiBaoCao")
+                            {
+                                <div class="report-event">
+                                    <strong>@action</strong>
+                                    <time datetime="@entry.TaoLuc.ToString("O")">@Rules.Date(entry.TaoLuc)</time>
+                                </div>
+                                <p class="pre report-reply-text">@entry.NoiDung</p>
+                            }
+                            else
+                            {
+                                <details>
+                                    <summary class="report-event">
+                                        <strong>@action</strong>
+                                        <time datetime="@entry.TaoLuc.ToString("O")">@Rules.Date(entry.TaoLuc)</time>
+                                    </summary>
+                                    <p class="pre">@entry.NoiDung</p>
+                                </details>
+                            }
+                        </li>
+                    }
+                </ol>
+            </section>
+        </div>
+
+        <aside class="report-detail-column" aria-label="Tình trạng và thao tác">
+            <section class="card report-panel">
+                <h2>Thông tin báo cáo</h2>
+                <dl class="report-facts">
+                    <dt>Loại nội dung</dt><dd>@Rules.Label(report.LoaiDoiTuong)</dd>
+                    <dt>Mã báo cáo</dt><dd class="report-reference">@report.Id</dd>
+                    @if (Model.CoTheXuLy)
+                    {
+                        foreach (var person in related)
+                        {
+                            var account = person.Id is Guid id ? Model.TaiKhoan.GetValueOrDefault(id) : null;
+                            <dt>@person.Label</dt>
+                            <dd>
+                                @if (account != null && canManageAccounts)
+                                {
+                                    <a class="report-account-link" asp-controller="QuanTri" asp-action="ChiTiet" asp-route-id="@account.Id">@account.HoTen</a>
+                                }
+                                else
+                                {
+                                    @(account?.HoTen ?? (person.Label == "Quản trị viên phụ trách" ? "Chưa tiếp nhận" : "Chưa xác định"))
+                                }
+                            </dd>
+                        }
+                    }
+                    <dt>Ngày gửi</dt><dd><time datetime="@report.GuiLuc.ToString("O")">@Rules.Date(report.GuiLuc)</time></dd>
+                    @if (report.XuLyLuc is { } resolvedAt)
+                    {
+                        <dt>Ngày xử lý</dt><dd><time datetime="@resolvedAt.ToString("O")">@Rules.Date(resolvedAt)</time></dd>
+                    }
+                </dl>
+                @if (Model.CoTheXuLy)
+                {
+                    <div class="report-queue report-decision">
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-route-quanTri="true" asp-route-nguoiGui="@report.NguoiBaoCaoId">
+                            Báo cáo của người này (@Model.SoBaoCaoCuaNguoiGui)
+                        </a>
+                        @if (report.LoaiDoiTuong == "NhuCauHoc")
+                        {
+                            <a class="btn btn-outline-primary" asp-controller="QuanTri" asp-action="NhuCauChiTiet" asp-route-id="@report.DoiTuongId">Xem nhu cầu hiện tại</a>
+                        }
+                    </div>
+                }
+                @if (report.KetLuan is { } conclusion)
+                {
+                    <div class="report-outcome">
+                        <h3>@(closed ? "Kết quả xử lý" : "Kết quả trước đó")</h3>
+                        <strong>@Rules.Label(report.KetQua)</strong>
+                        <p class="pre mb-0">@conclusion</p>
+                    </div>
+                }
+                @if (canTake)
+                {
+                    <form method="post" asp-action="NhanXuLy" asp-route-quayLai="@back" class="report-decision">
+                        <input name="id" value="@report.Id" type="hidden">
+                        <input name="rowVersion" value="@Convert.ToBase64String(report.RowVersion)" type="hidden">
+                        <button class="btn btn-primary">Nhận xử lý</button>
+                    </form>
+                }
+                else if (Model.CoTheXuLy && report.TrangThai == "DangXuLy" && !canResolve)
+                {
+                    <p class="muted mb-0">Báo cáo do quản trị viên khác phụ trách.</p>
+                }
+            </section>
+
+            @if (canResolve)
+            {
+                <form method="post" asp-action="XuLy" asp-route-quayLai="@back" class="card report-panel" data-admin-report-result>
+                    <h2>Kết luận xử lý</h2>
+                    <div asp-validation-summary="All" class="validation" role="alert"></div>
+                    <input name="Id" value="@report.Id" type="hidden">
+                    <input name="RowVersion" value="@(input?.RowVersion ?? Convert.ToBase64String(report.RowVersion))" type="hidden">
+                    <label>
+                        <span>Kết quả <span class="required-mark" aria-hidden="true">*</span></span>
+                        <select name="KetQua" class="form-select">
+                            <option value="XuLy" selected="@(input?.KetQua != "BacBo")">Xử lý</option>
+                            <option value="BacBo" selected="@(input?.KetQua == "BacBo")">Bác bỏ do chưa đủ căn cứ</option>
+                        </select>
+                    </label>
+                    <label data-admin-report-measure hidden="@(input?.KetQua == "BacBo")">
+                        Biện pháp khi xử lý
+                        <select name="BienPhap" class="form-select" disabled="@(input?.KetQua == "BacBo")">
+                            <option value="NhacNho">Nhắc nhở</option>
+                            @if (canHide)
+                            {
+                                <option value="AnNoiDung" selected="@(input?.BienPhap == "AnNoiDung")">Ẩn nội dung vi phạm</option>
+                            }
+                            @if (canManageAccounts && report.NguoiBiBaoCaoId.HasValue)
+                            {
+                                <option value="KhoaTaiKhoan" selected="@(input?.BienPhap == "KhoaTaiKhoan")">Khóa tài khoản bị báo cáo</option>
+                            }
+                        </select>
+                    </label>
+                    <label>
+                        <span>Kết luận <span class="required-mark" aria-hidden="true">*</span></span>
+                        <textarea name="KetLuan" maxlength="2000" rows="5" class="form-control" required>@input?.KetLuan</textarea>
+                    </label>
+                    <button class="btn btn-primary">Lưu kết quả</button>
+                </form>
+            }
+
+            @if (Model.BienPhap.Count > 0)
+            {
+                <section class="card report-panel">
+                    <h2>Biện pháp đã áp dụng</h2>
+                    <ul class="report-measures">
+                        @foreach (var measure in Model.BienPhap)
+                        {
+                            <li><strong>@Rules.Label(measure.Loai)</strong><small>@(measure.GoLuc == null ? "Đang hiệu lực" : "Đã gỡ")</small></li>
+                        }
+                    </ul>
+                    <a class="btn btn-outline-primary mt-3" asp-controller="QuanTri" asp-action="NoiDung" asp-route-baoCao="@report.Id" asp-route-conHieuLuc="false">Xem biện pháp</a>
+                </section>
+            }
+
+            @if (canReply)
+            {
+                <details class="card report-panel" open="@(replyError != null)">
+                    <summary>Phản hồi người báo cáo</summary>
+                    <form method="post" asp-action="PhanHoi" asp-route-quayLai="@back" class="mt-3">
+                        <input name="id" value="@report.Id" type="hidden">
+                        <label>
+                            <span>Nội dung phản hồi <span class="required-mark" aria-hidden="true">*</span></span>
+                            <textarea name="text" maxlength="2000" rows="4" class="form-control" required>@(ViewData["ReplyText"] as string)</textarea>
+                        </label>
+                        @if (replyError != null) { <p class="validation" role="alert">@replyError</p> }
+                        <button class="btn btn-outline-primary">Gửi phản hồi</button>
+                    </form>
+                </details>
+            }
+
+            @if (canSupplement)
+            {
+                <details class="card report-panel">
+                    <summary>@(closed ? "Đề nghị xem lại kết quả" : "Bổ sung thông tin")</summary>
+                    <form method="post" asp-action="BoSung" asp-route-quayLai="@back" class="mt-3">
+                        <input name="id" value="@report.Id" type="hidden">
+                        <input name="rowVersion" value="@Convert.ToBase64String(report.RowVersion)" type="hidden">
+                        <input name="xemLai" value="@closed.ToString().ToLowerInvariant()" type="hidden">
+                        <label>
+                            <span>Nội dung <span class="required-mark" aria-hidden="true">*</span></span>
+                            <textarea name="text" maxlength="2000" rows="4" required class="form-control"></textarea>
+                        </label>
+                        <button class="btn btn-outline-primary">Gửi bổ sung</button>
+                    </form>
+                </details>
+            }
+        </aside>
+    </div>
+</div>

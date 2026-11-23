@@ -9,7 +9,8 @@
     var conversations = (List<CuocHoiThoai>)ViewBag.Conversations;
     var c = (CuocHoiThoai?)ViewBag.Conversation;
     var attachments=(Dictionary<Guid,List<TepDinhKem>>)ViewBag.Attachments;
-    var partner = c == null ? "" : people.FirstOrDefault(x => x.Id == (c.GiaSuId == me.Id ? c.BenHocId : c.GiaSuId))?.HoTen ?? "Người liên hệ";
+    var partnerId = c == null ? null : (c.GiaSuId == me.Id ? c.BenHocId : c.GiaSuId);
+    var partner = people.FirstOrDefault(x => x.Id == partnerId)?.HoTen ?? "Người liên hệ";
 }
 <div id="chat-content" class="@(inClass ? "in-class-chat" : null)" data-ajax-page="chat" data-chat-id="@c?.Id" data-chat-page="@ViewBag.Page" data-message-query="@ViewBag.MessageQuery" data-chat-feed="@Url.Action("DuLieu")">
 <h1>@(inClass ? "Tin nhắn trong lớp" : "Tin nhắn riêng")</h1>
@@ -31,14 +32,20 @@
 <section class="card chat-panel">
 @if (c != null)
 {
-    <div class="chat-header"><div class="person"><span class="avatar" aria-hidden="true">@(inClass ? "L" : partner[..1])</span><div><h2>@(inClass ? "Trao đổi trong lớp" : partner)</h2></div></div>@if (c.LopHocId != null) { <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a> }</div>
+    <div class="chat-header"><div class="person"><span class="avatar" aria-hidden="true">@(inClass ? "L" : partner[..1])</span><div><h2>@(inClass ? "Trao đổi trong lớp" : partner)</h2></div></div>
+        @if (c.LopHocId != null) { <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.LopHocId">Về lớp →</a> }
+        else if (partnerId is Guid accountId)
+        {
+            <a class="report-icon" aria-label="Báo cáo vi phạm tài khoản" title="Báo cáo vi phạm" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TaiKhoan&doiTuongId=@accountId"></a>
+        }
+    </div>
     <form method="get" asp-action="@(inClass ? "Lop" : "Index")" class="inline chat-search"><input name="id" value="@c.Id" type="hidden"><input class="form-control" name="message" value="@ViewBag.MessageQuery" aria-label="Tìm nội dung tin nhắn" placeholder="Tìm trong cuộc trò chuyện"><button class="btn btn-outline-primary">Tìm</button></form>
     <div class="chat-stream" role="log" aria-label="Nội dung cuộc trò chuyện" aria-live="off">
         <div class="chat-history"><button type="button" class="btn btn-outline-primary btn-sm" data-chat-older hidden="@(Model.Count < 50)">Xem tin nhắn trước</button><span class="muted" data-chat-history-status role="status"></span></div>
         <div class="chat-messages">
         @foreach (var m in Model)
         {
-            <article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId == me.Id ? "mine" : "")"><small>@people.FirstOrDefault(x => x.Id == m.NguoiGuiId)?.HoTen</small>@if(!string.IsNullOrEmpty(m.NoiDung)){<p class="pre">@m.NoiDung</p>}<partial name="_Attachments" model="@(attachments.GetValueOrDefault(m.Id,[]))"/><time>@Rules.Date(m.GuiLuc)</time>@if(m.NguoiGuiId!=me.Id){<a data-modal class="message-report" href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TinNhan&doiTuongId=@m.Id">Báo cáo</a>}</article>
+            <article data-message-id="@m.Id" class="bubble @(m.NguoiGuiId == me.Id ? "mine" : "")"><small>@people.FirstOrDefault(x => x.Id == m.NguoiGuiId)?.HoTen</small>@if(!string.IsNullOrEmpty(m.NoiDung)){<p class="pre">@m.NoiDung</p>}<partial name="_Attachments" model="@(attachments.GetValueOrDefault(m.Id,[]))"/><time>@Rules.Date(m.GuiLuc)</time>@if(m.NguoiGuiId!=me.Id){<a data-modal class="report-icon message-report" aria-label="Báo cáo vi phạm tin nhắn" title="Báo cáo vi phạm" href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=TinNhan&doiTuongId=@m.Id"></a>}</article>
         }
         @if (Model.Count == 0) { <div class="chat-empty"><strong>@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Bắt đầu cuộc trò chuyện" : "Không tìm thấy tin nhắn")</strong><p class="muted">@(string.IsNullOrWhiteSpace((string?)ViewBag.MessageQuery) ? "Gửi lời chào và trao đổi về việc học tại đây." : "Thử tìm bằng từ khóa khác.")</p></div> }
         </div>

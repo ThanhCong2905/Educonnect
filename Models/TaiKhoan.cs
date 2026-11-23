@@ -4,6 +4,8 @@ namespace EduConnect.Mvc.Models;
 
 public sealed class TaiKhoan : IdentityUser<Guid>
 {
+    public string? PhienBanChinhSach { get; set; }
+    public DateTimeOffset? DongYChinhSachLuc { get; set; }
     public string HoTen { get; set; } = "";
     public string? AnhDaiDien { get; set; }
     public string TrangThai { get; set; } = "HoatDong";

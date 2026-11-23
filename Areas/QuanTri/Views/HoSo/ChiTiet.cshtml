@@ -1,5 +1,123 @@
 @model EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoInput
-@{ViewData["Title"]="Duyệt hồ sơ";var subjects=(List<MonHoc>)ViewBag.Subjects;var files=(List<TepDinhKem>)ViewBag.Certificates;}
-<div class="heading"><h1>@Model.HoTen</h1><span class="badge @(Model.TrangThaiDuyet=="DaDuyet"?"badge-success":Model.TrangThaiDuyet is "ChoDuyet" or "CanChinhSua" or "TuChoi"?"badge-warning":"")">@Rules.Label(Model.TrangThaiDuyet)</span></div>
-<article class="card"><dl><dt>Trình độ</dt><dd>@Model.TrinhDo</dd><dt>Chuyên môn</dt><dd>@Model.ChuyenMon</dd><dt>Kinh nghiệm</dt><dd>@Model.KinhNghiem</dd><dt>Khu vực</dt><dd>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd><dt>Địa chỉ chi tiết</dt><dd>@Model.DiaChiChiTiet</dd><dt>Hình thức</dt><dd>@(Model.DayTrucTuyen?"Trực tuyến ":"") @(Model.DayTrucTiep?"Trực tiếp":"")</dd></dl><h2>Giới thiệu</h2><p class="pre">@Model.MoTa</p><h2>Môn dạy</h2>@foreach(var d in Model.MonDay){<p>@subjects.FirstOrDefault(x=>x.Id==d.MonHocId)?.TenMon · @d.PhamViDay · @Rules.Fee(d.HocPhiDeXuat,d.DonViHocPhi)</p>}<h2>Minh chứng riêng tư</h2>@foreach(var f in files){<a class="file" href="/NhuCau/HoSoGiaSu/BangCap/@f.Id">@f.TenGoc</a>}@if(files.Count==0){<p>Chưa có minh chứng đính kèm.</p>}</article>
-@if(Model.TrangThaiDuyet=="ChoDuyet"){<form method="post" asp-action="Duyet" class="card"><div asp-validation-summary="All" class="validation" role="alert"></div><input name="id" value="@ViewBag.Id" type="hidden"><input name="rowVersion" value="@Model.RowVersion" type="hidden"><label>Lý do yêu cầu chỉnh sửa<textarea class="form-control" name="reason" maxlength="2000" placeholder="Bắt buộc khi yêu cầu chỉnh sửa hoặc từ chối">@ViewBag.Reason</textarea></label><div class="actions"><button class="btn btn-primary" name="approve" value="true">Duyệt toàn bộ hồ sơ</button><button class="btn btn-outline-primary" name="approve" value="false">Yêu cầu chỉnh sửa</button><button class="btn btn-outline-danger" name="quyetDinh" value="TuChoi">Từ chối hồ sơ</button></div></form>}
+@{
+    ViewData["Title"] = "Duyệt hồ sơ";
+    var subjects = (Dictionary<int, string>)ViewBag.Subjects;
+    var files = (List<TepDinhKem>)ViewBag.Certificates;
+    var reviewing = Model.TrangThaiDuyet == "ChoDuyet";
+    var degree = files.FirstOrDefault(file => file.Id == Model.MinhChungTrinhDoId);
+    var experience = files.FirstOrDefault(file => file.Id == Model.MinhChungKinhNghiemId);
+    var missingEvidence = new List<(string Id, string Label)>();
+    if (degree == null) missingEvidence.Add(("review-degree", "Thiếu minh chứng trình độ"));
+    if (!string.IsNullOrWhiteSpace(Model.KinhNghiem) && Model.KinhNghiem != "Chưa có" && experience == null)
+        missingEvidence.Add(("review-experience", "Thiếu minh chứng kinh nghiệm"));
+    var extraFiles = files.Where(file => file.Id != degree?.Id && file.Id != experience?.Id).ToList();
+    var mode = string.Join(", ", new[] { Model.DayTrucTuyen ? "Trực tuyến" : "", Model.DayTrucTiep ? "Trực tiếp" : "" }.Where(value => value != ""));
+    var area = string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)));
+    string Show(string? value) => string.IsNullOrWhiteSpace(value) ? "Chưa có thông tin" : value;
+}
+
+<div class="heading admin-heading">
+    <div><h1>@Model.HoTen</h1><span class="admin-state" data-state="@Model.TrangThaiDuyet">@Rules.Label(Model.TrangThaiDuyet)</span></div>
+    <a class="btn btn-outline-primary" asp-action="Index">Danh sách hồ sơ</a>
+</div>
+@if (reviewing && missingEvidence.Count > 0)
+{
+    <section class="card admin-panel mb-3">
+        <h2>Minh chứng còn thiếu</h2>
+        <div class="report-queue">
+            @foreach (var evidence in missingEvidence)
+            {
+                <a class="btn btn-outline-primary" href="#@evidence.Id">@evidence.Label</a>
+            }
+        </div>
+    </section>
+}
+@if (!string.IsNullOrWhiteSpace(Model.LyDoTuChoi))
+{
+    <section class="card review-previous"><h2>Nhận xét kiểm duyệt</h2><p class="pre mb-0">@Model.LyDoTuChoi</p></section>
+}
+<form asp-action="Duyet" method="post" class="profile-review" data-profile-review>
+    <div asp-validation-summary="All" class="validation" role="alert"></div>
+    <input name="id" value="@ViewBag.Id" type="hidden">
+    <input name="rowVersion" value="@Model.RowVersion" type="hidden">
+    <section class="card review-section">
+        <h2>Thông tin hồ sơ</h2>
+        <div class="review-field">
+            <h3>Họ tên</h3><p>@Model.HoTen</p>
+            @if (reviewing) { <partial name="_GopY" model='@("HoTen")' /> }
+        </div>
+        <div class="review-field" id="review-degree">
+            <h3>Trình độ</h3><p>@Show(Model.TrinhDo)</p>
+            @if (degree != null) { <partial name="_TepMinhChung" model="degree" /> }
+            else { <p class="muted">Chưa có minh chứng trình độ.</p> }
+            @if (reviewing) { <partial name="_GopY" model='@("TrinhDo")' /> }
+        </div>
+        <div class="review-field" id="review-experience">
+            <h3>Kinh nghiệm</h3><p>@Show(Model.KinhNghiem)</p>
+            @if (experience != null) { <partial name="_TepMinhChung" model="experience" /> }
+            else if (Model.KinhNghiem != "Chưa có") { <p class="muted">Chưa có minh chứng kinh nghiệm.</p> }
+            @if (reviewing) { <partial name="_GopY" model='@("KinhNghiem")' /> }
+        </div>
+        <div class="review-field">
+            <h3>Khu vực</h3><p>@Show(area)</p>
+            @if (!string.IsNullOrWhiteSpace(Model.DiaChiChiTiet)) { <p>Địa chỉ chi tiết · @Model.DiaChiChiTiet</p> }
+            @if (reviewing) { <partial name="_GopY" model='@("KhuVuc")' /> }
+        </div>
+        <div class="review-field">
+            <h3>Hình thức dạy</h3><p>@Show(mode)</p>
+            @if (reviewing) { <partial name="_GopY" model='@("HinhThuc")' /> }
+        </div>
+        <div class="review-field">
+            <h3>Giới thiệu</h3><p class="pre">@Show(Model.MoTa)</p>
+            @if (reviewing) { <partial name="_GopY" model='@("MoTa")' /> }
+        </div>
+    </section>
+    <section class="card review-section">
+        <h2>Môn dạy và học phí</h2>
+        @if (Model.MonDay.Count == 0) { <p class="muted">Chưa có môn dạy.</p> }
+        else
+        {
+            <ul class="review-subjects">
+                @foreach (var subject in Model.MonDay)
+                {
+                    <li><strong>@subjects.GetValueOrDefault(subject.MonHocId, "Môn học")</strong>
+                        <span>@subject.PhamViDay</span><span>@Rules.Fee(subject.HocPhiDeXuat, subject.DonViHocPhi)</span></li>
+                }
+            </ul>
+        }
+        @if (reviewing) { <partial name="_GopY" model='@("MonDay")' /> }
+    </section>
+    @if (extraFiles.Count > 0)
+    {
+        <section class="card review-section">
+            <h2>Minh chứng bổ sung</h2>
+            @foreach (var file in extraFiles) { <partial name="_TepMinhChung" model="file" /> }
+            @if (reviewing) { <partial name="_GopY" model='@("TepKhac")' /> }
+        </section>
+    }
+    @if (reviewing)
+    {
+        <section class="card review-section review-decision">
+            <h2>Quyết định kiểm duyệt</h2>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit" name="approve" value="true" formnovalidate data-confirm="Duyệt hồ sơ này?">Duyệt hồ sơ</button>
+                <button class="btn btn-outline-primary" type="button" data-review-open="edit">Yêu cầu chỉnh sửa</button>
+                <button class="btn btn-outline-danger" type="button" data-review-open="reject">Từ chối hồ sơ</button>
+            </div>
+            <dialog class="review-dialog" data-review-dialog aria-labelledby="review-dialog-title">
+                <header><h2 id="review-dialog-title"></h2><button type="button" class="btn-close" data-review-close aria-label="Đóng biểu mẫu"></button></header>
+                <div class="review-dialog-body">
+                    <p data-review-summary aria-live="polite"></p>
+                    <div data-review-reason hidden>
+                        <label for="review-reason">Lý do từ chối</label>
+                        <textarea id="review-reason" class="form-control" name="reason" maxlength="2000" rows="4" disabled>@ViewBag.Reason</textarea>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="btn btn-outline-primary" data-review-close>Quay lại</button>
+                        <button type="submit" class="btn btn-primary" name="quyetDinh" value="CanChinhSua" data-review-submit>Gửi yêu cầu chỉnh sửa</button>
+                    </div>
+                </div>
+            </dialog>
+        </section>
+    }
+</form>

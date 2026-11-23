@@ -70,8 +70,9 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             }
         }
         var previous = m.Id == null ? null : await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == m.Id && x.ChuSoHuuId == user.Id, huy);
-        await KiemTraHanMucAsync(user.Id, m.BanNhap, previous?.Id, huy);
-        var posting = !m.BanNhap && previous?.TrangThai != "DangMo";
+        var giuDong = previous != null && await DaCoLopDangHoatDongAsync(previous.Id, huy);
+        if (!giuDong) await KiemTraHanMucAsync(user.Id, m.BanNhap, previous?.Id, huy);
+        var posting = !giuDong && !m.BanNhap && previous?.TrangThai != "DangMo";
         if (posting) await KiemTraLuotDangAsync(user.Id, huy);
         Rules.Check(!m.ChonMonKhac && m.MonHocIds.Distinct().Count() <= 1, "Mỗi nhu cầu chỉ chọn một môn trong danh sách.", field: nameof(m.MonHocId));
         var subjects = new List<int> { m.MonHocIds.Count == 1 ? m.MonHocIds[0] : m.MonHocId };
@@ -83,8 +84,8 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             m.TenNguoiHoc = null;
             m.TuoiNguoiHoc = null;
         }
-        if (!m.BanNhap) await KiemTraTrungAsync(m, user.Id, huy);
-        var id = await LuuMotAsync(m, user, huy);
+        if (!m.BanNhap && !giuDong) await KiemTraTrungAsync(m, user.Id, huy);
+        var id = await LuuMotAsync(m, user, huy, giuDong);
         if (posting) GhiLuotDang(id, user.Id, previous == null ? "Dang" : "MoLai", m.MaThaoTac);
         var links = await db.Set<NhuCauMonHoc>().Where(x => x.NhuCauId == id).ToListAsync(huy);
         db.RemoveRange(links.Where(x => !subjects.Contains(x.MonHocId)));
@@ -107,7 +108,7 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
     public async Task<HashSet<Guid>> DaKetNoiAsync()
     {
         var me = await current.HienTaiAsync();
-        return (await (from n in db.Set<NhuCauHoc>() join r in db.Set<YeuCauKetNoiLopHoc>() on n.Id equals r.NhuCauId join c in db.Set<LopHoc>() on r.Id equals c.YeuCauKetNoiId where n.ChuSoHuuId == me.Id select n.Id).Distinct().ToListAsync()).ToHashSet();
+        return (await (from n in db.Set<NhuCauHoc>() join r in db.Set<YeuCauKetNoiLopHoc>() on n.Id equals r.NhuCauId join c in db.Set<LopHoc>() on r.Id equals c.YeuCauKetNoiId where n.ChuSoHuuId == me.Id && c.TrangThai == "DangHoatDong" select n.Id).Distinct().ToListAsync()).ToHashSet();
     }
     public Task<KetQua<NhuCauInput>> LayDeSuaAsync(Guid id)
         => KetQua<NhuCauInput>.ThucHienAsync(async () =>
@@ -125,7 +126,7 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             ChonMonKhac = !await db.Set<MonHoc>().AnyAsync(x => x.Id == n.MonHocId && MonHocCatalog.PhoThong.Contains(x.TenMon)),
             TenMonKhac = await db.Set<MonHoc>().Where(x => x.Id == n.MonHocId).Select(x => x.TenMon).SingleAsync(),
             KhoiLop = n.KhoiLop,
-            HocLuc = n.HocLuc,
+            PhanKhoaHoc = n.PhanKhoaHoc,
             MucTieu = n.MucTieu,
             SoBuoiTuan = n.SoBuoiTuan,
             HinhThucHoc = n.HinhThucHoc,
@@ -140,33 +141,46 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
             LichRanh = await db.Set<KhungGioRanh>().Where(x => x.NhuCauId == id).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToListAsync()
         };
     });
-    private async Task KiemTraDuLieuAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
+    private async Task KiemTraDuLieuAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy, bool kiemTraTrungLich = true)
     {
         Rules.ValidateInput(m);
         try { Rules.FeeCheck(m.HocPhiDuKien, m.DonViHocPhi); }
         catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = string.IsNullOrEmpty(m.DonViHocPhi) ? nameof(m.DonViHocPhi) : nameof(m.HocPhiDuKien) }; }
         Rules.Check(string.IsNullOrWhiteSpace(m.KhoiLop) || Enumerable.Range(1,12).Any(grade => m.KhoiLop == $"Lớp {grade}"), "Chọn khối lớp từ lớp 1 đến lớp 12.", field: nameof(m.KhoiLop));
-        Rules.Check(string.IsNullOrWhiteSpace(m.HocLuc) || HoSoLuaChon.HocLuc.Contains(m.HocLuc), "Chọn học lực trong danh sách.", field: nameof(m.HocLuc));
-        Rules.Check(m.HinhThucHoc != "TrucTiep" || string.IsNullOrWhiteSpace(m.KhuVuc) || HoSoLuaChon.KhuVuc.Contains(m.KhuVuc), "Chọn tỉnh / thành phố trong danh sách.", field: nameof(m.KhuVuc));
-        Rules.Check(m.HinhThucHoc != "TrucTiep" || DiaGioiHanhChinh.HopLe(m.KhuVuc, m.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(m.PhuongXa));
+        Rules.Check(!m.CoHocTrucTiep || string.IsNullOrWhiteSpace(m.KhuVuc) || HoSoLuaChon.KhuVuc.Contains(m.KhuVuc), "Chọn tỉnh / thành phố trong danh sách.", field: nameof(m.KhuVuc));
+        Rules.Check(!m.CoHocTrucTiep || DiaGioiHanhChinh.HopLe(m.KhuVuc, m.PhuongXa), "Chọn phường / xã thuộc tỉnh / thành phố đã chọn.", field: nameof(m.PhuongXa));
         if (!m.BanNhap || m.LichRanh.Count > 0)
         {
             try { Rules.Slots(m.LichRanh); }
             catch (LoiNghiepVu error) { throw new LoiNghiepVu(error.Message, error.Status) { Truong = nameof(m.LichRanh) }; }
         }
-        Rules.Check(await db.Set<MonHoc>().AnyAsync(x => x.Id == m.MonHocId && x.DangSuDung, huy), "Môn học không hợp lệ.");
+        var subject = await db.Set<MonHoc>().SingleOrDefaultAsync(x => x.Id == m.MonHocId && x.DangSuDung, huy)
+            ?? throw new LoiNghiepVu("Môn học không hợp lệ.") { Truong = nameof(m.MonHocId) };
+        var grade = PhamViMonHoc.DocKhoi(m.KhoiLop);
+        var (from, to) = PhamViMonHoc.Khoi(subject.TenMon);
+        Rules.Check(m.BanNhap || grade != 0 || (from, to) == (1, 12),
+            "Chọn khối lớp cho môn này.", field: nameof(m.KhoiLop));
+        Rules.Check(grade == 0 || grade >= from && grade <= to,
+            $"{subject.TenMon} chỉ áp dụng cho lớp {from}–{to}.", field: nameof(m.MonHocId));
+        var integrated = PhamViMonHoc.LaKhoaHocTuNhien(subject.TenMon);
+        Rules.Check(integrated ? m.BanNhap || grade != 0 && m.PhanKhoaHoc is >= 1 and <= 7 : m.PhanKhoaHoc == 0,
+            "Chọn khối lớp và ít nhất một phần kiến thức cho môn Khoa học tự nhiên.", field: nameof(m.PhanKhoaHoc));
         if (!m.BanNhap)
         {
-            var otherSlots = await (from slot in db.Set<KhungGioRanh>()
-                join need in db.Set<NhuCauHoc>() on slot.NhuCauId equals need.Id
-                where need.ChuSoHuuId == u.Id && need.TrangThai == "DangMo" && need.Id != m.Id
-                select slot).ToListAsync(huy);
-            Rules.Check(!m.LichRanh.Any(slot => otherSlots.Any(other => other.ThuTrongTuan == slot.ThuTrongTuan
-                && slot.GioBatDau < other.GioKetThuc && other.GioBatDau < slot.GioKetThuc)),
-                "Khung giờ này trùng với một nhu cầu đang mở của bạn. Hãy chọn giờ khác hoặc đóng nhu cầu cũ.", field: nameof(m.LichRanh));
+            if (kiemTraTrungLich)
+            {
+                var otherSlots = await (from slot in db.Set<KhungGioRanh>()
+                    join need in db.Set<NhuCauHoc>() on slot.NhuCauId equals need.Id
+                    where need.ChuSoHuuId == u.Id && need.TrangThai == "DangMo" && need.Id != m.Id
+                    select slot).ToListAsync(huy);
+                Rules.Check(!m.LichRanh.Any(slot => otherSlots.Any(other => other.ThuTrongTuan == slot.ThuTrongTuan
+                    && slot.GioBatDau < other.GioKetThuc && other.GioBatDau < slot.GioKetThuc)),
+                    "Khung giờ này trùng với một nhu cầu đang mở của bạn. Hãy chọn giờ khác hoặc đóng nhu cầu cũ.", field: nameof(m.LichRanh));
+                await KiemTraLichLopAsync(m, u.Id, huy);
+            }
             Rules.Check(!string.IsNullOrWhiteSpace(m.MucTieu), "Nhập mục tiêu học tập.", field: nameof(m.MucTieu));
             Rules.Check(m.SoBuoiTuan is >= 1 and <= 7, "Số buổi mỗi tuần phải từ 1 đến 7.", field: nameof(m.SoBuoiTuan));
-            Rules.Check(m.HinhThucHoc != "TrucTiep" || !string.IsNullOrWhiteSpace(m.KhuVuc), "Chọn khu vực học trực tiếp.", field: nameof(m.KhuVuc));
+            Rules.Check(!m.CoHocTrucTiep || !string.IsNullOrWhiteSpace(m.KhuVuc), "Chọn khu vực học trực tiếp.", field: nameof(m.KhuVuc));
             if (u.LoaiNguoi == "PhuHuynh")
             {
                 Rules.Check(!string.IsNullOrWhiteSpace(m.TenNguoiHoc), "Nhập tên người học.", field: nameof(m.TenNguoiHoc));
@@ -177,9 +191,9 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
 
     }
 
-    private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy)
+    private async Task<Guid> LuuMotAsync(NhuCauInput m, NguoiThamGia u, CancellationToken huy, bool giuDong = false)
     {
-        await KiemTraDuLieuAsync(m, u, huy);
+        await KiemTraDuLieuAsync(m, u, huy, !giuDong);
 
         var n = m.Id == null ? new NhuCauHoc { Id = Guid.NewGuid(), ChuSoHuuId = u.Id, LoaiNhuCau = "TimGiaSu", TaoLuc = DateTimeOffset.UtcNow } : await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == m.Id && x.ChuSoHuuId == u.Id, huy) ?? throw new LoiNghiepVu("Nhu cầu không thuộc về bạn.", 403);
         if (m.Id == null)
@@ -191,19 +205,20 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
         }
         n.MonHocId = m.MonHocId;
         n.KhoiLop = m.KhoiLop;
-        n.HocLuc = m.HocLuc;
+        n.PhanKhoaHoc = m.PhanKhoaHoc;
         n.MucTieu = m.MucTieu?.Trim();
         n.SoBuoiTuan = m.SoBuoiTuan;
         n.HinhThucHoc = m.HinhThucHoc;
-        n.KhuVuc = m.HinhThucHoc == "TrucTiep" ? m.KhuVuc : null;
-        n.PhuongXa = m.HinhThucHoc == "TrucTiep" && !string.IsNullOrWhiteSpace(m.PhuongXa) ? m.PhuongXa.Trim() : null;
-        n.DiaChiChiTiet = m.HinhThucHoc == "TrucTiep" ? m.DiaChiChiTiet : null;
+        n.KhuVuc = m.CoHocTrucTiep ? m.KhuVuc : null;
+        n.PhuongXa = m.CoHocTrucTiep && !string.IsNullOrWhiteSpace(m.PhuongXa) ? m.PhuongXa.Trim() : null;
+        n.DiaChiChiTiet = m.CoHocTrucTiep ? m.DiaChiChiTiet : null;
         n.HocPhiDuKien = m.HocPhiDuKien;
         n.DonViHocPhi = m.DonViHocPhi;
         n.TenNguoiHoc = u.LoaiNguoi == "PhuHuynh" ? m.TenNguoiHoc : null;
         n.TuoiNguoiHoc = u.LoaiNguoi == "PhuHuynh" ? m.TuoiNguoiHoc : null;
-        n.TrangThai = m.BanNhap ? "BanNhap" : "DangMo";
-        if (!m.BanNhap)
+        n.TrangThai = giuDong ? "DaDong" : m.BanNhap ? "BanNhap" : "DangMo";
+        if (giuDong) n.LyDoDong = "DaKetNoi";
+        if (!m.BanNhap && !giuDong)
         {
             n.XacNhanConNhuCauLuc = DateTimeOffset.UtcNow;
             n.NhacXacNhanLuc = null;
@@ -228,6 +243,7 @@ public sealed partial class NhuCauService(AppDbContext db, NguoiDungHienTaiServi
         Rules.Concurrency(db, n, version);
         if (state == "DangMo")
         {
+            Rules.Check(!await DaCoLopDangHoatDongAsync(id), "Nhu cầu đã có lớp đang hoạt động. Bạn có thể chỉnh sửa nhưng chưa thể mở lại.", 409);
             await KiemTraHanMucAsync(u.Id, false, id);
             await KiemTraLuotDangAsync(u.Id);
             Rules.Check(n.TrangThai == "DaDong", "Hãy hoàn thiện bản nháp trước khi mở.");

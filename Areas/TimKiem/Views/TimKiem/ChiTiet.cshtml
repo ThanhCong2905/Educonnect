@@ -4,6 +4,10 @@
     var tutor = Model.LoaiNguoi == "GiaSu";
     ViewData["Title"] = tutor ? "Hồ sơ gia sư" : "Chi tiết nhu cầu";
     var related = (ViewBag.Related as List<UngVienViewModel> ?? []).Where(item => item.Id != Model.Id).ToList();
+    var authenticated = User.Identity?.IsAuthenticated == true;
+    var canSeeReviews = tutor || User.IsInRole("GiaSu") ||
+        User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == Model.ChuSoHuuId.ToString() ||
+        User.HasClaim("EduConnect.AdminPermission", "XuLyBaoCao");
 }
 @if (preview)
 {
@@ -11,7 +15,7 @@
 }
 <div class="heading profile-hero detail-hero">
     <div class="person">
-        <span class="avatar">@if(Model.AnhDaiDienUrl!=null){<img src="@Model.AnhDaiDienUrl" data-avatar-fallback="@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))" alt="">}else{@(string.IsNullOrWhiteSpace(Model.HoTen)?"?":System.Globalization.StringInfo.GetNextTextElement(Model.HoTen))}</span>
+        <partial name="_AnhDaiDien" model="new EduConnect.Mvc.ViewModels.AnhDaiDienViewModel(Model.HoTen, Model.AnhDaiDienUrl, false)" />
         <div>
         <p class="eyebrow">@(tutor ? "Hồ sơ gia sư" : "Nhu cầu tìm gia sư")</p>
         <h1>@(tutor ? Model.HoTen : string.IsNullOrWhiteSpace(Model.TenMon) ? "Nhu cầu học" : Model.TenMon)</h1>
@@ -37,7 +41,11 @@
         @if (tutor)
         {
             <article class="card detail-section">
-                <h2>Thông tin giảng dạy</h2>
+                <h2>Giới thiệu</h2>
+                @if (!string.IsNullOrWhiteSpace(Model.MoTa))
+                {
+                    <p class="pre detail-description">@Model.MoTa</p>
+                }
                 <dl class="detail-facts">
                     <div><dt>Kinh nghiệm</dt><dd>@(string.IsNullOrWhiteSpace(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)</dd></div>
                     <div><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd></div>
@@ -46,10 +54,6 @@
                         <div><dt>Khu vực</dt><dd>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</dd></div>
                     }
                 </dl>
-            </article>
-            <article class="card detail-section">
-                <h2>Giới thiệu</h2>
-                <p class="pre detail-description">@Model.MoTa</p>
             </article>
             <article class="card detail-section public-profile-subjects">
                 <h2>Môn dạy và học phí</h2>
@@ -73,6 +77,10 @@
                 <h2>Điều kiện học</h2>
                 <dl class="detail-facts">
                     <div><dt>Khối lớp</dt><dd>@(string.IsNullOrWhiteSpace(Model.KhoiLop) ? "Chưa cập nhật" : int.TryParse(Model.KhoiLop, out _) ? "Lớp " + Model.KhoiLop : Model.KhoiLop)</dd></div>
+                    @if (Model.PhanKhoaHoc != 0)
+                    {
+                        <div><dt>Phần kiến thức</dt><dd>@(Model.PhanKhoaHoc == 7 ? "Toàn bộ môn" : PhamViMonHoc.MoTaPhan(Model.PhanKhoaHoc))</dd></div>
+                    }
                     <div><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd></div>
                     <div><dt>Học phí dự kiến</dt><dd class="detail-fee">@Rules.Fee(Model.HocPhiDuKien, Model.DonViHocPhi)</dd></div>
                     @if (!string.IsNullOrWhiteSpace(Model.KhuVuc))
@@ -102,10 +110,23 @@
                 }
             </article>
         }
+        @if (!preview && canSeeReviews)
+        {
+            <section class="card detail-section profile-reviews" aria-label="Đánh giá">
+                <h2>@(tutor ? "Đánh giá" : "Đánh giá người đăng")</h2>
+                <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId" />
+            </section>
+        }
     </section>
     @if (!preview)
     {
-        <partial name="_ProfileContact" model="Model" />
+        <div class="profile-side">
+            <partial name="_ProfileContact" model="Model" />
+            @if (authenticated && User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value != Model.ChuSoHuuId.ToString())
+            {
+                <a class="report-icon profile-report" aria-label="Báo cáo vi phạm" title="Báo cáo vi phạm" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor ? "HoSoGiaSu" : "NhuCauHoc")&doiTuongId=@Model.Id"></a>
+            }
+        </div>
     }
     else
     {
@@ -119,13 +140,5 @@
         <div class="cards">
             @foreach (var item in related) { <partial name="_Candidate" model="item" /> }
         </div>
-    </section>
-}
-
-@if(!preview && (tutor || User.Identity?.IsAuthenticated == true))
-{
-    <section class="card mt-4 profile-review-actions">
-        <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId"/>
-        @if(User.Identity?.IsAuthenticated == true){<a class="btn btn-outline-primary align-self-start" data-modal href="/QuanTri/BaoCaoViPham/Gui?loaiDoiTuong=@(tutor?"HoSoGiaSu":"NhuCauHoc")&doiTuongId=@Model.Id">Báo cáo nội dung</a>}
     </section>
 }

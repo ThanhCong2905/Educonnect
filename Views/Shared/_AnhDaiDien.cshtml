@@ -1,0 +1,11 @@
+@model EduConnect.Mvc.ViewModels.AnhDaiDienViewModel
+<span class="avatar avatar-tone-@Model.Mau" aria-hidden="true">
+    @if (!string.IsNullOrWhiteSpace(Model.AnhUrl))
+    {
+        <img src="@Model.AnhUrl" alt="" loading="@(Model.Lazy ? "lazy" : "eager")" data-avatar-fallback="@Model.ChuCai">
+    }
+    else
+    {
+        @Model.ChuCai
+    }
+</span>

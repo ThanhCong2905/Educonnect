@@ -3,9 +3,67 @@
 @{ViewData["Title"]="Chi tiết tài khoản";var u=Model.TaiKhoan;}
 <div class="heading"><h1>@u.HoTen</h1><span class="badge rounded-pill">@Rules.Label(u.TrangThai)</span></div>
 <section class="card"><dl><dt>Email</dt><dd>@u.Email</dd><dt>Vai trò</dt><dd>@Rules.Label(Model.VaiTro)</dd></dl><p>@Model.YeuCauCho yêu cầu chờ · @Model.LopDangHoc lớp đang học</p>
-@if(Model.VaiTro=="QuanTri"&&await Rights.CoQuyenAsync("QuanLyQuyen")){<a class="btn btn-outline-primary" asp-action="PhanQuyen" asp-route-id="@u.Id">Cấp hoặc thu hồi quyền quản trị</a>}</section>
+<div class="report-queue">
+    @if (await Rights.CoQuyenAsync("XuLyBaoCao"))
+    {
+        <a class="btn btn-outline-primary" asp-controller="BaoCaoViPham" asp-action="Index" asp-route-quanTri="true" asp-route-nguoiGui="@u.Id">Báo cáo đã gửi</a>
+        @if (!string.IsNullOrEmpty(u.Email))
+        {
+            <a class="btn btn-outline-primary" asp-controller="BaoCaoViPham" asp-action="Index" asp-route-quanTri="true" asp-route-q="@u.Email">Báo cáo liên quan</a>
+        }
+    }
+    @if (Model.VaiTro == "QuanTri" && await Rights.CoQuyenAsync("QuanLyQuyen"))
+    {
+        <a class="btn btn-outline-primary" asp-action="PhanQuyen" asp-route-id="@u.Id">Cấp hoặc thu hồi quyền quản trị</a>
+    }
+</div>
+</section>
 @if(u.TrangThai=="HoatDong"&&await Rights.CoQuyenAsync("QuanLyTaiKhoan"))
 {
-    <form method="post" asp-action="KhoaTaiKhoan" class="card"><h2>Khóa tài khoản</h2><input name="id" value="@u.Id" type="hidden"><input name="concurrencyStamp" value="@u.ConcurrencyStamp" type="hidden"><p>Khi khóa, @Model.YeuCauCho yêu cầu chờ sẽ bị hủy và @Model.LopDangHoc lớp sẽ tạm dừng.</p><label>Lý do <span class="required-mark" aria-hidden="true">*</span><textarea name="lyDo" class="form-control" maxlength="2000" rows="3" required></textarea></label><button class="btn btn-outline-danger mt-3 align-self-start">Xác nhận khóa tài khoản</button></form>
+    <details class="card">
+        <summary>Khóa tài khoản</summary>
+        <form method="post" asp-action="KhoaTaiKhoan" class="mt-3">
+            <input name="id" value="@u.Id" type="hidden"><input name="concurrencyStamp" value="@u.ConcurrencyStamp" type="hidden">
+            <p>Khi khóa, @Model.YeuCauCho yêu cầu chờ sẽ bị hủy và @Model.LopDangHoc lớp sẽ tạm dừng.</p>
+            <label>Lý do khóa<textarea name="lyDo" class="form-control" maxlength="2000" rows="3" required></textarea></label>
+            <button class="btn btn-outline-danger">Xác nhận khóa tài khoản</button>
+        </form>
+    </details>
 }
-<section class="card"><h2>Lịch sử biện pháp</h2>@foreach(var b in Model.BienPhap){<article class="border-top py-3"><strong>@(b.GoLuc==null?"Đang hiệu lực":"Đã gỡ")</strong><p class="pre">@b.LyDo</p><small>@Rules.Date(b.ApDungLuc)</small>@if(b.GoLuc==null&&await Rights.CoQuyenAsync("QuanLyTaiKhoan")){<form method="post" asp-action="GoBienPhap" class="mt-3"><input name="id" value="@b.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(b.RowVersion)" type="hidden"><label>Lý do mở khóa <span class="required-mark" aria-hidden="true">*</span><input name="reason" class="form-control" maxlength="2000" required></label><button class="btn btn-outline-primary mt-2">Gỡ biện pháp khóa</button></form>}</article>}</section>
+<section class="card admin-panel">
+    <h2>Lịch sử biện pháp</h2>
+    @if (Model.BienPhap.Count == 0)
+    {
+        <p class="admin-empty">Chưa có biện pháp nào.</p>
+    }
+    else
+    {
+        <ol class="admin-history">
+            @foreach (var measure in Model.BienPhap)
+            {
+                <li>
+                    <details>
+                        <summary><strong>@(measure.GoLuc == null ? "Đang hiệu lực" : "Đã gỡ")</strong><time datetime="@measure.ApDungLuc.ToString("O")">@Rules.Date(measure.ApDungLuc)</time></summary>
+                        <p class="pre">@measure.LyDo</p>
+                        @if (measure.BaoCaoId is Guid reportId && await Rights.CoQuyenAsync("XuLyBaoCao"))
+                        {
+                            <a class="btn btn-outline-primary mb-3" asp-controller="BaoCaoViPham" asp-action="ChiTiet" asp-route-maBaoCao="@reportId">Xem báo cáo</a>
+                        }
+                        @if (measure.GoLuc == null && await Rights.CoQuyenAsync("QuanLyTaiKhoan"))
+                        {
+                            <details class="mb-3">
+                                <summary>Gỡ biện pháp khóa</summary>
+                                <form method="post" asp-action="GoBienPhap" class="mt-2">
+                                    <input name="id" value="@measure.Id" type="hidden">
+                                    <input name="rowVersion" value="@Convert.ToBase64String(measure.RowVersion)" type="hidden">
+                                    <label>Lý do mở khóa<input name="reason" class="form-control" maxlength="2000" required></label>
+                                    <button class="btn btn-outline-primary">Xác nhận gỡ khóa</button>
+                                </form>
+                            </details>
+                        }
+                    </details>
+                </li>
+            }
+        </ol>
+    }
+</section>

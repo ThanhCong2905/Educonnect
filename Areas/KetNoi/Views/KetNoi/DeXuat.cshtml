@@ -33,7 +33,7 @@
 
 <label>Ngày bắt đầu<input class="form-control" asp-for="BatDauHocLuc" type="datetime-local"><span asp-validation-for="BatDauHocLuc"></span></label>
 
-<label>Hình thức<select class="form-select" asp-for="HinhThucHoc" data-mode><option value="TrucTuyen">Trực tuyến</option><option value="TrucTiep">Trực tiếp</option></select><span asp-validation-for="HinhThucHoc"></span></label>
+<label>Hình thức<select class="form-select" asp-for="HinhThucHoc" data-mode><option value="">Chọn hình thức học</option><option value="TrucTuyen">Trực tuyến</option><option value="TrucTiep">Trực tiếp</option></select><span asp-validation-for="HinhThucHoc"></span></label>
 
 <label data-inperson>Địa điểm<input class="form-control" asp-for="DiaDiem" maxlength="500"><span asp-validation-for="DiaDiem"></span></label>
 
@@ -50,7 +50,6 @@
 
 <p class="muted">Số khung giờ phải bằng số buổi/tuần. Mỗi khung phải đúng thời lượng một buổi.</p>
 
-<label>Lời nhắn<textarea class="form-control" asp-for="LoiNhan" maxlength="2000"></textarea><span asp-validation-for="LoiNhan"></span></label>
 
 <div class="actions"><button class="btn btn-primary">Gửi bên học xác nhận</button><a class="btn btn-outline-primary" asp-action="Index" data-page-back>Quay lại</a></div>
 </form>

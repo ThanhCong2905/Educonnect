@@ -1,7 +1,9 @@
 using System.Data;
 using System.Text.Json;
 using EduConnect.Mvc.Areas.HocTap.Services;
+using EduConnect.Mvc.Areas.NhuCau.Services;
 using EduConnect.Mvc.Areas.QuanTri.ViewModels;
+using EduConnect.Mvc.Areas.TimKiem.Services;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Infrastructure;
 using EduConnect.Mvc.Models;
@@ -41,7 +43,7 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
                     DoiTuongId = duLieu.DoiTuongId,
                     LyDo = duLieu.LyDo.Trim(),
                     MoTa = duLieu.MoTa.Trim(),
-                    BanChup = snapshot,
+                    BanChup = JsonSerializer.Serialize(snapshot),
                     MaThaoTac = duLieu.MaThaoTac,
                     GuiLuc = await GiaoDichNghiepVu.GioMayChuAsync(db, huy)
                 };
@@ -61,15 +63,39 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
             catch { TepService.DonDep(written); throw; }
         });
 
-    public async Task<Page<BaoCaoViPham>> LayAsync(int trang = 1, string? state = null, string? q = null, bool quanTri = false)
+    public async Task<Page<BaoCaoViPham>> LayAsync(int trang = 1, string? state = null, string? q = null, bool quanTri = false, Guid? nguoiGui = null)
     {
         Rules.Check(trang is >= 1 and <= 100000 && (q?.Length ?? 0) <= 100, "Trang hoặc từ khóa không hợp lệ.");
-        Rules.Check(state == null || state is "ChoXuLy" or "DangXuLy" or "DaXuLy", "Trạng thái báo cáo không hợp lệ.");
+        Rules.Check(state == null || state is "ChoXuLy" or "DangXuLy" or "DaXuLy" ||
+            (quanTri && state is ("ChuaXuLy" or "ToiDangXuLy")), "Trạng thái báo cáo không hợp lệ.");
         var me = await current.HienTaiAsync();
         if (quanTri)
             await admin.KiemTraAsync("XuLyBaoCao");
-        var query = db.Set<BaoCaoViPham>().AsNoTracking().Where(x => (quanTri || x.NguoiBaoCaoId == me.Id)
-            && (state == null || x.TrangThai == state) && (q == null || x.LyDo.Contains(q) || x.MoTa.Contains(q)));
+        var query = db.Set<BaoCaoViPham>().AsNoTracking();
+        if (!quanTri)
+            query = query.Where(report => report.NguoiBaoCaoId == me.Id);
+        else if (nguoiGui is Guid reporterId)
+            query = query.Where(report => report.NguoiBaoCaoId == reporterId);
+
+        query = state switch
+        {
+            "ChuaXuLy" => query.Where(report => report.TrangThai != "DaXuLy"),
+            "ToiDangXuLy" => query.Where(report => report.TrangThai == "DangXuLy" && report.NguoiXuLyId == me.Id),
+            null => query,
+            _ => query.Where(report => report.TrangThai == state)
+        };
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var keyword = q.Trim();
+            var reportId = Guid.TryParse(keyword, out var parsed) ? parsed : (Guid?)null;
+            var shortCode = quanTri && keyword.Length == 8 && keyword.All(Uri.IsHexDigit) ? keyword.ToLowerInvariant() : null;
+            var accounts = db.Users.Where(user => user.HoTen.Contains(keyword) ||
+                (user.Email != null && user.Email.Contains(keyword))).Select(user => user.Id);
+            query = query.Where(report => report.LyDo.Contains(keyword) || report.MoTa.Contains(keyword) ||
+                report.Id == reportId || (shortCode != null && report.Id.ToString().StartsWith(shortCode)) ||
+                (quanTri && (accounts.Contains(report.NguoiBaoCaoId) ||
+                    accounts.Contains(report.NguoiBiBaoCaoId ?? Guid.Empty))));
+        }
         return new Page<BaoCaoViPham>
         {
             Trang = trang,
@@ -77,6 +103,16 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
             Total = await query.CountAsync(),
             Items = await query.OrderByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Skip((trang - 1) * 20).Take(20).ToListAsync()
         };
+    }
+
+    public async Task<IReadOnlyDictionary<Guid, TaiKhoanBaoCao>> LayTaiKhoanBaoCaoAsync(
+        IEnumerable<BaoCaoViPham> reports, Guid? reporterFilter = null)
+    {
+        await admin.KiemTraAsync("XuLyBaoCao");
+        var ids = reports.SelectMany(report => new Guid?[] { report.NguoiBaoCaoId, report.NguoiBiBaoCaoId, report.NguoiXuLyId })
+            .Append(reporterFilter).OfType<Guid>().Distinct().ToArray();
+        return await db.Users.AsNoTracking().Where(user => ids.Contains(user.Id))
+            .Select(user => new TaiKhoanBaoCao(user.Id, user.HoTen)).ToDictionaryAsync(user => user.Id);
     }
 
     public Task<KetQua<BaoCaoViPham>> LayChiTietAsync(Guid maBaoCao, Guid maNguoiThucHien, CancellationToken huy)
@@ -98,6 +134,11 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
         {
             BaoCao = report,
             CoTheXuLy = canAdmin,
+            NoiDungGanKem = canAdmin ? DocNoiDung(report.BanChup) : null,
+            TaiKhoan = canAdmin ? await LayTaiKhoanBaoCaoAsync([report]) : new Dictionary<Guid, TaiKhoanBaoCao>(),
+            SoBaoCaoCuaNguoiGui = canAdmin ? await db.Set<BaoCaoViPham>().CountAsync(x => x.NguoiBaoCaoId == report.NguoiBaoCaoId) : 0,
+            BienPhap = canAdmin ? await db.Set<BienPhapQuanTri>().AsNoTracking().Where(x => x.BaoCaoId == id && x.NguonBienPhapId == null)
+                .OrderByDescending(x => x.ApDungLuc).ToListAsync() : [],
             LichSu = await db.Set<LichSuXuLyBaoCao>().AsNoTracking().Where(x => x.BaoCaoId == id && (canAdmin || x.HanhDong != "GhiChuNoiBo")).OrderBy(x => x.TaoLuc).ToListAsync(),
             Tep = await db.Set<TepDinhKem>().AsNoTracking().Where(x => x.BaoCaoViPhamId == id).ToListAsync()
         };
@@ -111,6 +152,29 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
         _ = (await LayChiTietAsync(file.BaoCaoViPhamId!.Value, me.Id, default)).DuLieu;
         Rules.Check(file.TrangThaiQuet == "Sach" || (files.ChoPhepTepChuaQuet && file.TrangThaiQuet == "ChoQuet"), "Tệp chưa khả dụng.", 409);
         return (file, files.DuongDan(file));
+    }
+
+    public async Task<(TepDinhKem File, string Path)> TaiTepTinNhanAsync(Guid reportId, Guid fileId)
+    {
+        await admin.KiemTraAsync("XuLyBaoCao");
+        var report = await db.Set<BaoCaoViPham>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == reportId && x.LoaiDoiTuong == "TinNhan")
+            ?? throw new LoiNghiepVu("Không tìm thấy báo cáo tin nhắn.", 404);
+        Rules.Check(DocNoiDung(report.BanChup)?.Tep?.Any(file => file.Id == fileId) == true,
+            "Tệp này không thuộc nội dung báo cáo.", 404);
+        var file = await db.Set<TepDinhKem>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == fileId &&
+            x.TinNhanId == report.DoiTuongId && x.TrangThaiQuet == "Sach")
+            ?? throw new LoiNghiepVu("Tệp tin nhắn không còn khả dụng.", 404);
+        return (file, files.DuongDan(file));
+    }
+
+    private static NoiDungBaoCao? DocNoiDung(string snapshot)
+    {
+        try
+        {
+            var value = JsonSerializer.Deserialize<NoiDungBaoCao>(snapshot);
+            return string.IsNullOrWhiteSpace(value?.TieuDe) ? null : value;
+        }
+        catch (JsonException) { return null; }
     }
 
     public async Task<bool> BoSungAsync(Guid id, string text, string version, bool xemLai)
@@ -139,41 +203,43 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
         return me.Id == report.NguoiBaoCaoId;
     }
 
-    public async Task<(Guid Owner, string Snapshot)> DoiTuongAsync(string loai, Guid id)
+    public async Task<NoiDungBaoCao> XemTruocAsync(string loai, Guid id)
+    {
+        var (owner, snapshot) = await DoiTuongAsync(loai, id);
+        Rules.Check(owner != (await current.HienTaiAsync()).Id, "Bạn không thể báo cáo nội dung của chính mình.");
+        return snapshot;
+    }
+
+    private async Task<(Guid Owner, NoiDungBaoCao Snapshot)> DoiTuongAsync(string loai, Guid id)
     {
         var me = await current.HienTaiAsync();
         switch (loai)
         {
             case "TaiKhoan":
-                var user = await db.Users.SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Không tìm thấy tài khoản.", 404);
-                return (user.Id, JsonSerializer.Serialize(new
-                {
-                    user.HoTen
-                }));
+                var hasContact = await db.Set<YeuCauLienHe>().AnyAsync(x => x.TrangThai == "ChapNhan" &&
+                    ((x.GiaSuId == id && x.BenHocId == me.Id) || (x.BenHocId == id && x.GiaSuId == me.Id)));
+                var hasClass = await db.Set<LopHoc>().AnyAsync(x =>
+                    (x.GiaSuId == id && x.BenHocId == me.Id) || (x.BenHocId == id && x.GiaSuId == me.Id));
+                Rules.Check(hasContact || hasClass || await admin.CoQuyenAsync("XuLyBaoCao") ||
+                    await new HoSoCongKhaiQuery(db).CongKhai().AnyAsync(x => x.GiaSuId == id) ||
+                    await TimKiemService.NhuCauCongKhai(db).AnyAsync(x => x.ChuSoHuuId == id),
+                    "Không tìm thấy tài khoản để báo cáo.", 404);
+                var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id)
+                    ?? throw new LoiNghiepVu("Không tìm thấy tài khoản.", 404);
+                return (user.Id, new NoiDungBaoCao(user.HoTen));
             case "HoSoGiaSu":
-                var profile = await db.Set<HoSoGiaSu>().SingleOrDefaultAsync(x => x.Id == id && x.DangHienThi && x.TrangThaiDuyet == "DaDuyet") ?? throw new LoiNghiepVu("Hồ sơ hiện không công khai.", 404);
-                return (profile.GiaSuId, JsonSerializer.Serialize(new
-                {
-                    profile.TrinhDo,
-                    profile.ChuyenMon,
-                    profile.MoTa
-                }));
+                var profile = await new HoSoCongKhaiQuery(db).CongKhai().SingleOrDefaultAsync(x => x.Id == id)
+                    ?? throw new LoiNghiepVu("Hồ sơ hiện không công khai.", 404);
+                var tutorName = await db.Users.Where(x => x.Id == profile.GiaSuId).Select(x => x.HoTen).SingleAsync();
+                return (profile.GiaSuId, new NoiDungBaoCao(tutorName, profile.TrinhDo + "\n" + profile.MoTa));
             case "NhuCauHoc":
-                var need = await db.Set<NhuCauHoc>().SingleOrDefaultAsync(x => x.Id == id && x.TrangThai == "DangMo") ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu công khai.", 404);
-                return (need.ChuSoHuuId, JsonSerializer.Serialize(new
-                {
-                    need.MucTieu,
-                    need.KhoiLop,
-                    need.HocPhiDuKien,
-                    need.DonViHocPhi
-                }));
+                var need = await TimKiemService.NhuCauCongKhai(db).SingleOrDefaultAsync(x => x.Id == id)
+                    ?? throw new LoiNghiepVu("Không tìm thấy nhu cầu công khai.", 404);
+                return (need.ChuSoHuuId, new NoiDungBaoCao($"{need.TenMon} · {need.HoTen}",
+                    string.Join("\n", new[] { need.KhoiLop, need.MucTieu, Rules.Fee(need.HocPhiDuKien, need.DonViHocPhi) }.Where(value => !string.IsNullOrWhiteSpace(value)))));
             case "LopHoc":
                 var lop = await rights.KiemTraQuyenXemAsync(id);
-                return (me.Id == lop.GiaSuId ? lop.BenHocId : lop.GiaSuId, JsonSerializer.Serialize(new
-                {
-                    lop.TenLop,
-                    lop.MucTieu
-                }));
+                return (me.Id == lop.GiaSuId ? lop.BenHocId : lop.GiaSuId, new NoiDungBaoCao(lop.TenLop, lop.MucTieu));
             case "TinNhan":
                 var message = await db.Set<TinNhan>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Không tìm thấy tin nhắn.", 404);
                 var room = await chat.KiemTraAsync(message.CuocHoiThoaiId);
@@ -183,21 +249,19 @@ public sealed class BaoCaoViPhamService(AppDbContext db, NguoiDungHienTaiService
                     if (me.Id != c.GiaSuId && me.Id != c.BenHocId)
                         Rules.Check(await db.Set<ThanhVienLopHoc>().AnyAsync(x => x.LopHocId == c.Id && x.TaiKhoanId == me.Id && x.DuyetLuc <= message.GuiLuc && x.RoiLopLuc == null), "Tin nhắn nằm ngoài lịch sử được cấp.", 403);
                 }
-                return (message.NguoiGuiId, JsonSerializer.Serialize(new
-                {
-                    message.NoiDung,
-                    message.GuiLuc
-                }));
+                var sender = await db.Users.Where(x => x.Id == message.NguoiGuiId).Select(x => x.HoTen).SingleAsync();
+                var attachments = await db.Set<TepDinhKem>().AsNoTracking()
+                    .Where(x => x.TinNhanId == message.Id && x.TrangThaiQuet == "Sach")
+                    .OrderBy(x => x.TaoLuc).ThenBy(x => x.Id)
+                    .Select(x => new TepNguonBaoCao(x.Id, x.TenGoc)).ToListAsync();
+                return (message.NguoiGuiId, new NoiDungBaoCao(sender, message.NoiDung, message.GuiLuc, attachments));
             case "DanhGiaDoiTac":
                 var review = await db.Set<DanhGiaDoiTac>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new LoiNghiepVu("Không tìm thấy đánh giá.", 404);
                 var recipientTutor = await db.Set<GiaSu>().AnyAsync(x => x.TaiKhoanId == review.NguoiNhanId);
                 Rules.Check(recipientTutor || me.LoaiNguoi == "GiaSu" || me.Id == review.NguoiNhanId || me.Id == review.NguoiGuiId, "Bạn không có quyền xem đánh giá này.", 403);
-                return (review.NguoiGuiId, JsonSerializer.Serialize(new
-                {
-                    review.SoSao,
-                    review.NhanXet,
-                    review.PhanHoi
-                }));
+                var reviewText = string.IsNullOrWhiteSpace(review.PhanHoi) ? review.NhanXet
+                    : review.NhanXet + "\n\nPhản hồi: " + review.PhanHoi;
+                return (review.NguoiGuiId, new NoiDungBaoCao($"{review.SoSao}/5 sao", reviewText, review.GuiLuc));
             default:
                 throw new LoiNghiepVu("Loại đối tượng báo cáo không hợp lệ.");
         }

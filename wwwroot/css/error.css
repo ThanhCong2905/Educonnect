@@ -1,0 +1,11 @@
+html { color-scheme: light; }
+body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #f5f6f8; color: #172334; font: 1rem/1.6 'Be Vietnam Pro', system-ui, sans-serif; }
+.error-panel { box-sizing: border-box; width: min(38rem, calc(100% - 2rem)); padding: clamp(1.5rem, 5vw, 3rem); margin-block: 1rem; background: #fff; border: 1px solid #e1e5ea; border-radius: 1rem; }
+.error-brand { color: #9c1d4c; font-weight: 700; text-decoration: none; }
+.error-panel h1 { margin: 1rem 0 .5rem; font-size: clamp(1.5rem, 5vw, 2.1rem); line-height: 1.2; }
+.error-panel p { margin: 0; color: #425368; overflow-wrap: anywhere; }
+.error-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 1.2rem; margin-top: 1.5rem; }
+.error-action { padding: .65rem 1rem; border-radius: .6rem; background: #a61e52; color: #fff; font-weight: 600; text-decoration: none; }
+.error-action:hover { background: #861742; }
+.error-link { color: #8d1c47; text-underline-offset: .2em; }
+.error-panel a:focus-visible { outline: 2px solid #861742; outline-offset: 4px; }

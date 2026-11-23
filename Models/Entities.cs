@@ -48,6 +48,8 @@ public sealed class HoSoGiaSu
 }
 public sealed class HoSoGiaSuMonDay
 {
+    public long? MatNaKhoi { get; set; }
+    public long PhanKhoaHoc { get; set; }
     public Guid? MinhChungId { get; set; }
     public decimal? HocPhiDeXuat { get; set; }
     public string? DonViHocPhi { get; set; }
@@ -68,6 +70,7 @@ public sealed class NhuCauMonHoc
 }
 public sealed class NhuCauHoc
 {
+    public byte PhanKhoaHoc { get; set; }
     public DateTimeOffset? XacNhanConNhuCauLuc { get; set; }
     public DateTimeOffset? NhacXacNhanLuc { get; set; }
     public string? LyDoDong { get; set; }

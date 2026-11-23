@@ -1,0 +1,14 @@
+@{
+    Layout = User.Identity?.IsAuthenticated == true ? "_Layout" : "_GuestLayout";
+    ViewData["Title"] = "Trợ giúp";
+}
+<div class="guide-page help-hub">
+    <header class="guide-intro"><h1>Bạn cần giúp gì?</h1><p>Chọn việc bạn đang làm để xem các bước tiếp theo.</p></header>
+    <div class="help-topics">
+        @foreach (var item in EduConnect.Mvc.ViewModels.HuongDanViewModel.DanhMuc.Where(x => x.Ma is not ("bao-mat" or "dieu-khoan")))
+        {
+            <a href="/huong-dan/@item.Ma"><img src="/images/ui/@(item.BieuTuong).svg" alt=""><span><strong>@item.Ten</strong><small>@item.MoTa</small></span><span aria-hidden="true">›</span></a>
+        }
+    </div>
+    <nav class="help-policy" aria-label="Chính sách"><a href="/huong-dan/bao-mat">Chính sách bảo mật</a><a href="/huong-dan/dieu-khoan">Điều khoản sử dụng</a></nav>
+</div>
