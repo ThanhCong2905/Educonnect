@@ -1,8 +1,9 @@
+const signIn = require('./sign-in.cjs');
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),{execFileSync}=require('node:child_process');
 (async()=>{
  const f=JSON.parse(await fs.readFile('tests/ChatAttachments/bin/Debug/net10.0/results.json','utf8'));
  assert.ok(f.database.startsWith('EduConnect_Verification_'));
- const sql=q=>execFileSync('sqlcmd',['-S','lpc:CONGVJP','-d',f.database,'-E','-C','-b','-f','65001'],{input:q+'\nGO\n',encoding:'utf8'});
+ const sql=q=>execFileSync('sqlcmd',['-S','lpc:CONGVJP','-d',f.database,'-E','-C','-I','-b','-f','65001'],{input:q+'\nGO\n',encoding:'utf8'});
  sql(`UPDATE dbo.LopHoc SET TrangThai='DangHoatDong' WHERE Id='${f.classId}';`);
  const base=process.env.EDU_TEST_URL||'http://127.0.0.1:5282',checks=[],errors=[];
  const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});
@@ -12,8 +13,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const sockets=[];let blocked=false;
   await ctx.routeWebSocket('**/cap-nhat*',ws=>{if(blocked){ws.close();return;}sockets.push(ws);ws.connectToServer();});
   const p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));
-  await p.goto(base);await p.locator('.preview summary').click();await p.locator('.preview select').selectOption(id);
-  await Promise.all([p.waitForEvent('framenavigated',frame=>frame===p.mainFrame()),p.locator('.preview button').click()]);
+  await signIn(p,base,id);
   await p.waitForFunction(()=>window.EduRealtime?.connected);
   return {p,ctx,sockets,block(value){blocked=value;if(value)for(const ws of sockets)ws.close({code:1001,reason:'test reconnect'});}};
  }
@@ -45,7 +45,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const classText='class-rt-'+Date.now();await af.locator('.compose textarea').fill(classText);await af.locator('.compose button[type=submit],.compose button:not([type])').last().click();await bf.getByText(classText,{exact:true}).waitFor({timeout:10000});checks.push({name:'Class iframe shares parent connection and receives message'});
   const fallback=await user(f.learner,false);await fallback.ctx.route('**/lib/signalr/signalr.min.js*',route=>route.abort());await fallback.p.goto(base+'/HocTap/TinNhan/Index?id='+f.room);assert.equal(await fallback.p.evaluate(()=>!!window.EduRealtime),false);
   await open(a,'/HocTap/TinNhan/Index?id='+f.room);const fallbackText='fallback-'+Date.now();await send(a.p,fallbackText);await fallback.p.getByText(fallbackText,{exact:true}).waitFor({timeout:10000});checks.push({name:'HTTP chat and polling remain functional when SignalR client is unavailable'});await fallback.ctx.close();
-  const second=await a.ctx.newPage();await second.goto(base);await second.locator('.preview summary').click();await second.locator('.preview select').selectOption(f.learner);await Promise.all([second.waitForEvent('framenavigated',frame=>frame===second.mainFrame()),second.locator('.preview button').click()]);
+  const second=await a.ctx.newPage();await second.goto(base+'/TaiKhoan/HoSo');const logoutToken=await second.locator('[name="__RequestVerificationToken"]').first().inputValue();const logout=await second.request.post(base+'/TaiKhoan/DangXuat',{form:{__RequestVerificationToken:logoutToken},maxRedirects:0});assert.equal(logout.status(),302);await signIn(second,base,f.learner);
   await a.p.waitForFunction(()=>!window.EduRealtime.connected);await a.p.waitForFunction(()=>document.querySelector('[data-realtime-status]')?.textContent.includes('Phiên đã thay đổi'),{},{timeout:15000});checks.push({name:'Changing account in another tab stops stale identity connection'});
   assert.deepEqual(errors,[]);await fs.writeFile('docs/qa/realtime-browser-results.json',JSON.stringify({checks,errors,database:f.database},null,2));console.log(JSON.stringify(checks,null,2));
  }finally{await browser.close();}

@@ -72,6 +72,82 @@ public sealed class CompetingProposalTests
         Assert.Contains("Yêu cầu đã đóng", Rules.ErrorMessage(edit));
     }
 
+    [Theory]
+    [InlineData("DaRut")]
+    [InlineData("TuChoi")]
+    public async Task Current_version_can_be_answered_once_before_expiry(string action)
+    {
+        await using var db = ProposalRegressionTests.Open();
+        var people = await ProposalRegressionTests.Seed(db);
+        var need = Need(people.Learner);
+        db.Add(need);
+        await db.SaveChangesAsync();
+        var id = await ProposalRegressionTests.Service(db, people.Tutor)
+            .GuiDeXuatAsync(Proposal(people.Contact, need.Id));
+        var request = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == id);
+        var version = Convert.ToBase64String(request.RowVersion);
+        var actor = action == "DaRut" ? people.Tutor : people.Learner;
+        var recipient = action == "DaRut" ? people.Learner : people.Tutor;
+        var notices = db.Set<ThongBao>().Where(x => x.DoiTuongId == id && x.NguoiNhanId == recipient);
+        var before = await notices.CountAsync();
+        await using (var wrongActor = ProposalRegressionTests.Open())
+        {
+            var forbidden = await Assert.ThrowsAsync<LoiNghiepVu>(() =>
+                ProposalRegressionTests.Service(wrongActor, recipient).PhanHoiAsync(id, action, version));
+            Assert.Equal(403, forbidden.Status);
+        }
+        await using (var stale = ProposalRegressionTests.Open())
+        {
+            await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() =>
+                ProposalRegressionTests.Service(stale, actor).PhanHoiAsync(id, action, Convert.ToBase64String(new byte[8])));
+        }
+        await ProposalRegressionTests.Service(db, actor).PhanHoiAsync(id, action, version);
+        await using var retry = ProposalRegressionTests.Open();
+        var conflict = await Assert.ThrowsAsync<LoiNghiepVu>(() =>
+            ProposalRegressionTests.Service(retry, actor).PhanHoiAsync(id, action, version));
+        Assert.Equal(409, conflict.Status);
+        Assert.Equal(action, (await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == id)).TrangThai);
+        Assert.Equal(before + 1, await notices.CountAsync());
+    }
+
+    [Theory]
+    [InlineData("DaRut")]
+    [InlineData("TuChoi")]
+    public async Task Response_waiting_for_the_request_lock_cannot_be_saved_after_expiry(string action)
+    {
+        await using var db = ProposalRegressionTests.Open();
+        var people = await ProposalRegressionTests.Seed(db);
+        var need = Need(people.Learner);
+        db.Add(need);
+        await db.SaveChangesAsync();
+        var id = await ProposalRegressionTests.Service(db, people.Tutor)
+            .GuiDeXuatAsync(Proposal(people.Contact, need.Id));
+        var noticesBefore = await db.Set<ThongBao>().CountAsync(x => x.DoiTuongId == id);
+        await using var responder = ProposalRegressionTests.Open();
+        await responder.Database.OpenConnectionAsync();
+        await db.Database.ExecuteSqlInterpolatedAsync($"""
+            DECLARE @expires datetimeoffset(0) = DATEADD(second, 4, SYSDATETIMEOFFSET());
+            UPDATE dbo.YeuCauKetNoiLopHoc
+            SET GuiLuc = DATEADD(hour, -72, @expires), DeXuatLuc = DATEADD(hour, -72, @expires), HetHanLuc = @expires
+            WHERE Id = {id}
+            """);
+        var request = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == id);
+        await using var blocker = await db.Database.BeginTransactionAsync();
+        await db.Database.ExecuteSqlInterpolatedAsync($"SELECT Id FROM dbo.YeuCauKetNoiLopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}");
+        var actor = action == "DaRut" ? people.Tutor : people.Learner;
+        var response = ProposalRegressionTests.Service(responder, actor)
+            .PhanHoiAsync(id, action, Convert.ToBase64String(request.RowVersion));
+        var remaining = request.HetHanLuc - await GiaoDichNghiepVu.GioMayChuAsync(db);
+        Assert.True(remaining > TimeSpan.Zero);
+        await Task.Delay(remaining + TimeSpan.FromMilliseconds(150));
+        Assert.False(response.IsCompleted);
+        await blocker.CommitAsync();
+        var error = await Assert.ThrowsAsync<LoiNghiepVu>(() => response);
+        Assert.Equal(409, error.Status);
+        Assert.Equal("ChoBenHoc", (await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == id)).TrangThai);
+        Assert.Equal(noticesBefore, await db.Set<ThongBao>().CountAsync(x => x.DoiTuongId == id));
+    }
+
     [Fact]
     public async Task Two_simultaneous_acceptances_create_one_class_and_finish_the_other_request()
     {

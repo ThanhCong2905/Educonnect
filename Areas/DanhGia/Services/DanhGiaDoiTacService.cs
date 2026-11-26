@@ -105,7 +105,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
         var total = counts.Values.Sum();
         const int pageSize = 20;
         var items = noiBat
-            ? await query.OrderByDescending(x => x.SoSao).ThenByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Take(3).ToListAsync()
+            ? await query.OrderByDescending(x => x.GuiLuc).ThenByDescending(x => x.SoSao).ThenBy(x => x.Id).Take(5).ToListAsync()
             : await query.OrderByDescending(x => x.GuiLuc).ThenBy(x => x.Id).Skip((trang - 1) * pageSize).Take(pageSize).ToListAsync();
         return new DanhGiaCongKhaiPage
         {
@@ -116,7 +116,7 @@ public sealed class DanhGiaDoiTacService(AppDbContext db, NguoiDungHienTaiServic
             DanhGia = new Page<DanhGiaDoiTac>
             {
                 Trang = trang,
-                KichThuocTrang = noiBat ? 3 : pageSize,
+                KichThuocTrang = noiBat ? 5 : pageSize,
                 Total = total,
                 Items = items
             }

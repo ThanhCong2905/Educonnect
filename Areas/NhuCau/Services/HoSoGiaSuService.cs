@@ -35,6 +35,15 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
         var u = await GiaSuAsync();
         var h = await db.Set<HoSoGiaSu>().AsNoTracking().SingleOrDefaultAsync(x => x.GiaSuId == u.Id);
         if (h == null) return new() { HoTen = u.HoTen };
+        var subjects = await db.Set<HoSoGiaSuMonDay>().Where(x => x.HoSoGiaSuId == h.Id).OrderBy(x => x.MonHocId)
+            .Select(x => new MonDayInput { MonHocId = x.MonHocId, PhamViDay = x.PhamViDay, HocPhiDeXuat = x.HocPhiDeXuat, DonViHocPhi = x.DonViHocPhi, MinhChungId = x.MinhChungId, PhanKhoaHoc = x.PhanKhoaHoc }).ToListAsync();
+        foreach (var subject in subjects)
+        {
+            subject.LopDay = HoSoLuaChon.LopDay(subject.PhamViDay).Select(PhamViMonHoc.DocKhoi).Where(grade => grade > 0).ToList();
+            subject.PhanTheoLop = subject.LopDay.SelectMany(grade => Enumerable.Range(0, 3)
+                .Where(part => (subject.PhanKhoaHoc & PhamViMonHoc.BitPhan(grade, part)) != 0)
+                .Select(part => grade * 10 + part + 1)).ToList();
+        }
         return new()
         {
             HoTen=u.HoTen, RowVersion=Convert.ToBase64String(h.RowVersion), TrinhDo=h.TrinhDo,
@@ -43,8 +52,7 @@ public sealed class HoSoGiaSuService(AppDbContext db, NguoiDungHienTaiService cu
             PhuongXa=h.PhuongXa, DiaChiChiTiet=h.DiaChiChiTiet,
             DangHienThi=h.DangHienThi, TrangThaiDuyet=h.TrangThaiDuyet, LyDoTuChoi=h.LyDoTuChoi,
             DayTrucTuyen=h.DayTrucTuyen, DayTrucTiep=h.DayTrucTiep,
-            MonDay=await db.Set<HoSoGiaSuMonDay>().Where(x=>x.HoSoGiaSuId==h.Id).OrderBy(x=>x.MonHocId)
-                .Select(x=>new MonDayInput{MonHocId=x.MonHocId,PhamViDay=x.PhamViDay,HocPhiDeXuat=x.HocPhiDeXuat,DonViHocPhi=x.DonViHocPhi,MinhChungId=x.MinhChungId,PhanKhoaHoc=x.PhanKhoaHoc}).ToListAsync()
+            MonDay=subjects
         };
     }
     public async Task CapNhatAsync(HoSoInput m)

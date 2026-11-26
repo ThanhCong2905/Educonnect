@@ -12,6 +12,31 @@ using Xunit;
 
 public sealed class SubjectScopeTests
 {
+    [Fact]
+    public async Task Editing_profile_restores_saved_grades_and_integrated_subject_parts()
+    {
+        await using var db = ProposalRegressionTests.Open();
+        var seed = await ProposalRegressionTests.Seed(db);
+        var profile = await db.Set<HoSoGiaSu>().SingleAsync(value => value.GiaSuId == seed.Tutor);
+        var subject = await db.Set<MonHoc>().SingleAsync(value => value.TenMon == PhamViMonHoc.KhoaHocTuNhien);
+        db.Add(new HoSoGiaSuMonDay
+        {
+            HoSoGiaSuId = profile.Id, MonHocId = subject.Id, PhamViDay = "Lớp 6, Lớp 7",
+            MatNaKhoi = PhamViMonHoc.BitKhoi(6) | PhamViMonHoc.BitKhoi(7),
+            PhanKhoaHoc = PhamViMonHoc.BitPhan(6, 1) | PhamViMonHoc.BitPhan(7, 2),
+            HocPhiDeXuat = 100000, DonViHocPhi = "VND/Gio"
+        });
+        await db.SaveChangesAsync();
+        var current = Current(db, seed.Tutor);
+        var files = new TepService(db, current, new QuyenLopHocService(db, current), new LocalEnv());
+        var service = new HoSoGiaSuService(db, current, new MonHocCatalog(db), files, new ThongBaoService(db, current));
+        var input = await service.LayDeSuaAsync();
+        var restored = Assert.Single(input.MonDay, value => value.MonHocId == subject.Id);
+        Assert.Equal(new[] { 6, 7 }, restored.LopDay);
+        Assert.Equal(new[] { 62, 73 }, restored.PhanTheoLop);
+        Assert.Equal(new[] { 12 }, input.MonDay.Single(value => value.MonHocId == 1).LopDay);
+    }
+
     private static NguoiDungHienTaiService Current(AppDbContext db, Guid? actor = null)
     {
         var context = new DefaultHttpContext();

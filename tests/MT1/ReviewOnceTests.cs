@@ -30,7 +30,7 @@ public sealed class ReviewOnceTests
         var people = await ProposalRegressionTests.Seed(db);
         var request = await ProposalRegressionTests.Service(db, people.Tutor).GuiDeXuatAsync(new DeXuatLopViewModel
         {
-            LienHeId = people.Contact, TenLop = "Kiểm thử đánh giá", MucTieu = "Ôn tập", HocPhi = 0,
+            LienHeId = people.Contact, TenNguoiHoc = "Học sinh kiểm thử", TenLop = "Kiểm thử đánh giá", MucTieu = "Ôn tập", HocPhi = 0,
             ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7),
             LichRanh = [new() { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }]
         });

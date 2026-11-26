@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using EduConnect.Mvc.Data;
 using EduConnect.Mvc.Models;
 using EduConnect.Mvc.Infrastructure;
@@ -13,12 +14,18 @@ var database=fixture.GetProperty("database").GetString()!;if(!database.StartsWit
 var cs=Environment.GetEnvironmentVariable("EDU_TEST_CONNECTION")??$"Server=lpc:CONGVJP;Database={database};Integrated Security=True;Encrypt=False";
 if(new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs).InitialCatalog!=database)throw new Exception("Fixture DB mismatch");
 using var db=new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
-var current=new NguoiDungHienTaiService(db,new Accessor{HttpContext=new DefaultHttpContext{Session=new Session()}});var rights=new QuyenLopHocService(db,current);var env=new Env();var files=new TepService(db,current,rights,env);var chat=new TinNhanService(db,current,rights,files);
+var http=new DefaultHttpContext{Session=new Session()};var current=new NguoiDungHienTaiService(db,new Accessor{HttpContext=http});var rights=new QuyenLopHocService(db,current);var env=new Env();var files=new TepService(db,current,rights,env,configuration:new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string,string?> { ["FileScanning:AllowUnscannedUploads"]="true" }).Build());var chat=new TinNhanService(db,current,rights,files);
 var tutor=fixture.GetProperty("tutor").GetGuid();var learner=fixture.GetProperty("learner").GetGuid();var outsider=Guid.NewGuid();var reader=Guid.NewGuid();var editor=Guid.NewGuid();
 var room=await db.Set<CuocHoiThoai>().Where(c=>c.GiaSuId==tutor&&c.BenHocId==learner&&c.LoaiHoiThoai=="TruocKetNoi").Select(c=>c.Id).SingleAsync();var c=await db.Set<LopHoc>().SingleAsync(c=>c.GiaSuId==tutor&&c.BenHocId==learner);var classId=c.Id;c.TrangThai="DangHoatDong";
-db.AddRange(new NguoiThamGia{Id=outsider,HoTen="Attachment outsider",LoaiNguoi="HocSinh"},new NguoiThamGia{Id=reader,HoTen="Attachment reader",LoaiNguoi="PhuHuynh"},new NguoiThamGia{Id=editor,HoTen="Attachment editor",LoaiNguoi="HocSinh"});await db.SaveChangesAsync();
-foreach(var member in new[]{reader,editor})db.Add(new ThanhVienLopHoc{Id=Guid.NewGuid(),LopHocId=classId,TaiKhoanId=member,NguoiDeNghiId=tutor,TrangThaiDuyet="DaDuyet",MucQuyen=member==reader?"Xem":"ChinhSua",DeNghiLuc=DateTimeOffset.UtcNow,DuyetLuc=DateTimeOffset.UtcNow});await db.SaveChangesAsync();
-var checks=new List<string>();void Check(bool b,string message){if(!b)throw new Exception(message);}async Task User(Guid id){db.ChangeTracker.Clear();await current.ChonAsync(id);}async Task Pass(string name,Func<Task> f){await f();checks.Add(name);Console.WriteLine("PASS "+name);}async Task Denied(Func<Task> f){try{await f();throw new Exception("Expected denial");}catch(LoiNghiepVu){}finally{db.ChangeTracker.Clear();}}
+await IdentityFixture.SeedAsync(db,new NguoiThamGia{Id=outsider,HoTen="Attachment outsider",LoaiNguoi="HocSinh"},new NguoiThamGia{Id=reader,HoTen="Attachment reader",LoaiNguoi="PhuHuynh"},new NguoiThamGia{Id=editor,HoTen="Attachment editor",LoaiNguoi="PhuHuynh"});await db.SaveChangesAsync();
+foreach(var member in new[]{reader,editor})
+{
+ var link=new LienKetPhuHuynhHocSinh{Id=Guid.NewGuid(),PhuHuynhId=member,HocSinhId=learner,NguoiGuiId=member,TrangThai="DaLienKet",GuiLuc=DateTimeOffset.UtcNow,XacNhanLuc=DateTimeOffset.UtcNow};
+ db.Add(link);await db.SaveChangesAsync();
+ db.Add(new ThanhVienLopHoc{Id=Guid.NewGuid(),LopHocId=classId,TaiKhoanId=member,LienKetId=link.Id,NguoiDeNghiId=tutor,TrangThaiDuyet="DaDuyet",MucQuyen=member==reader?"Xem":"ChinhSua",DeNghiLuc=DateTimeOffset.UtcNow,DuyetLuc=DateTimeOffset.UtcNow});
+ await db.SaveChangesAsync();
+}
+var checks=new List<string>();void Check(bool b,string message){if(!b)throw new Exception(message);}async Task User(Guid id){db.ChangeTracker.Clear();await IdentityFixture.SignInAsync(http, id);}async Task Pass(string name,Func<Task> f){await f();checks.Add(name);Console.WriteLine("PASS "+name);}async Task Denied(Func<Task> f){try{await f();throw new Exception("Expected denial");}catch(LoiNghiepVu){}finally{db.ChangeTracker.Clear();}}
 var png=Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+nmVQAAAAASUVORK5CYII=");
 IFormFile FileOf(string name,byte[]? bytes=null,long? length=null){var data=bytes??png;return new FormFile(new MemoryStream(data),0,length??data.Length,"Files",name);}
 await User(tutor);var first=new GuiTinNhanViewModel{MaHoiThoai=room,Files=[FileOf("ảnh.png")]};Guid firstMessage=Guid.Empty,fileId=Guid.Empty;

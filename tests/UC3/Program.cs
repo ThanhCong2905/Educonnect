@@ -26,7 +26,7 @@ var reader = Guid.NewGuid(); var editor = Guid.NewGuid(); var outsider = Guid.Ne
 (LichHocService Schedule, BaiTapService Tasks, ThongBaoService Notices, TepService Files, QuyenLopHocService Rights, LopHocService Classes) Services(AppDbContext db, Guid actor)
 {
     var http = new DefaultHttpContext { Session = new TestSession() };
-    http.Session.SetString("participant", actor.ToString());
+    IdentityFixture.SignInAsync(http, actor).GetAwaiter().GetResult();
     var user = new NguoiDungHienTaiService(db, new HttpContextAccessor { HttpContext = http });
     var rights = new QuyenLopHocService(db, user); var notices = new ThongBaoService(db, user);
     var files = new TepService(db, user, rights, new TestEnvironment(root));
@@ -40,16 +40,28 @@ async Task Denied(Func<Task> action, int status, string name)
     catch (Exception ex) when (Rules.ErrorStatus(ex) == status) { Check(true, name); }
 }
 using var setup = Db();
-var original = await setup.Set<LopHoc>().FirstAsync();
+var original = await setup.Set<LopHoc>().FirstAsync(x => x.TrangThai == "DangHoatDong");
+tutor = original.GiaSuId; learner = original.BenHocId;
 var request = await setup.Set<YeuCauKetNoiLopHoc>().SingleAsync(x => x.Id == original.YeuCauKetNoiId);
 var copiedRequest = (YeuCauKetNoiLopHoc)setup.Entry(request).CurrentValues.ToObject();
 copiedRequest.Id = Guid.NewGuid(); copiedRequest.RowVersion = []; setup.Add(copiedRequest); await setup.SaveChangesAsync();
 var classroom = (LopHoc)setup.Entry(original).CurrentValues.ToObject();
 classroom.Id = Guid.NewGuid(); classroom.YeuCauKetNoiId = copiedRequest.Id; classroom.RowVersion = []; classroom.TrangThai = "DangHoatDong";
 setup.Add(classroom);
-foreach (var person in new[] { reader, editor, outsider, departed }) setup.Add(new NguoiThamGia { Id = person, HoTen = "UC3 " + person, LoaiNguoi = "PhuHuynh" });
+foreach (var person in new[] { reader, editor, outsider, departed }) await IdentityFixture.SeedAsync(setup,new NguoiThamGia { Id = person, HoTen = "UC3 " + person, LoaiNguoi = "PhuHuynh" });
 await setup.SaveChangesAsync();
-foreach (var person in new[] { reader, editor, departed }) setup.Add(new ThanhVienLopHoc { Id = Guid.NewGuid(), LopHocId = classroom.Id, TaiKhoanId = person, NguoiDeNghiId = learner, TrangThaiDuyet = "DaDuyet", MucQuyen = person == reader ? "Xem" : "ChinhSua", DeNghiLuc = DateTimeOffset.UtcNow, DuyetLuc = DateTimeOffset.UtcNow, RoiLopLuc = person == departed ? DateTimeOffset.UtcNow : null });
+foreach (var person in new[] { reader, editor, departed })
+{
+    var link = new LienKetPhuHuynhHocSinh
+    {
+        Id = Guid.NewGuid(), PhuHuynhId = person, HocSinhId = learner,
+        NguoiGuiId = person, TrangThai = "DaLienKet",
+        GuiLuc = DateTimeOffset.UtcNow, XacNhanLuc = DateTimeOffset.UtcNow
+    };
+    setup.Add(link);
+    await setup.SaveChangesAsync();
+    setup.Add(new ThanhVienLopHoc { Id = Guid.NewGuid(), LopHocId = classroom.Id, TaiKhoanId = person, LienKetId = link.Id, ChoPhepNopBai = person == editor, NguoiDeNghiId = learner, TrangThaiDuyet = "DaDuyet", MucQuyen = person == reader ? "Xem" : "ChinhSua", DeNghiLuc = DateTimeOffset.UtcNow, DuyetLuc = DateTimeOffset.UtcNow, RoiLopLuc = person == departed ? DateTimeOffset.UtcNow : null });
+}
 await setup.SaveChangesAsync();
 using (var db = Db()) Check((await Services(db, learner).Rights.KiemTraQuyenGhiAsync(classroom.Id)).Id == classroom.Id, "Bên học nộp được khi không có bản ghi thành viên phụ");
 using (var db = Db()) await Denied(() => Services(db, reader).Rights.KiemTraQuyenGhiAsync(classroom.Id), 403, "Thành viên Xem không được ghi");
@@ -57,7 +69,9 @@ using (var db = Db()) await Denied(() => Services(db, reader).Rights.KiemTraQuye
 async Task<Guid> Assignment(bool late = true)
 {
     using var db = Db(); var id = Guid.NewGuid();
-    db.Add(new BaiTapGiao { Id = id, LopHocId = classroom.Id, NguoiGiaoId = tutor, TieuDe = "UC3 bài tập", NoiDung = "Nội dung", HanNopLuc = late ? DateTimeOffset.UtcNow.AddDays(-1) : DateTimeOffset.UtcNow.AddDays(2) });
+    var schedule = await Schedule(DateTimeOffset.UtcNow.AddDays(-3));
+    var lesson = await db.Set<BuoiHoc>().SingleAsync(lesson => lesson.LichHocId == schedule);
+    db.Add(new BaiTapGiao { Id = id, LopHocId = classroom.Id, BuoiHocId = lesson.Id, TrangThai = "DaGiao", NguoiGiaoId = tutor, TieuDe = "UC3 bài tập", NoiDung = "Nội dung", HanNopLuc = late ? DateTimeOffset.UtcNow.AddDays(-1) : DateTimeOffset.UtcNow.AddDays(2) });
     await db.SaveChangesAsync(); return id;
 }
 async Task<Guid> Schedule(DateTimeOffset start)
@@ -116,23 +130,37 @@ var change = new SuaLichInput { Id = old.Id, RowVersion = Convert.ToBase64String
 using (var db = Db()) await Services(db, tutor).Schedule.SuaAsync(change);
 using (var db = Db())
 {
-    var history = await db.Set<LichHoc>().SingleAsync(x => x.Id == old.Id); var replacement = await db.Set<LichHoc>().SingleAsync(x => x.LichGocId == old.Id);
-    Check(history.BatDauLuc == old.BatDauLuc && history.TrangThai == "DaDieuChinh", "Đổi lịch giữ nguyên giờ cũ và đánh dấu lịch đã thay thế");
-    Check(replacement.TrangThai == "DaLenLich" && replacement.BatDauLuc == future.AddHours(3), "Tạo lịch thay thế có liên kết gốc");
+    var updated = await db.Set<LichHoc>().SingleAsync(x => x.Id == old.Id);
+    var history = await db.Set<LichSuDieuChinhLich>().SingleAsync(x => x.LichHocId == old.Id);
+    Check(history.BatDauCu == old.BatDauLuc && history.BatDauMoi == future.AddHours(3), "Lưu giờ cũ và mới trong lịch sử");
+    Check(updated.TrangThai == "DaLenLich" && updated.BatDauLuc == future.AddHours(3), "Đổi giờ giữ nguyên mã lịch");
 }
 using (var db = Db()) await Denied(() => Services(db, tutor).Schedule.SuaAsync(change), 409, "Lịch đã thay thế không được sửa lần nữa");
 using (var db = Db()) await Services(db, tutor).Schedule.ThemHangLoatAsync(new() { LopHocId = classroom.Id, Buoi = [Slot(future)] });
 Check(true, "Khung giờ lịch cũ đã thay thế có thể dùng lại");
 using (var db = Db()) await Denied(() => Services(db, tutor).Schedule.ThemHangLoatAsync(new() { LopHocId = classroom.Id, Buoi = [Slot(future)] }), 409, "Từ chối lịch chồng lấn");
 var pastId = await Schedule(DateTimeOffset.UtcNow.AddDays(-3));
+using (var db = Db())
+{
+    var lesson = await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x => x.LichHocId == pastId);
+    await Services(db, tutor).Schedule.GhiNhanAsync(new()
+    {
+        LichHocId = pastId, RowVersion = Convert.ToBase64String(lesson.RowVersion),
+        KetQuaBuoiHoc = "KhongDienRa", TrangThaiBenHoc = "VangCoBaoTruoc", CanHocBu = true, NhanXet = "Người học báo nghỉ, cần xếp buổi bù."
+    });
+}
 LichHoc past; using (var db = Db()) past = await db.Set<LichHoc>().AsNoTracking().SingleAsync(x => x.Id == pastId);
 using (var db = Db()) await Services(db, tutor).Schedule.TaoBuoiBuAsync(new() { Id = pastId, RowVersion = Convert.ToBase64String(past.RowVersion), Lich = Slot(future.AddHours(6)) });
 using (var db = Db()) Check((await db.Set<LichHoc>().SingleAsync(x => x.Id == pastId)).TrangThai == "DaLenLich" && (await db.Set<LichHoc>().SingleAsync(x => x.LichGocId == pastId)).LaBuoiBu, "Buổi bù giữ nguyên buổi gốc");
 using (var db = Db()) await Denied(() => Services(db, learner).Schedule.TaoBuoiBuAsync(new() { Id = pastId, RowVersion = Convert.ToBase64String(past.RowVersion), Lich = Slot(future.AddHours(7)) }), 403, "Bên học không trực tiếp tạo buổi bù");
-using (var db = Db()) { var id = (await db.Set<LichHoc>().SingleAsync(x => x.LichGocId == oldId)).Id; await Denied(() => Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = id, NoiDung = "Sớm", NhanXet = "Sớm" }), 409, "Không ghi nhận trước giờ kết thúc"); }
-using (var db = Db()) await Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = pastId, NoiDung = "Nội dung đã học", NhanXet = "Vắng", KetQuaBuoiHoc = "KhongDienRa", TrangThaiBenHoc = "VangKhongBaoTruoc" });
+using (var db = Db()) { await Denied(() => Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = oldId, NoiDung = "Sớm", NhanXet = "Sớm" }), 409, "Không ghi nhận trước giờ kết thúc"); }
+using (var db = Db())
+{
+    var current = await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x => x.LichHocId == pastId);
+    await Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = pastId, RowVersion = Convert.ToBase64String(current.RowVersion), CanHocBu = true, NoiDung = "Nội dung đã học", NhanXet = "Vắng", KetQuaBuoiHoc = "KhongDienRa", TrangThaiBenHoc = "VangKhongBaoTruoc" });
+}
 BuoiHoc record; using (var db = Db()) record = await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x => x.LichHocId == pastId);
-using (var db = Db()) await Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = pastId, NoiDung = "Bổ sung", NhanXet = "Cập nhật", RowVersion = Convert.ToBase64String(record.RowVersion) });
+using (var db = Db()) await Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = pastId, KetQuaBuoiHoc = "KhongDienRa", TrangThaiBenHoc = "VangKhongBaoTruoc", CanHocBu = true, NoiDung = "Bổ sung", NhanXet = "Cập nhật", RowVersion = Convert.ToBase64String(record.RowVersion) });
 using (var db = Db()) await Denied(() => Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = pastId, NoiDung = "Cũ", NhanXet = "Cũ", RowVersion = Convert.ToBase64String(record.RowVersion) }), 409, "Ghi nhận cũ không ghi đè phiên bản mới");
 using (var db = Db()) Check(await db.Set<LichSuGhiNhanBuoiHoc>().AnyAsync(x => x.BuoiHocId == record.Id && x.PhienBan == record.PhienBan && x.NhanXet == "Vắng") && (await db.Set<BuoiHoc>().SingleAsync(x => x.Id == record.Id)).PhienBan == record.PhienBan + 1, "Giữ phiên bản cũ và ghi nhận hiện hành khi sửa");
 using (var db = Db()) Check(await db.Set<ThongBao>().AnyAsync(x => x.DoiTuongId == pastId && x.NguoiNhanId == tutor && x.NoiDungTomTat == "Bên học vắng không báo trước."), "Thông báo vắng không báo trước cho bên còn lại");
@@ -166,12 +194,28 @@ using (var db = Db())
     Check(!Directory.EnumerateFiles(Path.Combine(root, "uploads", ".quarantine")).Any(), "Dọn vùng cách ly sau kiểm tra thành công/lỗi");
 }
 var rollbackTitle = "rollback-" + Guid.NewGuid();
+var rollbackSchedule = await Schedule(DateTimeOffset.UtcNow.AddDays(-2));
+Guid rollbackLesson;
+using (var db = Db())
+{
+    var lesson = await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x => x.LichHocId == rollbackSchedule);
+    await Services(db, tutor).Schedule.GhiNhanAsync(new() { LichHocId = rollbackSchedule, RowVersion = Convert.ToBase64String(lesson.RowVersion), NoiDung = "Buổi học trước khi giao bài" });
+    rollbackLesson = lesson.Id;
+}
 var filesBefore = Directory.GetFiles(Path.Combine(root, "uploads")).Length;
 using (var db = Db()) await db.Database.ExecuteSqlRawAsync("CREATE OR ALTER TRIGGER dbo.tr_UC3_TestFailure ON dbo.ThongBao AFTER INSERT AS BEGIN IF EXISTS(SELECT 1 FROM inserted WHERE NoiDungTomTat=N'Có bài tập mới.') THROW 51300,N'Test rollback after file write',1; END;");
 try
 {
     using var db = Db();
-    await Denied(() => Services(db, tutor).Tasks.GiaoAsync(new() { LopHocId = classroom.Id, TieuDe = rollbackTitle, NoiDung = "Kiểm tra rollback", HanNopLuc = DateTime.Today.AddDays(3), Files = [FileOf("rollback.png")] }), 400, "Lỗi lưu thông báo sau ghi tệp làm thao tác thất bại");
+    try
+    {
+        await Services(db, tutor).Tasks.GiaoAsync(new() { LopHocId = classroom.Id, BuoiHocId = rollbackLesson, TieuDe = rollbackTitle, NoiDung = "Kiểm tra rollback", HanNopLuc = DateTime.Today.AddDays(3), Files = [FileOf("rollback.png")] });
+        throw new Exception("Expected injected SQL failure.");
+    }
+    catch (Exception error) when (Rules.ErrorStatus(error) == 400)
+    {
+        Check(Rules.ErrorMessage(error).Contains("Test rollback after file write"), "Đã đi tới lỗi SQL sau khi ghi tệp");
+    }
 }
 finally { using var db = Db(); await db.Database.ExecuteSqlRawAsync("DROP TRIGGER dbo.tr_UC3_TestFailure;"); }
 using (var db = Db()) Check(!await db.Set<BaiTapGiao>().AnyAsync(x => x.TieuDe == rollbackTitle) && Directory.GetFiles(Path.Combine(root, "uploads")).Length == filesBefore, "Rollback cả bài tập và dọn tệp đã ghi");
@@ -190,7 +234,14 @@ var browserAssignment = await Assignment(); var browserSchedule = await Schedule
 using (var db = Db()) await db.Database.ExecuteSqlInterpolatedAsync($"UPDATE dbo.LopHoc SET TrangThai='DaKetThuc' WHERE Id={classroom.Id}");
 try { using var db = Db(); await Denied(() => Services(db, learner).Tasks.NopAsync(new() { BaiTapGiaoId = browserAssignment, NoiDung = "Lớp đã kết thúc" }), 409, "Lớp kết thúc khóa thao tác học tập mới"); }
 finally { using var db = Db(); await db.Database.ExecuteSqlInterpolatedAsync($"UPDATE dbo.LopHoc SET TrangThai='DangHoatDong' WHERE Id={classroom.Id}"); }
-await File.WriteAllTextAsync(".uc3-build/fixture.json", System.Text.Json.JsonSerializer.Serialize(new { database = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(connection).InitialCatalog, tutor, learner, reader, editor, classroom = classroom.Id, assignment = browserAssignment, schedule = browserSchedule, past = pastId, future = future.ToOffset(TimeSpan.FromHours(7)).DateTime.ToString("yyyy-MM-ddTHH:mm") }));
+var browserPast=await Schedule(DateTimeOffset.UtcNow.AddDays(-3));
+var makeupPast=await Schedule(DateTimeOffset.UtcNow.AddDays(-4));
+using(var db=Db()){
+ var lesson=await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x=>x.LichHocId==makeupPast);
+ await Services(db,tutor).Schedule.GhiNhanAsync(new(){LichHocId=makeupPast,RowVersion=Convert.ToBase64String(lesson.RowVersion),KetQuaBuoiHoc="KhongDienRa",TrangThaiBenHoc="VangCoBaoTruoc",NhanXet="Báo nghỉ, cần học bù",CanHocBu=true});
+}
+await IdentityFixture.PrepareLoginAsync(setup,tutor,learner,reader,editor,outsider,departed);
+await File.WriteAllTextAsync(".uc3-build/fixture.json", System.Text.Json.JsonSerializer.Serialize(new { database = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(connection).InitialCatalog, tutor, learner, reader, editor, classroom = classroom.Id, assignment = browserAssignment, schedule = browserSchedule, past = browserPast, makeupPast, makeupDay = DateTimeOffset.UtcNow.AddDays(-4).ToOffset(TimeSpan.FromHours(7)).ToString("yyyy-MM-dd"), future = future.ToOffset(TimeSpan.FromHours(7)).DateTime.ToString("yyyy-MM-ddTHH:mm") }));
 await File.WriteAllTextAsync(".uc3-build/results.json", System.Text.Json.JsonSerializer.Serialize(new { checks.Count, checks }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"{checks.Count} checks passed; scanner fixture checks protocol/control flow, not malware detection effectiveness.");
 

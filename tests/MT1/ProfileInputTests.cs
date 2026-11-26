@@ -32,7 +32,8 @@ public sealed class ProfileInputTests
     public void Profile_catalogs_have_no_duplicates()
     {
         Assert.Equal(34, HoSoLuaChon.KhuVuc.Distinct().Count());
-        Assert.Equal(5, HoSoLuaChon.TrinhDo.Distinct().Count());
+        Assert.Equal(HoSoLuaChon.TrinhDo.Length, HoSoLuaChon.TrinhDo.Distinct().Count());
+        Assert.Contains("Giáo viên", HoSoLuaChon.TrinhDo);
         Assert.Equal(5, HoSoLuaChon.KinhNghiem.Distinct().Count());
     }
 }

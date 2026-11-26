@@ -25,14 +25,14 @@ var rights = new QuyenLopHocService(db, current);
 var profile = new HoSoGiaSuService(db, current, new MonHocCatalog(db), new TepService(db, current, rights, new TestEnv()), new ThongBaoService(db, current));
 var search = new TimKiemService(db, current);
 var learner = Guid.NewGuid(); var other = Guid.NewGuid(); var tutor = Guid.NewGuid(); var hid = Guid.NewGuid();
-db.AddRange(new NguoiThamGia { Id = learner, HoTen = "Contract learner " + learner, LoaiNguoi = "HocSinh" },
+await IdentityFixture.SeedAsync(db,new NguoiThamGia { Id = learner, HoTen = "Contract learner " + learner, LoaiNguoi = "HocSinh" },
     new NguoiThamGia { Id = other, HoTen = "Contract outsider", LoaiNguoi = "HocSinh" },
     new NguoiThamGia { Id = tutor, HoTen = "Contract tutor " + tutor, LoaiNguoi = "GiaSu" });
 await db.SaveChangesAsync(); db.Add(new GiaSu { TaiKhoanId = tutor }); await db.SaveChangesAsync();
 db.Add(new HoSoGiaSu { Id = hid, GiaSuId = tutor, TrinhDo = "Đại học", ChuyenMon = "Toán", KinhNghiem = "3 năm", MoTa = "Hồ sơ kiểm thử", KhuVuc = "Hà Nội", DangHienThi = true, TrangThaiDuyet = "DaDuyet", DayTrucTuyen = true });
 await db.SaveChangesAsync();
 db.Add(new HoSoGiaSuMonDay { HoSoGiaSuId = hid, MonHocId = 1, PhamViDay = "Lớp 10–12", HocPhiDeXuat = 150000, DonViHocPhi = "VND/Gio" });
-await db.SaveChangesAsync(); await current.ChonAsync(learner);
+await db.SaveChangesAsync(); await IdentityFixture.SignInAsync(http, learner);
 var checks = new List<string>();
 void Check(bool ok, string message) { if (!ok) throw new Exception(message); }
 async Task Pass(string name, Func<Task> test) { db.ChangeTracker.Clear(); await test(); checks.Add(name); Console.WriteLine("PASS " + name); }
@@ -55,11 +55,14 @@ await Pass("Audited controller/service signatures match design", () =>
     Signature(typeof(HoSoGiaSuService), "LayHoSoAsync", typeof(Task<KetQua<HoSoGiaSuCongKhaiViewModel>>), typeof(Guid), typeof(Guid?), typeof(CancellationToken));
     return Task.CompletedTask;
 });
-Guid need = Guid.Empty;
-await Pass("Create multiple subjects atomically with schedules", async () =>
+Guid need = Guid.Empty; Guid compareNeed = Guid.Empty;
+await Pass("Create one subject atomically with schedules and reject multiple subjects", async () =>
 {
-    var m = Input(); m.MonHocIds = [1, 2]; need = (await needs.TaoNhuCauHocAsync(m, learner, default)).DuLieu;
-    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "Missing subject");
+    var m = Input(); m.MonHocIds = [1, 2];
+    Check(!(await needs.TaoNhuCauHocAsync(m, learner, default)).ThanhCong, "Multiple subjects accepted");
+    m.MonHocIds = [1]; m.KhoiLop = "Lớp 12";
+    need = (await needs.TaoNhuCauHocAsync(m, learner, default)).DuLieu;
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 1, "Missing subject");
     Check(await db.Set<KhungGioRanh>().AnyAsync(s => s.NhuCauId == need), "Missing schedule");
 });
 await Pass("CT03 loads owned demand with version, subject and schedule", async () =>
@@ -79,13 +82,13 @@ await Pass("CT03 returns failed result for empty and nonexistent IDs", async () 
 });
 await Pass("CT03 hides other owner's demand and rejects tutor role", async () =>
 {
-    await current.ChonAsync(other);
+    await IdentityFixture.SignInAsync(http, other);
     var result = await needs.LayDeSuaAsync(need);
     Check(!result.ThanhCong && result.MaTrangThai == 404, "Other owner's demand exposed");
-    await current.ChonAsync(tutor);
+    await IdentityFixture.SignInAsync(http, tutor);
     result = await needs.LayDeSuaAsync(need);
     Check(!result.ThanhCong && result.MaTrangThai == 403, "Tutor edited learner demand");
-    await current.ChonAsync(learner);
+    await IdentityFixture.SignInAsync(http, learner);
 });
 await Pass("CT03 controller separates new form from missing edit ID", async () =>
 {
@@ -100,19 +103,19 @@ await Pass("CT03 controller separates new form from missing edit ID", async () =
     Check(created?.ViewName == "Tao" && created.Model is NhuCauInput { Id: null, RowVersion: null }, "Create form is not empty");
     var edited = await controller.Sua(need) as ViewResult;
     Check(edited?.Model is NhuCauInput model && model.Id == need, "Edit form not loaded");
-    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "GET created a demand");
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 1, "GET created a demand");
 });
 await Pass("Reject forged actor without creating data", async () =>
 {
     var r = await needs.TaoNhuCauHocAsync(Input(), other, default);
     Check(!r.ThanhCong && r.MaTrangThai == 403, "Forged actor allowed");
-    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "Unexpected write");
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 1, "Unexpected write");
 });
 await Pass("Invalid second subject rolls back entire create", async () =>
 {
     var m = Input(); m.MonHocIds = [1, int.MaxValue];
     Check(!(await needs.TaoNhuCauHocAsync(m, learner, default)).ThanhCong, "Invalid subject allowed"); db.ChangeTracker.Clear();
-    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "Partial write");
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 1, "Partial write");
 });
 byte[] stale = [];
 await Pass("Update with byte rowVersion preserves subject and schedule", async () =>
@@ -131,9 +134,9 @@ await Pass("Stale update returns conflict without overwriting", async () =>
 });
 await Pass("Other owner cannot update a demand", async () =>
 {
-    var m = TaoNhuCauBenHocViewModel.FromInput((await needs.LayDeSuaAsync(need)).DuLieu); await current.ChonAsync(other);
+    var m = TaoNhuCauBenHocViewModel.FromInput((await needs.LayDeSuaAsync(need)).DuLieu); await IdentityFixture.SignInAsync(http, other);
     var r = await needs.CapNhatAsync(need, m, m.RowVersion!, other, default);
-    Check(!r.ThanhCong && r.MaTrangThai == 403, "Ownership bypass"); await current.ChonAsync(learner);
+    Check(!r.ThanhCong && r.MaTrangThai == 403, "Ownership bypass"); await IdentityFixture.SignInAsync(http, learner);
 });
 await Pass("Create rejects existing ID and missing subject", async () =>
 {
@@ -147,7 +150,7 @@ await Pass("Cancelled request propagates cancellation without writes", async () 
     using var cts = new CancellationTokenSource(); cts.Cancel();
     try { await needs.TaoNhuCauHocAsync(Input(), learner, cts.Token); throw new Exception("Cancellation swallowed"); }
     catch (OperationCanceledException) { }
-    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 2, "Cancelled write");
+    Check(await db.Set<NhuCauHoc>().CountAsync(n => n.ChuSoHuuId == learner) == 1, "Cancelled write");
 });
 await Pass("Profile service returns public data and hides private fields", async () =>
 {
@@ -161,22 +164,26 @@ await Pass("Typed search retains both role branches and legacy results", async (
     var f = new BoLocTimKiemViewModel { TuKhoa = tutor.ToString() };
     var page = (await search.TimKiemAsync(f, learner, default)).DuLieu;
     Check(page.Total == 1 && page.Items.Single().Id == hid, "Learner search mismatch");
-    Check((await search.TimAsync(f)).Items.Single().Id == hid, "Legacy search mismatch"); await current.ChonAsync(tutor);
+    Check((await search.TimAsync(f)).Items.Single().Id == hid, "Legacy search mismatch"); await IdentityFixture.SignInAsync(http, tutor);
     page = (await search.TimKiemAsync(new() { TuKhoa = learner.ToString() }, tutor, default)).DuLieu;
-    Check(page.Total == 2 && page.Items.All(n => n.Slots.Count == 1 && n is NhuCauCongKhaiViewModel), "Tutor search mismatch");
-    await current.ChonAsync(learner);
+    Check(page.Total == 1 && page.Items.All(n => n.Slots.Count == 1 && n is NhuCauCongKhaiViewModel), "Tutor search mismatch");
+    await IdentityFixture.SignInAsync(http, learner);
 });
 await Pass("Comparison retains selection order and removes duplicates", async () =>
 {
-    var r = (await search.SoSanhAsync([need, hid, need], learner, default)).DuLieu;
-    Check(r.HoSo.Count == 1 && r.NhuCau.Count == 1 && r.Items.Select(n => n.Id).SequenceEqual(new[] { need, hid }), "Comparison lost objects/order");
+    var otherNeed = Input();
+    otherNeed.MonHocIds = [2]; otherNeed.KhoiLop = "Lớp 12";
+    otherNeed.MucTieu = "Comparison " + learner; otherNeed.LichRanh[0].ThuTrongTuan = 3;
+    var secondNeed = (await needs.TaoNhuCauHocAsync(otherNeed, learner, default)).DuLieu; compareNeed = secondNeed;
+    var r = (await search.SoSanhAsync([need, secondNeed, need], learner, default)).DuLieu;
+    Check(r.HoSo.Count == 0 && r.NhuCau.Count == 2 && r.Items.Select(n => n.Id).SequenceEqual(new[] { need, secondNeed }), "Comparison lost objects/order");
     Check(!(await search.SoSanhAsync([need, hid, Guid.NewGuid(), Guid.NewGuid()], learner, default)).ThanhCong, "Over limit allowed");
 });
 await Pass("Hidden profile rejected by profile/search/comparison APIs", async () =>
 {
     var h = await db.Set<HoSoGiaSu>().SingleAsync(h => h.Id == hid); h.DangHienThi = false; await db.SaveChangesAsync();
     Check((await profile.LayHoSoAsync(hid, learner, default)).MaTrangThai == 404, "Hidden profile leaked");
-    Check((await search.SoSanhAsync([hid], learner, default)).MaTrangThai == 404, "Hidden comparison leaked");
+    Check((await search.SoSanhAsync([hid, need], learner, default)).MaTrangThai == 404, "Hidden comparison leaked");
     Check((await search.TimKiemAsync(new() { TuKhoa = tutor.ToString() }, learner, default)).DuLieu.Total == 0, "Hidden search leaked");
     h.DangHienThi = true; await db.SaveChangesAsync();
 });
@@ -188,10 +195,10 @@ await Pass("Read APIs reject forged viewer and invalid criteria", async () =>
 });
 await Pass("Tutor search applies multi-subject filter", async () =>
 {
-    await current.ChonAsync(tutor);
+    await IdentityFixture.SignInAsync(http, tutor);
     var page=(await search.TimKiemAsync(new(){MonHocIds=[2]},tutor,default)).DuLieu;
     Check(page.Total>0 && page.Items.All(x=>x.MonHocId==2),"Multi-subject criteria ignored");
-    await current.ChonAsync(learner);
+    await IdentityFixture.SignInAsync(http, learner);
 });
 await Pass("Suggestions use reasons without percentage scores", async () =>
 {
@@ -201,22 +208,24 @@ await Pass("Suggestions use reasons without percentage scores", async () =>
 });
 await Pass("Learner without open needs has no unsupported suggestions", async () =>
 {
-    await current.ChonAsync(other);
+    await IdentityFixture.SignInAsync(http, other);
     var suggestions=await search.GoiYAsync();
     Check(!suggestions.HasNeed && suggestions.Items.Count==0,"Unmatched fallback suggestions");
-    await current.ChonAsync(learner);
+    await IdentityFixture.SignInAsync(http, learner);
 });
 await Pass("Tutor without registered subjects receives no unrelated suggestions", async () =>
 {
     var emptyTutor=Guid.NewGuid();
-    db.Add(new NguoiThamGia{Id=emptyTutor,HoTen="Empty tutor",LoaiNguoi="GiaSu"});
+    await IdentityFixture.SeedAsync(db,new NguoiThamGia{Id=emptyTutor,HoTen="Empty tutor",LoaiNguoi="GiaSu"});
     await db.SaveChangesAsync();
-    await current.ChonAsync(emptyTutor);
+    await IdentityFixture.SignInAsync(http, emptyTutor);
     var suggestions=await search.GoiYAsync();
     Check(!suggestions.HasNeed&&suggestions.Items.Count==0,"Unrelated tutor suggestions");
-    await current.ChonAsync(learner);
+    await IdentityFixture.SignInAsync(http, learner);
 });
-await File.WriteAllTextAsync(Path.Combine(AppContext.BaseDirectory, "results.json"), JsonSerializer.Serialize(new { passed = checks.Count, checks, database, learner, other, tutor, hid, need }, new JsonSerializerOptions { WriteIndented = true }));
+await db.Set<HoSoGiaSu>().Where(profile=>profile.Id==hid).ExecuteUpdateAsync(setters=>setters.SetProperty(profile=>profile.DangHienThi,true));
+await IdentityFixture.PrepareLoginAsync(db,tutor,learner,other);
+await File.WriteAllTextAsync(Path.Combine(AppContext.BaseDirectory, "results.json"), JsonSerializer.Serialize(new { passed = checks.Count, checks, database, learner, other, tutor, hid, need, compareNeed }, new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine(checks.Count + " checks passed");
 
 sealed class TestSession : ISession

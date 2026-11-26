@@ -41,7 +41,7 @@ const version=(table,id)=>Buffer.from(sql(`SELECT RowVersion FROM ${table} WHERE
   }
   const {student,parent,other,tutor}=users;
   await check('Trang liên kết hiển thị cho tài khoản hợp lệ',async()=>assert.equal((await parent.c.get(base+'/HocTap/LienKetTaiKhoan/Index')).status(),200));
-  await check('Học sinh không tự gửi đề nghị như phụ huynh',async()=>assert.equal((await post(student.c,'/HocTap/LienKetTaiKhoan/GuiDeNghi',{email:other.email},'/HocTap/LienKetTaiKhoan/Index')).status(),403));
+  await check('Không liên kết hai tài khoản cùng vai trò',async()=>assert.equal((await post(student.c,'/HocTap/LienKetTaiKhoan/GuiDeNghi',{email:other.email},'/HocTap/LienKetTaiKhoan/Index')).status(),404));
   let link;
   await check('Phụ huynh gửi đề nghị, chưa tự cấp liên kết',async()=>{
    const r=await post(parent.c,'/HocTap/LienKetTaiKhoan/GuiDeNghi',{email:student.email},'/HocTap/LienKetTaiKhoan/Index');assert.equal(r.status(),302,await r.text());
@@ -54,7 +54,7 @@ const version=(table,id)=>Buffer.from(sql(`SELECT RowVersion FROM ${table} WHERE
   });
   await check('Không tạo liên kết trùng',async()=>assert.equal((await post(parent.c,'/HocTap/LienKetTaiKhoan/GuiDeNghi',{email:student.email},'/HocTap/LienKetTaiKhoan/Index')).status(),409));
   const subject=Number(sql('SELECT MIN(Id) FROM MonHoc WHERE DangSuDung=1'));
-  const needData=i=>({'MonHocIds[0]':subject,MonHocId:subject,KhoiLop:'Lớp 10',MucTieu:'Mục tiêu kiểm thử '+i,SoBuoiTuan:1,HinhThucHoc:'TrucTuyen',HocPhiDuKien:i===0?20000:1000000,DonViHocPhi:'VND/Gio',BanNhap:'false','LichRanh[0].ThuTrongTuan':1,'LichRanh[0].GioBatDau':'19:00','LichRanh[0].GioKetThuc':'20:00'});
+  const needData=i=>({'MonHocIds[0]':subject,MonHocId:subject,KhoiLop:'Lớp 10',MucTieu:'Mục tiêu kiểm thử '+i,SoBuoiTuan:1,HinhThucHoc:'TrucTuyen',HocPhiDuKien:i===0?20000:1000000,DonViHocPhi:'VND/Gio',BanNhap:'false','LichRanh[0].ThuTrongTuan':i+1,'LichRanh[0].GioBatDau':'19:00','LichRanh[0].GioKetThuc':'20:00'});
   const firstPost={...needData(0),MaThaoTac:crypto.randomUUID()};
   await check('Gửi đồng thời cùng biểu mẫu chỉ ghi một nhu cầu và một lượt đăng',async()=>{
    const replies=await Promise.all([1,2].map(()=>post(student.c,'/NhuCau/NhuCau/TaoNhuCauHoc',firstPost,'/NhuCau/NhuCau/Tao')));
@@ -76,9 +76,9 @@ const version=(table,id)=>Buffer.from(sql(`SELECT RowVersion FROM ${table} WHERE
    const page=await other.context.newPage();
    await page.setViewportSize({width:390,height:844});
    await page.goto(base+'/NhuCau/NhuCau/Index');
-   await page.getByRole('link',{name:'+ Tạo nhu cầu',exact:true}).click();
+   await page.locator('a[data-modal][href$="/NhuCau/Tao"]').first().click();
    const modal=page.locator('#workspace-modal');
-   await modal.locator('input[name="MonHocIds"]').first().check();
+   await modal.locator('[name="KhoiLop"]').selectOption('Lớp 10');await modal.locator('[name="MonHocId"]').selectOption(String(subject));
    await modal.locator('[name="MucTieu"]').fill('Kiểm thử biểu mẫu học phí');
    await modal.locator('[name="HocPhiDuKien"]').fill('20000');
    await modal.locator('[name="DonViHocPhi"]').selectOption('VND/Gio');
@@ -137,7 +137,7 @@ const version=(table,id)=>Buffer.from(sql(`SELECT RowVersion FROM ${table} WHERE
    const html=await r.text();
    assert.match(html,/8[.,]5/);
    assert.ok(html.toLowerCase().includes('/hoctap/baitap/chitiet/'+assignment.toLowerCase()));
-   assert.match(html,/K&#x1EBF;t qu&#x1EA3; ch&#x1EA5;m g&#x1EA7;n &#x111;&#xE2;y|Kết quả chấm gần đây/);
+   assert.match(html,/Kết quả gần đây/);
   });
   const later=crypto.randomUUID();
   sql(`INSERT LichHoc(Id,LopHocId,TieuDe,BatDauLuc,KetThucLuc,TrangThai) VALUES('${later}','${lop}',N'Buổi chuẩn bị',DATEADD(day,4,SYSDATETIMEOFFSET()),DATEADD(minute,60,DATEADD(day,4,SYSDATETIMEOFFSET())),'DaLenLich');`);

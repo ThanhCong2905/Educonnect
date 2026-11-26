@@ -158,7 +158,7 @@ public sealed class ProposalRegressionTests
 
         async Task<Guid> Classroom((Guid Tutor, Guid Learner, Guid Contact) pair, byte day)
         {
-            var input = new DeXuatLopViewModel { LienHeId = pair.Contact, TenLop = "Kiểm thử sắp xếp", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LichRanh = [new SlotInput { ThuTrongTuan = day, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
+            var input = new DeXuatLopViewModel { TenNguoiHoc = "Người học kiểm thử", LienHeId = pair.Contact, TenLop = "Kiểm thử sắp xếp", MucTieu = "Ôn tập", HocPhi = 0, ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LichRanh = [new SlotInput { ThuTrongTuan = day, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }] };
             var request = await Service(db, pair.Tutor).GuiDeXuatAsync(input);
             var row = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(item => item.Id == request);
             return await Service(db, pair.Learner).ChapNhanDeXuatAsync(request, Convert.ToBase64String(row.RowVersion));

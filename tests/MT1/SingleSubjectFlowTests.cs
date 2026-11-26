@@ -54,6 +54,7 @@ public sealed class SingleSubjectFlowTests
         var edit = TaoNhuCauBenHocViewModel.FromInput((await service.LayDeSuaAsync(created.DuLieu)).DuLieu);
         edit.MonHocIds = [2];
         edit.MonHocId = 2;
+        edit.KhoiLop = "Lớp 12";
         var updated = await service.CapNhatAsync(created.DuLieu, edit, edit.RowVersion!, seed.Learner, default);
         Assert.True(updated.ThanhCong, updated.ThongBao);
         Assert.Equal(2, (await db.Set<NhuCauMonHoc>().SingleAsync(n => n.NhuCauId == created.DuLieu)).MonHocId);

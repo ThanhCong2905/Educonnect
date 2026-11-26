@@ -123,15 +123,17 @@ public sealed partial class LichHocService(AppDbContext db, NguoiDungHienTaiServ
     }
     public async Task GhiNhanAsync(GhiNhanBuoiHocViewModel m)
     {
+        Rules.ValidateInput(m);
         var s = await LayAsync(m.LichHocId);
         var c = await rights.KiemTraQuyenGhiAsync(s.LopHocId, true);
         var u = await current.HienTaiAsync();
         Rules.Check(s.TrangThai == "DaLenLich" && s.KetThucLuc <= DateTimeOffset.UtcNow, "Chỉ ghi nhận sau giờ kết thúc và lịch chưa bị hủy hoặc thay thế.", 409);
-        Rules.Check(m.KetQuaBuoiHoc is "DaDienRa" or "KhongDienRa", "Kết quả không hợp lệ.");
-        Rules.Check(m.KetQuaBuoiHoc != "DaDienRa" || !string.IsNullOrWhiteSpace(m.NoiDung), "Cần nội dung giảng dạy.");
+        Rules.Check(m.KetQuaBuoiHoc is "DaDienRa" or "KhongDienRa", "Chọn kết quả buổi học.", field: nameof(m.KetQuaBuoiHoc));
+        Rules.Check(m.KetQuaBuoiHoc != "DaDienRa" || !string.IsNullOrWhiteSpace(m.NoiDung), "Nhập nội dung buổi học.", field: nameof(m.NoiDung));
         Rules.Check(m.KetQuaBuoiHoc != "KhongDienRa" || m.TrangThaiGiaSu != "CoMat" || m.TrangThaiBenHoc != "CoMat", "Buổi không diễn ra cần ghi nhận bên vắng và lý do.");
-        Rules.Check(m.TrangThaiGiaSu is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc" && m.TrangThaiBenHoc is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc", "Trạng thái tham dự không hợp lệ.");
-        Rules.Check((m.KetQuaBuoiHoc != "KhongDienRa" || !string.IsNullOrWhiteSpace(m.NhanXet)) && (m.NhanXet?.Length ?? 0) <= 2000 && (m.NoiDung?.Length ?? 0) <= 10000, "Nhận xét tối đa 2.000 ký tự, nội dung tối đa 10.000 ký tự. Buổi không diễn ra cần có lý do.");
+        Rules.Check(m.TrangThaiGiaSu is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc", "Chọn trạng thái tham dự của gia sư.", field: nameof(m.TrangThaiGiaSu));
+        Rules.Check(m.TrangThaiBenHoc is "CoMat" or "VangCoBaoTruoc" or "VangKhongBaoTruoc", "Chọn trạng thái tham dự của bên học.", field: nameof(m.TrangThaiBenHoc));
+        Rules.Check(m.KetQuaBuoiHoc != "KhongDienRa" || !string.IsNullOrWhiteSpace(m.NhanXet), "Nhập lý do buổi học không diễn ra.", field: nameof(m.NhanXet));
         var rv = Rules.SqlVersion(m.RowVersion);
         await using var tx = await db.Database.BeginTransactionAsync();
         await db.Database.ExecuteSqlInterpolatedAsync($"EXEC dbo.usp_GhiNhanBuoiHoc @LichHocId={m.LichHocId},@GiaSuId={u.Id},@KetQuaBuoiHoc={m.KetQuaBuoiHoc},@NhanXet={m.NhanXet},@TrangThaiGiaSu={m.TrangThaiGiaSu},@TrangThaiBenHoc={m.TrangThaiBenHoc},@NoiDung={m.NoiDung},@RowVersionCu={rv},@CanHocBu={m.CanHocBu}");

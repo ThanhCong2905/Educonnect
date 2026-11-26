@@ -83,6 +83,7 @@ public sealed class ControllerGuardTests
     {
         var context = new DefaultHttpContext();
         context.Response.Body = new MemoryStream();
+        context.Request.Headers.Accept = "text/html";
         var middleware = new LoiNghiepVuMiddleware(_ => Task.FromException(new LoiNghiepVu("<script>không hợp lệ</script>", status)), NullLogger<LoiNghiepVuMiddleware>.Instance);
         await middleware.InvokeAsync(context);
         Assert.Equal(status, context.Response.StatusCode);

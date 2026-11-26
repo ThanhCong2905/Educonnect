@@ -21,7 +21,7 @@
         <h1>@(tutor ? Model.HoTen : string.IsNullOrWhiteSpace(Model.TenMon) ? "Nhu cầu học" : Model.TenMon)</h1>
         @if (tutor)
         {
-            <p class="detail-meta">@Model.TrinhDo</p>
+            <p class="detail-meta">@Model.TrinhDo <span class="profile-approved">@(preview ? "Bản xem trước" : "Hồ sơ đã duyệt")</span></p>
         }
         else
         {
@@ -36,6 +36,14 @@
         }
     </div></div>
 </div>
+@if (tutor)
+{
+    <dl class="profile-summary" aria-label="Thông tin tóm tắt">
+        <div><dt>Đánh giá</dt><dd>@(Model.DiemDanhGia?.ToString("0.0") ?? "Chưa có") <small>@(Model.SoDanhGia > 0 ? $"/ 5 từ {Model.SoDanhGia} lượt" : "")</small></dd></div>
+        <div><dt>Bên học đã kết nối</dt><dd>@Model.SoBenHoc <small>tài khoản</small></dd></div>
+        <div><dt>Kinh nghiệm giảng dạy</dt><dd>@(string.IsNullOrWhiteSpace(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)</dd></div>
+    </dl>
+}
 <div class="split profile-layout">
     <section class="detail-content" aria-label="@(tutor ? "Thông tin gia sư" : "Thông tin nhu cầu học")">
         @if (tutor)
@@ -47,7 +55,7 @@
                     <p class="pre detail-description">@Model.MoTa</p>
                 }
                 <dl class="detail-facts">
-                    <div><dt>Kinh nghiệm</dt><dd>@(string.IsNullOrWhiteSpace(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)</dd></div>
+                    <div><dt>Trình độ</dt><dd>@Model.TrinhDo</dd></div>
                     <div><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd></div>
                     @if (!string.IsNullOrWhiteSpace(Model.KhuVuc))
                     {

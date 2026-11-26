@@ -39,7 +39,7 @@ public sealed class NeedModerationTests
     }
 
     private static TaoNhuCauBenHocViewModel Input(string goal = "Ôn tập", decimal fee = 20000)
-        => new() { MonHocIds = [1, 2], MucTieu = goal, KhoiLop = "Lớp 12", SoBuoiTuan = 1, HocPhiDuKien = fee, DonViHocPhi = "VND/Gio" };
+        => new() { MonHocIds = [1], MucTieu = goal, KhoiLop = "Lớp 12", SoBuoiTuan = 1, HocPhiDuKien = fee, DonViHocPhi = "VND/Gio" };
 
     [Theory]
     [InlineData(0)]
@@ -61,7 +61,7 @@ public sealed class NeedModerationTests
     {
         await using var db = Open(); var seed = await Seed(db); var needs = Needs(db, seed.Learner);
         Assert.True((await needs.TaoNhuCauHocAsync(Input(), seed.Learner, default)).ThanhCong);
-        var duplicate = Input("  ôn\n\t tập  "); duplicate.MonHocIds = [2, 1];
+        var duplicate = Input("  ôn\n\t tập  "); duplicate.MonHocIds = [1];
         var result = await needs.TaoNhuCauHocAsync(duplicate, seed.Learner, default);
         Assert.False(result.ThanhCong); Assert.Equal(409, result.MaTrangThai);
         Assert.Equal(1, await db.Set<NhuCauHoc>().CountAsync(x => x.ChuSoHuuId == seed.Learner));
@@ -168,7 +168,7 @@ public sealed class NeedModerationTests
         var id = (await Needs(db, seed.Learner).TaoNhuCauHocAsync(Input(), seed.Learner, default)).DuLieu;
         var request = await Service(db, seed.Tutor).GuiDeXuatAsync(new()
         {
-            LienHeId = seed.Contact, NhuCauId = id, TenLop = "Lớp kiểm thử hậu kiểm", MucTieu = "Ôn tập", HocPhi = 20000,
+            TenNguoiHoc = "Người học kiểm thử", LienHeId = seed.Contact, NhuCauId = id, TenLop = "Lớp kiểm thử hậu kiểm", MucTieu = "Ôn tập", HocPhi = 20000,
             ThoiLuongPhut = 60, BatDauHocLuc = DateTime.Today.AddDays(7), LichRanh = [new() { ThuTrongTuan = 1, GioBatDau = new(19, 0), GioKetThuc = new(20, 0) }]
         });
         var proposal = await db.Set<YeuCauKetNoiLopHoc>().AsNoTracking().SingleAsync(x => x.Id == request);

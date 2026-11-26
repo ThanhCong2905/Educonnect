@@ -58,6 +58,9 @@
       else location.replace(link.href);
       return;
     }
+    const chat = link.closest('[data-ajax-page="chat"]');
+    if (chat && link.closest('.conversation-list') && new URL(link.href, location.href).origin === location.origin
+      && !ui.hasUnsavedChanges?.(chat.querySelector('form.compose'))) return;
     if (link.hasAttribute('data-modal') || link.getAttribute('href').startsWith('#') || !ui.hasUnsavedChanges?.()) return;
     event.preventDefault();
     if (await ui.confirmPageLeave()) { leaving = true; location.assign(link.href); }

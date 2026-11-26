@@ -1,3 +1,4 @@
+const signIn = require('../sign-in.cjs');
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -14,13 +15,13 @@ const fs = require('node:fs');
   function pass(name) { checks.push(name); console.log('PASS ' + name); }
   async function save(p, status = 200) {
     const response = p.waitForResponse(r => r.request().method() === 'POST' && /\/(TaoNhuCauHoc|CapNhat)/.test(r.url()));
-    await p.locator('button[name="BanNhap"][value="true"]').click();
+    await p.locator('button[name="BanNhap"][value="false"]').click();
     assert.equal((await response).status(), status);
   }
   try {
-    await page.goto(base);
-    const token = await page.locator('input[name="__RequestVerificationToken"]').first().inputValue();
-    assert.equal((await page.request.post(base + '/Home/Chon', { form: { id: ids.learner, __RequestVerificationToken: token } })).status(), 200);
+
+
+      await signIn(page,base,ids.learner);
     const query = '?TuKhoa=' + ids.tutor;
     await page.goto(base + '/TimKiem/TimKiem/Tim' + query);
     assert.equal(await page.locator('.candidate').count(), 1);
@@ -39,10 +40,10 @@ const fs = require('node:fs');
     assert.equal(legacy.status(), 200); assert.ok(legacy.url().includes('HoSoGiaSu/ChiTiet'));
     pass('Public profile action, partial rendering, navigation and old URL work');
 
-    await page.goto(base + `/TimKiem/TimKiem/SoSanh?ids=${ids.need}&ids=${ids.hid}&ids=${ids.need}`);
+    await page.goto(base + `/TimKiem/TimKiem/SoSanh?ids=${ids.need}&ids=${ids.compareNeed}&ids=${ids.need}`);
     assert.equal(await page.locator('thead th').count(), 3);
     assert.ok((await page.locator('thead th').nth(1).innerText()).includes('Contract learner'));
-    assert.ok((await page.locator('thead th').nth(2).innerText()).includes('Contract tutor'));
+    assert.ok((await page.locator('thead th').nth(2).innerText()).includes('Contract learner'));
     pass('IReadOnlyList query binding and comparison order work');
 
     for (const suffix of ['', '/' + '00000000-0000-0000-0000-000000000000', '/invalid-guid', '/' + require('node:crypto').randomUUID()]) {
@@ -53,8 +54,8 @@ const fs = require('node:fs');
     const outsider = await browser.newContext();
     try {
       const p = await outsider.newPage(); await p.goto(base);
-      const t = await p.locator('input[name="__RequestVerificationToken"]').first().inputValue();
-      await p.request.post(base + '/Home/Chon', { form: { id: ids.other, __RequestVerificationToken: t } });
+
+      await signIn(p,base,ids.other);
       assert.equal((await p.request.get(base + '/NhuCau/NhuCau/Sua/' + ids.need)).status(), 404);
     } finally { await outsider.close(); }
     pass('CT03 edit URL does not expose another user\'s demand');
@@ -71,7 +72,9 @@ const fs = require('node:fs');
 
     await page.goto(base + '/NhuCau/NhuCau/Tao');
     assert.ok((await page.locator('form.form-wide').getAttribute('action')).includes('TaoNhuCauHoc'));
-    await page.locator('[name="MonHocIds"][value="1"]').check();
+    await page.locator('[name="KhoiLop"]').selectOption('Lớp 10');
+    await page.locator('[name="MonHocId"]').selectOption('1');
+    await page.locator('[name="LichRanh[0].ThuTrongTuan"]').selectOption('5');
     const goal = 'Browser contract ' + Date.now();
     await page.locator('[name="MucTieu"]').fill(goal);
     await save(page); await page.waitForURL(/\/NhuCau\/NhuCau(?:\/Index)?$/);
@@ -108,8 +111,8 @@ const fs = require('node:fs');
     const noJs = await browser.newContext({ javaScriptEnabled: false });
     try {
       const p = await noJs.newPage(); await p.goto(base);
-      const t = await p.locator('input[name="__RequestVerificationToken"]').first().inputValue();
-      await p.request.post(base + '/Home/Chon', { form: { id: ids.learner, __RequestVerificationToken: t } });
+
+      await signIn(p,base,ids.learner);
       await p.goto(base + '/NhuCau/NhuCau/Tao');
       const form = p.locator('form.form-wide');
       const action = new URL(await form.getAttribute('action'), base).href;

@@ -20,8 +20,8 @@ var cs=Environment.GetEnvironmentVariable("EDU_TEST_CONNECTION")??$"Server=lpc:C
 if(new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs).InitialCatalog!=database)throw new Exception("Wrong fixture DB");
 var tutor=fixture.GetProperty("tutor").GetGuid();var learner=fixture.GetProperty("learner").GetGuid();
 var accessor=new Accessor{HttpContext=new DefaultHttpContext{Session=new Session()}};
-accessor.HttpContext.Session.SetString("participant",tutor.ToString());
-var services=new ServiceCollection();services.AddLogging();services.AddSingleton<IHttpContextAccessor>(accessor);
+await IdentityFixture.SignInAsync(accessor.HttpContext, tutor);
+var phases=new PhienCapNhat();var services=new ServiceCollection();services.AddSingleton(phases);services.AddScoped<PhienDangNhapService>();services.AddLogging();services.AddSingleton<IHttpContextAccessor>(accessor);
 services.AddDbContext<AppDbContext>(o=>o.UseSqlServer(cs));services.AddScoped<NguoiDungHienTaiService>();
 services.AddScoped<QuyenLopHocService>();services.AddScoped<TepService>();services.AddScoped<TinNhanService>();
 services.AddSingleton<IWebHostEnvironment>(new Env());
@@ -29,13 +29,22 @@ using var provider=services.BuildServiceProvider();using var scope=provider.Crea
 var db=scope.ServiceProvider.GetRequiredService<AppDbContext>();var chat=scope.ServiceProvider.GetRequiredService<TinNhanService>();
 var room=await db.Set<CuocHoiThoai>().Where(c=>c.GiaSuId==tutor&&c.BenHocId==learner&&c.LoaiHoiThoai=="TruocKetNoi").Select(c=>c.Id).SingleAsync();
 var classRoom=await db.Set<CuocHoiThoai>().Where(c=>c.GiaSuId==tutor&&c.BenHocId==learner&&c.LoaiHoiThoai=="TheoLop").SingleAsync();
-var phases=new PhienCapNhat();var hub=new FakeHub();
+var hub=new FakeHub();
 XuLySuKienWorker Worker()=>new(provider.GetRequiredService<IServiceScopeFactory>(),hub,phases,provider.GetRequiredService<ILogger<XuLySuKienWorker>>());
 using var worker=Worker();
 for(var i=0;i<5;i++)await worker.XuLySuKienDenHanAsync(100,default);
-PhienCapNhat.KetNoi Connect(string name,Guid user){phases.CapNhat(name,user);return phases.Them(name,name,user,()=>hub.Aborted.Add(name));}
+PhienCapNhat.KetNoi Connect(string name,Guid user)
+{
+ using var sessionDb=new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(cs).Options);
+ var session=Guid.NewGuid();
+ sessionDb.Add(new PhienDangNhap{Id=session,TaiKhoanId=user,TaoLuc=DateTimeOffset.UtcNow,HoatDongCuoiLuc=DateTimeOffset.UtcNow});
+ sessionDb.SaveChanges();
+ var key=session.ToString();
+ phases.CapNhat(key,user);
+ return phases.Them(name,key,user,()=>hub.Aborted.Add(name));
+}
 var tc=Connect("tutor",tutor);tc.HoiThoai[room]=0;var lc=Connect("learner",learner);lc.HoiThoai[room]=0;
-var outsider=Guid.NewGuid();db.Add(new NguoiThamGia{Id=outsider,HoTen="Realtime outsider",LoaiNguoi="HocSinh"});await db.SaveChangesAsync();
+var outsider=Guid.NewGuid();await IdentityFixture.SeedAsync(db,new NguoiThamGia{Id=outsider,HoTen="Realtime outsider",LoaiNguoi="HocSinh"});await db.SaveChangesAsync();
 var oc=Connect("outsider",outsider);oc.HoiThoai[room]=0;
 var checks=new List<string>();void Check(bool ok,string message){if(!ok)throw new Exception(message);}
 async Task Pass(string name,Func<Task> action){db.ChangeTracker.Clear();hub.Sent.Clear();await action();checks.Add(name);Console.WriteLine("PASS "+name);}
@@ -82,13 +91,15 @@ await Pass("Expired worker lease is recovered",async()=>{
  await worker.XuLySuKienDenHanAsync(100,default);Check(SentTo(lc.NhomHoiThoai(room),id),"Lease not recovered");
 });
 await Pass("Role switch and revoked session abort old connections",async()=>{
- phases.CapNhat("learner",tutor);Check(!phases.HopLe(lc)&&hub.Aborted.Contains("learner"),"Role switch kept connection");
- var revoked=Connect("revoked",learner);phases.ThuHoi("revoked");Check(!phases.HopLe(revoked)&&hub.Aborted.Contains("revoked"),"Revoked session remained");
+ phases.CapNhat(lc.PhienId,tutor);Check(!phases.HopLe(lc)&&hub.Aborted.Contains("learner"),"Role switch kept connection");
+ var revoked=Connect("revoked",learner);phases.ThuHoi(revoked.PhienId);Check(!phases.HopLe(revoked)&&hub.Aborted.Contains("revoked"),"Revoked session remained");
  var id=await Message("After role switch");await worker.XuLySuKienDenHanAsync(100,default);Check(!SentTo(lc.NhomHoiThoai(room),id),"Old session got event");
 });
 await Pass("Departed member is removed before class message dispatch",async()=>{
- var reader=Guid.NewGuid();db.Add(new NguoiThamGia{Id=reader,HoTen="Realtime member",LoaiNguoi="HocSinh"});await db.SaveChangesAsync();
- var member=new ThanhVienLopHoc{Id=Guid.NewGuid(),LopHocId=classRoom.LopHocId!.Value,TaiKhoanId=reader,NguoiDeNghiId=tutor,TrangThaiDuyet="DaDuyet",MucQuyen="Xem",DeNghiLuc=DateTimeOffset.UtcNow,DuyetLuc=DateTimeOffset.UtcNow};db.Add(member);await db.SaveChangesAsync();
+ var reader=Guid.NewGuid();await IdentityFixture.SeedAsync(db,new NguoiThamGia{Id=reader,HoTen="Realtime member",LoaiNguoi="PhuHuynh"});await db.SaveChangesAsync();
+ var link=new LienKetPhuHuynhHocSinh{Id=Guid.NewGuid(),PhuHuynhId=reader,HocSinhId=learner,NguoiGuiId=reader,TrangThai="DaLienKet",GuiLuc=DateTimeOffset.UtcNow,XacNhanLuc=DateTimeOffset.UtcNow};
+ db.Add(link);await db.SaveChangesAsync();
+ var member=new ThanhVienLopHoc{Id=Guid.NewGuid(),LopHocId=classRoom.LopHocId!.Value,TaiKhoanId=reader,LienKetId=link.Id,NguoiDeNghiId=tutor,TrangThaiDuyet="DaDuyet",MucQuyen="Xem",DeNghiLuc=DateTimeOffset.UtcNow,DuyetLuc=DateTimeOffset.UtcNow};db.Add(member);await db.SaveChangesAsync();
  await chat.KiemTraAsync(classRoom.Id,reader);var rc=Connect("reader",reader);rc.HoiThoai[classRoom.Id]=0;
  member.RoiLopLuc=DateTimeOffset.UtcNow;await db.SaveChangesAsync();
  var id=Guid.NewGuid();db.Add(new SuKienChoXuLy{Id=Guid.NewGuid(),LoaiSuKien="TinNhan",DuLieuToiThieu=JsonSerializer.Serialize(new{room=classRoom.Id,target=id}),TaoLuc=DateTimeOffset.UtcNow,TrangThai="ChoXuLy"});await db.SaveChangesAsync();

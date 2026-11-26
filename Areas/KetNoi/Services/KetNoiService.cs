@@ -235,14 +235,18 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
     public async Task PhanHoiAsync(Guid id, string action, string version, CancellationToken huy = default)
     {
         Rules.Check(action is "DaRut" or "TuChoi", "Phản hồi không hợp lệ.");
-        var u = await current.HienTaiAsync();
-        var r = await db.Set<YeuCauKetNoiLopHoc>().SingleOrDefaultAsync(x => x.Id == id && (x.GiaSuId == u.Id || x.BenHocId == u.Id)) ?? throw new LoiNghiepVu("Không có quyền.", 403);
-        Rules.Check(r.TrangThai is "ChoGiaSu" or "ChoBenHoc" && r.HetHanLuc > DateTimeOffset.UtcNow, "Yêu cầu đã hết hiệu lực.", 409);
+        var u = await current.HienTaiAsync(huy);
+        await using var tx = await db.Database.BeginTransactionAsync(huy);
+        var r = await db.Set<YeuCauKetNoiLopHoc>()
+            .FromSqlInterpolated($"SELECT * FROM dbo.YeuCauKetNoiLopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={id}")
+            .SingleOrDefaultAsync(x => x.GiaSuId == u.Id || x.BenHocId == u.Id, huy)
+            ?? throw new LoiNghiepVu("Không có quyền.", 403);
+        var now = await GioMayChuAsync(huy);
+        Rules.Check(r.TrangThai is "ChoGiaSu" or "ChoBenHoc" && now < r.HetHanLuc, "Yêu cầu đã hết hiệu lực.", 409);
         var sender = r.NguoiDeXuatId ?? r.NguoiGuiId;
         Rules.Check(action == "DaRut" ? sender == u.Id : sender != u.Id, "Không có quyền phản hồi.", 403);
         Rules.Concurrency(db, r, version);
         r.TrangThai = action;
-        await using var tx = await db.Database.BeginTransactionAsync(huy);
         notices.Tao(u.Id == r.GiaSuId ? r.BenHocId : r.GiaSuId, "KetNoi", id, "Yêu cầu kết nối: " + Rules.Label(action));
         await db.SaveChangesAsync(huy);
         await tx.CommitAsync(huy);

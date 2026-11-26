@@ -1,3 +1,4 @@
+const signIn = require('../sign-in.cjs');
 const {chromium}=require('playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 (async()=>{
@@ -9,7 +10,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  context.on('page',p=>p.on('pageerror',e=>errors.push(e.message)));
  page.on('pageerror',e=>errors.push(e.message));
  const pass=name=>{checks.push(name);console.log('PASS '+name)};
- async function actor(id){await page.goto(base);const token=await page.locator('input[name="__RequestVerificationToken"]').first().inputValue();const r=await page.request.post(base+'/Home/Chon',{form:{id,__RequestVerificationToken:token}});assert.equal(r.status(),200);}
+ async function actor(id){await signIn(page,base,id);}
  const assignment=base+'/HocTap/BaiTap/ChiTiet/'+ids.assignment;
  try{
   await actor(ids.reader);await page.goto(assignment);
@@ -29,13 +30,15 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
   pass('Nộp muộn thành công qua AJAX và hiển thị lịch sử');
   await actor(ids.tutor);await page.goto(base+'/HocTap/LichHoc/Buoi/'+ids.past);
   const record=page.locator('form[action*="/GhiNhan"]');await record.waitFor();
-  await record.locator('[name="KetQuaBuoiHoc"]').selectOption('DaDienRa');
+  await record.locator('[name="KetQuaBuoiHoc"][value="DaDienRa"]').check();
   await record.locator('[name="NoiDung"]').fill('');await record.locator('[name="NhanXet"]').fill('Nội dung nhận xét cần giữ');
   await record.getByRole('button',{name:'Lưu ghi nhận'}).click();
   await record.locator('[name="NoiDung"][aria-invalid="true"]').waitFor();
   assert.equal(await record.locator('[name="NhanXet"]').inputValue(),'Nội dung nhận xét cần giữ');pass('Lỗi ghi nhận giữ nội dung nhận xét đã nhập');
-  await page.goto(base+'/HocTap/LopHoc/ChiTiet/'+ids.classroom+'?tab=schedule');
-  await page.locator('a[href*="/LichHoc/Sua/"][href*="'+ids.past+'"]').click();
+  await page.goto(base+'/HocTap/LopHoc/ChiTiet/'+ids.classroom+'?tab=schedule&week='+ids.makeupDay);
+  await page.locator('a[data-lesson-preview][href*="'+ids.makeupPast+'"]').first().click();
+  await page.getByRole('button',{name:'Thao tác buổi học'}).click();
+  await page.getByRole('link',{name:'Xếp lịch bù',exact:true}).click();
   const modal=page.locator('#workspace-modal');await modal.waitFor({state:'visible'});
   const start=new Date(ids.future+':00+07:00');start.setUTCHours(start.getUTCHours()+16);
   const local=d=>new Date(d.getTime()+7*3600000).toISOString().slice(0,16);
@@ -47,10 +50,10 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
   const second=await context.newPage();await page.goto(base+'/HocTap/LichHoc/Sua/'+ids.schedule);await second.goto(base+'/HocTap/LichHoc/Sua/'+ids.schedule);
   await page.locator('[name="Lich.TieuDe"]').fill('Lịch đã cập nhật');
   response=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/LichHoc/Sua'));
-  await page.getByRole('button',{name:'Lưu lịch thay thế'}).click();assert.equal((await response).status(),200);
+  await page.getByRole('button',{name:'Lưu thay đổi'}).click();assert.equal((await response).status(),200);
   await second.locator('[name="Lich.TieuDe"]').fill('Nội dung bản cũ cần giữ');
   const stale=second.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/LichHoc/Sua'));
-  await second.getByRole('button',{name:'Lưu lịch thay thế'}).click();assert.equal((await stale).status(),409);
+  await second.getByRole('button',{name:'Lưu thay đổi'}).click();assert.equal((await stale).status(),409);
   assert.equal(await second.locator('[name="Lich.TieuDe"]').inputValue(),'Nội dung bản cũ cần giữ');pass('Hai tab sửa lịch: bản cũ nhận 409 và giữ nội dung');
   await second.screenshot({path:'.uc3-build/stale-form.png',fullPage:true});
   assert.deepEqual(errors,[]);pass('Không phát sinh lỗi JavaScript trong các luồng UC3');

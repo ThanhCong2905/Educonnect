@@ -7,7 +7,7 @@
     <div class="review-list">
         @foreach (var review in summary.DanhGia.Items)
         {
-            <article class="review-entry">
+            <article class="review-entry" data-review-id="@review.Id">
                 <div class="review-entry-heading">
                     <partial name="_SaoDanhGia" model="@((decimal)review.SoSao)" />
                     <time datetime="@review.GuiLuc.ToString("O")">@Rules.Date(review.GuiLuc)</time>
