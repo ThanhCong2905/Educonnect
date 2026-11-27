@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-182-rejected",
+  "runTag": "IT03cc96e7eae7401aa56f6396e229f86a",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauKetNoiLopHoc SET TrangThai=\u0027TuChoi\u0027,GuiLuc=DATEADD(hour,-74,SYSDATETIMEOFFSET()),DeXuatLuc=DATEADD(hour,-74,SYSDATETIMEOFFSET()),HetHanLuc=DATEADD(hour,-2,SYSDATETIMEOFFSET()) WHERE Id=@id",
+    "parameters": {
+      "@id": "01481f09-5b18-43b0-815d-41f95a342849"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "cd2869c8-b238-457b-91b0-5f510808fbb4",
+    "P": "414dbab9-edea-40dd-94e8-e00427b9e17c",
+    "G": "955e1e82-cf03-46c0-ac64-84fbe9297a5a",
+    "X": "66cd1e48-ee83-4719-909a-eddfaecafbd0",
+    "A": "be63ec9e-938d-470f-a47d-23091cbafbb9"
+  },
+  "subjects": {
+    "M1": 3245,
+    "M2": 3246
+  }
+}

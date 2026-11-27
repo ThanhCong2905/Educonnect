@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-055-DL1",
+  "runTag": "IT3fd10918cc604344a70e27251cf2188a",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "729e52f7-f1c3-4bb0-9049-aa66c479d39d",
+    "P": "a37bac2f-e552-429c-a11b-49c0dea20861",
+    "G": "9b0507d5-a50b-47a1-85ec-fb2b045ff9d0",
+    "X": "88efda3f-ca88-4cc8-a78f-c56d5b6bfee1",
+    "A": "4acd80a3-06a2-45d0-80b3-1e63bf1e9473"
+  },
+  "subjects": {
+    "M1": 2356,
+    "M2": 2357
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\u0022,\u0022redirectUrl\u0022:\u0022/KetNoi/KetNoi\u0022}"
+  }
+}

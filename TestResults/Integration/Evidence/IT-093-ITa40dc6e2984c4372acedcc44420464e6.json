@@ -1,0 +1,153 @@
+{
+  "caseId": "IT-093",
+  "runTag": "ITa40dc6e2984c4372acedcc44420464e6",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "lesson_unrecorded",
+    "group": 6,
+    "title": "Qua gi\u1EDD nh\u01B0ng ch\u01B0a ghi nh\u1EADn kh\u00F4ng t\u00EDnh \u0111\u00E3 h\u1ECDc",
+    "stage": 3,
+    "entry": "GET /HocTap/LopHoc/ChiTiet?id=C1\u0026tab=overview",
+    "input": "L1 \u0111\u00E3 k\u1EBFt th\u00FAc \u003E24 gi\u1EDD, B1 kh\u00F4ng GhiNhanLuc, kh\u00F4ng ghi DaHoc; worker t\u1EAFt.",
+    "action": "GET l\u1ECBch v\u00E0 ti\u1EBFn \u0111\u1ED9; \u0111\u1ED1i chi\u1EBFu ngu\u1ED3n BuoiHoc/LichHoc.",
+    "contract": "200; B1 l\u00E0 Ch\u01B0a ghi nh\u1EADn; s\u1ED1 bu\u1ED5i \u0111\u00E3 h\u1ECDc kh\u00F4ng t\u0103ng v\u00EC ch\u1EC9 qua gi\u1EDD.",
+    "db": "Kh\u00F4ng c\u00F3 ghi nh\u1EADn/\u0111i\u1EC3m danh gi\u1EA3; d\u1EEF li\u1EC7u ch\u1EDD nh\u1EAFc v\u1EABn \u0111\u01B0\u1EE3c gi\u1EEF.",
+    "fr": [
+      "FR-26",
+      "FR-34",
+      "FR-42"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TienDoService.LayAsync",
+      "LopHocService.ChiTietAsync",
+      "BaiTapService.LayAsync",
+      "LopHocService.BuoiAsync",
+      "LopHocService.DanhGiaDaGuiAsync",
+      "LopHocService.HuyAsync",
+      "LopHocService.LichAsync",
+      "LopHocService.LocBuoiAsync",
+      "TinNhanService.TheoLopAsync",
+      "LopHocController.ChiTiet"
+    ],
+    "deps": [
+      "schedule_store",
+      "progress_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "LopHocController",
+        "area": "HocTap",
+        "method": "ChiTiet",
+        "action": "ChiTiet",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E ChiTiet(Guid id, string tab = \u0022overview\u0022, string? month = null, string? state = null, DateOnly? week = null, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null, int trang = 1)",
+        "line": 32,
+        "file": "Areas\\HocTap\\Controllers\\LopHocController.cs"
+      }
+    ],
+    "id": "IT-093",
+    "catalogOrder": 93,
+    "executionOrder": 121,
+    "dependencyIds": [
+      "IT-083",
+      "IT-111",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.3-U16",
+        "cls": "LopHocService",
+        "method": "HuyAsync",
+        "table": 125
+      },
+      {
+        "id": "UC3.3-U16",
+        "cls": "BaiTapService",
+        "method": "LayAsync",
+        "table": 175
+      },
+      {
+        "id": "UC4.1-U17",
+        "cls": "TienDoService",
+        "method": "LayAsync",
+        "table": 268
+      },
+      {
+        "id": "UC5.1-U15",
+        "cls": "TinNhanService",
+        "method": "TheoLopAsync",
+        "table": 301
+      },
+      {
+        "id": "TV-U05",
+        "cls": "LopHocController",
+        "method": "ChiTiet",
+        "table": 389
+      },
+      {
+        "id": "TV-U10",
+        "cls": "LopHocService",
+        "method": "ChiTietAsync",
+        "table": 394
+      },
+      {
+        "id": "TV-U11",
+        "cls": "LopHocService",
+        "method": "LichAsync",
+        "table": 395
+      },
+      {
+        "id": "TV-U12",
+        "cls": "LopHocService",
+        "method": "LocBuoiAsync",
+        "table": 396
+      },
+      {
+        "id": "TV-U13",
+        "cls": "LopHocService",
+        "method": "BuoiAsync",
+        "table": 397
+      },
+      {
+        "id": "TV-U22",
+        "cls": "LopHocService",
+        "method": "DanhGiaDaGuiAsync",
+        "table": 406
+      }
+    ],
+    "fixture": "F6",
+    "sqlOracle": "SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TienDoService, LopHocService, BaiTapService, TinNhanService, LopHocController \u2192 EF/SQL Server",
+    "baseline": "FR-26, FR-34, FR-42; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.3-U16 LopHocService.HuyAsync (b\u1EA3ng 125); UC3.3-U16 BaiTapService.LayAsync (b\u1EA3ng 175); UC4.1-U17 TienDoService.LayAsync (b\u1EA3ng 268); UC5.1-U15 TinNhanService.TheoLopAsync (b\u1EA3ng 301); TV-U05 LopHocController.ChiTiet (b\u1EA3ng 389); TV-U10 LopHocService.ChiTietAsync (b\u1EA3ng 394); TV-U11 LopHocService.LichAsync (b\u1EA3ng 395); TV-U12 LopHocService.LocBuoiAsync (b\u1EA3ng 396); TV-U13 LopHocService.BuoiAsync (b\u1EA3ng 397); TV-U22 LopHocService.DanhGiaDaGuiAsync (b\u1EA3ng 406)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Qua gi\u1EDD nh\u01B0ng ch\u01B0a ghi nh\u1EADn kh\u00F4ng t\u00EDnh \u0111\u00E3 h\u1ECDc",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #121.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-083, IT-111, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TienDoService, LopHocService, BaiTapService, TinNhanService, LopHocController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F6 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nL1 \u0111\u00E3 k\u1EBFt th\u00FAc \u003E24 gi\u1EDD, B1 kh\u00F4ng GhiNhanLuc, kh\u00F4ng ghi DaHoc; worker t\u1EAFt.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-083, IT-111, IT-157; t\u1EA1o fixture F6 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: L1 \u0111\u00E3 k\u1EBFt th\u00FAc \u003E24 gi\u1EDD, B1 kh\u00F4ng GhiNhanLuc, kh\u00F4ng ghi DaHoc; worker t\u1EAFt.\n4. GET l\u1ECBch v\u00E0 ti\u1EBFn \u0111\u1ED9; \u0111\u1ED1i chi\u1EBFu ngu\u1ED3n BuoiHoc/LichHoc. \u0110i\u1EC3m v\u00E0o: GET /HocTap/LopHoc/ChiTiet?id=C1\u0026tab=overview. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 200; B1 l\u00E0 Ch\u01B0a ghi nh\u1EADn; s\u1ED1 bu\u1ED5i \u0111\u00E3 h\u1ECDc kh\u00F4ng t\u0103ng v\u00EC ch\u1EC9 qua gi\u1EDD.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng c\u00F3 ghi nh\u1EADn/\u0111i\u1EC3m danh gi\u1EA3; d\u1EEF li\u1EC7u ch\u1EDD nh\u1EAFc v\u1EABn \u0111\u01B0\u1EE3c gi\u1EEF.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 200; B1 l\u00E0 Ch\u01B0a ghi nh\u1EADn; s\u1ED1 bu\u1ED5i \u0111\u00E3 h\u1ECDc kh\u00F4ng t\u0103ng v\u00EC ch\u1EC9 qua gi\u1EDD.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng c\u00F3 ghi nh\u1EADn/\u0111i\u1EC3m danh gi\u1EA3; d\u1EEF li\u1EC7u ch\u1EDD nh\u1EAFc v\u1EABn \u0111\u01B0\u1EE3c gi\u1EEF."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "e7ba8059-e5bc-4401-af93-da5e6e8e37f7",
+    "P": "15a8ac3a-d631-4c19-bcb6-d6fad2011ac0",
+    "G": "50c7bad2-4ecc-4ee4-8e0b-19af8c2158e3",
+    "X": "d651ecb2-a2b1-4367-9658-7ccf3cab543c",
+    "A": "6d3101d7-d22c-47b8-a976-bae3b3abb399"
+  },
+  "subjects": {
+    "M1": 500,
+    "M2": 501
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "\u003C!doctype html\u003E\u003Chtml lang=\u0022vi\u0022\u003E\u003Chead\u003E\u003Cmeta charset=\u0022utf-8\u0022\u003E\u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E\u003Cmeta name=\u0022edu-user\u0022 content=\u0022e7ba8059-e5bc-4401-af93-da5e6e8e37f7\u0022\u003E\u003Ctitle\u003EChi ti\u0026#x1EBF;t bu\u0026#x1ED5;i h\u0026#x1ECD;c \u00B7 EduConnect\u003C/title\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/lib/bootstrap/dist/css/bootstrap.min.css?v=sKIQRfQriISuQ9l_44b1zHfQniGXJhGonVtB2LlSuIs\u0022\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/fonts.css\u0022\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/app.css?v=S3tgHvo1_ghoQFujV6_6n-dNJf__ap55VwbKxUDjaK4\u0022\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/profile.css?v=LYj-Vc4q71IUCAqrltGQdFOhSpk755x-kIn6rvfSv18\u0022\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/classroom.css?v=5n5QRcc3y_unDhbVESKnZnBNP7Rbed60-jwn0OTx5DE\u0022\u003E\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/notifications.css?v=r2hN5jKsMzzXO-E2YY5ZVVmAm6mogxXxnDo3AUkBeLk\u0022\u003E\u003C/head\u003E\r\n\u003Cbody class=\u0022\u0022\u003E\u003Cbutton type=\u0022button\u0022 class=\u0022btn mobile-menu\u0022 aria-label=\u0022M\u1EDF menu\u0022 aria-expanded=\u0022false\u0022 aria-controls=\u0022navigation\u0022\u003E\u2630\u003C/button\u003E\u003Caside class=\u0022sidebar\u0022 id=\u0022navigation\u0022\u003E\u003Ca class=\u0022brand\u0022 href=\u0022/\u0022\u003E\u003Cimg src=\u0022/images/auth/logo.png\u0022 alt=\u0022EduConnect\u0022\u003E\u003C/a\u003E\u003Cp class=\u0022eyebrow\u0022\u003EKH\u0026#xD4;NG GIAN H\u0026#x1ECC;C T\u0026#x1EAC;P\u003C/p\u003E\u003Cnav aria-label=\u0022\u0110i\u1EC1u h\u01B0\u1EDBng ch\u00EDnh\u0022\u003E\r\n            \u003Ca href=\u0022/\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/house-door.svg\u0022 alt=\u0022\u0022\u003ETrang ch\u0026#x1EE7;\u003C/a\u003E\r\n            \u003Ca href=\u0022/TimKiem/TimKiem/GiaSu\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/search.svg\u0022 alt=\u0022\u0022\u003ET\u0026#xEC;m gia s\u0026#x1B0;\u003C/a\u003E\r\n            \u003Ca href=\u0022/NhuCau/NhuCau/Index\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/journal-plus.svg\u0022 alt=\u0022\u0022\u003ENhu c\u1EA7u c\u1EE7a t\u00F4i\u003C/a\u003E\r\n            \u003Ca href=\u0022/KetNoi/KetNoi/LienHe\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/link-45deg.svg\u0022 alt=\u0022\u0022\u003ELi\u0026#xEA;n h\u0026#x1EC7; \u0026amp; k\u0026#x1EBF;t n\u0026#x1ED1;i\u003C/a\u003E\r\n            \u003Ca href=\u0022/HocTap/LopHoc/Index\u0022 class=\u0022selected\u0022 aria-current=\u0022page\u0022\u003E\u003Cimg src=\u0022/images/ui/collection.svg\u0022 alt=\u0022\u0022\u003EL\u0026#x1EDB;p h\u0026#x1ECD;c\u003C/a\u003E\r\n            \u003Ca href=\u0022/HocTap/TinNhan/Index\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/chat-dots.svg\u0022 alt=\u0022\u0022\u003ETin nh\u0026#x1EAF;n\u003C/a\u003E\r\n    \u003Cdetails class=\u0022nav-group \u0022\u003E\r\n        \u003Csummary\u003E\u003Cimg src=\u0022/images/ui/flag.svg\u0022 alt=\u0022\u0022\u003EB\u00E1o c\u00E1o \u0026 h\u1ED7 tr\u1EE3\u003C/summary\u003E\r\n        \u003Cdiv class=\u0022nav-group-links\u0022\u003E\r\n            \u003Ca href=\u0022/QuanTri/BaoCaoViPham/Index\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/journal-plus.svg\u0022 alt=\u0022\u0022\u003EB\u00E1o c\u00E1o c\u1EE7a t\u00F4i\u003C/a\u003E\r\n            \u003Ca href=\u0022/QuanTri/BaoCaoViPham/KiemDuyet\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/shield-check.svg\u0022 alt=\u0022\u0022\u003EK\u1EBFt qu\u1EA3 ki\u1EC3m duy\u1EC7t\u003C/a\u003E\r\n        \u003C/div\u003E\r\n    \u003C/details\u003E\r\n\u003Ca href=\u0022/TaiKhoan/HoSo\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/person-badge.svg\u0022 alt=\u0022\u0022\u003ETrang c\u00E1 nh\u00E2n\u003C/a\u003E\r\n\u003C/nav\u003E\u003Cdiv class=\u0022sidebar-bottom\u0022\u003E\u003Cdiv class=\u0022soft\u0022\u003E\u003Cstrong\u003EC\u00F9ng ti\u1EBFn b\u1ED9 m\u1ED7i ng\u00E0y\u003C/strong\u003E\u003Cp\u003EK\u1EBFt n\u1ED1i \u0111\u00FAng ng\u01B0\u1EDDi, x\u00E2y d\u1EF1ng h\u00E0nh tr\u00ECnh h\u1ECDc ph\u00F9 h\u1EE3p.\u003C/p\u003E\u003C/div\u003E\u003Ca class=\u0022person account-menu\u0022 href=\u0022/TaiKhoan/HoSo\u0022\u003E\u003Cspan class=\u0022avatar\u0022\u003EI\u003C/span\u003E\u003Cdiv\u003E\u003Cstrong\u003EITa40dc6e2984c4372acedcc44420464e6\u003C/strong\u003E\u003Csmall\u003EH\u0026#x1ECD;c sinh\u003C/small\u003E\u003C/div\u003E\u003C/a\u003E\u003C/div\u003E\u003C/aside\u003E\r\n\u003Cdiv class=\u0022shell\u0022\u003E\r\n\u003Cheader\u003E\r\n    \u003Cdiv class=\u0022header-navigation\u0022\u003E    \u003Ca href=\u0022/HocTap/LopHoc/Index\u0022 class=\u0022btn btn-outline-primary page-back\u0022 data-page-back data-parent-page=\u0022false\u0022 aria-label=\u0022Quay l\u1EA1i\u0022\u003E\u003Cspan aria-hidden=\u0022true\u0022\u003E\u2190\u003C/span\u003E\u003Cspan class=\u0022page-back-text\u0022\u003E Quay l\u1EA1i\u003C/span\u003E\u003C/a\u003E\r\n\r\n    \u003Cnav class=\u0022breadcrumbs\u0022 aria-label=\u0022\u0110\u01B0\u1EDDng d\u1EABn\u0022\u003E\r\n        \u003Col\u003E\r\n                \u003Cli\u003E\u003Ca href=\u0022/\u0022\u003ETrang ch\u1EE7\u003C/a\u003E\u003C/li\u003E\r\n                    \u003Cli\u003E\u003Ca href=\u0022/HocTap/LopHoc/Index\u0022\u003EL\u0026#x1EDB;p h\u0026#x1ECD;c\u003C/a\u003E\u003C/li\u003E\r\n                \u003Cli\u003E\u003Cspan aria-current=\u0022page\u0022\u003EChi ti\u0026#x1EBF;t bu\u0026#x1ED5;i h\u0026#x1ECD;c\u003C/span\u003E\u003C/li\u003E\r\n        \u003C/ol\u003E\r\n    \u003C/nav\u003E\r\n    \u003C/div\u003E\r\n    \u003Cdiv class=\u0022header-actions\u0022\u003E\r\n        \u003Ca data-modal href=\u0022/Home/ThongBao\u0022 class=\u0022notification\u0022 aria-label=\u0022Th\u00F4ng b\u00E1o\u0022\u003E\r\n            \u003Cimg src=\u0022/images/ui/bell.svg\u0022 alt=\u0022\u0022\u003E\r\n            \u003Cspan class=\u0022notification-label\u0022\u003ETh\u00F4ng b\u00E1o\u003C/span\u003E\r\n            \u003Cb id=\u0022notification-badge\u0022 hidden=\u0022hidden\u0022 aria-label=\u00220 th\u00F4ng b\u00E1o ch\u01B0a \u0111\u1ECDc\u0022\u003E0\u003C/b\u003E\r\n        \u003C/a\u003E\r\n        \u003Cform action=\u0022/TaiKhoan/DangXuat\u0022 method=\u0022post\u0022 class=\u0022logout-form\u0022\u003E\r\n            \u003Cinput name=\u0022__RequestVerificationToken\u0022 type=\u0022hidden\u0022 value=\u0022[redacted]\u0022 /\u003E\r\n            \u003Cbutton class=\u0022btn btn-outline-primary\u0022 type=\u0022submit\u0022\u003E\u0110\u0103ng xu\u1EA5t\u003C/button\u003E\r\n        \u003C/form\u003E\r\n    \u003C/div\u003E\r\n\u003C/header\u003E\u003Cmain class=\u0022container-fluid\u0022\u003E\r\n\u003Cdiv class=\u0022notification-rail\u0022 data-notification-rail hidden=\u0022hidden\u0022\u003E\r\n    \u003Cdiv class=\u0022notification-message\u0022 data-notification hidden=\u0022hidden\u0022\u003E\r\n        \u003Cspan class=\u0022notification-text\u0022 role=\u0022status\u0022 aria-live=\u0022polite\u0022 aria-atomic=\u0022true\u0022 data-notification-text\u003E\u003C/span\u003E\r\n        \u003Cbutton type=\u0022button\u0022 class=\u0022notification-close\u0022 data-notification-close aria-label=\u0022\u0110\u00F3ng th\u00F4ng b\u00E1o\u0022\u003E\u00D7\u003C/button\u003E\r\n    \u003C/div\u003E\r\n\u003C/div\u003E\r\n\r\n\r\n\r\n\u003Cdiv class=\u0022lesson-detail-header\u0022\u003E\r\n    \u003Cdiv\u003E\u003Ch1\u003EITa40dc6e2984c4372acedcc44420464e6\u003C/h1\u003E\u003Cp\u003E24/11/2026 08:24 \u2013 09:24\u003C/p\u003E\u003C/div\u003E\r\n    \u003Cdiv class=\u0022actions\u0022\u003E\r\n        \u003Ca class=\u0022btn btn-outline-primary\u0022 href=\u0022/HocTap/LopHoc/ChiTiet/e9463c50-39d4-4676-a572-e1edb9a9cf9f?tab=schedule\u0026amp;week=2026-11-24\u0022\u003EV\u1EC1 l\u1ECBch h\u1ECDc\u003C/a\u003E\r\n    \u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Carticle class=\u0022card lesson-summary\u0022\u003E\r\n    \u003Cspan class=\u0022badge rounded-pill align-self-start\u0022\u003ECh\u0026#x1B0;a ghi nh\u0026#x1EAD;n\u003C/span\u003E\r\n \u003Cp class=\u0022muted mt-3 mb-0\u0022\u003ECh\u01B0a c\u00F3 ghi nh\u1EADn sau bu\u1ED5i h\u1ECDc.\u003C/p\u003E \u003C/article\u003E\r\n\u003Cdiv class=\u0022actions\u0022\u003E\r\n\u003C/div\u003E\r\n\u003Csection class=\u0022stack\u0022\u003E\u003Cdiv class=\u0022heading\u0022\u003E\u003Ch2\u003EB\u00E0i t\u1EADp c\u1EE7a bu\u1ED5i\u003C/h2\u003E\r\n\u003C/div\u003E\r\n \u003Cp class=\u0022empty\u0022\u003EBu\u1ED5i n\u00E0y ch\u01B0a c\u00F3 b\u00E0i t\u1EADp.\u003C/p\u003E \u003C/section\u003E\r\n\u003C/main\u003E\u003Cfooter\u003E\u003Cstrong\u003EEduConnect\u003C/strong\u003E\u003Cspan\u003EK\u1EBFt n\u1ED1i tri th\u1EE9c, \u0111\u1ED3ng h\u00E0nh c\u00F9ng ti\u1EBFn b\u1ED9.\u003C/span\u003E\u003Cspan\u003E\u00A9 2026 EduConnect\u003C/span\u003E\u003C/footer\u003E\u003C/div\u003E\u003Cdiv class=\u0022modal fade\u0022 id=\u0022workspace-modal\u0022 tabindex=\u0022-1\u0022 aria-labelledby=\u0022workspace-modal-title\u0022 aria-hidden=\u0022true\u0022\u003E\u003Cdiv class=\u0022modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable\u0022\u003E\u003Cdiv class=\u0022modal-content\u0022\u003E\u003Cdiv class=\u0022modal-header\u0022\u003E\u003Ch2 class=\u0022modal-title fs-5\u0022 id=\u0022workspace-modal-title\u0022\u003EChi ti\u1EBFt\u003C/h2\u003E\u003Cbutton type=\u0022button\u0022 class=\u0022btn-close\u0022 data-bs-dismiss=\u0022modal\u0022 aria-label=\u0022\u0110\u00F3ng\u0022\u003E\u003C/button\u003E\u003C/div\u003E\u003Cdiv class=\u0022modal-body\u0022 id=\u0022workspace-content\u0022 aria-live=\u0022polite\u0022\u003E\u003C/div\u003E\u003C/div\u003E\u003C/div\u003E\u003C/div\u003E\u003Cscript src=\u0022/lib/bootstrap/dist/js/bootstrap.bundle.min.js?v=6zfk2L8R3wCgRbZzpkEi7UYC2bc6fYGIgFfNeqyOWnQ\u0022\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/confirmations.js?v=TbrEnZUOGLOOp3jNKfMgpoZQ-tWmgazBT4BdvTWv950\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/account-profile.js?v=dhQMzGRVKLonrWJMGKXgWVXDGvO0hMyxW8Arw_koPeE\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/forms.js?v=K5wNUdLOX89bs8yfIg9otQlmvdKYI03dMcNL1_7zqZs\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/scheduling.js?v=ztoZv3mJvfgOenQRT9W6i-bXPHxCJCfzf08mJfmdB_A\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/class-calendar.js?v=YHiX4Ct8eYB4h_Cijn1k1bSd037XrjQXA8N4zocDh44\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/app.js?v=PkwqwR4F1SrdW0UC7_K_NcA1KFu0gb04Qzn1xBn7faw\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/notifications.js?v=7OS_oNNerz8D2giQfEr1TZF6MYcgub09k7NkQPDuRk0\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/overlays.js?v=LM-a2HSswuuaizWjQiC9wY0-dbzRQZd07ME1T8utVdA\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/navigation.js?v=rIRlYYLEA6A_gy5gmpiYTo4QPp03Ztwr6Hw4pwlnX4w\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/lib/signalr/signalr.min.js?v=KSaDxqITKMA2Vgl7dspV6qI51cAbkpOp8QdaiZNuXc4\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/realtime.js?v=sCY1ppdX6snXwyFjSV2SDK9Aklz5TxVqjVTjZwKTS-A\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/ajax-pages.js?v=akOwCvFECvSY5ru1110Ocbq95LXwq_HnRP3hUCnoVhE\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/areas.js?v=PM16U-0VfI0IUPN3QKbOv40JMf2666D91TLFIMEkcKQ\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/tutor-profile.js?v=UcG-XAxEP1eWZZPrmvEv2lQUbX24oGVecU3IQzUmNks\u0022 defer\u003E\u003C/script\u003E\u003C/body\u003E\u003C/html\u003E\r\n"
+  },
+  "exception": "Xunit.Sdk.ContainsException: Assert.Contains() Failure: Sub-string not found\r\nString:    \u0022\u003C!doctype html\u003E\u003Chtml lang=\u0022vi\u0022\u003E\u003Chead\u003E\u003Cmet\u0022\u00B7\u00B7\u00B7\r\nNot found: \u0022Ch\u01B0a ghi nh\u1EADn\u0022\r\n   at Xunit.Assert.Contains(String expectedSubstring, String actualString, StringComparison comparisonType) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 66\r\n   at Cases.ScheduleCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ScheduleCases.cs:line 28\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 275"
+}

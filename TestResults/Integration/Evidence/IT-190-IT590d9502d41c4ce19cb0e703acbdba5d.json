@@ -1,0 +1,61 @@
+{
+  "caseId": "IT-190",
+  "runTag": "IT590d9502d41c4ce19cb0e703acbdba5d",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_class_unique",
+    "group": 14,
+    "title": "M\u1ED9t l\u1EDBp tr\u00EAn m\u1ED9t y\u00EAu c\u1EA7u",
+    "stage": 1,
+    "entry": "SQL00; r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u",
+    "input": "Y\u00EAu c\u1EA7u \u0111\u00E3 c\u00F3 l\u1EDBp C1; clone gi\u1EEF FK h\u1EE3p l\u1EC7.",
+    "action": "Insert LopHoc th\u1EE9 hai c\u00F9ng YeuCauKetNoiId",
+    "contract": "Unique UQ_YeuCau_LopHoc t\u1EEB ch\u1ED1i l\u1EDBp th\u1EE9 hai; s\u1ED1 l\u1EDBp g\u1EAFn y\u00EAu c\u1EA7u v\u1EABn b\u1EB1ng m\u1ED9t.",
+    "db": "Unique UQ_YeuCau_LopHoc t\u1EEB ch\u1ED1i l\u1EDBp th\u1EE9 hai; s\u1ED1 l\u1EDBp g\u1EAFn y\u00EAu c\u1EA7u v\u1EABn b\u1EB1ng m\u1ED9t.",
+    "fr": [],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "SQL.LopHoc",
+      "SQL.AspNetUserRoles"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-190",
+    "catalogOrder": 190,
+    "executionOrder": 190,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "SQL Server th\u1EADt; \u0111\u1ECDc tr\u1EA1ng th\u00E1i b\u1EB1ng connection m\u1EDBi; kh\u00F4ng ch\u1EA1y tr\u00EAn database \u1EE9ng d\u1EE5ng.",
+    "boundary": "SqlClient/EF Core \u2192 SQL Server database ki\u1EC3m th\u1EED",
+    "baseline": "Integration Test (2).xlsx, sheet 15 Schema Procedure; b\u1ED5 sung \u0111\u1EC3 kh\u1EDBp \u0111\u1EE7 191 m\u00E3 trong workbook.",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 #190. Ki\u1EC3m tr\u1EF1c ti\u1EBFp r\u00E0ng bu\u1ED9c/schema tr\u01B0\u1EDBc khi c\u00E1c t\u1EA7ng service d\u00F9ng d\u1EEF li\u1EC7u.",
+    "conditions": "Y\u00EAu c\u1EA7u \u0111\u00E3 c\u00F3 l\u1EDBp C1; clone gi\u1EEF FK h\u1EE3p l\u1EC7.",
+    "steps": "1. X\u00E1c nh\u1EADn database ki\u1EC3m th\u1EED ri\u00EAng v\u00E0 schema hi\u1EC7n t\u1EA1i. 2. T\u1EA1o fixture \u0111\u1ED9c l\u1EADp cho m\u00E3 n\u00E0y. 3. Th\u1EF1c hi\u1EC7n SQL/EF th\u1EADt theo t\u00ECnh hu\u1ED1ng; kh\u00F4ng mock DB ho\u1EB7c r\u00E0ng bu\u1ED9c. 4. \u0110\u1ECDc l\u1EA1i b\u1EB1ng connection/context m\u1EDBi. 5. Assert l\u1ED7i/gi\u00E1 tr\u1ECB v\u00E0 side effect theo expected. 6. L\u01B0u TRX v\u00E0 b\u1EB1ng ch\u1EE9ng SQL tr\u01B0\u1EDBc/sau.",
+    "expected": "1. H\u1EE3p \u0111\u1ED3ng: Unique UQ_YeuCau_LopHoc t\u1EEB ch\u1ED1i l\u1EDBp th\u1EE9 hai; s\u1ED1 l\u1EDBp g\u1EAFn y\u00EAu c\u1EA7u v\u1EABn b\u1EB1ng m\u1ED9t. 2. D\u1EEF li\u1EC7u: k\u1EBFt qu\u1EA3 \u0111\u1ECDc l\u1EA1i \u0111\u00FAng, kh\u00F4ng t\u1EA1o b\u1EA3n ghi tr\u00F9ng ho\u1EB7c ngo\u00E0i fixture."
+  },
+  "sql": {
+    "sql": "SELECT i.name AS IndexName,i.is_unique AS IsUnique FROM sys.indexes i WHERE i.object_id=OBJECT_ID(\u0027dbo.LopHoc\u0027) AND i.name=\u0027UQ_YeuCau_LopHoc\u0027",
+    "parameters": null,
+    "rows": [
+      {
+        "IndexName": "UQ_YeuCau_LopHoc",
+        "IsUnique": true
+      }
+    ]
+  },
+  "actors": {
+    "H": "835210a0-1c65-4728-8bce-ecb0406ddfa5",
+    "P": "8129b5da-bae0-4012-8282-52d3d26069cd",
+    "G": "8f2e7ec3-c050-4aa4-ae7e-d46b26754607",
+    "X": "3700e582-da08-46fb-b32f-92b5cb2aa245",
+    "A": "17618d31-1b3c-4fc6-969f-44161d2de56c"
+  },
+  "subjects": {
+    "M1": 3893,
+    "M2": 3894
+  },
+  "assertions": "Passed"
+}

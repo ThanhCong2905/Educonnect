@@ -1,0 +1,73 @@
+{
+  "caseId": "IT-096",
+  "runTag": "IT2fe9014b417b4759b4c7a13e77eb426c",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "assignment_store",
+    "group": 7,
+    "title": "Service giao b\u00E0i v\u00E0 t\u1EC7p g\u1EAFn \u0111\u00FAng BuoiHoc",
+    "stage": 2,
+    "entry": "BaiTapService.GiaoAsync",
+    "input": "F7; B1 thu\u1ED9c C1 v\u00E0 \u0111ang/\u0111\u00E3 h\u1ECDc; G1; ti\u00EAu \u0111\u1EC1/n\u1ED9i dung/h\u1EA1n n\u1ED9p sau gi\u1EDD k\u1EBFt th\u00FAc; m\u1ED9t PDF s\u1EA1ch.",
+    "action": "G\u1ECDi Service th\u1EADt v\u1EDBi stream m\u1EDBi; \u0111\u1ECDc BaiTapGiao/TepDinhKem/blob trong scope m\u1EDBi.",
+    "contract": "Service ho\u00E0n t\u1EA5t; b\u00E0i DaGiao \u0111\u00FAng B1/C1, h\u1EA1n n\u1ED9p kh\u00F4ng b\u1ECB \u00E9p b\u1EB1ng gi\u1EDD k\u1EBFt th\u00FAc bu\u1ED5i.",
+    "db": "M\u1ED9t b\u00E0i, metadata/file \u0111\u00FAng hash/owner; notice/outbox cho ng\u01B0\u1EDDi c\u00F3 quy\u1EC1n; kh\u00F4ng giao ra bu\u1ED5i l\u1EDBp kh\u00E1c.",
+    "fr": [
+      "FR-30",
+      "FR-31"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaiTapService.GiaoAsync"
+    ],
+    "deps": [
+      "class_store",
+      "schedule_store",
+      "file_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-096",
+    "catalogOrder": 96,
+    "executionOrder": 35,
+    "dependencyIds": [
+      "IT-057",
+      "IT-083",
+      "IT-124"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.3-U02",
+        "cls": "BaiTapService",
+        "method": "GiaoAsync",
+        "table": 177
+      }
+    ],
+    "fixture": "F7",
+    "sqlOracle": "SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;",
+    "boundary": "BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-30, FR-31; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.3-U02 BaiTapService.GiaoAsync (b\u1EA3ng 177)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service giao b\u00E0i v\u00E0 t\u1EC7p g\u1EAFn \u0111\u00FAng BuoiHoc",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #35.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-057, IT-083, IT-124\nGh\u00E9p sau: BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F7 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF7; B1 thu\u1ED9c C1 v\u00E0 \u0111ang/\u0111\u00E3 h\u1ECDc; G1; ti\u00EAu \u0111\u1EC1/n\u1ED9i dung/h\u1EA1n n\u1ED9p sau gi\u1EDD k\u1EBFt th\u00FAc; m\u1ED9t PDF s\u1EA1ch.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-057, IT-083, IT-124 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F7 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F7; B1 thu\u1ED9c C1 v\u00E0 \u0111ang/\u0111\u00E3 h\u1ECDc; G1; ti\u00EAu \u0111\u1EC1/n\u1ED9i dung/h\u1EA1n n\u1ED9p sau gi\u1EDD k\u1EBFt th\u00FAc; m\u1ED9t PDF s\u1EA1ch. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt v\u1EDBi stream m\u1EDBi; \u0111\u1ECDc BaiTapGiao/TepDinhKem/blob trong scope m\u1EDBi. \u0110i\u1EC3m v\u00E0o: BaiTapService.GiaoAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Service ho\u00E0n t\u1EA5t; b\u00E0i DaGiao \u0111\u00FAng B1/C1, h\u1EA1n n\u1ED9p kh\u00F4ng b\u1ECB \u00E9p b\u1EB1ng gi\u1EDD k\u1EBFt th\u00FAc bu\u1ED5i.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t b\u00E0i, metadata/file \u0111\u00FAng hash/owner; notice/outbox cho ng\u01B0\u1EDDi c\u00F3 quy\u1EC1n; kh\u00F4ng giao ra bu\u1ED5i l\u1EDBp kh\u00E1c.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Service ho\u00E0n t\u1EA5t; b\u00E0i DaGiao \u0111\u00FAng B1/C1, h\u1EA1n n\u1ED9p kh\u00F4ng b\u1ECB \u00E9p b\u1EB1ng gi\u1EDD k\u1EBFt th\u00FAc bu\u1ED5i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t b\u00E0i, metadata/file \u0111\u00FAng hash/owner; notice/outbox cho ng\u01B0\u1EDDi c\u00F3 quy\u1EC1n; kh\u00F4ng giao ra bu\u1ED5i l\u1EDBp kh\u00E1c."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "228379ec-edf5-49d6-8cd3-24a78b89bceb",
+    "P": "1984849c-bb7c-4284-9f65-f8b33ede6afa",
+    "G": "c9fb62fd-3666-4ecb-adb9-777790e0b88a",
+    "X": "ae891a05-9e37-48a5-bd2f-421f9054d2bf",
+    "A": "670a95db-fc5d-494e-86d9-a53f59daf752"
+  },
+  "subjects": {
+    "M1": 3181,
+    "M2": 3182
+  },
+  "assertions": "Passed"
+}

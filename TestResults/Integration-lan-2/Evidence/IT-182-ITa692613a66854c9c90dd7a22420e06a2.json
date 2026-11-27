@@ -1,0 +1,75 @@
+{
+  "caseId": "IT-182",
+  "runTag": "ITa692613a66854c9c90dd7a22420e06a2",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "worker_proposal_expire",
+    "group": 12,
+    "title": "B\u1EA3o tr\u00EC h\u1EBFt h\u1EA1n \u0111\u1EC1 xu\u1EA5t kh\u00F4ng t\u1EA1o l\u1EDBp",
+    "stage": 4,
+    "entry": "BaoTriWorker.StartAsync/StopAsync",
+    "input": "R1/R2 ChoGiaSu/ChoBenHoc c\u00F3 HetHanLuc tr\u01B0\u1EDBc gi\u1EDD SQL; R3 ch\u01B0a \u0111\u1EBFn h\u1EA1n; kh\u00F4ng ch\u1EA1y worker kh\u00E1c.",
+    "action": "Start worker th\u1EADt t\u1EEB DI, poll SQL t\u1ED1i \u0111a10s cho v\u00F2ng \u0111\u1EA7u; StopAsync v\u00E0 \u0111\u1EE3i d\u1EEBng tr\u01B0\u1EDBc cleanup.",
+    "contract": "R1/R2=HetHan; R3 gi\u1EEF ch\u1EDD; kh\u00F4ng t\u1EF1 ch\u1EA5p nh\u1EADn \u0111\u1EC1 xu\u1EA5t t\u1EA1o l\u1EDBp.",
+    "db": "Kh\u00F4ng LopHoc m\u1EDBi; b\u00EAn li\u00EAn quan nh\u1EADn th\u00F4ng b\u00E1o h\u1EBFt h\u1EA1n theo FR-25; ch\u1EA1y l\u1EA1i kh\u00F4ng th\u00EAm th\u00F4ng b\u00E1o tr\u00F9ng.",
+    "fr": [
+      "FR-20",
+      "FR-25"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaoTriWorker.XuLyHetHanYeuCauAsync"
+    ],
+    "deps": [
+      "proposal_store",
+      "notice_store",
+      "outbox_commit"
+    ],
+    "kind": "ASYNC",
+    "routes": [],
+    "id": "IT-182",
+    "catalogOrder": 182,
+    "executionOrder": 182,
+    "dependencyIds": [
+      "IT-045",
+      "IT-170",
+      "IT-177"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.3-U08",
+        "cls": "BaoTriWorker",
+        "method": "XuLyHetHanYeuCauAsync",
+        "table": 132
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5",
+    "baseline": "FR-20, FR-25; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.3-U08 BaoTriWorker.XuLyHetHanYeuCauAsync (b\u1EA3ng 132)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: B\u1EA3o tr\u00EC h\u1EBFt h\u1EA1n \u0111\u1EC1 xu\u1EA5t kh\u00F4ng t\u1EA1o l\u1EDBp",
+    "strategy": "Bottom-up, BU4; th\u1EE9 t\u1EF1 ch\u1EA1y #182.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-045, IT-170, IT-177\nGh\u00E9p sau: Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5\nC\u0103n c\u1EE9: Sau producer v\u00E0 quy\u1EC1n \u0111\u00E3 ki\u1EC3m, gh\u00E9p consumer/worker/transport; t\u00E1ch l\u1ED7i commit kh\u1ECFi l\u1ED7i ph\u00E1t s\u1EF1 ki\u1EC7n v\u00E0 retry. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nR1/R2 ChoGiaSu/ChoBenHoc c\u00F3 HetHanLuc tr\u01B0\u1EDBc gi\u1EDD SQL; R3 ch\u01B0a \u0111\u1EBFn h\u1EA1n; kh\u00F4ng ch\u1EA1y worker kh\u00E1c.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-045, IT-170, IT-177; t\u1EA1o fixture F12/nh\u00F3m li\u00EAn quan, sink/SignalR client v\u00E0 DB th\u1EADt t\u00E1ch bi\u1EC7t.\n2. Chu\u1EA9n b\u1ECB th\u1EDDi \u0111i\u1EC3m/lease/tr\u1EA1ng th\u00E1i b\u1EB1ng SQL v\u00E0 \u0111\u1ECDc T_SQL. \u0110i\u1EC1u ki\u1EC7n ri\u00EAng: R1/R2 ChoGiaSu/ChoBenHoc c\u00F3 HetHanLuc tr\u01B0\u1EDBc gi\u1EDD SQL; R3 ch\u01B0a \u0111\u1EBFn h\u1EA1n; kh\u00F4ng ch\u1EA1y worker kh\u00E1c.\n3. Gi\u1EEF worker,Service,SQL th\u1EADt; b\u1EADt \u0111\u00FAng hosted service c\u1EA7n ki\u1EC3m ho\u1EB7c g\u1ECDi batch public th\u1EADt. D\u00F9ng client/sink giao th\u1EE9c th\u1EADt, kh\u00F4ng mock hub \u0111\u1EC3 tuy\u00EAn b\u1ED1 \u0111\u00E3 ki\u1EC3m delivery.\n4. Start worker th\u1EADt t\u1EEB DI, poll SQL t\u1ED1i \u0111a10s cho v\u00F2ng \u0111\u1EA7u; StopAsync v\u00E0 \u0111\u1EE3i d\u1EEBng tr\u01B0\u1EDBc cleanup.\n5. Poll theo event/state v\u1EDBi deadline10s cho v\u00F2ng \u0111\u1EA7u, t\u1ED1i \u0111a5s audit, kh\u00F4ng d\u00F9ng sleep r\u1ED3i m\u1EB7c \u0111\u1ECBnh \u0111\u1EA1t; tr\u01B0\u1EDDng h\u1EE3p scanner timeout d\u00F9ng timeout30s c\u1EE7a protocol.\n6. Assert contract: R1/R2=HetHan; R3 gi\u1EEF ch\u1EDD; kh\u00F4ng t\u1EF1 ch\u1EA5p nh\u1EADn \u0111\u1EC1 xu\u1EA5t t\u1EA1o l\u1EDBp.\n7. \u0110\u1ECDc SQL b\u1EB1ng connection m\u1EDBi v\u00E0 \u0111\u1ED1i chi\u1EBFu EventId/recipient/target/lease/timestamps/sink: Kh\u00F4ng LopHoc m\u1EDBi; b\u00EAn li\u00EAn quan nh\u1EADn th\u00F4ng b\u00E1o h\u1EBFt h\u1EA1n theo FR-25; ch\u1EA1y l\u1EA1i kh\u00F4ng th\u00EAm th\u00F4ng b\u00E1o tr\u00F9ng.\n8. L\u01B0u timeline commit/publish/ack,retry,SQL,trace,TRX; StopAsync v\u00E0 await worker tr\u01B0\u1EDBc cleanup. Kh\u00F4ng reset DB khi worker c\u00F2n ch\u1EA1y.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: R1/R2=HetHan; R3 gi\u1EEF ch\u1EDD; kh\u00F4ng t\u1EF1 ch\u1EA5p nh\u1EADn \u0111\u1EC1 xu\u1EA5t t\u1EA1o l\u1EDBp.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng LopHoc m\u1EDBi; b\u00EAn li\u00EAn quan nh\u1EADn th\u00F4ng b\u00E1o h\u1EBFt h\u1EA1n theo FR-25; ch\u1EA1y l\u1EA1i kh\u00F4ng th\u00EAm th\u00F4ng b\u00E1o tr\u00F9ng."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauKetNoiLopHoc SET GuiLuc=DATEADD(hour,-73,SYSDATETIMEOFFSET()),DeXuatLuc=DATEADD(hour,-73,SYSDATETIMEOFFSET()),HetHanLuc=DATEADD(hour,-1,SYSDATETIMEOFFSET()) WHERE Id=@id",
+    "parameters": {
+      "@id": "9d64f44a-bc27-441e-9846-d3b8971040e7"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "b60195d3-a892-4fca-86e1-e39700f5f03a",
+    "P": "914b62f8-d93d-456a-b1c0-cc26f09cb6e2",
+    "G": "ca7c83d4-d599-4cad-be3a-ecebc6311499",
+    "X": "fe0553f4-f6cb-457d-8a8e-909189c156f0",
+    "A": "7975991f-ed94-4666-90f7-f05c93f4ff47"
+  },
+  "subjects": {
+    "M1": 5123,
+    "M2": 5124
+  },
+  "assertions": "Passed"
+}

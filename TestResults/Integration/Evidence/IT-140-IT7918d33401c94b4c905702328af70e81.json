@@ -1,0 +1,116 @@
+{
+  "caseId": "IT-140",
+  "runTag": "IT7918d33401c94b4c905702328af70e81",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "admin_access",
+    "group": 10,
+    "title": "Qu\u1EA3n tr\u1ECB theo quy\u1EC1n ch\u1EE9c n\u0103ng, kh\u00F4ng ch\u1EC9 role",
+    "stage": 3,
+    "entry": "GET /QuanTri/HoSo/Index; POST /QuanTri/HoSo/Duyet",
+    "input": "DL01 A c\u00F3 DuyetHoSo; DL02 A0 thi\u1EBFu claim; DL03 G1 kh\u00F4ng role QuanTri; request \u0111\u1EE7 CSRF/RV.",
+    "action": "\u0110\u1ECDc danh s\u00E1ch v\u00E0 th\u1EED duy\u1EC7t t\u1EEBng actor, ki\u1EC3m HTTP v\u00E0 d\u1EEF li\u1EC7u h\u1ED3 s\u01A1.",
+    "contract": "GET c\u1EE7a A200; GET c\u1EE7a A0/G1 b\u1ECB403. POST G1 b\u1ECB403 \u1EDF Authorize; POST A0 ph\u1EA3i t\u1EEB ch\u1ED1i v\u00E0 kh\u00F4ng duy\u1EC7t (ModelState l\u1ED7i c\u1EE7a form tr\u1EA3422).",
+    "db": "Kh\u00F4ng tr\u1EA1ng th\u00E1i/notice/l\u1ECBch s\u1EED duy\u1EC7t m\u1EDBi c\u1EE7a actor b\u1ECB ch\u1EB7n; audit ghi deny \u0111\u00FAng ng\u01B0\u1EDDi.",
+    "fr": [
+      "FR-47",
+      "FR-48",
+      "FR-51"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "HoSoGiaSuService.LayDanhSachDuyetAsync",
+      "HoSoController.Index",
+      "HoSoGiaSuService.DuyetAsync",
+      "HoSoController.Duyet"
+    ],
+    "deps": [
+      "admin_store",
+      "profile_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "HoSoController",
+        "area": "QuanTri",
+        "method": "Index",
+        "action": "Index",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E Index(int trang=1,string state=\u0022ChoDuyet\u0022,string? q=null)",
+        "line": 14,
+        "file": "Areas\\QuanTri\\Controllers\\HoSoController.cs"
+      },
+      {
+        "cls": "HoSoController",
+        "area": "QuanTri",
+        "method": "Duyet",
+        "action": "Duyet",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Duyet(Guid id,string rowVersion,bool approve,string? reason,string? quyetDinh=null)",
+        "line": 30,
+        "file": "Areas\\QuanTri\\Controllers\\HoSoController.cs"
+      }
+    ],
+    "id": "IT-140",
+    "catalogOrder": 140,
+    "executionOrder": 146,
+    "dependencyIds": [
+      "IT-137",
+      "IT-028",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC6.2-U03",
+        "cls": "HoSoGiaSuService",
+        "method": "LayDanhSachDuyetAsync",
+        "table": 329
+      },
+      {
+        "id": "HS-U08",
+        "cls": "HoSoGiaSuService",
+        "method": "DuyetAsync",
+        "table": 331
+      },
+      {
+        "id": "UC6.2-U04",
+        "cls": "HoSoController",
+        "method": "Index",
+        "table": 332
+      },
+      {
+        "id": "UC6.2-U06",
+        "cls": "HoSoController",
+        "method": "Duyet",
+        "table": 334
+      }
+    ],
+    "fixture": "F10",
+    "sqlOracle": "SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 HoSoGiaSuService, HoSoController \u2192 EF/SQL Server",
+    "baseline": "FR-47, FR-48, FR-51; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC6.2-U03 HoSoGiaSuService.LayDanhSachDuyetAsync (b\u1EA3ng 329); HS-U08 HoSoGiaSuService.DuyetAsync (b\u1EA3ng 331); UC6.2-U04 HoSoController.Index (b\u1EA3ng 332); UC6.2-U06 HoSoController.Duyet (b\u1EA3ng 334)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Qu\u1EA3n tr\u1ECB theo quy\u1EC1n ch\u1EE9c n\u0103ng, kh\u00F4ng ch\u1EC9 role",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #146.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-137, IT-028, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 HoSoGiaSuService, HoSoController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F10 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 A c\u00F3 DuyetHoSo; DL02 A0 thi\u1EBFu claim; DL03 G1 kh\u00F4ng role QuanTri; request \u0111\u1EE7 CSRF/RV.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-137, IT-028, IT-157; t\u1EA1o fixture F10 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 A c\u00F3 DuyetHoSo; DL02 A0 thi\u1EBFu claim; DL03 G1 kh\u00F4ng role QuanTri; request \u0111\u1EE7 CSRF/RV.\n4. \u0110\u1ECDc danh s\u00E1ch v\u00E0 th\u1EED duy\u1EC7t t\u1EEBng actor, ki\u1EC3m HTTP v\u00E0 d\u1EEF li\u1EC7u h\u1ED3 s\u01A1. \u0110i\u1EC3m v\u00E0o: GET /QuanTri/HoSo/Index; POST /QuanTri/HoSo/Duyet. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: GET c\u1EE7a A200; GET c\u1EE7a A0/G1 b\u1ECB403. POST G1 b\u1ECB403 \u1EDF Authorize; POST A0 ph\u1EA3i t\u1EEB ch\u1ED1i v\u00E0 kh\u00F4ng duy\u1EC7t (ModelState l\u1ED7i c\u1EE7a form tr\u1EA3422).\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng tr\u1EA1ng th\u00E1i/notice/l\u1ECBch s\u1EED duy\u1EC7t m\u1EDBi c\u1EE7a actor b\u1ECB ch\u1EB7n; audit ghi deny \u0111\u00FAng ng\u01B0\u1EDDi.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: GET c\u1EE7a A200; GET c\u1EE7a A0/G1 b\u1ECB403. POST G1 b\u1ECB403 \u1EDF Authorize; POST A0 ph\u1EA3i t\u1EEB ch\u1ED1i v\u00E0 kh\u00F4ng duy\u1EC7t (ModelState l\u1ED7i c\u1EE7a form tr\u1EA3422).\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng tr\u1EA1ng th\u00E1i/notice/l\u1ECBch s\u1EED duy\u1EC7t m\u1EDBi c\u1EE7a actor b\u1ECB ch\u1EB7n; audit ghi deny \u0111\u00FAng ng\u01B0\u1EDDi."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "b5391cda-4d49-42f6-bc6b-67c0ae5d2cb5",
+    "P": "b4e25813-5c7b-4a01-a0ad-19ef1c3ae911",
+    "G": "48c64c43-5a55-4109-96e8-eaeb7c6c8a75",
+    "X": "ad7928d7-838f-4002-a3d4-7f63b1e5a446",
+    "A": "b5c48464-7743-4a78-854d-41d9c475e7d1"
+  },
+  "subjects": {
+    "M1": 4347,
+    "M2": 4348
+  },
+  "assertions": "Passed"
+}

@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-052-DL2",
+  "runTag": "IT89d31b4a60834d24b46f0b5af93c3c43",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauKetNoiLopHoc SET MucTieu=N\u0027Phi\u00EAn b\u1EA3n m\u1EDBi\u0027 WHERE Id=@r",
+    "parameters": {
+      "@r": "3f68985d-4236-4012-9345-279141115841"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "7cd4fa2b-4bbd-4f36-af2f-481200733b95",
+    "P": "c7af0fe9-7f03-4b5a-8edf-581985e2e109",
+    "G": "b4a24b00-6f94-4adf-9861-9ab0f16f6e18",
+    "X": "c309494f-cc85-44da-b705-32a3ef81b630",
+    "A": "b2eee3ef-0b18-4617-986c-621dac9bfc8f"
+  },
+  "subjects": {
+    "M1": 1074,
+    "M2": 1075
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 \\u0111\\u1ED5i phi\\u00EAn b\\u1EA3n, h\\u1EBFt h\\u1EA1n ho\\u1EB7c kh\\u00F4ng thu\\u1ED9c gia s\\u01B0.\u0022]}}"
+  }
+}

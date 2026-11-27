@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-065-H",
+  "runTag": "ITfe73905ac79f463e8e148c9db0bbda84",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "15d547bf-ed42-4fa4-a5aa-897d9b90b76d",
+    "P": "feb9d4d4-4ddc-46ab-84e1-1f29f2a49499",
+    "G": "85addac5-fffc-48bf-b3d0-92b89189fb42",
+    "X": "611a5139-95ce-491f-a3a5-efb3e893522e",
+    "A": "071f99c3-11d9-4871-9378-627a2a2f9f01"
+  },
+  "subjects": {
+    "M1": 1576,
+    "M2": 1577
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EEDi y\\u00EAu c\\u1EA7u k\\u1EBFt th\\u00FAc l\\u1EDBp.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc/ChiTiet/19bd228e-281a-4ed2-8ebe-508164df6ef1\u0022}"
+  }
+}

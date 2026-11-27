@@ -1,0 +1,76 @@
+{
+  "caseId": "IT-099",
+  "runTag": "IT4c9826f62e79403ca021ccde45fe0566",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "submission_latest",
+    "group": 7,
+    "title": "L\u01B0u l\u1EA7n n\u1ED9p tr\u01B0\u1EDBc, ch\u1EC9 ch\u1EA5m l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "stage": 2,
+    "entry": "BaiTapService.NopAsync; ChamAsync",
+    "input": "A1 c\u00F3 N1 ch\u01B0a ch\u1EA5m; H1 t\u1EA1o N2 v\u1EDBi O2; G1 c\u1ED1 ch\u1EA5m N1 r\u1ED3i ch\u1EA5m N2.",
+    "action": "G\u1ECDi Service th\u1EADt, \u0111\u1ECDc SQL sau t\u1EEBng b\u01B0\u1EDBc.",
+    "contract": "N2 \u0111\u01B0\u1EE3c t\u1EA1o; ch\u1EA5m N1 b\u1ECB t\u1EEB ch\u1ED1i; N2 \u0111\u01B0\u1EE3c ch\u1EA5m.",
+    "db": "Gi\u1EEF N1/N2 \u0111\u00FAng th\u1EE9 t\u1EF1; KetQuaChamBai ch\u1EC9 g\u1EAFn N2; ti\u1EBFn \u0111\u1ED9 kh\u00F4ng l\u1EA5y \u0111i\u1EC3m N1 c\u0169.",
+    "fr": [
+      "FR-31",
+      "FR-32"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaiTapService.NopAsync",
+      "BaiTapService.ChamAsync"
+    ],
+    "deps": [
+      "submission_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-099",
+    "catalogOrder": 99,
+    "executionOrder": 38,
+    "dependencyIds": [
+      "IT-097"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.4-U02",
+        "cls": "BaiTapService",
+        "method": "NopAsync",
+        "table": 181
+      },
+      {
+        "id": "UC3.5-U02",
+        "cls": "BaiTapService",
+        "method": "ChamAsync",
+        "table": 186
+      }
+    ],
+    "fixture": "F7",
+    "sqlOracle": "SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;",
+    "boundary": "BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-31, FR-32; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.4-U02 BaiTapService.NopAsync (b\u1EA3ng 181); UC3.5-U02 BaiTapService.ChamAsync (b\u1EA3ng 186)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: L\u01B0u l\u1EA7n n\u1ED9p tr\u01B0\u1EDBc, ch\u1EC9 ch\u1EA5m l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #38.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-097\nGh\u00E9p sau: BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F7 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nA1 c\u00F3 N1 ch\u01B0a ch\u1EA5m; H1 t\u1EA1o N2 v\u1EDBi O2; G1 c\u1ED1 ch\u1EA5m N1 r\u1ED3i ch\u1EA5m N2.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-097 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F7 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: A1 c\u00F3 N1 ch\u01B0a ch\u1EA5m; H1 t\u1EA1o N2 v\u1EDBi O2; G1 c\u1ED1 ch\u1EA5m N1 r\u1ED3i ch\u1EA5m N2. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt, \u0111\u1ECDc SQL sau t\u1EEBng b\u01B0\u1EDBc. \u0110i\u1EC3m v\u00E0o: BaiTapService.NopAsync; ChamAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: N2 \u0111\u01B0\u1EE3c t\u1EA1o; ch\u1EA5m N1 b\u1ECB t\u1EEB ch\u1ED1i; N2 \u0111\u01B0\u1EE3c ch\u1EA5m.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Gi\u1EEF N1/N2 \u0111\u00FAng th\u1EE9 t\u1EF1; KetQuaChamBai ch\u1EC9 g\u1EAFn N2; ti\u1EBFn \u0111\u1ED9 kh\u00F4ng l\u1EA5y \u0111i\u1EC3m N1 c\u0169.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: N2 \u0111\u01B0\u1EE3c t\u1EA1o; ch\u1EA5m N1 b\u1ECB t\u1EEB ch\u1ED1i; N2 \u0111\u01B0\u1EE3c ch\u1EA5m.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Gi\u1EEF N1/N2 \u0111\u00FAng th\u1EE9 t\u1EF1; KetQuaChamBai ch\u1EC9 g\u1EAFn N2; ti\u1EBFn \u0111\u1ED9 kh\u00F4ng l\u1EA5y \u0111i\u1EC3m N1 c\u0169."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "16020087-79d7-46a3-a27b-d359bfac23a5",
+    "P": "b6ad106b-7515-4f01-8a5d-c3135686ceb8",
+    "G": "10a058a4-6135-4c2a-9fa1-98aa11523aa0",
+    "X": "e618a935-d40d-40ec-aa33-e855d8f55d61",
+    "A": "549b365c-b3ef-400b-a0f1-241583187c0d"
+  },
+  "subjects": {
+    "M1": 1830,
+    "M2": 1831
+  },
+  "assertions": "Passed"
+}

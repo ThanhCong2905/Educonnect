@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="12d75d5e-ee24-4a47-aa18-d36c47d297f7" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 11:05:51" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T11:05:51.1336915+07:00" queuing="2026-11-27T11:05:51.1336919+07:00" start="2026-11-27T11:05:47.5609758+07:00" finish="2026-11-27T11:06:05.7680619+07:00" />
+  <TestSettings name="default" id="47817a49-0248-493b-a372-8bdd43048f56">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_11_05_51" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="afcadbba-4f92-4e34-bed4-26af60e5dd34" testId="c1ec2a36-eaa6-f9f7-1127-401237f0dc0a" testName="IT-124 | TepService ghép scanner process và file sandbox" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.5855748" startTime="2026-11-27T11:05:50.9863257+07:00" endTime="2026-11-27T11:05:50.9863699+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="afcadbba-4f92-4e34-bed4-26af60e5dd34" />
+    <UnitTestResult executionId="13dccc31-133b-4dd2-ba04-407541a1df94" testId="f7855949-d518-5a40-9ee7-5b830d53e7d7" testName="IT-128 | Scanner báo nhiễm/lỗi/timeout không được gắn trạng thái sạch" computerName="LAPTOP-3L2V1AFT" duration="00:00:14.7035983" startTime="2026-11-27T11:06:05.6913944+07:00" endTime="2026-11-27T11:06:05.6913948+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="13dccc31-133b-4dd2-ba04-407541a1df94" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-128 | Scanner báo nhiễm/lỗi/timeout không được gắn trạng thái sạch" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="f7855949-d518-5a40-9ee7-5b830d53e7d7">
+      <Execution id="13dccc31-133b-4dd2-ba04-407541a1df94" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_128" />
+    </UnitTest>
+    <UnitTest name="IT-124 | TepService ghép scanner process và file sandbox" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="c1ec2a36-eaa6-f9f7-1127-401237f0dc0a">
+      <Execution id="afcadbba-4f92-4e34-bed4-26af60e5dd34" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_124" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="c1ec2a36-eaa6-f9f7-1127-401237f0dc0a" executionId="afcadbba-4f92-4e34-bed4-26af60e5dd34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7855949-d518-5a40-9ee7-5b830d53e7d7" executionId="13dccc31-133b-4dd2-ba04-407541a1df94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.17]   Starting:    IntegrationCurrent&#xD;
+[xUnit.net 00:00:17.53]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

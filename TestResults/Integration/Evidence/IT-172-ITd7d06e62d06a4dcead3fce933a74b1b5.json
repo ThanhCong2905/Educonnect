@@ -1,0 +1,180 @@
+{
+  "caseId": "IT-172",
+  "runTag": "ITd7d06e62d06a4dcead3fce933a74b1b5",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "notice_http",
+    "group": 12,
+    "title": "\u0110\u1ECDc m\u1ED9t/\u0111\u1ECDc t\u1EA5t c\u1EA3 th\u00F4ng b\u00E1o \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn",
+    "stage": 3,
+    "entry": "GET /Home/ThongBao; POST /Home/Doc; POST /Home/DocTatCa; GET /Home/ChuaDoc",
+    "input": "H1 c\u00F3 3 th\u00F4ng b\u00E1o ch\u01B0a \u0111\u1ECDc; H2 c\u00F3 2; E1 thu\u1ED9c H1.",
+    "action": "H1 m\u1EDF danh s\u00E1ch, \u0111\u1ECDc E1 r\u1ED3i \u0111\u1ECDc t\u1EA5t c\u1EA3; H2 th\u1EED \u0111\u1ECDc E1; ki\u1EC3m count v\u00E0 DaDocLuc b\u1EB1ng SQL.",
+    "contract": "H1 count3\u21922\u21920; H2 kh\u00F4ng \u0111\u1ECDc \u0111\u01B0\u1EE3c E1; filter/trang ch\u1EC9 th\u00F4ng b\u00E1o ng\u01B0\u1EDDi hi\u1EC7n t\u1EA1i.",
+    "db": "H2 v\u1EABn 2 ch\u01B0a \u0111\u1ECDc; kh\u00F4ng \u0111\u1ED5i NoiDung/recipient ho\u1EB7c nh\u00E2n b\u1EA3n th\u00F4ng b\u00E1o; c\u00F3 event c\u1EADp nh\u1EADt count cho H1.",
+    "fr": [
+      "FR-25",
+      "FR-40"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "ThongBaoService.DocAsync",
+      "ThongBaoService.DocTatCaAsync",
+      "ThongBaoService.ChuaDocAsync",
+      "ThongBaoService.PhanTrangAsync",
+      "HomeController.ThongBao",
+      "KetNoiService.LayAsync",
+      "LopHocService.LayAsync",
+      "HomeController.Doc",
+      "HomeController.DocTatCa",
+      "HomeController.ChuaDoc"
+    ],
+    "deps": [
+      "notice_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "HomeController",
+        "area": "",
+        "method": "ThongBao",
+        "action": "ThongBao",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E ThongBao(int trang=1,string? state=null,string? q=null,string? loai=null)",
+        "line": 27,
+        "file": "Controllers\\HomeController.cs"
+      },
+      {
+        "cls": "HomeController",
+        "area": "",
+        "method": "Doc",
+        "action": "Doc",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Doc(Guid id)",
+        "line": 41,
+        "file": "Controllers\\HomeController.cs"
+      },
+      {
+        "cls": "HomeController",
+        "area": "",
+        "method": "DocTatCa",
+        "action": "DocTatCa",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E DocTatCa()",
+        "line": 33,
+        "file": "Controllers\\HomeController.cs"
+      },
+      {
+        "cls": "HomeController",
+        "area": "",
+        "method": "ChuaDoc",
+        "action": "ChuaDoc",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E ChuaDoc()",
+        "line": 39,
+        "file": "Controllers\\HomeController.cs"
+      }
+    ],
+    "id": "IT-172",
+    "catalogOrder": 172,
+    "executionOrder": 172,
+    "dependencyIds": [
+      "IT-170",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.1-U13",
+        "cls": "KetNoiService",
+        "method": "LayAsync",
+        "table": 85
+      },
+      {
+        "id": "TV-U09",
+        "cls": "LopHocService",
+        "method": "LayAsync",
+        "table": 393
+      },
+      {
+        "id": "TB-U02",
+        "cls": "HomeController",
+        "method": "ThongBao",
+        "table": 409
+      },
+      {
+        "id": "TB-U03",
+        "cls": "HomeController",
+        "method": "DocTatCa",
+        "table": 410
+      },
+      {
+        "id": "TB-U04",
+        "cls": "HomeController",
+        "method": "ChuaDoc",
+        "table": 411
+      },
+      {
+        "id": "TB-U05",
+        "cls": "HomeController",
+        "method": "Doc",
+        "table": 412
+      },
+      {
+        "id": "TB-U08",
+        "cls": "ThongBaoService",
+        "method": "ChuaDocAsync",
+        "table": 415
+      },
+      {
+        "id": "TB-U09",
+        "cls": "ThongBaoService",
+        "method": "PhanTrangAsync",
+        "table": 416
+      },
+      {
+        "id": "TB-U10",
+        "cls": "ThongBaoService",
+        "method": "DocTatCaAsync",
+        "table": 417
+      },
+      {
+        "id": "TB-U11",
+        "cls": "ThongBaoService",
+        "method": "DocAsync",
+        "table": 418
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 ThongBaoService, HomeController, KetNoiService, LopHocService \u2192 EF/SQL Server",
+    "baseline": "FR-25, FR-40; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.1-U13 KetNoiService.LayAsync (b\u1EA3ng 85); TV-U09 LopHocService.LayAsync (b\u1EA3ng 393); TB-U02 HomeController.ThongBao (b\u1EA3ng 409); TB-U03 HomeController.DocTatCa (b\u1EA3ng 410); TB-U04 HomeController.ChuaDoc (b\u1EA3ng 411); TB-U05 HomeController.Doc (b\u1EA3ng 412); TB-U08 ThongBaoService.ChuaDocAsync (b\u1EA3ng 415); TB-U09 ThongBaoService.PhanTrangAsync (b\u1EA3ng 416); TB-U10 ThongBaoService.DocTatCaAsync (b\u1EA3ng 417); TB-U11 ThongBaoService.DocAsync (b\u1EA3ng 418)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: \u0110\u1ECDc m\u1ED9t/\u0111\u1ECDc t\u1EA5t c\u1EA3 th\u00F4ng b\u00E1o \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #172.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-170, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 ThongBaoService, HomeController, KetNoiService, LopHocService \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nH1 c\u00F3 3 th\u00F4ng b\u00E1o ch\u01B0a \u0111\u1ECDc; H2 c\u00F3 2; E1 thu\u1ED9c H1.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-170, IT-157; t\u1EA1o fixture F12 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: H1 c\u00F3 3 th\u00F4ng b\u00E1o ch\u01B0a \u0111\u1ECDc; H2 c\u00F3 2; E1 thu\u1ED9c H1.\n4. H1 m\u1EDF danh s\u00E1ch, \u0111\u1ECDc E1 r\u1ED3i \u0111\u1ECDc t\u1EA5t c\u1EA3; H2 th\u1EED \u0111\u1ECDc E1; ki\u1EC3m count v\u00E0 DaDocLuc b\u1EB1ng SQL. \u0110i\u1EC3m v\u00E0o: GET /Home/ThongBao; POST /Home/Doc; POST /Home/DocTatCa; GET /Home/ChuaDoc. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: H1 count3\u21922\u21920; H2 kh\u00F4ng \u0111\u1ECDc \u0111\u01B0\u1EE3c E1; filter/trang ch\u1EC9 th\u00F4ng b\u00E1o ng\u01B0\u1EDDi hi\u1EC7n t\u1EA1i.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: H2 v\u1EABn 2 ch\u01B0a \u0111\u1ECDc; kh\u00F4ng \u0111\u1ED5i NoiDung/recipient ho\u1EB7c nh\u00E2n b\u1EA3n th\u00F4ng b\u00E1o; c\u00F3 event c\u1EADp nh\u1EADt count cho H1.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: H1 count3\u21922\u21920; H2 kh\u00F4ng \u0111\u1ECDc \u0111\u01B0\u1EE3c E1; filter/trang ch\u1EC9 th\u00F4ng b\u00E1o ng\u01B0\u1EDDi hi\u1EC7n t\u1EA1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: H2 v\u1EABn 2 ch\u01B0a \u0111\u1ECDc; kh\u00F4ng \u0111\u1ED5i NoiDung/recipient ho\u1EB7c nh\u00E2n b\u1EA3n th\u00F4ng b\u00E1o; c\u00F3 event c\u1EADp nh\u1EADt count cho H1."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "78d95872-b7cb-4fc9-a291-acc8442f0df9",
+    "P": "ead8823c-3b0f-45ef-86be-f34ebc4c8239",
+    "G": "5885a92b-4685-42f0-aa96-bc5340d450d4",
+    "X": "e881060e-25ac-4aec-aabc-339f188a9e0d",
+    "A": "abdf983e-fc4f-43ce-a482-3fe3c53c4886"
+  },
+  "subjects": {
+    "M1": 1334,
+    "M2": 1335
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:null,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc/ChiTiet/a6a789a3-1d3b-484e-a3ae-0444ab5c41b0\u0022}"
+  },
+  "exception": "Xunit.Sdk.EqualException: Assert.Equal() Failure: Values differ\r\nExpected: Found\r\nActual:   OK\r\n   at Xunit.Assert.Equal[T](T expected, T actual, IEqualityComparer\u00601 comparer) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 154\r\n   at Xunit.Assert.Equal[T](T expected, T actual) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 89\r\n   at Cases.NoticeCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\NoticeCases.cs:line 48\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 277"
+}

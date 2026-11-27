@@ -1,0 +1,352 @@
+﻿id,title,status,scriptResult,scopeGap,reason,actual,applicationLocation
+IT-001,Một tài khoản chỉ có một vai trò,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-002,Khóa ghép nhu cầu–môn và khóa ngoại,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Contains() Failure: Item not found in collection
+Collection: [547]
+Not found:  2601",
+IT-003,Đề xuất SQL kiểm tra liên hệ và môn,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-004,Chấp nhận SQL tạo đúng một lớp và dữ liệu con,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-005,Chấp nhận SQL thất bại phải rollback,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-006,Procedure lịch và trigger tạo BuoiHoc,Fail,Fail,Chưa có DL02 batch lỗi để chứng minh rollback.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,System.InvalidOperationException : Invalid operation. The connection is closed.,
+IT-007,Procedure ghi nhận buổi kiểm người thực hiện,Fail,Fail,Đã kiểm actor H1 sai quyền; chưa thay bằng Gia sư G2 như DL02 trong Excel.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-008,Nộp bài SQL giữ lịch sử và chống lặp mã,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-009,"Chấm SQL kiểm điểm, quyền và lần mới nhất",Fail,Fail,Đã kiểm H1 sai quyền; chưa có Gia sư G2 riêng như Excel.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-010,Procedure lỗi đăng nhập và thời gian chờ,Fail,Fail,,"TC yêu cầu chờ 0/1/5/15 phút, procedure hiện tại quy định 30/60/120/300 giây. Không tự kết luận SQL sai trước khi đối chiếu thiết kế/SRS.","Assert.Equal() Failure: Values differ
+Expected: 0
+Actual:   30",Database/00_EduConnect_Full.sql:1189
+IT-011,"Procedure phiên kiểm chủ, thu hồi và hết hạn",Fail,Fail,Chưa có DL tài khoản BiKhoa và đối chiếu hoạt động nền/chủ động.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-012,Principal ứng dụng bị chặn sửa/xóa nhật ký,Chưa đủ phạm vi TC,Pass,Đã kiểm quyền SQL UPDATE/DELETE; chưa INSERT/SELECT một audit fixture thực.,Đã kiểm quyền SQL UPDATE/DELETE; chưa INSERT/SELECT một audit fixture thực.,Assertion script đạt.,
+IT-013,"EF–SQL round-trip trạng thái, khóa phiên bản và mốc kết thúc",Fail,Fail,Đã round-trip LopHoc và RV; chưa đủ YeuCauHuyKetNoi/thời điểm UTC+07/TamDung.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-014,Service tạo nhu cầu nhiều môn và đọc lại,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-015,Lỗi quan hệ môn không được lưu một phần nhu cầu,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-016,Hủy request khi chờ khóa SQL không để ghi một phần,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-017,Binding form tạo nhu cầu từ HTTP,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   UnprocessableEntity",
+IT-018,Lưu nháp thiếu mục tiêu và lịch,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   UnprocessableEntity",
+IT-019,Phụ huynh đứng tên nhu cầu của người học,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   UnprocessableEntity",
+IT-020,Khách hoặc gia sư không tạo nhu cầu học,Fail,Fail,,"Authorize(Roles=HocSinh,PhuHuynh) ở Controller chặn Gia sư bằng403 trước action; Excel lại yêu cầu422. Không có bằng chứng vượt quyền.","Assert.Equal() Failure: Values differ
+Expected: UnprocessableEntity
+Actual:   Forbidden",Areas/NhuCau/Controllers/NhuCauController.cs:11
+IT-021,"Hạn mức nhu cầu mở, nháp và lượt đăng/ngày",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-022,Chuẩn hóa trùng nhu cầu trước khi ghi,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,Mỗi nhu cầu chỉ chọn một môn trong danh sách.,
+IT-023,"Cập nhật thay môn/lịch, không đẩy như bài mới",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,Mỗi nhu cầu chỉ chọn một môn trong danh sách.,
+IT-024,Sai chủ hoặc phiên bản cũ không ghi đè,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-025,"Validation form, địa giới và học phí đi qua đúng khớp nối",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,Areas/NhuCau/Services/NhuCauService.cs:66
+IT-026,Đóng/mở lại và xác nhận còn nhu cầu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-027,Form ghi thiếu CSRF không gọi nghiệp vụ,Chưa đủ phạm vi TC,Pass,Đã kiểm CSRF400 và không ghi nhu cầu; chưa assertion audit CSRF.,Đã kiểm CSRF400 và không ghi nhu cầu; chưa assertion audit CSRF.,Assertion script đạt.,
+IT-028,"Service lưu hồ sơ, môn và minh chứng trong cùng giao dịch",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-029,"Service tìm kiếm ghép hồ sơ, môn, phí và đánh giá",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-030,"Gợi ý có lý do, không tự tạo kết nối",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-031,Multipart hồ sơ giữ đúng liên kết minh chứng,Chưa đủ phạm vi TC,Pass,"Service/SQL/file path is tested, but POST multipart through HoSoGiaSuController and binding/CSRF/response are not.","Service/SQL/file path is tested, but POST multipart through HoSoGiaSuController and binding/CSRF/response are not.",Assertion script đạt.,
+IT-032,Thiếu minh chứng không lưu một phần hồ sơ,Chưa đủ phạm vi TC,Pass,Service-level missing-proof rejection and no partial SQL save are tested; HTTP form and ModelState response are not.,Service-level missing-proof rejection and no partial SQL save are tested; HTTP form and ModelState response are not.,Assertion script đạt.,
+IT-033,Hồ sơ phiên bản cũ không xóa minh chứng mới,Chưa đủ phạm vi TC,Pass,Service-level stale RowVersion protection is tested; the HTTP route/status/body are not.,Service-level stale RowVersion protection is tested; the HTTP route/status/body are not.,Assertion script đạt.,
+IT-034,Duyệt hồ sơ làm thay đổi điều kiện công khai,Fail,Fail,"Admin service review and guest search are tested, but the admin review Controller route/response are not.",Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   InternalServerError",
+IT-035,Sửa nghề nghiệp/họ tên khi công khai phải theo điều kiện ẩn và duyệt lại,Fail,Fail,Both workflow branches are tested at HoSoGiaSuService/SQL level; the TrangThai/Luu HTTP posts are not.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-036,Quyền xem trước và tải minh chứng,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-037,Khách xem hồ sơ và nhu cầu công khai,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-038,Lọc nhiều tiêu chí với mức phí đúng môn và đơn vị,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-039,Hồ sơ và nhu cầu bị ẩn/khóa không lọt kết quả,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-040,Phân trang và sắp xếp ổn định trên dữ liệu thật,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-041,Bộ lọc sai kiểu không bị bỏ qua,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-042,So sánh đủ điều kiện và loại Id trùng,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-043,"So sánh sai số lượng, loại hoặc điều kiện công khai",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-044,Service gửi/chấp nhận liên hệ ghép hội thoại và thông báo,Fail,Fail,"Đã kiểm liên hệ, hội thoại, notification; chưa kiểm đầy đủ payload/outbox chống nhân bản.",Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-045,Service gửi đề xuất hai chiều và kiểm vai trò bên nhận,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-046,Hai gửi liên hệ đồng thời không nhân bản quan hệ,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Contains() Failure: Filter not matched in collection
+Collection: [Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.SqlCommand.CheckThrowSNIException()
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__193_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at AppPrincipal.ConnectionOpenedAsync(DbConnection c, ConnectionEndEventData e, CancellationToken ct) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 36
+   at AppPrincipal.ConnectionOpenedAsync(DbConnection c, ConnectionEndEventData e, CancellationToken ct) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 36
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService.GuiLienHeAsync(GuiLienHeInput m) in C:\Khóa luận TN\EduConnect1\Areas\KetNoi\Services\KetNoiService.cs:line 60
+   at Cases.Capture(Func`1 f) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\BusinessCases.cs:line 67
+ClientConnectionId:e2dc02d3-4d4c-4bad-924e-a3ccc33fb754
+Error Number:-2,State:0,Class:11, Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+ ---> System.ComponentModel.Win32Exception (258): The wait operation timed out.
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at EduConnect.Mvc.Infrastructure.NguoiDungHienTaiService.HienTaiAsync(CancellationToken huy) in C:\Khóa luận TN\EduConnect1\Infrastructure\NguoiDungHienTaiService.cs:line 27
+   at EduConnect.Mvc.Areas.KetNoi.Services.KetNoiService.GuiLienHeAsync(GuiLienHeInput m) in C:\Khóa luận TN\EduConnect1\Areas\KetNoi\Services\KetNoiService.cs:line 59
+   at Cases.Capture(Func`1 f) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\BusinessCases.cs:line 67
+ClientConnectionId:d33a37cc-829a-4302-b2b9-a3e16388b9ea
+Error Number:-2,State:0,Class:11]",
+IT-047,Gửi liên hệ qua HTTP giữ danh tính từ phiên,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-048,Chặn liên hệ không hợp lệ trước và trong giao dịch,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-049,Phản hồi liên hệ đúng bên và phiên bản,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-050,Chưa chấp nhận liên hệ không nhắn tin hoặc đề xuất,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-051,Form đề xuất đầy đủ từ cả hai phía,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   UnprocessableEntity",
+IT-052,Chỉ bên gửi được sửa đề xuất đang chờ,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: 200
+Actual:   422",
+IT-053,Thiếu dữ liệu lớp hoặc mảng lịch bị loại,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,Areas/KetNoi/Services/KetNoiService.cs:180
+IT-054,Gửi/chấp nhận kiểm lại môn và nhu cầu bị ẩn,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-055,Từ chối và rút theo đúng bên tham gia,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-056,Điểm vào chuyển tiếp không bỏ kiểm tra actor và liên hệ,Fail,Fail,,"Người ngoài nhận404, Excel yêu cầu403; không chứng minh người ngoài tạo được yêu cầu. Đối chiếu quy tắc che sự tồn tại của liên hệ trước khi kết luận lỗi nghiệp vụ.","Assert.Equal() Failure: Values differ
+Expected: 403
+Actual:   404",Areas/KetNoi/Services/KetNoiService.cs:113
+IT-057,"Service chấp nhận ghép yêu cầu, lớp và các bảng con",Fail,Fail,Fixture một lịch; Excel nêu hai lịch dự kiến.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-058,Service yêu cầu/phản hồi kết thúc ghi đủ dữ liệu,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-059,Lỗi sinh lịch phải rollback toàn bộ tạo lớp,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-060,Xác nhận lặp/đồng thời không tạo hai lớp,Fail,Fail,Đã retry và gọi đồng thời sau lần chấp nhận đầu; chưa race hai xác nhận đầu tiên.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-061,Không hai yêu cầu kết thúc đang chờ,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-062,HTTP chấp nhận tạo đúng lớp và redirectUrl,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-063,Không cho người gửi hoặc người ngoài tự chấp nhận,Fail,Fail,,"Người ngoài không được đọc yêu cầu nên Service trả404 trước nhánh từ chối403. Kiểm tiếp không tạo lớp, không suy diễn đây là vượt quyền.","Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   NotFound",Areas/KetNoi/Services/KetNoiService.cs:199
+IT-064,Khi xác nhận phải kiểm lại dữ liệu đã đổi,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-065,Cả Gia sư và Bên học đều được yêu cầu kết thúc,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-066,Đồng ý/từ chối trước hạn dùng RV yêu cầu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-067,"Người gửi, người ngoài hoặc RV sai không quyết định kết thúc",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-068,Phản hồi sau hạn không kéo dài vì worker chậm,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-069,Lớp kết thúc giữ lịch sử và chặn thao tác học tập mới,Fail,Fail,,"Excel yêu cầu409 cho thao tác ghi; quan sát có403. Phân biệt mã hợp đồng HTTP với việc thực tế vẫn chặn ghi, xem response và bảng sau thao tác.","Assert.Equal() Failure: Values differ
+Expected: 409
+Actual:   403",Areas/HocTap/Services/TinNhanService.cs
+IT-070,Service đề nghị/xác nhận liên kết không tự cấp quyền lớp,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+-------- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-071,Service lời mời → đồng ý → duyệt ghi đủ quyền,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+---- Microsoft.Data.SqlClient.SqlException : Invalid object name 'LichSuQuyenThanhVien'.",
+IT-072,Liên kết phụ huynh–học sinh qua HTTP,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: Found
+Actual:   InternalServerError",
+IT-073,"Không nhận liên kết sai vai trò, sai người hoặc RV cũ",Fail,Fail,Script mới có DL01; chưa có sai người/RV cũ.,"GuiDeNghiAsync chỉ tìm email tài khoản Học sinh; nhập Gia sư trả404, trong khi Excel yêu cầu400.","Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed during the post-login phase.  The connection could have timed out while waiting for server to complete the login process and respond; Or it could have timed out while attempting to create multiple active connections.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=0; handshake=0; [Login] initialization=0; authentication=0; [Post-Login] complete=14014; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",Areas/HocTap/Services/LienKetTaiKhoanService.cs:25
+IT-074,Đề nghị thành viên tại action DeNghi thực tế,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-075,Người nhận tự đồng ý hoặc từ chối lời mời,Fail,Fail,Đã kiểm HTTP/state ba DL; chưa assert riêng quyền mở lớp sau từng DL.,"PhanHoiLoiMoiAsync tra lời mời thuộc người hiện tại; người ngoài nhận404, Excel yêu cầu403.","Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   NotFound",Areas/HocTap/Services/LopHocService.cs:121
+IT-076,Gia sư duyệt Xem/Chỉnh sửa và quyền nộp riêng,Fail,Fail,Đã kiểm ba cấu hình quyền lưu SQL; chưa thao tác đọc/chat/nộp cho cả ba cấu hình.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   InternalServerError",
+IT-077,Duyệt lại điều kiện liên kết và hạn mức trong transaction,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-078,Bên học/thành viên không duyệt quyền người khác,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-079,Đổi/thu hồi quyền có hiệu lực ở request kế tiếp,Fail,Fail,Đã kiểm cookie cũ không chat/nộp; chưa kiểm GET đọc còn được phép.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   InternalServerError",
+IT-080,Gỡ/rời thành viên không gỡ hai bên chính,Fail,Fail,Đã có DL gỡ G1/H1/P1 đối với P1; chưa DL bảo vệ hai thành viên chính.,DuyetAsync luôn kiểm quyền ghi với giaSuOnly=true; Bên học gỡ thành viên hoặc thành viên tự rời bị403 dù FR-38/QT-08 cho phép. Cần xem cả SRS và thiết kế trước sửa code.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   Forbidden",Areas/HocTap/Services/LopHocService.cs:145
+IT-081,Hủy liên kết thu hồi quyền thành viên phụ thuộc,Chưa đủ phạm vi TC,Pass,Service cancellation and rights revocation are tested; HTTP route/cookie/CSRF are not.,Service cancellation and rights revocation are tested; HTTP route/cookie/CSRF are not.,Assertion script đạt.,
+IT-082,Biết Id/là người nhà không mở lớp khác hoặc chat riêng,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-083,Service thêm batch ghép LichHoc–BuoiHoc,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-084,Service bắt đầu và ghi nhận buổi giữ Id,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-085,Hai ghi nhận cùng RV không đè mất dữ liệu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-086,Không nhân đôi buổi bù còn hiệu lực,Chưa đủ phạm vi TC,Pass,The service script asserts duplicate active makeup is rejected and keeps one linked makeup; it does not test the design case where an inactive makeup permits replacement.,The service script asserts duplicate active makeup is rejected and keeps one linked makeup; it does not test the design case where an inactive makeup permits replacement.,Assertion script đạt.,
+IT-087,Form lịch hàng loạt và ngày/giờ local,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-088,Batch trùng nội bộ hoặc đụng lịch người tham gia phải atomic,Fail,Fail,DL02 dùng lịch hiện hữu cùng lớp; chưa lớp C2 dùng chung G1.,"Batch trùng bị409, Excel yêu cầu422. LichHocController.ThemLoi giữ Rules.ErrorStatus vào Response.StatusCode; UiResponseFilter giữ status>=400. Không coi chênh mã này là bằng chứng batch đã commit một phần.","Assert.Equal() Failure: Values differ
+Expected: 422
+Actual:   409",Areas/HocTap/Controllers/LichHocController.cs:12
+IT-089,Đổi lịch buổi chưa diễn ra giữ buổi và bài tập,Chưa đủ phạm vi TC,Pass,Đã kiểm giữ BuoiHoc/bài nháp/lịch sử; chưa so sánh toàn bộ giờ mới lưu SQL.,Đã kiểm giữ BuoiHoc/bài nháp/lịch sử; chưa so sánh toàn bộ giờ mới lưu SQL.,Assertion script đạt.,
+IT-090,Không đổi buổi có hoạt động thực tế về tương lai,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: 422
+Actual:   409",
+IT-091,Đến giờ mới bắt đầu được buổi,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-092,"Ghi nhận nội dung, kết quả và tham dự",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-093,Qua giờ nhưng chưa ghi nhận không tính đã học,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Contains() Failure: Sub-string not found
+String:    ""<!doctype html><html lang=""vi""><head><met""···
+Not found: ""ChÆ°a ghi nháº­n""",
+IT-094,Nghỉ cần bù chưa biết ngày vẫn được lưu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-095,Tạo buổi bù giữ liên kết buổi gốc,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-096,Service giao bài và tệp gắn đúng BuoiHoc,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-097,Service nộp/chấm ghép khóa mới nhất và lưu precision,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-098,Retry cùng mã không tạo lần nộp mới,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-099,"Lưu lần nộp trước, chỉ chấm lần mới nhất",Chưa đủ phạm vi TC,Pass,Chưa phân loại chặt exception của lần chấm bản cũ; chưa đủ bằng chứng để kết luận TC hoàn chỉnh.,Chưa phân loại chặt exception của lần chấm bản cũ; chưa đủ bằng chứng để kết luận TC hoàn chỉnh.,Assertion script đạt.,
+IT-100,"Chặn sai gia sư, điểm ngoài miền và precision vượt hai số lẻ",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-101,Nộp và chấm đồng thời kiểm lại trạng thái trong transaction,Chưa đủ phạm vi TC,Pass,Đã dùng hai scope/Task.WhenAll và kiểm invariant; chưa có barrier tại thời điểm tranh khóa.,Đã dùng hai scope/Task.WhenAll và kiểm invariant; chưa có barrier tại thời điểm tranh khóa.,Assertion script đạt.,
+IT-102,Multipart giao bài qua Controller,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-103,"Buổi tương lai chỉ lưu nháp, công bố khi đủ điều kiện",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-104,"Bài bắt buộc gắn buổi đúng lớp, không giao vào buổi nghỉ/hủy",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-105,Gắn buổi cho bài cũ chưa có BuoiHocId,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-106,Nộp trước và sau hạn đều được ghi đúng thời điểm,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-107,Đã có kết quả chấm không nhận lần nộp mới,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-108,Quyền nộp thay không suy ra từ quyền chat,Fail,Fail,,Một DL bị422 thay vì403 như Excel; cần xem ModelState và nhánh fallback ChiTiet trong BaiTapController.Nop/UiResponseFilter. Không tự kết luận có nộp bài trái quyền; query dữ liệu và giữ oracle theo Excel.,"Assert.Equal() Failure: Values differ
+Expected: 403
+Actual:   422",Areas/HocTap/Controllers/BaiTapController.cs:104
+IT-109,Chấm 0/10 hoặc chỉ nhận xét không quy đổi null thành 0,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-110,"Sửa điểm dùng RV của kết quả, chống ghi đè",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-111,Tổng hợp tiến độ từ nguồn thật với phép tính đối chiếu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-112,Hai bên đánh giá độc lập sau khi kết thúc có buổi thực tế,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-113,Khoảng ngày và trạng thái rỗng không tạo điểm 0 giả,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-114,Bỏ kết quả lần cũ và bài nháp khi tổng hợp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-115,Gửi lại không sửa điểm/nhận xét kể cả bị ẩn,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-116,Tiến độ và liên kết nguồn tại tổng quan lớp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-117,Người ngoài không đọc tiến độ/điểm,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-118,Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Contains() Failure: Sub-string not found
+String:    ""<!doctype html><html lang=""vi""><head><met""···
+Not found: ""Nội dung cũ""",
+IT-119,Gửi đánh giá xác nhận quyền riêng tư,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-120,Thiếu điều kiện đánh giá không lưu dữ liệu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-121,Biên sao và nhận xét đi qua binding rồi nghiệp vụ,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-122,Đối tác phản hồi giữ lịch sử và phát notice,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-123,Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"rating detail missing from HTTP OK: <!doctype html>
+<html lang=""vi"">
+<head>
+    <meta charset=""utf-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
+    <title>&#x110;&#xE1;nh gi&#xE1; ng&#x1B0;&#x1EDD;i d&#xF9;ng · EduConnect</title>
+    <link rel=""stylesheet"" href=""/lib/bootstrap/dist/css/bootstrap.min.css"">
+    <link rel=""stylesheet"" href=""/css/fonts.css"">
+    <link rel=""stylesheet"" href=""/css/app.css?v=mAsrX0eE1UWydUxrBnHNegBYUOqjjuSeSgsM09r68HU"">
+    <link rel=""stylesheet"" href=""/css/profile.css?v=HeU4bNwSZV6X2nI3LqKT0iEgDQSlKL0zBorZHX5S1Ds"">
+    <link rel=""stylesheet"" href=""/css/notifications.css?v=r2hN5jKsMzzXO-E2YY5ZVVmAm6mogxXxnDo3AUkBeLk"">
+    <link rel=""stylesheet"" href=""/css/guest.css?v=fuEqLuZjDxhyazhuNDveb_vFB7jyDUttkhZtzMY4_JQ"">
+<link rel=""stylesheet"" href=""/css/help.css?v=csAUm09dG8Y_ElJmnFxptcFbP09DziJWRkRgY3hoKMo"">
+</head>
+<body>
+    <button type=""button"" class=""btn mobile-menu"" aria-label=""Mở menu"" aria-expanded=""false"" aria-controls=""navigation"">☰</button>
+    <aside class=""sidebar"" id=""navigation"">
+        <a class=""brand"" href=""/""><img src=""/images/auth/logo.png"" alt=""EduConnect""></a>
+        <p class=""eyebrow"">KHÁM PHÁ EDUCONNECT</p>
+        <nav ar",
+IT-124,TepService ghép scanner process và file sandbox,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-125,"Service gửi tin, tệp và outbox commit đồng bộ",Chưa đủ phạm vi TC,Pass,Đã kiểm tin và outbox; chưa ghép tệp thật trong giao dịch.,Đã kiểm tin và outbox; chưa ghép tệp thật trong giao dịch.,Assertion script đạt.,
+IT-126,Mã thao tác tin nhắn chống retry và thay nội dung,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-127,"Đuôi hợp lệ nhưng cấu trúc giả, macro hoặc traversal bị loại",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-128,Scanner báo nhiễm/lỗi/timeout không được gắn trạng thái sạch,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-129,Nhánh Development cho tệp chưa quét không áp sang môi trường khác,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-130,Thu hồi quyền trong lúc quét phải kiểm lại trước gắn tệp,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-130,
+IT-131,Lỗi lưu SQL sau ghi blob không để orphan,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-132,HTTP gửi tin giữ ownership và nội dung,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   InternalServerError",
+IT-133,Phân trang cùng timestamp và mốc quyền xem,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-134,"Người ngoài, thành viên Xem và lớp kết thúc không gửi được tin",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   InternalServerError",
+IT-135,Biên số tệp và dung lượng dùng bytes thật,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-136,"Tải tệp kiểm lại quyền, scan state và hash",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-137,"Service quản trị ghép claim quyền, Identity và dữ liệu SQL",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-138,"Service tạo báo cáo ghép quyền xem, bằng chứng và outbox",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-139,Gỡ một nguyên nhân chưa đủ để tiếp tục lớp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-140,"Quản trị theo quyền chức năng, không chỉ role",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-141,Yêu cầu sửa hồ sơ cần lý do và không công khai,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-142,Báo cáo các loại đối tượng được phép xem,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-143,Không báo cáo đối tượng không được xem hoặc gửi trùng,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-144,Bằng chứng chỉ người gửi và reviewer đúng quyền được tải,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-145,Nhận xử lý báo cáo kiểm quyền và phiên bản,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-146,Kết luận tách trạng thái xử lý khỏi biện pháp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-147,Bổ sung/xem lại giữ kết luận và không tự gỡ biện pháp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-148,Hậu kiểm nhu cầu: yêu cầu sửa/ẩn và xem lại,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-149,Khóa tài khoản thu hồi phiên và lan truyền trạng thái,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-150,Không tự khóa hoặc loại bỏ quản trị cuối cùng,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-151,Phân quyền thu hồi phiên mà không đổi vai trò nghiệp vụ,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-152,Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-153,Tra cứu nhật ký an toàn và quản trị theo nguồn thật,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-154,"Service đăng ký ghép Identity, vai trò và hồ sơ",Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-155,Mật khẩu phải được Identity xác minh trước SQL đăng nhập thành công,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-156,Quên mật khẩu ghép token và mail sandbox,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-157,Đăng nhập HTTP phát cookie và phiên thật,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-158,Form đăng ký ba vai trò công khai,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: Found
+Actual:   OK",
+IT-159,Trùng email hoặc yêu cầu role quản trị không được cấp,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-160,"Sai mật khẩu, tài khoản khóa và đang chờ",Fail,Fail,Đã kiểm bốn nhánh không phát cookie; chưa so sánh thông báo chống lộ tài khoản.,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-161,ReturnUrl ngoài miền không gây open redirect,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=0; handshake=15006; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-162,Đăng xuất thu hồi phiên và cookie cũ,Fail,Fail,"Đã logout, thu hồi SQL và challenge; chưa replay một bản cookie đã sao chép trước logout.",Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=10020; handshake=4986; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-163,Đổi mật khẩu thu hồi các phiên,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=2; handshake=15001; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-164,Form quên mật khẩu không lộ email tồn tại,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=1; handshake=15000; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-165,"Đặt lại với token đúng, sai, hết hạn và đã dùng",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=1; handshake=15003; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-166,Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=1; handshake=15005; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-167,"Thay/xóa ảnh đại diện ghép metadata, file và quyền xem",Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Microsoft.Data.SqlClient.SqlException : Connection Timeout Expired.  The timeout period elapsed during the post-login phase.  The connection could have timed out while waiting for server to complete the login process and respond; Or it could have timed out while attempting to create multiple active connections.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=1; handshake=1; [Login] initialization=0; authentication=0; [Post-Login] complete=14012; 
+---- System.ComponentModel.Win32Exception : The wait operation timed out.",
+IT-168,Phiên hết nhàn rỗi hoặc đã thu hồi không truy cập được,Chưa đủ phạm vi TC,Pass,Đã kiểm ba nhánh AJAX401; chưa assertion challenge của request form thường.,Đã kiểm ba nhánh AJAX401; chưa assertion challenge của request form thường.,Assertion script đạt.,
+IT-169,Rate limiter/antiforgery không tạo ghi nghiệp vụ ngoài ý muốn,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-170,Producer lưu notification/outbox trong cùng transaction,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-171,Audit service/middleware ghép SQL bằng scope độc lập,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-172,Đọc một/đọc tất cả thông báo đúng người nhận,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-173,Audit liên thông request thành công/deny/CSRF/tải tệp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-174,Lỗi lưu audit không hủy giao dịch nghiệp vụ đã commit,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-175,MVC/filter ánh xạ response đúng kiểu request,Fail,Fail,,Xem assertion/exception và đối chiếu dữ liệu chuẩn bị; không gán lỗi ứng dụng chỉ theo màu đỏ.,"Assert.Equal() Failure: Values differ
+Expected: Found
+Actual:   OK",
+IT-176,Hub chỉ nhận phiên thật hợp lệ và kiểm quyền room,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-176,
+IT-177,Worker không phát trước commit rồi phát đúng EventId,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-177,
+IT-178,Transport lỗi giữ nghiệp vụ và retry có backoff,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-178,
+IT-179,Hai worker và lease hết hạn không làm mất sự kiện,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-179,
+IT-180,Thu hồi quyền rời group và không nhận tin mới,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-180,
+IT-181,Ping/notification nền không gia hạn phiên,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-181,
+IT-182,Bảo trì hết hạn đề xuất không tạo lớp,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-183,Hết72 giờ tự kết thúc đúng yêu cầu còn chờ,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-184,Worker và phản hồi đúng hạn cạnh tranh có một kết quả hợp lệ,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-185,Nhắc30 ngày và đóng sau7 ngày không xác nhận,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-186,Nhắc buổi/bài từ dữ liệu thật không tự chấm hoặc ghi nhận,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-187,Dừng host không làm mất sự kiện chưa hoàn tất,Fail,Fail,,"Runner đã gọi test method nhưng dispatcher chưa có script cho scenario này; assertion nghiệp vụ chưa được thực hiện. Đây là Fail của độ đầy đủ bộ test, chưa phải kết luận lỗi ứng dụng.",System.InvalidOperationException : No implementation: IT-187,
+IT-188,Metadata kết thúc lớp khớp EF,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-189,Một tài khoản chỉ một vai trò,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-190,Một lớp trên một yêu cầu,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,
+IT-191,Schema cuối hỗ trợ TamDung,Pass,Pass,,Các assertion đã triển khai đạt; xem script và bằng chứng. Không suy rộng sang các TC hoặc nhánh chưa thực thi.,Assertion script đạt.,

@@ -1,0 +1,94 @@
+{
+  "caseId": "IT-092",
+  "runTag": "IT42695b1b34584d85b01b99f37e630d97",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "lesson_record_http",
+    "group": 6,
+    "title": "Ghi nh\u1EADn n\u1ED9i dung, k\u1EBFt qu\u1EA3 v\u00E0 tham d\u1EF1",
+    "stage": 3,
+    "entry": "POST /HocTap/LichHoc/GhiNhan",
+    "input": "B1 \u0111\u00E3 qua gi\u1EDD k\u1EBFt th\u00FAc; G1; n\u1ED9i dung \u0022\u00D4n ph\u00E2n s\u1ED1\u0022, nh\u1EADn x\u00E9t; tham d\u1EF1 Gia s\u01B0 CoMat, B\u00EAn h\u1ECDc VangKhongBaoTruoc.",
+    "action": "POST GhiNhanBuoiHocViewModel \u0111\u1EA7y \u0111\u1EE7, RV m\u1EDBi; m\u1EDF bu\u1ED5i b\u1EB1ng H1 v\u00E0 \u0111\u1ECDc SQL.",
+    "contract": "200 ok=true; tr\u1EA1ng th\u00E1i/\u0111i\u1EC3m danh hi\u1EC7n \u0111\u00FAng; kh\u00F4ng \u0111\u1ED5i m\u00E3 bu\u1ED5i.",
+    "db": "Ng\u01B0\u1EDDi ghi l\u00E0 G1; \u0111\u1EE7 n\u1ED9i dung/nh\u1EADn x\u00E9t/th\u1EDDi \u0111i\u1EC3m; notice v\u1EAFng kh\u00F4ng b\u00E1o g\u1EEDi \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i.",
+    "fr": [
+      "FR-26",
+      "FR-29"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "LichHocService.GhiNhanAsync",
+      "LichHocController.GhiNhan"
+    ],
+    "deps": [
+      "lesson_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "LichHocController",
+        "area": "HocTap",
+        "method": "GhiNhan",
+        "action": "GhiNhan",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E GhiNhan(GhiNhanBuoiHocViewModel m)",
+        "line": 148,
+        "file": "Areas\\HocTap\\Controllers\\LichHocController.cs"
+      }
+    ],
+    "id": "IT-092",
+    "catalogOrder": 92,
+    "executionOrder": 120,
+    "dependencyIds": [
+      "IT-084",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.1-U02",
+        "cls": "LichHocController",
+        "method": "GhiNhan",
+        "table": 137
+      },
+      {
+        "id": "UC3.1-U03",
+        "cls": "LichHocService",
+        "method": "GhiNhanAsync",
+        "table": 139
+      }
+    ],
+    "fixture": "F6",
+    "sqlOracle": "SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 LichHocService, LichHocController \u2192 EF/SQL Server",
+    "baseline": "FR-26, FR-29; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.1-U02 LichHocController.GhiNhan (b\u1EA3ng 137); UC3.1-U03 LichHocService.GhiNhanAsync (b\u1EA3ng 139)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Ghi nh\u1EADn n\u1ED9i dung, k\u1EBFt qu\u1EA3 v\u00E0 tham d\u1EF1",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #120.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-084, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 LichHocService, LichHocController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F6 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nB1 \u0111\u00E3 qua gi\u1EDD k\u1EBFt th\u00FAc; G1; n\u1ED9i dung \u0022\u00D4n ph\u00E2n s\u1ED1\u0022, nh\u1EADn x\u00E9t; tham d\u1EF1 Gia s\u01B0 CoMat, B\u00EAn h\u1ECDc VangKhongBaoTruoc.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-084, IT-157; t\u1EA1o fixture F6 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: B1 \u0111\u00E3 qua gi\u1EDD k\u1EBFt th\u00FAc; G1; n\u1ED9i dung \u0022\u00D4n ph\u00E2n s\u1ED1\u0022, nh\u1EADn x\u00E9t; tham d\u1EF1 Gia s\u01B0 CoMat, B\u00EAn h\u1ECDc VangKhongBaoTruoc.\n4. POST GhiNhanBuoiHocViewModel \u0111\u1EA7y \u0111\u1EE7, RV m\u1EDBi; m\u1EDF bu\u1ED5i b\u1EB1ng H1 v\u00E0 \u0111\u1ECDc SQL. \u0110i\u1EC3m v\u00E0o: POST /HocTap/LichHoc/GhiNhan. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 200 ok=true; tr\u1EA1ng th\u00E1i/\u0111i\u1EC3m danh hi\u1EC7n \u0111\u00FAng; kh\u00F4ng \u0111\u1ED5i m\u00E3 bu\u1ED5i.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Ng\u01B0\u1EDDi ghi l\u00E0 G1; \u0111\u1EE7 n\u1ED9i dung/nh\u1EADn x\u00E9t/th\u1EDDi \u0111i\u1EC3m; notice v\u1EAFng kh\u00F4ng b\u00E1o g\u1EEDi \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 200 ok=true; tr\u1EA1ng th\u00E1i/\u0111i\u1EC3m danh hi\u1EC7n \u0111\u00FAng; kh\u00F4ng \u0111\u1ED5i m\u00E3 bu\u1ED5i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Ng\u01B0\u1EDDi ghi l\u00E0 G1; \u0111\u1EE7 n\u1ED9i dung/nh\u1EADn x\u00E9t/th\u1EDDi \u0111i\u1EC3m; notice v\u1EAFng kh\u00F4ng b\u00E1o g\u1EEDi \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "d3d73f65-d625-4e39-8601-984e51602857",
+    "P": "b7427fe2-50c9-4ed4-b81f-fc46b8e461c9",
+    "G": "b1756438-3296-42f0-90c5-1702346d352f",
+    "X": "4b3a4b70-3b30-43d5-9862-423ee852ee4e",
+    "A": "d9a9f749-5440-4495-9b58-9ee6bfddae00"
+  },
+  "subjects": {
+    "M1": 802,
+    "M2": 803
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/b8395a5b-1470-4133-8fc8-24a403aa8a54\u0022}"
+  },
+  "assertions": "Passed"
+}

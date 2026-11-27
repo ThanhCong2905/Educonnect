@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-021-DL1",
+  "runTag": "IT1adbce2dbe4641d6b6af26d33527cec7",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.NhuCauHoc SET TrangThai=\u0027BanNhap\u0027 WHERE Id=@n",
+    "parameters": {
+      "@n": "8332e826-03aa-4df9-832b-29ebffff5620"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "d3d9e8e7-3efe-4925-be85-c00818d91dda",
+    "P": "70601e37-199e-478e-802d-f77a2ed105f6",
+    "G": "85d3fa98-77b4-4a4c-9556-c192db0eb9aa",
+    "X": "e761cde4-a279-4df8-89a1-ab4af722fd90",
+    "A": "c37a1ee6-fdf5-4a31-b771-aaeb57f31e19"
+  },
+  "subjects": {
+    "M1": 1472,
+    "M2": 1473
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u1EA1n c\\u00F3 t\\u1ED1i \\u0111a 5 b\\u1EA3n nh\\u00E1p. H\\u00E3y c\\u1EADp nh\\u1EADt b\\u1EA3n \\u0111\\u00E3 c\\u00F3.\u0022]}}"
+  }
+}

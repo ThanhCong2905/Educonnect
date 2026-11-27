@@ -1,0 +1,93 @@
+{
+  "caseId": "IT-040",
+  "runTag": "IT5af6c19e56a54b91a6ebf1347ce85092",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "search_pages",
+    "group": 2,
+    "title": "Ph\u00E2n trang v\u00E0 s\u1EAFp x\u1EBFp \u1ED5n \u0111\u1ECBnh tr\u00EAn d\u1EEF li\u1EC7u th\u1EADt",
+    "stage": 3,
+    "entry": "GET /TimKiem/TimKiem/Tim",
+    "input": "20 h\u1ED3 s\u01A1 c\u00F4ng khai; c\u00F3 c\u1EB7p c\u00F9ng TaoLuc/t\u00EAn/gi\u00E1; hai \u0111\u00E1nh gi\u00E1 h\u1EE3p l\u1EC7 G1=4,5 v\u00E0 m\u1ED9t \u0111\u00E1nh gi\u00E1 \u1EA9n=1.",
+    "action": "\u0110\u1ECDc trang 1/2/3; l\u1EB7p c\u00F9ng query; DL b\u1ED5 sung s\u1EAFp x\u1EBFp t\u00EAn, gi\u00E1, \u0111\u00E1nh gi\u00E1, s\u1ED1 B\u00EAn h\u1ECDc.",
+    "contract": "M\u1ED7i trang t\u1ED1i \u0111a 9; kh\u00F4ng tr\u00F9ng/b\u1ECF Id khi d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u1ED5i; Total=20; rating G1=4.5; s\u1ED1 B\u00EAn h\u1ECDc \u0111\u1EBFm t\u00E0i kho\u1EA3n kh\u00E1c nhau, b\u1ECF l\u1EDBp DaHuy.",
+    "db": "Kh\u00F4ng t\u00EDnh \u0111\u00E1nh gi\u00E1 \u1EA9n ho\u1EB7c b\u00E0i ch\u01B0a c\u00F4ng khai; c\u00F9ng kh\u00F3a d\u00F9ng ti\u00EAu ch\u00ED ph\u1EE5 Id \u1ED5n \u0111\u1ECBnh.",
+    "fr": [
+      "FR-08"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "NhuCauService.MonAsync",
+      "TimKiemService.TimKiemAsync",
+      "TimKiemController.Tim"
+    ],
+    "deps": [
+      "search_store"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "Tim",
+        "action": "Tim",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E Tim(BoLocTimKiemViewModel boLoc)",
+        "line": 35,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      }
+    ],
+    "id": "IT-040",
+    "catalogOrder": 40,
+    "executionOrder": 64,
+    "dependencyIds": [
+      "IT-029"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U23",
+        "cls": "NhuCauService",
+        "method": "MonAsync",
+        "table": 20
+      },
+      {
+        "id": "UC1.2-U01",
+        "cls": "TimKiemController",
+        "method": "Tim",
+        "table": 44
+      },
+      {
+        "id": "UC1.2-U02",
+        "cls": "TimKiemService",
+        "method": "TimKiemAsync",
+        "table": 50
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NhuCauService, TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-08; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U23 NhuCauService.MonAsync (b\u1EA3ng 20); UC1.2-U01 TimKiemController.Tim (b\u1EA3ng 44); UC1.2-U02 TimKiemService.TimKiemAsync (b\u1EA3ng 50)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Ph\u00E2n trang v\u00E0 s\u1EAFp x\u1EBFp \u1ED5n \u0111\u1ECBnh tr\u00EAn d\u1EEF li\u1EC7u th\u1EADt",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #64.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-029\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NhuCauService, TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\n20 h\u1ED3 s\u01A1 c\u00F4ng khai; c\u00F3 c\u1EB7p c\u00F9ng TaoLuc/t\u00EAn/gi\u00E1; hai \u0111\u00E1nh gi\u00E1 h\u1EE3p l\u1EC7 G1=4,5 v\u00E0 m\u1ED9t \u0111\u00E1nh gi\u00E1 \u1EA9n=1.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-029; t\u1EA1o fixture F2 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: 20 h\u1ED3 s\u01A1 c\u00F4ng khai; c\u00F3 c\u1EB7p c\u00F9ng TaoLuc/t\u00EAn/gi\u00E1; hai \u0111\u00E1nh gi\u00E1 h\u1EE3p l\u1EC7 G1=4,5 v\u00E0 m\u1ED9t \u0111\u00E1nh gi\u00E1 \u1EA9n=1.\n4. \u0110\u1ECDc trang 1/2/3; l\u1EB7p c\u00F9ng query; DL b\u1ED5 sung s\u1EAFp x\u1EBFp t\u00EAn, gi\u00E1, \u0111\u00E1nh gi\u00E1, s\u1ED1 B\u00EAn h\u1ECDc. \u0110i\u1EC3m v\u00E0o: GET /TimKiem/TimKiem/Tim. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: M\u1ED7i trang t\u1ED1i \u0111a 9; kh\u00F4ng tr\u00F9ng/b\u1ECF Id khi d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u1ED5i; Total=20; rating G1=4.5; s\u1ED1 B\u00EAn h\u1ECDc \u0111\u1EBFm t\u00E0i kho\u1EA3n kh\u00E1c nhau, b\u1ECF l\u1EDBp DaHuy.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng t\u00EDnh \u0111\u00E1nh gi\u00E1 \u1EA9n ho\u1EB7c b\u00E0i ch\u01B0a c\u00F4ng khai; c\u00F9ng kh\u00F3a d\u00F9ng ti\u00EAu ch\u00ED ph\u1EE5 Id \u1ED5n \u0111\u1ECBnh.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: M\u1ED7i trang t\u1ED1i \u0111a 9; kh\u00F4ng tr\u00F9ng/b\u1ECF Id khi d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u1ED5i; Total=20; rating G1=4.5; s\u1ED1 B\u00EAn h\u1ECDc \u0111\u1EBFm t\u00E0i kho\u1EA3n kh\u00E1c nhau, b\u1ECF l\u1EDBp DaHuy.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng t\u00EDnh \u0111\u00E1nh gi\u00E1 \u1EA9n ho\u1EB7c b\u00E0i ch\u01B0a c\u00F4ng khai; c\u00F9ng kh\u00F3a d\u00F9ng ti\u00EAu ch\u00ED ph\u1EE5 Id \u1ED5n \u0111\u1ECBnh."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "8b7e60e2-7f69-451c-961c-79df529c5975",
+    "P": "b83fa43e-7c65-48bc-bf87-b2b6a03a2434",
+    "G": "015144cc-66d7-4d50-a0d1-132643d43d7d",
+    "X": "7ebcc38c-0ed1-4c62-ac10-f496df81b098",
+    "A": "01dee09c-e614-496a-b575-505e511ab63c"
+  },
+  "subjects": {
+    "M1": 4735,
+    "M2": 4736
+  },
+  "exception": "Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.\r\n ---\u003E System.ComponentModel.Win32Exception (258): The wait operation timed out.\r\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask\u00602.InnerInvoke()\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n--- End of stack trace from previous location ---\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task\u0026 currentTaskSlot, Thread threadPoolThread)\r\n--- End of stack trace from previous location ---\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable\u00601.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable\u00601.AsyncEnumerator.MoveNextAsync()\r\n   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable\u00601 asyncEnumerable, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable\u00601 asyncEnumerable, CancellationToken cancellationToken)\r\n   at EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService.TimDuLieuAsync(BoLocTimKiemViewModel f, NguoiThamGia me, CancellationToken huy) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Areas\\TimKiem\\Services\\TimKiemService.cs:line 139\r\n   at EduConnect.Mvc.Areas.TimKiem.Services.TimKiemService.\u003C\u003Ec__DisplayClass10_0.\u003C\u003CTimKiemAsync\u003Eb__0\u003Ed.MoveNext() in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Areas\\TimKiem\\Services\\TimKiemService.cs:line 94\r\n--- End of stack trace from previous location ---\r\n   at EduConnect.Mvc.Infrastructure.KetQua\u00601.ThucHienAsync(Func\u00601 action) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Infrastructure\\KetQua.cs:line 30\r\n   at Cases.SearchCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\SearchCases.cs:line 150\r\n   at Cases.SearchCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\SearchCases.cs:line 158\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 376\r\nClientConnectionId:a765685d-38a8-4d54-a618-0728ad5fc568\r\nError Number:-2,State:0,Class:11"
+}

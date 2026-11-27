@@ -1,0 +1,77 @@
+{
+  "caseId": "IT-174",
+  "runTag": "IT42d7e7060411463087c6c8147aef8fc5",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "audit_failure",
+    "group": 12,
+    "title": "L\u1ED7i l\u01B0u audit kh\u00F4ng h\u1EE7y giao d\u1ECBch nghi\u1EC7p v\u1EE5 \u0111\u00E3 commit",
+    "stage": 3,
+    "entry": "HTTP pipeline \u002B NhatKyAnToanMiddleware \u002B SQL permissions",
+    "input": "User DB test t\u1EA1m b\u1ECB DENY INSERT ri\u00EAng b\u1EA3ng NhatKyAnToan; c\u00E1c b\u1EA3ng nghi\u1EC7p v\u1EE5 v\u1EABn \u0111\u01B0\u1EE3c ghi; host logger c\u00F3 capture sink.",
+    "action": "G\u1EEDi thao t\u00E1c h\u1EE3p l\u1EC7 t\u1EA1o N1; ch\u1EDD audit attempt; \u0111\u1ECDc N1 b\u1EB1ng principal quan s\u00E1t; kh\u00F4i ph\u1EE5c quy\u1EC1n trong finally.",
+    "contract": "Response nghi\u1EC7p v\u1EE5 th\u00E0nh c\u00F4ng n\u1EBFu nghi\u1EC7p v\u1EE5 \u0111\u00E3 commit; logger nh\u1EADn l\u1ED7i audit c\u00F9ng m\u00E3 request, kh\u00F4ng im l\u1EB7ng coi audit \u0111\u00E3 l\u01B0u.",
+    "db": "N1 \u0111\u1EA7y \u0111\u1EE7; kh\u00F4ng audit gi\u1EA3, kh\u00F4ng rollback d\u1EEF li\u1EC7u \u0111\u00E3 commit v\u00EC scope audit l\u1ED7i; kh\u00F4ng treo request v\u00F4 h\u1EA1n.",
+    "fr": [
+      "FR-55"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "NhatKyAnToanMiddleware.InvokeAsync"
+    ],
+    "deps": [
+      "audit_store",
+      "need_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [],
+    "id": "IT-174",
+    "catalogOrder": 174,
+    "executionOrder": 174,
+    "dependencyIds": [
+      "IT-171",
+      "IT-014",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "AT-U01",
+        "cls": "NhatKyAnToanMiddleware",
+        "method": "InvokeAsync",
+        "table": 484
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NhatKyAnToanMiddleware \u2192 EF/SQL Server",
+    "baseline": "FR-55; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: AT-U01 NhatKyAnToanMiddleware.InvokeAsync (b\u1EA3ng 484)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: L\u1ED7i l\u01B0u audit kh\u00F4ng h\u1EE7y giao d\u1ECBch nghi\u1EC7p v\u1EE5 \u0111\u00E3 commit",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #174.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-171, IT-014, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NhatKyAnToanMiddleware \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nUser DB test t\u1EA1m b\u1ECB DENY INSERT ri\u00EAng b\u1EA3ng NhatKyAnToan; c\u00E1c b\u1EA3ng nghi\u1EC7p v\u1EE5 v\u1EABn \u0111\u01B0\u1EE3c ghi; host logger c\u00F3 capture sink.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-171, IT-014, IT-157; t\u1EA1o fixture F12 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: User DB test t\u1EA1m b\u1ECB DENY INSERT ri\u00EAng b\u1EA3ng NhatKyAnToan; c\u00E1c b\u1EA3ng nghi\u1EC7p v\u1EE5 v\u1EABn \u0111\u01B0\u1EE3c ghi; host logger c\u00F3 capture sink.\n4. G\u1EEDi thao t\u00E1c h\u1EE3p l\u1EC7 t\u1EA1o N1; ch\u1EDD audit attempt; \u0111\u1ECDc N1 b\u1EB1ng principal quan s\u00E1t; kh\u00F4i ph\u1EE5c quy\u1EC1n trong finally. \u0110i\u1EC3m v\u00E0o: HTTP pipeline \u002B NhatKyAnToanMiddleware \u002B SQL permissions. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: Response nghi\u1EC7p v\u1EE5 th\u00E0nh c\u00F4ng n\u1EBFu nghi\u1EC7p v\u1EE5 \u0111\u00E3 commit; logger nh\u1EADn l\u1ED7i audit c\u00F9ng m\u00E3 request, kh\u00F4ng im l\u1EB7ng coi audit \u0111\u00E3 l\u01B0u.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: N1 \u0111\u1EA7y \u0111\u1EE7; kh\u00F4ng audit gi\u1EA3, kh\u00F4ng rollback d\u1EEF li\u1EC7u \u0111\u00E3 commit v\u00EC scope audit l\u1ED7i; kh\u00F4ng treo request v\u00F4 h\u1EA1n.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Response nghi\u1EC7p v\u1EE5 th\u00E0nh c\u00F4ng n\u1EBFu nghi\u1EC7p v\u1EE5 \u0111\u00E3 commit; logger nh\u1EADn l\u1ED7i audit c\u00F9ng m\u00E3 request, kh\u00F4ng im l\u1EB7ng coi audit \u0111\u00E3 l\u01B0u.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: N1 \u0111\u1EA7y \u0111\u1EE7; kh\u00F4ng audit gi\u1EA3, kh\u00F4ng rollback d\u1EEF li\u1EC7u \u0111\u00E3 commit v\u00EC scope audit l\u1ED7i; kh\u00F4ng treo request v\u00F4 h\u1EA1n."
+  },
+  "sql": {
+    "sql": "DROP TRIGGER IF EXISTS dbo.TR_IT_RejectAudit",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "3bfbe4c6-fcf6-46d4-9dec-9b0c59aac5ec",
+    "P": "c34cc5b5-d60b-4076-aa60-c893dac300e5",
+    "G": "8baff554-436a-40a9-8b47-5c3ac941dfd2",
+    "X": "2e70c893-2dcb-42c3-b66c-b83f61aa40fb",
+    "A": "105e2c99-e028-42ca-af56-acf845d05608"
+  },
+  "subjects": {
+    "M1": 4387,
+    "M2": 4388
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EEDi y\\u00EAu c\\u1EA7u li\\u00EAn h\\u1EC7.\u0022,\u0022redirectUrl\u0022:\u0022/KetNoi/KetNoi/LienHe\u0022}"
+  },
+  "assertions": "Passed"
+}

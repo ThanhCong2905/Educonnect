@@ -1,0 +1,33 @@
+{
+  "caseId": "IT-105-DL0",
+  "runTag": "IT0724019ec0b34106b1af61c8dd6e235b",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "IF DB_NAME()\u003C\u003EN\u0027EduConnect_Verification_Integration_20261125_v2\u0027 THROW 50000,N\u0027Refusing non-test DB\u0027,1;\r\nDECLARE @trigger sysname=(SELECT TOP(1) t.name FROM sys.triggers t JOIN sys.sql_modules m ON m.object_id=t.object_id WHERE t.parent_id=OBJECT_ID(N\u0027dbo.BaiTapGiao\u0027) AND m.definition LIKE N\u0027%B\u00E0i m\u1EDBi ph\u1EA3i g\u1EAFn bu\u1ED5i h\u1ECDc%\u0027);\r\nIF @trigger IS NULL THROW 50000,N\u0027Legacy fixture trigger not found\u0027,1;\r\nBEGIN TRY\r\n BEGIN TRAN;\r\n DECLARE @disable nvarchar(max)=N\u0027DISABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @disable;\r\n UPDATE dbo.BaiTapGiao SET BuoiHocId=NULL WHERE Id=@a;\r\n DECLARE @enable nvarchar(max)=N\u0027ENABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @enable;\r\n COMMIT;\r\n SELECT name,is_disabled FROM sys.triggers WHERE name=@trigger;\r\nEND TRY BEGIN CATCH IF XACT_STATE()\u003C\u003E0 ROLLBACK;THROW;END CATCH;",
+    "parameters": {
+      "@a": "05ad978e-a3a3-4554-bedf-8742350b78bd"
+    },
+    "rows": [
+      {
+        "name": "tr_BaiTap_Buoi",
+        "is_disabled": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "441645b7-48af-49fc-82f8-1c606c6edf9d",
+    "P": "deaee146-2e9a-4735-a7da-5de51f3c630c",
+    "G": "e91ac795-a1c2-4602-be9e-f0de46e4d3cf",
+    "X": "86342305-bcb9-4856-87cf-226ab60fb581",
+    "A": "cccefe8d-7ecb-4031-b580-08f69c130abd"
+  },
+  "subjects": {
+    "M1": 3731,
+    "M2": 3732
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EAFn b\\u00E0i t\\u1EADp v\\u1EDBi bu\\u1ED5i h\\u1ECDc.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/c6782883-57f5-4c0e-9c1d-83548bdbf910\u0022}"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-064-DL2",
+  "runTag": "ITc1956b03388147629e0edba80fd4078f",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.AspNetUsers SET TrangThai=\u0027BiKhoa\u0027 WHERE Id=@u",
+    "parameters": {
+      "@u": "43d95d0a-9d31-41ea-a92a-7ec5a20f1785"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "5bed7e8e-24ac-4dc0-8bdb-e2d5e19b6602",
+    "P": "379f8add-0716-4ccf-bd98-f0a2461b0ff8",
+    "G": "43d95d0a-9d31-41ea-a92a-7ec5a20f1785",
+    "X": "4bc90c0e-9626-4782-b00a-3b5883bdb247",
+    "A": "1eec7e20-c80c-4914-9956-6d9eb15f3f53"
+  },
+  "subjects": {
+    "M1": 3611,
+    "M2": 3612
+  },
+  "http": {
+    "status": 403,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022T\\u0102\\u00A0i kho\\u00E1\\u00BA\\u00A3n hi\\u00E1\\u00BB\\u2021n kh\\u0102\\u00B4ng ho\\u00E1\\u00BA\\u00A1t \\u00C4\\u2018\\u00E1\\u00BB\\u2122ng.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022T\\u0102\\u00A0i kho\\u00E1\\u00BA\\u00A3n hi\\u00E1\\u00BB\\u2021n kh\\u0102\\u00B4ng ho\\u00E1\\u00BA\\u00A1t \\u00C4\\u2018\\u00E1\\u00BB\\u2122ng.\u0022]}}"
+  }
+}

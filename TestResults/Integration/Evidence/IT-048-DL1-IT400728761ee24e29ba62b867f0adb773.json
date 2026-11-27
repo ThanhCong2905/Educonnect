@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-048-DL1",
+  "runTag": "IT400728761ee24e29ba62b867f0adb773",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.AspNetUsers SET TrangThai=\u0027BiKhoa\u0027 WHERE Id=@g",
+    "parameters": {
+      "@g": "02601e62-c90c-4a3a-a695-c11173f6299a"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "87b7825a-f8c2-45ed-a795-3fda66934ee5",
+    "P": "de077be3-8521-464d-8620-58df99160a86",
+    "G": "02601e62-c90c-4a3a-a695-c11173f6299a",
+    "X": "13b45a7d-10db-4946-b8f9-a64124238bea",
+    "A": "b933509c-00a0-4377-becf-5136f15ba031"
+  },
+  "subjects": {
+    "M1": 2734,
+    "M2": 2735
+  },
+  "http": {
+    "status": 400,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ng\\u01B0\\u1EDDi nh\\u1EADn kh\\u00F4ng t\\u1ED3n t\\u1EA1i.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Ng\\u01B0\\u1EDDi nh\\u1EADn kh\\u00F4ng t\\u1ED3n t\\u1EA1i.\u0022]}}"
+  }
+}

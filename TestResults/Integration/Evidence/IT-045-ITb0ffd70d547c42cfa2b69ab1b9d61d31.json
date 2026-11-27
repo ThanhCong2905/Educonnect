@@ -1,0 +1,80 @@
+{
+  "caseId": "IT-045",
+  "runTag": "ITb0ffd70d547c42cfa2b69ab1b9d61d31",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "proposal_store",
+    "group": 3,
+    "title": "Service g\u1EEDi \u0111\u1EC1 xu\u1EA5t hai chi\u1EC1u v\u00E0 ki\u1EC3m vai tr\u00F2 b\u00EAn nh\u1EADn",
+    "stage": 2,
+    "entry": "KetNoiService.GuiDeXuatAsync(vm,actor,ct)",
+    "input": "F3 li\u00EAn h\u1EC7 \u0111\u00E3 ChapNhan; DL01 G1 g\u1EEDi; DL02 H1 g\u1EEDi; c\u00F9ng \u0111i\u1EC1u ki\u1EC7n l\u1EDBp, N1, M1, 2 khung.",
+    "action": "G\u1ECDi Service th\u1EADt t\u1EEBng DL; l\u1EA5y Guid trong KetQua; \u0111\u1ECDc \u0111\u1EC1 xu\u1EA5t/l\u1ECBch/th\u00F4ng b\u00E1o b\u1EB1ng kh\u00F3a tr\u1EA3 v\u1EC1.",
+    "contract": "KetQua th\u00E0nh c\u00F4ng; G1 g\u1EEDi th\u00EC ch\u1EDD B\u00EAn h\u1ECDc, H1 g\u1EEDi th\u00EC ch\u1EDD Gia s\u01B0; nh\u1EADn \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i.",
+    "db": "M\u1ED9t \u0111\u1EC1 xu\u1EA5t/DL, \u0111\u1EA7y \u0111\u1EE7 KhungGioDeXuat; m\u1ED1c h\u1EBFt h\u1EA1n 72 gi\u1EDD; ph\u00ED/m\u1EE5c ti\u00EAu/\u0111\u1ECBa \u0111i\u1EC3m kh\u1EDBp \u0111\u1EA7u v\u00E0o; ch\u01B0a t\u1EA1o l\u1EDBp.",
+    "fr": [
+      "FR-14",
+      "FR-15",
+      "FR-17"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "KetNoiService.GuiDeXuatAsync"
+    ],
+    "deps": [
+      "db_contact",
+      "contact_store",
+      "need_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-045",
+    "catalogOrder": 45,
+    "executionOrder": 23,
+    "dependencyIds": [
+      "IT-003",
+      "IT-044",
+      "IT-014"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.1-U19",
+        "cls": "KetNoiService",
+        "method": "GuiDeXuatAsync",
+        "table": 91
+      },
+      {
+        "id": "UC2.1-U04",
+        "cls": "KetNoiService",
+        "method": "GuiDeXuatAsync",
+        "table": 97
+      }
+    ],
+    "fixture": "F3",
+    "sqlOracle": "SELECT * FROM dbo.YeuCauLienHe WHERE GiaSuId=@G1 AND BenHocId=@H1; SELECT * FROM dbo.YeuCauKetNoiLopHoc WHERE LienHeId=@CONTACT; SELECT * FROM dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.CuocHoiThoai WHERE LienHeId=@CONTACT;",
+    "boundary": "KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-14, FR-15, FR-17; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.1-U19 KetNoiService.GuiDeXuatAsync (b\u1EA3ng 91); UC2.1-U04 KetNoiService.GuiDeXuatAsync (b\u1EA3ng 97)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service g\u1EEDi \u0111\u1EC1 xu\u1EA5t hai chi\u1EC1u v\u00E0 ki\u1EC3m vai tr\u00F2 b\u00EAn nh\u1EADn",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #23.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-003, IT-044, IT-014\nGh\u00E9p sau: KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F3 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF3 li\u00EAn h\u1EC7 \u0111\u00E3 ChapNhan; DL01 G1 g\u1EEDi; DL02 H1 g\u1EEDi; c\u00F9ng \u0111i\u1EC1u ki\u1EC7n l\u1EDBp, N1, M1, 2 khung.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-003, IT-044, IT-014 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F3 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F3 li\u00EAn h\u1EC7 \u0111\u00E3 ChapNhan; DL01 G1 g\u1EEDi; DL02 H1 g\u1EEDi; c\u00F9ng \u0111i\u1EC1u ki\u1EC7n l\u1EDBp, N1, M1, 2 khung. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt t\u1EEBng DL; l\u1EA5y Guid trong KetQua; \u0111\u1ECDc \u0111\u1EC1 xu\u1EA5t/l\u1ECBch/th\u00F4ng b\u00E1o b\u1EB1ng kh\u00F3a tr\u1EA3 v\u1EC1. \u0110i\u1EC3m v\u00E0o: KetNoiService.GuiDeXuatAsync(vm,actor,ct). Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: KetQua th\u00E0nh c\u00F4ng; G1 g\u1EEDi th\u00EC ch\u1EDD B\u00EAn h\u1ECDc, H1 g\u1EEDi th\u00EC ch\u1EDD Gia s\u01B0; nh\u1EADn \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.YeuCauLienHe WHERE GiaSuId=@G1 AND BenHocId=@H1; SELECT * FROM dbo.YeuCauKetNoiLopHoc WHERE LienHeId=@CONTACT; SELECT * FROM dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.CuocHoiThoai WHERE LienHeId=@CONTACT;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t \u0111\u1EC1 xu\u1EA5t/DL, \u0111\u1EA7y \u0111\u1EE7 KhungGioDeXuat; m\u1ED1c h\u1EBFt h\u1EA1n 72 gi\u1EDD; ph\u00ED/m\u1EE5c ti\u00EAu/\u0111\u1ECBa \u0111i\u1EC3m kh\u1EDBp \u0111\u1EA7u v\u00E0o; ch\u01B0a t\u1EA1o l\u1EDBp.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: KetQua th\u00E0nh c\u00F4ng; G1 g\u1EEDi th\u00EC ch\u1EDD B\u00EAn h\u1ECDc, H1 g\u1EEDi th\u00EC ch\u1EDD Gia s\u01B0; nh\u1EADn \u0111\u00FAng b\u00EAn c\u00F2n l\u1EA1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t \u0111\u1EC1 xu\u1EA5t/DL, \u0111\u1EA7y \u0111\u1EE7 KhungGioDeXuat; m\u1ED1c h\u1EBFt h\u1EA1n 72 gi\u1EDD; ph\u00ED/m\u1EE5c ti\u00EAu/\u0111\u1ECBa \u0111i\u1EC3m kh\u1EDBp \u0111\u1EA7u v\u00E0o; ch\u01B0a t\u1EA1o l\u1EDBp."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "fcce2742-72d6-4451-8b4d-8a284b04f001",
+    "P": "bec02fa1-d627-4adf-9b2f-e43923ea754c",
+    "G": "9b477df6-9817-443b-a73c-0fa927e3c387",
+    "X": "bd46f652-ba07-4c2f-bd39-aa34cba351c0",
+    "A": "d86579a0-485e-48d1-a052-9671e4338126"
+  },
+  "subjects": {
+    "M1": 2636,
+    "M2": 2637
+  },
+  "assertions": "Passed"
+}

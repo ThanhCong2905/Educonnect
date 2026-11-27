@@ -1,0 +1,77 @@
+{
+  "caseId": "IT-171",
+  "runTag": "IT3052e28d279941ab830e008c71dc8ea9",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "audit_store",
+    "group": 12,
+    "title": "Audit service/middleware gh\u00E9p SQL b\u1EB1ng scope \u0111\u1ED9c l\u1EADp",
+    "stage": 2,
+    "entry": "NhatKyAnToanService \u002B NhatKyAnToanMiddleware \u002B AppDbContext",
+    "input": "HttpContext fixture \u0111\u00E3 x\u00E1c th\u1EF1c H1, TraceIdentifier=TRACE_IT; action driver tr\u1EA3200; marker password/cookie/token ch\u1EC9 trong request input, kh\u00F4ng tr\u01B0\u1EDDng audit.",
+    "action": "G\u1ECDi middleware/service th\u1EADt v\u1EDBi delegate driver; ch\u1EDD ghi audit r\u1ED3i SELECT theo TRACE_IT b\u1EB1ng connection m\u1EDBi.",
+    "contract": "Audit ghi \u0111\u00FAng actor/event/result/IP/trace; driver kh\u00F4ng mock k\u1EBFt qu\u1EA3 ghi DB.",
+    "db": "M\u1ED9t event c\u00F9ng nhom/sukien theo thi\u1EBFt k\u1EBF; kh\u00F4ng l\u01B0u marker b\u00ED m\u1EADt/password/cookie/token; l\u1ED7i \u0111\u1ECBnh danh \u0111\u01B0\u1EE3c b\u0103m.",
+    "fr": [
+      "FR-55"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "NhatKyAnToanService.Ghi",
+      "NhatKyAnToanMiddleware.InvokeAsync"
+    ],
+    "deps": [
+      "db_audit",
+      "auth_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-171",
+    "catalogOrder": 171,
+    "executionOrder": 60,
+    "dependencyIds": [
+      "IT-012",
+      "IT-154"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "AT-U02",
+        "cls": "NhatKyAnToanService",
+        "method": "Ghi",
+        "table": 481
+      },
+      {
+        "id": "AT-U01",
+        "cls": "NhatKyAnToanMiddleware",
+        "method": "InvokeAsync",
+        "table": 484
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "NhatKyAnToanService \u2192 NhatKyAnToanMiddleware \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-55; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: AT-U02 NhatKyAnToanService.Ghi (b\u1EA3ng 481); AT-U01 NhatKyAnToanMiddleware.InvokeAsync (b\u1EA3ng 484)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Audit service/middleware gh\u00E9p SQL b\u1EB1ng scope \u0111\u1ED9c l\u1EADp",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #60.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-012, IT-154\nGh\u00E9p sau: NhatKyAnToanService \u2192 NhatKyAnToanMiddleware \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nHttpContext fixture \u0111\u00E3 x\u00E1c th\u1EF1c H1, TraceIdentifier=TRACE_IT; action driver tr\u1EA3200; marker password/cookie/token ch\u1EC9 trong request input, kh\u00F4ng tr\u01B0\u1EDDng audit.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-012, IT-154 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F12 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: HttpContext fixture \u0111\u00E3 x\u00E1c th\u1EF1c H1, TraceIdentifier=TRACE_IT; action driver tr\u1EA3200; marker password/cookie/token ch\u1EC9 trong request input, kh\u00F4ng tr\u01B0\u1EDDng audit. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi middleware/service th\u1EADt v\u1EDBi delegate driver; ch\u1EDD ghi audit r\u1ED3i SELECT theo TRACE_IT b\u1EB1ng connection m\u1EDBi. \u0110i\u1EC3m v\u00E0o: NhatKyAnToanService \u002B NhatKyAnToanMiddleware \u002B AppDbContext. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Audit ghi \u0111\u00FAng actor/event/result/IP/trace; driver kh\u00F4ng mock k\u1EBFt qu\u1EA3 ghi DB.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t event c\u00F9ng nhom/sukien theo thi\u1EBFt k\u1EBF; kh\u00F4ng l\u01B0u marker b\u00ED m\u1EADt/password/cookie/token; l\u1ED7i \u0111\u1ECBnh danh \u0111\u01B0\u1EE3c b\u0103m.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Audit ghi \u0111\u00FAng actor/event/result/IP/trace; driver kh\u00F4ng mock k\u1EBFt qu\u1EA3 ghi DB.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t event c\u00F9ng nhom/sukien theo thi\u1EBFt k\u1EBF; kh\u00F4ng l\u01B0u marker b\u00ED m\u1EADt/password/cookie/token; l\u1ED7i \u0111\u1ECBnh danh \u0111\u01B0\u1EE3c b\u0103m."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "6d04dc38-b7f9-4c21-8d5c-235d3807fc8e",
+    "P": "f309d89f-1271-4a71-804c-f62ba8f12aa5",
+    "G": "ec84dfe1-be31-4411-8312-7c8b2fba7fa2",
+    "X": "949a51c3-a944-4c6f-a9c5-4140bfad9c71",
+    "A": "299d2eb5-0070-4597-ba49-830a760a9e77"
+  },
+  "subjects": {
+    "M1": 4727,
+    "M2": 4728
+  },
+  "assertions": "Passed"
+}

@@ -1,0 +1,57 @@
+{
+  "caseId": "IT-009",
+  "runTag": "IT8bb3ac9bbbd942839c3c64d610a0c8a5",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_grade",
+    "group": 0,
+    "title": "Ch\u1EA5m SQL ki\u1EC3m \u0111i\u1EC3m, quy\u1EC1n v\u00E0 l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "stage": 1,
+    "entry": "EXEC dbo.usp_ChamBaiTap",
+    "input": "A1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.",
+    "action": "G\u1ECDi procedure tr\u00EAn t\u1EEBng fixture; truy\u1EC1n decimal c\u00F3 precision/scale r\u00F5; \u0111\u1ECDc k\u1EBFt qu\u1EA3 b\u1EB1ng connection m\u1EDBi.",
+    "contract": "DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.",
+    "db": "Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3.",
+    "fr": [
+      "FR-32"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "SQL.usp_ChamBaiTap"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-009",
+    "catalogOrder": 9,
+    "executionOrder": 9,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "\u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.",
+    "boundary": "SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions",
+    "baseline": "FR-32; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: H\u1EE3p \u0111\u1ED3ng b\u1EA3ng/SQL/quy\u1EC1n theo 00_EduConnect_Full.sql.\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Ch\u1EA5m SQL ki\u1EC3m \u0111i\u1EC3m, quy\u1EC1n v\u00E0 l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 ch\u1EA1y #9.\nKi\u1EC3m tr\u01B0\u1EDBc: PF-DB/PF-HOST \u0111\u00E3 \u0111\u1EA1t trong sheet m\u00F4i tr\u01B0\u1EDDng\nGh\u00E9p sau: SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions\nC\u0103n c\u1EE9: Ki\u1EC3m object SQL v\u00E0 r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u tr\u01B0\u1EDBc v\u00EC \u0111\u00E2y l\u00E0 n\u1EC1n c\u00E1c provider/service d\u00F9ng chung. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F0 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nA1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. X\u00E1c nh\u1EADn PF-DB: \u0111\u00FAng DB ki\u1EC3m th\u1EED/principal, schema cu\u1ED1i; bind m\u1ECDi parameter t\u1EEB fixture. Kh\u00F4ng ch\u1EA1y DDL c\u00E0i l\u1EA1i database.\n2. Seed c\u00E1c d\u00F2ng cha v\u00E0 \u0111i\u1EC1u ki\u1EC7n ri\u00EAng: A1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.\n3. \u0110\u1ECDc snapshot b\u1EA3ng/kh\u00F3a/th\u1EDDi \u0111i\u1EC3m b\u1EB1ng observer; m\u1EDF SqlConnection/transaction ri\u00EAng cho m\u1ED7i DL ho\u1EB7c m\u1ED7i t\u00E1c nh\u00E2n khi c\u00F3 race.\n4. G\u1ECDi procedure tr\u00EAn t\u1EEBng fixture; truy\u1EC1n decimal c\u00F3 precision/scale r\u00F5; \u0111\u1ECDc k\u1EBFt qu\u1EA3 b\u1EB1ng connection m\u1EDBi.\n5. Assert k\u1EBFt qu\u1EA3 SQL/error v\u00E0 d\u1EEF li\u1EC7u: DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.\n6. \u0110\u1ECDc l\u1EA1i sau commit/rollback b\u1EB1ng connection m\u1EDBi. Oracle: \u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.\n7. Assert to\u00E0n v\u1EB9n: Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3.\n8. L\u01B0u parameter/SqlException.Number/SQL tr\u01B0\u1EDBc\u2013sau; rollback n\u1EBFu to\u00E0n b\u1ED9 ca trong transaction, n\u1EBFu kh\u00F4ng reset fixture theo FK. Kh\u00F4i ph\u1EE5c permission trong finally.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "8a1f6f3b-6e8a-4a22-b9fe-8037fe29548e",
+    "P": "ce806a41-afeb-4298-a67e-d3592d3efc9e",
+    "G": "f499163e-d8fa-4b79-94b3-e04d9c00bd56",
+    "X": "fd59a047-2584-4d62-8305-2039d2ba320f",
+    "A": "3638f4d1-56eb-4feb-b4d0-aee47f61a9df"
+  },
+  "subjects": {
+    "M1": 3927,
+    "M2": 3928
+  },
+  "exception": "Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.\r\n ---\u003E Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.\r\n ---\u003E System.ComponentModel.Win32Exception (258): The wait operation timed out.\r\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask\u00602.InnerInvoke()\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n--- End of stack trace from previous location ---\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task\u0026 currentTaskSlot, Thread threadPoolThread)\r\n--- End of stack trace from previous location ---\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\nClientConnectionId:87a8503e-94e2-46d8-b511-4b1942b470fc\r\nError Number:-2,State:0,Class:11\r\n   --- End of inner exception stack trace ---\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList\u00601 entries, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList\u00601 entriesToSave, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Fixture.SeedProposal() in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\Harness.cs:line 56\r\n   at Fixture.SeedProposal() in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\Harness.cs:line 56\r\n   at Fixture.SeedClass() in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\Harness.cs:line 58\r\n   at Fixture.SeedLesson(Boolean past) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\Harness.cs:line 59\r\n   at Fixture.SeedAssignment() in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\Harness.cs:line 60\r\n   at Cases.SqlContracts(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\SqlContracts.cs:line 39\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 388"
+}

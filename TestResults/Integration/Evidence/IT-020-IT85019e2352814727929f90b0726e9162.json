@@ -1,0 +1,100 @@
+{
+  "caseId": "IT-020",
+  "runTag": "IT85019e2352814727929f90b0726e9162",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "need_auth",
+    "group": 1,
+    "title": "Kh\u00E1ch ho\u1EB7c gia s\u01B0 kh\u00F4ng t\u1EA1o nhu c\u1EA7u h\u1ECDc",
+    "stage": 3,
+    "entry": "POST /NhuCau/NhuCau/TaoNhuCauHoc",
+    "input": "DL01 kh\u00E1ch kh\u00F4ng cookie, token kh\u00E1ch h\u1EE3p l\u1EC7; DL02 G1 \u0111\u0103ng nh\u1EADp, form F1.",
+    "action": "M\u1ED7i DL d\u00F9ng client/fixture ri\u00EAng v\u00E0 POST AJAX c\u00F3 token \u0111\u00FAng \u0111\u1EC3 kh\u00F4ng b\u1ECB CSRF che l\u1ED7i quy\u1EC1n.",
+    "contract": "DL01 HTTP 401; DL02 t\u1EEB ch\u1ED1i quy\u1EC1n (422 qua ModelState c\u1EE7a action l\u01B0u), ok=false.",
+    "db": "Kh\u00F4ng t\u1EA1o NhuCauHoc/MonHoc/l\u1ECBch/l\u01B0\u1EE3t \u0111\u0103ng c\u1EE7a b\u1EA5t k\u1EF3 DL b\u1ECB t\u1EEB ch\u1ED1i.",
+    "fr": [
+      "FR-03"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "NguoiDungHienTaiService.HienTaiAsync",
+      "NhuCauService.TaoNhuCauHocAsync",
+      "NhuCauController.TaoNhuCauHoc"
+    ],
+    "deps": [
+      "need_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "NhuCauController",
+        "area": "NhuCau",
+        "method": "TaoNhuCauHoc",
+        "action": "TaoNhuCauHoc",
+        "verb": "POST",
+        "signature": "public Task\u003CIActionResult\u003E TaoNhuCauHoc(TaoNhuCauBenHocViewModel vm)",
+        "line": 59,
+        "file": "Areas\\NhuCau\\Controllers\\NhuCauController.cs"
+      }
+    ],
+    "id": "IT-020",
+    "catalogOrder": 20,
+    "executionOrder": 72,
+    "dependencyIds": [
+      "IT-014",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U02",
+        "cls": "NhuCauController",
+        "method": "TaoNhuCauHoc",
+        "table": 6
+      },
+      {
+        "id": "UC1.1-U07",
+        "cls": "NhuCauService",
+        "method": "TaoNhuCauHocAsync",
+        "table": 17
+      },
+      {
+        "id": "HT-U28",
+        "cls": "NguoiDungHienTaiService",
+        "method": "HienTaiAsync",
+        "table": 472
+      }
+    ],
+    "fixture": "F1",
+    "sqlOracle": "SELECT Id,ChuSoHuuId,TrangThai,RowVersion FROM dbo.NhuCauHoc WHERE ChuSoHuuId IN(@H1,@P1); SELECT NhuCauId,MonHocId FROM dbo.NhuCauMonHoc WHERE NhuCauId=@N1; SELECT * FROM dbo.KhungGioRanh WHERE NhuCauId=@N1; SELECT * FROM dbo.LuotDangNhuCau WHERE TaiKhoanId IN(@H1,@P1);",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NguoiDungHienTaiService, NhuCauService, NhuCauController \u2192 EF/SQL Server",
+    "baseline": "FR-03; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U02 NhuCauController.TaoNhuCauHoc (b\u1EA3ng 6); UC1.1-U07 NhuCauService.TaoNhuCauHocAsync (b\u1EA3ng 17); HT-U28 NguoiDungHienTaiService.HienTaiAsync (b\u1EA3ng 472)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Kh\u00E1ch ho\u1EB7c gia s\u01B0 kh\u00F4ng t\u1EA1o nhu c\u1EA7u h\u1ECDc",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #72.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-014, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 NguoiDungHienTaiService, NhuCauService, NhuCauController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F1 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 kh\u00E1ch kh\u00F4ng cookie, token kh\u00E1ch h\u1EE3p l\u1EC7; DL02 G1 \u0111\u0103ng nh\u1EADp, form F1.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-014, IT-157; t\u1EA1o fixture F1 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 kh\u00E1ch kh\u00F4ng cookie, token kh\u00E1ch h\u1EE3p l\u1EC7; DL02 G1 \u0111\u0103ng nh\u1EADp, form F1.\n4. M\u1ED7i DL d\u00F9ng client/fixture ri\u00EAng v\u00E0 POST AJAX c\u00F3 token \u0111\u00FAng \u0111\u1EC3 kh\u00F4ng b\u1ECB CSRF che l\u1ED7i quy\u1EC1n. \u0110i\u1EC3m v\u00E0o: POST /NhuCau/NhuCau/TaoNhuCauHoc. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: DL01 HTTP 401; DL02 t\u1EEB ch\u1ED1i quy\u1EC1n (422 qua ModelState c\u1EE7a action l\u01B0u), ok=false.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,ChuSoHuuId,TrangThai,RowVersion FROM dbo.NhuCauHoc WHERE ChuSoHuuId IN(@H1,@P1); SELECT NhuCauId,MonHocId FROM dbo.NhuCauMonHoc WHERE NhuCauId=@N1; SELECT * FROM dbo.KhungGioRanh WHERE NhuCauId=@N1; SELECT * FROM dbo.LuotDangNhuCau WHERE TaiKhoanId IN(@H1,@P1);\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng t\u1EA1o NhuCauHoc/MonHoc/l\u1ECBch/l\u01B0\u1EE3t \u0111\u0103ng c\u1EE7a b\u1EA5t k\u1EF3 DL b\u1ECB t\u1EEB ch\u1ED1i.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 HTTP 401; DL02 t\u1EEB ch\u1ED1i quy\u1EC1n (422 qua ModelState c\u1EE7a action l\u01B0u), ok=false.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng t\u1EA1o NhuCauHoc/MonHoc/l\u1ECBch/l\u01B0\u1EE3t \u0111\u0103ng c\u1EE7a b\u1EA5t k\u1EF3 DL b\u1ECB t\u1EEB ch\u1ED1i."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "c4de9ae4-847b-4f62-b508-e86845fb8286",
+    "P": "0a4afe86-fd1e-4b0c-af8d-026f672ee175",
+    "G": "eaa549cf-71f2-49e6-8973-c0c0fbb9c03c",
+    "X": "44689e72-bf49-4992-b2ed-8eb3fc1de029",
+    "A": "1aa3d4f7-3a5c-468a-9e7a-ae5fc153ec63"
+  },
+  "subjects": {
+    "M1": 318,
+    "M2": 319
+  },
+  "http": {
+    "status": 403,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022B\u1EA1n kh\u00F4ng c\u00F3 quy\u1EC1n th\u1EF1c hi\u1EC7n thao t\u00E1c n\u00E0y.\u0022}"
+  },
+  "exception": "Xunit.Sdk.EqualException: Assert.Equal() Failure: Values differ\r\nExpected: UnprocessableEntity\r\nActual:   Forbidden\r\n   at Xunit.Assert.Equal[T](T expected, T actual, IEqualityComparer\u00601 comparer) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 154\r\n   at Xunit.Assert.Equal[T](T expected, T actual) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 89\r\n   at Cases.NeedCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\NeedCases.cs:line 27\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 265"
+}

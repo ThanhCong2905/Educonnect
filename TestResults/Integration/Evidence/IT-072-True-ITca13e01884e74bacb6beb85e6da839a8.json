@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-072-True",
+  "runTag": "ITca13e01884e74bacb6beb85e6da839a8",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "00df4f00-7a99-4938-b781-6f487a222c7a",
+    "P": "f1ba04c7-22bc-4da1-8f46-9a7ab5d66fce",
+    "G": "45ab76eb-67fc-4c6c-b1cc-afc8e5b64ee3",
+    "X": "a00ceada-5586-473b-a0ba-a3ec0fe4d00a",
+    "A": "79a9f2b7-fc1a-44c8-8745-7c6821a97130"
+  },
+  "subjects": {
+    "M1": 454,
+    "M2": 455
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 li\\u00EAn k\\u1EBFt t\\u00E0i kho\\u1EA3n.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LienKetTaiKhoan\u0022}"
+  }
+}

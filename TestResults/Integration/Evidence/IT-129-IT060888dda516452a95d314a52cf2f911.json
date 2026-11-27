@@ -1,0 +1,68 @@
+{
+  "caseId": "IT-129",
+  "runTag": "IT060888dda516452a95d314a52cf2f911",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "file_development",
+    "group": 9,
+    "title": "Nh\u00E1nh Development cho t\u1EC7p ch\u01B0a qu\u00E9t kh\u00F4ng \u00E1p sang m\u00F4i tr\u01B0\u1EDDng kh\u00E1c",
+    "stage": 2,
+    "entry": "TepService.KiemTraAsync",
+    "input": "DL01 Development\u002BAllowUnscannedUploads=true; DL02 non-Development v\u1EABn c\u1EA5u h\u00ECnh true nh\u01B0ng scanner kh\u00F4ng c\u00F3.",
+    "action": "Kh\u1EDFi t\u1EA1o hai host/environment ri\u00EAng, gi\u1EEF Service/adapter th\u1EADt; g\u1ECDi chu\u1EA9n b\u1ECB t\u1EC7p h\u1EE3p l\u1EC7.",
+    "contract": "DL01 gi\u1EEF ChoQuet theo c\u1EA5u h\u00ECnh ph\u00E1t tri\u1EC3n, kh\u00F4ng gi\u1EA3 Sach; DL02 fail-closed khi scanner thi\u1EBFu.",
+    "db": "Kh\u00F4ng cho m\u00F4i tr\u01B0\u1EDDng ngo\u00E0i Development b\u1ECF qu\u00E9t v\u00EC m\u1ED9t gi\u00E1 tr\u1ECB c\u1EA5u h\u00ECnh; metadata ph\u1EA3n \u00E1nh tr\u1EA1ng th\u00E1i th\u1EADt.",
+    "fr": [
+      "FR-46"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TepService.KiemTraAsync"
+    ],
+    "deps": [
+      "file_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-129",
+    "catalogOrder": 129,
+    "executionOrder": 50,
+    "dependencyIds": [
+      "IT-124"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "TK-U10",
+        "cls": "TepService",
+        "method": "KiemTraAsync",
+        "table": 493
+      }
+    ],
+    "fixture": "F9",
+    "sqlOracle": "SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.",
+    "boundary": "TepService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-46; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: TK-U10 TepService.KiemTraAsync (b\u1EA3ng 493)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Nh\u00E1nh Development cho t\u1EC7p ch\u01B0a qu\u00E9t kh\u00F4ng \u00E1p sang m\u00F4i tr\u01B0\u1EDDng kh\u00E1c",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #50.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-124\nGh\u00E9p sau: TepService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F9 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 Development\u002BAllowUnscannedUploads=true; DL02 non-Development v\u1EABn c\u1EA5u h\u00ECnh true nh\u01B0ng scanner kh\u00F4ng c\u00F3.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-124 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F9 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: DL01 Development\u002BAllowUnscannedUploads=true; DL02 non-Development v\u1EABn c\u1EA5u h\u00ECnh true nh\u01B0ng scanner kh\u00F4ng c\u00F3. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. Kh\u1EDFi t\u1EA1o hai host/environment ri\u00EAng, gi\u1EEF Service/adapter th\u1EADt; g\u1ECDi chu\u1EA9n b\u1ECB t\u1EC7p h\u1EE3p l\u1EC7. \u0110i\u1EC3m v\u00E0o: TepService.KiemTraAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: DL01 gi\u1EEF ChoQuet theo c\u1EA5u h\u00ECnh ph\u00E1t tri\u1EC3n, kh\u00F4ng gi\u1EA3 Sach; DL02 fail-closed khi scanner thi\u1EBFu.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng cho m\u00F4i tr\u01B0\u1EDDng ngo\u00E0i Development b\u1ECF qu\u00E9t v\u00EC m\u1ED9t gi\u00E1 tr\u1ECB c\u1EA5u h\u00ECnh; metadata ph\u1EA3n \u00E1nh tr\u1EA1ng th\u00E1i th\u1EADt.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 gi\u1EEF ChoQuet theo c\u1EA5u h\u00ECnh ph\u00E1t tri\u1EC3n, kh\u00F4ng gi\u1EA3 Sach; DL02 fail-closed khi scanner thi\u1EBFu.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng cho m\u00F4i tr\u01B0\u1EDDng ngo\u00E0i Development b\u1ECF qu\u00E9t v\u00EC m\u1ED9t gi\u00E1 tr\u1ECB c\u1EA5u h\u00ECnh; metadata ph\u1EA3n \u00E1nh tr\u1EA1ng th\u00E1i th\u1EADt."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "12558a2e-3986-45ec-b2f5-a7be9c2ff672",
+    "P": "c2e4ac6e-0cb7-4034-98a7-2ede0beb4241",
+    "G": "7cc0d6af-fdcf-4d78-83a0-ffed4bc4735a",
+    "X": "3ae81e12-308f-492d-bb08-79d1a76af42f",
+    "A": "a74023c6-07a2-440d-9a46-9176c92a542d"
+  },
+  "subjects": {
+    "M1": 4007,
+    "M2": 4008
+  },
+  "assertions": "Passed"
+}

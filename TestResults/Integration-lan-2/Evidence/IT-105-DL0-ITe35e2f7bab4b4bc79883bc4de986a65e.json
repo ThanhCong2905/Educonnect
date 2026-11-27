@@ -1,0 +1,33 @@
+{
+  "caseId": "IT-105-DL0",
+  "runTag": "ITe35e2f7bab4b4bc79883bc4de986a65e",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "IF DB_NAME()\u003C\u003EN\u0027EduConnect_Verification_Integration_20261125_v2\u0027 THROW 50000,N\u0027Refusing non-test DB\u0027,1;\r\nDECLARE @trigger sysname=(SELECT TOP(1) t.name FROM sys.triggers t JOIN sys.sql_modules m ON m.object_id=t.object_id WHERE t.parent_id=OBJECT_ID(N\u0027dbo.BaiTapGiao\u0027) AND m.definition LIKE N\u0027%B\u00E0i m\u1EDBi ph\u1EA3i g\u1EAFn bu\u1ED5i h\u1ECDc%\u0027);\r\nIF @trigger IS NULL THROW 50000,N\u0027Legacy fixture trigger not found\u0027,1;\r\nBEGIN TRY\r\n BEGIN TRAN;\r\n DECLARE @disable nvarchar(max)=N\u0027DISABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @disable;\r\n UPDATE dbo.BaiTapGiao SET BuoiHocId=NULL WHERE Id=@a;\r\n DECLARE @enable nvarchar(max)=N\u0027ENABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @enable;\r\n COMMIT;\r\n SELECT name,is_disabled FROM sys.triggers WHERE name=@trigger;\r\nEND TRY BEGIN CATCH IF XACT_STATE()\u003C\u003E0 ROLLBACK;THROW;END CATCH;",
+    "parameters": {
+      "@a": "08e9d4f1-4790-410f-b320-4d302b0f64cf"
+    },
+    "rows": [
+      {
+        "name": "tr_BaiTap_Buoi",
+        "is_disabled": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "01113e99-e371-4bb7-a88f-ddb8ea324d9e",
+    "P": "2edcc257-e1cf-4da0-8a0c-7d7c463b15e9",
+    "G": "a99e96ac-8d71-4d5e-908c-33595fa6f9db",
+    "X": "3aef8798-58f6-4c8d-b173-9ca747597e50",
+    "A": "26900b25-0d02-4132-86ce-d48a5ee4be64"
+  },
+  "subjects": {
+    "M1": 4977,
+    "M2": 4978
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EAFn b\\u00E0i t\\u1EADp v\\u1EDBi bu\\u1ED5i h\\u1ECDc.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/ffc39857-7d15-4256-8125-d93df75a4eec\u0022}"
+  }
+}

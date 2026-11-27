@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="3b432b83-483e-48d7-83ac-9ac06f248f79" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 12:25:42" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T12:25:42.0817388+07:00" queuing="2026-11-27T12:25:42.0817392+07:00" start="2026-11-27T12:25:27.1265020+07:00" finish="2026-11-27T12:25:46.4173708+07:00" />
+  <TestSettings name="default" id="3194ceaa-8d34-45c2-a6c3-d2091f973bdf">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_12_25_42" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="63c46b78-b5c9-4ff5-9db9-39e5d13a28c2" testId="af951127-a4e8-7adf-ba4a-9c4987234500" testName="IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.8538504" startTime="2026-11-27T12:25:43.9076449+07:00" endTime="2026-11-27T12:25:43.9076452+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63c46b78-b5c9-4ff5-9db9-39e5d13a28c2">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Contains() Failure: Sub-string not found&#xD;
+String:    "&lt;!doctype html&gt;\r\n&lt;html lang="vi"&gt;\r\n&lt;head&gt;"···&#xD;
+Not found: "5.0"</Message>
+          <StackTrace>   at Cases.ProgressCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs:line 63&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 352&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 395&#xD;
+   at IntegrationTests.IT_123() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 125&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ea376742-15a4-43c4-a6bd-47e4b2df2fb0" testId="7078ca5c-f3aa-d5f5-70e8-e1383307499b" testName="IT-142 | Báo cáo các loại đối tượng được phép xem" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.4021295" startTime="2026-11-27T12:25:46.3094929+07:00" endTime="2026-11-27T12:25:46.3094930+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea376742-15a4-43c4-a6bd-47e4b2df2fb0" />
+    <UnitTestResult executionId="15f3ba96-9e00-4a76-8ad3-588cbb5aee0d" testId="f9519b76-1121-10c5-4bb5-4ebac8e06fce" testName="IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp" computerName="LAPTOP-3L2V1AFT" duration="00:00:14.0278515" startTime="2026-11-27T12:25:42.0553323+07:00" endTime="2026-11-27T12:25:42.0553777+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15f3ba96-9e00-4a76-8ad3-588cbb5aee0d">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Contains() Failure: Sub-string not found&#xD;
+String:    "&lt;!doctype html&gt;&lt;html lang="vi"&gt;&lt;head&gt;&lt;met"···&#xD;
+Not found: "Nội dung cũ"</Message>
+          <StackTrace>   at Cases.ProgressCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs:line 58&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 352&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 395&#xD;
+   at IntegrationTests.IT_118() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 120&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="f9519b76-1121-10c5-4bb5-4ebac8e06fce">
+      <Execution id="15f3ba96-9e00-4a76-8ad3-588cbb5aee0d" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_118" />
+    </UnitTest>
+    <UnitTest name="IT-142 | Báo cáo các loại đối tượng được phép xem" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="7078ca5c-f3aa-d5f5-70e8-e1383307499b">
+      <Execution id="ea376742-15a4-43c4-a6bd-47e4b2df2fb0" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_142" />
+    </UnitTest>
+    <UnitTest name="IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="af951127-a4e8-7adf-ba4a-9c4987234500">
+      <Execution id="63c46b78-b5c9-4ff5-9db9-39e5d13a28c2" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_123" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="af951127-a4e8-7adf-ba4a-9c4987234500" executionId="63c46b78-b5c9-4ff5-9db9-39e5d13a28c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7078ca5c-f3aa-d5f5-70e8-e1383307499b" executionId="ea376742-15a4-43c4-a6bd-47e4b2df2fb0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9519b76-1121-10c5-4bb5-4ebac8e06fce" executionId="15f3ba96-9e00-4a76-8ad3-588cbb5aee0d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="1" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.12]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.19]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.19]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:14.30]       Assert.Contains() Failure: Sub-string not found&#xD;
+[xUnit.net 00:00:14.30]       String:    "&lt;!doctype html&gt;&lt;html lang="vi"&gt;&lt;head&gt;&lt;met"···&#xD;
+[xUnit.net 00:00:14.30]       Not found: "Nội dung cũ"&#xD;
+[xUnit.net 00:00:14.30]       Stack Trace:&#xD;
+[xUnit.net 00:00:14.30]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs(58,0): at Cases.ProgressCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:14.30]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(352,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:14.30]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(395,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:14.30]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(120,0): at IntegrationTests.IT_118()&#xD;
+[xUnit.net 00:00:14.30]         --- End of stack trace from previous location ---&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:16.16]       Assert.Contains() Failure: Sub-string not found&#xD;
+[xUnit.net 00:00:16.16]       String:    "&lt;!doctype html&gt;\r\n&lt;html lang="vi"&gt;\r\n&lt;head&gt;"···&#xD;
+[xUnit.net 00:00:16.16]       Not found: "5.0"&#xD;
+[xUnit.net 00:00:16.16]       Stack Trace:&#xD;
+[xUnit.net 00:00:16.16]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs(63,0): at Cases.ProgressCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:16.16]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(352,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:16.16]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(395,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:16.16]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(125,0): at IntegrationTests.IT_123()&#xD;
+[xUnit.net 00:00:16.16]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:18.57]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T12:25:42.0511749+07:00">
+        <Text>[xUnit.net 00:00:14.30]     IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T12:25:43.9068368+07:00">
+        <Text>[xUnit.net 00:00:16.16]     IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

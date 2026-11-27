@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-076-DL2",
+  "runTag": "IT3a0a2b60840141b68913429deb986129",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "d594bcad-c0d3-414f-87a7-1b31124eef4f",
+    "P": "54fde5a1-eee3-4e4d-bb49-5182da308672",
+    "G": "da86479b-f5c9-4759-8e6b-98c1d5d33036",
+    "X": "c1e57234-b178-4bec-8c30-706c5a1a117e",
+    "A": "7e856a6b-a407-428f-a1f0-0237809d1a18"
+  },
+  "subjects": {
+    "M1": 476,
+    "M2": 477
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc/ThanhVien/c027a2ee-4a27-4e06-acca-108145ade35b\u0022}"
+  }
+}

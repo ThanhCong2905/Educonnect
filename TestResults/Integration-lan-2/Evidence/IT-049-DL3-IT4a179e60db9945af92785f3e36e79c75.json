@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-049-DL3",
+  "runTag": "IT4a179e60db9945af92785f3e36e79c75",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauLienHe SET LoiNhan=N\u0027\u0110\u00E3 \u0111\u1ED5i\u0027 WHERE Id=@c",
+    "parameters": {
+      "@c": "4a006114-9e1e-49b0-a5e9-81e24ec45942"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "6d50dcfb-ad4d-494f-9f59-cf93d69d3c99",
+    "P": "001de565-a1d4-4a49-a9d2-12559606fee2",
+    "G": "6ae17837-0637-46db-a8f8-4d13eb13e6e9",
+    "X": "0b82b34d-ae0b-4972-8850-592e4449f0ba",
+    "A": "9f11ac6b-f75f-4947-af7c-994fb6d6624d"
+  },
+  "subjects": {
+    "M1": 4809,
+    "M2": 4810
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022D\\u1EEF li\\u1EC7u \\u0111\\u00E3 thay \\u0111\\u1ED5i. H\\u00E3y t\\u1EA3i l\\u1EA1i tr\\u01B0\\u1EDBc khi s\\u1EEDa.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022D\\u1EEF li\\u1EC7u \\u0111\\u00E3 thay \\u0111\\u1ED5i. H\\u00E3y t\\u1EA3i l\\u1EA1i tr\\u01B0\\u1EDBc khi s\\u1EEDa.\u0022]}}"
+  }
+}

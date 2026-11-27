@@ -1,0 +1,145 @@
+{
+  "caseId": "IT-168",
+  "runTag": "IT3e01df3a144f40909ae9cc23f768ddd5",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "auth_session_expired",
+    "group": 11,
+    "title": "Phi\u00EAn h\u1EBFt nh\u00E0n r\u1ED7i ho\u1EB7c \u0111\u00E3 thu h\u1ED3i kh\u00F4ng truy c\u1EADp \u0111\u01B0\u1EE3c",
+    "stage": 3,
+    "entry": "GET /NhuCau/NhuCau/Index",
+    "input": "H1 c\u00F3 cookie th\u1EADt; DL01 SQL HoatDongCuoiLuc c\u0169 h\u01A1n30 ph\u00FAt; DL02 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL03 t\u00E0i kho\u1EA3n BiKhoa.",
+    "action": "Gi\u1EEF nguy\u00EAn cookie; GET AJAX v\u00E0 form th\u01B0\u1EDDng tr\u00EAn client ri\u00EAng t\u1EEBng DL.",
+    "contract": "AJAX 401; form th\u01B0\u1EDDng challenge v\u1EC1 \u0111\u0103ng nh\u1EADp n\u1ED9i b\u1ED9; kh\u00F4ng ch\u1EA1y nghi\u1EC7p v\u1EE5 d\u00F9 cookie v\u1EABn gi\u1EA3i m\u00E3 \u0111\u01B0\u1EE3c.",
+    "db": "Kh\u00F4ng h\u1ED3i sinh phi\u00EAn, kh\u00F4ng gia h\u1EA1n ho\u1EA1t \u0111\u1ED9ng cho phi\u00EAn kh\u00F4ng h\u1EE3p l\u1EC7.",
+    "fr": [
+      "FR-58",
+      "FR-60"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "KiemTraCookieTaiKhoan.ValidatePrincipal",
+      "PhienDangNhapService.HopLeAsync",
+      "NguoiDungHienTaiService.HienTaiAsync",
+      "NhuCauService.DaKetNoiAsync",
+      "NhuCauService.KiemDuyetAsync",
+      "NhuCauService.LayAsync",
+      "NhuCauService.LichRanhAsync",
+      "NhuCauService.MonTenAsync",
+      "NhuCauController.Index"
+    ],
+    "deps": [
+      "auth_verify",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "NhuCauController",
+        "area": "NhuCau",
+        "method": "Index",
+        "action": "Index",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E Index()",
+        "line": 21,
+        "file": "Areas\\NhuCau\\Controllers\\NhuCauController.cs"
+      }
+    ],
+    "id": "IT-168",
+    "catalogOrder": 168,
+    "executionOrder": 170,
+    "dependencyIds": [
+      "IT-155",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U12",
+        "cls": "NhuCauController",
+        "method": "Index",
+        "table": 3
+      },
+      {
+        "id": "UC1.1-U18",
+        "cls": "NhuCauService",
+        "method": "MonTenAsync",
+        "table": 13
+      },
+      {
+        "id": "UC1.1-U19",
+        "cls": "NhuCauService",
+        "method": "LayAsync",
+        "table": 14
+      },
+      {
+        "id": "UC1.1-U20",
+        "cls": "NhuCauService",
+        "method": "LichRanhAsync",
+        "table": 15
+      },
+      {
+        "id": "UC1.1-U25",
+        "cls": "NhuCauService",
+        "method": "DaKetNoiAsync",
+        "table": 22
+      },
+      {
+        "id": "UC1.1-U29",
+        "cls": "NhuCauService",
+        "method": "KiemDuyetAsync",
+        "table": 27
+      },
+      {
+        "id": "UC7.2-U12",
+        "cls": "PhienDangNhapService",
+        "method": "HopLeAsync",
+        "table": 211
+      },
+      {
+        "id": "UC7.2-U15",
+        "cls": "KiemTraCookieTaiKhoan",
+        "method": "ValidatePrincipal",
+        "table": 214
+      },
+      {
+        "id": "HT-U28",
+        "cls": "NguoiDungHienTaiService",
+        "method": "HienTaiAsync",
+        "table": 472
+      }
+    ],
+    "fixture": "F11",
+    "sqlOracle": "SELECT Id,Email,NormalizedEmail,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@ACTOR; SELECT * FROM dbo.AspNetUserRoles WHERE UserId=@ACTOR; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; SELECT * FROM dbo.TrangThaiThuDangNhap WHERE GiaTriKhoa IN(@EMAIL,@IP); Kh\u00F4ng xu\u1EA5t PasswordHash/cookie/token v\u00E0o b\u00E1o c\u00E1o.",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 KiemTraCookieTaiKhoan, PhienDangNhapService, NguoiDungHienTaiService, NhuCauService, NhuCauController \u2192 EF/SQL Server",
+    "baseline": "FR-58, FR-60; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U12 NhuCauController.Index (b\u1EA3ng 3); UC1.1-U18 NhuCauService.MonTenAsync (b\u1EA3ng 13); UC1.1-U19 NhuCauService.LayAsync (b\u1EA3ng 14); UC1.1-U20 NhuCauService.LichRanhAsync (b\u1EA3ng 15); UC1.1-U25 NhuCauService.DaKetNoiAsync (b\u1EA3ng 22); UC1.1-U29 NhuCauService.KiemDuyetAsync (b\u1EA3ng 27); UC7.2-U12 PhienDangNhapService.HopLeAsync (b\u1EA3ng 211); UC7.2-U15 KiemTraCookieTaiKhoan.ValidatePrincipal (b\u1EA3ng 214); HT-U28 NguoiDungHienTaiService.HienTaiAsync (b\u1EA3ng 472)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Phi\u00EAn h\u1EBFt nh\u00E0n r\u1ED7i ho\u1EB7c \u0111\u00E3 thu h\u1ED3i kh\u00F4ng truy c\u1EADp \u0111\u01B0\u1EE3c",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #170.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-155, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 KiemTraCookieTaiKhoan, PhienDangNhapService, NguoiDungHienTaiService, NhuCauService, NhuCauController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F11 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nH1 c\u00F3 cookie th\u1EADt; DL01 SQL HoatDongCuoiLuc c\u0169 h\u01A1n30 ph\u00FAt; DL02 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL03 t\u00E0i kho\u1EA3n BiKhoa.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-155, IT-157; t\u1EA1o fixture F11 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: H1 c\u00F3 cookie th\u1EADt; DL01 SQL HoatDongCuoiLuc c\u0169 h\u01A1n30 ph\u00FAt; DL02 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL03 t\u00E0i kho\u1EA3n BiKhoa.\n4. Gi\u1EEF nguy\u00EAn cookie; GET AJAX v\u00E0 form th\u01B0\u1EDDng tr\u00EAn client ri\u00EAng t\u1EEBng DL. \u0110i\u1EC3m v\u00E0o: GET /NhuCau/NhuCau/Index. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: AJAX 401; form th\u01B0\u1EDDng challenge v\u1EC1 \u0111\u0103ng nh\u1EADp n\u1ED9i b\u1ED9; kh\u00F4ng ch\u1EA1y nghi\u1EC7p v\u1EE5 d\u00F9 cookie v\u1EABn gi\u1EA3i m\u00E3 \u0111\u01B0\u1EE3c.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,Email,NormalizedEmail,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@ACTOR; SELECT * FROM dbo.AspNetUserRoles WHERE UserId=@ACTOR; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; SELECT * FROM dbo.TrangThaiThuDangNhap WHERE GiaTriKhoa IN(@EMAIL,@IP); Kh\u00F4ng xu\u1EA5t PasswordHash/cookie/token v\u00E0o b\u00E1o c\u00E1o.\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng h\u1ED3i sinh phi\u00EAn, kh\u00F4ng gia h\u1EA1n ho\u1EA1t \u0111\u1ED9ng cho phi\u00EAn kh\u00F4ng h\u1EE3p l\u1EC7.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: AJAX 401; form th\u01B0\u1EDDng challenge v\u1EC1 \u0111\u0103ng nh\u1EADp n\u1ED9i b\u1ED9; kh\u00F4ng ch\u1EA1y nghi\u1EC7p v\u1EE5 d\u00F9 cookie v\u1EABn gi\u1EA3i m\u00E3 \u0111\u01B0\u1EE3c.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng h\u1ED3i sinh phi\u00EAn, kh\u00F4ng gia h\u1EA1n ho\u1EA1t \u0111\u1ED9ng cho phi\u00EAn kh\u00F4ng h\u1EE3p l\u1EC7."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.AspNetUsers SET TrangThai=\u0027BiKhoa\u0027 WHERE Id=@u",
+    "parameters": {
+      "@u": "22717a29-e394-453b-8bb6-5eecf5af5906"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "22717a29-e394-453b-8bb6-5eecf5af5906",
+    "P": "7e4df29d-18fd-4b0f-af0d-43d5c944d577",
+    "G": "e910a5e4-806b-40e5-8774-ef505e97d9c6",
+    "X": "6bd7ab48-af4b-4556-852a-db6f4b19d7e5",
+    "A": "7c3f83ea-47d0-4b6e-ab94-6eb2530fdc83"
+  },
+  "subjects": {
+    "M1": 4597,
+    "M2": 4598
+  },
+  "http": {
+    "status": 401,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Phi\u00EAn \u0111\u00E3 h\u1EBFt h\u1EA1n. Vui l\u00F2ng \u0111\u0103ng nh\u1EADp l\u1EA1i.\u0022}"
+  },
+  "assertions": "Passed"
+}

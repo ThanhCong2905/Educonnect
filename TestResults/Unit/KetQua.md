@@ -1,51 +1,63 @@
-# Biên bản thực thi Unit Test — EduConnect1
+﻿# Kết quả thực thi Unit Test — EduConnect1
 
-Ngày chạy: 18/11/2026. Project riêng: `tests/Unit/EduConnect.UnitTests.csproj`, .NET 10 / xUnit. Test được chạy trực tiếp trên EduConnect1; không thực thi project MT1 trong lần chạy được báo cáo này.
+Chạy trên `C:\Khóa luận TN\EduConnect1`, thời điểm lập báo cáo `2026-11-25T13:10:30+07:00` (UTC+7).
 
-**Kết quả: 135 lượt dữ liệu xUnit Pass, 0 Fail, 0 Skip.**
+Đã thực thi **360/360 TC, 389/389 bộ dữ liệu, 79/79 Unit** theo danh mục hiện tại. Kết quả: **359 TC Pass, 1 TC Fail**; theo lượt xUnit: **388 Pass, 1 Fail, 0 Skip, 0 chưa thực thi**. Fail duy nhất thuộc kỳ vọng TC không khớp thiết kế; không ghi nhận nó thành lỗi code ứng dụng.
 
-| Nhóm | Số lượt | Pass | Fail |
-|---|---:|---:|---:|
-| [Quy tắc chung](01_Quy_tac_chung/KetQua.md) | 49 | 49 | 0 |
-| [Dữ liệu đầu vào và kết quả nghiệp vụ](02_Du_lieu_dau_vao/KetQua.md) | 19 | 19 | 0 |
-| [Controller và middleware](03_Controller_Middleware/KetQua.md) | 14 | 14 | 0 |
-| [Lịch học](04_Lich_hoc/KetQua.md) | 12 | 12 | 0 |
-| [Địa giới và danh mục](05_Dia_gioi_Danh_muc/KetQua.md) | 7 | 7 | 0 |
-| [Khách và xác thực](06_Khach_Xac_thuc/KetQua.md) | 4 | 4 | 0 |
-| [Biên đầu vào và mật khẩu](07_Bien_dau_vao_Mat_khau/KetQua.md) | 30 | 30 | 0 |
+Không sửa code ứng dụng. Chỉ thêm/sửa project test, cấu hình chạy và kết quả trong `tests/Unit`, `TestResults/Unit`; `bin/obj` được cập nhật khi build.
 
-Các nhóm 01–06 có 105 lượt từ các kiểm thử độc lập đã có; nhóm 07 chuyển 30 kiểm tra biên đầu vào/mật khẩu của chương trình console thành xUnit để từng lượt có kết quả TRX. Tổng 135 là số lượt dữ liệu xUnit, không phải 135 Unit hoặc 135 mã UT trong Excel.
+## Kết quả theo nhóm
 
-## Phạm vi đã kiểm
+| Nhóm | Unit | TC | TC Pass | TC Fail | DL Pass | DL Fail | Chưa thực thi |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 01_UC1 | 8 | 42 | 42 | 0 | 44 | 0 | 0 |
+| 02_UC2 | 4 | 5 | 5 | 0 | 5 | 0 | 0 |
+| 03_UC3 | 2 | 18 | 18 | 0 | 18 | 0 | 0 |
+| 04_UC4 | 2 | 3 | 3 | 0 | 3 | 0 | 0 |
+| 05_UC5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 06_UC6 | 4 | 14 | 14 | 0 | 15 | 0 | 0 |
+| 07_UC7 | 24 | 72 | 72 | 0 | 73 | 0 | 0 |
+| 08_Dung_chung | 34 | 205 | 204 | 1 | 229 | 1 | 0 |
+| 09_Thanh_phan_khac | 1 | 1 | 1 | 0 | 1 | 0 | 0 |
 
-- Rules: khung giờ, học phí, rowVersion, một số ràng buộc đầu vào. Giữ nguyên assertion theo script; không thay kỳ vọng để làm Pass.
-- Dữ liệu hồ sơ, danh mục lớp và kiểm tra thuộc tính; KetQua giữ nguyên ngoại lệ, trường lỗi và status.
-- Controller: ModelState không hợp lệ dừng trước dependency; token đã hủy dừng sớm. Middleware được gọi với RequestDelegate giả trong bộ nhớ để kiểm status, mã hóa lỗi và che lỗi nội bộ.
-- Lịch tuần: múi giờ, ngày đầu tuần, giao tháng/năm, qua đêm, chồng lịch, trạng thái và biên ngày.
-- Danh mục địa giới/môn: tính đầy đủ theo assertion, không trùng, phường thuộc tỉnh, thứ tự môn.
-- Người dùng khách: nhánh không đăng nhập dừng trước DB; kiểm số lượng so sánh không hợp lệ; metadata AllowAnonymous của action. Kiểm attribute không chứng minh toàn bộ HTTP pipeline bảo mật.
-- Nhóm 07: các biên bộ lọc, nhu cầu, liên hệ, bài tập/chấm bài, lý do sửa lịch; độ dài mật khẩu tính bằng Unicode scalar, kể cả emoji.
+UC5 không có Unit C# được chọn trong danh mục hiện tại; không tự thêm test workflow hoặc tính một lượt Pass giả cho nhóm rỗng.
 
-Các test chạy trong bộ nhớ. Không dùng SQL Server, không khởi động ứng dụng web, không gửi email và không chạy worker thật. Những test truyền dependency null chỉ chứng minh nhánh dừng sớm, không chứng minh nhánh thành công sử dụng dependency.
+## Phân tích ca Fail
 
-## Đối chiếu bộ 719 TC trong Excel
+UT-354/DL01 — `NhatKyAnToanMapping.Configure` (HT-U55).
 
-**Chưa thể kết luận đã chạy 719 TC / 1.342 bộ dữ liệu của Excel.** Bộ 135 lượt này chưa có ánh xạ được xác minh đầy đủ tới từng mã mới, từng DL, nhánh và kỳ vọng. File `Doi_chieu_719_TC.csv` ghi trạng thái riêng cho 719 mã; không tự ghép verdict do mã trùng bộ cũ. Workbook kịch bản và kỳ vọng không bị sửa trong lần thực thi này.
+- Kỳ vọng đang ghi trong Excel: `MaYeuCau.IsUnicode == false`.
+- Quan sát khi chạy: `FindProperty("MaYeuCau").IsUnicode()` trả `null`; assertion thất bại tại chính trường `MaYeuCau`.
+- Code ứng dụng: `Data/NhatKyAnToanMapping.cs:22` chỉ có `e.Property(x => x.MaYeuCau).HasMaxLength(128);`.
+- Căn cứ: Process HT-U55, bảng 509 trong “Thiết kế xử lý chi tiết (1).docx” cũng chỉ đặt `HasMaxLength(128)`, không có `.IsUnicode(false)` cho trường này.
+- Phân loại: lỗi kỳ vọng của kịch bản TC, **chưa có căn cứ kết luận code sai**. Giá trị `null` ở metadata có nghĩa là chưa cấu hình Unicode tường minh, không phải giá trị dữ liệu của mã yêu cầu.
+- Cách sửa TC khi hiệu chỉnh bộ kịch bản: bỏ `MaYeuCau` khỏi danh sách phải có `IsUnicode=false`, vẫn kiểm độ dài 128. Không cần sửa code ứng dụng để làm test xanh.
 
-Ví dụ, UT-001 yêu cầu controller thật và service/người hiện tại fake cho đường mở biểu mẫu; các lớp NhuCauService và NguoiDungHienTaiService ở nhánh hiện tại là sealed và controller nhận concrete class. Chưa có script cho đúng cách cô lập của ca này trong project mới. Đây là phần hiện thực test còn thiếu, không phải một assertion đã chạy và Fail. Nếu code thiếu một method đã chốt trong thiết kế thì cần ghi lỗi đối chiếu thiết kế riêng; không đồng nhất với việc chưa viết script.
+Kết quả vẫn ghi Fail theo nguyên kỳ vọng Excel đã nhận; không sửa oracle để che kết quả. Chi tiết assertion/stack trace nằm trong TRX của nhóm `08_Dung_chung`.
 
-## Cách chạy lại
+## Cách thực thi và phạm vi chứng minh
+
+- xUnit gọi method thật theo từng `UT-xxx/DLxx`; các helper C# trong project test chỉ dựng fixture, gọi reflection vào method private và assert.
+- Truy vấn LINQ và theo dõi entity dùng EF InMemory làm test double kỹ thuật. Model được khởi tạo trong Arrange; Act chạy method được chọn. Không suy ra khả năng dịch SQL, ràng buộc SQL hoặc transaction từ kết quả của fake này.
+- Các wrapper tạo lệnh quan hệ dùng interceptor chặn mở kết nối và chặn thực thi command, ghi lại SQL/parameter/token rồi trả dữ liệu fixture. Không kết nối SQL Server hoặc kiểm hiệu lực khóa thật.
+- Các ca cần giờ cố định/resource/File.Delete dùng Lib.Harmony 2.4.2, chỉ shim API framework trong testhost. Không patch method ứng dụng. Tắt inlining/ReadyToRun/tiered compilation trong tiến trình test để lời gọi framework đi qua shim. Shim được tháo trong Dispose, test không chạy song song.
+- `UT-008` kiểm ba mốc quanh 17:00 UTC; `UT-121..132` kiểm bảng quyết định khóa đăng nhập và biên ±1 tick; `UT-280/281` kiểm null/JSON stream và dispose; `UT-330/331` kiểm thứ tự Delete và cùng tham chiếu IOException, không I/O thật.
+- TRX là bằng chứng thực thi. Số ca chạy đủ không đồng nghĩa đã đo 100% line/branch coverage; lượt này không xuất báo cáo coverage.
+
+## Chạy lại
 
 Tại thư mục EduConnect1:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tests/Unit/Run-UnitTests.ps1
+.\tests\Unit\Run-UnitTests.ps1
 ```
 
-Chạy riêng một nhóm:
+Script build ứng dụng rồi project test, chạy theo từng nhóm, ghi đè TRX/log cùng đường dẫn. Exit 1 là kết quả có test Fail; xem `08_Dung_chung` để phân biệt với lỗi build. Build log nằm ở `Build-App.log`, `Build.log`.
+
+Chạy riêng một TC cần shim, ví dụ:
 
 ```powershell
-dotnet test tests/Unit/EduConnect.UnitTests.csproj --filter "FullyQualifiedName~ControllerGuardTests" --logger "trx;LogFileName=Controller.trx" --results-directory TestResults/Unit/03_Controller_Middleware
+dotnet test tests/Unit/EduConnect.UnitTests.csproj --no-build --no-restore --filter "Suite=CurrentDesign&TestCaseId=UT-128" --environment COMPlus_JitNoInline=1 --environment DOTNET_ReadyToRun=0 --environment DOTNET_TieredCompilation=0
 ```
 
-Mỗi thư mục nhóm có TRX gốc, `Run.log`, `KetQua.md` và `KetQua.json`. TRX cung cấp verdict và tên từng lượt; script tại `tests/Unit/*.cs` chứa assertion cụ thể. Build.log ghi lần build của chính project mới. Lần chạy thử trước trong môi trường giới hạn từng bị timeout kết nối VSTest/testhost; không tính timeout hạ tầng đó thành lỗi nghiệp vụ. Lần chạy chính có đầy đủ TRX và kết thúc thành công.
+`KetQua.json` và `Doi_chieu_TC.csv` chứa đủ từng TC/DL, input, expected, outcome, vị trí script và đường dẫn TRX. Mỗi thư mục nhóm có `KetQua.md`, `KetQua.json`, `Run.log`, TRX riêng. `Script-SHA256.json` lưu hash script và assembly thực tế được chạy.

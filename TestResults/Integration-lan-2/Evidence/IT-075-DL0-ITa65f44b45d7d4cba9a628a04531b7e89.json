@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-075-DL0",
+  "runTag": "ITa65f44b45d7d4cba9a628a04531b7e89",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "14fd4112-1f0b-4928-a721-59a9b0555501",
+    "P": "5993c7d4-0b2b-45a1-8e77-accd9b726024",
+    "G": "8f25e560-fe28-479f-b72f-d8ac74148f48",
+    "X": "4ddcb597-3ede-43c9-8cc9-c0f96b21de7c",
+    "A": "af5eb25e-dec8-4939-9736-79ed7950f6f7"
+  },
+  "subjects": {
+    "M1": 4901,
+    "M2": 4902
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022B\\u1EA1n \\u0111\\u00E3 \\u0111\\u1ED3ng \\u00FD l\\u1EDDi m\\u1EDDi. \\u0110ang ch\\u1EDD gia s\\u01B0 duy\\u1EC7t quy\\u1EC1n tham gia.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc\u0022}"
+  }
+}

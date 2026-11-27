@@ -1,0 +1,33 @@
+{
+  "caseId": "IT-105-DL0",
+  "runTag": "IT18a9b7817f574fae860525137297c6a9",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "IF DB_NAME()\u003C\u003EN\u0027EduConnect_Verification_Integration_20261125_v2\u0027 THROW 50000,N\u0027Refusing non-test DB\u0027,1;\r\nDECLARE @trigger sysname=(SELECT TOP(1) t.name FROM sys.triggers t JOIN sys.sql_modules m ON m.object_id=t.object_id WHERE t.parent_id=OBJECT_ID(N\u0027dbo.BaiTapGiao\u0027) AND m.definition LIKE N\u0027%B\u00E0i m\u1EDBi ph\u1EA3i g\u1EAFn bu\u1ED5i h\u1ECDc%\u0027);\r\nIF @trigger IS NULL THROW 50000,N\u0027Legacy fixture trigger not found\u0027,1;\r\nBEGIN TRY\r\n BEGIN TRAN;\r\n DECLARE @disable nvarchar(max)=N\u0027DISABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @disable;\r\n UPDATE dbo.BaiTapGiao SET BuoiHocId=NULL WHERE Id=@a;\r\n DECLARE @enable nvarchar(max)=N\u0027ENABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @enable;\r\n COMMIT;\r\n SELECT name,is_disabled FROM sys.triggers WHERE name=@trigger;\r\nEND TRY BEGIN CATCH IF XACT_STATE()\u003C\u003E0 ROLLBACK;THROW;END CATCH;",
+    "parameters": {
+      "@a": "5cdaf3a4-4c2a-43a8-a15d-8172fccf2b5e"
+    },
+    "rows": [
+      {
+        "name": "tr_BaiTap_Buoi",
+        "is_disabled": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "e4b81392-cce5-451c-b6ae-c82310134b82",
+    "P": "29c638b6-e022-45e9-b4e3-736eba09e6fa",
+    "G": "43564600-f791-49cc-9fd0-c3ae7e404fd1",
+    "X": "88063c5d-c91e-4345-b870-bef62ffbf873",
+    "A": "385d8df4-1ef5-418a-8471-093c8346fb07"
+  },
+  "subjects": {
+    "M1": 2072,
+    "M2": 2073
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EAFn b\\u00E0i t\\u1EADp v\\u1EDBi bu\\u1ED5i h\\u1ECDc.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/3483ee08-46ee-48fe-832d-5fa46311bff4\u0022}"
+  }
+}

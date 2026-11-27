@@ -1,0 +1,73 @@
+{
+  "caseId": "IT-125",
+  "runTag": "IT2bff6b3dd4e943f99109e01bafea6e6d",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "chat_store",
+    "group": 9,
+    "title": "Service g\u1EEDi tin, t\u1EC7p v\u00E0 outbox commit \u0111\u1ED3ng b\u1ED9",
+    "stage": 2,
+    "entry": "TinNhanService.GuiAsync",
+    "input": "F9: room ri\u00EAng ChapNhan ho\u1EB7c room C1; H1 \u0111\u01B0\u1EE3c g\u1EEDi; MaThaoTac=O1; NoiDung=\u0022B\u00E0i t\u1EADp tu\u1EA7n n\u00E0y\u0022; m\u1ED9t PDF s\u1EA1ch.",
+    "action": "G\u1ECDi Service th\u1EADt; SQL/file/scanner th\u1EADt trong sandbox; \u0111\u1ECDc m\u1EDBi TinNhan/TepDinhKem/SuKienChoXuLy.",
+    "contract": "G\u1EEDi ho\u00E0n t\u1EA5t, tin \u0111\u00FAng room v\u00E0 sender H1.",
+    "db": "M\u1ED9t TinNhan, \u0111\u00FAng metadata/file, EventId li\u00EAn quan v\u00E0 outbox c\u00F2n ch\u1EDD; ch\u01B0a kh\u1EB3ng \u0111\u1ECBnh realtime \u0111\u00E3 ph\u00E1t khi worker t\u1EAFt.",
+    "fr": [
+      "FR-12",
+      "FR-33"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TinNhanService.GuiAsync"
+    ],
+    "deps": [
+      "file_store",
+      "contact_store",
+      "class_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-125",
+    "catalogOrder": 125,
+    "executionOrder": 46,
+    "dependencyIds": [
+      "IT-124",
+      "IT-044",
+      "IT-057"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC5.1-U12",
+        "cls": "TinNhanService",
+        "method": "GuiAsync",
+        "table": 298
+      }
+    ],
+    "fixture": "F9",
+    "sqlOracle": "SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.",
+    "boundary": "TinNhanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-12, FR-33; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC5.1-U12 TinNhanService.GuiAsync (b\u1EA3ng 298)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service g\u1EEDi tin, t\u1EC7p v\u00E0 outbox commit \u0111\u1ED3ng b\u1ED9",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #46.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-124, IT-044, IT-057\nGh\u00E9p sau: TinNhanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F9 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF9: room ri\u00EAng ChapNhan ho\u1EB7c room C1; H1 \u0111\u01B0\u1EE3c g\u1EEDi; MaThaoTac=O1; NoiDung=\u0022B\u00E0i t\u1EADp tu\u1EA7n n\u00E0y\u0022; m\u1ED9t PDF s\u1EA1ch.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-124, IT-044, IT-057 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F9 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F9: room ri\u00EAng ChapNhan ho\u1EB7c room C1; H1 \u0111\u01B0\u1EE3c g\u1EEDi; MaThaoTac=O1; NoiDung=\u0022B\u00E0i t\u1EADp tu\u1EA7n n\u00E0y\u0022; m\u1ED9t PDF s\u1EA1ch. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt; SQL/file/scanner th\u1EADt trong sandbox; \u0111\u1ECDc m\u1EDBi TinNhan/TepDinhKem/SuKienChoXuLy. \u0110i\u1EC3m v\u00E0o: TinNhanService.GuiAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: G\u1EEDi ho\u00E0n t\u1EA5t, tin \u0111\u00FAng room v\u00E0 sender H1.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t TinNhan, \u0111\u00FAng metadata/file, EventId li\u00EAn quan v\u00E0 outbox c\u00F2n ch\u1EDD; ch\u01B0a kh\u1EB3ng \u0111\u1ECBnh realtime \u0111\u00E3 ph\u00E1t khi worker t\u1EAFt.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: G\u1EEDi ho\u00E0n t\u1EA5t, tin \u0111\u00FAng room v\u00E0 sender H1.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t TinNhan, \u0111\u00FAng metadata/file, EventId li\u00EAn quan v\u00E0 outbox c\u00F2n ch\u1EDD; ch\u01B0a kh\u1EB3ng \u0111\u1ECBnh realtime \u0111\u00E3 ph\u00E1t khi worker t\u1EAFt."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "b9b1e7f4-2c9d-4554-8865-d29671f6d030",
+    "P": "213f6029-4517-4cea-a653-8faa6b7b0c78",
+    "G": "db503b9f-d036-482f-b944-02ddb8127f79",
+    "X": "a7889715-93e0-4c39-8595-cc86f1b8684b",
+    "A": "48f91a10-2bd2-4d47-9706-f935b0940ba3"
+  },
+  "subjects": {
+    "M1": 2676,
+    "M2": 2677
+  },
+  "assertions": "Passed"
+}

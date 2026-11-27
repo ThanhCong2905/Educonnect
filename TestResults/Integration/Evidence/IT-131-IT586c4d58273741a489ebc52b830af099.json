@@ -1,0 +1,79 @@
+{
+  "caseId": "IT-131",
+  "runTag": "IT586c4d58273741a489ebc52b830af099",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "file_transaction_failure",
+    "group": 9,
+    "title": "L\u1ED7i l\u01B0u SQL sau ghi blob kh\u00F4ng \u0111\u1EC3 orphan",
+    "stage": 2,
+    "entry": "TinNhanService.GuiAsync; BaiTapService.GiaoAsync",
+    "input": "PDF s\u1EA1ch \u0111\u00E3 ghi t\u1EA1m; transaction SQL b\u1ECB t\u1EEB ch\u1ED1i b\u1EB1ng r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u fixture ho\u1EB7c h\u1EE7y quy\u1EC1n \u0111\u00FAng \u0111i\u1EC3m ki\u1EC3m l\u1EA1i, kh\u00F4ng mock SaveChanges.",
+    "action": "Ch\u1EE5p danh s\u00E1ch blob/hash; th\u1EF1c hi\u1EC7n ghi c\u00F3 l\u1ED7i trong sandbox; \u0111\u1EE3i method rollback r\u1ED3i so SQL/files.",
+    "contract": "Tr\u1EA3 l\u1ED7i nghi\u1EC7p v\u1EE5/persistence, kh\u00F4ng th\u00E0nh c\u00F4ng m\u1ED9t ph\u1EA7n.",
+    "db": "Kh\u00F4ng b\u1EA3n ghi con ho\u1EB7c blob m\u1ED3 c\u00F4i; file tr\u01B0\u1EDBc test gi\u1EEF nguy\u00EAn; kh\u00F4ng \u0111\u00E1nh outbox HoanTat khi producer ch\u01B0a commit.",
+    "fr": [
+      "FR-30",
+      "FR-33",
+      "FR-46"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TinNhanService.GuiAsync",
+      "BaiTapService.GiaoAsync"
+    ],
+    "deps": [
+      "file_store",
+      "chat_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-131",
+    "catalogOrder": 131,
+    "executionOrder": 52,
+    "dependencyIds": [
+      "IT-124",
+      "IT-125"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.3-U02",
+        "cls": "BaiTapService",
+        "method": "GiaoAsync",
+        "table": 177
+      },
+      {
+        "id": "UC5.1-U12",
+        "cls": "TinNhanService",
+        "method": "GuiAsync",
+        "table": 298
+      }
+    ],
+    "fixture": "F9",
+    "sqlOracle": "SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.",
+    "boundary": "TinNhanService \u2192 BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-30, FR-33, FR-46; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.3-U02 BaiTapService.GiaoAsync (b\u1EA3ng 177); UC5.1-U12 TinNhanService.GuiAsync (b\u1EA3ng 298)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: L\u1ED7i l\u01B0u SQL sau ghi blob kh\u00F4ng \u0111\u1EC3 orphan",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #52.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-124, IT-125\nGh\u00E9p sau: TinNhanService \u2192 BaiTapService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F9 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nPDF s\u1EA1ch \u0111\u00E3 ghi t\u1EA1m; transaction SQL b\u1ECB t\u1EEB ch\u1ED1i b\u1EB1ng r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u fixture ho\u1EB7c h\u1EE7y quy\u1EC1n \u0111\u00FAng \u0111i\u1EC3m ki\u1EC3m l\u1EA1i, kh\u00F4ng mock SaveChanges.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-124, IT-125 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F9 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: PDF s\u1EA1ch \u0111\u00E3 ghi t\u1EA1m; transaction SQL b\u1ECB t\u1EEB ch\u1ED1i b\u1EB1ng r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u fixture ho\u1EB7c h\u1EE7y quy\u1EC1n \u0111\u00FAng \u0111i\u1EC3m ki\u1EC3m l\u1EA1i, kh\u00F4ng mock SaveChanges. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. Ch\u1EE5p danh s\u00E1ch blob/hash; th\u1EF1c hi\u1EC7n ghi c\u00F3 l\u1ED7i trong sandbox; \u0111\u1EE3i method rollback r\u1ED3i so SQL/files. \u0110i\u1EC3m v\u00E0o: TinNhanService.GuiAsync; BaiTapService.GiaoAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Tr\u1EA3 l\u1ED7i nghi\u1EC7p v\u1EE5/persistence, kh\u00F4ng th\u00E0nh c\u00F4ng m\u1ED9t ph\u1EA7n.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng b\u1EA3n ghi con ho\u1EB7c blob m\u1ED3 c\u00F4i; file tr\u01B0\u1EDBc test gi\u1EEF nguy\u00EAn; kh\u00F4ng \u0111\u00E1nh outbox HoanTat khi producer ch\u01B0a commit.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Tr\u1EA3 l\u1ED7i nghi\u1EC7p v\u1EE5/persistence, kh\u00F4ng th\u00E0nh c\u00F4ng m\u1ED9t ph\u1EA7n.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng b\u1EA3n ghi con ho\u1EB7c blob m\u1ED3 c\u00F4i; file tr\u01B0\u1EDBc test gi\u1EEF nguy\u00EAn; kh\u00F4ng \u0111\u00E1nh outbox HoanTat khi producer ch\u01B0a commit."
+  },
+  "sql": {
+    "sql": "ALTER TABLE dbo.TepDinhKem DROP CONSTRAINT CK_IT_RejectUpload",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "d977e21f-8cb5-41ef-8a58-fbd5b0d153e6",
+    "P": "e45e9356-bd67-4b97-a1e6-8f1989624a0d",
+    "G": "50a6e1bc-7e93-4e18-9b7e-ef12cd705f2a",
+    "X": "7a9ce09d-bbc1-4d31-8c13-4dc166eba6a4",
+    "A": "950899d3-135e-473a-b00b-1632b0d01503"
+  },
+  "subjects": {
+    "M1": 3229,
+    "M2": 3230
+  },
+  "assertions": "Passed"
+}

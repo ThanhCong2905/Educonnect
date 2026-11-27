@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="47a43757-14a2-4e63-a05c-a5ace039d031" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 11:47:40" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T11:47:40.6251656+07:00" queuing="2026-11-27T11:47:40.6251660+07:00" start="2026-11-27T11:47:35.6881332+07:00" finish="2026-11-27T11:47:45.6378480+07:00" />
+  <TestSettings name="default" id="fb8522a6-5d70-42df-a61e-f6b731b6efec">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_11_47_40" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="0b783389-3285-49b4-8b3c-54da4b0a55eb" testId="1f4e142b-bb16-586f-5caf-cebe8bc50bf9" testName="IT-167 | Thay/xóa ảnh đại diện ghép metadata, file và quyền xem" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.5855994" startTime="2026-11-27T11:47:45.5421104+07:00" endTime="2026-11-27T11:47:45.5421108+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0b783389-3285-49b4-8b3c-54da4b0a55eb" />
+    <UnitTestResult executionId="b0bc6460-9e4e-407d-8530-0fa51608a7f2" testId="d01cb1ab-aab4-238f-28c6-06badf36f03f" testName="IT-165 | Đặt lại với token đúng, sai, hết hạn và đã dùng" computerName="LAPTOP-3L2V1AFT" duration="00:00:04.1108600" startTime="2026-11-27T11:47:40.5958661+07:00" endTime="2026-11-27T11:47:40.5959227+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b0bc6460-9e4e-407d-8530-0fa51608a7f2">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: OK&#xD;
+Actual:   UnprocessableEntity</Message>
+          <StackTrace>   at Cases.AuthCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs:line 140&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 217&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 384&#xD;
+   at IntegrationTests.IT_165() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 167&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4959a29d-1de8-4fc6-bc77-29369b9c1108" testId="567d04a6-2d1d-2bf4-af40-aa350fb45542" testName="IT-166 | Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.3644480" startTime="2026-11-27T11:47:42.9565717+07:00" endTime="2026-11-27T11:47:42.9565719+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4959a29d-1de8-4fc6-bc77-29369b9c1108" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-166 | Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="567d04a6-2d1d-2bf4-af40-aa350fb45542">
+      <Execution id="4959a29d-1de8-4fc6-bc77-29369b9c1108" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_166" />
+    </UnitTest>
+    <UnitTest name="IT-165 | Đặt lại với token đúng, sai, hết hạn và đã dùng" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="d01cb1ab-aab4-238f-28c6-06badf36f03f">
+      <Execution id="b0bc6460-9e4e-407d-8530-0fa51608a7f2" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_165" />
+    </UnitTest>
+    <UnitTest name="IT-167 | Thay/xóa ảnh đại diện ghép metadata, file và quyền xem" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="1f4e142b-bb16-586f-5caf-cebe8bc50bf9">
+      <Execution id="0b783389-3285-49b4-8b3c-54da4b0a55eb" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_167" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="1f4e142b-bb16-586f-5caf-cebe8bc50bf9" executionId="0b783389-3285-49b4-8b3c-54da4b0a55eb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d01cb1ab-aab4-238f-28c6-06badf36f03f" executionId="b0bc6460-9e4e-407d-8530-0fa51608a7f2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="567d04a6-2d1d-2bf4-af40-aa350fb45542" executionId="4959a29d-1de8-4fc6-bc77-29369b9c1108" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="2" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.10]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.17]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:04.34]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:04.34]       Expected: OK&#xD;
+[xUnit.net 00:00:04.34]       Actual:   UnprocessableEntity&#xD;
+[xUnit.net 00:00:04.34]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.34]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs(140,0): at Cases.AuthCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:04.34]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(217,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:04.34]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(384,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:04.34]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(167,0): at IntegrationTests.IT_165()&#xD;
+[xUnit.net 00:00:04.34]         --- End of stack trace from previous location ---&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:09.30]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T11:47:40.5916732+07:00">
+        <Text>[xUnit.net 00:00:04.34]     IT-165 | Đặt lại với token đúng, sai, hết hạn và đã dùng [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

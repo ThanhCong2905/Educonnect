@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="468414e6-45e3-432a-b112-8e57bdc932b5" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-26 08:37:48" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-26T08:37:48.6613870+07:00" queuing="2026-11-26T08:37:48.6613874+07:00" start="2026-11-26T08:37:35.2397474+07:00" finish="2026-11-26T08:37:50.5415783+07:00" />
+  <TestSettings name="default" id="866e25af-ef98-4db5-be15-014e20ab3c44">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-26_08_37_48" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="39b2995f-c6b0-4629-9731-6a9d4de2cb2c" testId="f11a4fed-10a0-2c36-7328-f2c03242548f" testName="IT-105 | Gắn buổi cho bài cũ chưa có BuoiHocId" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.8014878" startTime="2026-11-26T08:37:50.4529405+07:00" endTime="2026-11-26T08:37:50.4529407+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="39b2995f-c6b0-4629-9731-6a9d4de2cb2c">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Data.SqlClient.SqlException : Incorrect syntax near 'QUOTENAME'.&#xD;
+Incorrect syntax near 'QUOTENAME'.</Message>
+          <StackTrace>   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)&#xD;
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)&#xD;
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)&#xD;
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean&amp; dataReady)&#xD;
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()&#xD;
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;InternalExecuteReaderAsync&gt;b__201_1(IAsyncResult asyncResult)&#xD;
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 60&#xD;
+   at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 60&#xD;
+   at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 60&#xD;
+   at Cases.LearningCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\LearningCases.cs:line 18&#xD;
+   at Cases.LearningCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\LearningCases.cs:line 30&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 259&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 308&#xD;
+   at IntegrationTests.IT_105() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 107&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="37173a3c-42f2-4b90-bed2-9f368ad4dfa3" testId="3449afe2-72bf-d518-3085-6e1e0c4de5a7" testName="IT-104 | Bài bắt buộc gắn buổi đúng lớp, không giao vào buổi nghỉ/hủy" computerName="LAPTOP-3L2V1AFT" duration="00:00:12.6835183" startTime="2026-11-26T08:37:48.6241860+07:00" endTime="2026-11-26T08:37:48.6242349+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="37173a3c-42f2-4b90-bed2-9f368ad4dfa3" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-105 | Gắn buổi cho bài cũ chưa có BuoiHocId" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="f11a4fed-10a0-2c36-7328-f2c03242548f">
+      <Execution id="39b2995f-c6b0-4629-9731-6a9d4de2cb2c" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_105" />
+    </UnitTest>
+    <UnitTest name="IT-104 | Bài bắt buộc gắn buổi đúng lớp, không giao vào buổi nghỉ/hủy" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="3449afe2-72bf-d518-3085-6e1e0c4de5a7">
+      <Execution id="37173a3c-42f2-4b90-bed2-9f368ad4dfa3" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_104" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f11a4fed-10a0-2c36-7328-f2c03242548f" executionId="39b2995f-c6b0-4629-9731-6a9d4de2cb2c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3449afe2-72bf-d518-3085-6e1e0c4de5a7" executionId="37173a3c-42f2-4b90-bed2-9f368ad4dfa3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="2" executed="2" passed="1" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.08]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.13]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.14]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:14.70]       Microsoft.Data.SqlClient.SqlException : Incorrect syntax near 'QUOTENAME'.&#xD;
+[xUnit.net 00:00:14.70]       Incorrect syntax near 'QUOTENAME'.&#xD;
+[xUnit.net 00:00:14.70]       Stack Trace:&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean&amp; dataReady)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)&#xD;
+[xUnit.net 00:00:14.70]            at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;InternalExecuteReaderAsync&gt;b__201_1(IAsyncResult asyncResult)&#xD;
+[xUnit.net 00:00:14.70]            at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)&#xD;
+[xUnit.net 00:00:14.70]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(60,0): at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(60,0): at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(60,0): at Fixture.Sql(String sql, Dictionary`2 pars, Boolean app)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\LearningCases.cs(18,0): at Cases.LearningCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\LearningCases.cs(30,0): at Cases.LearningCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(259,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(308,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:14.70]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(107,0): at IntegrationTests.IT_105()&#xD;
+[xUnit.net 00:00:14.70]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:14.70]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-26T08:37:50.4480419+07:00">
+        <Text>[xUnit.net 00:00:14.70]     IT-105 | Gắn buổi cho bài cũ chưa có BuoiHocId [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

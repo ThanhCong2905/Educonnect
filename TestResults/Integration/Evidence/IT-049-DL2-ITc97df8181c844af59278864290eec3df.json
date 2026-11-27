@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-049-DL2",
+  "runTag": "ITc97df8181c844af59278864290eec3df",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "ffa929a1-aec5-45ce-bb8a-bfe478a87508",
+    "P": "7c5c6acd-387c-4d37-b156-4f6aa7a4c8b1",
+    "G": "a9541b95-fdac-4ff2-9dec-14b3bd1803a4",
+    "X": "5bca7b90-8cc4-44d0-a597-e87a05a49369",
+    "A": "2c402f1d-d50f-4cd3-ab66-022168ddd883"
+  },
+  "subjects": {
+    "M1": 3555,
+    "M2": 3556
+  },
+  "http": {
+    "status": 403,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Kh\\u00F4ng c\\u00F3 quy\\u1EC1n ph\\u1EA3n h\\u1ED3i.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Kh\\u00F4ng c\\u00F3 quy\\u1EC1n ph\\u1EA3n h\\u1ED3i.\u0022]}}"
+  }
+}

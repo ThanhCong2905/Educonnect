@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d76c50e3-a384-4bf8-b0de-8a4e5b4c6bfd" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-26 15:04:10" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-26T15:04:10.1260661+07:00" queuing="2026-11-26T15:04:10.1260674+07:00" start="2026-11-26T15:03:54.6258635+07:00" finish="2026-11-26T15:04:18.6673631+07:00" />
+  <TestSettings name="default" id="fc259feb-709e-492c-8cd3-16f575c91489">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-26_15_04_10" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1ebe8bc7-2c06-43c8-ad3a-0dd0795fd706" testId="f88912c9-0915-0a6f-8270-c8e6d2459c4d" testName="IT-033 | Hồ sơ phiên bản cũ không xóa minh chứng mới" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.8704700" startTime="2026-11-26T15:04:18.3642876+07:00" endTime="2026-11-26T15:04:18.3642879+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ebe8bc7-2c06-43c8-ad3a-0dd0795fd706">
+      <Output>
+        <ErrorInfo>
+          <Message>EduConnect.Mvc.Infrastructure.LoiNghiepVu : Hãy ẩn hồ sơ trước khi chỉnh sửa.</Message>
+          <StackTrace>   at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status, String field) in C:\Khóa luận TN\EduConnect1\Infrastructure\BusinessRules.cs:line 47&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.KiemTraSua(HoSoGiaSu h) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 24&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 81&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 140&#xD;
+   at Cases.ProfileCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs:line 102&#xD;
+   at Cases.ProfileCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs:line 107&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 285&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 325&#xD;
+   at IntegrationTests.IT_033() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 35&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c4db3121-611d-4b73-bf84-65aa619a17ae" testId="b0f54912-6e74-23d7-c963-c44b2c98ce67" testName="IT-032 | Thiếu minh chứng không lưu một phần hồ sơ" computerName="LAPTOP-3L2V1AFT" duration="00:00:04.4844524" startTime="2026-11-26T15:04:14.4828061+07:00" endTime="2026-11-26T15:04:14.4828071+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4db3121-611d-4b73-bf84-65aa619a17ae" />
+    <UnitTestResult executionId="db175f4e-1f22-46d6-853d-aa6c7bd86bad" testId="6603ab9f-546c-8e57-77ca-3172aa53801e" testName="IT-031 | Multipart hồ sơ giữ đúng liên kết minh chứng" computerName="LAPTOP-3L2V1AFT" duration="00:00:13.1400734" startTime="2026-11-26T15:04:10.0164149+07:00" endTime="2026-11-26T15:04:10.0166050+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db175f4e-1f22-46d6-853d-aa6c7bd86bad">
+      <Output>
+        <ErrorInfo>
+          <Message>EduConnect.Mvc.Infrastructure.LoiNghiepVu : Hãy ẩn hồ sơ trước khi chỉnh sửa.</Message>
+          <StackTrace>   at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status, String field) in C:\Khóa luận TN\EduConnect1\Infrastructure\BusinessRules.cs:line 47&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.KiemTraSua(HoSoGiaSu h) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 24&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 81&#xD;
+   at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m) in C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs:line 140&#xD;
+   at Cases.ProfileCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs:line 92&#xD;
+   at Cases.ProfileCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs:line 107&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 285&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 325&#xD;
+   at IntegrationTests.IT_031() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 33&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-032 | Thiếu minh chứng không lưu một phần hồ sơ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="b0f54912-6e74-23d7-c963-c44b2c98ce67">
+      <Execution id="c4db3121-611d-4b73-bf84-65aa619a17ae" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_032" />
+    </UnitTest>
+    <UnitTest name="IT-031 | Multipart hồ sơ giữ đúng liên kết minh chứng" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="6603ab9f-546c-8e57-77ca-3172aa53801e">
+      <Execution id="db175f4e-1f22-46d6-853d-aa6c7bd86bad" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_031" />
+    </UnitTest>
+    <UnitTest name="IT-033 | Hồ sơ phiên bản cũ không xóa minh chứng mới" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="f88912c9-0915-0a6f-8270-c8e6d2459c4d">
+      <Execution id="1ebe8bc7-2c06-43c8-ad3a-0dd0795fd706" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_033" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f88912c9-0915-0a6f-8270-c8e6d2459c4d" executionId="1ebe8bc7-2c06-43c8-ad3a-0dd0795fd706" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b0f54912-6e74-23d7-c963-c44b2c98ce67" executionId="c4db3121-611d-4b73-bf84-65aa619a17ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6603ab9f-546c-8e57-77ca-3172aa53801e" executionId="db175f4e-1f22-46d6-853d-aa6c7bd86bad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="1" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.30]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.52]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.57]   Starting:    IntegrationCurrent&#xD;
+[xUnit.net 00:00:13.92]       EduConnect.Mvc.Infrastructure.LoiNghiepVu : Hãy ẩn hồ sơ trước khi chỉnh sửa.&#xD;
+[xUnit.net 00:00:13.92]       Stack Trace:&#xD;
+[xUnit.net 00:00:13.92]         C:\Khóa luận TN\EduConnect1\Infrastructure\BusinessRules.cs(47,0): at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status, String field)&#xD;
+[xUnit.net 00:00:13.92]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(24,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.KiemTraSua(HoSoGiaSu h)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(81,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(140,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs(92,0): at Cases.ProfileCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs(107,0): at Cases.ProfileCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(285,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(325,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:13.93]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(33,0): at IntegrationTests.IT_031()&#xD;
+[xUnit.net 00:00:13.93]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:22.28]       EduConnect.Mvc.Infrastructure.LoiNghiepVu : Hãy ẩn hồ sơ trước khi chỉnh sửa.&#xD;
+[xUnit.net 00:00:22.28]       Stack Trace:&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\Infrastructure\BusinessRules.cs(47,0): at EduConnect.Mvc.Infrastructure.Rules.Check(Boolean condition, String message, Int32 status, String field)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(24,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.KiemTraSua(HoSoGiaSu h)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(81,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\Areas\NhuCau\Services\HoSoGiaSuService.cs(140,0): at EduConnect.Mvc.Areas.NhuCau.Services.HoSoGiaSuService.CapNhatAsync(HoSoInput m)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs(102,0): at Cases.ProfileCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProfileCases.cs(107,0): at Cases.ProfileCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(285,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(325,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:22.28]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(35,0): at IntegrationTests.IT_033()&#xD;
+[xUnit.net 00:00:22.28]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:22.31]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-26T15:04:09.9968264+07:00">
+        <Text>[xUnit.net 00:00:13.91]     IT-031 | Multipart hồ sơ giữ đúng liên kết minh chứng [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-26T15:04:18.3609965+07:00">
+        <Text>[xUnit.net 00:00:22.28]     IT-033 | Hồ sơ phiên bản cũ không xóa minh chứng mới [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

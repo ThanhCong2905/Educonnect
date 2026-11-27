@@ -1,0 +1,78 @@
+{
+  "caseId": "IT-177",
+  "runTag": "ITcd651c81c90a4fb787c6ddd7e00f2e42",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "outbox_commit",
+    "group": 12,
+    "title": "Worker kh\u00F4ng ph\u00E1t tr\u01B0\u1EDBc commit r\u1ED3i ph\u00E1t \u0111\u00FAng EventId",
+    "stage": 4,
+    "entry": "XuLySuKienWorker.XuLySuKienDenHanAsync(32,ct)",
+    "input": "H1 \u0111\u00E3 k\u1EBFt n\u1ED1i SignalR; transaction producer c\u00F2n m\u1EDF, \u0111\u00E3 SaveChanges nh\u01B0ng ch\u01B0a commit E1.",
+    "action": "Kh\u1EDFi worker b\u1EB1ng scope \u0111\u1ED9c l\u1EADp, quan s\u00E1t sink kh\u00F4ng c\u00F3 E1 tr\u01B0\u1EDBc commit; commit; ch\u1EA1y/poll worker c\u00F3 deadline10s.",
+    "contract": "Ch\u1EC9 sau commit m\u1EDBi nh\u1EADn event CapNhat v\u1EDBi maSuKien=E1,loai/doiTuongId/hoiThoaiId \u0111\u00FAng contract.",
+    "db": "E1=HoanTat, c\u00F3 XuLyXongLuc; release lease; notification kh\u00F4ng nh\u00E2n \u0111\u00F4i. Kh\u00F4ng d\u00F9ng SELECT b\u1ECB kh\u00F3a \u0111\u1EC3 suy ra \u0111\u00E3 ph\u00E1t.",
+    "fr": [
+      "FR-25",
+      "FR-40"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "XuLySuKienWorker.XuLySuKienDenHanAsync",
+      "ThongBaoService.Tao"
+    ],
+    "deps": [
+      "notice_store",
+      "hub_session"
+    ],
+    "kind": "ASYNC",
+    "routes": [],
+    "id": "IT-177",
+    "catalogOrder": 177,
+    "executionOrder": 177,
+    "dependencyIds": [
+      "IT-170",
+      "IT-176"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.4-U05",
+        "cls": "ThongBaoService",
+        "method": "Tao",
+        "table": 76
+      },
+      {
+        "id": "RT-U18",
+        "cls": "XuLySuKienWorker",
+        "method": "XuLySuKienDenHanAsync",
+        "table": 438
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5",
+    "baseline": "FR-25, FR-40; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.4-U05 ThongBaoService.Tao (b\u1EA3ng 76); RT-U18 XuLySuKienWorker.XuLySuKienDenHanAsync (b\u1EA3ng 438)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Worker kh\u00F4ng ph\u00E1t tr\u01B0\u1EDBc commit r\u1ED3i ph\u00E1t \u0111\u00FAng EventId",
+    "strategy": "Bottom-up, BU4; th\u1EE9 t\u1EF1 ch\u1EA1y #177.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-170, IT-176\nGh\u00E9p sau: Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5\nC\u0103n c\u1EE9: Sau producer v\u00E0 quy\u1EC1n \u0111\u00E3 ki\u1EC3m, gh\u00E9p consumer/worker/transport; t\u00E1ch l\u1ED7i commit kh\u1ECFi l\u1ED7i ph\u00E1t s\u1EF1 ki\u1EC7n v\u00E0 retry. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nH1 \u0111\u00E3 k\u1EBFt n\u1ED1i SignalR; transaction producer c\u00F2n m\u1EDF, \u0111\u00E3 SaveChanges nh\u01B0ng ch\u01B0a commit E1.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-170, IT-176; t\u1EA1o fixture F12/nh\u00F3m li\u00EAn quan, sink/SignalR client v\u00E0 DB th\u1EADt t\u00E1ch bi\u1EC7t.\n2. Chu\u1EA9n b\u1ECB th\u1EDDi \u0111i\u1EC3m/lease/tr\u1EA1ng th\u00E1i b\u1EB1ng SQL v\u00E0 \u0111\u1ECDc T_SQL. \u0110i\u1EC1u ki\u1EC7n ri\u00EAng: H1 \u0111\u00E3 k\u1EBFt n\u1ED1i SignalR; transaction producer c\u00F2n m\u1EDF, \u0111\u00E3 SaveChanges nh\u01B0ng ch\u01B0a commit E1.\n3. Gi\u1EEF worker,Service,SQL th\u1EADt; b\u1EADt \u0111\u00FAng hosted service c\u1EA7n ki\u1EC3m ho\u1EB7c g\u1ECDi batch public th\u1EADt. D\u00F9ng client/sink giao th\u1EE9c th\u1EADt, kh\u00F4ng mock hub \u0111\u1EC3 tuy\u00EAn b\u1ED1 \u0111\u00E3 ki\u1EC3m delivery.\n4. Kh\u1EDFi worker b\u1EB1ng scope \u0111\u1ED9c l\u1EADp, quan s\u00E1t sink kh\u00F4ng c\u00F3 E1 tr\u01B0\u1EDBc commit; commit; ch\u1EA1y/poll worker c\u00F3 deadline10s.\n5. Poll theo event/state v\u1EDBi deadline10s cho v\u00F2ng \u0111\u1EA7u, t\u1ED1i \u0111a5s audit, kh\u00F4ng d\u00F9ng sleep r\u1ED3i m\u1EB7c \u0111\u1ECBnh \u0111\u1EA1t; tr\u01B0\u1EDDng h\u1EE3p scanner timeout d\u00F9ng timeout30s c\u1EE7a protocol.\n6. Assert contract: Ch\u1EC9 sau commit m\u1EDBi nh\u1EADn event CapNhat v\u1EDBi maSuKien=E1,loai/doiTuongId/hoiThoaiId \u0111\u00FAng contract.\n7. \u0110\u1ECDc SQL b\u1EB1ng connection m\u1EDBi v\u00E0 \u0111\u1ED1i chi\u1EBFu EventId/recipient/target/lease/timestamps/sink: E1=HoanTat, c\u00F3 XuLyXongLuc; release lease; notification kh\u00F4ng nh\u00E2n \u0111\u00F4i. Kh\u00F4ng d\u00F9ng SELECT b\u1ECB kh\u00F3a \u0111\u1EC3 suy ra \u0111\u00E3 ph\u00E1t.\n8. L\u01B0u timeline commit/publish/ack,retry,SQL,trace,TRX; StopAsync v\u00E0 await worker tr\u01B0\u1EDBc cleanup. Kh\u00F4ng reset DB khi worker c\u00F2n ch\u1EA1y.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Ch\u1EC9 sau commit m\u1EDBi nh\u1EADn event CapNhat v\u1EDBi maSuKien=E1,loai/doiTuongId/hoiThoaiId \u0111\u00FAng contract.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: E1=HoanTat, c\u00F3 XuLyXongLuc; release lease; notification kh\u00F4ng nh\u00E2n \u0111\u00F4i. Kh\u00F4ng d\u00F9ng SELECT b\u1ECB kh\u00F3a \u0111\u1EC3 suy ra \u0111\u00E3 ph\u00E1t."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.SuKienChoXuLy SET TrangThai=\u0027HoanTat\u0027,XuLyXongLuc=SYSDATETIMEOFFSET(),ThuLaiLuc=NULL,LeaseId=NULL,LeaseHetHanLuc=NULL WHERE TrangThai IN (\u0027ChoXuLy\u0027,\u0027ChoThuLai\u0027) OR (TrangThai=\u0027DangXuLy\u0027 AND LeaseHetHanLuc\u003C=SYSDATETIMEOFFSET())",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "1016e359-990c-4223-9856-82279a6ec60f",
+    "P": "4732ba7e-244c-4bd8-a8f3-e13c673d3e49",
+    "G": "64a47213-da11-4754-8d2f-2969ee7cae84",
+    "X": "91b560c0-ce4e-4a36-82a0-efd3e36cbc55",
+    "A": "56cb002d-488b-4ff1-9419-4bfb7fd56e6c"
+  },
+  "subjects": {
+    "M1": 5113,
+    "M2": 5114
+  },
+  "assertions": "Passed"
+}

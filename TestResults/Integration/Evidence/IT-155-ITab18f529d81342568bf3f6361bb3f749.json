@@ -1,0 +1,73 @@
+{
+  "caseId": "IT-155",
+  "runTag": "ITab18f529d81342568bf3f6361bb3f749",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "auth_verify",
+    "group": 11,
+    "title": "M\u1EADt kh\u1EA9u ph\u1EA3i \u0111\u01B0\u1EE3c Identity x\u00E1c minh tr\u01B0\u1EDBc SQL \u0111\u0103ng nh\u1EADp th\u00E0nh c\u00F4ng",
+    "stage": 2,
+    "entry": "TaiKhoanService.DangNhapAsync",
+    "input": "H1 t\u1ED3n t\u1EA1i/HoatDong; DL01 \u0111\u00FAng password; DL02 sai password; local auth counters m\u1EDBi.",
+    "action": "G\u1ECDi Service b\u1EB1ng context th\u1EADt; ki\u1EC3m cookie response/PhienDangNhap v\u00E0 auth counters sau m\u1ED7i DL.",
+    "contract": "\u0110\u00FAng m\u1EADt kh\u1EA9u \u0111\u01B0\u1EE3c x\u00E1c th\u1EF1c; sai m\u1EADt kh\u1EA9u tr\u1EA3 l\u1ED7i kh\u00F4ng \u0111\u01B0\u1EE3c t\u1EA1o phi\u00EAn th\u00E0nh c\u00F4ng.",
+    "db": "Kh\u00F4ng d\u00F9ng vi\u1EC7c g\u1ECDi procedure SQL th\u00E0nh c\u00F4ng thay cho ki\u1EC3m password; s\u1ED1 l\u1ED7i/nh\u1EADt k\u00FD ph\u1EA3n \u00E1nh \u0111\u00FAng.",
+    "fr": [
+      "FR-58"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "TaiKhoanService.DangNhapAsync"
+    ],
+    "deps": [
+      "auth_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-155",
+    "catalogOrder": 155,
+    "executionOrder": 57,
+    "dependencyIds": [
+      "IT-154"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC7.2-U21",
+        "cls": "TaiKhoanService",
+        "method": "DangNhapAsync",
+        "table": 220
+      }
+    ],
+    "fixture": "F11",
+    "sqlOracle": "SELECT Id,Email,NormalizedEmail,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@ACTOR; SELECT * FROM dbo.AspNetUserRoles WHERE UserId=@ACTOR; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; SELECT * FROM dbo.TrangThaiThuDangNhap WHERE GiaTriKhoa IN(@EMAIL,@IP); Kh\u00F4ng xu\u1EA5t PasswordHash/cookie/token v\u00E0o b\u00E1o c\u00E1o.",
+    "boundary": "TaiKhoanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-58; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC7.2-U21 TaiKhoanService.DangNhapAsync (b\u1EA3ng 220)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: M\u1EADt kh\u1EA9u ph\u1EA3i \u0111\u01B0\u1EE3c Identity x\u00E1c minh tr\u01B0\u1EDBc SQL \u0111\u0103ng nh\u1EADp th\u00E0nh c\u00F4ng",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #57.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-154\nGh\u00E9p sau: TaiKhoanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F11 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nH1 t\u1ED3n t\u1EA1i/HoatDong; DL01 \u0111\u00FAng password; DL02 sai password; local auth counters m\u1EDBi.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-154 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F11 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: H1 t\u1ED3n t\u1EA1i/HoatDong; DL01 \u0111\u00FAng password; DL02 sai password; local auth counters m\u1EDBi. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service b\u1EB1ng context th\u1EADt; ki\u1EC3m cookie response/PhienDangNhap v\u00E0 auth counters sau m\u1ED7i DL. \u0110i\u1EC3m v\u00E0o: TaiKhoanService.DangNhapAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: \u0110\u00FAng m\u1EADt kh\u1EA9u \u0111\u01B0\u1EE3c x\u00E1c th\u1EF1c; sai m\u1EADt kh\u1EA9u tr\u1EA3 l\u1ED7i kh\u00F4ng \u0111\u01B0\u1EE3c t\u1EA1o phi\u00EAn th\u00E0nh c\u00F4ng.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT Id,Email,NormalizedEmail,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@ACTOR; SELECT * FROM dbo.AspNetUserRoles WHERE UserId=@ACTOR; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; SELECT * FROM dbo.TrangThaiThuDangNhap WHERE GiaTriKhoa IN(@EMAIL,@IP); Kh\u00F4ng xu\u1EA5t PasswordHash/cookie/token v\u00E0o b\u00E1o c\u00E1o.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng d\u00F9ng vi\u1EC7c g\u1ECDi procedure SQL th\u00E0nh c\u00F4ng thay cho ki\u1EC3m password; s\u1ED1 l\u1ED7i/nh\u1EADt k\u00FD ph\u1EA3n \u00E1nh \u0111\u00FAng.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: \u0110\u00FAng m\u1EADt kh\u1EA9u \u0111\u01B0\u1EE3c x\u00E1c th\u1EF1c; sai m\u1EADt kh\u1EA9u tr\u1EA3 l\u1ED7i kh\u00F4ng \u0111\u01B0\u1EE3c t\u1EA1o phi\u00EAn th\u00E0nh c\u00F4ng.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng d\u00F9ng vi\u1EC7c g\u1ECDi procedure SQL th\u00E0nh c\u00F4ng thay cho ki\u1EC3m password; s\u1ED1 l\u1ED7i/nh\u1EADt k\u00FD ph\u1EA3n \u00E1nh \u0111\u00FAng."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "655edea0-85de-40c6-abd8-30fe695ee53e",
+    "P": "18acac5f-6b02-4811-9fc1-1817290004fb",
+    "G": "b89281bc-5c06-41b0-a5d6-2a961ff6b359",
+    "X": "95e127cf-c407-4a32-8696-3fee2ef3d5d5",
+    "A": "28e61db4-9539-418d-844b-3f7483e27b1b"
+  },
+  "subjects": {
+    "M1": 4021,
+    "M2": 4022
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "\u003C!doctype html\u003E\r\n\u003Chtml lang=\u0022vi\u0022\u003E\r\n\u003Chead\u003E\r\n    \u003Cmeta charset=\u0022utf-8\u0022\u003E\r\n    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E\r\n    \u003Ctitle\u003E\u0026#x110;\u0026#x103;ng nh\u0026#x1EAD;p \u00B7 EduConnect\u003C/title\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/lib/bootstrap/dist/css/bootstrap.min.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/fonts.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/account.css?v=puam7H-YgeJTCmniSM4RSqjcIm1jaoW9zq71tHuRhWA\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/notifications.css?v=r2hN5jKsMzzXO-E2YY5ZVVmAm6mogxXxnDo3AUkBeLk\u0022\u003E\r\n\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/help.css?v=csAUm09dG8Y_ElJmnFxptcFbP09DziJWRkRgY3hoKMo\u0022\u003E\r\n\u003C/head\u003E\r\n\u003Cbody class=\u0022account-page\u0022\u003E\r\n    \u003Cheader class=\u0022account-header\u0022\u003E\r\n        \u003Ca class=\u0022account-brand\u0022 href=\u0022/\u0022\u003E\u003Cimg src=\u0022/images/auth/logo.png\u0022 alt=\u0022EduConnect\u0022\u003E\u003C/a\u003E\r\n        \u003Cnav class=\u0022account-nav\u0022 aria-label=\u0022T\u00E0i kho\u1EA3n\u0022\u003E\r\n                \u003Ca href=\u0022/TaiKhoan/DangNhap\u0022 aria-current=\u0022page\u0022\u003E\u0110\u0103ng nh\u1EADp\u003C/a\u003E\r\n                \u003Ca href=\u0022/TaiKhoan/DangKy\u0022\u003E\u0110\u0103ng k\u00FD\u003C/a\u003E\r\n        \u003C/nav\u003E\r\n    \u003C/header\u003E\r\n    \u003Cdiv class=\u0022notification-rail\u0022 data-notification-rail hidden=\u0022hidden\u0022\u003E\r\n    \u003Cdiv class=\u0022notification-message\u0022 data-notification hidden=\u0022hidden\u0022\u003E\r\n        \u003Cspan class=\u0022notification-text\u0022 role=\u0022status\u0022 aria-live=\u0022polite\u0022 aria-atomic=\u0022true\u0022 data-notification-text\u003E\u003C/span\u003E\r\n        \u003Cbutton type=\u0022button\u0022 class=\u0022notification-close\u0022 data-notification-close aria-label=\u0022\u0110\u00F3ng th\u00F4ng b\u00E1o\u0022\u003E\u00D7\u003C/button\u003E\r\n    \u003C/div\u003E\r\n\u003C/div\u003E\r\n\r\n    \u003Cmain class=\u0022account-container\u0022\u003E\r\n        \u003Csection class=\u0022account-card\u0022 aria-labelledby=\u0022account-title\u0022\u003E\r\n            \u003Ch1 id=\u0022account-title\u0022\u003E\u0026#x110;\u0026#x103;ng nh\u0026#x1EAD;p\u003C/h1\u003E\r\n            \u003Cp class=\u0022account-intro\u0022\u003E\u0026#x110;\u0026#x103;ng nh\u0026#x1EAD;p \u0026#x111;\u0026#x1EC3; ti\u0026#x1EBF;p t\u0026#x1EE5;c v\u0026#x1EDB;i EduConnect.\u003C/p\u003E\r\n\u003Cform method=\u0022post\u0022 action=\u0022/TaiKhoan/DangNhap\u0022\u003E\r\n    \u003Cdiv class=\u0022account-errors validation-summary-errors\u0022 role=\u0022alert\u0022\u003E\u003Cul\u003E\u003Cli\u003EKh\u0026#xF4;ng th\u0026#x1EC3; \u0026#x111;\u0026#x103;ng nh\u0026#x1EAD;p. Vui l\u0026#xF2;ng ki\u0026#x1EC3;m tra email v\u0026#xE0; m\u0026#x1EAD;t kh\u0026#x1EA9;u.\u003C/li\u003E\r\n\u003C/ul\u003E\u003C/div\u003E\r\n    \u003Cinput type=\u0022hidden\u0022 id=\u0022ReturnUrl\u0022 name=\u0022ReturnUrl\u0022 value=\u0022\u0022\u003E\r\n    \u003Clabel class=\u0022form-label\u0022 for=\u0022Email\u0022\u003EEmail \u003Cspan class=\u0022required-mark\u0022 aria-hidden=\u0022true\u0022\u003E*\u003C/span\u003E\u003C/label\u003E\r\n    \u003Cinput class=\u0022form-control\u0022 type=\u0022email\u0022 placeholder=\u0022Nh\u1EADp email \u0111\u00E3 \u0111\u0103ng k\u00FD\u0022 autocomplete=\u0022username\u0022 inputmode=\u0022email\u0022 required data-val=\u0022true\u0022 data-val-email=\u0022Email ch\u0026#x1B0;a \u0026#x111;\u0026#xFA;ng \u0026#x111;\u0026#x1ECB;nh d\u0026#x1EA1;ng.\u0022 data-val-length=\u0022Email kh\u0026#xF4;ng \u0026#x111;\u0026#x1B0;\u0026#x1EE3;c v\u0026#x1B0;\u0026#x1EE3;t qu\u0026#xE1; 256 k\u0026#xFD; t\u0026#x1EF1;.\u0022 data-val-length-max=\u0022256\u0022 data-val-required=\u0022Nh\u0026#x1EAD;p email.\u0022 id=\u0022Email\u0022 maxlength=\u0022256\u0022 name=\u0022Email\u0022 value=\u0022ITab18f529d81342568bf3f6361bb3f7499f81228512264900aa5f51c52c7eb99b@example.invalid\u0022\u003E\r\n    \u003Cspan class=\u0022text-danger field-validation-valid\u0022 data-valmsg-for=\u0022Email\u0022 data-valmsg-replace=\u0022true\u0022\u003E\u003C/span\u003E\r\n    \u003Clabel class=\u0022form-label\u0022 for=\u0022MatKhau\u0022\u003EM\u1EADt kh\u1EA9u \u003Cspan class=\u0022required-mark\u0022 aria-hidden=\u0022true\u0022\u003E*\u003C/span\u003E\u003C/label\u003E\r\n    \u003Cdiv class=\u0022account-password\u0022\u003E\r\n        \u003Cinput class=\u0022form-control\u0022 type=\u0022password\u0022 value=\u0022\u0022 autocomplete=\u0022current-password\u0022 required data-val=\u0022true\u0022 data-val-maxlength=\u0022M\u0026#x1EAD;t kh\u0026#x1EA9;u ch\u0026#x1B0;a h\u0026#x1EE3;p l\u0026#x1EC7;.\u0022 data-val-maxlength-max=\u0022128\u0022 data-val-required=\u0022Nh\u0026#x1EAD;p m\u0026#x1EAD;t kh\u0026#x1EA9;u.\u0022 id=\u0022MatKhau\u0022 maxlength=\u0022128\u0022 name=\u0022MatKhau\u0022\u003E\r\n        \u003Cbutton type=\u0022button\u0022 class=\u0022password-toggle\u0022 data-password-toggle=\u0022MatKhau\u0022 aria-controls=\u0022MatKhau\u0022 aria-label=\u0022Hi\u1EC7n m\u1EADt kh\u1EA9u\u0022 aria-pressed=\u0022false\u0022 hidden\u003EHi\u1EC7n\u003C/button\u003E\r\n    \u003C/div\u003E\r\n    \u003Cspan class=\u0022text-danger field-validation-valid\u0022 data-valmsg-for=\u0022MatKhau\u0022 data-valmsg-replace=\u0022true\u0022\u003E\u003C/span\u003E\r\n    \u003Cdiv class=\u0022account-forgot\u0022\u003E\u003Ca href=\u0022/TaiKhoan/QuenMatKhau\u0022\u003EQu\u00EAn m\u1EADt kh\u1EA9u?\u003C/a\u003E\u003C/div\u003E\r\n    \u003Cbutton class=\u0022btn btn-primary w-100 account-submit\u0022 type=\u0022submit\u0022\u003E\u0110\u0103ng nh\u1EADp\u003C/button\u003E\r\n\u003Cinput name=\u0022__RequestVerificationToken\u0022 type=\u0022hidden\u0022 value=\u0022[redacted]\u0022 /\u003E\u003C/form\u003E\r\n\u003Cp class=\u0022account-footer\u0022\u003ECh\u01B0a c\u00F3 t\u00E0i kho\u1EA3n? \u003Ca href=\u0022/TaiKhoan/DangKy\u0022\u003E\u0110\u0103ng k\u00FD ngay\u003C/a\u003E\u003C/p\u003E\r\n\r\n        \u003C/section\u003E\r\n    \u003C/main\u003E\r\n    \u003Cfooter class=\u0022site-guide-footer\u0022\u003E\r\n    \u003Cstrong\u003EEduConnect\u003C/strong\u003E\r\n    \u003Cnav aria-label=\u0022H\u01B0\u1EDBng d\u1EABn v\u00E0 ch\u00EDnh s\u00E1ch\u0022\u003E\r\n        \u003Ca href=\u0022/huong-dan/hoc-phi\u0022\u003EH\u1ECDc ph\u00ED\u003C/a\u003E\r\n        \u003Ca href=\u0022/huong-dan\u0022\u003ETr\u1EE3 gi\u00FAp\u003C/a\u003E\r\n        \u003Ca href=\u0022/huong-dan/bao-mat\u0022\u003EB\u1EA3o m\u1EADt\u003C/a\u003E\r\n    \u003C/nav\u003E\r\n    \u003Csmall\u003E\u00A9 2026 EduConnect\u003C/small\u003E\r\n\u003C/footer\u003E\r\n\r\n    \u003Cscript src=\u0022/js/notifications.js?v=7OS_oNNerz8D2giQfEr1TZF6MYcgub09k7NkQPDuRk0\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/account.js?v=p179hSC2E3Y9Czpm59Y1pFKHyfF2IQNKfFUL20-2ynk\u0022 defer\u003E\u003C/script\u003E\r\n\u003C/body\u003E\r\n\u003C/html\u003E\r\n"
+  },
+  "assertions": "Passed"
+}

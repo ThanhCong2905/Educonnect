@@ -1,32 +1,25 @@
-$ErrorActionPreference = 'Stop'
-$unitProject = Join-Path $PSScriptRoot 'EduConnect.UnitTests.csproj'
-$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
-$resultRoot = Join-Path $repoRoot 'TestResults/Unit'
+$ErrorActionPreference='Stop'
+$repoRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
+$project=Join-Path $PSScriptRoot 'EduConnect.UnitTests.csproj'
+$resultRoot=Join-Path $repoRoot 'TestResults/Unit'
 New-Item -ItemType Directory -Path $resultRoot -Force | Out-Null
-dotnet build $unitProject -p:NuGetAudit=false --verbosity minimal *> (Join-Path $resultRoot 'Build.log')
-if ($LASTEXITCODE -ne 0) { throw "Unit project build failed. See $resultRoot/Build.log" }
-$groups = @(
-    @('01_Quy_tac_chung', 'FullyQualifiedName~RulesTests'),
-    @('02_Du_lieu_dau_vao', 'FullyQualifiedName~ProfileInputTests|FullyQualifiedName~FieldValidationTests'),
-    @('03_Controller_Middleware', 'FullyQualifiedName~ControllerGuardTests'),
-    @('04_Lich_hoc', 'FullyQualifiedName~ClassCalendarTests'),
-    @('05_Dia_gioi_Danh_muc', 'FullyQualifiedName~AdministrativeAreaTests'),
-    @('06_Khach_Xac_thuc', 'FullyQualifiedName~GuestAccessTests'),
-    @('07_Bien_dau_vao_Mat_khau', 'FullyQualifiedName~InputBoundaryTests')
-)
-$previousEvidence = $env:UNIT_EVIDENCE
-$failed = $false
+Push-Location $repoRoot
 try {
-    foreach ($group in $groups) {
-        $resultDir = Join-Path $resultRoot $group[0]
-        New-Item -ItemType Directory -Path $resultDir -Force | Out-Null
-        $env:UNIT_EVIDENCE = $resultDir
-        dotnet test $unitProject --no-build --no-restore --filter $group[1] --logger "trx;LogFileName=$($group[0]).trx" --results-directory $resultDir --verbosity normal *> (Join-Path $resultDir 'Run.log')
-        $testExit = $LASTEXITCODE
-        if ($testExit -ne 0) { $failed = $true }
-        Write-Output "$($group[0]): dotnet test exit=$testExit"
-        Get-Content -LiteralPath (Join-Path $resultDir 'Run.log') -Tail 10
+    dotnet build (Join-Path $repoRoot 'EduConnect.Mvc.csproj') -p:NuGetAudit=false --verbosity minimal *> (Join-Path $resultRoot 'Build-App.log')
+    if($LASTEXITCODE -ne 0){throw 'Build ứng dụng thất bại; xem Build-App.log.'}
+    dotnet build $project -p:NuGetAudit=false --verbosity minimal *> (Join-Path $resultRoot 'Build.log')
+    if($LASTEXITCODE -ne 0){throw 'Build project test thất bại; xem Build.log.'}
+    $groups=@(@('01_UC1','01'),@('02_UC2','02'),@('03_UC3','03'),@('04_UC4','04'),@('06_UC6','06'),@('07_UC7','07'),@('08_Dung_chung','08'),@('09_Thanh_phan_khac','10'))
+    $failed=$false
+    foreach($g in $groups){
+        $dir=Join-Path $resultRoot $g[0]
+        New-Item -ItemType Directory -Path $dir -Force | Out-Null
+        dotnet test $project --no-build --no-restore --filter "Suite=CurrentDesign&Group=$($g[1])" --environment COMPlus_JitNoInline=1 --environment DOTNET_ReadyToRun=0 --environment DOTNET_TieredCompilation=0 --logger "trx;LogFileName=$($g[0]).trx" --results-directory $dir --verbosity normal *> (Join-Path $dir 'Run.log')
+        $testExit=$LASTEXITCODE
+        if($testExit -ne 0){$failed=$true}
+        Write-Output "$($g[0]): exit=$testExit"
+        Get-Content -LiteralPath (Join-Path $dir 'Run.log') -Tail 8
     }
-} finally { $env:UNIT_EVIDENCE = $previousEvidence }
-if ($failed) { exit 1 }
+} finally { Pop-Location }
+if($failed){exit 1}
 exit 0

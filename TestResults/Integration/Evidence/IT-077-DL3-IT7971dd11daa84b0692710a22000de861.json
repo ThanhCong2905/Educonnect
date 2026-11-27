@@ -1,0 +1,30 @@
+{
+  "caseId": "IT-077-DL3",
+  "runTag": "IT7971dd11daa84b0692710a22000de861",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.LopHoc SET BenHocId=@p,HocSinhLienKetId=@h WHERE Id=@c",
+    "parameters": {
+      "@p": "0d71721c-79c7-43e3-b6c8-6a0151209c3f",
+      "@h": "b201f4ee-b16a-4a97-bb0b-3161e5aaec8c",
+      "@c": "7c54b9a9-718d-4190-978d-9bdcfe6fe9a4"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "b201f4ee-b16a-4a97-bb0b-3161e5aaec8c",
+    "P": "0d71721c-79c7-43e3-b6c8-6a0151209c3f",
+    "G": "ce53dbb1-21d4-4ce7-aaea-66a79ac0ac63",
+    "X": "1aad5025-66f6-4ff6-bc5f-cff013e75532",
+    "A": "dd306f4b-c98e-4561-b342-5531cbb17131"
+  },
+  "subjects": {
+    "M1": 2850,
+    "M2": 2851
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022B\\u00EAn h\\u1ECDc kh\\u00F4ng c\\u00F2n li\\u00EAn k\\u1EBFt ph\\u00F9 h\\u1EE3p.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u00EAn h\\u1ECDc kh\\u00F4ng c\\u00F2n li\\u00EAn k\\u1EBFt ph\\u00F9 h\\u1EE3p.\u0022]}}"
+  }
+}

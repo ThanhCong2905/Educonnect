@@ -1,0 +1,65 @@
+{
+  "caseId": "IT-011",
+  "runTag": "IT96ab6e4f23dc424cb50b45def2976d46",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_session",
+    "group": 0,
+    "title": "Procedure phi\u00EAn ki\u1EC3m ch\u1EE7, thu h\u1ED3i v\u00E0 h\u1EBFt h\u1EA1n",
+    "stage": 1,
+    "entry": "EXEC dbo.usp_KiemTraPhien",
+    "input": "DL01 phi\u00EAn H1 c\u00F2n hi\u1EC7u l\u1EF1c; DL02 actor H2; DL03 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL04 HoatDongCuoiLuc c\u0169 h\u01A1n 30 ph\u00FAt; DL05 t\u00E0i kho\u1EA3n BiKhoa.",
+    "action": "G\u1ECDi v\u1EDBi LaHoatDongChuDong=0 r\u1ED3i 1 tr\u00EAn fixture ri\u00EAng; ghi t0/t1 SQL v\u00E0 \u0111\u1ECDc c\u1ED9t HoatDongCuoiLuc.",
+    "contract": "Ch\u1EC9 phi\u00EAn \u0111\u00FAng ch\u1EE7/ho\u1EA1t \u0111\u1ED9ng/ch\u01B0a thu h\u1ED3i/c\u00F2n h\u1EA1n tr\u1EA3 HopLe=1. Request n\u1EC1n kh\u00F4ng gia h\u1EA1n; ho\u1EA1t \u0111\u1ED9ng ch\u1EE7 \u0111\u1ED9ng h\u1EE3p l\u1EC7 m\u1EDBi gia h\u1EA1n.",
+    "db": "Kh\u00F4ng chuy\u1EC3n ch\u1EE7 phi\u00EAn ho\u1EB7c h\u1ED3i sinh phi\u00EAn b\u1ECB thu h\u1ED3i/h\u1EBFt h\u1EA1n/t\u00E0i kho\u1EA3n kh\u00F3a.",
+    "fr": [
+      "FR-58",
+      "FR-60"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "SQL.usp_KiemTraPhien"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-011",
+    "catalogOrder": 11,
+    "executionOrder": 11,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "\u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.",
+    "boundary": "SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions",
+    "baseline": "FR-58, FR-60; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: H\u1EE3p \u0111\u1ED3ng b\u1EA3ng/SQL/quy\u1EC1n theo 00_EduConnect_Full.sql.\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Procedure phi\u00EAn ki\u1EC3m ch\u1EE7, thu h\u1ED3i v\u00E0 h\u1EBFt h\u1EA1n",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 ch\u1EA1y #11.\nKi\u1EC3m tr\u01B0\u1EDBc: PF-DB/PF-HOST \u0111\u00E3 \u0111\u1EA1t trong sheet m\u00F4i tr\u01B0\u1EDDng\nGh\u00E9p sau: SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions\nC\u0103n c\u1EE9: Ki\u1EC3m object SQL v\u00E0 r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u tr\u01B0\u1EDBc v\u00EC \u0111\u00E2y l\u00E0 n\u1EC1n c\u00E1c provider/service d\u00F9ng chung. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F0 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 phi\u00EAn H1 c\u00F2n hi\u1EC7u l\u1EF1c; DL02 actor H2; DL03 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL04 HoatDongCuoiLuc c\u0169 h\u01A1n 30 ph\u00FAt; DL05 t\u00E0i kho\u1EA3n BiKhoa.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. X\u00E1c nh\u1EADn PF-DB: \u0111\u00FAng DB ki\u1EC3m th\u1EED/principal, schema cu\u1ED1i; bind m\u1ECDi parameter t\u1EEB fixture. Kh\u00F4ng ch\u1EA1y DDL c\u00E0i l\u1EA1i database.\n2. Seed c\u00E1c d\u00F2ng cha v\u00E0 \u0111i\u1EC1u ki\u1EC7n ri\u00EAng: DL01 phi\u00EAn H1 c\u00F2n hi\u1EC7u l\u1EF1c; DL02 actor H2; DL03 ThuHoiLuc c\u00F3 gi\u00E1 tr\u1ECB; DL04 HoatDongCuoiLuc c\u0169 h\u01A1n 30 ph\u00FAt; DL05 t\u00E0i kho\u1EA3n BiKhoa.\n3. \u0110\u1ECDc snapshot b\u1EA3ng/kh\u00F3a/th\u1EDDi \u0111i\u1EC3m b\u1EB1ng observer; m\u1EDF SqlConnection/transaction ri\u00EAng cho m\u1ED7i DL ho\u1EB7c m\u1ED7i t\u00E1c nh\u00E2n khi c\u00F3 race.\n4. G\u1ECDi v\u1EDBi LaHoatDongChuDong=0 r\u1ED3i 1 tr\u00EAn fixture ri\u00EAng; ghi t0/t1 SQL v\u00E0 \u0111\u1ECDc c\u1ED9t HoatDongCuoiLuc.\n5. Assert k\u1EBFt qu\u1EA3 SQL/error v\u00E0 d\u1EEF li\u1EC7u: Ch\u1EC9 phi\u00EAn \u0111\u00FAng ch\u1EE7/ho\u1EA1t \u0111\u1ED9ng/ch\u01B0a thu h\u1ED3i/c\u00F2n h\u1EA1n tr\u1EA3 HopLe=1. Request n\u1EC1n kh\u00F4ng gia h\u1EA1n; ho\u1EA1t \u0111\u1ED9ng ch\u1EE7 \u0111\u1ED9ng h\u1EE3p l\u1EC7 m\u1EDBi gia h\u1EA1n.\n6. \u0110\u1ECDc l\u1EA1i sau commit/rollback b\u1EB1ng connection m\u1EDBi. Oracle: \u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.\n7. Assert to\u00E0n v\u1EB9n: Kh\u00F4ng chuy\u1EC3n ch\u1EE7 phi\u00EAn ho\u1EB7c h\u1ED3i sinh phi\u00EAn b\u1ECB thu h\u1ED3i/h\u1EBFt h\u1EA1n/t\u00E0i kho\u1EA3n kh\u00F3a.\n8. L\u01B0u parameter/SqlException.Number/SQL tr\u01B0\u1EDBc\u2013sau; rollback n\u1EBFu to\u00E0n b\u1ED9 ca trong transaction, n\u1EBFu kh\u00F4ng reset fixture theo FK. Kh\u00F4i ph\u1EE5c permission trong finally.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Ch\u1EC9 phi\u00EAn \u0111\u00FAng ch\u1EE7/ho\u1EA1t \u0111\u1ED9ng/ch\u01B0a thu h\u1ED3i/c\u00F2n h\u1EA1n tr\u1EA3 HopLe=1. Request n\u1EC1n kh\u00F4ng gia h\u1EA1n; ho\u1EA1t \u0111\u1ED9ng ch\u1EE7 \u0111\u1ED9ng h\u1EE3p l\u1EC7 m\u1EDBi gia h\u1EA1n.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng chuy\u1EC3n ch\u1EE7 phi\u00EAn ho\u1EB7c h\u1ED3i sinh phi\u00EAn b\u1ECB thu h\u1ED3i/h\u1EBFt h\u1EA1n/t\u00E0i kho\u1EA3n kh\u00F3a."
+  },
+  "sql": {
+    "sql": "EXEC dbo.usp_KiemTraPhien @PhienId=@p,@TaiKhoanId=@u,@LaHoatDongChuDong=0",
+    "parameters": {
+      "@p": "13a052af-cb14-435d-95c0-f9c97065247e",
+      "@u": "01ea8ecc-85d7-41ae-8410-e3b8ae59429c"
+    },
+    "rows": [
+      {
+        "HopLe": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "01ea8ecc-85d7-41ae-8410-e3b8ae59429c",
+    "P": "a38a3227-2a60-4689-a977-297457d9b810",
+    "G": "9166b989-8739-4852-aec7-4850472e245b",
+    "X": "0a68449a-5b30-40bb-9331-8e8c836a0ed8",
+    "A": "ea08f3b0-83fe-4b67-bc51-c7ccd1255449"
+  },
+  "subjects": {
+    "M1": 1782,
+    "M2": 1783
+  },
+  "assertions": "Passed"
+}

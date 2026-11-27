@@ -1,0 +1,124 @@
+{
+  "caseId": "IT-123",
+  "runTag": "IT8060540e28ff4fa690bea52d27c93be4",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "review_visibility",
+    "group": 8,
+    "title": "\u1EA8n \u0111\u00E1nh gi\u00E1 thay \u0111\u1ED5i t\u1ED5ng h\u1EE3p v\u00E0 quy\u1EC1n xem \u0111\u00E1nh gi\u00E1 B\u00EAn h\u1ECDc",
+    "stage": 3,
+    "entry": "GET /DanhGia/DoiTac/ChiTiet; GET /TimKiem/TimKiem/Tim",
+    "input": "G1 c\u00F3 \u0111i\u1EC3m4,5 h\u1EE3p l\u1EC7 v\u00E0 \u0111i\u1EC3m1 \u0111\u00E3 \u1EA9n; H1 l\u00E0 B\u00EAn h\u1ECDc c\u00F3 \u0111\u00E1nh gi\u00E1; DL kh\u00E1ch, G2, ch\u00EDnh H1, admin c\u00F3 quy\u1EC1n.",
+    "action": "GET chi ti\u1EBFt/rating t\u1EEB t\u1EEBng actor, ki\u1EC3m b\u1ED9 l\u1ECDc bi\u1EC7n ph\u00E1p v\u00E0 role.",
+    "contract": "Rating G1=4.5,count=2; \u0111\u00E1nh gi\u00E1 B\u00EAn h\u1ECDc ch\u1EC9 Gia s\u01B0/ch\u00EDnh ng\u01B0\u1EDDi nh\u1EADn/qu\u1EA3n tr\u1ECB c\u00F3 quy\u1EC1n \u0111\u01B0\u1EE3c xem, kh\u00E1ch kh\u00F4ng \u0111\u01B0\u1EE3c l\u1ED9.",
+    "db": "B\u1EA3n \u1EA9n v\u1EABn l\u01B0u cho l\u1ECBch s\u1EED; kh\u00F4ng b\u1ECB t\u00EDnh v\u00E0o rating; truy v\u1EA5n c\u00F9ng contract gi\u1EEFa t\u00ECm ki\u1EBFm v\u00E0 chi ti\u1EBFt.",
+    "fr": [
+      "FR-08",
+      "FR-62"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "DanhGiaDoiTacService.LayAsync",
+      "DoiTacController.ChiTiet",
+      "NhuCauService.MonAsync",
+      "TimKiemService.TimKiemAsync",
+      "TimKiemController.Tim"
+    ],
+    "deps": [
+      "review_store",
+      "search_store",
+      "admin_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "DoiTacController",
+        "area": "DanhGia",
+        "method": "ChiTiet",
+        "action": "ChiTiet",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E ChiTiet(Guid id, int trang = 1)",
+        "line": 21,
+        "file": "Areas\\DanhGia\\Controllers\\DoiTacController.cs"
+      },
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "Tim",
+        "action": "Tim",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E Tim(BoLocTimKiemViewModel boLoc)",
+        "line": 35,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      }
+    ],
+    "id": "IT-123",
+    "catalogOrder": 123,
+    "executionOrder": 140,
+    "dependencyIds": [
+      "IT-112",
+      "IT-029",
+      "IT-137",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U23",
+        "cls": "NhuCauService",
+        "method": "MonAsync",
+        "table": 20
+      },
+      {
+        "id": "UC1.2-U01",
+        "cls": "TimKiemController",
+        "method": "Tim",
+        "table": 44
+      },
+      {
+        "id": "UC1.2-U02",
+        "cls": "TimKiemService",
+        "method": "TimKiemAsync",
+        "table": 50
+      },
+      {
+        "id": "DG-U02",
+        "cls": "DoiTacController",
+        "method": "ChiTiet",
+        "table": 271
+      },
+      {
+        "id": "DG-U13",
+        "cls": "DanhGiaDoiTacService",
+        "method": "LayAsync",
+        "table": 282
+      }
+    ],
+    "fixture": "F8",
+    "sqlOracle": "SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 DanhGiaDoiTacService, DoiTacController, NhuCauService, TimKiemService, TimKiemController \u2192 EF/SQL Server",
+    "baseline": "FR-08, FR-62; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U23 NhuCauService.MonAsync (b\u1EA3ng 20); UC1.2-U01 TimKiemController.Tim (b\u1EA3ng 44); UC1.2-U02 TimKiemService.TimKiemAsync (b\u1EA3ng 50); DG-U02 DoiTacController.ChiTiet (b\u1EA3ng 271); DG-U13 DanhGiaDoiTacService.LayAsync (b\u1EA3ng 282)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: \u1EA8n \u0111\u00E1nh gi\u00E1 thay \u0111\u1ED5i t\u1ED5ng h\u1EE3p v\u00E0 quy\u1EC1n xem \u0111\u00E1nh gi\u00E1 B\u00EAn h\u1ECDc",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #140.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-112, IT-029, IT-137, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 DanhGiaDoiTacService, DoiTacController, NhuCauService, TimKiemService, TimKiemController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F8 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nG1 c\u00F3 \u0111i\u1EC3m4,5 h\u1EE3p l\u1EC7 v\u00E0 \u0111i\u1EC3m1 \u0111\u00E3 \u1EA9n; H1 l\u00E0 B\u00EAn h\u1ECDc c\u00F3 \u0111\u00E1nh gi\u00E1; DL kh\u00E1ch, G2, ch\u00EDnh H1, admin c\u00F3 quy\u1EC1n.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-112, IT-029, IT-137, IT-157; t\u1EA1o fixture F8 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: G1 c\u00F3 \u0111i\u1EC3m4,5 h\u1EE3p l\u1EC7 v\u00E0 \u0111i\u1EC3m1 \u0111\u00E3 \u1EA9n; H1 l\u00E0 B\u00EAn h\u1ECDc c\u00F3 \u0111\u00E1nh gi\u00E1; DL kh\u00E1ch, G2, ch\u00EDnh H1, admin c\u00F3 quy\u1EC1n.\n4. GET chi ti\u1EBFt/rating t\u1EEB t\u1EEBng actor, ki\u1EC3m b\u1ED9 l\u1ECDc bi\u1EC7n ph\u00E1p v\u00E0 role. \u0110i\u1EC3m v\u00E0o: GET /DanhGia/DoiTac/ChiTiet; GET /TimKiem/TimKiem/Tim. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: Rating G1=4.5,count=2; \u0111\u00E1nh gi\u00E1 B\u00EAn h\u1ECDc ch\u1EC9 Gia s\u01B0/ch\u00EDnh ng\u01B0\u1EDDi nh\u1EADn/qu\u1EA3n tr\u1ECB c\u00F3 quy\u1EC1n \u0111\u01B0\u1EE3c xem, kh\u00E1ch kh\u00F4ng \u0111\u01B0\u1EE3c l\u1ED9.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: B\u1EA3n \u1EA9n v\u1EABn l\u01B0u cho l\u1ECBch s\u1EED; kh\u00F4ng b\u1ECB t\u00EDnh v\u00E0o rating; truy v\u1EA5n c\u00F9ng contract gi\u1EEFa t\u00ECm ki\u1EBFm v\u00E0 chi ti\u1EBFt.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Rating G1=4.5,count=2; \u0111\u00E1nh gi\u00E1 B\u00EAn h\u1ECDc ch\u1EC9 Gia s\u01B0/ch\u00EDnh ng\u01B0\u1EDDi nh\u1EADn/qu\u1EA3n tr\u1ECB c\u00F3 quy\u1EC1n \u0111\u01B0\u1EE3c xem, kh\u00E1ch kh\u00F4ng \u0111\u01B0\u1EE3c l\u1ED9.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: B\u1EA3n \u1EA9n v\u1EABn l\u01B0u cho l\u1ECBch s\u1EED; kh\u00F4ng b\u1ECB t\u00EDnh v\u00E0o rating; truy v\u1EA5n c\u00F9ng contract gi\u1EEFa t\u00ECm ki\u1EBFm v\u00E0 chi ti\u1EBFt."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "cb228152-49a4-4bfc-86c2-69bd7b78627e",
+    "P": "431f7c16-c16b-4a71-86cf-f184a8d06b4a",
+    "G": "194a152c-6f50-46a4-9fa1-41aa158d0a55",
+    "X": "cef66d75-0150-4420-9259-77b13145e16b",
+    "A": "712e9341-a9d1-49c6-960c-98ce51ee5c5a"
+  },
+  "subjects": {
+    "M1": 5037,
+    "M2": 5038
+  },
+  "exception": "Xunit.Sdk.TrueException: rating detail missing from HTTP OK: \u003C!doctype html\u003E\r\n\u003Chtml lang=\u0022vi\u0022\u003E\r\n\u003Chead\u003E\r\n    \u003Cmeta charset=\u0022utf-8\u0022\u003E\r\n    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E\r\n    \u003Ctitle\u003E\u0026#x110;\u0026#xE1;nh gi\u0026#xE1; ng\u0026#x1B0;\u0026#x1EDD;i d\u0026#xF9;ng \u00B7 EduConnect\u003C/title\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/lib/bootstrap/dist/css/bootstrap.min.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/fonts.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/app.css?v=mAsrX0eE1UWydUxrBnHNegBYUOqjjuSeSgsM09r68HU\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/profile.css?v=HeU4bNwSZV6X2nI3LqKT0iEgDQSlKL0zBorZHX5S1Ds\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/notifications.css?v=r2hN5jKsMzzXO-E2YY5ZVVmAm6mogxXxnDo3AUkBeLk\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/guest.css?v=fuEqLuZjDxhyazhuNDveb_vFB7jyDUttkhZtzMY4_JQ\u0022\u003E\r\n\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/help.css?v=csAUm09dG8Y_ElJmnFxptcFbP09DziJWRkRgY3hoKMo\u0022\u003E\r\n\u003C/head\u003E\r\n\u003Cbody\u003E\r\n    \u003Cbutton type=\u0022button\u0022 class=\u0022btn mobile-menu\u0022 aria-label=\u0022M\u1EDF menu\u0022 aria-expanded=\u0022false\u0022 aria-controls=\u0022navigation\u0022\u003E\u2630\u003C/button\u003E\r\n    \u003Caside class=\u0022sidebar\u0022 id=\u0022navigation\u0022\u003E\r\n        \u003Ca class=\u0022brand\u0022 href=\u0022/\u0022\u003E\u003Cimg src=\u0022/images/auth/logo.png\u0022 alt=\u0022EduConnect\u0022\u003E\u003C/a\u003E\r\n        \u003Cp class=\u0022eyebrow\u0022\u003EKH\u00C1M PH\u00C1 EDUCONNECT\u003C/p\u003E\r\n        \u003Cnav ar\r\n   at Xunit.Assert.True(Boolean condition, String userMessage) in /_/src/xunit.assert/Asserts/BooleanAsserts.cs:line 123\r\n   at Cases.ProgressCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ProgressCases.cs:line 63\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 348"
+}

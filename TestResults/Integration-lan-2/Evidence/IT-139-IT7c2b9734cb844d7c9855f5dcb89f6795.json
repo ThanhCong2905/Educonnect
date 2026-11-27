@@ -1,0 +1,72 @@
+{
+  "caseId": "IT-139",
+  "runTag": "IT7c2b9734cb844d7c9855f5dcb89f6795",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "measure_release",
+    "group": 10,
+    "title": "G\u1EE1 m\u1ED9t nguy\u00EAn nh\u00E2n ch\u01B0a \u0111\u1EE7 \u0111\u1EC3 ti\u1EBFp t\u1EE5c l\u1EDBp",
+    "stage": 2,
+    "entry": "QuanTriService.GoBienPhapAsync",
+    "input": "C1 TamDung v\u00EC hai bi\u1EC7n ph\u00E1p c\u00F2n hi\u1EC7u l\u1EF1c; G1/H1 ho\u1EA1t \u0111\u1ED9ng. DL01 g\u1EE1 m\u1ED9t; DL02 g\u1EE1 nguy\u00EAn nh\u00E2n cu\u1ED1i; DL03 l\u1EDBp \u0111\u00E3 DaKetThuc.",
+    "action": "G\u1ECDi Service b\u1EB1ng admin \u0111\u00FAng quy\u1EC1n/l\u00FD do/RV; \u0111\u1ECDc c\u00E1c nguy\u00EAn nh\u00E2n, tr\u1EA1ng th\u00E1i v\u00E0 notice.",
+    "contract": "DL01 c\u00F2n TamDung; DL02 ch\u1EC9 ti\u1EBFp t\u1EE5c khi h\u1EBFt m\u1ECDi h\u1EA1n ch\u1EBF; DL03 kh\u00F4ng h\u1ED3i sinh l\u1EDBp k\u1EBFt th\u00FAc.",
+    "db": "L\u01B0u ng\u01B0\u1EDDi g\u1EE1/l\u00FD do/th\u1EDDi \u0111i\u1EC3m; kh\u00F4ng kh\u00F4i ph\u1EE5c \u0111\u1EC1 xu\u1EA5t \u0111\u00E3 r\u00FAt ho\u1EB7c x\u00F3a l\u1ECBch s\u1EED bi\u1EC7n ph\u00E1p.",
+    "fr": [
+      "FR-54"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "QuanTriService.GoBienPhapAsync"
+    ],
+    "deps": [
+      "admin_store",
+      "class_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-139",
+    "catalogOrder": 139,
+    "executionOrder": 55,
+    "dependencyIds": [
+      "IT-137",
+      "IT-057"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "QT-U22",
+        "cls": "QuanTriService",
+        "method": "GoBienPhapAsync",
+        "table": 369
+      }
+    ],
+    "fixture": "F10",
+    "sqlOracle": "SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;",
+    "boundary": "QuanTriService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-54; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: QT-U22 QuanTriService.GoBienPhapAsync (b\u1EA3ng 369)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: G\u1EE1 m\u1ED9t nguy\u00EAn nh\u00E2n ch\u01B0a \u0111\u1EE7 \u0111\u1EC3 ti\u1EBFp t\u1EE5c l\u1EDBp",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #55.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-137, IT-057\nGh\u00E9p sau: QuanTriService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F10 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nC1 TamDung v\u00EC hai bi\u1EC7n ph\u00E1p c\u00F2n hi\u1EC7u l\u1EF1c; G1/H1 ho\u1EA1t \u0111\u1ED9ng. DL01 g\u1EE1 m\u1ED9t; DL02 g\u1EE1 nguy\u00EAn nh\u00E2n cu\u1ED1i; DL03 l\u1EDBp \u0111\u00E3 DaKetThuc.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-137, IT-057 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F10 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: C1 TamDung v\u00EC hai bi\u1EC7n ph\u00E1p c\u00F2n hi\u1EC7u l\u1EF1c; G1/H1 ho\u1EA1t \u0111\u1ED9ng. DL01 g\u1EE1 m\u1ED9t; DL02 g\u1EE1 nguy\u00EAn nh\u00E2n cu\u1ED1i; DL03 l\u1EDBp \u0111\u00E3 DaKetThuc. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service b\u1EB1ng admin \u0111\u00FAng quy\u1EC1n/l\u00FD do/RV; \u0111\u1ECDc c\u00E1c nguy\u00EAn nh\u00E2n, tr\u1EA1ng th\u00E1i v\u00E0 notice. \u0110i\u1EC3m v\u00E0o: QuanTriService.GoBienPhapAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: DL01 c\u00F2n TamDung; DL02 ch\u1EC9 ti\u1EBFp t\u1EE5c khi h\u1EBFt m\u1ECDi h\u1EA1n ch\u1EBF; DL03 kh\u00F4ng h\u1ED3i sinh l\u1EDBp k\u1EBFt th\u00FAc.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: L\u01B0u ng\u01B0\u1EDDi g\u1EE1/l\u00FD do/th\u1EDDi \u0111i\u1EC3m; kh\u00F4ng kh\u00F4i ph\u1EE5c \u0111\u1EC1 xu\u1EA5t \u0111\u00E3 r\u00FAt ho\u1EB7c x\u00F3a l\u1ECBch s\u1EED bi\u1EC7n ph\u00E1p.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 c\u00F2n TamDung; DL02 ch\u1EC9 ti\u1EBFp t\u1EE5c khi h\u1EBFt m\u1ECDi h\u1EA1n ch\u1EBF; DL03 kh\u00F4ng h\u1ED3i sinh l\u1EDBp k\u1EBFt th\u00FAc.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: L\u01B0u ng\u01B0\u1EDDi g\u1EE1/l\u00FD do/th\u1EDDi \u0111i\u1EC3m; kh\u00F4ng kh\u00F4i ph\u1EE5c \u0111\u1EC1 xu\u1EA5t \u0111\u00E3 r\u00FAt ho\u1EB7c x\u00F3a l\u1ECBch s\u1EED bi\u1EC7n ph\u00E1p."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.LopHoc SET TrangThai=\u0027TamDung\u0027 WHERE Id=@id",
+    "parameters": {
+      "@id": "a9ede249-e889-4743-9972-2e4680dd8728"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "bc6cb726-2ff8-4cda-bd9a-a0421cb05bb7",
+    "P": "479ac811-14ff-49a9-8409-48eefb3dba21",
+    "G": "e64a5fee-4d4c-4794-b1e8-7e6c371382a6",
+    "X": "b654cd33-59a9-4a7f-9b47-2f42e2d18069",
+    "A": "f17a4f3d-a8b5-445c-aa54-ecdf2b93ca10"
+  },
+  "subjects": {
+    "M1": 4717,
+    "M2": 4718
+  },
+  "assertions": "Passed"
+}

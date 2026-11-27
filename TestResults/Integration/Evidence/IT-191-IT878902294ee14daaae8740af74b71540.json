@@ -1,0 +1,60 @@
+{
+  "caseId": "IT-191",
+  "runTag": "IT878902294ee14daaae8740af74b71540",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_class_paused",
+    "group": 14,
+    "title": "Schema cu\u1ED1i h\u1ED7 tr\u1EE3 TamDung",
+    "stage": 1,
+    "entry": "SQL00/17; r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u",
+    "input": "L\u1EDBp C1 trong database ki\u1EC3m th\u1EED; kh\u00F4ng s\u1EEDa schema.",
+    "action": "\u0110\u1ECDc CHECK constraint v\u00E0 EF round-trip LopHoc",
+    "contract": "TamDung \u0111\u01B0\u1EE3c SQL v\u00E0 EF round-trip; CK_LopHoc_5 cho ph\u00E9p tr\u1EA1ng th\u00E1i n\u00E0y.",
+    "db": "TamDung \u0111\u01B0\u1EE3c SQL v\u00E0 EF round-trip; CK_LopHoc_5 cho ph\u00E9p tr\u1EA1ng th\u00E1i n\u00E0y.",
+    "fr": [],
+    "criteria": "\u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "SQL.LopHoc",
+      "SQL.AspNetUserRoles"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-191",
+    "catalogOrder": 191,
+    "executionOrder": 191,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "SQL Server th\u1EADt; \u0111\u1ECDc tr\u1EA1ng th\u00E1i b\u1EB1ng connection m\u1EDBi; kh\u00F4ng ch\u1EA1y tr\u00EAn database \u1EE9ng d\u1EE5ng.",
+    "boundary": "SqlClient/EF Core \u2192 SQL Server database ki\u1EC3m th\u1EED",
+    "baseline": "Integration Test (2).xlsx, sheet 15 Schema Procedure; b\u1ED5 sung \u0111\u1EC3 kh\u1EDBp \u0111\u1EE7 191 m\u00E3 trong workbook.",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 #191. Ki\u1EC3m tr\u1EF1c ti\u1EBFp r\u00E0ng bu\u1ED9c/schema tr\u01B0\u1EDBc khi c\u00E1c t\u1EA7ng service d\u00F9ng d\u1EEF li\u1EC7u.",
+    "conditions": "L\u1EDBp C1 trong database ki\u1EC3m th\u1EED; kh\u00F4ng s\u1EEDa schema.",
+    "steps": "1. X\u00E1c nh\u1EADn database ki\u1EC3m th\u1EED ri\u00EAng v\u00E0 schema hi\u1EC7n t\u1EA1i. 2. T\u1EA1o fixture \u0111\u1ED9c l\u1EADp cho m\u00E3 n\u00E0y. 3. Th\u1EF1c hi\u1EC7n SQL/EF th\u1EADt theo t\u00ECnh hu\u1ED1ng; kh\u00F4ng mock DB ho\u1EB7c r\u00E0ng bu\u1ED9c. 4. \u0110\u1ECDc l\u1EA1i b\u1EB1ng connection/context m\u1EDBi. 5. Assert l\u1ED7i/gi\u00E1 tr\u1ECB v\u00E0 side effect theo expected. 6. L\u01B0u TRX v\u00E0 b\u1EB1ng ch\u1EE9ng SQL tr\u01B0\u1EDBc/sau.",
+    "expected": "1. H\u1EE3p \u0111\u1ED3ng: TamDung \u0111\u01B0\u1EE3c SQL v\u00E0 EF round-trip; CK_LopHoc_5 cho ph\u00E9p tr\u1EA1ng th\u00E1i n\u00E0y. 2. D\u1EEF li\u1EC7u: k\u1EBFt qu\u1EA3 \u0111\u1ECDc l\u1EA1i \u0111\u00FAng, kh\u00F4ng t\u1EA1o b\u1EA3n ghi tr\u00F9ng ho\u1EB7c ngo\u00E0i fixture."
+  },
+  "sql": {
+    "sql": "SELECT definition FROM sys.check_constraints WHERE name=\u0027CK_LopHoc_5\u0027",
+    "parameters": null,
+    "rows": [
+      {
+        "definition": "([TrangThai]=\u0027TamDung\u0027 OR [TrangThai]=\u0027DaKetThuc\u0027 OR [TrangThai]=\u0027DaHuy\u0027 OR [TrangThai]=\u0027DangHoatDong\u0027)"
+      }
+    ]
+  },
+  "actors": {
+    "H": "33f382f4-0da2-4fc0-89ed-7df822427972",
+    "P": "f79d4fcd-30e7-4497-8451-bc71a8551472",
+    "G": "e2a4d4a8-14c0-4681-a298-80db1337f3d3",
+    "X": "e6adae71-6b58-414f-b588-04f04b98a51e",
+    "A": "0492bf8a-2a93-4730-b369-3e660867c3fd"
+  },
+  "subjects": {
+    "M1": 4433,
+    "M2": 4434
+  },
+  "assertions": "Passed"
+}

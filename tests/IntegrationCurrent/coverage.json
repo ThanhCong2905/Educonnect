@@ -1,0 +1,21 @@
+{
+  "IT-006": "Chưa có DL02 batch lỗi để chứng minh rollback.",
+  "IT-007": "Đã kiểm actor H1 sai quyền; chưa thay bằng Gia sư G2 như DL02 trong Excel.",
+  "IT-009": "Đã kiểm H1 sai quyền; chưa có Gia sư G2 riêng như Excel.",
+  "IT-011": "Chưa có DL tài khoản BiKhoa và đối chiếu hoạt động nền/chủ động.",
+  "IT-013": "Đã round-trip LopHoc và RV; chưa đủ YeuCauHuyKetNoi/thời điểm UTC+07/TamDung.",
+  "IT-044": "Đã kiểm liên hệ, hội thoại, notification; chưa kiểm đầy đủ payload/outbox chống nhân bản.",
+  "IT-057": "Fixture một lịch; Excel nêu hai lịch dự kiến.",
+  "IT-060": "Đã retry và gọi đồng thời sau lần chấp nhận đầu; chưa race hai xác nhận đầu tiên.",
+  "IT-073": "Script mới có DL01; chưa có sai người/RV cũ.",
+  "IT-075": "Đã kiểm HTTP/state ba DL; chưa assert riêng quyền mở lớp sau từng DL.",
+  "IT-076": "Đã kiểm ba cấu hình quyền lưu SQL; chưa thao tác đọc/chat/nộp cho cả ba cấu hình.",
+  "IT-079": "Đã kiểm cookie cũ không chat/nộp; chưa kiểm GET đọc còn được phép.",
+  "IT-080": "Đã có DL gỡ G1/H1/P1 đối với P1; chưa DL bảo vệ hai thành viên chính.",
+  "IT-088": "DL02 dùng lịch hiện hữu cùng lớp; chưa lớp C2 dùng chung G1.",
+  "IT-101": "Đã dùng hai scope/Task.WhenAll và kiểm invariant; chưa có barrier tại thời điểm tranh khóa.",
+  "IT-160": "Đã kiểm bốn nhánh không phát cookie; chưa so sánh thông báo chống lộ tài khoản.",
+  "IT-162": "Đã logout, thu hồi SQL và challenge; chưa replay một bản cookie đã sao chép trước logout.",
+  "IT-034": "Admin service review and guest search are tested, but the admin review Controller route/response are not.",
+  "IT-035": "Both workflow branches are tested at HoSoGiaSuService/SQL level; the TrangThai/Luu HTTP posts are not."
+}

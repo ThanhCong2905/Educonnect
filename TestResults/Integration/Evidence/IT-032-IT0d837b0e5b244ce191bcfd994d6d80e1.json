@@ -1,0 +1,110 @@
+{
+  "caseId": "IT-032",
+  "runTag": "IT0d837b0e5b244ce191bcfd994d6d80e1",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "profile_missing",
+    "group": 2,
+    "title": "Thi\u1EBFu minh ch\u1EE9ng kh\u00F4ng l\u01B0u m\u1ED9t ph\u1EA7n h\u1ED3 s\u01A1",
+    "stage": 3,
+    "entry": "POST /NhuCau/HoSoGiaSu/Luu",
+    "input": "DL01 thi\u1EBFu minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9; DL02 thi\u1EBFu minh ch\u1EE9ng m\u00F4n M2; DL03 ch\u1ECDn kinh nghi\u1EC7m 1\u20133 n\u0103m nh\u01B0ng thi\u1EBFu t\u1EC7p kinh nghi\u1EC7m.",
+    "action": "G\u1EEDi t\u1EEBng multipart m\u1EDBi; \u0111\u1ECDc field errors v\u00E0 snapshot DB/blob sau l\u1ED7i.",
+    "contract": "422 ok=false, l\u1ED7i \u0111\u00FAng m\u1EE5c c\u00F2n thi\u1EBFu; kh\u00F4ng b\u00E1o l\u01B0u th\u00E0nh c\u00F4ng.",
+    "db": "H\u1ED3 s\u01A1/m\u00F4n/RV gi\u1EEF tr\u01B0\u1EDBc thao t\u00E1c; kh\u00F4ng metadata/blob m\u1ED3 c\u00F4i.",
+    "fr": [
+      "FR-02",
+      "FR-59"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BangCapService.CuaToiAsync",
+      "HoSoGiaSuService.CapNhatAsync",
+      "NhuCauService.MonAsync",
+      "NhuCauService.MonDuocChonAsync",
+      "HoSoGiaSuController.Luu"
+    ],
+    "deps": [
+      "profile_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "HoSoGiaSuController",
+        "area": "NhuCau",
+        "method": "Luu",
+        "action": "Luu",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Luu(HoSoInput m)",
+        "line": 45,
+        "file": "Areas\\NhuCau\\Controllers\\HoSoGiaSuController.cs"
+      }
+    ],
+    "id": "IT-032",
+    "catalogOrder": 32,
+    "executionOrder": 81,
+    "dependencyIds": [
+      "IT-028",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U23",
+        "cls": "NhuCauService",
+        "method": "MonAsync",
+        "table": 20
+      },
+      {
+        "id": "UC1.1-U24",
+        "cls": "NhuCauService",
+        "method": "MonDuocChonAsync",
+        "table": 21
+      },
+      {
+        "id": "HS-U02",
+        "cls": "HoSoGiaSuController",
+        "method": "Luu",
+        "table": 234
+      },
+      {
+        "id": "HS-U04",
+        "cls": "HoSoGiaSuService",
+        "method": "CapNhatAsync",
+        "table": 242
+      },
+      {
+        "id": "UC7.3-U16",
+        "cls": "BangCapService",
+        "method": "CuaToiAsync",
+        "table": 255
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BangCapService, HoSoGiaSuService, NhuCauService, HoSoGiaSuController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-02, FR-59; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U23 NhuCauService.MonAsync (b\u1EA3ng 20); UC1.1-U24 NhuCauService.MonDuocChonAsync (b\u1EA3ng 21); HS-U02 HoSoGiaSuController.Luu (b\u1EA3ng 234); HS-U04 HoSoGiaSuService.CapNhatAsync (b\u1EA3ng 242); UC7.3-U16 BangCapService.CuaToiAsync (b\u1EA3ng 255)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Thi\u1EBFu minh ch\u1EE9ng kh\u00F4ng l\u01B0u m\u1ED9t ph\u1EA7n h\u1ED3 s\u01A1",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #81.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-028, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BangCapService, HoSoGiaSuService, NhuCauService, HoSoGiaSuController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 thi\u1EBFu minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9; DL02 thi\u1EBFu minh ch\u1EE9ng m\u00F4n M2; DL03 ch\u1ECDn kinh nghi\u1EC7m 1\u20133 n\u0103m nh\u01B0ng thi\u1EBFu t\u1EC7p kinh nghi\u1EC7m.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-028, IT-157; t\u1EA1o fixture F2 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 thi\u1EBFu minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9; DL02 thi\u1EBFu minh ch\u1EE9ng m\u00F4n M2; DL03 ch\u1ECDn kinh nghi\u1EC7m 1\u20133 n\u0103m nh\u01B0ng thi\u1EBFu t\u1EC7p kinh nghi\u1EC7m.\n4. G\u1EEDi t\u1EEBng multipart m\u1EDBi; \u0111\u1ECDc field errors v\u00E0 snapshot DB/blob sau l\u1ED7i. \u0110i\u1EC3m v\u00E0o: POST /NhuCau/HoSoGiaSu/Luu. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 422 ok=false, l\u1ED7i \u0111\u00FAng m\u1EE5c c\u00F2n thi\u1EBFu; kh\u00F4ng b\u00E1o l\u01B0u th\u00E0nh c\u00F4ng.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: H\u1ED3 s\u01A1/m\u00F4n/RV gi\u1EEF tr\u01B0\u1EDBc thao t\u00E1c; kh\u00F4ng metadata/blob m\u1ED3 c\u00F4i.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 422 ok=false, l\u1ED7i \u0111\u00FAng m\u1EE5c c\u00F2n thi\u1EBFu; kh\u00F4ng b\u00E1o l\u01B0u th\u00E0nh c\u00F4ng.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: H\u1ED3 s\u01A1/m\u00F4n/RV gi\u1EEF tr\u01B0\u1EDBc thao t\u00E1c; kh\u00F4ng metadata/blob m\u1ED3 c\u00F4i."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "f10e897b-99e7-437f-9649-77aafdcb8ec1",
+    "P": "c1d388d0-b313-4354-9f1c-0a676e8700f2",
+    "G": "6b492367-af98-4f58-9b63-b3c1062f42d8",
+    "X": "e6a8134f-148d-4f9c-a5aa-13ef1a39fb0e",
+    "A": "4e1769f4-ae85-415b-9081-5931f92de4d0"
+  },
+  "subjects": {
+    "M1": 2722,
+    "M2": 2723
+  },
+  "assertions": "Passed"
+}

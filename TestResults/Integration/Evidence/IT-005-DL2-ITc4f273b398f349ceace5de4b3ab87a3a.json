@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-005-DL2",
+  "runTag": "ITc4f273b398f349ceace5de4b3ab87a3a",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauKetNoiLopHoc SET TrangThai=\u0027DaChapNhan\u0027 WHERE Id=@r",
+    "parameters": {
+      "@r": "6f522cb7-13b5-4a68-858e-f0c6f592674f"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "88d1ca6e-8cb9-4bd6-9c02-d9d9b262f90d",
+    "P": "38c59522-54ce-4c79-b14d-2ffba291ef31",
+    "G": "b1b32826-1e6c-4da8-943e-6983bd1fc47f",
+    "X": "1d65119f-6e5c-40ec-bc02-134d54994eb3",
+    "A": "4273c22b-a785-40eb-84c0-6561f583e677"
+  },
+  "subjects": {
+    "M1": 2172,
+    "M2": 2173
+  }
+}

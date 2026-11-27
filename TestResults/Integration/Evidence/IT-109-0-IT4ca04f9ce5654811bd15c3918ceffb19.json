@@ -1,0 +1,41 @@
+{
+  "caseId": "IT-109-0",
+  "runTag": "IT4ca04f9ce5654811bd15c3918ceffb19",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "EXEC dbo.usp_NopBaiTap @BaiTapGiaoId=@a,@NguoiNopId=@u,@MaThaoTac=@m,@NoiDung=N\u0027B\u00E0i l\u00E0m\u0027",
+    "parameters": {
+      "@a": "0f912db7-84c3-412f-827e-ef8bb2b1ac17",
+      "@u": "5a9b9e54-3e7f-47bb-aa22-6d2bc3c30b78",
+      "@m": "b2cdb232-bccb-4ebc-b066-9a2c6c336802"
+    },
+    "rows": [
+      {
+        "Id": "8003d897-cc03-48cf-b99f-88fa7a8d04e8",
+        "BaiTapGiaoId": "0f912db7-84c3-412f-827e-ef8bb2b1ac17",
+        "NguoiNopId": "5a9b9e54-3e7f-47bb-aa22-6d2bc3c30b78",
+        "NoiDung": "B\u00E0i l\u00E0m",
+        "NopLuc": "2026-11-27T05:04:37+00:00",
+        "MaThaoTac": "b2cdb232-bccb-4ebc-b066-9a2c6c336802",
+        "RowVersion": "AAAAAALC8Jg=",
+        "LanNop": 1
+      }
+    ]
+  },
+  "actors": {
+    "H": "5a9b9e54-3e7f-47bb-aa22-6d2bc3c30b78",
+    "P": "bd13c2a5-3da2-4360-9611-1a920f70438c",
+    "G": "a979ba6f-009e-4cb8-82f2-ede9a70d7051",
+    "X": "17ba449a-5e42-4f2c-92bd-669b2a76897c",
+    "A": "50ab780d-dcc2-43cf-8379-eb5cb5907e4d"
+  },
+  "subjects": {
+    "M1": 3753,
+    "M2": 3754
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/BaiTap/ChiTiet/0f912db7-84c3-412f-827e-ef8bb2b1ac17\u0022}"
+  }
+}

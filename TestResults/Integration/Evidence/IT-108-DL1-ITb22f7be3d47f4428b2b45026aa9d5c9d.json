@@ -1,0 +1,30 @@
+{
+  "caseId": "IT-108-DL1",
+  "runTag": "ITb22f7be3d47f4428b2b45026aa9d5c9d",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.ThanhVienLopHoc SET MucQuyen=@p,ChoPhepNopBai=@s WHERE Id=@m",
+    "parameters": {
+      "@p": "ChinhSua",
+      "@s": false,
+      "@m": "334854c6-f65b-48c1-8ca9-df60749b5c44"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "be472c75-4962-4fd3-9203-b2994ee862db",
+    "P": "00b28d18-cc0b-4957-a044-b64bbb127a27",
+    "G": "75b311b8-96cf-491c-b12e-9d1ee0f41e92",
+    "X": "3a4bb862-4237-48bc-a8cb-179f8e0f4036",
+    "A": "41a04934-0ab2-4dbd-991f-e89ad4fe1f2c"
+  },
+  "subjects": {
+    "M1": 2086,
+    "M2": 2087
+  },
+  "http": {
+    "status": 403,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u1EA1n ch\\u01B0a \\u0111\\u01B0\\u1EE3c c\\u1EA5p quy\\u1EC1n n\\u1ED9p b\\u00E0i thay.\u0022]}}"
+  }
+}

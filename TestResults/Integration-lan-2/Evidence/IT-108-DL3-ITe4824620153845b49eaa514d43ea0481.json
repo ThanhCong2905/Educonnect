@@ -1,0 +1,29 @@
+{
+  "caseId": "IT-108-DL3",
+  "runTag": "ITe4824620153845b49eaa514d43ea0481",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.LienKetPhuHuynhHocSinh SET TrangThai=\u0027DaHuy\u0027,KetThucLuc=SYSDATETIMEOFFSET(),NguoiKetThucId=@u WHERE Id=@id",
+    "parameters": {
+      "@u": "c15439e0-aaec-41c4-af24-f434dc880c69",
+      "@id": "fd38613b-1823-4ebe-9214-013bca5af9f8"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "1d2ea6e2-833f-4534-9dc7-b681a51d7ec7",
+    "P": "c15439e0-aaec-41c4-af24-f434dc880c69",
+    "G": "4fb32037-4ba3-4a38-88b2-886ad7c4aa67",
+    "X": "6d0f7ab7-e0e9-4261-a7a6-f39cdd1151fb",
+    "A": "c45306ff-b7e4-49fb-af65-23d339576a80"
+  },
+  "subjects": {
+    "M1": 4995,
+    "M2": 4996
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u1EA1n ch\\u01B0a c\\u00F3 quy\\u1EC1n ho\\u1EB7c li\\u00EAn k\\u1EBFt ph\\u00F9 h\\u1EE3p \\u0111\\u1EC3 v\\u00E0o l\\u1EDBp n\\u00E0y.\u0022]}}"
+  }
+}

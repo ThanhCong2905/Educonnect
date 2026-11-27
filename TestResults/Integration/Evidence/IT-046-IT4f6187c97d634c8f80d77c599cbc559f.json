@@ -1,0 +1,68 @@
+{
+  "caseId": "IT-046",
+  "runTag": "IT4f6187c97d634c8f80d77c599cbc559f",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "contact_race",
+    "group": 3,
+    "title": "Hai g\u1EEDi li\u00EAn h\u1EC7 \u0111\u1ED3ng th\u1EDDi kh\u00F4ng nh\u00E2n b\u1EA3n quan h\u1EC7",
+    "stage": 2,
+    "entry": "KetNoiService.GuiLienHeAsync",
+    "input": "Hai DI scope H1 c\u00F9ng g\u1EEDi DoiTuongId=G1; ch\u01B0a li\u00EAn h\u1EC7; barrier tr\u01B0\u1EDBc g\u1ECDi Service.",
+    "action": "Task.WhenAll hai call; b\u1EAFt ri\u00EAng k\u1EBFt qu\u1EA3 t\u1EEBng call; \u0111\u1ECDc SQL m\u1EDBi sau c\u1EA3 hai k\u1EBFt th\u00FAc.",
+    "contract": "M\u1ED9t l\u1EA7n t\u1EA1o \u0111\u01B0\u1EE3c; l\u1EA7n c\u00F2n l\u1EA1i nh\u1EADn t\u1EEB ch\u1ED1i tr\u00F9ng quan h\u1EC7 c\u00F3 ki\u1EC3m so\u00E1t; kh\u00F4ng exception infrastructure/500.",
+    "db": "Ch\u1EC9 m\u1ED9t li\u00EAn h\u1EC7 \u0111ang ch\u1EDD c\u1EE7a c\u1EB7p, kh\u00F4ng hai h\u1ED9i tho\u1EA1i/th\u00F4ng b\u00E1o tr\u00F9ng.",
+    "fr": [
+      "FR-12"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "KetNoiService.GuiLienHeAsync"
+    ],
+    "deps": [
+      "contact_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-046",
+    "catalogOrder": 46,
+    "executionOrder": 24,
+    "dependencyIds": [
+      "IT-044"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.4-U04",
+        "cls": "KetNoiService",
+        "method": "GuiLienHeAsync",
+        "table": 74
+      }
+    ],
+    "fixture": "F3",
+    "sqlOracle": "SELECT * FROM dbo.YeuCauLienHe WHERE GiaSuId=@G1 AND BenHocId=@H1; SELECT * FROM dbo.YeuCauKetNoiLopHoc WHERE LienHeId=@CONTACT; SELECT * FROM dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.CuocHoiThoai WHERE LienHeId=@CONTACT;",
+    "boundary": "KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-12; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.4-U04 KetNoiService.GuiLienHeAsync (b\u1EA3ng 74)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Hai g\u1EEDi li\u00EAn h\u1EC7 \u0111\u1ED3ng th\u1EDDi kh\u00F4ng nh\u00E2n b\u1EA3n quan h\u1EC7",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #24.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-044\nGh\u00E9p sau: KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F3 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nHai DI scope H1 c\u00F9ng g\u1EEDi DoiTuongId=G1; ch\u01B0a li\u00EAn h\u1EC7; barrier tr\u01B0\u1EDBc g\u1ECDi Service.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-044 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F3 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: Hai DI scope H1 c\u00F9ng g\u1EEDi DoiTuongId=G1; ch\u01B0a li\u00EAn h\u1EC7; barrier tr\u01B0\u1EDBc g\u1ECDi Service. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. Task.WhenAll hai call; b\u1EAFt ri\u00EAng k\u1EBFt qu\u1EA3 t\u1EEBng call; \u0111\u1ECDc SQL m\u1EDBi sau c\u1EA3 hai k\u1EBFt th\u00FAc. \u0110i\u1EC3m v\u00E0o: KetNoiService.GuiLienHeAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: M\u1ED9t l\u1EA7n t\u1EA1o \u0111\u01B0\u1EE3c; l\u1EA7n c\u00F2n l\u1EA1i nh\u1EADn t\u1EEB ch\u1ED1i tr\u00F9ng quan h\u1EC7 c\u00F3 ki\u1EC3m so\u00E1t; kh\u00F4ng exception infrastructure/500.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.YeuCauLienHe WHERE GiaSuId=@G1 AND BenHocId=@H1; SELECT * FROM dbo.YeuCauKetNoiLopHoc WHERE LienHeId=@CONTACT; SELECT * FROM dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.CuocHoiThoai WHERE LienHeId=@CONTACT;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Ch\u1EC9 m\u1ED9t li\u00EAn h\u1EC7 \u0111ang ch\u1EDD c\u1EE7a c\u1EB7p, kh\u00F4ng hai h\u1ED9i tho\u1EA1i/th\u00F4ng b\u00E1o tr\u00F9ng.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: M\u1ED9t l\u1EA7n t\u1EA1o \u0111\u01B0\u1EE3c; l\u1EA7n c\u00F2n l\u1EA1i nh\u1EADn t\u1EEB ch\u1ED1i tr\u00F9ng quan h\u1EC7 c\u00F3 ki\u1EC3m so\u00E1t; kh\u00F4ng exception infrastructure/500.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Ch\u1EC9 m\u1ED9t li\u00EAn h\u1EC7 \u0111ang ch\u1EDD c\u1EE7a c\u1EB7p, kh\u00F4ng hai h\u1ED9i tho\u1EA1i/th\u00F4ng b\u00E1o tr\u00F9ng."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "c1811518-1a9a-4f1d-82eb-bf0ae5f7ce05",
+    "P": "d51e952f-1e97-48c4-aa5b-2e2e4f2548b3",
+    "G": "6c0e3cb0-2c29-422f-bb89-9b977350730c",
+    "X": "f9690307-0a54-437f-af5f-1f0bdb51e277",
+    "A": "cb06fd10-b30a-41f9-ae6f-9ef15886e355"
+  },
+  "subjects": {
+    "M1": 1404,
+    "M2": 1405
+  },
+  "assertions": "Passed"
+}

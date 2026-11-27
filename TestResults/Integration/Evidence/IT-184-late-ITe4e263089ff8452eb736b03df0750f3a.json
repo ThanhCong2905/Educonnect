@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-184-late",
+  "runTag": "ITe4e263089ff8452eb736b03df0750f3a",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DECLARE @now datetimeoffset(0)=SYSDATETIMEOFFSET(); UPDATE dbo.YeuCauHuyKetNoi SET GuiLuc=DATEADD(hour,-73,@now),HetHanLuc=DATEADD(hour,-1,@now) WHERE Id=@id",
+    "parameters": {
+      "@id": "32d0fe3d-d104-424d-b453-00bb91b69a86"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "2bad0b98-66ca-43e8-a159-b9d3c3113265",
+    "P": "89c53a10-23e1-4ce8-8a7a-e8a36b55154c",
+    "G": "b1592488-73ef-425d-a5f4-80b2ee7a9f22",
+    "X": "093c97f1-61f9-4e62-9532-2ae57445ef0f",
+    "A": "d68154ca-01ac-449f-a55a-5a3b5b82a155"
+  },
+  "subjects": {
+    "M1": 3335,
+    "M2": 3336
+  }
+}

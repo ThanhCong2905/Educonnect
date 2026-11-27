@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-075-DL1",
+  "runTag": "IT734f391fa95b4594b0a37514c769310d",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "4ae8e1b7-d0c3-42cb-8a89-68c26db956e5",
+    "P": "30dd665b-0b2e-4c93-a5a8-f12a600cc034",
+    "G": "e5452bae-95f0-4194-84e1-d96e798d226a",
+    "X": "26ed9ec8-4646-4285-abba-545913bcf9c9",
+    "A": "7cb19b46-f530-4f2d-b229-43a7591c4f6b"
+  },
+  "subjects": {
+    "M1": 1614,
+    "M2": 1615
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022B\\u1EA1n \\u0111\\u00E3 t\\u1EEB ch\\u1ED1i l\\u1EDDi m\\u1EDDi.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc\u0022}"
+  }
+}

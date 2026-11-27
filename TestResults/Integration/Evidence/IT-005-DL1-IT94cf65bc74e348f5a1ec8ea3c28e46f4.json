@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-005-DL1",
+  "runTag": "IT94cf65bc74e348f5a1ec8ea3c28e46f4",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.KhungGioDeXuat WHERE YeuCauKetNoiId=@r",
+    "parameters": {
+      "@r": "6302746f-0692-4ffe-b734-738e173e2bde"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "211b76df-c606-4a94-9d6d-3697b5e5c2d6",
+    "P": "d125b319-a7f3-47f8-8837-94f459a84b25",
+    "G": "bad95928-0c7a-4cfd-956c-27bd15b63f26",
+    "X": "f1858cac-ab78-4cc5-8578-fb95b17a1727",
+    "A": "07dd9dcb-6e2c-4bc9-be7f-c29243a9a738"
+  },
+  "subjects": {
+    "M1": 3383,
+    "M2": 3384
+  }
+}

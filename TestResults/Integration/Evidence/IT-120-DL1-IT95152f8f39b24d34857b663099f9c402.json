@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-120-DL1",
+  "runTag": "IT95152f8f39b24d34857b663099f9c402",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.LopHoc SET TrangThai=\u0027DaKetThuc\u0027,KetThucLuc=SYSDATETIMEOFFSET(),CachKetThuc=N\u0027DongY\u0027 WHERE Id=@c",
+    "parameters": {
+      "@c": "34806a0f-d7c8-413d-a3cb-f82471c24382"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "df8418a9-f49c-4627-aabf-baa10780b61b",
+    "P": "a0925a83-6971-4154-8869-94ca6114021c",
+    "G": "b1964368-e810-453c-929d-92f59899352a",
+    "X": "68c45462-bd1c-4dbb-9e06-4bc9d484e0a0",
+    "A": "114e3488-33eb-4e1f-a92f-6443ab1b4cd9"
+  },
+  "subjects": {
+    "M1": 1708,
+    "M2": 1709
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022L\\u1EDBp c\\u1EA7n \\u00EDt nh\\u1EA5t m\\u1ED9t bu\\u1ED5i h\\u1ECDc th\\u1EF1c t\\u1EBF \\u0111\\u00E3 ghi nh\\u1EADn.\u0022]}}"
+  }
+}

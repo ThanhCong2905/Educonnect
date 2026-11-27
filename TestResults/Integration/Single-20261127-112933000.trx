@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="aa0391ee-a22f-4f9c-ab70-d9831396d448" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 11:29:39" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T11:29:39.1454484+07:00" queuing="2026-11-27T11:29:39.1454488+07:00" start="2026-11-27T11:29:34.0786834+07:00" finish="2026-11-27T11:29:42.5652753+07:00" />
+  <TestSettings name="default" id="521a13a0-244c-4e98-9be0-95444ab7c04a">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_11_29_39" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="21025b14-1f04-4ea7-b6d4-bbda577c5170" testId="9dae77e3-654a-001a-0a01-cdc08acf267f" testName="IT-154 | Service đăng ký ghép Identity, vai trò và hồ sơ" computerName="LAPTOP-3L2V1AFT" duration="00:00:04.2604301" startTime="2026-11-27T11:29:39.1213994+07:00" endTime="2026-11-27T11:29:39.1214372+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21025b14-1f04-4ea7-b6d4-bbda577c5170" />
+    <UnitTestResult executionId="2b0a99c0-daea-4ba9-9efd-49e2fb3c21f8" testId="3ee322af-0052-25a5-b4db-8e46cf61f5c3" testName="IT-141 | Yêu cầu sửa hồ sơ cần lý do và không công khai" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.3586940" startTime="2026-11-27T11:29:42.4814878+07:00" endTime="2026-11-27T11:29:42.4814880+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b0a99c0-daea-4ba9-9efd-49e2fb3c21f8" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-154 | Service đăng ký ghép Identity, vai trò và hồ sơ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="9dae77e3-654a-001a-0a01-cdc08acf267f">
+      <Execution id="21025b14-1f04-4ea7-b6d4-bbda577c5170" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_154" />
+    </UnitTest>
+    <UnitTest name="IT-141 | Yêu cầu sửa hồ sơ cần lý do và không công khai" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="3ee322af-0052-25a5-b4db-8e46cf61f5c3">
+      <Execution id="2b0a99c0-daea-4ba9-9efd-49e2fb3c21f8" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_141" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="9dae77e3-654a-001a-0a01-cdc08acf267f" executionId="21025b14-1f04-4ea7-b6d4-bbda577c5170" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3ee322af-0052-25a5-b4db-8e46cf61f5c3" executionId="2b0a99c0-daea-4ba9-9efd-49e2fb3c21f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:07.84]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

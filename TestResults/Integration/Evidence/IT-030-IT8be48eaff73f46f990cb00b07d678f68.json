@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-030",
+  "runTag": "IT8be48eaff73f46f990cb00b07d678f68",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "search_suggest",
+    "group": 2,
+    "title": "G\u1EE3i \u00FD c\u00F3 l\u00FD do, kh\u00F4ng t\u1EF1 t\u1EA1o k\u1EBFt n\u1ED1i",
+    "stage": 2,
+    "entry": "TimKiemService.GoiYAsync",
+    "input": "H1 c\u00F3 N1 m\u00F4n M1, h\u1ECDc tr\u1EF1c tuy\u1EBFn; G1 c\u00F9ng m\u00F4n/h\u00ECnh th\u1EE9c, G2 c\u00F9ng m\u00F4n kh\u00E1c h\u00ECnh th\u1EE9c; DL02 G1 t\u00ECm nhu c\u1EA7u; DL03 H2 kh\u00F4ng nhu c\u1EA7u.",
+    "action": "G\u1ECDi Service th\u1EADt v\u1EDBi t\u1EEBng actor; ki\u1EC3m Items/HasNeed/LyDo v\u00E0 snapshot li\u00EAn h\u1EC7/l\u1EDBp.",
+    "contract": "H1 \u01B0u ti\u00EAn \u0111\u00FAng m\u1EE9c ti\u00EAu ch\u00ED v\u00E0 c\u00F3 l\u00FD do, kh\u00F4ng ph\u1EA7n tr\u0103m; G1 ch\u1EC9 nhu c\u1EA7u li\u00EAn quan m\u00F4n; H2 nh\u1EADn kh\u00F4ng c\u00F3 nhu c\u1EA7u \u0111\u1EC3 g\u1EE3i \u00FD.",
+    "db": "Kh\u00F4ng t\u1EF1 t\u1EA1o YeuCauLienHe/YeuCauKetNoiLopHoc/LopHoc.",
+    "fr": [
+      "FR-06",
+      "FR-07"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TimKiemService.GoiYAsync"
+    ],
+    "deps": [
+      "search_store",
+      "need_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-030",
+    "catalogOrder": 30,
+    "executionOrder": 21,
+    "dependencyIds": [
+      "IT-029",
+      "IT-014"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.2-U13",
+        "cls": "TimKiemService",
+        "method": "GoiYAsync",
+        "table": 53
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "TimKiemService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-06, FR-07; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.2-U13 TimKiemService.GoiYAsync (b\u1EA3ng 53)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: G\u1EE3i \u00FD c\u00F3 l\u00FD do, kh\u00F4ng t\u1EF1 t\u1EA1o k\u1EBFt n\u1ED1i",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #21.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-029, IT-014\nGh\u00E9p sau: TimKiemService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nH1 c\u00F3 N1 m\u00F4n M1, h\u1ECDc tr\u1EF1c tuy\u1EBFn; G1 c\u00F9ng m\u00F4n/h\u00ECnh th\u1EE9c, G2 c\u00F9ng m\u00F4n kh\u00E1c h\u00ECnh th\u1EE9c; DL02 G1 t\u00ECm nhu c\u1EA7u; DL03 H2 kh\u00F4ng nhu c\u1EA7u.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-029, IT-014 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F2 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: H1 c\u00F3 N1 m\u00F4n M1, h\u1ECDc tr\u1EF1c tuy\u1EBFn; G1 c\u00F9ng m\u00F4n/h\u00ECnh th\u1EE9c, G2 c\u00F9ng m\u00F4n kh\u00E1c h\u00ECnh th\u1EE9c; DL02 G1 t\u00ECm nhu c\u1EA7u; DL03 H2 kh\u00F4ng nhu c\u1EA7u. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt v\u1EDBi t\u1EEBng actor; ki\u1EC3m Items/HasNeed/LyDo v\u00E0 snapshot li\u00EAn h\u1EC7/l\u1EDBp. \u0110i\u1EC3m v\u00E0o: TimKiemService.GoiYAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: H1 \u01B0u ti\u00EAn \u0111\u00FAng m\u1EE9c ti\u00EAu ch\u00ED v\u00E0 c\u00F3 l\u00FD do, kh\u00F4ng ph\u1EA7n tr\u0103m; G1 ch\u1EC9 nhu c\u1EA7u li\u00EAn quan m\u00F4n; H2 nh\u1EADn kh\u00F4ng c\u00F3 nhu c\u1EA7u \u0111\u1EC3 g\u1EE3i \u00FD.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng t\u1EF1 t\u1EA1o YeuCauLienHe/YeuCauKetNoiLopHoc/LopHoc.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: H1 \u01B0u ti\u00EAn \u0111\u00FAng m\u1EE9c ti\u00EAu ch\u00ED v\u00E0 c\u00F3 l\u00FD do, kh\u00F4ng ph\u1EA7n tr\u0103m; G1 ch\u1EC9 nhu c\u1EA7u li\u00EAn quan m\u00F4n; H2 nh\u1EADn kh\u00F4ng c\u00F3 nhu c\u1EA7u \u0111\u1EC3 g\u1EE3i \u00FD.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng t\u1EF1 t\u1EA1o YeuCauLienHe/YeuCauKetNoiLopHoc/LopHoc."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "ee2edc6f-970e-453f-9a98-c94ed28a66d9",
+    "P": "4498d7d8-7073-4098-8ab6-3a6752066d05",
+    "G": "9469ab21-cf11-4410-b439-2ff2192abbc7",
+    "X": "533d8684-9c8d-4fa9-bd73-75492726607e",
+    "A": "4b9e0a8a-808f-42bd-9275-9c0517b44fa6"
+  },
+  "subjects": {
+    "M1": 1292,
+    "M2": 1293
+  },
+  "assertions": "Passed"
+}

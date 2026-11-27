@@ -1,0 +1,121 @@
+{
+  "caseId": "IT-118",
+  "runTag": "IT35dda4cdf613450eb32b2a434ce0f44b",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "legacy_feedback",
+    "group": 8,
+    "title": "\u0110\u1ECDc phi\u1EBFu v\u00E0 l\u1ECBch s\u1EED ph\u1EA3n h\u1ED3i c\u0169 theo quy\u1EC1n l\u1EDBp",
+    "stage": 3,
+    "entry": "GET /DanhGia/DanhGia/DanhSach?maLop=C1; GET /DanhGia/DanhGia/LichSu?id=F_OLD",
+    "input": "C1 c\u00F3 PhieuDanhGia/LichSuPhanHoi/DotPhanHoi c\u0169; H1 \u0111\u01B0\u1EE3c xem; DL02 X.",
+    "action": "GET c\u00E1c \u0111i\u1EC3m v\u00E0o \u0111\u1ECDc \u0111ang c\u00F3; \u0111\u1ED1i chi\u1EBFu FK l\u1EDBp/phi\u1EBFu v\u00E0 th\u1EE9 t\u1EF1 l\u1ECBch s\u1EED.",
+    "contract": "H1 200 v\u1EDBi d\u1EEF li\u1EC7u c\u0169; X 403; kh\u00F4ng gi\u1EA3 \u0111\u1ECBnh c\u00F3 POST TaoDot/Gui/DongDot trong Controller hi\u1EC7n t\u1EA1i.",
+    "db": "Kh\u00F4ng thay/x\u00F3a phi\u1EBFu, m\u1EE9c h\u00E0i l\u00F2ng null v\u1EABn null; kh\u00F4ng bi\u1EBFn ph\u1EA3n h\u1ED3i c\u0169 th\u00E0nh quy\u1EBFt \u0111\u1ECBnh t\u1EF1 k\u1EBFt th\u00FAc l\u1EDBp.",
+    "fr": [
+      "FR-34",
+      "FR-43",
+      "FR-44"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "DanhGiaService.LayTheoLopAsync",
+      "DanhGiaService.LichSuAsync",
+      "TienDoService.LayAsync",
+      "DanhGiaController.DanhSach",
+      "DanhGiaController.LichSu"
+    ],
+    "deps": [
+      "progress_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "DanhGiaController",
+        "area": "DanhGia",
+        "method": "DanhSach",
+        "action": "DanhSach",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E DanhSach(Guid maLop, DateTimeOffset? tuNgay = null, DateTimeOffset? denNgay = null, int trang = 1)",
+        "line": 10,
+        "file": "Areas\\DanhGia\\Controllers\\DanhGiaController.cs"
+      },
+      {
+        "cls": "DanhGiaController",
+        "area": "DanhGia",
+        "method": "LichSu",
+        "action": "LichSu",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E LichSu(Guid id)",
+        "line": 16,
+        "file": "Areas\\DanhGia\\Controllers\\DanhGiaController.cs"
+      }
+    ],
+    "id": "IT-118",
+    "catalogOrder": 118,
+    "executionOrder": 135,
+    "dependencyIds": [
+      "IT-111",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC4.1-U01",
+        "cls": "DanhGiaController",
+        "method": "DanhSach",
+        "table": 264
+      },
+      {
+        "id": "UC4.1-U09",
+        "cls": "DanhGiaController",
+        "method": "LichSu",
+        "table": 265
+      },
+      {
+        "id": "UC4.1-U14",
+        "cls": "DanhGiaService",
+        "method": "LayTheoLopAsync",
+        "table": 266
+      },
+      {
+        "id": "UC4.1-U15",
+        "cls": "DanhGiaService",
+        "method": "LichSuAsync",
+        "table": 267
+      },
+      {
+        "id": "UC4.1-U17",
+        "cls": "TienDoService",
+        "method": "LayAsync",
+        "table": 268
+      }
+    ],
+    "fixture": "F8",
+    "sqlOracle": "SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 DanhGiaService, TienDoService, DanhGiaController \u2192 EF/SQL Server",
+    "baseline": "FR-34, FR-43, FR-44; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC4.1-U01 DanhGiaController.DanhSach (b\u1EA3ng 264); UC4.1-U09 DanhGiaController.LichSu (b\u1EA3ng 265); UC4.1-U14 DanhGiaService.LayTheoLopAsync (b\u1EA3ng 266); UC4.1-U15 DanhGiaService.LichSuAsync (b\u1EA3ng 267); UC4.1-U17 TienDoService.LayAsync (b\u1EA3ng 268)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: \u0110\u1ECDc phi\u1EBFu v\u00E0 l\u1ECBch s\u1EED ph\u1EA3n h\u1ED3i c\u0169 theo quy\u1EC1n l\u1EDBp",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #135.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-111, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 DanhGiaService, TienDoService, DanhGiaController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F8 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nC1 c\u00F3 PhieuDanhGia/LichSuPhanHoi/DotPhanHoi c\u0169; H1 \u0111\u01B0\u1EE3c xem; DL02 X.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-111, IT-157; t\u1EA1o fixture F8 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: C1 c\u00F3 PhieuDanhGia/LichSuPhanHoi/DotPhanHoi c\u0169; H1 \u0111\u01B0\u1EE3c xem; DL02 X.\n4. GET c\u00E1c \u0111i\u1EC3m v\u00E0o \u0111\u1ECDc \u0111ang c\u00F3; \u0111\u1ED1i chi\u1EBFu FK l\u1EDBp/phi\u1EBFu v\u00E0 th\u1EE9 t\u1EF1 l\u1ECBch s\u1EED. \u0110i\u1EC3m v\u00E0o: GET /DanhGia/DanhGia/DanhSach?maLop=C1; GET /DanhGia/DanhGia/LichSu?id=F_OLD. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: H1 200 v\u1EDBi d\u1EEF li\u1EC7u c\u0169; X 403; kh\u00F4ng gi\u1EA3 \u0111\u1ECBnh c\u00F3 POST TaoDot/Gui/DongDot trong Controller hi\u1EC7n t\u1EA1i.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng thay/x\u00F3a phi\u1EBFu, m\u1EE9c h\u00E0i l\u00F2ng null v\u1EABn null; kh\u00F4ng bi\u1EBFn ph\u1EA3n h\u1ED3i c\u0169 th\u00E0nh quy\u1EBFt \u0111\u1ECBnh t\u1EF1 k\u1EBFt th\u00FAc l\u1EDBp.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: H1 200 v\u1EDBi d\u1EEF li\u1EC7u c\u0169; X 403; kh\u00F4ng gi\u1EA3 \u0111\u1ECBnh c\u00F3 POST TaoDot/Gui/DongDot trong Controller hi\u1EC7n t\u1EA1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng thay/x\u00F3a phi\u1EBFu, m\u1EE9c h\u00E0i l\u00F2ng null v\u1EABn null; kh\u00F4ng bi\u1EBFn ph\u1EA3n h\u1ED3i c\u0169 th\u00E0nh quy\u1EBFt \u0111\u1ECBnh t\u1EF1 k\u1EBFt th\u00FAc l\u1EDBp."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "0d6fe818-f99b-429c-b33d-6e47b9e70f85",
+    "P": "987d36a0-1844-44c5-9bda-4214f6f4c734",
+    "G": "41f05249-c531-4e42-9865-b499cccd4505",
+    "X": "284f2d0e-f0c6-49f9-af57-56eae6338ca0",
+    "A": "61ced697-bfcd-432c-b7a5-33b302c61603"
+  },
+  "subjects": {
+    "M1": 3897,
+    "M2": 3898
+  },
+  "exception": "Xunit.Sdk.ContainsException: Assert.Contains() Failure: Sub-string not found\r\nString:    \u0022\u003C!doctype html\u003E\u003Chtml lang=\u0022vi\u0022\u003E\u003Chead\u003E\u003Cmet\u0022\u00B7\u00B7\u00B7\r\nNot found: \u0022N\u1ED9i dung c\u0169\u0022\r\n   at Xunit.Assert.Contains(String expectedSubstring, String actualString, StringComparison comparisonType) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 66\r\n   at Cases.ProgressCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ProgressCases.cs:line 58\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 352"
+}

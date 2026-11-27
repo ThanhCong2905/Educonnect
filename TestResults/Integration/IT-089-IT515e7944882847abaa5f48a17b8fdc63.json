@@ -1,0 +1,115 @@
+{
+  "caseId": "IT-089",
+  "runTag": "IT515e7944882847abaa5f48a17b8fdc63",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "schedule_change",
+    "group": 6,
+    "title": "\u0110\u1ED5i l\u1ECBch bu\u1ED5i ch\u01B0a di\u1EC5n ra gi\u1EEF bu\u1ED5i v\u00E0 b\u00E0i t\u1EADp",
+    "stage": 3,
+    "entry": "POST /HocTap/LichHoc/Sua",
+    "input": "G1,L1/B1 t\u01B0\u01A1ng lai; B1 c\u00F3 b\u00E0i nh\u00E1p A1; RV l\u1ECBch m\u1EDBi; \u0111\u1ED5i gi\u1EDD v\u00E0 c\u00F3 l\u00FD do.",
+    "action": "POST Sua; \u0111\u1ECDc LichSuDieuChinhLich, B1 v\u00E0 A1 b\u1EB1ng connection m\u1EDBi.",
+    "contract": "200 ok=true; gi\u1EDD m\u1EDBi h\u1EE3p l\u1EC7, kh\u00F4ng t\u1EA1o bu\u1ED5i m\u1EDBi thay B1.",
+    "db": "B1.Id v\u00E0 A1.BuoiHocId gi\u1EEF nguy\u00EAn; l\u01B0u gi\u1EDD c\u0169/m\u1EDBi, actor/l\u00FD do/th\u1EDDi \u0111i\u1EC3m v\u00E0 notice.",
+    "fr": [
+      "FR-27"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "LichHocService.GhiNhanChiTietAsync",
+      "LichHocService.LayAsync",
+      "LichHocService.SuaAsync",
+      "LichHocController.Sua"
+    ],
+    "deps": [
+      "schedule_store",
+      "assignment_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "LichHocController",
+        "area": "HocTap",
+        "method": "Sua",
+        "action": "Sua",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Sua(SuaLichInput m)",
+        "line": 54,
+        "file": "Areas\\HocTap\\Controllers\\LichHocController.cs"
+      }
+    ],
+    "id": "IT-089",
+    "catalogOrder": 89,
+    "executionOrder": 117,
+    "dependencyIds": [
+      "IT-083",
+      "IT-096",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.1-U05",
+        "cls": "LichHocService",
+        "method": "GhiNhanChiTietAsync",
+        "table": 140
+      },
+      {
+        "id": "UC3.2-U06",
+        "cls": "LichHocController",
+        "method": "Sua",
+        "table": 147
+      },
+      {
+        "id": "UC3.2-U03",
+        "cls": "LichHocController",
+        "method": "Sua",
+        "table": 148
+      },
+      {
+        "id": "UC3.2-U16",
+        "cls": "LichHocService",
+        "method": "LayAsync",
+        "table": 155
+      },
+      {
+        "id": "UC3.2-U04",
+        "cls": "LichHocService",
+        "method": "SuaAsync",
+        "table": 156
+      }
+    ],
+    "fixture": "F6",
+    "sqlOracle": "SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 LichHocService, LichHocController \u2192 EF/SQL Server",
+    "baseline": "FR-27; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.1-U05 LichHocService.GhiNhanChiTietAsync (b\u1EA3ng 140); UC3.2-U06 LichHocController.Sua (b\u1EA3ng 147); UC3.2-U03 LichHocController.Sua (b\u1EA3ng 148); UC3.2-U16 LichHocService.LayAsync (b\u1EA3ng 155); UC3.2-U04 LichHocService.SuaAsync (b\u1EA3ng 156)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: \u0110\u1ED5i l\u1ECBch bu\u1ED5i ch\u01B0a di\u1EC5n ra gi\u1EEF bu\u1ED5i v\u00E0 b\u00E0i t\u1EADp",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #117.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-083, IT-096, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 LichHocService, LichHocController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F6 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nG1,L1/B1 t\u01B0\u01A1ng lai; B1 c\u00F3 b\u00E0i nh\u00E1p A1; RV l\u1ECBch m\u1EDBi; \u0111\u1ED5i gi\u1EDD v\u00E0 c\u00F3 l\u00FD do.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-083, IT-096, IT-157; t\u1EA1o fixture F6 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: G1,L1/B1 t\u01B0\u01A1ng lai; B1 c\u00F3 b\u00E0i nh\u00E1p A1; RV l\u1ECBch m\u1EDBi; \u0111\u1ED5i gi\u1EDD v\u00E0 c\u00F3 l\u00FD do.\n4. POST Sua; \u0111\u1ECDc LichSuDieuChinhLich, B1 v\u00E0 A1 b\u1EB1ng connection m\u1EDBi. \u0110i\u1EC3m v\u00E0o: POST /HocTap/LichHoc/Sua. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 200 ok=true; gi\u1EDD m\u1EDBi h\u1EE3p l\u1EC7, kh\u00F4ng t\u1EA1o bu\u1ED5i m\u1EDBi thay B1.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: B1.Id v\u00E0 A1.BuoiHocId gi\u1EEF nguy\u00EAn; l\u01B0u gi\u1EDD c\u0169/m\u1EDBi, actor/l\u00FD do/th\u1EDDi \u0111i\u1EC3m v\u00E0 notice.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 200 ok=true; gi\u1EDD m\u1EDBi h\u1EE3p l\u1EC7, kh\u00F4ng t\u1EA1o bu\u1ED5i m\u1EDBi thay B1.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: B1.Id v\u00E0 A1.BuoiHocId gi\u1EEF nguy\u00EAn; l\u01B0u gi\u1EDD c\u0169/m\u1EDBi, actor/l\u00FD do/th\u1EDDi \u0111i\u1EC3m v\u00E0 notice."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "540e9ce6-0561-4ccf-b1ef-427cd38e9367",
+    "P": "169837c8-3e85-4047-a11f-680dd3c975d8",
+    "G": "43381c46-172a-4a6a-846a-177fd1378ae2",
+    "X": "7c5cccb0-3cc7-426a-91cd-5dfce7bedf20",
+    "A": "bfa0f3fb-fa24-4075-94d3-641be71ab45e"
+  },
+  "subjects": {
+    "M1": 4511,
+    "M2": 4512
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u thay \\u0111\\u1ED5i.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LopHoc/ChiTiet/c83ad80a-5f8a-4327-affa-866f486f7f80?tab=schedule\\u0026week=2026-12-04\u0022}"
+  },
+  "exception": "Xunit.Sdk.EqualException: Assert.Equal() Failure: Strings differ\r\n             \u2193 (pos 2)\r\nExpected: \u0022DaDieuChinh\u0022\r\nActual:   \u0022DaLenLich\u0022\r\n             \u2191 (pos 2)\r\n   at Xunit.Assert.Equal(ReadOnlySpan\u00601 expected, ReadOnlySpan\u00601 actual, Boolean ignoreCase, Boolean ignoreLineEndingDifferences, Boolean ignoreWhiteSpaceDifferences, Boolean ignoreAllWhiteSpace) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 965\r\n   at Xunit.Assert.Equal(String expected, String actual, Boolean ignoreCase, Boolean ignoreLineEndingDifferences, Boolean ignoreWhiteSpaceDifferences, Boolean ignoreAllWhiteSpace) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 1342\r\n   at Xunit.Assert.Equal(String expected, String actual) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 849\r\n   at Cases.ScheduleCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ScheduleCases.cs:line 31\r\n   at Cases.ScheduleCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ScheduleCases.cs:line 31\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 374"
+}

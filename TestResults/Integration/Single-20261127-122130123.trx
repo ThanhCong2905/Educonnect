@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="06a14b7d-df1c-4d16-a1f4-4a68edcf936f" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 12:21:36" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T12:21:36.1183394+07:00" queuing="2026-11-27T12:21:36.1183399+07:00" start="2026-11-27T12:21:31.2826269+07:00" finish="2026-11-27T12:21:50.0120727+07:00" />
+  <TestSettings name="default" id="25fc0ea5-fe25-4df1-89e7-ea216b753b21">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_12_21_36" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c90b73c5-35f2-414a-9b61-ea72ff2fa730" testId="b72b4e44-8a5a-2be8-2b3d-3737bdd0e280" testName="IT-189 | Một tài khoản chỉ một vai trò" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.2202345" startTime="2026-11-27T12:21:46.9626509+07:00" endTime="2026-11-27T12:21:46.9626514+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c90b73c5-35f2-414a-9b61-ea72ff2fa730" />
+    <UnitTestResult executionId="b179d6fb-2766-4701-99e5-3331cd7770bb" testId="7078ca5c-f3aa-d5f5-70e8-e1383307499b" testName="IT-142 | Báo cáo các loại đối tượng được phép xem" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.3610331" startTime="2026-11-27T12:21:40.6679721+07:00" endTime="2026-11-27T12:21:40.6679722+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b179d6fb-2766-4701-99e5-3331cd7770bb">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.&#xD;
+---- Microsoft.Data.SqlClient.SqlException : Nhu cầu gắn yêu cầu kết nối phải thuộc bên học.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Fixture.SeedProposal() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 56&#xD;
+   at Fixture.SeedProposal() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 56&#xD;
+   at Fixture.SeedClass() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs:line 58&#xD;
+   at Cases.AdminCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs:line 108&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 209&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 395&#xD;
+   at IntegrationTests.IT_142() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 144&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;ExecuteDbDataReaderAsync&gt;b__195_0(Task`1 result)&#xD;
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e3b8c8c2-08ff-4d6f-904f-acabfab3711a" testId="95d80d87-6d1d-d277-b88d-add82690df85" testName="IT-191 | Schema cuối hỗ trợ TamDung" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.4625668" startTime="2026-11-27T12:21:49.9067037+07:00" endTime="2026-11-27T12:21:49.9067041+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e3b8c8c2-08ff-4d6f-904f-acabfab3711a" />
+    <UnitTestResult executionId="90a569f9-0534-4aba-8689-c6f5cb696314" testId="745cfde9-9f9f-b609-f2a0-fa8ee3d39cf1" testName="IT-190 | Một lớp trên một yêu cầu" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.4805591" startTime="2026-11-27T12:21:48.4436633+07:00" endTime="2026-11-27T12:21:48.4436637+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90a569f9-0534-4aba-8689-c6f5cb696314" />
+    <UnitTestResult executionId="cfe46ec1-c5a3-4d6b-a1a0-95a1472c3194" testId="5b9c0744-b85e-217b-f14d-34ad31f20c4c" testName="IT-188 | Metadata kết thúc lớp khớp EF" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.3625290" startTime="2026-11-27T12:21:45.7419841+07:00" endTime="2026-11-27T12:21:45.7419844+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfe46ec1-c5a3-4d6b-a1a0-95a1472c3194" />
+    <UnitTestResult executionId="2582b8b1-1fd9-4852-919e-fa419620e9af" testId="f9519b76-1121-10c5-4bb5-4ebac8e06fce" testName="IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.8381184" startTime="2026-11-27T12:21:36.0886491+07:00" endTime="2026-11-27T12:21:36.0886890+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2582b8b1-1fd9-4852-919e-fa419620e9af">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.&#xD;
+---- Microsoft.Data.SqlClient.SqlException : The INSERT statement conflicted with the FOREIGN KEY constraint "FK__LichSuPha__Phieu__30592A6F". The conflict occurred in database "EduConnect_Verification_Integration_20261125_v2", table "dbo.PhieuDanhGia", column 'Id'.&#xD;
+The statement has been terminated.</Message>
+          <StackTrace>   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Cases.ProgressCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs:line 57&#xD;
+   at Cases.ProgressCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs:line 57&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 352&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 395&#xD;
+   at IntegrationTests.IT_118() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 120&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;ExecuteDbDataReaderAsync&gt;b__195_0(Task`1 result)&#xD;
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="41e6309b-334f-4650-8371-860c8ef0fdf5" testId="a387ded3-95ed-7b55-4ee5-d87193ec26ee" testName="IT-144 | Bằng chứng chỉ người gửi và reviewer đúng quyền được tải" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.7140384" startTime="2026-11-27T12:21:44.3797251+07:00" endTime="2026-11-27T12:21:44.3797255+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41e6309b-334f-4650-8371-860c8ef0fdf5" />
+    <UnitTestResult executionId="eedef7a6-4461-47d7-99c3-995d662efb9f" testId="af951127-a4e8-7adf-ba4a-9c4987234500" testName="IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.2364577" startTime="2026-11-27T12:21:39.3019234+07:00" endTime="2026-11-27T12:21:39.3019236+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eedef7a6-4461-47d7-99c3-995d662efb9f">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Contains() Failure: Sub-string not found&#xD;
+String:    "&lt;!doctype html&gt;\r\n&lt;html lang="vi"&gt;\r\n&lt;head&gt;"···&#xD;
+Not found: "5.0"</Message>
+          <StackTrace>   at Cases.ProgressCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs:line 63&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 352&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 395&#xD;
+   at IntegrationTests.IT_123() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 125&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-188 | Metadata kết thúc lớp khớp EF" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="5b9c0744-b85e-217b-f14d-34ad31f20c4c">
+      <Execution id="cfe46ec1-c5a3-4d6b-a1a0-95a1472c3194" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_188" />
+    </UnitTest>
+    <UnitTest name="IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="f9519b76-1121-10c5-4bb5-4ebac8e06fce">
+      <Execution id="2582b8b1-1fd9-4852-919e-fa419620e9af" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_118" />
+    </UnitTest>
+    <UnitTest name="IT-142 | Báo cáo các loại đối tượng được phép xem" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="7078ca5c-f3aa-d5f5-70e8-e1383307499b">
+      <Execution id="b179d6fb-2766-4701-99e5-3331cd7770bb" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_142" />
+    </UnitTest>
+    <UnitTest name="IT-189 | Một tài khoản chỉ một vai trò" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="b72b4e44-8a5a-2be8-2b3d-3737bdd0e280">
+      <Execution id="c90b73c5-35f2-414a-9b61-ea72ff2fa730" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_189" />
+    </UnitTest>
+    <UnitTest name="IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="af951127-a4e8-7adf-ba4a-9c4987234500">
+      <Execution id="eedef7a6-4461-47d7-99c3-995d662efb9f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_123" />
+    </UnitTest>
+    <UnitTest name="IT-144 | Bằng chứng chỉ người gửi và reviewer đúng quyền được tải" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="a387ded3-95ed-7b55-4ee5-d87193ec26ee">
+      <Execution id="41e6309b-334f-4650-8371-860c8ef0fdf5" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_144" />
+    </UnitTest>
+    <UnitTest name="IT-191 | Schema cuối hỗ trợ TamDung" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="95d80d87-6d1d-d277-b88d-add82690df85">
+      <Execution id="e3b8c8c2-08ff-4d6f-904f-acabfab3711a" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_191" />
+    </UnitTest>
+    <UnitTest name="IT-190 | Một lớp trên một yêu cầu" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="745cfde9-9f9f-b609-f2a0-fa8ee3d39cf1">
+      <Execution id="90a569f9-0534-4aba-8689-c6f5cb696314" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_190" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="b72b4e44-8a5a-2be8-2b3d-3737bdd0e280" executionId="c90b73c5-35f2-414a-9b61-ea72ff2fa730" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7078ca5c-f3aa-d5f5-70e8-e1383307499b" executionId="b179d6fb-2766-4701-99e5-3331cd7770bb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95d80d87-6d1d-d277-b88d-add82690df85" executionId="e3b8c8c2-08ff-4d6f-904f-acabfab3711a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="745cfde9-9f9f-b609-f2a0-fa8ee3d39cf1" executionId="90a569f9-0534-4aba-8689-c6f5cb696314" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5b9c0744-b85e-217b-f14d-34ad31f20c4c" executionId="cfe46ec1-c5a3-4d6b-a1a0-95a1472c3194" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9519b76-1121-10c5-4bb5-4ebac8e06fce" executionId="2582b8b1-1fd9-4852-919e-fa419620e9af" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a387ded3-95ed-7b55-4ee5-d87193ec26ee" executionId="41e6309b-334f-4650-8371-860c8ef0fdf5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="af951127-a4e8-7adf-ba4a-9c4987234500" executionId="eedef7a6-4461-47d7-99c3-995d662efb9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="8" executed="8" passed="5" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.14]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.23]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.24]   Starting:    IntegrationCurrent&#xD;
+[xUnit.net 00:00:04.19]       Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.&#xD;
+[xUnit.net 00:00:04.19]       ---- Microsoft.Data.SqlClient.SqlException : The INSERT statement conflicted with the FOREIGN KEY constraint "FK__LichSuPha__Phieu__30592A6F". The conflict occurred in database "EduConnect_Verification_Integration_20261125_v2", table "dbo.PhieuDanhGia", column 'Id'.&#xD;
+[xUnit.net 00:00:04.19]       The statement has been terminated.&#xD;
+[xUnit.net 00:00:04.19]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs(57,0): at Cases.ProgressCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:04.19]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs(57,0): at Cases.ProgressCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:04.19]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(352,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:04.19]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(395,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:04.19]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(120,0): at IntegrationTests.IT_118()&#xD;
+[xUnit.net 00:00:04.19]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:04.19]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;ExecuteDbDataReaderAsync&gt;b__195_0(Task`1 result)&#xD;
+[xUnit.net 00:00:04.19]            at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+[xUnit.net 00:00:04.19]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:04.19]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:04.19]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:04.19]            at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+[xUnit.net 00:00:04.19]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.19]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:07.40]       Assert.Contains() Failure: Sub-string not found&#xD;
+[xUnit.net 00:00:07.40]       String:    "&lt;!doctype html&gt;\r\n&lt;html lang="vi"&gt;\r\n&lt;head&gt;"···&#xD;
+[xUnit.net 00:00:07.40]       Not found: "5.0"&#xD;
+[xUnit.net 00:00:07.40]       Stack Trace:&#xD;
+[xUnit.net 00:00:07.41]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ProgressCases.cs(63,0): at Cases.ProgressCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:07.41]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(352,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:07.41]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(395,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:07.41]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(125,0): at IntegrationTests.IT_123()&#xD;
+[xUnit.net 00:00:07.41]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:08.77]       Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.&#xD;
+[xUnit.net 00:00:08.77]       ---- Microsoft.Data.SqlClient.SqlException : Nhu cầu gắn yêu cầu kết nối phải thuộc bên học.&#xD;
+[xUnit.net 00:00:08.77]       Stack Trace:&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(56,0): at Fixture.SeedProposal()&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(56,0): at Fixture.SeedProposal()&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\Harness.cs(58,0): at Fixture.SeedClass()&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs(108,0): at Cases.AdminCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(209,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(395,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:08.77]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(144,0): at IntegrationTests.IT_142()&#xD;
+[xUnit.net 00:00:08.77]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:08.77]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.Data.SqlClient.SqlCommand.&lt;&gt;c.&lt;ExecuteDbDataReaderAsync&gt;b__195_0(Task`1 result)&#xD;
+[xUnit.net 00:00:08.77]            at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+[xUnit.net 00:00:08.77]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:08.77]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:08.77]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:08.77]            at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+[xUnit.net 00:00:08.77]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.77]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware[0]&#xD;
+      Request failed /QuanTri/BaoCaoViPham/Tep&#xD;
+      EduConnect.Mvc.Infrastructure.LoiNghiepVu: B?n kh�ng c� quy?n xem b�o c�o n�y.&#xD;
+         at EduConnect.Mvc.Infrastructure.KetQua`1.get_DuLieu() in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\KetQua.cs:line 19&#xD;
+         at EduConnect.Mvc.Areas.QuanTri.Services.BaoCaoViPhamService.TaiTepAsync(Guid id) in C:\Kh�a lu?n TN\EduConnect1\Areas\QuanTri\Services\BaoCaoViPhamService.cs:line 152&#xD;
+         at EduConnect.Mvc.Areas.QuanTri.Controllers.BaoCaoViPhamController.Tep(Guid id, Boolean xem) in C:\Kh�a lu?n TN\EduConnect1\Areas\QuanTri\Controllers\BaoCaoViPhamController.cs:line 145&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeActionMethodAsync&gt;g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeNextActionFilterAsync&gt;g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeInnerFilterAsync&gt;g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextExceptionFilterAsync&gt;g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextResourceFilter&gt;g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeFilterPipelineAsync&gt;g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Program.&lt;&gt;c.&lt;&lt;&lt;Main&gt;$&gt;b__0_12&gt;d.MoveNext() in C:\Kh�a lu?n TN\EduConnect1\Program.cs:line 119&#xD;
+      --- End of stack trace from previous location ---&#xD;
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)&#xD;
+         at EduConnect.Mvc.Infrastructure.NhatKyAnToanMiddleware.InvokeAsync(HttpContext http, NhatKyAnToanService audit) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\NhatKyAnToanService.cs:line 56&#xD;
+         at EduConnect.Mvc.Infrastructure.NhatKyAnToanMiddleware.InvokeAsync(HttpContext http, NhatKyAnToanService audit) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\NhatKyAnToanService.cs:line 98&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)&#xD;
+         at EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware.InvokeAsync(HttpContext c) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\LoiNghiepVuMiddleware.cs:line 9&#xD;
+warn: EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware[0]&#xD;
+      Request failed /HocTap/TinNhan/Tai&#xD;
+      EduConnect.Mvc.Infrastructure.LoiNghiepVu: Kh�ng t�m th?y t?p tin nh?n.&#xD;
+         at EduConnect.Mvc.Areas.HocTap.Services.TinNhanService.TaiTepAsync(Guid id) in C:\Kh�a lu?n TN\EduConnect1\Areas\HocTap\Services\TinNhanService.cs:line 131&#xD;
+         at EduConnect.Mvc.Areas.HocTap.Controllers.TinNhanController.Tai(Guid id, Boolean xem) in C:\Kh�a lu?n TN\EduConnect1\Areas\HocTap\Controllers\TinNhanController.cs:line 75&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeActionMethodAsync&gt;g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeNextActionFilterAsync&gt;g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.&lt;InvokeInnerFilterAsync&gt;g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextExceptionFilterAsync&gt;g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeNextResourceFilter&gt;g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State&amp; next, Scope&amp; scope, Object&amp; state, Boolean&amp; isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeFilterPipelineAsync&gt;g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.&lt;InvokeAsync&gt;g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)&#xD;
+         at Program.&lt;&gt;c.&lt;&lt;&lt;Main&gt;$&gt;b__0_12&gt;d.MoveNext() in C:\Kh�a lu?n TN\EduConnect1\Program.cs:line 119&#xD;
+      --- End of stack trace from previous location ---&#xD;
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)&#xD;
+         at EduConnect.Mvc.Infrastructure.NhatKyAnToanMiddleware.InvokeAsync(HttpContext http, NhatKyAnToanService audit) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\NhatKyAnToanService.cs:line 56&#xD;
+         at EduConnect.Mvc.Infrastructure.NhatKyAnToanMiddleware.InvokeAsync(HttpContext http, NhatKyAnToanService audit) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\NhatKyAnToanService.cs:line 98&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)&#xD;
+         at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)&#xD;
+         at EduConnect.Mvc.Infrastructure.LoiNghiepVuMiddleware.InvokeAsync(HttpContext c) in C:\Kh�a lu?n TN\EduConnect1\Infrastructure\LoiNghiepVuMiddleware.cs:line 9&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:18.02]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T12:21:36.0814671+07:00">
+        <Text>[xUnit.net 00:00:04.16]     IT-118 | Đọc phiếu và lịch sử phản hồi cũ theo quyền lớp [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T12:21:39.3008443+07:00">
+        <Text>[xUnit.net 00:00:07.40]     IT-123 | Ẩn đánh giá thay đổi tổng hợp và quyền xem đánh giá Bên học [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T12:21:40.6652848+07:00">
+        <Text>[xUnit.net 00:00:08.77]     IT-142 | Báo cáo các loại đối tượng được phép xem [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

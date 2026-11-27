@@ -1,0 +1,29 @@
+{
+  "caseId": "IT-021-DL2",
+  "runTag": "IT283c3c6523764ebcae2c3620652a58fa",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.NhuCauHoc SET TrangThai=\u0027DaDong\u0027 WHERE Id=@n; INSERT dbo.LuotDangNhuCau(Id,NhuCauId,TaiKhoanId,MaThaoTac,HanhDong,NgayDang,DangLuc) VALUES(NEWID(),@n,@u,NEWID(),\u0027Dang\u0027,CONVERT(date,SWITCHOFFSET(SYSDATETIMEOFFSET(),\u0027\u002B07:00\u0027)),SYSDATETIMEOFFSET())",
+    "parameters": {
+      "@n": "448a457f-51b5-49d6-b2a1-44f54136e640",
+      "@u": "dc7038b8-c32e-4693-8e06-20e1ff0ad790"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "dc7038b8-c32e-4693-8e06-20e1ff0ad790",
+    "P": "d67a119b-e570-4e4a-94b4-b6fbcb82ed3a",
+    "G": "efc8c98e-e884-4690-a6a0-772958fcb0a5",
+    "X": "7074b587-99a0-4b22-8646-e18206fdca5d",
+    "A": "55008861-a842-474e-ac2a-50c5b21e800f"
+  },
+  "subjects": {
+    "M1": 2280,
+    "M2": 2281
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u1EA1n \\u0111\\u00E3 d\\u00F9ng h\\u1EBFt 3 l\\u01B0\\u1EE3t \\u0111\\u0103ng ho\\u1EB7c m\\u1EDF l\\u1EA1i h\\u00F4m nay. B\\u1EA1n v\\u1EABn c\\u00F3 th\\u1EC3 s\\u1EEDa nhu c\\u1EA7u hi\\u1EC7n c\\u00F3.\u0022]}}"
+  }
+}

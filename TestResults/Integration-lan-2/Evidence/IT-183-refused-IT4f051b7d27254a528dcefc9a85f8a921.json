@@ -1,0 +1,21 @@
+{
+  "caseId": "IT-183-refused",
+  "runTag": "IT4f051b7d27254a528dcefc9a85f8a921",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "5869f087-8162-49b9-b743-d204274e42be",
+    "P": "6b30a1e3-4dc4-43e5-bda4-c17729a5a8b5",
+    "G": "7b81e6a3-a703-4550-a637-636d21927b0f",
+    "X": "b6f5257d-80a1-42bb-9922-ac8408f25deb",
+    "A": "1a1afbca-e099-4bac-a6a0-94d22068429c"
+  },
+  "subjects": {
+    "M1": 5131,
+    "M2": 5132
+  }
+}

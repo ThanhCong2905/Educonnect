@@ -1,0 +1,68 @@
+{
+  "caseId": "IT-085",
+  "runTag": "IT6a917566a74945789214492f435f03f2",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "lesson_record_race",
+    "group": 6,
+    "title": "Hai ghi nh\u1EADn c\u00F9ng RV kh\u00F4ng \u0111\u00E8 m\u1EA5t d\u1EEF li\u1EC7u",
+    "stage": 2,
+    "entry": "LichHocService.GhiNhanAsync",
+    "input": "Hai scope G1 d\u00F9ng c\u00F9ng RV1 nh\u01B0ng nh\u1EADn x\u00E9t kh\u00E1c, barrier; B1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n.",
+    "action": "G\u1ECDi \u0111\u1ED3ng th\u1EDDi; l\u01B0u exception/k\u1EBFt qu\u1EA3 ri\u00EAng; \u0111\u1ECDc SQL v\u00E0 RowVersion sau c\u00F9ng.",
+    "contract": "M\u1ED9t l\u01B0\u1EE3t ghi th\u00E0nh c\u00F4ng; l\u01B0\u1EE3t c\u00F2n l\u1EA1i l\u1ED7i phi\u00EAn b\u1EA3n; kh\u00F4ng \u00E1p d\u1EE5ng hai b\u1EA3n ghi ch\u1ED3ng nhau.",
+    "db": "M\u1ED9t k\u1EBFt qu\u1EA3 hi\u1EC7n h\u00E0nh, t\u01B0\u01A1ng \u1EE9ng ho\u00E0n to\u00E0n m\u1ED9t l\u01B0\u1EE3t th\u1EAFng; kh\u00F4ng tr\u1ED9n n\u1ED9i dung/\u0111i\u1EC3m danh hai l\u01B0\u1EE3t.",
+    "fr": [
+      "FR-26"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "LichHocService.GhiNhanAsync"
+    ],
+    "deps": [
+      "lesson_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-085",
+    "catalogOrder": 85,
+    "executionOrder": 33,
+    "dependencyIds": [
+      "IT-084"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.1-U03",
+        "cls": "LichHocService",
+        "method": "GhiNhanAsync",
+        "table": 139
+      }
+    ],
+    "fixture": "F6",
+    "sqlOracle": "SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;",
+    "boundary": "LichHocService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-26; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.1-U03 LichHocService.GhiNhanAsync (b\u1EA3ng 139)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Hai ghi nh\u1EADn c\u00F9ng RV kh\u00F4ng \u0111\u00E8 m\u1EA5t d\u1EEF li\u1EC7u",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #33.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-084\nGh\u00E9p sau: LichHocService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F6 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nHai scope G1 d\u00F9ng c\u00F9ng RV1 nh\u01B0ng nh\u1EADn x\u00E9t kh\u00E1c, barrier; B1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-084 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F6 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: Hai scope G1 d\u00F9ng c\u00F9ng RV1 nh\u01B0ng nh\u1EADn x\u00E9t kh\u00E1c, barrier; B1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi \u0111\u1ED3ng th\u1EDDi; l\u01B0u exception/k\u1EBFt qu\u1EA3 ri\u00EAng; \u0111\u1ECDc SQL v\u00E0 RowVersion sau c\u00F9ng. \u0110i\u1EC3m v\u00E0o: LichHocService.GhiNhanAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: M\u1ED9t l\u01B0\u1EE3t ghi th\u00E0nh c\u00F4ng; l\u01B0\u1EE3t c\u00F2n l\u1EA1i l\u1ED7i phi\u00EAn b\u1EA3n; kh\u00F4ng \u00E1p d\u1EE5ng hai b\u1EA3n ghi ch\u1ED3ng nhau.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.LichSuDieuChinhLich WHERE LichHocId=@L1;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t k\u1EBFt qu\u1EA3 hi\u1EC7n h\u00E0nh, t\u01B0\u01A1ng \u1EE9ng ho\u00E0n to\u00E0n m\u1ED9t l\u01B0\u1EE3t th\u1EAFng; kh\u00F4ng tr\u1ED9n n\u1ED9i dung/\u0111i\u1EC3m danh hai l\u01B0\u1EE3t.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: M\u1ED9t l\u01B0\u1EE3t ghi th\u00E0nh c\u00F4ng; l\u01B0\u1EE3t c\u00F2n l\u1EA1i l\u1ED7i phi\u00EAn b\u1EA3n; kh\u00F4ng \u00E1p d\u1EE5ng hai b\u1EA3n ghi ch\u1ED3ng nhau.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t k\u1EBFt qu\u1EA3 hi\u1EC7n h\u00E0nh, t\u01B0\u01A1ng \u1EE9ng ho\u00E0n to\u00E0n m\u1ED9t l\u01B0\u1EE3t th\u1EAFng; kh\u00F4ng tr\u1ED9n n\u1ED9i dung/\u0111i\u1EC3m danh hai l\u01B0\u1EE3t."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "d53b1f7f-ef0c-4ee4-8346-576c7daa3da7",
+    "P": "10113b7b-bab7-4191-bc55-6650797c53a8",
+    "G": "41202311-5954-413b-9ba4-8c7e5b2e0e64",
+    "X": "ef4a48a9-9c3b-4a8e-b694-32502394a518",
+    "A": "e2837df1-b875-4430-aeeb-1374fabcb49b"
+  },
+  "subjects": {
+    "M1": 2226,
+    "M2": 2227
+  },
+  "assertions": "Passed"
+}

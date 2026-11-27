@@ -1,0 +1,98 @@
+{
+  "caseId": "IT-043",
+  "runTag": "IT6f981c6973f74c1f85da015d4c64f0ac",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "search_compare_reject",
+    "group": 2,
+    "title": "So s\u00E1nh sai s\u1ED1 l\u01B0\u1EE3ng, lo\u1EA1i ho\u1EB7c \u0111i\u1EC1u ki\u1EC7n c\u00F4ng khai",
+    "stage": 3,
+    "entry": "GET /TimKiem/TimKiem/SoSanh?ids=...",
+    "input": "DL01 m\u1ED9t Id ph\u00E2n bi\u1EC7t; DL02 b\u1ED1n; DL03 h\u1ED3 s\u01A1\u002Bnhu c\u1EA7u; DL04 Id \u0111\u00E3 b\u1ECB \u1EA9n.",
+    "action": "GET AJAX t\u1EEBng DL t\u1EEB fixture \u0111\u1ED9c l\u1EADp.",
+    "contract": "DL01..03 HTTP 400 ok=false, l\u00FD do \u0111\u00FAng; DL04 404 do kh\u00F4ng c\u00F2n c\u00F4ng khai.",
+    "db": "Kh\u00F4ng tr\u1EA3 m\u1ED9t ph\u1EA7n so s\u00E1nh nh\u01B0 \u0111\u00E3 \u0111\u1EE7 b\u1ED9; kh\u00F4ng l\u1ED9 d\u1EEF li\u1EC7u b\u1ECB \u1EA9n.",
+    "fr": [
+      "FR-09",
+      "FR-10"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TimKiemService.SoSanhAsync",
+      "TimKiemController.SoSanh"
+    ],
+    "deps": [
+      "search_store"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "SoSanh",
+        "action": "SoSanh",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E SoSanh([FromQuery(Name = \u0022ids\u0022)",
+        "line": 65,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      }
+    ],
+    "id": "IT-043",
+    "catalogOrder": 43,
+    "executionOrder": 67,
+    "dependencyIds": [
+      "IT-029"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.3-U02",
+        "cls": "TimKiemController",
+        "method": "SoSanh",
+        "table": 61
+      },
+      {
+        "id": "UC1.3-U13",
+        "cls": "TimKiemService",
+        "method": "SoSanhAsync",
+        "table": 65
+      },
+      {
+        "id": "UC1.3-U05",
+        "cls": "TimKiemService",
+        "method": "SoSanhAsync",
+        "table": 66
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-09, FR-10; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.3-U02 TimKiemController.SoSanh (b\u1EA3ng 61); UC1.3-U13 TimKiemService.SoSanhAsync (b\u1EA3ng 65); UC1.3-U05 TimKiemService.SoSanhAsync (b\u1EA3ng 66)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: So s\u00E1nh sai s\u1ED1 l\u01B0\u1EE3ng, lo\u1EA1i ho\u1EB7c \u0111i\u1EC1u ki\u1EC7n c\u00F4ng khai",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #67.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-029\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 m\u1ED9t Id ph\u00E2n bi\u1EC7t; DL02 b\u1ED1n; DL03 h\u1ED3 s\u01A1\u002Bnhu c\u1EA7u; DL04 Id \u0111\u00E3 b\u1ECB \u1EA9n.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-029; t\u1EA1o fixture F2 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 m\u1ED9t Id ph\u00E2n bi\u1EC7t; DL02 b\u1ED1n; DL03 h\u1ED3 s\u01A1\u002Bnhu c\u1EA7u; DL04 Id \u0111\u00E3 b\u1ECB \u1EA9n.\n4. GET AJAX t\u1EEBng DL t\u1EEB fixture \u0111\u1ED9c l\u1EADp. \u0110i\u1EC3m v\u00E0o: GET /TimKiem/TimKiem/SoSanh?ids=.... Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: DL01..03 HTTP 400 ok=false, l\u00FD do \u0111\u00FAng; DL04 404 do kh\u00F4ng c\u00F2n c\u00F4ng khai.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng tr\u1EA3 m\u1ED9t ph\u1EA7n so s\u00E1nh nh\u01B0 \u0111\u00E3 \u0111\u1EE7 b\u1ED9; kh\u00F4ng l\u1ED9 d\u1EEF li\u1EC7u b\u1ECB \u1EA9n.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01..03 HTTP 400 ok=false, l\u00FD do \u0111\u00FAng; DL04 404 do kh\u00F4ng c\u00F2n c\u00F4ng khai.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng tr\u1EA3 m\u1ED9t ph\u1EA7n so s\u00E1nh nh\u01B0 \u0111\u00E3 \u0111\u1EE7 b\u1ED9; kh\u00F4ng l\u1ED9 d\u1EEF li\u1EC7u b\u1ECB \u1EA9n."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "fad20d27-e068-49c7-94e3-a23ee80a7e29",
+    "P": "f330dda1-f378-4303-8bee-c8d999adf47a",
+    "G": "94bd9f6a-376a-491f-b7c5-ffa3481e70b5",
+    "X": "45815222-44e2-4e00-aa10-fb3cb18bacda",
+    "A": "3a42b103-6706-4f68-9e59-6531d8229983"
+  },
+  "subjects": {
+    "M1": 1860,
+    "M2": 1861
+  },
+  "http": {
+    "status": 404,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022H\\u1ED3 s\\u01A1 ho\\u1EB7c nhu c\\u1EA7u \\u0111ang \\u1EA9n, ch\\u01B0a \\u0111\\u01B0\\u1EE3c duy\\u1EC7t ho\\u1EB7c kh\\u00F4ng c\\u00F2n c\\u00F4ng khai.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022H\\u1ED3 s\\u01A1 ho\\u1EB7c nhu c\\u1EA7u \\u0111ang \\u1EA9n, ch\\u01B0a \\u0111\\u01B0\\u1EE3c duy\\u1EC7t ho\\u1EB7c kh\\u00F4ng c\\u00F2n c\\u00F4ng khai.\u0022]}}"
+  },
+  "assertions": "Passed"
+}

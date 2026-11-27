@@ -1,0 +1,76 @@
+{
+  "caseId": "IT-137",
+  "runTag": "IT847523490b4a4df98835ab1cdbca7288",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "admin_store",
+    "group": 10,
+    "title": "Service qu\u1EA3n tr\u1ECB gh\u00E9p claim quy\u1EC1n, Identity v\u00E0 d\u1EEF li\u1EC7u SQL",
+    "stage": 2,
+    "entry": "QuanTriService.LayTaiKhoanAsync; QuyenQuanTriService.CoQuyenAsync",
+    "input": "F10: A c\u00F3 6 quy\u1EC1n; A0 vai tr\u00F2 QuanTri nh\u01B0ng kh\u00F4ng claim DuyetHoSo; G1/H1 c\u00F3 vai tr\u00F2 ri\u00EAng.",
+    "action": "G\u1ECDi query Service b\u1EB1ng A; \u0111\u1ED5i A0 g\u1ECDi ki\u1EC3m quy\u1EC1n; \u0111\u1ECDc AspNetUsers/UserRoles/UserClaims \u0111\u1ED9c l\u1EADp.",
+    "contract": "Danh s\u00E1ch actor/role/tr\u1EA1ng th\u00E1i \u0111\u00FAng SQL; role QuanTri kh\u00F4ng m\u1EB7c nhi\u00EAn c\u00F3 m\u1ECDi quy\u1EC1n ch\u1EE9c n\u0103ng.",
+    "db": "Kh\u00F4ng chuy\u1EC3n vai tr\u00F2/g\u1ED9p h\u1ED3 s\u01A1; kh\u00F4ng ti\u1EBFt l\u1ED9 PasswordHash/SecurityStamp trong model ph\u1EA3n h\u1ED3i c\u00F4ng khai.",
+    "fr": [
+      "FR-51",
+      "FR-52"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "QuanTriService.LayTaiKhoanAsync",
+      "QuyenQuanTriService.CoQuyenAsync"
+    ],
+    "deps": [
+      "db_role"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-137",
+    "catalogOrder": 137,
+    "executionOrder": 53,
+    "dependencyIds": [
+      "IT-001"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC6.1-U04",
+        "cls": "QuanTriService",
+        "method": "LayTaiKhoanAsync",
+        "table": 321
+      },
+      {
+        "id": "UC6.3-U04",
+        "cls": "QuyenQuanTriService",
+        "method": "CoQuyenAsync",
+        "table": 339
+      }
+    ],
+    "fixture": "F10",
+    "sqlOracle": "SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;",
+    "boundary": "QuanTriService \u2192 QuyenQuanTriService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-51, FR-52; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC6.1-U04 QuanTriService.LayTaiKhoanAsync (b\u1EA3ng 321); UC6.3-U04 QuyenQuanTriService.CoQuyenAsync (b\u1EA3ng 339)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service qu\u1EA3n tr\u1ECB gh\u00E9p claim quy\u1EC1n, Identity v\u00E0 d\u1EEF li\u1EC7u SQL",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #53.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-001\nGh\u00E9p sau: QuanTriService \u2192 QuyenQuanTriService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F10 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF10: A c\u00F3 6 quy\u1EC1n; A0 vai tr\u00F2 QuanTri nh\u01B0ng kh\u00F4ng claim DuyetHoSo; G1/H1 c\u00F3 vai tr\u00F2 ri\u00EAng.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-001 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F10 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F10: A c\u00F3 6 quy\u1EC1n; A0 vai tr\u00F2 QuanTri nh\u01B0ng kh\u00F4ng claim DuyetHoSo; G1/H1 c\u00F3 vai tr\u00F2 ri\u00EAng. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi query Service b\u1EB1ng A; \u0111\u1ED5i A0 g\u1ECDi ki\u1EC3m quy\u1EC1n; \u0111\u1ECDc AspNetUsers/UserRoles/UserClaims \u0111\u1ED9c l\u1EADp. \u0110i\u1EC3m v\u00E0o: QuanTriService.LayTaiKhoanAsync; QuyenQuanTriService.CoQuyenAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Danh s\u00E1ch actor/role/tr\u1EA1ng th\u00E1i \u0111\u00FAng SQL; role QuanTri kh\u00F4ng m\u1EB7c nhi\u00EAn c\u00F3 m\u1ECDi quy\u1EC1n ch\u1EE9c n\u0103ng.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng chuy\u1EC3n vai tr\u00F2/g\u1ED9p h\u1ED3 s\u01A1; kh\u00F4ng ti\u1EBFt l\u1ED9 PasswordHash/SecurityStamp trong model ph\u1EA3n h\u1ED3i c\u00F4ng khai.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Danh s\u00E1ch actor/role/tr\u1EA1ng th\u00E1i \u0111\u00FAng SQL; role QuanTri kh\u00F4ng m\u1EB7c nhi\u00EAn c\u00F3 m\u1ECDi quy\u1EC1n ch\u1EE9c n\u0103ng.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng chuy\u1EC3n vai tr\u00F2/g\u1ED9p h\u1ED3 s\u01A1; kh\u00F4ng ti\u1EBFt l\u1ED9 PasswordHash/SecurityStamp trong model ph\u1EA3n h\u1ED3i c\u00F4ng khai."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "52845bbe-cd44-45e7-9b0c-9bda89d9ab6a",
+    "P": "b72bcc99-7197-47c3-a24e-b5ba5c4768ed",
+    "G": "ce59999e-0c2e-4642-b540-995fff5f169f",
+    "X": "76023c25-a4f6-498a-b909-cc3ae86cfffd",
+    "A": "abe9d1af-de4e-4454-9389-0ccdc4a77c5e"
+  },
+  "subjects": {
+    "M1": 4013,
+    "M2": 4014
+  },
+  "exception": "Microsoft.Data.SqlClient.SqlException (0x80131904): Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.\r\n ---\u003E System.ComponentModel.Win32Exception (258): The wait operation timed out.\r\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask\u00602.InnerInvoke()\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n--- End of stack trace from previous location ---\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task\u0026 currentTaskSlot, Thread threadPoolThread)\r\n--- End of stack trace from previous location ---\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable\u00601.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable\u00601.AsyncEnumerator.MoveNextAsync()\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable\u00601 source, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable\u00601 source, CancellationToken cancellationToken)\r\n   at EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService.LayTaiKhoanAsync(Int32 trang, String q, String role, String state) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Areas\\QuanTri\\Services\\QuanTriService.cs:line 90\r\n   at Cases.AdminCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\AdminCases.cs:line 60\r\n   at Cases.AdminCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\AdminCases.cs:line 64\r\n   at Cases.AdminCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\AdminCases.cs:line 64\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 209\r\nClientConnectionId:aad42a9f-02ca-41ad-a358-574af4b65fdf\r\nError Number:-2,State:0,Class:11"
+}

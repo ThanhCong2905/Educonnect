@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-138",
+  "runTag": "IT962af86a9a4245038f0364798be402f8",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "report_store",
+    "group": 10,
+    "title": "Service t\u1EA1o b\u00E1o c\u00E1o gh\u00E9p quy\u1EC1n xem, b\u1EB1ng ch\u1EE9ng v\u00E0 outbox",
+    "stage": 2,
+    "entry": "BaoCaoViPhamService.GuiAsync",
+    "input": "F10: H1 c\u00F3 quy\u1EC1n xem \u0111\u1ED1i t\u01B0\u1EE3ng N1/room/C1; LoaiDoiTuong,N\u1ED9i dung m\u00F4 t\u1EA3 r\u00F5,MaThaoTac=O1; m\u1ED9t PDF s\u1EA1ch.",
+    "action": "G\u1ECDi Service th\u1EADt, await KetQua\u003CGuid\u003E, \u0111\u1ECDc reportId v\u00E0 metadata/file/notice trong scope m\u1EDBi.",
+    "contract": "KetQua th\u00E0nh c\u00F4ng; tr\u1EA1ng th\u00E1i ChoXuLy, ng\u01B0\u1EDDi g\u1EEDi H1, \u0111\u00FAng context \u0111\u1ED1i t\u01B0\u1EE3ng.",
+    "db": "M\u1ED9t b\u00E1o c\u00E1o, b\u1EB1ng ch\u1EE9ng ri\u00EAng, notification/outbox; kh\u00F4ng t\u1EF1 \u00E1p bi\u1EC7n ph\u00E1p ch\u1EC9 v\u00EC c\u00F3 ng\u01B0\u1EDDi g\u1EEDi.",
+    "fr": [
+      "FR-46",
+      "FR-49"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaoCaoViPhamService.GuiAsync"
+    ],
+    "deps": [
+      "file_store",
+      "admin_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-138",
+    "catalogOrder": 138,
+    "executionOrder": 54,
+    "dependencyIds": [
+      "IT-124",
+      "IT-137"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC5.2-U07",
+        "cls": "BaoCaoViPhamService",
+        "method": "GuiAsync",
+        "table": 310
+      }
+    ],
+    "fixture": "F10",
+    "sqlOracle": "SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;",
+    "boundary": "BaoCaoViPhamService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-46, FR-49; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC5.2-U07 BaoCaoViPhamService.GuiAsync (b\u1EA3ng 310)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service t\u1EA1o b\u00E1o c\u00E1o gh\u00E9p quy\u1EC1n xem, b\u1EB1ng ch\u1EE9ng v\u00E0 outbox",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #54.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-124, IT-137\nGh\u00E9p sau: BaoCaoViPhamService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F10 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF10: H1 c\u00F3 quy\u1EC1n xem \u0111\u1ED1i t\u01B0\u1EE3ng N1/room/C1; LoaiDoiTuong,N\u1ED9i dung m\u00F4 t\u1EA3 r\u00F5,MaThaoTac=O1; m\u1ED9t PDF s\u1EA1ch.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-124, IT-137 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F10 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F10: H1 c\u00F3 quy\u1EC1n xem \u0111\u1ED1i t\u01B0\u1EE3ng N1/room/C1; LoaiDoiTuong,N\u1ED9i dung m\u00F4 t\u1EA3 r\u00F5,MaThaoTac=O1; m\u1ED9t PDF s\u1EA1ch. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt, await KetQua\u003CGuid\u003E, \u0111\u1ECDc reportId v\u00E0 metadata/file/notice trong scope m\u1EDBi. \u0110i\u1EC3m v\u00E0o: BaoCaoViPhamService.GuiAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: KetQua th\u00E0nh c\u00F4ng; tr\u1EA1ng th\u00E1i ChoXuLy, ng\u01B0\u1EDDi g\u1EEDi H1, \u0111\u00FAng context \u0111\u1ED1i t\u01B0\u1EE3ng.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.BaoCaoViPham WHERE Id=@REPORT; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@OBJECT; SELECT * FROM dbo.NhatKyQuanTri WHERE DoiTuongId=@OBJECT_TEXT; SELECT Id,TrangThai,ConcurrencyStamp FROM dbo.AspNetUsers WHERE Id=@TARGET_USER; SELECT * FROM dbo.AspNetUserClaims WHERE UserId=@TARGET_USER;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t b\u00E1o c\u00E1o, b\u1EB1ng ch\u1EE9ng ri\u00EAng, notification/outbox; kh\u00F4ng t\u1EF1 \u00E1p bi\u1EC7n ph\u00E1p ch\u1EC9 v\u00EC c\u00F3 ng\u01B0\u1EDDi g\u1EEDi.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: KetQua th\u00E0nh c\u00F4ng; tr\u1EA1ng th\u00E1i ChoXuLy, ng\u01B0\u1EDDi g\u1EEDi H1, \u0111\u00FAng context \u0111\u1ED1i t\u01B0\u1EE3ng.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t b\u00E1o c\u00E1o, b\u1EB1ng ch\u1EE9ng ri\u00EAng, notification/outbox; kh\u00F4ng t\u1EF1 \u00E1p bi\u1EC7n ph\u00E1p ch\u1EC9 v\u00EC c\u00F3 ng\u01B0\u1EDDi g\u1EEDi."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "35eac4b5-68b2-4ddc-b872-319963f5e447",
+    "P": "346b087d-f708-4625-9456-0f23f8451d69",
+    "G": "6053ae19-21a8-4095-8a2b-ad86b7830541",
+    "X": "06b88125-852f-4ced-a9f7-4970ddacf785",
+    "A": "0ae0b093-314f-4b61-83b1-117a800969d4"
+  },
+  "subjects": {
+    "M1": 3293,
+    "M2": 3294
+  },
+  "assertions": "Passed"
+}

@@ -1,0 +1,82 @@
+﻿
+
+
+# Kết quả 07_UC7
+
+72 TC; 73 bộ dữ liệu; {"Passed": 73}.
+
+| TC/DL | Unit | Input | Kết quả kỳ vọng | Thực tế | Script |
+|---|---|---|---|---|---|
+| UT-083/DL01 | UC7.1-U01 | Không input; controller thật vớicácdependency chỉ khởi tạo, không gọi. | ViewResult.ViewName=null (view mặc định DangKy), Model là DangKyInput mới. Không đăng ký hoặc lưu tài khoản. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:365 |
+| UT-084/DL01 | UC7.1-U04 | message="Mật khẩu phải có chữ số.". | IdentityResult.Succeeded=false, Errors có đúng một phần tử Code="PasswordPolicy", Description="Mật khẩu phải có chữ số.". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:369 |
+| UT-085/DL01 | UC7.1-U04 | message="". | IdentityResult.Succeeded=false, một lỗi PasswordPolicy có Description=""; không tự thay bằng thông báo khác. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:373 |
+| UT-086/DL01 | UC7.1-U05 | email="a@example.vn". Gọi method thật trực tiếp; không chạy Identity/UserManager/Controller. | IdentityError.Code="DuplicateEmail", Description="Email đã được đăng ký."; mỗi lượt tạo một đối tượng IdentityErrorm ới. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:377 |
+| UT-087/DL01 | UC7.1-U06 | userName="a@example.vn". Gọi method thật trực tiếp; không chạy Identity/UserManager/Controller. | IdentityError.Code="DuplicateUserName", Description="Email đã được đăng ký."; mỗi lượt tạo một đối tượng IdentityErrorm ới. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:381 |
+| UT-088/DL01 | UC7.1-U07 | email="sai-email". Gọi method thật trực tiếp; không chạy Identity/UserManager/Controller. | IdentityError.Code="InvalidEmail", Description="Email chưa đúng định dạng."; mỗi lượt tạo một đối tượng IdentityErrorm ới. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:385 |
+| UT-089/DL01 | UC7.1-U07 | email=null. | IdentityError.Code="InvalidEmail",Description="Email chưa đúng định dạng.". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:389 |
+| UT-090/DL01 | UC7.1-U08 | Gọi trực tiếp method thật; không đi qua Identity/UserManager/Controller. | IdentityError.Code="InvalidToken", Description="Liên kết đã hết hạn hoặc đã được sử dụng. Hãy yêu cầu liên kết mới."; mỗi lượt tạo một đối tượng IdentityErrorm ới. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:393 |
+| UT-091/DL01 | UC7.1-U09 | Gọi trực tiếp method thật; không đi qua Identity/UserManager/Controller. | IdentityError.Code="ConcurrencyFailure", Description="Tài khoản vừa thay đổi. Vui lòng thử lại."; mỗi lượt tạo một đối tượng IdentityErrorm ới. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:397 |
+| UT-092/DL01 | UC7.2-U01 | User.Identity.IsAuthenticated=true;returnUrl="/NhuCau"; UrlHelperfake. | RedirectToActionResult.ActionName="Index",ControllerName="Home"; không tạo form đăng nhập. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:401 |
+| UT-093/DL01 | UC7.2-U01 | Chưa đăng nhập; returnUrl="/NhuCau"; frameworkIUrlHelper.IsLocalUrl=true. | ViewResult.Model là DangNhapInput có ReturnUrl="/NhuCau". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:405 |
+| UT-094/DL01 | UC7.2-U01 | Chưa đăng nhập;returnUrl="https://external.example"; IsLocalUrl=false. | ViewResult.Model.ReturnUrl=null; không điều hướng ra URL ngoài. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:409 |
+| UT-095/DL01 | UC7.2-U01 | User có ClaimsPrincipal không có Identity; returnUrl=null; IUrlHelper.IsLocalUrl(null)=false. | ViewResult.Model là DangNhapInput với ReturnUrl=null; không Redirect. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:413 |
+| UT-096/DL01 | UC7.2-U03 | Không input. | ViewResult mặc định QuenMatKhau với Model mới kiểu QuenMatKhauInput; không gửi email. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:417 |
+| UT-097/DL01 | UC7.2-U05 | email="a@example.vn",ma="TOKEN1". | ViewResult.Model là DatLaiMatKhauInput có Email="a@example.vn",Ma="TOKEN1"; không đặt lại mật khẩu. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:421 |
+| UT-098/DL01 | UC7.2-U05 | email=null,ma=null. | Model.Email="",Model.Ma=""; không thaynull bằng chuỗi khác. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:425 |
+| UT-099/DL01 | UC7.2-U05 | email=null,ma="TOKEN1". | Model.Email="",Model.Ma="TOKEN1". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:429 |
+| UT-100/DL01 | UC7.2-U05 | email="a@example.vn",ma=null. | Model.Email="a@example.vn",Model.Ma="". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:433 |
+| UT-101/DL01 | UC7.2-U08 | Response.StatusCode ban đầu 200. | Response.StatusCode=403; ViewResult.ViewName=null; không đọc ghi DB. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:437 |
+| UT-102/DL01 | UC7.2-U09 | IdentityResult.Failed với Errors=[]; ModelState ban đầu rỗng. | ModelState vẫn rỗng; không thêm lỗi. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:441 |
+| UT-103/DL01 | UC7.2-U09 | IdentityResult.Failed với lỗi Description=["Lỗi A","Lỗi A","Lỗi B"]; ModelState rỗng. | ModelState[""].Errors có đúng 2 mục theo thứ tự"Lỗi A","Lỗi B"; lỗiA không lặp. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:445 |
+| UT-104/DL01 | UC7.2-U10 | ModelState có MatKhau và XacNhanMatKhau, mỗi mục RawValue/AttemptedValue="abc" và lỗi"E"; có thêm Email="a@b.vn". | RawValue/AttemptedValue của cả 2 khóa mật khẩu=null; lỗiE vẫn giữ; Email giữ nguyên. Vòng luôn xét 2 khóa, không phải 1. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:449 |
+| UT-105/DL01 | UC7.2-U10 | ModelState chỉ có MatKhau RawValue/AttemptedValue="abc"; không có XacNhanMatKhau. | MatKhau.RawValue/AttemptedValue=null; không tự tạo khóa XacNhanMatKhau; không phát sinh lỗi do thiếu khóa. Vòng vẫn xét 2 tên khóa. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:453 |
+| UT-106/DL01 | UC7.2-U10 | ModelState chỉ có XacNhanMatKhau với RawValue/AttemptedValue="secret",không có MatKhau; có Email="a@example.vn". | XacNhanMatKhau.RawValue/AttemptedValue=null; Email giữ nguyên; không tạo MatKhau. Vi ệc thiếu khóa đầu không dừng vòng lặp. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:457 |
+| UT-107/DL01 | UC7.2-U10 | ModelState có Email với RawValue="a@example.vn" nhưng không có khóa MatKhau/XacNhanMatKhau. | Email giữ nguyên; không thêm hai khóa mật khẩu; khôngnémngoạilệ; vòng vẫn xét 2 tên khóa. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:461 |
+| UT-108/DL01 | UC7.2-U16 | HttpRequest.Path="/NhuCau/Index"; không có header X-Edu-Background. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:465 |
+| UT-109/DL01 | UC7.2-U16 | HttpRequest.Path="/cap-nhat"; không có header X-Edu-Background. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:469 |
+| UT-110/DL01 | UC7.2-U16 | HttpRequest.Path="/cap-nhat/negotiate"; không có header X-Edu-Background. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:473 |
+| UT-111/DL01 | UC7.2-U16 | HttpRequest.Path="/ThongBao/ChuaDoc"; không có header X-Edu-Background. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:477 |
+| UT-112/DL01 | UC7.2-U16 | HttpRequest.Path="/TinNhan/DULIEU"; không có header X-Edu-Background. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:481 |
+| UT-113/DL01 | UC7.2-U16 | Path="/NhuCau/Index"; có header X-Edu-Background="1". | Trả false; sự hiện diện header loại request khỏi hoạt động chủ động. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:485 |
+| UT-114/DL01 | UC7.2-U16 | Path="/cap-nhat-khac"; không header nền. | Trả true; đây không phải segment/cap-nhat. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:489 |
+| UT-115/DL01 | UC7.2-U16 | Path="/NhuCau"; headerX-Edu-Background="" vẫn có key. | Trả false vì ContainsKey xét sự hiện diện,không xét giá trị. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:493 |
+| UT-116/DL01 | UC7.2-U20 | Path="/TaiKhoan/HoSo"; không có X-Requested-With. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:497 |
+| UT-117/DL01 | UC7.2-U20 | Path="/TaiKhoan/HoSo"; X-Requested-With="XMLHttpRequest". | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:501 |
+| UT-118/DL01 | UC7.2-U20 | Path="/cap-nhat/negotiate"; không header AJAX. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:505 |
+| UT-119/DL01 | UC7.2-U20 | Path="/TaiKhoan/HoSo"; X-Requested-With="xmlhttprequest". | Trả false vì so sánh giá trị header có phân biệt hoa thường. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:509 |
+| UT-120/DL01 | UC7.2-U20 | Path="/cap-nhat-khac"; không header AJAX. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:513 |
+| UT-121/DL01 | UC7.2-U22 | ShimDateTimeOffset.UtcNow=T=2026-11-24T10:00Z; account="a@example.vn",ip="127.0.0.1"; một row TaiKhoan/GiaTriKhoa=account,LanSaiCuoiLuc=T-1 phút,ChoDenLuc=T+1 phút. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:517 |
+| UT-122/DL01 | UC7.2-U22 | CùngT/account/ip; một row DiaChiIp/GiaTriKhoa=ip,LanSaiCuoiLuc=T-1 phút,ChoDenLuc=T+1 phút. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:521 |
+| UT-123/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan/GiaTriKhoa="khac@example.vn",LanSaiCuoiLuc=T-1 phút,ChoDenLuc=T+1 phút. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:525 |
+| UT-124/DL01 | UC7.2-U22 | Cùng T/account/ip; row TaiKhoan/GiaTriKhoa=ip, LanSaiCuoiLuc=T-1 phút, ChoDenLuc=T+1 phút. | Trả false; không lẫn loại khóa với giá trị IP. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:529 |
+| UT-125/DL01 | UC7.2-U22 | Cùng T/account/ip; row DiaChiIp/GiaTriKhoa=account, LanSaiCuoiLuc=T-1 phút, ChoDenLuc=T+1 phút. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:533 |
+| UT-126/DL01 | UC7.2-U22 | CùngT/account/ip; tablefake rỗng. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:537 |
+| UT-127/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, ChoDenLuc=T+1 phút, LanSaiCuoiLuc=T-15 phút-1tick. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:541 |
+| UT-128/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, ChoDenLuc=T+1 phút, LanSaiCuoiLuc=T-15 phút. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:545 |
+| UT-129/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, ChoDenLuc=T+1 phút, LanSaiCuoiLuc=T-15 phút+1tick. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:549 |
+| UT-130/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, LanSaiCuoiLuc=T-1 phút, ChoDenLuc=T-1tick. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:553 |
+| UT-131/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, LanSaiCuoiLuc=T-1 phút, ChoDenLuc=T. | Trả false. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:557 |
+| UT-132/DL01 | UC7.2-U22 | CùngT/account/ip; một row TaiKhoan khớp account, LanSaiCuoiLuc=T-1 phút, ChoDenLuc=T+1tick. | Trả true. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:561 |
+| UT-133/DL01 | UC7.2-U26 | Không tham số. | IdentityResult.Succeeded=false; Errors có một Description="Liên kết không hợp lệ hoặc đã hết hạn. Hãy yêu cầu liên kết mới.". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:565 |
+| UT-134/DL01 | UC7.3-U05 | text=null. | Trả string.Empty (""). Không ném ngoại lệ. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:569 |
+| UT-135/DL01 | UC7.3-U05 | text="". | Trả string.Empty (""). | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:573 |
+| UT-136/DL01 | UC7.3-U05 | text="  \t\n  ". Dùng tab và LF thật. | Trả string.Empty (""). Không tạo một dấu cách đơn khi không có từ. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:577 |
+| UT-137/DL01 | UC7.3-U05 | text="  Nguyễn\tVăn\nAn  ". Có tab và LF thật. | Trả "Nguyễn Văn An". Bỏ khoảng trắng đầu/cuối, mỗi khoảng giữa từ còn đúng một dấu cách. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:581 |
+| UT-137/DL02 | UC7.3-U05 | text="Nguyễn Văn An". | Trả "Nguyễn Văn An". Chuỗi đầu vào giữ nguyên. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:585 |
+| UT-138/DL01 | UC7.3-U12 | value=" Lớp 8, ,Lớp 9,, Lớp 8 ". | Trả ["Lớp 8","Lớp 9","Lớp 8"] đúng thứ tự; bỏ mục rỗng/trim; không Distinct. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:589 |
+| UT-139/DL01 | UC7.3-U12 | value=null. | Trả mảngrỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:593 |
+| UT-140/DL01 | UC7.3-U12 | value="". | Trảmảngrỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:597 |
+| UT-141/DL01 | UC7.3-U12 | value=", , ,". | Trảmảngrỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:601 |
+| UT-142/DL01 | UC7.3-U14 | Không input. | ViewResult mặc định DoiMatKhau,Model mới kiểu DoiMatKhauInput. Không gọi hàm đổi hoặc đăng xuất. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:605 |
+| UT-143/DL01 | UC7.3-U17 | uploads=new List<IFormFile>(); không gọi Service hoặcuploadthật. | Awaitném LoiNghiepVu Status400,Message="Thêm bằng cấp bằng nút Lưu hồ sơ để kiểm tra trạng thái và phiên bản.". | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:609 |
+| UT-144/DL01 | UC7.3-U19 | id=U1; không đọc DB. | Await ném LoiNghiepVu, Status=400, Message="Chọn xóa bằng cấp trong hồ sơ rồi bấm Lưu hồ sơ."; không xóa tệp. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:613 |
+| UT-145/DL01 | HS-U09 | TrongArrange khởi tạo type trước, snapshotDanhMuc; tắt chạy song song cho fixture. Dùngreflection đọc dictionary hiện có, Clear/Add seed{"Tỉnh A":["Xã A1","Xã A2"]}; không gán lại fieldstaticreadonly. Khôi phục toàn bộ snapshot trongfinally/Dispose. Act chỉ gọi PhuongXa("Tỉnh A"). | Trả đúng["Xã A1","Xã A2"] theo thứ tự; không thayDanhMuc. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:617 |
+| UT-146/DL01 | HS-U09 | Cùng seed và quy tắc khôi phục củaDL 01; tinhThanh=null. | Trả danh sách rỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:621 |
+| UT-147/DL01 | HS-U09 | Cùng seed;tinhThanh="Tỉnh B". | Trả danh sách rỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:625 |
+| UT-148/DL01 | HS-U09 | Cùng seed;tinhThanh="". | Trả danh sách rỗng. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:629 |
+| UT-149/DL01 | HS-U11 | tenMon="TIẾNG VIỆT". | Trả 1 theoquytắcưu tiên, không lấy vị trí từ PhoThong. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:633 |
+| UT-150/DL01 | HS-U11 | tenMon="Toán Học". | Trả 0, vị trí đầu trong PhoThong. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:637 |
+| UT-151/DL01 | HS-U11 | tenMon="GDCD". | Trả 8, vị trí cuối trong PhoThong. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:641 |
+| UT-152/DL01 | HS-U11 | tenMon="Cờ vua". | Trả 99. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:645 |
+| UT-153/DL01 | HS-U11 | tenMon="TOÁN HỌC". | Trả 0. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:649 |
+| UT-154/DL01 | HS-U11 | tenMon=" Toán Học ". | Trả 99; hàm không Trim. | xUnit Passed: các assertion trong script đã đạt. | CurrentDesignTests.cs:653 |

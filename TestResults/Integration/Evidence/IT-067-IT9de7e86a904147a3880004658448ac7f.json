@@ -1,0 +1,88 @@
+{
+  "caseId": "IT-067",
+  "runTag": "IT9de7e86a904147a3880004658448ac7f",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "end_auth_rv",
+    "group": 4,
+    "title": "Ng\u01B0\u1EDDi g\u1EEDi, ng\u01B0\u1EDDi ngo\u00E0i ho\u1EB7c RV sai kh\u00F4ng quy\u1EBFt \u0111\u1ECBnh k\u1EBFt th\u00FAc",
+    "stage": 3,
+    "entry": "POST /KetNoi/KetNoi/PhanHoiHuy",
+    "input": "DL01 G1 t\u1EF1 \u0111\u1ED3ng \u00FD Q1 do G1 g\u1EEDi; DL02 X; DL03 H1 d\u00F9ng RV l\u1EDBp; DL04 H1 RV0 c\u1EE7a Q1.",
+    "action": "G\u1EEDi AJAX theo DL; so Q1/C1 v\u00E0 to\u00E0n b\u1ED9 l\u1ECBch s\u1EED tr\u01B0\u1EDBc/sau.",
+    "contract": "DL01/02 403; DL03/04 409; kh\u00F4ng nh\u1EADn RV c\u1EE7a entity kh\u00E1c ch\u1EC9 v\u00EC c\u00F3 8 byte.",
+    "db": "Q1/C1 kh\u00F4ng \u0111\u1ED5i; kh\u00F4ng k\u1EBFt th\u00FAc l\u1EDBp ho\u1EB7c th\u00EAm notice th\u00E0nh c\u00F4ng gi\u1EA3.",
+    "fr": [
+      "FR-23"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "KetNoiService.PhanHoiHuyAsync",
+      "KetNoiController.PhanHoiHuy"
+    ],
+    "deps": [
+      "end_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "KetNoiController",
+        "area": "KetNoi",
+        "method": "PhanHoiHuy",
+        "action": "PhanHoiHuy",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E PhanHoiHuy(PhanHoiHuyViewModel vm)",
+        "line": 145,
+        "file": "Areas\\KetNoi\\Controllers\\KetNoiController.cs"
+      }
+    ],
+    "id": "IT-067",
+    "catalogOrder": 67,
+    "executionOrder": 101,
+    "dependencyIds": [
+      "IT-058",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.3-U04",
+        "cls": "KetNoiController",
+        "method": "PhanHoiHuy",
+        "table": 128
+      },
+      {
+        "id": "UC2.3-U06",
+        "cls": "KetNoiService",
+        "method": "PhanHoiHuyAsync",
+        "table": 130
+      }
+    ],
+    "fixture": "F4",
+    "sqlOracle": "SELECT * FROM dbo.LopHoc WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.YeuCauHuyKetNoi WHERE LopHocId=@C1; SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.CuocHoiThoai WHERE LopHocId=@C1;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 KetNoiService, KetNoiController \u2192 EF/SQL Server",
+    "baseline": "FR-23; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.3-U04 KetNoiController.PhanHoiHuy (b\u1EA3ng 128); UC2.3-U06 KetNoiService.PhanHoiHuyAsync (b\u1EA3ng 130)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Ng\u01B0\u1EDDi g\u1EEDi, ng\u01B0\u1EDDi ngo\u00E0i ho\u1EB7c RV sai kh\u00F4ng quy\u1EBFt \u0111\u1ECBnh k\u1EBFt th\u00FAc",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #101.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-058, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 KetNoiService, KetNoiController \u2192 EF/SQL Server\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F4 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 G1 t\u1EF1 \u0111\u1ED3ng \u00FD Q1 do G1 g\u1EEDi; DL02 X; DL03 H1 d\u00F9ng RV l\u1EDBp; DL04 H1 RV0 c\u1EE7a Q1.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-058, IT-157; t\u1EA1o fixture F4 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 G1 t\u1EF1 \u0111\u1ED3ng \u00FD Q1 do G1 g\u1EEDi; DL02 X; DL03 H1 d\u00F9ng RV l\u1EDBp; DL04 H1 RV0 c\u1EE7a Q1.\n4. G\u1EEDi AJAX theo DL; so Q1/C1 v\u00E0 to\u00E0n b\u1ED9 l\u1ECBch s\u1EED tr\u01B0\u1EDBc/sau. \u0110i\u1EC3m v\u00E0o: POST /KetNoi/KetNoi/PhanHoiHuy. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: DL01/02 403; DL03/04 409; kh\u00F4ng nh\u1EADn RV c\u1EE7a entity kh\u00E1c ch\u1EC9 v\u00EC c\u00F3 8 byte.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.LopHoc WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.YeuCauHuyKetNoi WHERE LopHocId=@C1; SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.CuocHoiThoai WHERE LopHocId=@C1;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Q1/C1 kh\u00F4ng \u0111\u1ED5i; kh\u00F4ng k\u1EBFt th\u00FAc l\u1EDBp ho\u1EB7c th\u00EAm notice th\u00E0nh c\u00F4ng gi\u1EA3.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01/02 403; DL03/04 409; kh\u00F4ng nh\u1EADn RV c\u1EE7a entity kh\u00E1c ch\u1EC9 v\u00EC c\u00F3 8 byte.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Q1/C1 kh\u00F4ng \u0111\u1ED5i; kh\u00F4ng k\u1EBFt th\u00FAc l\u1EDBp ho\u1EB7c th\u00EAm notice th\u00E0nh c\u00F4ng gi\u1EA3."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "bac2c6f7-23d4-46b6-96ff-9dd9e0aaf9c4",
+    "P": "178a52da-d2a2-4504-88f0-7f17d227ea24",
+    "G": "ae0cc33c-ae98-4672-86f5-b740d70a31d4",
+    "X": "276f42e8-da29-4a98-87f4-98aa2b257ca7",
+    "A": "86f685d2-3f17-4457-b9c3-1e854e87dc6d"
+  },
+  "subjects": {
+    "M1": 3090,
+    "M2": 3091
+  },
+  "assertions": "Passed"
+}

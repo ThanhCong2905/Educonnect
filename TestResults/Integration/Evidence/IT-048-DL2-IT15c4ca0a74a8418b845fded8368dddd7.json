@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-048-DL2",
+  "runTag": "IT15c4ca0a74a8418b845fded8368dddd7",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.HoSoGiaSu SET DangHienThi=0 WHERE Id=@p",
+    "parameters": {
+      "@p": "e0683d09-95d3-4925-92b9-1e02d1d9dac5"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "90c602b0-34b2-4a86-b120-6afe1e85a187",
+    "P": "088bff73-b7c0-4c43-8b5f-722e6650752c",
+    "G": "0932260f-db14-4aeb-87a0-bd1f6651a66f",
+    "X": "d558a317-42d5-44a1-a1bf-ab022c9f972e",
+    "A": "55bb2d13-d487-48fd-a545-a184eb06719d"
+  },
+  "subjects": {
+    "M1": 1046,
+    "M2": 1047
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022H\\u1ED3 s\\u01A1 gia s\\u01B0 \\u0111\\u00E3 \\u1EA9n ho\\u1EB7c ch\\u01B0a \\u0111\\u1EE7 \\u0111i\\u1EC1u ki\\u1EC7n nh\\u1EADn li\\u00EAn h\\u1EC7 m\\u1EDBi.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022H\\u1ED3 s\\u01A1 gia s\\u01B0 \\u0111\\u00E3 \\u1EA9n ho\\u1EB7c ch\\u01B0a \\u0111\\u1EE7 \\u0111i\\u1EC1u ki\\u1EC7n nh\\u1EADn li\\u00EAn h\\u1EC7 m\\u1EDBi.\u0022]}}"
+  }
+}

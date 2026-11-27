@@ -1,0 +1,29 @@
+{
+  "caseId": "IT-054-DL1",
+  "runTag": "ITb46880f10b31464ca0a2d26871dd6520",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@p AND MonHocId=@m",
+    "parameters": {
+      "@p": "9bbcdd97-99f2-4d7a-bc06-fa71c38476bf",
+      "@m": 4836
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "0eaeae18-dd8f-4abc-a224-0dacc86ddb35",
+    "P": "e9cc6667-ac1f-4267-9e35-65ff47da97f5",
+    "G": "67a81e85-5ce3-413f-a134-3cc2faa395ba",
+    "X": "8f11e661-63cc-4e14-87ea-71406060b1b2",
+    "A": "addad42e-4023-49a0-baf1-554ebd43a5c4"
+  },
+  "subjects": {
+    "M1": 4835,
+    "M2": 4836
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022TenNguoiHoc\u0022:[\u0022Nh\\u1EADp t\\u00EAn ng\\u01B0\\u1EDDi h\\u1ECDc.\u0022]}}"
+  }
+}

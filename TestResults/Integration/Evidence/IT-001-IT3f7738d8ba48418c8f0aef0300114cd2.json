@@ -1,0 +1,58 @@
+{
+  "caseId": "IT-001",
+  "runTag": "IT3f7738d8ba48418c8f0aef0300114cd2",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_role",
+    "group": 0,
+    "title": "M\u1ED9t t\u00E0i kho\u1EA3n ch\u1EC9 c\u00F3 m\u1ED9t vai tr\u00F2",
+    "stage": 1,
+    "entry": "SQL: AspNetUsers \u002B AspNetUserRoles \u002B unique constraint",
+    "input": "U1 \u0111\u00E3 c\u00F3 vai tr\u00F2 HocSinh; R2=PhuHuynh.",
+    "action": "Trong transaction test, INSERT vai tr\u00F2 R2 cho ch\u00EDnh U1; \u0111\u1ECDc b\u1EB1ng connection quan s\u00E1t sau khi k\u1EBFt th\u00FAc transaction.",
+    "contract": "SQL t\u1EEB ch\u1ED1i vi ph\u1EA1m r\u00E0ng bu\u1ED9c duy nh\u1EA5t; kh\u00F4ng \u0111\u01B0\u1EE3c c\u1EA5p \u0111\u1ED3ng th\u1EDDi hai vai tr\u00F2.",
+    "db": "U1 v\u1EABn ch\u1EC9 m\u1ED9t AspNetUserRoles=HocSinh; kh\u00F4ng t\u1EA1o h\u1ED3 s\u01A1 PhuHuynh m\u1ED3 c\u00F4i.",
+    "fr": [
+      "FR-51",
+      "FR-57"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u00FAng \u0111\u1EAFn",
+    "anchors": [
+      "SQL.AspNetUserRoles"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-001",
+    "catalogOrder": 1,
+    "executionOrder": 1,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "\u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.",
+    "boundary": "SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions",
+    "baseline": "FR-51, FR-57; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: H\u1EE3p \u0111\u1ED3ng b\u1EA3ng/SQL/quy\u1EC1n theo 00_EduConnect_Full.sql.\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: M\u1ED9t t\u00E0i kho\u1EA3n ch\u1EC9 c\u00F3 m\u1ED9t vai tr\u00F2",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 ch\u1EA1y #1.\nKi\u1EC3m tr\u01B0\u1EDBc: PF-DB/PF-HOST \u0111\u00E3 \u0111\u1EA1t trong sheet m\u00F4i tr\u01B0\u1EDDng\nGh\u00E9p sau: SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions\nC\u0103n c\u1EE9: Ki\u1EC3m object SQL v\u00E0 r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u tr\u01B0\u1EDBc v\u00EC \u0111\u00E2y l\u00E0 n\u1EC1n c\u00E1c provider/service d\u00F9ng chung. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F0 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nU1 \u0111\u00E3 c\u00F3 vai tr\u00F2 HocSinh; R2=PhuHuynh.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. X\u00E1c nh\u1EADn PF-DB: \u0111\u00FAng DB ki\u1EC3m th\u1EED/principal, schema cu\u1ED1i; bind m\u1ECDi parameter t\u1EEB fixture. Kh\u00F4ng ch\u1EA1y DDL c\u00E0i l\u1EA1i database.\n2. Seed c\u00E1c d\u00F2ng cha v\u00E0 \u0111i\u1EC1u ki\u1EC7n ri\u00EAng: U1 \u0111\u00E3 c\u00F3 vai tr\u00F2 HocSinh; R2=PhuHuynh.\n3. \u0110\u1ECDc snapshot b\u1EA3ng/kh\u00F3a/th\u1EDDi \u0111i\u1EC3m b\u1EB1ng observer; m\u1EDF SqlConnection/transaction ri\u00EAng cho m\u1ED7i DL ho\u1EB7c m\u1ED7i t\u00E1c nh\u00E2n khi c\u00F3 race.\n4. Trong transaction test, INSERT vai tr\u00F2 R2 cho ch\u00EDnh U1; \u0111\u1ECDc b\u1EB1ng connection quan s\u00E1t sau khi k\u1EBFt th\u00FAc transaction.\n5. Assert k\u1EBFt qu\u1EA3 SQL/error v\u00E0 d\u1EEF li\u1EC7u: SQL t\u1EEB ch\u1ED1i vi ph\u1EA1m r\u00E0ng bu\u1ED9c duy nh\u1EA5t; kh\u00F4ng \u0111\u01B0\u1EE3c c\u1EA5p \u0111\u1ED3ng th\u1EDDi hai vai tr\u00F2.\n6. \u0110\u1ECDc l\u1EA1i sau commit/rollback b\u1EB1ng connection m\u1EDBi. Oracle: \u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.\n7. Assert to\u00E0n v\u1EB9n: U1 v\u1EABn ch\u1EC9 m\u1ED9t AspNetUserRoles=HocSinh; kh\u00F4ng t\u1EA1o h\u1ED3 s\u01A1 PhuHuynh m\u1ED3 c\u00F4i.\n8. L\u01B0u parameter/SqlException.Number/SQL tr\u01B0\u1EDBc\u2013sau; rollback n\u1EBFu to\u00E0n b\u1ED9 ca trong transaction, n\u1EBFu kh\u00F4ng reset fixture theo FK. Kh\u00F4i ph\u1EE5c permission trong finally.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: SQL t\u1EEB ch\u1ED1i vi ph\u1EA1m r\u00E0ng bu\u1ED9c duy nh\u1EA5t; kh\u00F4ng \u0111\u01B0\u1EE3c c\u1EA5p \u0111\u1ED3ng th\u1EDDi hai vai tr\u00F2.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: U1 v\u1EABn ch\u1EC9 m\u1ED9t AspNetUserRoles=HocSinh; kh\u00F4ng t\u1EA1o h\u1ED3 s\u01A1 PhuHuynh m\u1ED3 c\u00F4i."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "99318af1-e902-4358-be86-3931fcbf4b5d",
+    "P": "4c5ed447-6097-4459-8a65-791001b87e52",
+    "G": "0dd33fe0-b9c6-497c-aa35-47b41d06c9df",
+    "X": "90d6fc58-0b54-492a-9e59-c11e1cbc02ce",
+    "A": "34d02340-52cb-4ac3-ad96-a56b6dc041ea"
+  },
+  "subjects": {
+    "M1": 222,
+    "M2": 223
+  },
+  "assertions": "Passed"
+}

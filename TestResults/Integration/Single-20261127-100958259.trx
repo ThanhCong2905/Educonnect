@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="698c5024-782f-4465-ba05-e72057637b39" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 10:10:06" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T10:10:06.3520599+07:00" queuing="2026-11-27T10:10:06.3520603+07:00" start="2026-11-27T10:09:59.2535701+07:00" finish="2026-11-27T10:10:06.3561580+07:00" />
+  <TestSettings name="default" id="f1e0c73d-a99f-4976-8685-8be44cbbb836">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_10_10_06" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="bb502045-0b70-4263-94c6-e646566a39dd" testId="589bc855-e66b-0e6f-4f6e-efb607e95744" testName="IT-134 | Người ngoài, thành viên Xem và lớp kết thúc không gửi được tin" computerName="LAPTOP-3L2V1AFT" duration="00:00:06.2473667" startTime="2026-11-27T10:10:06.2560790+07:00" endTime="2026-11-27T10:10:06.2561415+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bb502045-0b70-4263-94c6-e646566a39dd">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 409&#xD;
+Actual:   403</Message>
+          <StackTrace>   at Cases.BusinessCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\BusinessCases.cs:line 63&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 211&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 342&#xD;
+   at IntegrationTests.IT_134() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 136&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-134 | Người ngoài, thành viên Xem và lớp kết thúc không gửi được tin" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="589bc855-e66b-0e6f-4f6e-efb607e95744">
+      <Execution id="bb502045-0b70-4263-94c6-e646566a39dd" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_134" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="589bc855-e66b-0e6f-4f6e-efb607e95744" executionId="bb502045-0b70-4263-94c6-e646566a39dd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:06.46]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:06.46]       Expected: 409&#xD;
+[xUnit.net 00:00:06.46]       Actual:   403&#xD;
+[xUnit.net 00:00:06.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.46]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\BusinessCases.cs(63,0): at Cases.BusinessCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:06.46]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(211,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:06.46]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(342,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:06.46]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(136,0): at IntegrationTests.IT_134()&#xD;
+[xUnit.net 00:00:06.46]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:06.46]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T10:10:06.2529182+07:00">
+        <Text>[xUnit.net 00:00:06.46]     IT-134 | Người ngoài, thành viên Xem và lớp kết thúc không gửi được tin [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

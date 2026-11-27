@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="6567b28e-b489-4047-8a55-a6990ab054b7" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 13:31:24" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T13:31:24.2207743+07:00" queuing="2026-11-27T13:31:24.2207748+07:00" start="2026-11-27T13:31:20.6889378+07:00" finish="2026-11-27T13:31:41.9396289+07:00" />
+  <TestSettings name="default" id="c1f0becc-c9a8-431d-bc82-f5c5f7c656e7">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_13_31_24" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="fb92248b-ed53-491d-a803-28e34700ee11" testId="6ca4958f-9b72-a13a-f5c8-17025194db52" testName="IT-012 | Principal ứng dụng bị chặn sửa/xóa nhật ký" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.4785835" startTime="2026-11-27T13:31:23.9076551+07:00" endTime="2026-11-27T13:31:23.9076832+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb92248b-ed53-491d-a803-28e34700ee11" />
+    <UnitTestResult executionId="1ea744e9-5b43-450d-8d57-7500b7d790fc" testId="82f86f20-a00f-58f4-997f-7875c1319df5" testName="IT-125 | Service gửi tin, tệp và outbox commit đồng bộ" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.2723842" startTime="2026-11-27T13:31:31.5081594+07:00" endTime="2026-11-27T13:31:31.5081594+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ea744e9-5b43-450d-8d57-7500b7d790fc" />
+    <UnitTestResult executionId="d79fa262-6728-4702-9abe-4d9c786c27c6" testId="3054bfd5-d4f8-e692-6419-e3cfd6079841" testName="IT-099 | Lưu lần nộp trước, chỉ chấm lần mới nhất" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.3311843" startTime="2026-11-27T13:31:28.7197474+07:00" endTime="2026-11-27T13:31:28.7197476+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d79fa262-6728-4702-9abe-4d9c786c27c6" />
+    <UnitTestResult executionId="f865a176-62dc-4d92-8b35-5208def78f97" testId="4712da33-4951-edeb-f01f-6d8abae53e1d" testName="IT-027 | Form ghi thiếu CSRF không gọi nghiệp vụ" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.6304449" startTime="2026-11-27T13:31:34.1390937+07:00" endTime="2026-11-27T13:31:34.1390939+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f865a176-62dc-4d92-8b35-5208def78f97" />
+    <UnitTestResult executionId="ebd67b94-964b-47ec-8f2e-093e96201f05" testId="606ca286-17ac-dd0a-3449-811b7c50b55d" testName="IT-168 | Phiên hết nhàn rỗi hoặc đã thu hồi không truy cập được" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.3671459" startTime="2026-11-27T13:31:41.8395962+07:00" endTime="2026-11-27T13:31:41.8395962+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ebd67b94-964b-47ec-8f2e-093e96201f05" />
+    <UnitTestResult executionId="dcaab510-8fbf-4550-a503-5e8f3c98e3bc" testId="b6a85fdc-6174-d2d4-c958-930b72039cfb" testName="IT-089 | Đổi lịch buổi chưa diễn ra giữ buổi và bài tập" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.4617710" startTime="2026-11-27T13:31:39.4719864+07:00" endTime="2026-11-27T13:31:39.4719865+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dcaab510-8fbf-4550-a503-5e8f3c98e3bc" />
+    <UnitTestResult executionId="df821207-e2d6-4387-a191-e2e9161cc18e" testId="7b60088a-78fe-88df-32b6-caa2cb77878a" testName="IT-101 | Nộp và chấm đồng thời kiểm lại trạng thái trong transaction" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.5150141" startTime="2026-11-27T13:31:30.2352838+07:00" endTime="2026-11-27T13:31:30.2352839+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df821207-e2d6-4387-a191-e2e9161cc18e" />
+    <UnitTestResult executionId="af69a580-42c2-458e-bd28-e9e15db57dd4" testId="24c7e83e-d88e-eebf-6c75-0ea6ddf6ffc8" testName="IT-086 | Không nhân đôi buổi bù còn hiệu lực" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.4785860" startTime="2026-11-27T13:31:26.3881115+07:00" endTime="2026-11-27T13:31:26.3881117+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="af69a580-42c2-458e-bd28-e9e15db57dd4" />
+    <UnitTestResult executionId="bf1f78f1-6d84-4dc7-a0c2-a83d22560d06" testId="5c8d06e6-8476-136c-5ed5-0e00d5b633f2" testName="IT-081 | Hủy liên kết thu hồi quyền thành viên phụ thuộc" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.8698341" startTime="2026-11-27T13:31:37.0096067+07:00" endTime="2026-11-27T13:31:37.0096068+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bf1f78f1-6d84-4dc7-a0c2-a83d22560d06" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-081 | Hủy liên kết thu hồi quyền thành viên phụ thuộc" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="5c8d06e6-8476-136c-5ed5-0e00d5b633f2">
+      <Execution id="bf1f78f1-6d84-4dc7-a0c2-a83d22560d06" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_081" />
+    </UnitTest>
+    <UnitTest name="IT-012 | Principal ứng dụng bị chặn sửa/xóa nhật ký" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="6ca4958f-9b72-a13a-f5c8-17025194db52">
+      <Execution id="fb92248b-ed53-491d-a803-28e34700ee11" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_012" />
+    </UnitTest>
+    <UnitTest name="IT-086 | Không nhân đôi buổi bù còn hiệu lực" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="24c7e83e-d88e-eebf-6c75-0ea6ddf6ffc8">
+      <Execution id="af69a580-42c2-458e-bd28-e9e15db57dd4" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_086" />
+    </UnitTest>
+    <UnitTest name="IT-089 | Đổi lịch buổi chưa diễn ra giữ buổi và bài tập" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="b6a85fdc-6174-d2d4-c958-930b72039cfb">
+      <Execution id="dcaab510-8fbf-4550-a503-5e8f3c98e3bc" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_089" />
+    </UnitTest>
+    <UnitTest name="IT-027 | Form ghi thiếu CSRF không gọi nghiệp vụ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="4712da33-4951-edeb-f01f-6d8abae53e1d">
+      <Execution id="f865a176-62dc-4d92-8b35-5208def78f97" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_027" />
+    </UnitTest>
+    <UnitTest name="IT-168 | Phiên hết nhàn rỗi hoặc đã thu hồi không truy cập được" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="606ca286-17ac-dd0a-3449-811b7c50b55d">
+      <Execution id="ebd67b94-964b-47ec-8f2e-093e96201f05" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_168" />
+    </UnitTest>
+    <UnitTest name="IT-101 | Nộp và chấm đồng thời kiểm lại trạng thái trong transaction" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="7b60088a-78fe-88df-32b6-caa2cb77878a">
+      <Execution id="df821207-e2d6-4387-a191-e2e9161cc18e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_101" />
+    </UnitTest>
+    <UnitTest name="IT-099 | Lưu lần nộp trước, chỉ chấm lần mới nhất" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="3054bfd5-d4f8-e692-6419-e3cfd6079841">
+      <Execution id="d79fa262-6728-4702-9abe-4d9c786c27c6" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_099" />
+    </UnitTest>
+    <UnitTest name="IT-125 | Service gửi tin, tệp và outbox commit đồng bộ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="82f86f20-a00f-58f4-997f-7875c1319df5">
+      <Execution id="1ea744e9-5b43-450d-8d57-7500b7d790fc" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_125" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="6ca4958f-9b72-a13a-f5c8-17025194db52" executionId="fb92248b-ed53-491d-a803-28e34700ee11" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="82f86f20-a00f-58f4-997f-7875c1319df5" executionId="1ea744e9-5b43-450d-8d57-7500b7d790fc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3054bfd5-d4f8-e692-6419-e3cfd6079841" executionId="d79fa262-6728-4702-9abe-4d9c786c27c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4712da33-4951-edeb-f01f-6d8abae53e1d" executionId="f865a176-62dc-4d92-8b35-5208def78f97" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="606ca286-17ac-dd0a-3449-811b7c50b55d" executionId="ebd67b94-964b-47ec-8f2e-093e96201f05" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6a85fdc-6174-d2d4-c958-930b72039cfb" executionId="dcaab510-8fbf-4550-a503-5e8f3c98e3bc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7b60088a-78fe-88df-32b6-caa2cb77878a" executionId="df821207-e2d6-4387-a191-e2e9161cc18e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="24c7e83e-d88e-eebf-6c75-0ea6ddf6ffc8" executionId="af69a580-42c2-458e-bd28-e9e15db57dd4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c8d06e6-8476-136c-5ed5-0e00d5b633f2" executionId="bf1f78f1-6d84-4dc7-a0c2-a83d22560d06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.10]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.16]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:20.63]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

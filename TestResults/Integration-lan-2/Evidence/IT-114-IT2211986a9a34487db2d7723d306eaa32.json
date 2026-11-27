@@ -1,0 +1,68 @@
+{
+  "caseId": "IT-114",
+  "runTag": "IT2211986a9a34487db2d7723d306eaa32",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "progress_latest",
+    "group": 8,
+    "title": "B\u1ECF k\u1EBFt qu\u1EA3 l\u1EA7n c\u0169 v\u00E0 b\u00E0i nh\u00E1p khi t\u1ED5ng h\u1EE3p",
+    "stage": 2,
+    "entry": "TienDoService.LayAsync",
+    "input": "A1 c\u00F3 N1 c\u0169 \u0111i\u1EC3m2 v\u00E0 N2 m\u1EDBi \u0111i\u1EC3m8; A2 DaGiao ch\u01B0a ch\u1EA5m; A3 BanNhap c\u00F3 d\u1EEF li\u1EC7u c\u0169.",
+    "action": "Seed l\u1ECBch s\u1EED ph\u00F9 h\u1EE3p r\u1ED3i g\u1ECDi Service; SELECT independent latest b\u1EB1ng ORDER NopLuc,Id.",
+    "contract": "Ch\u1EC9 N2 \u0111\u01B0\u1EE3c t\u00EDnh; A3 nh\u00E1p kh\u00F4ng n\u1EB1m trong m\u1EABu s\u1ED1; A2 ch\u01B0a ch\u1EA5m kh\u00F4ng \u0111\u01B0\u1EE3c coi 0.",
+    "db": "D\u1EEF li\u1EC7u l\u1ECBch s\u1EED v\u1EABn t\u1ED3n t\u1EA1i; k\u1EBFt qu\u1EA3 t\u1ED5ng h\u1EE3p kh\u00F4ng nh\u00E2n b\u1EA3n do nhi\u1EC1u l\u1EA7n n\u1ED9p/t\u1EC7p.",
+    "fr": [
+      "FR-42"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TienDoService.LayAsync"
+    ],
+    "deps": [
+      "progress_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-114",
+    "catalogOrder": 114,
+    "executionOrder": 44,
+    "dependencyIds": [
+      "IT-111"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC4.1-U17",
+        "cls": "TienDoService",
+        "method": "LayAsync",
+        "table": 268
+      }
+    ],
+    "fixture": "F8",
+    "sqlOracle": "SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.",
+    "boundary": "TienDoService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-42; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC4.1-U17 TienDoService.LayAsync (b\u1EA3ng 268)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: B\u1ECF k\u1EBFt qu\u1EA3 l\u1EA7n c\u0169 v\u00E0 b\u00E0i nh\u00E1p khi t\u1ED5ng h\u1EE3p",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #44.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-111\nGh\u00E9p sau: TienDoService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F8 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nA1 c\u00F3 N1 c\u0169 \u0111i\u1EC3m2 v\u00E0 N2 m\u1EDBi \u0111i\u1EC3m8; A2 DaGiao ch\u01B0a ch\u1EA5m; A3 BanNhap c\u00F3 d\u1EEF li\u1EC7u c\u0169.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-111 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F8 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: A1 c\u00F3 N1 c\u0169 \u0111i\u1EC3m2 v\u00E0 N2 m\u1EDBi \u0111i\u1EC3m8; A2 DaGiao ch\u01B0a ch\u1EA5m; A3 BanNhap c\u00F3 d\u1EEF li\u1EC7u c\u0169. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. Seed l\u1ECBch s\u1EED ph\u00F9 h\u1EE3p r\u1ED3i g\u1ECDi Service; SELECT independent latest b\u1EB1ng ORDER NopLuc,Id. \u0110i\u1EC3m v\u00E0o: TienDoService.LayAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Ch\u1EC9 N2 \u0111\u01B0\u1EE3c t\u00EDnh; A3 nh\u00E1p kh\u00F4ng n\u1EB1m trong m\u1EABu s\u1ED1; A2 ch\u01B0a ch\u1EA5m kh\u00F4ng \u0111\u01B0\u1EE3c coi 0.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: D\u1EEF li\u1EC7u l\u1ECBch s\u1EED v\u1EABn t\u1ED3n t\u1EA1i; k\u1EBFt qu\u1EA3 t\u1ED5ng h\u1EE3p kh\u00F4ng nh\u00E2n b\u1EA3n do nhi\u1EC1u l\u1EA7n n\u1ED9p/t\u1EC7p.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Ch\u1EC9 N2 \u0111\u01B0\u1EE3c t\u00EDnh; A3 nh\u00E1p kh\u00F4ng n\u1EB1m trong m\u1EABu s\u1ED1; A2 ch\u01B0a ch\u1EA5m kh\u00F4ng \u0111\u01B0\u1EE3c coi 0.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: D\u1EEF li\u1EC7u l\u1ECBch s\u1EED v\u1EABn t\u1ED3n t\u1EA1i; k\u1EBFt qu\u1EA3 t\u1ED5ng h\u1EE3p kh\u00F4ng nh\u00E2n b\u1EA3n do nhi\u1EC1u l\u1EA7n n\u1ED9p/t\u1EC7p."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "6a3ae130-1a19-4108-bafa-0714ec224e4d",
+    "P": "4d5b14b1-d7f5-4c74-ae93-59246d26c039",
+    "G": "e4487f96-c773-43cc-9ddf-79bc1ce2c2c5",
+    "X": "8e4bf5e0-727b-4482-adbd-833418841bea",
+    "A": "26b1fa66-d5ba-47bf-8077-b376c6097334"
+  },
+  "subjects": {
+    "M1": 4695,
+    "M2": 4696
+  },
+  "assertions": "Passed"
+}

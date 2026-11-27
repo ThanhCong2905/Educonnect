@@ -1,0 +1,108 @@
+{
+  "caseId": "IT-107",
+  "runTag": "IT31f180c543af4f0f88c8345f087a9a1e",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "submission_after_grade",
+    "group": 7,
+    "title": "\u0110\u00E3 c\u00F3 k\u1EBFt qu\u1EA3 ch\u1EA5m kh\u00F4ng nh\u1EADn l\u1EA7n n\u1ED9p m\u1EDBi",
+    "stage": 3,
+    "entry": "POST /HocTap/BaiTap/Nop",
+    "input": "A1/N1 \u0111\u00E3 ch\u1EA5m; H1 g\u1EEDi O2 n\u1ED9i dung m\u1EDBi; ch\u01B0a thay quy\u1EC1n l\u1EDBp.",
+    "action": "POST AJAX; so count b\u00E0i n\u1ED9p, \u0111i\u1EC3m v\u00E0 t\u1EC7p tr\u01B0\u1EDBc/sau.",
+    "contract": "409 ok=false; kh\u00F4ng m\u1EDF l\u1EA1i quy\u1EC1n n\u1ED9p ch\u1EC9 b\u1EB1ng m\u00E3 m\u1EDBi.",
+    "db": "Gi\u1EEF k\u1EBFt qu\u1EA3 \u0111\u00E3 ch\u1EA5m/N1; kh\u00F4ng N2/blob/t\u1EC7p th\u1EEBa.",
+    "fr": [
+      "FR-31",
+      "FR-32"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaiTapService.NopAsync",
+      "BaiTapController.Nop"
+    ],
+    "deps": [
+      "submission_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "BaiTapController",
+        "area": "HocTap",
+        "method": "Nop",
+        "action": "Nop",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Nop(NopBaiViewModel m)",
+        "line": 93,
+        "file": "Areas\\HocTap\\Controllers\\BaiTapController.cs"
+      }
+    ],
+    "id": "IT-107",
+    "catalogOrder": 107,
+    "executionOrder": 129,
+    "dependencyIds": [
+      "IT-097",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.4-U01",
+        "cls": "BaiTapController",
+        "method": "Nop",
+        "table": 179
+      },
+      {
+        "id": "UC3.4-U02",
+        "cls": "BaiTapService",
+        "method": "NopAsync",
+        "table": 181
+      }
+    ],
+    "fixture": "F7",
+    "sqlOracle": "SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BaiTapService, BaiTapController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-31, FR-32; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.4-U01 BaiTapController.Nop (b\u1EA3ng 179); UC3.4-U02 BaiTapService.NopAsync (b\u1EA3ng 181)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: \u0110\u00E3 c\u00F3 k\u1EBFt qu\u1EA3 ch\u1EA5m kh\u00F4ng nh\u1EADn l\u1EA7n n\u1ED9p m\u1EDBi",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #129.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-097, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BaiTapService, BaiTapController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F7 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nA1/N1 \u0111\u00E3 ch\u1EA5m; H1 g\u1EEDi O2 n\u1ED9i dung m\u1EDBi; ch\u01B0a thay quy\u1EC1n l\u1EDBp.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-097, IT-157; t\u1EA1o fixture F7 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: A1/N1 \u0111\u00E3 ch\u1EA5m; H1 g\u1EEDi O2 n\u1ED9i dung m\u1EDBi; ch\u01B0a thay quy\u1EC1n l\u1EDBp.\n4. POST AJAX; so count b\u00E0i n\u1ED9p, \u0111i\u1EC3m v\u00E0 t\u1EC7p tr\u01B0\u1EDBc/sau. \u0110i\u1EC3m v\u00E0o: POST /HocTap/BaiTap/Nop. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 409 ok=false; kh\u00F4ng m\u1EDF l\u1EA1i quy\u1EC1n n\u1ED9p ch\u1EC9 b\u1EB1ng m\u00E3 m\u1EDBi.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Gi\u1EEF k\u1EBFt qu\u1EA3 \u0111\u00E3 ch\u1EA5m/N1; kh\u00F4ng N2/blob/t\u1EC7p th\u1EEBa.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 409 ok=false; kh\u00F4ng m\u1EDF l\u1EA1i quy\u1EC1n n\u1ED9p ch\u1EC9 b\u1EB1ng m\u00E3 m\u1EDBi.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Gi\u1EEF k\u1EBFt qu\u1EA3 \u0111\u00E3 ch\u1EA5m/N1; kh\u00F4ng N2/blob/t\u1EC7p th\u1EEBa."
+  },
+  "sql": {
+    "sql": "EXEC dbo.usp_ChamBaiTap @BaiTapNopId=@n,@NguoiChamId=@u,@Diem=@d,@NhanXet=N\u0027Nh\u1EADn x\u00E9t\u0027",
+    "parameters": {
+      "@n": "361a5d96-2c76-459e-ba09-92b6f7708421",
+      "@u": "57291764-6d0b-4cfa-a883-3e2fb062d6b9",
+      "@d": 8
+    },
+    "rows": [
+      {
+        "Id": "ab152abc-f01a-4329-83a5-22901e653ed6",
+        "BaiTapNopId": "361a5d96-2c76-459e-ba09-92b6f7708421",
+        "NguoiChamId": "57291764-6d0b-4cfa-a883-3e2fb062d6b9",
+        "Diem": 8.00,
+        "NhanXet": "Nh\u1EADn x\u00E9t",
+        "ChamLuc": "2026-11-26T01:45:07+00:00",
+        "RowVersion": "AAAAAADVxpc="
+      }
+    ]
+  },
+  "actors": {
+    "H": "152aee7e-b0e7-40d4-a272-f2c5cffee339",
+    "P": "aa85129c-464e-49d1-a635-d85c61f03e71",
+    "G": "57291764-6d0b-4cfa-a883-3e2fb062d6b9",
+    "X": "9265786c-038b-4319-8ec0-e355d94f2d1f",
+    "A": "05eca64e-319d-4c72-86ad-027b9bdcdc0e"
+  },
+  "subjects": {
+    "M1": 1226,
+    "M2": 1227
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u00E0i \\u0111\\u00E3 ch\\u1EA5m; kh\\u00F4ng nh\\u1EADn l\\u1EA7n n\\u1ED9p m\\u1EDBi.\u0022]}}"
+  },
+  "assertions": "Passed"
+}

@@ -1,0 +1,79 @@
+{
+  "caseId": "IT-180",
+  "runTag": "ITaea53dde5d1b4f79bb108040e89b555e",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "hub_revoke",
+    "group": 12,
+    "title": "Thu h\u1ED3i quy\u1EC1n r\u1EDDi group v\u00E0 kh\u00F4ng nh\u1EADn tin m\u1EDBi",
+    "stage": 4,
+    "entry": "SignalR /cap-nhat \u002B XuLySuKienWorker \u002B LopHocService",
+    "input": "P1 \u0111ang trong group C1 v\u00E0 c\u00F3 quy\u1EC1n; G1 g\u1EE1/thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt, cookie P1 c\u00F2n \u1EDF client.",
+    "action": "\u0110\u1ED5i quy\u1EC1n qua flow th\u1EADt; ch\u1EA1y v\u00F2ng ki\u1EC3m quy\u1EC1n worker; G1/H1 g\u1EEDi tin m\u1EDBi; quan s\u00E1t sink P1 v\u00E0 g\u1ECDi l\u1EA1i HTTP.",
+    "contract": "P1 b\u1ECB b\u1ECF group/\u0111\u00F3ng k\u1EBFt n\u1ED1i theo \u0111i\u1EC1u ki\u1EC7n; kh\u00F4ng nh\u1EADn payload tin sau thu h\u1ED3i; HTTP quy\u1EC1n c\u0169 b\u1ECB t\u1EEB ch\u1ED1i.",
+    "db": "Kh\u00F4ng b\u1ECF H1/G1 kh\u1ECFi l\u1EDBp; l\u1ECBch s\u1EED c\u0169 gi\u1EEF theo ch\u00EDnh s\u00E1ch quy\u1EC1n; c\u00F3 audit denial.",
+    "fr": [
+      "FR-37",
+      "FR-38",
+      "FR-39"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "XuLySuKienWorker.XuLySuKienDenHanAsync"
+    ],
+    "deps": [
+      "hub_session",
+      "member_store",
+      "chat_store"
+    ],
+    "kind": "ASYNC",
+    "routes": [],
+    "id": "IT-180",
+    "catalogOrder": 180,
+    "executionOrder": 180,
+    "dependencyIds": [
+      "IT-176",
+      "IT-071",
+      "IT-125"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "RT-U18",
+        "cls": "XuLySuKienWorker",
+        "method": "XuLySuKienDenHanAsync",
+        "table": 438
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5",
+    "baseline": "FR-37, FR-38, FR-39; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: RT-U18 XuLySuKienWorker.XuLySuKienDenHanAsync (b\u1EA3ng 438)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Thu h\u1ED3i quy\u1EC1n r\u1EDDi group v\u00E0 kh\u00F4ng nh\u1EADn tin m\u1EDBi",
+    "strategy": "Bottom-up, BU4; th\u1EE9 t\u1EF1 ch\u1EA1y #180.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-176, IT-071, IT-125\nGh\u00E9p sau: Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5\nC\u0103n c\u1EE9: Sau producer v\u00E0 quy\u1EC1n \u0111\u00E3 ki\u1EC3m, gh\u00E9p consumer/worker/transport; t\u00E1ch l\u1ED7i commit kh\u1ECFi l\u1ED7i ph\u00E1t s\u1EF1 ki\u1EC7n v\u00E0 retry. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nP1 \u0111ang trong group C1 v\u00E0 c\u00F3 quy\u1EC1n; G1 g\u1EE1/thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt, cookie P1 c\u00F2n \u1EDF client.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-176, IT-071, IT-125; t\u1EA1o fixture F12/nh\u00F3m li\u00EAn quan, sink/SignalR client v\u00E0 DB th\u1EADt t\u00E1ch bi\u1EC7t.\n2. Chu\u1EA9n b\u1ECB th\u1EDDi \u0111i\u1EC3m/lease/tr\u1EA1ng th\u00E1i b\u1EB1ng SQL v\u00E0 \u0111\u1ECDc T_SQL. \u0110i\u1EC1u ki\u1EC7n ri\u00EAng: P1 \u0111ang trong group C1 v\u00E0 c\u00F3 quy\u1EC1n; G1 g\u1EE1/thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt, cookie P1 c\u00F2n \u1EDF client.\n3. Gi\u1EEF worker,Service,SQL th\u1EADt; b\u1EADt \u0111\u00FAng hosted service c\u1EA7n ki\u1EC3m ho\u1EB7c g\u1ECDi batch public th\u1EADt. D\u00F9ng client/sink giao th\u1EE9c th\u1EADt, kh\u00F4ng mock hub \u0111\u1EC3 tuy\u00EAn b\u1ED1 \u0111\u00E3 ki\u1EC3m delivery.\n4. \u0110\u1ED5i quy\u1EC1n qua flow th\u1EADt; ch\u1EA1y v\u00F2ng ki\u1EC3m quy\u1EC1n worker; G1/H1 g\u1EEDi tin m\u1EDBi; quan s\u00E1t sink P1 v\u00E0 g\u1ECDi l\u1EA1i HTTP.\n5. Poll theo event/state v\u1EDBi deadline10s cho v\u00F2ng \u0111\u1EA7u, t\u1ED1i \u0111a5s audit, kh\u00F4ng d\u00F9ng sleep r\u1ED3i m\u1EB7c \u0111\u1ECBnh \u0111\u1EA1t; tr\u01B0\u1EDDng h\u1EE3p scanner timeout d\u00F9ng timeout30s c\u1EE7a protocol.\n6. Assert contract: P1 b\u1ECB b\u1ECF group/\u0111\u00F3ng k\u1EBFt n\u1ED1i theo \u0111i\u1EC1u ki\u1EC7n; kh\u00F4ng nh\u1EADn payload tin sau thu h\u1ED3i; HTTP quy\u1EC1n c\u0169 b\u1ECB t\u1EEB ch\u1ED1i.\n7. \u0110\u1ECDc SQL b\u1EB1ng connection m\u1EDBi v\u00E0 \u0111\u1ED1i chi\u1EBFu EventId/recipient/target/lease/timestamps/sink: Kh\u00F4ng b\u1ECF H1/G1 kh\u1ECFi l\u1EDBp; l\u1ECBch s\u1EED c\u0169 gi\u1EEF theo ch\u00EDnh s\u00E1ch quy\u1EC1n; c\u00F3 audit denial.\n8. L\u01B0u timeline commit/publish/ack,retry,SQL,trace,TRX; StopAsync v\u00E0 await worker tr\u01B0\u1EDBc cleanup. Kh\u00F4ng reset DB khi worker c\u00F2n ch\u1EA1y.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: P1 b\u1ECB b\u1ECF group/\u0111\u00F3ng k\u1EBFt n\u1ED1i theo \u0111i\u1EC1u ki\u1EC7n; kh\u00F4ng nh\u1EADn payload tin sau thu h\u1ED3i; HTTP quy\u1EC1n c\u0169 b\u1ECB t\u1EEB ch\u1ED1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng b\u1ECF H1/G1 kh\u1ECFi l\u1EDBp; l\u1ECBch s\u1EED c\u0169 gi\u1EEF theo ch\u00EDnh s\u00E1ch quy\u1EC1n; c\u00F3 audit denial."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.SuKienChoXuLy SET TrangThai=\u0027HoanTat\u0027,XuLyXongLuc=SYSDATETIMEOFFSET(),ThuLaiLuc=NULL,LeaseId=NULL,LeaseHetHanLuc=NULL WHERE TrangThai IN (\u0027ChoXuLy\u0027,\u0027ChoThuLai\u0027) OR (TrangThai=\u0027DangXuLy\u0027 AND LeaseHetHanLuc\u003C=SYSDATETIMEOFFSET())",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "9c31e2be-4f67-4ea7-a3ed-576d554c2160",
+    "P": "dd5b49cf-464f-45ca-8704-f66f5abdb84e",
+    "G": "cec771e6-8eb9-47cf-85c1-2aafc4de25f3",
+    "X": "519a8e16-4379-4cef-8aeb-6e5c98a4a968",
+    "A": "6b8dbb86-07ad-4dfb-af83-8544730d8dc6"
+  },
+  "subjects": {
+    "M1": 5119,
+    "M2": 5120
+  },
+  "http": {
+    "status": 403,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022B\\u1EA1n ch\\u01B0a c\\u00F3 quy\\u1EC1n ho\\u1EB7c li\\u00EAn k\\u1EBFt ph\\u00F9 h\\u1EE3p \\u0111\\u1EC3 v\\u00E0o l\\u1EDBp n\\u00E0y.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022B\\u1EA1n ch\\u01B0a c\\u00F3 quy\\u1EC1n ho\\u1EB7c li\\u00EAn k\\u1EBFt ph\\u00F9 h\\u1EE3p \\u0111\\u1EC3 v\\u00E0o l\\u1EDBp n\\u00E0y.\u0022]}}"
+  },
+  "assertions": "Passed"
+}

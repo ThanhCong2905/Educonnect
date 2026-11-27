@@ -1,0 +1,33 @@
+{
+  "caseId": "IT-105-DL0",
+  "runTag": "IT2e4ed60c2cdc4a9d9910820bf78487bb",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "IF DB_NAME()\u003C\u003EN\u0027EduConnect_Verification_Integration_20261125_v2\u0027 THROW 50000,N\u0027Refusing non-test DB\u0027,1;\r\nDECLARE @trigger sysname=(SELECT TOP(1) t.name FROM sys.triggers t JOIN sys.sql_modules m ON m.object_id=t.object_id WHERE t.parent_id=OBJECT_ID(N\u0027dbo.BaiTapGiao\u0027) AND m.definition LIKE N\u0027%B\u00E0i m\u1EDBi ph\u1EA3i g\u1EAFn bu\u1ED5i h\u1ECDc%\u0027);\r\nIF @trigger IS NULL THROW 50000,N\u0027Legacy fixture trigger not found\u0027,1;\r\nBEGIN TRY\r\n BEGIN TRAN;\r\n DECLARE @disable nvarchar(max)=N\u0027DISABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @disable;\r\n UPDATE dbo.BaiTapGiao SET BuoiHocId=NULL WHERE Id=@a;\r\n DECLARE @enable nvarchar(max)=N\u0027ENABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @enable;\r\n COMMIT;\r\n SELECT name,is_disabled FROM sys.triggers WHERE name=@trigger;\r\nEND TRY BEGIN CATCH IF XACT_STATE()\u003C\u003E0 ROLLBACK;THROW;END CATCH;",
+    "parameters": {
+      "@a": "46e8ffd8-00f1-4dd6-8c2c-59e17ba4e25c"
+    },
+    "rows": [
+      {
+        "name": "tr_BaiTap_Buoi",
+        "is_disabled": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "1ce8112f-a4ca-4b67-98df-fc2fab9e78b6",
+    "P": "8a7d2a7b-9ac1-4421-af95-f615436d9c8b",
+    "G": "c039d40a-e625-43e7-88a5-45f4b1567f1b",
+    "X": "01399e9e-2d06-4904-b776-3370bff7e988",
+    "A": "ddc35ea1-f0e8-475a-bd73-d1e5dbeffdca"
+  },
+  "subjects": {
+    "M1": 908,
+    "M2": 909
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 g\\u1EAFn b\\u00E0i t\\u1EADp v\\u1EDBi bu\\u1ED5i h\\u1ECDc.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/1db60aad-c373-499f-bc82-24b883249f4e\u0022}"
+  }
+}

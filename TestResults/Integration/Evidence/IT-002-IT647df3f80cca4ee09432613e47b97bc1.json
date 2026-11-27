@@ -1,0 +1,58 @@
+{
+  "caseId": "IT-002",
+  "runTag": "IT647df3f80cca4ee09432613e47b97bc1",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_need",
+    "group": 0,
+    "title": "Kh\u00F3a gh\u00E9p nhu c\u1EA7u\u2013m\u00F4n v\u00E0 kh\u00F3a ngo\u1EA1i",
+    "stage": 1,
+    "entry": "SQL: NhuCauHoc \u002B NhuCauMonHoc \u002B MonHoc",
+    "input": "N1 t\u1ED3n t\u1EA1i; link (N1,M1) c\u00F3 s\u1EB5n; M_BAD kh\u00F4ng t\u1ED3n t\u1EA1i.",
+    "action": "DL01 INSERT l\u1EA1i (N1,M1). DL02 fixture m\u1EDBi, INSERT (N1,M_BAD); rollback t\u1EEBng DL.",
+    "contract": "DL01 l\u1ED7i unique/PK; DL02 l\u1ED7i FK. Kh\u00F4ng coi ki\u1EC3m metadata l\u00E0 th\u1EF1c thi h\u00E0nh vi t\u00EDch h\u1EE3p.",
+    "db": "M\u1ED7i DL ch\u1EC9 gi\u1EEF link ban \u0111\u1EA7u; nhu c\u1EA7u N1 kh\u00F4ng b\u1ECB x\u00F3a ho\u1EB7c \u0111\u1ED5i m\u00F4n \u0111\u1EA1i di\u1EC7n.",
+    "fr": [
+      "FR-01",
+      "FR-03"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "SQL.NhuCauMonHoc"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-002",
+    "catalogOrder": 2,
+    "executionOrder": 2,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "\u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.",
+    "boundary": "SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions",
+    "baseline": "FR-01, FR-03; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: H\u1EE3p \u0111\u1ED3ng b\u1EA3ng/SQL/quy\u1EC1n theo 00_EduConnect_Full.sql.\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Kh\u00F3a gh\u00E9p nhu c\u1EA7u\u2013m\u00F4n v\u00E0 kh\u00F3a ngo\u1EA1i",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 ch\u1EA1y #2.\nKi\u1EC3m tr\u01B0\u1EDBc: PF-DB/PF-HOST \u0111\u00E3 \u0111\u1EA1t trong sheet m\u00F4i tr\u01B0\u1EDDng\nGh\u00E9p sau: SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions\nC\u0103n c\u1EE9: Ki\u1EC3m object SQL v\u00E0 r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u tr\u01B0\u1EDBc v\u00EC \u0111\u00E2y l\u00E0 n\u1EC1n c\u00E1c provider/service d\u00F9ng chung. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F0 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nN1 t\u1ED3n t\u1EA1i; link (N1,M1) c\u00F3 s\u1EB5n; M_BAD kh\u00F4ng t\u1ED3n t\u1EA1i.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. X\u00E1c nh\u1EADn PF-DB: \u0111\u00FAng DB ki\u1EC3m th\u1EED/principal, schema cu\u1ED1i; bind m\u1ECDi parameter t\u1EEB fixture. Kh\u00F4ng ch\u1EA1y DDL c\u00E0i l\u1EA1i database.\n2. Seed c\u00E1c d\u00F2ng cha v\u00E0 \u0111i\u1EC1u ki\u1EC7n ri\u00EAng: N1 t\u1ED3n t\u1EA1i; link (N1,M1) c\u00F3 s\u1EB5n; M_BAD kh\u00F4ng t\u1ED3n t\u1EA1i.\n3. \u0110\u1ECDc snapshot b\u1EA3ng/kh\u00F3a/th\u1EDDi \u0111i\u1EC3m b\u1EB1ng observer; m\u1EDF SqlConnection/transaction ri\u00EAng cho m\u1ED7i DL ho\u1EB7c m\u1ED7i t\u00E1c nh\u00E2n khi c\u00F3 race.\n4. DL01 INSERT l\u1EA1i (N1,M1). DL02 fixture m\u1EDBi, INSERT (N1,M_BAD); rollback t\u1EEBng DL.\n5. Assert k\u1EBFt qu\u1EA3 SQL/error v\u00E0 d\u1EEF li\u1EC7u: DL01 l\u1ED7i unique/PK; DL02 l\u1ED7i FK. Kh\u00F4ng coi ki\u1EC3m metadata l\u00E0 th\u1EF1c thi h\u00E0nh vi t\u00EDch h\u1EE3p.\n6. \u0110\u1ECDc l\u1EA1i sau commit/rollback b\u1EB1ng connection m\u1EDBi. Oracle: \u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.\n7. Assert to\u00E0n v\u1EB9n: M\u1ED7i DL ch\u1EC9 gi\u1EEF link ban \u0111\u1EA7u; nhu c\u1EA7u N1 kh\u00F4ng b\u1ECB x\u00F3a ho\u1EB7c \u0111\u1ED5i m\u00F4n \u0111\u1EA1i di\u1EC7n.\n8. L\u01B0u parameter/SqlException.Number/SQL tr\u01B0\u1EDBc\u2013sau; rollback n\u1EBFu to\u00E0n b\u1ED9 ca trong transaction, n\u1EBFu kh\u00F4ng reset fixture theo FK. Kh\u00F4i ph\u1EE5c permission trong finally.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 l\u1ED7i unique/PK; DL02 l\u1ED7i FK. Kh\u00F4ng coi ki\u1EC3m metadata l\u00E0 th\u1EF1c thi h\u00E0nh vi t\u00EDch h\u1EE3p.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED7i DL ch\u1EC9 gi\u1EEF link ban \u0111\u1EA7u; nhu c\u1EA7u N1 kh\u00F4ng b\u1ECB x\u00F3a ho\u1EB7c \u0111\u1ED5i m\u00F4n \u0111\u1EA1i di\u1EC7n."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "9c1c9f08-cad0-43e1-a8a6-5132720895b8",
+    "P": "740f05e0-9f7f-448b-9c2e-ebba860d75dd",
+    "G": "a54d0c40-2618-46b7-9cf4-aa0e389206d9",
+    "X": "b5b3fcd0-2787-49ca-8f24-91bbc40b27e9",
+    "A": "16732bd2-ef26-4df5-b875-ea48061ff8aa"
+  },
+  "subjects": {
+    "M1": 2160,
+    "M2": 2161
+  },
+  "assertions": "Passed"
+}

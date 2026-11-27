@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-175-Form",
+  "runTag": "ITe06e24c57a3b437ea9f44c03c81e32c9",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "8bef1f59-b3dd-4a4f-b40b-6685b975e6f6",
+    "P": "c3a10520-0c0f-4a9c-87eb-61805a3f5645",
+    "G": "5dc489d8-1503-4408-b3df-840d590c7ff5",
+    "X": "a288a992-1d0c-4039-ba27-3d59a57c00fe",
+    "A": "e537f479-97d4-4345-ab5e-7acfe6f5441c"
+  },
+  "subjects": {
+    "M1": 2148,
+    "M2": 2149
+  },
+  "http": {
+    "status": 302,
+    "location": "/NhuCau/NhuCau",
+    "body": ""
+  }
+}

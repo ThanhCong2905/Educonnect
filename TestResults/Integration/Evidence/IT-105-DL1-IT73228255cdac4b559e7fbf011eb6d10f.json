@@ -1,0 +1,33 @@
+{
+  "caseId": "IT-105-DL1",
+  "runTag": "IT73228255cdac4b559e7fbf011eb6d10f",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "IF DB_NAME()\u003C\u003EN\u0027EduConnect_Verification_Integration_20261125_v2\u0027 THROW 50000,N\u0027Refusing non-test DB\u0027,1;\r\nDECLARE @trigger sysname=(SELECT TOP(1) t.name FROM sys.triggers t JOIN sys.sql_modules m ON m.object_id=t.object_id WHERE t.parent_id=OBJECT_ID(N\u0027dbo.BaiTapGiao\u0027) AND m.definition LIKE N\u0027%B\u00E0i m\u1EDBi ph\u1EA3i g\u1EAFn bu\u1ED5i h\u1ECDc%\u0027);\r\nIF @trigger IS NULL THROW 50000,N\u0027Legacy fixture trigger not found\u0027,1;\r\nBEGIN TRY\r\n BEGIN TRAN;\r\n DECLARE @disable nvarchar(max)=N\u0027DISABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @disable;\r\n UPDATE dbo.BaiTapGiao SET BuoiHocId=NULL WHERE Id=@a;\r\n DECLARE @enable nvarchar(max)=N\u0027ENABLE TRIGGER dbo.\u0027\u002BQUOTENAME(@trigger)\u002BN\u0027 ON dbo.BaiTapGiao\u0027; EXEC sys.sp_executesql @enable;\r\n COMMIT;\r\n SELECT name,is_disabled FROM sys.triggers WHERE name=@trigger;\r\nEND TRY BEGIN CATCH IF XACT_STATE()\u003C\u003E0 ROLLBACK;THROW;END CATCH;",
+    "parameters": {
+      "@a": "daeeaa1a-cc74-41a9-9623-30983c993ab8"
+    },
+    "rows": [
+      {
+        "name": "tr_BaiTap_Buoi",
+        "is_disabled": false
+      }
+    ]
+  },
+  "actors": {
+    "H": "2af37d75-0ccb-4ea7-b877-14e4a4cb12d1",
+    "P": "ba001a9b-2f45-459e-a334-95aa56727287",
+    "G": "513d16d3-425c-4baa-ba2a-792e0fbff98c",
+    "X": "ba334657-99f0-4458-b5e3-cb197a0367a9",
+    "A": "2c63bb3e-1eb2-4711-be5f-bbcc4c5d31c4"
+  },
+  "subjects": {
+    "M1": 4277,
+    "M2": 4278
+  },
+  "http": {
+    "status": 400,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Ch\\u1ECDn bu\\u1ED5i h\\u1EE3p l\\u1EC7 trong \\u0111\\u00FAng l\\u1EDBp.\u0022]}}"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-112",
+  "runTag": "IT24c5a19961e945c3adf865a36bc96a21",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "review_store",
+    "group": 8,
+    "title": "Hai b\u00EAn \u0111\u00E1nh gi\u00E1 \u0111\u1ED9c l\u1EADp sau khi k\u1EBFt th\u00FAc c\u00F3 bu\u1ED5i th\u1EF1c t\u1EBF",
+    "stage": 2,
+    "entry": "DanhGiaDoiTacService.GuiAsync",
+    "input": "C1 DaKetThuc, c\u00F3 B1 DaHoc/GhiNhanLuc; G1 \u0111\u00E1nh gi\u00E1 H1=5 sao, H1 \u0111\u00E1nh gi\u00E1 G1=4; nh\u1EADn x\u00E9t 20 k\u00FD t\u1EF1, XacNhanRiengTu=true.",
+    "action": "G\u1ECDi Service hai actor, scope ri\u00EAng; \u0111\u1ECDc key/recipient v\u00E0 SQL m\u1EDBi.",
+    "contract": "M\u1ED7i l\u01B0\u1EE3t th\u00E0nh c\u00F4ng tr\u1EA3 \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn \u0111\u1ED1i t\u00E1c; kh\u00F4ng t\u1EF1 \u0111\u00E1nh gi\u00E1 m\u00ECnh.",
+    "db": "Hai DanhGiaDoiTac theo hai chi\u1EC1u, m\u1ED7i ng\u01B0\u1EDDi m\u1ED9t \u0111\u00E1nh gi\u00E1/l\u1EDBp; notice/outbox \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn; \u0111i\u1EC3m/nh\u1EADn x\u00E9t nguy\u00EAn v\u1EB9n.",
+    "fr": [
+      "FR-41",
+      "FR-62"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "DanhGiaDoiTacService.GuiAsync"
+    ],
+    "deps": [
+      "end_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-112",
+    "catalogOrder": 112,
+    "executionOrder": 42,
+    "dependencyIds": [
+      "IT-058"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "DG-U09",
+        "cls": "DanhGiaDoiTacService",
+        "method": "GuiAsync",
+        "table": 278
+      }
+    ],
+    "fixture": "F8",
+    "sqlOracle": "SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.",
+    "boundary": "DanhGiaDoiTacService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-41, FR-62; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: DG-U09 DanhGiaDoiTacService.GuiAsync (b\u1EA3ng 278)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Hai b\u00EAn \u0111\u00E1nh gi\u00E1 \u0111\u1ED9c l\u1EADp sau khi k\u1EBFt th\u00FAc c\u00F3 bu\u1ED5i th\u1EF1c t\u1EBF",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #42.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-058\nGh\u00E9p sau: DanhGiaDoiTacService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F8 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nC1 DaKetThuc, c\u00F3 B1 DaHoc/GhiNhanLuc; G1 \u0111\u00E1nh gi\u00E1 H1=5 sao, H1 \u0111\u00E1nh gi\u00E1 G1=4; nh\u1EADn x\u00E9t 20 k\u00FD t\u1EF1, XacNhanRiengTu=true.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-058 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F8 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: C1 DaKetThuc, c\u00F3 B1 DaHoc/GhiNhanLuc; G1 \u0111\u00E1nh gi\u00E1 H1=5 sao, H1 \u0111\u00E1nh gi\u00E1 G1=4; nh\u1EADn x\u00E9t 20 k\u00FD t\u1EF1, XacNhanRiengTu=true. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service hai actor, scope ri\u00EAng; \u0111\u1ECDc key/recipient v\u00E0 SQL m\u1EDBi. \u0110i\u1EC3m v\u00E0o: DanhGiaDoiTacService.GuiAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: M\u1ED7i l\u01B0\u1EE3t th\u00E0nh c\u00F4ng tr\u1EA3 \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn \u0111\u1ED1i t\u00E1c; kh\u00F4ng t\u1EF1 \u0111\u00E1nh gi\u00E1 m\u00ECnh.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.DanhGiaDoiTac WHERE LopHocId=@C1; SELECT * FROM dbo.LichSuDanhGiaDoiTac WHERE DanhGiaId=@D1; SELECT * FROM dbo.PhieuDanhGia WHERE LopHocId=@C1; \u0110\u1ED1i chi\u1EBFu ri\u00EAng latest submission b\u1EB1ng ORDER BY NopLuc DESC,Id DESC v\u00E0 join \u0111\u00FAng BaiTapGiao/BuoiHoc/LichHoc; kh\u00F4ng l\u1EA5y t\u1ED5ng t\u1EEB model \u0111ang tracking.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Hai DanhGiaDoiTac theo hai chi\u1EC1u, m\u1ED7i ng\u01B0\u1EDDi m\u1ED9t \u0111\u00E1nh gi\u00E1/l\u1EDBp; notice/outbox \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn; \u0111i\u1EC3m/nh\u1EADn x\u00E9t nguy\u00EAn v\u1EB9n.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: M\u1ED7i l\u01B0\u1EE3t th\u00E0nh c\u00F4ng tr\u1EA3 \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn \u0111\u1ED1i t\u00E1c; kh\u00F4ng t\u1EF1 \u0111\u00E1nh gi\u00E1 m\u00ECnh.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Hai DanhGiaDoiTac theo hai chi\u1EC1u, m\u1ED7i ng\u01B0\u1EDDi m\u1ED9t \u0111\u00E1nh gi\u00E1/l\u1EDBp; notice/outbox \u0111\u00FAng ng\u01B0\u1EDDi nh\u1EADn; \u0111i\u1EC3m/nh\u1EADn x\u00E9t nguy\u00EAn v\u1EB9n."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.LopHoc SET TrangThai=\u0027DaKetThuc\u0027,KetThucLuc=SYSDATETIMEOFFSET(),CachKetThuc=N\u0027DongY\u0027 WHERE Id=@c",
+    "parameters": {
+      "@c": "56e78e45-d13c-420f-bd44-b2bd5773fc3a"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "65c12e8d-701d-4094-b095-5f0a035132e4",
+    "P": "314c11cd-4db2-4111-b548-d90f75095599",
+    "G": "0391c7de-7c7f-462f-b06c-fa7df3d97dc0",
+    "X": "2f0cb938-021d-48af-8495-77f7a8902956",
+    "A": "71fed9ff-098c-49a4-a38b-28a803114b18"
+  },
+  "subjects": {
+    "M1": 1434,
+    "M2": 1435
+  },
+  "assertions": "Passed"
+}

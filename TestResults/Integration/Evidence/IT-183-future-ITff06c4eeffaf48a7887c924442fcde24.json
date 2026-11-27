@@ -1,0 +1,21 @@
+{
+  "caseId": "IT-183-future",
+  "runTag": "ITff06c4eeffaf48a7887c924442fcde24",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "02815170-d74d-4b80-a618-a912fc8198c9",
+    "P": "eca186f4-34fe-4747-b29d-afdeacae029a",
+    "G": "0f143eb7-1b43-4c49-8082-b23c6925210f",
+    "X": "5172ecac-6adc-41f8-a89b-b1e111dcdf93",
+    "A": "7f688d6f-9752-4a08-a246-49220de681e3"
+  },
+  "subjects": {
+    "M1": 3863,
+    "M2": 3864
+  }
+}

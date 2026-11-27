@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-067-DL3",
+  "runTag": "ITceb17d9aff2b49b3ba4c6ebfaf8159eb",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauHuyKetNoi SET LyDo=N\u0027\u0110\u00E3 \u0111\u1ED5i\u0027 WHERE Id=@id",
+    "parameters": {
+      "@id": "4badad48-e1c7-4ba0-b4da-697c12ee5df0"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "74d6f468-c8e4-472c-88ff-318625b422c1",
+    "P": "e08a81d8-af83-4fb3-8cca-54517fda6d4f",
+    "G": "e8838d4c-45e2-4d98-b31b-5f5fc158eac5",
+    "X": "8757660d-218b-422c-acf2-a5ba18541162",
+    "A": "ab42aa6a-631d-4451-b94a-5edc1e3e2e87"
+  },
+  "subjects": {
+    "M1": 3098,
+    "M2": 3099
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 x\\u1EED l\\u00FD, h\\u1EBFt h\\u1EA1n ho\\u1EB7c thay \\u0111\\u1ED5i.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 x\\u1EED l\\u00FD, h\\u1EBFt h\\u1EA1n ho\\u1EB7c thay \\u0111\\u1ED5i.\u0022]}}"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "caseId": "IT-061",
+  "runTag": "IT760ce8e718f74738955b5da8f219b654",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "end_duplicate",
+    "group": 4,
+    "title": "Kh\u00F4ng hai y\u00EAu c\u1EA7u k\u1EBFt th\u00FAc \u0111ang ch\u1EDD",
+    "stage": 2,
+    "entry": "KetNoiService.TaoYeuCauHuyAsync",
+    "input": "C1 ho\u1EA1t \u0111\u1ED9ng; hai call G1/H1 t\u1EEB hai scope, l\u00FD do kh\u00E1c, barrier tr\u01B0\u1EDBc ghi.",
+    "action": "G\u1ECDi \u0111\u1ED3ng th\u1EDDi; \u0111\u1ECDc y\u00EAu c\u1EA7u c\u00F2n ch\u1EDD sau c\u1EA3 hai k\u1EBFt th\u00FAc.",
+    "contract": "Ch\u1EC9 m\u1ED9t y\u00EAu c\u1EA7u \u0111\u01B0\u1EE3c t\u1EA1o; l\u01B0\u1EE3t c\u00F2n l\u1EA1i b\u1ECB xung \u0111\u1ED9t nghi\u1EC7p v\u1EE5.",
+    "db": "COUNT y\u00EAu c\u1EA7u ch\u1EDD theo C1=1; l\u1EDBp kh\u00F4ng k\u1EBFt th\u00FAc ho\u1EB7c m\u1EA5t l\u1ECBch s\u1EED.",
+    "fr": [
+      "FR-22"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "KetNoiService.TaoYeuCauHuyAsync"
+    ],
+    "deps": [
+      "end_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-061",
+    "catalogOrder": 61,
+    "executionOrder": 29,
+    "dependencyIds": [
+      "IT-058"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.3-U05",
+        "cls": "KetNoiService",
+        "method": "TaoYeuCauHuyAsync",
+        "table": 129
+      }
+    ],
+    "fixture": "F4",
+    "sqlOracle": "SELECT * FROM dbo.LopHoc WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.YeuCauHuyKetNoi WHERE LopHocId=@C1; SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.CuocHoiThoai WHERE LopHocId=@C1;",
+    "boundary": "KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-22; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.3-U05 KetNoiService.TaoYeuCauHuyAsync (b\u1EA3ng 129)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Kh\u00F4ng hai y\u00EAu c\u1EA7u k\u1EBFt th\u00FAc \u0111ang ch\u1EDD",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #29.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-058\nGh\u00E9p sau: KetNoiService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F4 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nC1 ho\u1EA1t \u0111\u1ED9ng; hai call G1/H1 t\u1EEB hai scope, l\u00FD do kh\u00E1c, barrier tr\u01B0\u1EDBc ghi.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-058 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F4 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: C1 ho\u1EA1t \u0111\u1ED9ng; hai call G1/H1 t\u1EEB hai scope, l\u00FD do kh\u00E1c, barrier tr\u01B0\u1EDBc ghi. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi \u0111\u1ED3ng th\u1EDDi; \u0111\u1ECDc y\u00EAu c\u1EA7u c\u00F2n ch\u1EDD sau c\u1EA3 hai k\u1EBFt th\u00FAc. \u0110i\u1EC3m v\u00E0o: KetNoiService.TaoYeuCauHuyAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Ch\u1EC9 m\u1ED9t y\u00EAu c\u1EA7u \u0111\u01B0\u1EE3c t\u1EA1o; l\u01B0\u1EE3t c\u00F2n l\u1EA1i b\u1ECB xung \u0111\u1ED9t nghi\u1EC7p v\u1EE5.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.LopHoc WHERE YeuCauKetNoiId=@R1; SELECT * FROM dbo.YeuCauHuyKetNoi WHERE LopHocId=@C1; SELECT * FROM dbo.LichHoc WHERE LopHocId=@C1; SELECT * FROM dbo.BuoiHoc WHERE LichHocId IN(SELECT Id FROM dbo.LichHoc WHERE LopHocId=@C1); SELECT * FROM dbo.CuocHoiThoai WHERE LopHocId=@C1;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: COUNT y\u00EAu c\u1EA7u ch\u1EDD theo C1=1; l\u1EDBp kh\u00F4ng k\u1EBFt th\u00FAc ho\u1EB7c m\u1EA5t l\u1ECBch s\u1EED.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Ch\u1EC9 m\u1ED9t y\u00EAu c\u1EA7u \u0111\u01B0\u1EE3c t\u1EA1o; l\u01B0\u1EE3t c\u00F2n l\u1EA1i b\u1ECB xung \u0111\u1ED9t nghi\u1EC7p v\u1EE5.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: COUNT y\u00EAu c\u1EA7u ch\u1EDD theo C1=1; l\u1EDBp kh\u00F4ng k\u1EBFt th\u00FAc ho\u1EB7c m\u1EA5t l\u1ECBch s\u1EED."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "a7d64232-9b3c-40f8-835a-112b6e131056",
+    "P": "2172417c-bd00-4b3b-b656-0e335af5fa5c",
+    "G": "c5abe7c3-e87a-462b-816e-2f6ef9b7823e",
+    "X": "a12a2c57-cf0b-4de8-9c29-e3895a63dc04",
+    "A": "6b96ae0c-5151-4685-a737-d874e454edac"
+  },
+  "subjects": {
+    "M1": 2650,
+    "M2": 2651
+  },
+  "assertions": "Passed"
+}

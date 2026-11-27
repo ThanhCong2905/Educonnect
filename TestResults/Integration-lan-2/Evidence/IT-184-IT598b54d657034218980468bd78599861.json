@@ -1,0 +1,92 @@
+{
+  "caseId": "IT-184",
+  "runTag": "IT598b54d657034218980468bd78599861",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "worker_end_race",
+    "group": 12,
+    "title": "Worker v\u00E0 ph\u1EA3n h\u1ED3i \u0111\u00FAng h\u1EA1n c\u1EA1nh tranh c\u00F3 m\u1ED9t k\u1EBFt qu\u1EA3 h\u1EE3p l\u1EC7",
+    "stage": 4,
+    "entry": "BaoTriWorker \u002B POST /KetNoi/KetNoi/PhanHoiHuy",
+    "input": "Hai DL: ph\u1EA3n h\u1ED3i h\u1EE3p l\u1EC7 commit tr\u01B0\u1EDBc worker; ho\u1EB7c deadline \u0111\u00E3 qua tr\u01B0\u1EDBc ph\u1EA3n h\u1ED3i; hai connection \u0111\u1ED9c l\u1EADp, ghi timestamp SQL.",
+    "action": "D\u00F9ng barrier kh\u1EDFi request/v\u00F2ng worker, ghi th\u1EE9 t\u1EF1 commit v\u00E0 deadline; kh\u00F4ng suy ra th\u1EAFng theo th\u1EDDi gian m\u00E1y client.",
+    "contract": "N\u1EBFu t\u1EEB ch\u1ED1i \u0111\u00FAng h\u1EA1n \u0111\u00E3 commit, worker kh\u00F4ng k\u1EBFt th\u00FAc; n\u1EBFu \u0111\u00E3 qu\u00E1 h\u1EA1n, ph\u1EA3n h\u1ED3i mu\u1ED9n kh\u00F4ng \u0111\u1ED5i k\u1EBFt qu\u1EA3 t\u1EF1 k\u1EBFt th\u00FAc.",
+    "db": "Q/C kh\u00F4ng m\u00E2u thu\u1EABn, kh\u00F4ng hai k\u1EBFt qu\u1EA3/l\u1ECBch s\u1EED cu\u1ED1i tr\u00E1i nhau; d\u1EEF li\u1EC7u c\u00F3 t\u00EDnh tu\u1EA7n t\u1EF1 h\u1EE3p l\u1EC7.",
+    "fr": [
+      "FR-23",
+      "FR-24",
+      "FR-45"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "KetNoiService.PhanHoiHuyAsync",
+      "KetNoiController.PhanHoiHuy"
+    ],
+    "deps": [
+      "worker_end",
+      "end_reply_http"
+    ],
+    "kind": "ASYNC",
+    "routes": [
+      {
+        "cls": "KetNoiController",
+        "area": "KetNoi",
+        "method": "PhanHoiHuy",
+        "action": "PhanHoiHuy",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E PhanHoiHuy(PhanHoiHuyViewModel vm)",
+        "line": 145,
+        "file": "Areas\\KetNoi\\Controllers\\KetNoiController.cs"
+      }
+    ],
+    "id": "IT-184",
+    "catalogOrder": 184,
+    "executionOrder": 184,
+    "dependencyIds": [
+      "IT-183",
+      "IT-066"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC2.3-U04",
+        "cls": "KetNoiController",
+        "method": "PhanHoiHuy",
+        "table": 128
+      },
+      {
+        "id": "UC2.3-U06",
+        "cls": "KetNoiService",
+        "method": "PhanHoiHuyAsync",
+        "table": 130
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5",
+    "baseline": "FR-23, FR-24, FR-45; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC2.3-U04 KetNoiController.PhanHoiHuy (b\u1EA3ng 128); UC2.3-U06 KetNoiService.PhanHoiHuyAsync (b\u1EA3ng 130)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Worker v\u00E0 ph\u1EA3n h\u1ED3i \u0111\u00FAng h\u1EA1n c\u1EA1nh tranh c\u00F3 m\u1ED9t k\u1EBFt qu\u1EA3 h\u1EE3p l\u1EC7",
+    "strategy": "Bottom-up, BU4; th\u1EE9 t\u1EF1 ch\u1EA1y #184.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-183, IT-066\nGh\u00E9p sau: Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5\nC\u0103n c\u1EE9: Sau producer v\u00E0 quy\u1EC1n \u0111\u00E3 ki\u1EC3m, gh\u00E9p consumer/worker/transport; t\u00E1ch l\u1ED7i commit kh\u1ECFi l\u1ED7i ph\u00E1t s\u1EF1 ki\u1EC7n v\u00E0 retry. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nHai DL: ph\u1EA3n h\u1ED3i h\u1EE3p l\u1EC7 commit tr\u01B0\u1EDBc worker; ho\u1EB7c deadline \u0111\u00E3 qua tr\u01B0\u1EDBc ph\u1EA3n h\u1ED3i; hai connection \u0111\u1ED9c l\u1EADp, ghi timestamp SQL.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-183, IT-066; t\u1EA1o fixture F12/nh\u00F3m li\u00EAn quan, sink/SignalR client v\u00E0 DB th\u1EADt t\u00E1ch bi\u1EC7t.\n2. Chu\u1EA9n b\u1ECB th\u1EDDi \u0111i\u1EC3m/lease/tr\u1EA1ng th\u00E1i b\u1EB1ng SQL v\u00E0 \u0111\u1ECDc T_SQL. \u0110i\u1EC1u ki\u1EC7n ri\u00EAng: Hai DL: ph\u1EA3n h\u1ED3i h\u1EE3p l\u1EC7 commit tr\u01B0\u1EDBc worker; ho\u1EB7c deadline \u0111\u00E3 qua tr\u01B0\u1EDBc ph\u1EA3n h\u1ED3i; hai connection \u0111\u1ED9c l\u1EADp, ghi timestamp SQL.\n3. Gi\u1EEF worker,Service,SQL th\u1EADt; b\u1EADt \u0111\u00FAng hosted service c\u1EA7n ki\u1EC3m ho\u1EB7c g\u1ECDi batch public th\u1EADt. D\u00F9ng client/sink giao th\u1EE9c th\u1EADt, kh\u00F4ng mock hub \u0111\u1EC3 tuy\u00EAn b\u1ED1 \u0111\u00E3 ki\u1EC3m delivery.\n4. D\u00F9ng barrier kh\u1EDFi request/v\u00F2ng worker, ghi th\u1EE9 t\u1EF1 commit v\u00E0 deadline; kh\u00F4ng suy ra th\u1EAFng theo th\u1EDDi gian m\u00E1y client.\n5. Poll theo event/state v\u1EDBi deadline10s cho v\u00F2ng \u0111\u1EA7u, t\u1ED1i \u0111a5s audit, kh\u00F4ng d\u00F9ng sleep r\u1ED3i m\u1EB7c \u0111\u1ECBnh \u0111\u1EA1t; tr\u01B0\u1EDDng h\u1EE3p scanner timeout d\u00F9ng timeout30s c\u1EE7a protocol.\n6. Assert contract: N\u1EBFu t\u1EEB ch\u1ED1i \u0111\u00FAng h\u1EA1n \u0111\u00E3 commit, worker kh\u00F4ng k\u1EBFt th\u00FAc; n\u1EBFu \u0111\u00E3 qu\u00E1 h\u1EA1n, ph\u1EA3n h\u1ED3i mu\u1ED9n kh\u00F4ng \u0111\u1ED5i k\u1EBFt qu\u1EA3 t\u1EF1 k\u1EBFt th\u00FAc.\n7. \u0110\u1ECDc SQL b\u1EB1ng connection m\u1EDBi v\u00E0 \u0111\u1ED1i chi\u1EBFu EventId/recipient/target/lease/timestamps/sink: Q/C kh\u00F4ng m\u00E2u thu\u1EABn, kh\u00F4ng hai k\u1EBFt qu\u1EA3/l\u1ECBch s\u1EED cu\u1ED1i tr\u00E1i nhau; d\u1EEF li\u1EC7u c\u00F3 t\u00EDnh tu\u1EA7n t\u1EF1 h\u1EE3p l\u1EC7.\n8. L\u01B0u timeline commit/publish/ack,retry,SQL,trace,TRX; StopAsync v\u00E0 await worker tr\u01B0\u1EDBc cleanup. Kh\u00F4ng reset DB khi worker c\u00F2n ch\u1EA1y.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: N\u1EBFu t\u1EEB ch\u1ED1i \u0111\u00FAng h\u1EA1n \u0111\u00E3 commit, worker kh\u00F4ng k\u1EBFt th\u00FAc; n\u1EBFu \u0111\u00E3 qu\u00E1 h\u1EA1n, ph\u1EA3n h\u1ED3i mu\u1ED9n kh\u00F4ng \u0111\u1ED5i k\u1EBFt qu\u1EA3 t\u1EF1 k\u1EBFt th\u00FAc.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Q/C kh\u00F4ng m\u00E2u thu\u1EABn, kh\u00F4ng hai k\u1EBFt qu\u1EA3/l\u1ECBch s\u1EED cu\u1ED1i tr\u00E1i nhau; d\u1EEF li\u1EC7u c\u00F3 t\u00EDnh tu\u1EA7n t\u1EF1 h\u1EE3p l\u1EC7."
+  },
+  "sql": {
+    "sql": "DECLARE @now datetimeoffset(0)=SYSDATETIMEOFFSET(); UPDATE dbo.YeuCauHuyKetNoi SET GuiLuc=DATEADD(hour,-73,@now),HetHanLuc=DATEADD(hour,-1,@now) WHERE Id=@id",
+    "parameters": {
+      "@id": "b5702671-c3ad-40a3-bef4-3169a02d5e54"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "f3f4baee-7347-4dc0-9414-9c1eb0e43a17",
+    "P": "e10e3cbd-d15f-4805-a00d-997aa906c719",
+    "G": "76ffd647-cdb7-43d4-82ab-7f4de42a7668",
+    "X": "a7b93a7c-682c-43cc-837c-b71de8bb7823",
+    "A": "ca232555-d987-463a-a367-d5c607c461f3"
+  },
+  "subjects": {
+    "M1": 5135,
+    "M2": 5136
+  },
+  "assertions": "Passed"
+}

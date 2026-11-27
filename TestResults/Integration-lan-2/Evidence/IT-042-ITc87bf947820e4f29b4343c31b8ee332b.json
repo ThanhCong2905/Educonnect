@@ -1,0 +1,97 @@
+{
+  "caseId": "IT-042",
+  "runTag": "ITc87bf947820e4f29b4343c31b8ee332b",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "search_compare",
+    "group": 2,
+    "title": "So s\u00E1nh \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n v\u00E0 lo\u1EA1i Id tr\u00F9ng",
+    "stage": 3,
+    "entry": "GET /TimKiem/TimKiem/SoSanh?ids=...",
+    "input": "DL01 hai h\u1ED3 s\u01A1; DL02 ba; DL03 [G1,G1,G2].",
+    "action": "G\u1EEDi query ids l\u1EB7p \u0111\u00FAng binder IReadOnlyList; \u0111\u1ECDc c\u1ED9t so s\u00E1nh v\u00E0 source SQL.",
+    "contract": "200; DL03 ch\u1EC9 hai \u0111\u1ED1i t\u01B0\u1EE3ng ph\u00E2n bi\u1EC7t; ti\u00EAu ch\u00ED t\u01B0\u01A1ng \u1EE9ng \u0111\u00FAng t\u1EEBng Id, kh\u00F4ng chuy\u1EC3n ng\u01B0\u1EDDi kh\u00E1c c\u1ED9t.",
+    "db": "Kh\u00F4ng l\u00E0m thay \u0111\u1ED5i nhu c\u1EA7u/h\u1ED3 s\u01A1 v\u00E0 kh\u00F4ng t\u1EA1o l\u1EDBp.",
+    "fr": [
+      "FR-10"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TimKiemService.SoSanhAsync",
+      "TimKiemController.SoSanh"
+    ],
+    "deps": [
+      "search_store"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "SoSanh",
+        "action": "SoSanh",
+        "verb": "GET",
+        "signature": "public async Task\u003CIActionResult\u003E SoSanh([FromQuery(Name = \u0022ids\u0022)",
+        "line": 65,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      }
+    ],
+    "id": "IT-042",
+    "catalogOrder": 42,
+    "executionOrder": 66,
+    "dependencyIds": [
+      "IT-029"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.3-U02",
+        "cls": "TimKiemController",
+        "method": "SoSanh",
+        "table": 61
+      },
+      {
+        "id": "UC1.3-U13",
+        "cls": "TimKiemService",
+        "method": "SoSanhAsync",
+        "table": 65
+      },
+      {
+        "id": "UC1.3-U05",
+        "cls": "TimKiemService",
+        "method": "SoSanhAsync",
+        "table": 66
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-10; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.3-U02 TimKiemController.SoSanh (b\u1EA3ng 61); UC1.3-U13 TimKiemService.SoSanhAsync (b\u1EA3ng 65); UC1.3-U05 TimKiemService.SoSanhAsync (b\u1EA3ng 66)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: So s\u00E1nh \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n v\u00E0 lo\u1EA1i Id tr\u00F9ng",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #66.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-029\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService, TimKiemController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nDL01 hai h\u1ED3 s\u01A1; DL02 ba; DL03 [G1,G1,G2].\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-029; t\u1EA1o fixture F2 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: DL01 hai h\u1ED3 s\u01A1; DL02 ba; DL03 [G1,G1,G2].\n4. G\u1EEDi query ids l\u1EB7p \u0111\u00FAng binder IReadOnlyList; \u0111\u1ECDc c\u1ED9t so s\u00E1nh v\u00E0 source SQL. \u0110i\u1EC3m v\u00E0o: GET /TimKiem/TimKiem/SoSanh?ids=.... Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 200; DL03 ch\u1EC9 hai \u0111\u1ED1i t\u01B0\u1EE3ng ph\u00E2n bi\u1EC7t; ti\u00EAu ch\u00ED t\u01B0\u01A1ng \u1EE9ng \u0111\u00FAng t\u1EEBng Id, kh\u00F4ng chuy\u1EC3n ng\u01B0\u1EDDi kh\u00E1c c\u1ED9t.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng l\u00E0m thay \u0111\u1ED5i nhu c\u1EA7u/h\u1ED3 s\u01A1 v\u00E0 kh\u00F4ng t\u1EA1o l\u1EDBp.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 200; DL03 ch\u1EC9 hai \u0111\u1ED1i t\u01B0\u1EE3ng ph\u00E2n bi\u1EC7t; ti\u00EAu ch\u00ED t\u01B0\u01A1ng \u1EE9ng \u0111\u00FAng t\u1EEBng Id, kh\u00F4ng chuy\u1EC3n ng\u01B0\u1EDDi kh\u00E1c c\u1ED9t.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng l\u00E0m thay \u0111\u1ED5i nhu c\u1EA7u/h\u1ED3 s\u01A1 v\u00E0 kh\u00F4ng t\u1EA1o l\u1EDBp."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "7157d435-021a-4a3b-be3b-74bc6afa66b5",
+    "P": "2fe0fa63-f318-4add-9723-3b0ed337c8c3",
+    "G": "d463124e-8c44-4576-890c-a8f927b6699c",
+    "X": "506a6adf-40c6-4a5e-8396-5199a47725e7",
+    "A": "de6e84e9-a00e-45dd-8dba-7b3057aec896"
+  },
+  "subjects": {
+    "M1": 4739,
+    "M2": 4740
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "\u003C!doctype html\u003E\r\n\u003Chtml lang=\u0022vi\u0022\u003E\r\n\u003Chead\u003E\r\n    \u003Cmeta charset=\u0022utf-8\u0022\u003E\r\n    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E\r\n    \u003Ctitle\u003ESo s\u0026#xE1;nh \u0026#x111;\u0026#x1ED1;i t\u0026#x1B0;\u0026#x1EE3;ng \u00B7 EduConnect\u003C/title\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/lib/bootstrap/dist/css/bootstrap.min.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/fonts.css\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/app.css?v=mAsrX0eE1UWydUxrBnHNegBYUOqjjuSeSgsM09r68HU\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/profile.css?v=HeU4bNwSZV6X2nI3LqKT0iEgDQSlKL0zBorZHX5S1Ds\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/notifications.css?v=r2hN5jKsMzzXO-E2YY5ZVVmAm6mogxXxnDo3AUkBeLk\u0022\u003E\r\n    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/guest.css?v=fuEqLuZjDxhyazhuNDveb_vFB7jyDUttkhZtzMY4_JQ\u0022\u003E\r\n\u003Clink rel=\u0022stylesheet\u0022 href=\u0022/css/help.css?v=csAUm09dG8Y_ElJmnFxptcFbP09DziJWRkRgY3hoKMo\u0022\u003E\r\n\u003C/head\u003E\r\n\u003Cbody\u003E\r\n    \u003Cbutton type=\u0022button\u0022 class=\u0022btn mobile-menu\u0022 aria-label=\u0022M\u1EDF menu\u0022 aria-expanded=\u0022false\u0022 aria-controls=\u0022navigation\u0022\u003E\u2630\u003C/button\u003E\r\n    \u003Caside class=\u0022sidebar\u0022 id=\u0022navigation\u0022\u003E\r\n        \u003Ca class=\u0022brand\u0022 href=\u0022/\u0022\u003E\u003Cimg src=\u0022/images/auth/logo.png\u0022 alt=\u0022EduConnect\u0022\u003E\u003C/a\u003E\r\n        \u003Cp class=\u0022eyebrow\u0022\u003EKH\u00C1M PH\u00C1 EDUCONNECT\u003C/p\u003E\r\n        \u003Cnav aria-label=\u0022\u0110i\u1EC1u h\u01B0\u1EDBng ch\u00EDnh\u0022\u003E\r\n            \u003Ca href=\u0022/\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/house-door.svg\u0022 alt=\u0022\u0022\u003ETrang ch\u1EE7\u003C/a\u003E\r\n            \u003Ca href=\u0022/TimKiem/TimKiem/GiaSu\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/search.svg\u0022 alt=\u0022\u0022\u003ET\u00ECm gia s\u01B0\u003C/a\u003E\r\n            \u003Ca href=\u0022/TimKiem/TimKiem/NhuCau\u0022 class=\u0022\u0022\u003E\u003Cimg src=\u0022/images/ui/journal-plus.svg\u0022 alt=\u0022\u0022\u003ET\u00ECm nhu c\u1EA7u h\u1ECDc\u003C/a\u003E\r\n            \u003Ca href=\u0022/Home/KhamPha?muc=ketnoi\u0022\u003E\u003Cimg src=\u0022/images/ui/link-45deg.svg\u0022 alt=\u0022\u0022\u003ELi\u00EAn h\u1EC7 \u0026amp; k\u1EBFt n\u1ED1i\u003C/a\u003E\r\n            \u003Ca href=\u0022/Home/KhamPha?muc=lophoc\u0022\u003E\u003Cimg src=\u0022/images/ui/collection.svg\u0022 alt=\u0022\u0022\u003EL\u1EDBp h\u1ECDc\u003C/a\u003E\r\n        \u003C/nav\u003E\r\n        \u003Cdiv class=\u0022sidebar-bottom\u0022\u003E\u003Cdiv class=\u0022soft\u0022\u003E\u003Cstrong\u003EB\u1EAFt \u0111\u1EA7u vi\u1EC7c h\u1ECDc c\u00F9ng EduConnect\u003C/strong\u003E\u003Cp\u003ET\u1EA1o t\u00E0i kho\u1EA3n \u0111\u1EC3 li\u00EAn h\u1EC7 v\u00E0 th\u1ED1ng nh\u1EA5t l\u1EDBp h\u1ECDc.\u003C/p\u003E\u003Ca class=\u0022btn btn-primary\u0022 href=\u0022/TaiKhoan/DangKy\u0022\u003E\u0110\u0103ng k\u00FD\u003C/a\u003E\u003C/div\u003E\u003C/div\u003E\r\n    \u003C/aside\u003E\r\n    \u003Cdiv class=\u0022shell\u0022\u003E\r\n    \u003Cheader\u003E\r\n        \u003Cdiv class=\u0022guest-header-navigation\u0022\u003E\r\n            \u003Ca href=\u0022/TimKiem/TimKiem/GiaSu\u0022 class=\u0022page-back\u0022 data-page-back data-page-back-direct=\u0022\u0022 aria-label=\u0022Quay l\u1EA1i\u0022 title=\u0022Quay l\u1EA1i\u0022\u003E\u003Csvg width=\u002220\u0022 height=\u002220\u0022 viewBox=\u00220 0 24 24\u0022 fill=\u0022none\u0022 stroke=\u0022currentColor\u0022 stroke-width=\u00221.8\u0022 stroke-linecap=\u0022round\u0022 stroke-linejoin=\u0022round\u0022 aria-hidden=\u0022true\u0022\u003E\u003Cpath d=\u0022m12 5-7 7 7 7M5 12h14\u0022 /\u003E\u003C/svg\u003E\u003C/a\u003E\r\n\r\n        \u003Cnav class=\u0022breadcrumbs\u0022 aria-label=\u0022\u0110\u01B0\u1EDDng d\u1EABn\u0022\u003E\u003Col\u003E\r\n \u003Cli\u003E\u003Ca href=\u0022/\u0022\u003ETrang ch\u1EE7\u003C/a\u003E\u003C/li\u003E             \u003Cli\u003E\u003Cspan aria-current=\u0022page\u0022\u003ESo s\u0026#xE1;nh \u0026#x111;\u0026#x1ED1;i t\u0026#x1B0;\u0026#x1EE3;ng\u003C/span\u003E\u003C/li\u003E\r\n        \u003C/ol\u003E\u003C/nav\u003E\r\n        \u003C/div\u003E\r\n        \u003Cdiv class=\u0022header-actions\u0022\u003E\r\n            \u003Ca class=\u0022btn btn-outline-primary\u0022 href=\u0022/TaiKhoan/DangNhap?returnUrl=%2FTimKiem%2FTimKiem%2FSoSanh%3Fids%3Df040fcc9-e73b-438a-ac55-ba836344df84%26ids%3Df040fcc9-e73b-438a-ac55-ba836344df84%26ids%3Dc5a46205-01ac-409f-90cb-c755d54eaf28\u0022\u003E\u0110\u0103ng nh\u1EADp\u003C/a\u003E\r\n            \u003Ca class=\u0022btn btn-primary\u0022 href=\u0022/TaiKhoan/DangKy\u0022\u003E\u0110\u0103ng k\u00FD\u003C/a\u003E\r\n        \u003C/div\u003E\r\n    \u003C/header\u003E\r\n    \u003Cmain class=\u0022container-fluid\u0022\u003E\r\n        \u003Cdiv class=\u0022notification-rail\u0022 data-notification-rail hidden=\u0022hidden\u0022\u003E\r\n    \u003Cdiv class=\u0022notification-message\u0022 data-notification hidden=\u0022hidden\u0022\u003E\r\n        \u003Cspan class=\u0022notification-text\u0022 role=\u0022status\u0022 aria-live=\u0022polite\u0022 aria-atomic=\u0022true\u0022 data-notification-text\u003E\u003C/span\u003E\r\n        \u003Cbutton type=\u0022button\u0022 class=\u0022notification-close\u0022 data-notification-close aria-label=\u0022\u0110\u00F3ng th\u00F4ng b\u00E1o\u0022\u003E\u00D7\u003C/button\u003E\r\n    \u003C/div\u003E\r\n\u003C/div\u003E\r\n\r\n        \u003Ch1\u003ESo s\u00E1nh l\u1EF1a ch\u1ECDn\u003C/h1\u003E\u003Cdiv class=\u0022table-responsive table-wrap\u0022\u003E\u003Ctable class=\u0022table table-hover align-middle\u0022\u003E\u003Cthead\u003E\u003Ctr\u003E\u003Cth\u003ETi\u00EAu ch\u00ED\u003C/th\u003E\u003Cth\u003EITc87bf947820e4f29b4343c31b8ee332b\u003C/th\u003E\u003Cth\u003EITc87bf947820e4f29b4343c31b8ee332b\u003C/th\u003E\u003C/tr\u003E\u003C/thead\u003E\u003Ctbody\u003E\u003Ctr\u003E\u003Cth\u003EM\u0026#xF4;n h\u0026#x1ECD;c\u003C/th\u003E\u003Ctd\u003EITc87bf947820e4f29b4343c31b8ee332b To\u0026#xE1;n \u0026#xB7; L\u0026#x1EDB;p 8; ITc87bf947820e4f29b4343c31b8ee332b V\u0026#x103;n \u0026#xB7; L\u0026#x1EDB;p 8\u003C/td\u003E\u003Ctd\u003EITc87bf947820e4f29b4343c31b8ee332b To\u0026#xE1;n \u0026#xB7; L\u0026#x1EDB;p 8\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EKh\u0026#x1ED1;i l\u0026#x1EDB;p\u003C/th\u003E\u003Ctd\u003E\u003C/td\u003E\u003Ctd\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EH\u0026#xEC;nh th\u0026#x1EE9;c\u003C/th\u003E\u003Ctd\u003ETr\u0026#x1EF1;c tuy\u0026#x1EBF;n\u003C/td\u003E\u003Ctd\u003ETr\u0026#x1EF1;c tuy\u0026#x1EBF;n\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EKhu v\u0026#x1EF1;c\u003C/th\u003E\u003Ctd\u003E\u003C/td\u003E\u003Ctd\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EH\u0026#x1ECD;c ph\u0026#xED;\u003C/th\u003E\u003Ctd\u003EITc87bf947820e4f29b4343c31b8ee332b To\u0026#xE1;n: 150.000 \u0026#x111; / gi\u0026#x1EDD;; ITc87bf947820e4f29b4343c31b8ee332b V\u0026#x103;n: 170.000 \u0026#x111; / gi\u0026#x1EDD;\u003C/td\u003E\u003Ctd\u003EITc87bf947820e4f29b4343c31b8ee332b To\u0026#xE1;n: 150.000 \u0026#x111; / gi\u0026#x1EDD;\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EL\u0026#x1ECB;ch r\u0026#x1EA3;nh\u003C/th\u003E\u003Ctd\u003ETh\u0026#x1ED1;ng nh\u0026#x1EA5;t khi \u0026#x111;\u0026#x1EC1; xu\u0026#x1EA5;t l\u0026#x1EDB;p\u003C/td\u003E\u003Ctd\u003ETh\u0026#x1ED1;ng nh\u0026#x1EA5;t khi \u0026#x111;\u0026#x1EC1; xu\u0026#x1EA5;t l\u0026#x1EDB;p\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EM\u0026#x1EE5;c ti\u0026#xEA;u\u003C/th\u003E\u003Ctd\u003E\u003C/td\u003E\u003Ctd\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Cth\u003EChi ti\u1EBFt\u003C/th\u003E\u003Ctd\u003E\u003Ca class=\u0022btn btn-outline-primary secondary\u0022 href=\u0022/NhuCau/HoSoGiaSu/ChiTiet?maHoSo=f040fcc9-e73b-438a-ac55-ba836344df84\u0022\u003EXem h\u1ED3 s\u01A1\u003C/a\u003E\u003C/td\u003E\u003Ctd\u003E\u003Ca class=\u0022btn btn-outline-primary secondary\u0022 href=\u0022/NhuCau/HoSoGiaSu/ChiTiet?maHoSo=c5a46205-01ac-409f-90cb-c755d54eaf28\u0022\u003EXem h\u1ED3 s\u01A1\u003C/a\u003E\u003C/td\u003E\u003C/tr\u003E\u003C/tbody\u003E\u003C/table\u003E\u003C/div\u003E\r\n\r\n    \u003C/main\u003E\r\n    \u003Cfooter class=\u0022site-guide-footer\u0022\u003E\r\n    \u003Cstrong\u003EEduConnect\u003C/strong\u003E\r\n    \u003Cnav aria-label=\u0022H\u01B0\u1EDBng d\u1EABn v\u00E0 ch\u00EDnh s\u00E1ch\u0022\u003E\r\n        \u003Ca href=\u0022/huong-dan/hoc-phi\u0022\u003EH\u1ECDc ph\u00ED\u003C/a\u003E\r\n        \u003Ca href=\u0022/huong-dan\u0022\u003ETr\u1EE3 gi\u00FAp\u003C/a\u003E\r\n        \u003Ca href=\u0022/huong-dan/bao-mat\u0022\u003EB\u1EA3o m\u1EADt\u003C/a\u003E\r\n    \u003C/nav\u003E\r\n    \u003Csmall\u003E\u00A9 2026 EduConnect\u003C/small\u003E\r\n\u003C/footer\u003E\r\n\r\n    \u003C/div\u003E\r\n    \u003Cscript src=\u0022/lib/bootstrap/dist/js/bootstrap.bundle.min.js\u0022\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/confirmations.js?v=TbrEnZUOGLOOp3jNKfMgpoZQ-tWmgazBT4BdvTWv950\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/account-profile.js?v=dhQMzGRVKLonrWJMGKXgWVXDGvO0hMyxW8Arw_koPeE\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/forms.js?v=K5wNUdLOX89bs8yfIg9otQlmvdKYI03dMcNL1_7zqZs\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/app.js?v=qIcu8264kSFTrHi67_gl_1jCAszojjFSGnRVqJD1ipQ\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/notifications.js?v=7OS_oNNerz8D2giQfEr1TZF6MYcgub09k7NkQPDuRk0\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/navigation.js?v=NOgd6kAFgadbtprOEghSkTrutEYAcjMEvFYM6jZC_r0\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/ajax-pages.js?v=cx3ikrW7cjJ-Eo3hO8GK-vLwfzAAPRXP6OZNO2iY0pI\u0022 defer\u003E\u003C/script\u003E\r\n    \u003Cscript src=\u0022/js/subject-scope.js?v=LCIRnnw6rLKDAZXkfNY08nHlDZGKq60CXV7oQOqi0so\u0022 defer\u003E\u003C/script\u003E\u003Cscript src=\u0022/js/areas.js?v=-Efj-eS8VeacgYeA5BslE4wO6-II_divB9RF2vW5XRc\u0022 defer\u003E\u003C/script\u003E\r\n    \r\n\u003C/body\u003E\r\n\u003C/html\u003E\r\n"
+  },
+  "assertions": "Passed"
+}

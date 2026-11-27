@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="8b68cbd3-baf8-4546-80ed-1bbb1044c7cf" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 11:40:31" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T11:40:31.7070482+07:00" queuing="2026-11-27T11:40:31.7070490+07:00" start="2026-11-27T11:40:24.4363209+07:00" finish="2026-11-27T11:41:13.0323957+07:00" />
+  <TestSettings name="default" id="d264c69a-28a5-4738-8c09-155ef5111673">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_11_40_31" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="0601846a-5fd9-4214-b648-33fe7745d573" testId="3d8a237a-8ae7-057a-23e7-8a504a32f3dc" testName="IT-149 | Khóa tài khoản thu hồi phiên và lan truyền trạng thái" computerName="LAPTOP-3L2V1AFT" duration="00:00:06.4253669" startTime="2026-11-27T11:40:31.6748129+07:00" endTime="2026-11-27T11:40:31.6748664+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0601846a-5fd9-4214-b648-33fe7745d573" />
+    <UnitTestResult executionId="00cb5909-f3dc-4946-a117-59a915f4b7d6" testId="8441b36e-72dc-9264-5ebc-740a929424f0" testName="IT-169 | Rate limiter/antiforgery không tạo ghi nghiệp vụ ngoài ý muốn" computerName="LAPTOP-3L2V1AFT" duration="00:00:36.5554297" startTime="2026-11-27T11:41:12.9401899+07:00" endTime="2026-11-27T11:41:12.9401903+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00cb5909-f3dc-4946-a117-59a915f4b7d6">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.&#xD;
+---- System.ComponentModel.Win32Exception : The wait operation timed out.</Message>
+          <StackTrace>   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()&#xD;
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)&#xD;
+   at Cases.AuthCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs:line 123&#xD;
+   at Cases.AuthCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs:line 124&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 215&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 381&#xD;
+   at IntegrationTests.IT_169() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 171&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1c398a43-9d3b-4769-9d83-79c288a20e6f" testId="80509ba3-6111-a99f-512b-d6c32844bd90" testName="IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.2671542" startTime="2026-11-27T11:40:34.0597684+07:00" endTime="2026-11-27T11:40:34.0597687+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c398a43-9d3b-4769-9d83-79c288a20e6f">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.True() Failure&#xD;
+Expected: True&#xD;
+Actual:   False</Message>
+          <StackTrace>   at Cases.AdminCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs:line 192&#xD;
+   at Cases.AdminCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs:line 193&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 203&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 381&#xD;
+   at IntegrationTests.IT_152() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="af0200de-97b0-45ce-93b4-2b8dc32afa37" testId="b37b9c6e-f60a-3a19-741f-7ccc361565a5" testName="IT-150 | Không tự khóa hoặc loại bỏ quản trị cuối cùng" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.1033522" startTime="2026-11-27T11:40:32.7796400+07:00" endTime="2026-11-27T11:40:32.7796404+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="af0200de-97b0-45ce-93b4-2b8dc32afa37" />
+    <UnitTestResult executionId="81d8ef09-f082-4990-b984-1fbcc0e0f574" testId="567d04a6-2d1d-2bf4-af40-aa350fb45542" testName="IT-166 | Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.3218118" startTime="2026-11-27T11:40:36.3796621+07:00" endTime="2026-11-27T11:40:36.3796626+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81d8ef09-f082-4990-b984-1fbcc0e0f574">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: Found&#xD;
+Actual:   OK</Message>
+          <StackTrace>   at Cases.AuthCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs:line 103&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 215&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 381&#xD;
+   at IntegrationTests.IT_166() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 168&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-166 | Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="567d04a6-2d1d-2bf4-af40-aa350fb45542">
+      <Execution id="81d8ef09-f082-4990-b984-1fbcc0e0f574" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_166" />
+    </UnitTest>
+    <UnitTest name="IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="80509ba3-6111-a99f-512b-d6c32844bd90">
+      <Execution id="1c398a43-9d3b-4769-9d83-79c288a20e6f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_152" />
+    </UnitTest>
+    <UnitTest name="IT-149 | Khóa tài khoản thu hồi phiên và lan truyền trạng thái" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="3d8a237a-8ae7-057a-23e7-8a504a32f3dc">
+      <Execution id="0601846a-5fd9-4214-b648-33fe7745d573" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_149" />
+    </UnitTest>
+    <UnitTest name="IT-150 | Không tự khóa hoặc loại bỏ quản trị cuối cùng" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="b37b9c6e-f60a-3a19-741f-7ccc361565a5">
+      <Execution id="af0200de-97b0-45ce-93b4-2b8dc32afa37" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_150" />
+    </UnitTest>
+    <UnitTest name="IT-169 | Rate limiter/antiforgery không tạo ghi nghiệp vụ ngoài ý muốn" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="8441b36e-72dc-9264-5ebc-740a929424f0">
+      <Execution id="00cb5909-f3dc-4946-a117-59a915f4b7d6" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_169" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="3d8a237a-8ae7-057a-23e7-8a504a32f3dc" executionId="0601846a-5fd9-4214-b648-33fe7745d573" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8441b36e-72dc-9264-5ebc-740a929424f0" executionId="00cb5909-f3dc-4946-a117-59a915f4b7d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="80509ba3-6111-a99f-512b-d6c32844bd90" executionId="1c398a43-9d3b-4769-9d83-79c288a20e6f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b37b9c6e-f60a-3a19-741f-7ccc361565a5" executionId="af0200de-97b0-45ce-93b4-2b8dc32afa37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="567d04a6-2d1d-2bf4-af40-aa350fb45542" executionId="81d8ef09-f082-4990-b984-1fbcc0e0f574" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="2" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.13]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.19]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.19]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:09.06]       Assert.True() Failure&#xD;
+[xUnit.net 00:00:09.06]       Expected: True&#xD;
+[xUnit.net 00:00:09.06]       Actual:   False&#xD;
+[xUnit.net 00:00:09.06]       Stack Trace:&#xD;
+[xUnit.net 00:00:09.06]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs(192,0): at Cases.AdminCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:09.06]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs(193,0): at Cases.AdminCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:09.06]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(203,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:09.06]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(381,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:09.06]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(154,0): at IntegrationTests.IT_152()&#xD;
+[xUnit.net 00:00:09.06]         --- End of stack trace from previous location ---&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.&#xD;
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]&#xD;
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:11.38]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:11.38]       Expected: Found&#xD;
+[xUnit.net 00:00:11.38]       Actual:   OK&#xD;
+[xUnit.net 00:00:11.38]       Stack Trace:&#xD;
+[xUnit.net 00:00:11.38]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs(103,0): at Cases.AuthCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:11.38]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(215,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:11.38]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(381,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:11.38]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(168,0): at IntegrationTests.IT_166()&#xD;
+[xUnit.net 00:00:11.38]         --- End of stack trace from previous location ---&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:47.94]       Microsoft.Data.SqlClient.SqlException : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.&#xD;
+[xUnit.net 00:00:47.94]       ---- System.ComponentModel.Win32Exception : The wait operation timed out.&#xD;
+[xUnit.net 00:00:47.94]       Stack Trace:&#xD;
+[xUnit.net 00:00:47.94]            at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()&#xD;
+[xUnit.net 00:00:47.94]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:47.94]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:47.94]            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+[xUnit.net 00:00:47.94]            at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task&amp; currentTaskSlot, Thread threadPoolThread)&#xD;
+[xUnit.net 00:00:47.94]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]            at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:47.94]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs(123,0): at Cases.AuthCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:47.94]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AuthCases.cs(124,0): at Cases.AuthCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:47.94]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(215,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:47.94]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(381,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:47.94]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(171,0): at IntegrationTests.IT_169()&#xD;
+[xUnit.net 00:00:47.94]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:47.94]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:47.94]         &#xD;
+[xUnit.net 00:00:47.94]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T11:40:34.0568153+07:00">
+        <Text>[xUnit.net 00:00:09.05]     IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T11:40:36.3786782+07:00">
+        <Text>[xUnit.net 00:00:11.38]     IT-166 | Hồ sơ cá nhân dùng ConcurrencyStamp và email chỉ đọc [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T11:41:12.9379639+07:00">
+        <Text>[xUnit.net 00:00:47.94]     IT-169 | Rate limiter/antiforgery không tạo ghi nghiệp vụ ngoài ý muốn [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

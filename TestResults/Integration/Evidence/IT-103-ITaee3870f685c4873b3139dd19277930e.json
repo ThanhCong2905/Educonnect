@@ -1,0 +1,146 @@
+{
+  "caseId": "IT-103",
+  "runTag": "ITaee3870f685c4873b3139dd19277930e",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "assignment_draft",
+    "group": 7,
+    "title": "Bu\u1ED5i t\u01B0\u01A1ng lai ch\u1EC9 l\u01B0u nh\u00E1p, c\u00F4ng b\u1ED1 khi \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n",
+    "stage": 3,
+    "entry": "POST /HocTap/BaiTap/Giao; POST /HocTap/BaiTap/CongBo",
+    "input": "B1 t\u01B0\u01A1ng lai; DL01 l\u01B0u BanNhap; DL02 c\u1ED1 DaGiao; DL03 bu\u1ED5i \u0111\u00E3 t\u1EDBi/\u0111ang h\u1ECDc, c\u00F4ng b\u1ED1 nh\u00E1p b\u1EB1ng RV m\u1EDBi.",
+    "action": "M\u1ED7i DL fixture \u0111\u1ED9c l\u1EADp; \u0111\u1ECDc b\u00E0i b\u1EB1ng ng\u01B0\u1EDDi h\u1ECDc tr\u01B0\u1EDBc/sau c\u00F4ng b\u1ED1.",
+    "contract": "Nh\u00E1p \u0111\u01B0\u1EE3c l\u01B0u; giao c\u00F4ng khai v\u00E0o bu\u1ED5i t\u01B0\u01A1ng lai b\u1ECB t\u1EEB ch\u1ED1i; c\u00F4ng b\u1ED1 \u0111\u00FAng \u0111i\u1EC1u ki\u1EC7n 200.",
+    "db": "Nh\u00E1p kh\u00F4ng ph\u00E1t notice giao b\u00E0i/l\u1ED9 n\u1ED9i dung cho H1; c\u00F4ng b\u1ED1 \u0111\u1ED5i \u0111\u00FAng b\u00E0i \u0111\u00E3 c\u00F3, kh\u00F4ng nh\u00E2n \u0111\u00F4i.",
+    "fr": [
+      "FR-30"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "BaiTapService.GiaoAsync",
+      "BaiTapService.LichCuaBuoiAsync",
+      "QuyenLopHocService.KiemTraQuyenGhiAsync",
+      "BaiTapController.Giao",
+      "BaiTapService.ChiTietAsync",
+      "BaiTapService.CongBoAsync",
+      "BaiTapController.CongBo"
+    ],
+    "deps": [
+      "assignment_store",
+      "auth_login_http"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "BaiTapController",
+        "area": "HocTap",
+        "method": "Giao",
+        "action": "Giao",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E Giao(GiaoBaiTapViewModel m)",
+        "line": 20,
+        "file": "Areas\\HocTap\\Controllers\\BaiTapController.cs"
+      },
+      {
+        "cls": "BaiTapController",
+        "area": "HocTap",
+        "method": "CongBo",
+        "action": "CongBo",
+        "verb": "POST",
+        "signature": "public async Task\u003CIActionResult\u003E CongBo(Guid id, string rowVersion)",
+        "line": 41,
+        "file": "Areas\\HocTap\\Controllers\\BaiTapController.cs"
+      }
+    ],
+    "id": "IT-103",
+    "catalogOrder": 103,
+    "executionOrder": 125,
+    "dependencyIds": [
+      "IT-096",
+      "IT-157"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC3.3-U03",
+        "cls": "BaiTapController",
+        "method": "Giao",
+        "table": 164
+      },
+      {
+        "id": "UC3.3-U01",
+        "cls": "BaiTapController",
+        "method": "Giao",
+        "table": 165
+      },
+      {
+        "id": "UC3.3-U07",
+        "cls": "BaiTapController",
+        "method": "CongBo",
+        "table": 166
+      },
+      {
+        "id": "UC3.3-U13",
+        "cls": "BaiTapService",
+        "method": "LichCuaBuoiAsync",
+        "table": 172
+      },
+      {
+        "id": "UC3.3-U15",
+        "cls": "BaiTapService",
+        "method": "CongBoAsync",
+        "table": 174
+      },
+      {
+        "id": "UC3.3-U17",
+        "cls": "BaiTapService",
+        "method": "ChiTietAsync",
+        "table": 176
+      },
+      {
+        "id": "UC3.3-U02",
+        "cls": "BaiTapService",
+        "method": "GiaoAsync",
+        "table": 177
+      },
+      {
+        "id": "HT-U38",
+        "cls": "QuyenLopHocService",
+        "method": "KiemTraQuyenGhiAsync",
+        "table": 488
+      }
+    ],
+    "fixture": "F7",
+    "sqlOracle": "SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BaiTapService, QuyenLopHocService, BaiTapController \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-30; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC3.3-U03 BaiTapController.Giao (b\u1EA3ng 164); UC3.3-U01 BaiTapController.Giao (b\u1EA3ng 165); UC3.3-U07 BaiTapController.CongBo (b\u1EA3ng 166); UC3.3-U13 BaiTapService.LichCuaBuoiAsync (b\u1EA3ng 172); UC3.3-U15 BaiTapService.CongBoAsync (b\u1EA3ng 174); UC3.3-U17 BaiTapService.ChiTietAsync (b\u1EA3ng 176); UC3.3-U02 BaiTapService.GiaoAsync (b\u1EA3ng 177); HT-U38 QuyenLopHocService.KiemTraQuyenGhiAsync (b\u1EA3ng 488)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Bu\u1ED5i t\u01B0\u01A1ng lai ch\u1EC9 l\u01B0u nh\u00E1p, c\u00F4ng b\u1ED1 khi \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #125.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-096, IT-157\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 BaiTapService, QuyenLopHocService, BaiTapController \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F7 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nB1 t\u01B0\u01A1ng lai; DL01 l\u01B0u BanNhap; DL02 c\u1ED1 DaGiao; DL03 bu\u1ED5i \u0111\u00E3 t\u1EDBi/\u0111ang h\u1ECDc, c\u00F4ng b\u1ED1 nh\u00E1p b\u1EB1ng RV m\u1EDBi.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-096, IT-157; t\u1EA1o fixture F7 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: B1 t\u01B0\u01A1ng lai; DL01 l\u01B0u BanNhap; DL02 c\u1ED1 DaGiao; DL03 bu\u1ED5i \u0111\u00E3 t\u1EDBi/\u0111ang h\u1ECDc, c\u00F4ng b\u1ED1 nh\u00E1p b\u1EB1ng RV m\u1EDBi.\n4. M\u1ED7i DL fixture \u0111\u1ED9c l\u1EADp; \u0111\u1ECDc b\u00E0i b\u1EB1ng ng\u01B0\u1EDDi h\u1ECDc tr\u01B0\u1EDBc/sau c\u00F4ng b\u1ED1. \u0110i\u1EC3m v\u00E0o: POST /HocTap/BaiTap/Giao; POST /HocTap/BaiTap/CongBo. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: Nh\u00E1p \u0111\u01B0\u1EE3c l\u01B0u; giao c\u00F4ng khai v\u00E0o bu\u1ED5i t\u01B0\u01A1ng lai b\u1ECB t\u1EEB ch\u1ED1i; c\u00F4ng b\u1ED1 \u0111\u00FAng \u0111i\u1EC1u ki\u1EC7n 200.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT * FROM dbo.BaiTapGiao WHERE LopHocId=@C1; SELECT * FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1 ORDER BY LanNop; SELECT * FROM dbo.KetQuaChamBai WHERE BaiTapNopId IN(SELECT Id FROM dbo.BaiTapNop WHERE BaiTapGiaoId=@A1); SELECT * FROM dbo.TepDinhKem WHERE BaiTapGiaoId=@A1 OR BaiTapNopId=@SUBMISSION;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Nh\u00E1p kh\u00F4ng ph\u00E1t notice giao b\u00E0i/l\u1ED9 n\u1ED9i dung cho H1; c\u00F4ng b\u1ED1 \u0111\u1ED5i \u0111\u00FAng b\u00E0i \u0111\u00E3 c\u00F3, kh\u00F4ng nh\u00E2n \u0111\u00F4i.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Nh\u00E1p \u0111\u01B0\u1EE3c l\u01B0u; giao c\u00F4ng khai v\u00E0o bu\u1ED5i t\u01B0\u01A1ng lai b\u1ECB t\u1EEB ch\u1ED1i; c\u00F4ng b\u1ED1 \u0111\u00FAng \u0111i\u1EC1u ki\u1EC7n 200.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Nh\u00E1p kh\u00F4ng ph\u00E1t notice giao b\u00E0i/l\u1ED9 n\u1ED9i dung cho H1; c\u00F4ng b\u1ED1 \u0111\u1ED5i \u0111\u00FAng b\u00E0i \u0111\u00E3 c\u00F3, kh\u00F4ng nh\u00E2n \u0111\u00F4i."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.LichHoc SET BatDauLuc=DATEADD(minute,-5,SYSDATETIMEOFFSET()),KetThucLuc=DATEADD(minute,55,SYSDATETIMEOFFSET()) WHERE Id=@id",
+    "parameters": {
+      "@id": "0f15d907-d449-4adb-90ab-0a4d7b492a19"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "2d6bec82-0874-4f06-8c3c-7faf15aefc6c",
+    "P": "221f2096-d21b-4b3d-8d08-07152ded6383",
+    "G": "8dbdd22f-e43b-4ba6-927b-35d4f8b7cd97",
+    "X": "4e8429e2-1de9-4e99-8d41-f6be5a277961",
+    "A": "bab1968c-63e7-4ab0-ad81-ed0f0ca7f0ed"
+  },
+  "subjects": {
+    "M1": 2880,
+    "M2": 2881
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 giao b\\u00E0i t\\u1EADp.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/LichHoc/Buoi/0f15d907-d449-4adb-90ab-0a4d7b492a19\u0022}"
+  },
+  "assertions": "Passed"
+}

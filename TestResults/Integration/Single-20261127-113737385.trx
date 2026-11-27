@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d4c12f87-b43e-4a68-b852-d8cc791ac682" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-27 11:37:42" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-27T11:37:42.4981507+07:00" queuing="2026-11-27T11:37:42.4981512+07:00" start="2026-11-27T11:37:38.4116845+07:00" finish="2026-11-27T11:37:54.3314831+07:00" />
+  <TestSettings name="default" id="8d515465-4b9e-41b4-8d00-1227f35a5d7c">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-27_11_37_42" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="4941467c-091a-437f-b0fc-137b5b1b1d01" testId="90ac1739-5b5e-1025-2dbf-db85cdb51440" testName="IT-156 | Quên mật khẩu ghép token và mail sandbox" computerName="LAPTOP-3L2V1AFT" duration="00:00:03.3335496" startTime="2026-11-27T11:37:42.4694761+07:00" endTime="2026-11-27T11:37:42.4695025+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4941467c-091a-437f-b0fc-137b5b1b1d01" />
+    <UnitTestResult executionId="466c7bcd-beca-459e-b49a-4ceed0b9462d" testId="5106e169-3588-0c75-12cf-f69f17d22f64" testName="IT-145 | Nhận xử lý báo cáo kiểm quyền và phiên bản" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.2318636" startTime="2026-11-27T11:37:44.8977410+07:00" endTime="2026-11-27T11:37:44.8977414+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="466c7bcd-beca-459e-b49a-4ceed0b9462d" />
+    <UnitTestResult executionId="03b6338e-2db1-4eb1-9fb5-4e71dc1f79c4" testId="3a2e8b20-14c9-65f7-aa0f-fba223e4173a" testName="IT-146 | Kết luận tách trạng thái xử lý khỏi biện pháp" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.4434076" startTime="2026-11-27T11:37:46.3414848+07:00" endTime="2026-11-27T11:37:46.3414849+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03b6338e-2db1-4eb1-9fb5-4e71dc1f79c4" />
+    <UnitTestResult executionId="89263f6e-6c58-47e2-bdbe-b3ac1424b1f0" testId="45c84ac5-3b98-0e5a-871b-adde3c7209f3" testName="IT-143 | Không báo cáo đối tượng không được xem hoặc gửi trùng" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.1933697" startTime="2026-11-27T11:37:43.6655524+07:00" endTime="2026-11-27T11:37:43.6655526+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="89263f6e-6c58-47e2-bdbe-b3ac1424b1f0" />
+    <UnitTestResult executionId="aa3d92b0-f02e-41be-80ed-860b18d4b511" testId="dc34adef-56f0-dd01-8184-531308e576c8" testName="IT-184 | Worker và phản hồi đúng hạn cạnh tranh có một kết quả hợp lệ" computerName="LAPTOP-3L2V1AFT" duration="00:00:02.5850090" startTime="2026-11-27T11:37:54.2458129+07:00" endTime="2026-11-27T11:37:54.2458131+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa3d92b0-f02e-41be-80ed-860b18d4b511" />
+    <UnitTestResult executionId="f14803a1-62b3-49b7-971b-4ca84ae3c79e" testId="d5760a58-d3e1-3ae2-f3a3-ec48d3d4cd53" testName="IT-148 | Hậu kiểm nhu cầu: yêu cầu sửa/ẩn và xem lại" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.2877497" startTime="2026-11-27T11:37:48.6544716+07:00" endTime="2026-11-27T11:37:48.6544724+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f14803a1-62b3-49b7-971b-4ca84ae3c79e" />
+    <UnitTestResult executionId="c323aa47-ade4-4ba3-84ff-31cdb98049cc" testId="bcbad860-d840-461c-0967-b1ab141fcdee" testName="IT-151 | Phân quyền thu hồi phiên mà không đổi vai trò nghiệp vụ" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.8959735" startTime="2026-11-27T11:37:50.5508072+07:00" endTime="2026-11-27T11:37:50.5508073+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c323aa47-ade4-4ba3-84ff-31cdb98049cc" />
+    <UnitTestResult executionId="682f8e17-0de5-4034-9f37-63cce954cf6d" testId="80509ba3-6111-a99f-512b-d6c32844bd90" testName="IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.1023808" startTime="2026-11-27T11:37:51.6700414+07:00" endTime="2026-11-27T11:37:51.6700418+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="682f8e17-0de5-4034-9f37-63cce954cf6d">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(EduConnect.Mvc.Infrastructure.LoiNghiepVu)&#xD;
+Actual:   typeof(Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)&#xD;
+---- Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException : The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.</Message>
+          <StackTrace>   at Cases.AdminCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs:line 186&#xD;
+   at Cases.AdminCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs:line 187&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 201&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 377&#xD;
+   at IntegrationTests.IT_152() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 154&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+   at EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService.LuuMonAsync(MonHocQuanTriViewModel input) in C:\Khóa luận TN\EduConnect1\Areas\QuanTri\Services\QuanTriService.CauHinh.cs:line 78&#xD;
+   at EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService.LuuMonAsync(MonHocQuanTriViewModel input) in C:\Khóa luận TN\EduConnect1\Areas\QuanTri\Services\QuanTriService.CauHinh.cs:line 81</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0dc92d78-6308-45ce-b7aa-0586e48d7c9f" testId="5fa3ea89-ba06-edf4-8ce6-32107d4c397b" testName="IT-147 | Bổ sung/xem lại giữ kết luận và không tự gỡ biện pháp" computerName="LAPTOP-3L2V1AFT" duration="00:00:01.0243669" startTime="2026-11-27T11:37:47.3663001+07:00" endTime="2026-11-27T11:37:47.3663003+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0dc92d78-6308-45ce-b7aa-0586e48d7c9f" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-148 | Hậu kiểm nhu cầu: yêu cầu sửa/ẩn và xem lại" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="d5760a58-d3e1-3ae2-f3a3-ec48d3d4cd53">
+      <Execution id="f14803a1-62b3-49b7-971b-4ca84ae3c79e" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_148" />
+    </UnitTest>
+    <UnitTest name="IT-145 | Nhận xử lý báo cáo kiểm quyền và phiên bản" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="5106e169-3588-0c75-12cf-f69f17d22f64">
+      <Execution id="466c7bcd-beca-459e-b49a-4ceed0b9462d" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_145" />
+    </UnitTest>
+    <UnitTest name="IT-147 | Bổ sung/xem lại giữ kết luận và không tự gỡ biện pháp" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="5fa3ea89-ba06-edf4-8ce6-32107d4c397b">
+      <Execution id="0dc92d78-6308-45ce-b7aa-0586e48d7c9f" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_147" />
+    </UnitTest>
+    <UnitTest name="IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="80509ba3-6111-a99f-512b-d6c32844bd90">
+      <Execution id="682f8e17-0de5-4034-9f37-63cce954cf6d" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_152" />
+    </UnitTest>
+    <UnitTest name="IT-184 | Worker và phản hồi đúng hạn cạnh tranh có một kết quả hợp lệ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="dc34adef-56f0-dd01-8184-531308e576c8">
+      <Execution id="aa3d92b0-f02e-41be-80ed-860b18d4b511" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_184" />
+    </UnitTest>
+    <UnitTest name="IT-151 | Phân quyền thu hồi phiên mà không đổi vai trò nghiệp vụ" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="bcbad860-d840-461c-0967-b1ab141fcdee">
+      <Execution id="c323aa47-ade4-4ba3-84ff-31cdb98049cc" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_151" />
+    </UnitTest>
+    <UnitTest name="IT-156 | Quên mật khẩu ghép token và mail sandbox" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="90ac1739-5b5e-1025-2dbf-db85cdb51440">
+      <Execution id="4941467c-091a-437f-b0fc-137b5b1b1d01" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_156" />
+    </UnitTest>
+    <UnitTest name="IT-146 | Kết luận tách trạng thái xử lý khỏi biện pháp" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="3a2e8b20-14c9-65f7-aa0f-fba223e4173a">
+      <Execution id="03b6338e-2db1-4eb1-9fb5-4e71dc1f79c4" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_146" />
+    </UnitTest>
+    <UnitTest name="IT-143 | Không báo cáo đối tượng không được xem hoặc gửi trùng" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="45c84ac5-3b98-0e5a-871b-adde3c7209f3">
+      <Execution id="89263f6e-6c58-47e2-bdbe-b3ac1424b1f0" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_143" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="90ac1739-5b5e-1025-2dbf-db85cdb51440" executionId="4941467c-091a-437f-b0fc-137b5b1b1d01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5106e169-3588-0c75-12cf-f69f17d22f64" executionId="466c7bcd-beca-459e-b49a-4ceed0b9462d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3a2e8b20-14c9-65f7-aa0f-fba223e4173a" executionId="03b6338e-2db1-4eb1-9fb5-4e71dc1f79c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="45c84ac5-3b98-0e5a-871b-adde3c7209f3" executionId="89263f6e-6c58-47e2-bdbe-b3ac1424b1f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dc34adef-56f0-dd01-8184-531308e576c8" executionId="aa3d92b0-f02e-41be-80ed-860b18d4b511" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5760a58-d3e1-3ae2-f3a3-ec48d3d4cd53" executionId="f14803a1-62b3-49b7-971b-4ca84ae3c79e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bcbad860-d840-461c-0967-b1ab141fcdee" executionId="c323aa47-ade4-4ba3-84ff-31cdb98049cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="80509ba3-6111-a99f-512b-d6c32844bd90" executionId="682f8e17-0de5-4034-9f37-63cce954cf6d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fa3ea89-ba06-edf4-8ce6-32107d4c397b" executionId="0dc92d78-6308-45ce-b7aa-0586e48d7c9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="9" executed="9" passed="8" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:12.73]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:12.73]       Expected: typeof(EduConnect.Mvc.Infrastructure.LoiNghiepVu)&#xD;
+[xUnit.net 00:00:12.73]       Actual:   typeof(Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)&#xD;
+[xUnit.net 00:00:12.73]       ---- Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException : The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded. See https://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.&#xD;
+[xUnit.net 00:00:12.73]       Stack Trace:&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs(186,0): at Cases.AdminCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\AdminCases.cs(187,0): at Cases.AdminCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(201,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(377,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(154,0): at IntegrationTests.IT_152()&#xD;
+[xUnit.net 00:00:12.73]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:12.73]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyExceptionAsync(RelationalDataReader reader, Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\Areas\QuanTri\Services\QuanTriService.CauHinh.cs(78,0): at EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService.LuuMonAsync(MonHocQuanTriViewModel input)&#xD;
+[xUnit.net 00:00:12.73]         C:\Khóa luận TN\EduConnect1\Areas\QuanTri\Services\QuanTriService.CauHinh.cs(81,0): at EduConnect.Mvc.Areas.QuanTri.Services.QuanTriService.LuuMonAsync(MonHocQuanTriViewModel input)&#xD;
+[xUnit.net 00:00:15.32]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-27T11:37:51.6652086+07:00">
+        <Text>[xUnit.net 00:00:12.73]     IT-152 | Danh mục môn đổi tên/ngừng dùng giữ lịch sử và ảnh hưởng tìm kiếm [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

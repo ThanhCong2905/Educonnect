@@ -1,0 +1,28 @@
+{
+  "caseId": "IT-068-DL0",
+  "runTag": "IT7814986e9eb04d77830c6846070fd135",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DECLARE @now datetimeoffset(0)=SYSDATETIMEOFFSET(); UPDATE dbo.YeuCauHuyKetNoi SET GuiLuc=DATEADD(hour,-73,@now),HetHanLuc=DATEADD(hour,-1,@now) WHERE Id=@id",
+    "parameters": {
+      "@id": "3bd0a3e5-aebd-40b2-8240-97dee11da8c6"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "aa6b01f0-91b9-43d3-bdf8-fa954737c70c",
+    "P": "362789d3-70ed-4c92-9abb-9487855d1ab4",
+    "G": "9aeb4cc2-4dcb-47da-a6a8-4fd798cc680f",
+    "X": "576af715-e3c2-44b5-8d7d-f38894d66523",
+    "A": "6be6e4d6-e428-4681-aed7-f59d02e522a6"
+  },
+  "subjects": {
+    "M1": 3639,
+    "M2": 3640
+  },
+  "http": {
+    "status": 409,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 x\\u1EED l\\u00FD, h\\u1EBFt h\\u1EA1n ho\\u1EB7c thay \\u0111\\u1ED5i.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022Y\\u00EAu c\\u1EA7u \\u0111\\u00E3 x\\u1EED l\\u00FD, h\\u1EBFt h\\u1EA1n ho\\u1EB7c thay \\u0111\\u1ED5i.\u0022]}}"
+  }
+}

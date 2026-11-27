@@ -1,0 +1,72 @@
+{
+  "caseId": "IT-130",
+  "runTag": "IT6ce0b12c57e6423d82f686bc35244bcd",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "file_revoke_race",
+    "group": 9,
+    "title": "Thu h\u1ED3i quy\u1EC1n trong l\u00FAc qu\u00E9t ph\u1EA3i ki\u1EC3m l\u1EA1i tr\u01B0\u1EDBc g\u1EAFn t\u1EC7p",
+    "stage": 2,
+    "entry": "TinNhanService.GuiAsync",
+    "input": "P1 \u0111ang ChinhSua; scanner process sandbox gi\u1EEF t\u1EA1i barrier; G1 thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt tr\u01B0\u1EDBc khi scanner tr\u1EA30.",
+    "action": "B\u1EAFt \u0111\u1EA7u g\u1EEDi b\u1EB1ng P1, ch\u1EDD marker scanner, \u0111\u1ED5i quy\u1EC1n qua scope th\u1EADt, release scanner r\u1ED3i await g\u1EEDi.",
+    "contract": "Tin nh\u1EAFn b\u1ECB t\u1EEB ch\u1ED1i sau ki\u1EC3m l\u1EA1i quy\u1EC1n; kh\u00F4ng ch\u1EA5p nh\u1EADn d\u1EF1a v\u00E0o quy\u1EC1n tr\u01B0\u1EDBc l\u00FAc qu\u00E9t.",
+    "db": "Kh\u00F4ng TinNhan/TepDinhKem/outbox; blob t\u1EA1m c\u1EE7a thao t\u00E1c thua \u0111\u01B0\u1EE3c d\u1ECDn; file c\u0169 kh\u00F4ng b\u1ECB x\u00F3a.",
+    "fr": [
+      "FR-37",
+      "FR-38",
+      "FR-39"
+    ],
+    "criteria": "X\u00E1c th\u1EF1c; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TinNhanService.GuiAsync"
+    ],
+    "deps": [
+      "chat_store",
+      "member_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-130",
+    "catalogOrder": 130,
+    "executionOrder": 51,
+    "dependencyIds": [
+      "IT-125",
+      "IT-071"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC5.1-U12",
+        "cls": "TinNhanService",
+        "method": "GuiAsync",
+        "table": 298
+      }
+    ],
+    "fixture": "F9",
+    "sqlOracle": "SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.",
+    "boundary": "TinNhanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-37, FR-38, FR-39; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC5.1-U12 TinNhanService.GuiAsync (b\u1EA3ng 298)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Thu h\u1ED3i quy\u1EC1n trong l\u00FAc qu\u00E9t ph\u1EA3i ki\u1EC3m l\u1EA1i tr\u01B0\u1EDBc g\u1EAFn t\u1EC7p",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #51.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-125, IT-071\nGh\u00E9p sau: TinNhanService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F9 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nP1 \u0111ang ChinhSua; scanner process sandbox gi\u1EEF t\u1EA1i barrier; G1 thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt tr\u01B0\u1EDBc khi scanner tr\u1EA30.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-125, IT-071 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F9 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: P1 \u0111ang ChinhSua; scanner process sandbox gi\u1EEF t\u1EA1i barrier; G1 thu h\u1ED3i quy\u1EC1n ho\u1EB7c h\u1EE7y li\u00EAn k\u1EBFt tr\u01B0\u1EDBc khi scanner tr\u1EA30. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. B\u1EAFt \u0111\u1EA7u g\u1EEDi b\u1EB1ng P1, ch\u1EDD marker scanner, \u0111\u1ED5i quy\u1EC1n qua scope th\u1EADt, release scanner r\u1ED3i await g\u1EEDi. \u0110i\u1EC3m v\u00E0o: TinNhanService.GuiAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Tin nh\u1EAFn b\u1ECB t\u1EEB ch\u1ED1i sau ki\u1EC3m l\u1EA1i quy\u1EC1n; kh\u00F4ng ch\u1EA5p nh\u1EADn d\u1EF1a v\u00E0o quy\u1EC1n tr\u01B0\u1EDBc l\u00FAc qu\u00E9t.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.TinNhan WHERE CuocHoiThoaiId=@ROOM; SELECT * FROM dbo.TepDinhKem WHERE TinNhanId=@MESSAGE; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; \u0110\u1ECDc blob sandbox b\u1EB1ng t\u00EAn l\u01B0u \u0111\u00E3 ghi metadata, so SHA256; kh\u00F4ng d\u00F9ng File.Exists \u0111\u01A1n \u0111\u1ED9c l\u00E0m oracle to\u00E0n v\u1EB9n.\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng TinNhan/TepDinhKem/outbox; blob t\u1EA1m c\u1EE7a thao t\u00E1c thua \u0111\u01B0\u1EE3c d\u1ECDn; file c\u0169 kh\u00F4ng b\u1ECB x\u00F3a.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Tin nh\u1EAFn b\u1ECB t\u1EEB ch\u1ED1i sau ki\u1EC3m l\u1EA1i quy\u1EC1n; kh\u00F4ng ch\u1EA5p nh\u1EADn d\u1EF1a v\u00E0o quy\u1EC1n tr\u01B0\u1EDBc l\u00FAc qu\u00E9t.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng TinNhan/TepDinhKem/outbox; blob t\u1EA1m c\u1EE7a thao t\u00E1c thua \u0111\u01B0\u1EE3c d\u1ECDn; file c\u0169 kh\u00F4ng b\u1ECB x\u00F3a."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "4e070827-7f3e-4da4-8a3e-f58f4464ad8f",
+    "P": "bc64e7eb-a638-4e76-b68f-e0edef2e7da4",
+    "G": "cc260043-e3d2-4a65-90e3-ff69a37dfe38",
+    "X": "d9cade8e-c599-49e5-a2cb-d1b6d760383b",
+    "A": "c8a3430d-8687-4905-b03d-8d7df647c43e"
+  },
+  "subjects": {
+    "M1": 4709,
+    "M2": 4710
+  },
+  "assertions": "Passed"
+}

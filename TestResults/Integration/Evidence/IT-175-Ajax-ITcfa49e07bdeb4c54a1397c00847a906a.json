@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-175-Ajax",
+  "runTag": "ITcfa49e07bdeb4c54a1397c00847a906a",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "482129ac-c7d2-4964-b482-07a021ff3b75",
+    "P": "7aa3f6c3-ee50-45d9-83ca-7e51cf4d1f0d",
+    "G": "9767bfd3-ff24-4b9f-8d4a-f68ecd5c6435",
+    "X": "a3f90a68-0273-4a04-869c-35514049fd6f",
+    "A": "98abd931-5ba7-479b-85b5-aa247dff0da3"
+  },
+  "subjects": {
+    "M1": 2552,
+    "M2": 2553
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022T\\u1EA1o nhu c\\u1EA7u th\\u00E0nh c\\u00F4ng\u0022,\u0022redirectUrl\u0022:\u0022/NhuCau/NhuCau\u0022}"
+  }
+}

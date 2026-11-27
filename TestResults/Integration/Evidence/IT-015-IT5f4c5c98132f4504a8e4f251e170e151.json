@@ -1,0 +1,75 @@
+{
+  "caseId": "IT-015",
+  "runTag": "IT5f4c5c98132f4504a8e4f251e170e151",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "need_rollback",
+    "group": 1,
+    "title": "L\u1ED7i quan h\u1EC7 m\u00F4n kh\u00F4ng \u0111\u01B0\u1EE3c l\u01B0u m\u1ED9t ph\u1EA7n nhu c\u1EA7u",
+    "stage": 2,
+    "entry": "NhuCauService.TaoNhuCauHocAsync(vm,H1,ct)",
+    "input": "F1 nh\u01B0ng M2 kh\u00F4ng t\u1ED3n t\u1EA1i; O1 m\u1EDBi; gi\u1EEF m\u1ECDi tr\u01B0\u1EDDng kh\u00E1c h\u1EE3p l\u1EC7.",
+    "action": "Ch\u1EE5p snapshot; g\u1ECDi Service th\u1EADt v\u00E0 \u0111\u1ECDc l\u1EA1i b\u1EB1ng connection \u0111\u1ED9c l\u1EADp sau khi wrapper ho\u00E0n t\u1EA5t.",
+    "contract": "KetQua.ThanhCong=false, l\u1ED7i m\u00F4n; kh\u00F4ng tr\u1EA3 Guid nhu c\u1EA7u \u0111\u01B0\u1EE3c xem nh\u01B0 t\u1EA1o th\u00E0nh c\u00F4ng.",
+    "db": "Kh\u00F4ng c\u00F2n d\u00F2ng cha, link m\u00F4n, l\u1ECBch ho\u1EB7c LuotDang c\u1EE7a l\u1EA7n ghi l\u1ED7i.",
+    "fr": [
+      "FR-01",
+      "FR-03"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "NhuCauService.TaoNhuCauHocAsync"
+    ],
+    "deps": [
+      "db_need"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-015",
+    "catalogOrder": 15,
+    "executionOrder": 15,
+    "dependencyIds": [
+      "IT-002"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.1-U07",
+        "cls": "NhuCauService",
+        "method": "TaoNhuCauHocAsync",
+        "table": 17
+      }
+    ],
+    "fixture": "F1",
+    "sqlOracle": "SELECT Id,ChuSoHuuId,TrangThai,RowVersion FROM dbo.NhuCauHoc WHERE ChuSoHuuId IN(@H1,@P1); SELECT NhuCauId,MonHocId FROM dbo.NhuCauMonHoc WHERE NhuCauId=@N1; SELECT * FROM dbo.KhungGioRanh WHERE NhuCauId=@N1; SELECT * FROM dbo.LuotDangNhuCau WHERE TaiKhoanId IN(@H1,@P1);",
+    "boundary": "NhuCauService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-01, FR-03; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.1-U07 NhuCauService.TaoNhuCauHocAsync (b\u1EA3ng 17)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: L\u1ED7i quan h\u1EC7 m\u00F4n kh\u00F4ng \u0111\u01B0\u1EE3c l\u01B0u m\u1ED9t ph\u1EA7n nhu c\u1EA7u",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #15.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-002\nGh\u00E9p sau: NhuCauService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F1 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF1 nh\u01B0ng M2 kh\u00F4ng t\u1ED3n t\u1EA1i; O1 m\u1EDBi; gi\u1EEF m\u1ECDi tr\u01B0\u1EDDng kh\u00E1c h\u1EE3p l\u1EC7.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-002 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F1 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F1 nh\u01B0ng M2 kh\u00F4ng t\u1ED3n t\u1EA1i; O1 m\u1EDBi; gi\u1EEF m\u1ECDi tr\u01B0\u1EDDng kh\u00E1c h\u1EE3p l\u1EC7. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. Ch\u1EE5p snapshot; g\u1ECDi Service th\u1EADt v\u00E0 \u0111\u1ECDc l\u1EA1i b\u1EB1ng connection \u0111\u1ED9c l\u1EADp sau khi wrapper ho\u00E0n t\u1EA5t. \u0110i\u1EC3m v\u00E0o: NhuCauService.TaoNhuCauHocAsync(vm,H1,ct). Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: KetQua.ThanhCong=false, l\u1ED7i m\u00F4n; kh\u00F4ng tr\u1EA3 Guid nhu c\u1EA7u \u0111\u01B0\u1EE3c xem nh\u01B0 t\u1EA1o th\u00E0nh c\u00F4ng.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT Id,ChuSoHuuId,TrangThai,RowVersion FROM dbo.NhuCauHoc WHERE ChuSoHuuId IN(@H1,@P1); SELECT NhuCauId,MonHocId FROM dbo.NhuCauMonHoc WHERE NhuCauId=@N1; SELECT * FROM dbo.KhungGioRanh WHERE NhuCauId=@N1; SELECT * FROM dbo.LuotDangNhuCau WHERE TaiKhoanId IN(@H1,@P1);\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng c\u00F2n d\u00F2ng cha, link m\u00F4n, l\u1ECBch ho\u1EB7c LuotDang c\u1EE7a l\u1EA7n ghi l\u1ED7i.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: KetQua.ThanhCong=false, l\u1ED7i m\u00F4n; kh\u00F4ng tr\u1EA3 Guid nhu c\u1EA7u \u0111\u01B0\u1EE3c xem nh\u01B0 t\u1EA1o th\u00E0nh c\u00F4ng.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng c\u00F2n d\u00F2ng cha, link m\u00F4n, l\u1ECBch ho\u1EB7c LuotDang c\u1EE7a l\u1EA7n ghi l\u1ED7i."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "866abd18-1b1d-4b25-bd03-eced52701e52",
+    "P": "0c7a502b-3e1d-4bdb-bae7-bda3f414b367",
+    "G": "7b2a9c48-1a76-4e78-8c7b-848042173f30",
+    "X": "d6a17250-7442-4ab7-bb25-0bc1bd54a1ee",
+    "A": "faab3f51-50d6-489a-8d31-82b88b7d66ff"
+  },
+  "subjects": {
+    "M1": 256,
+    "M2": 257
+  },
+  "return": {
+    "ThanhCong": false,
+    "MaTrangThai": 400,
+    "ThongBao": "M\u00F4n h\u1ECDc kh\u00F4ng h\u1EE3p l\u1EC7."
+  },
+  "needs": [],
+  "assertions": "Passed"
+}

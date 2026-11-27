@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-009",
+  "runTag": "ITe3aeb8ffed6742b382b912da7c577e82",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "db_grade",
+    "group": 0,
+    "title": "Ch\u1EA5m SQL ki\u1EC3m \u0111i\u1EC3m, quy\u1EC1n v\u00E0 l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "stage": 1,
+    "entry": "EXEC dbo.usp_ChamBaiTap",
+    "input": "A1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.",
+    "action": "G\u1ECDi procedure tr\u00EAn t\u1EEBng fixture; truy\u1EC1n decimal c\u00F3 precision/scale r\u00F5; \u0111\u1ECDc k\u1EBFt qu\u1EA3 b\u1EB1ng connection m\u1EDBi.",
+    "contract": "DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.",
+    "db": "Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3.",
+    "fr": [
+      "FR-32"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "SQL.usp_ChamBaiTap"
+    ],
+    "deps": [],
+    "kind": "SQL",
+    "routes": [],
+    "id": "IT-009",
+    "catalogOrder": 9,
+    "executionOrder": 9,
+    "dependencyIds": [],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [],
+    "fixture": "F0",
+    "sqlOracle": "\u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.",
+    "boundary": "SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions",
+    "baseline": "FR-32; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: H\u1EE3p \u0111\u1ED3ng b\u1EA3ng/SQL/quy\u1EC1n theo 00_EduConnect_Full.sql.\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Ch\u1EA5m SQL ki\u1EC3m \u0111i\u1EC3m, quy\u1EC1n v\u00E0 l\u1EA7n m\u1EDBi nh\u1EA5t",
+    "strategy": "Bottom-up, BU1; th\u1EE9 t\u1EF1 ch\u1EA1y #9.\nKi\u1EC3m tr\u01B0\u1EDBc: PF-DB/PF-HOST \u0111\u00E3 \u0111\u1EA1t trong sheet m\u00F4i tr\u01B0\u1EDDng\nGh\u00E9p sau: SqlClient driver \u2192 procedure/SQL statement \u2192 b\u1EA3ng th\u1EADt \u002B FK/unique/CHECK/trigger ho\u1EB7c SQL permissions\nC\u0103n c\u1EE9: Ki\u1EC3m object SQL v\u00E0 r\u00E0ng bu\u1ED9c d\u1EEF li\u1EC7u tr\u01B0\u1EDBc v\u00EC \u0111\u00E2y l\u00E0 n\u1EC1n c\u00E1c provider/service d\u00F9ng chung. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F0 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nA1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. X\u00E1c nh\u1EADn PF-DB: \u0111\u00FAng DB ki\u1EC3m th\u1EED/principal, schema cu\u1ED1i; bind m\u1ECDi parameter t\u1EEB fixture. Kh\u00F4ng ch\u1EA1y DDL c\u00E0i l\u1EA1i database.\n2. Seed c\u00E1c d\u00F2ng cha v\u00E0 \u0111i\u1EC1u ki\u1EC7n ri\u00EAng: A1 c\u00F3 N1 r\u1ED3i N2; DL01 G1 ch\u1EA5m N2=8.25; DL02 G2; DL03 ch\u1EA5m N1 c\u0169; DL04 \u0111i\u1EC3m=10.01.\n3. \u0110\u1ECDc snapshot b\u1EA3ng/kh\u00F3a/th\u1EDDi \u0111i\u1EC3m b\u1EB1ng observer; m\u1EDF SqlConnection/transaction ri\u00EAng cho m\u1ED7i DL ho\u1EB7c m\u1ED7i t\u00E1c nh\u00E2n khi c\u00F3 race.\n4. G\u1ECDi procedure tr\u00EAn t\u1EEBng fixture; truy\u1EC1n decimal c\u00F3 precision/scale r\u00F5; \u0111\u1ECDc k\u1EBFt qu\u1EA3 b\u1EB1ng connection m\u1EDBi.\n5. Assert k\u1EBFt qu\u1EA3 SQL/error v\u00E0 d\u1EEF li\u1EC7u: DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.\n6. \u0110\u1ECDc l\u1EA1i sau commit/rollback b\u1EB1ng connection m\u1EDBi. Oracle: \u0110\u1ECDc schema/sys.columns/sys.indexes v\u00E0 \u0111\u1ECBnh ngh\u0129a module \u0111\u00FAng b\u1EA3n cu\u1ED1i; khi ki\u1EC3m h\u00E0nh vi v\u1EABn ph\u1EA3i EXEC/INSERT/UPDATE th\u1EADt. SELECT DB_NAME(),SUSER_SNAME(),USER_NAME(),SYSDATETIMEOFFSET(); Sau l\u1EC7nh l\u1ED7i d\u00F9ng connection kh\u00E1c ki\u1EC3m b\u1EA3ng v\u00E0 kh\u00F3a tham chi\u1EBFu kh\u00F4ng \u0111\u1ED5i.\n7. Assert to\u00E0n v\u1EB9n: Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3.\n8. L\u01B0u parameter/SqlException.Number/SQL tr\u01B0\u1EDBc\u2013sau; rollback n\u1EBFu to\u00E0n b\u1ED9 ca trong transaction, n\u1EBFu kh\u00F4ng reset fixture theo FK. Kh\u00F4i ph\u1EE5c permission trong finally.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: DL01 th\u00E0nh c\u00F4ng; c\u00E1c DL sai quy\u1EC1n/l\u1EA7n c\u0169/\u0111i\u1EC3m ngo\u00E0i mi\u1EC1n b\u1ECB t\u1EEB ch\u1ED1i.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng k\u1EBFt qu\u1EA3 ch\u1EA5m cho DL02..04; \u0111i\u1EC3m DL01=8.25, kh\u00F4ng l\u00E0m tr\u00F2n t\u00F9y ti\u1EC7n th\u00E0nh 8 ho\u1EB7c 8.3."
+  },
+  "sql": {
+    "sql": "EXEC dbo.usp_ChamBaiTap @BaiTapNopId=@n,@NguoiChamId=@u,@Diem=@d,@NhanXet=N\u0027Nh\u1EADn x\u00E9t\u0027",
+    "parameters": {
+      "@n": "255b1e24-39cf-4b2e-a594-49e48e531185",
+      "@u": "881859e4-4413-4438-83ed-2197afef4ee5",
+      "@d": 8.25
+    },
+    "rows": [
+      {
+        "Id": "f0b55734-76e2-4427-8106-4c29a7d1804b",
+        "BaiTapNopId": "255b1e24-39cf-4b2e-a594-49e48e531185",
+        "NguoiChamId": "881859e4-4413-4438-83ed-2197afef4ee5",
+        "Diem": 8.25,
+        "NhanXet": "Nh\u1EADn x\u00E9t",
+        "ChamLuc": "2026-11-27T04:51:12+00:00",
+        "RowVersion": "AAAAAAKEUVE="
+      }
+    ]
+  },
+  "actors": {
+    "H": "c1c653e3-caa2-440e-a02f-1f0ebda5cade",
+    "P": "14ed614a-7d94-4024-ad3d-b538dbadc181",
+    "G": "881859e4-4413-4438-83ed-2197afef4ee5",
+    "X": "ef46d268-1ed5-46a5-a41a-b6d69dda23ca",
+    "A": "2466962e-a1ac-41a4-b3e7-9ee6ec0782f3"
+  },
+  "subjects": {
+    "M1": 3393,
+    "M2": 3394
+  },
+  "assertions": "Passed"
+}

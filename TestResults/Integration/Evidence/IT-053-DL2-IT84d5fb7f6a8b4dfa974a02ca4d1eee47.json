@@ -1,0 +1,26 @@
+{
+  "caseId": "IT-053-DL2",
+  "runTag": "IT84d5fb7f6a8b4dfa974a02ca4d1eee47",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "534a54ae-809b-4a09-8c8c-e394cfc148ae",
+    "P": "2ca5aa9f-0df3-41f6-ae25-f570052a8760",
+    "G": "083493b5-feea-4f10-9615-b57f5482cfa8",
+    "X": "3d51f151-7e1c-4e5a-9a4c-a0080a55e5e5",
+    "A": "90a8a4bc-bad4-4f69-842b-e13deaf0ea60"
+  },
+  "subjects": {
+    "M1": 688,
+    "M2": 689
+  },
+  "http": {
+    "status": 422,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Ki\\u1EC3m tra l\\u1EA1i th\\u00F4ng tin \\u0111\\u00E3 nh\\u1EADp.\u0022,\u0022errors\u0022:{\u0022\u0022:[\u0022S\\u1ED1 khung gi\\u1EDD v\\u00E0 th\\u1EDDi l\\u01B0\\u1EE3ng ph\\u1EA3i kh\\u1EDBp \\u0111i\\u1EC1u ki\\u1EC7n l\\u1EDBp.\u0022]}}"
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "tc": "UT-360",
+    "dl": "DL01",
+    "unit": "TV-U20",
+    "group": 10,
+    "decision": "tham số khóa lớp",
+    "input": "id=C1; fake relational command ghi nhận lệnh và trả 1.",
+    "expected": "Gửi đúng SELECT Id FROM dbo.LopHoc WITH (UPDLOCK,HOLDLOCK) WHERE Id={parameter}, parameter=C1; không gọi quyền/thành viên/thông báo. Không kiểm hiệu lực khóa SQL trong Unit.",
+    "method": "UT_360_DL01",
+    "reason": null,
+    "outcome": "Passed",
+    "duration": "00:00:01.1391416",
+    "name": "EduConnect.UnitTests.Current.CurrentDesignTests.UT_360_DL01",
+    "message": "",
+    "stack": "",
+    "trx": "C:\\Khóa luận TN\\EduConnect1\\TestResults\\Unit\\09_Thanh_phan_khac\\09_Thanh_phan_khac.trx",
+    "script": "C:\\Khóa luận TN\\EduConnect1\\tests\\Unit\\CurrentDesignTests.cs",
+    "line": 1577,
+    "classification": null
+  }
+]

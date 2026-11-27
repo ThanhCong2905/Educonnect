@@ -1,0 +1,86 @@
+{
+  "caseId": "IT-071",
+  "runTag": "ITa24e9eb510424287a4103e86c02b5ac5",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "member_store",
+    "group": 5,
+    "title": "Service l\u1EDDi m\u1EDDi \u2192 \u0111\u1ED3ng \u00FD \u2192 duy\u1EC7t ghi \u0111\u1EE7 quy\u1EC1n",
+    "stage": 2,
+    "entry": "LopHocService.DeNghiAsync; PhanHoiLoiMoiAsync; DuyetAsync",
+    "input": "C1 H1/G1; P1 li\u00EAn k\u1EBFt H1; H1 m\u1EDDi P1; P1 \u0111\u1ED3ng \u00FD; G1 duy\u1EC7t Xem v\u00E0 kh\u00F4ng quy\u1EC1n n\u1ED9p.",
+    "action": "\u0110\u1ED5i actor theo t\u1EEBng thao t\u00E1c, \u0111\u1ECDc Id/RV m\u1EDBi sau commit, kh\u00F4ng d\u00F9ng RV c\u1EE7a l\u1EDBp thay RV th\u00E0nh vi\u00EAn.",
+    "contract": "Tr\u01B0\u1EDBc \u0111\u1ED3ng \u00FD/duy\u1EC7t ch\u01B0a c\u00F3 quy\u1EC1n; sau duy\u1EC7t \u0111\u1EE7 quy\u1EC1n Xem \u0111\u00FAng C1.",
+    "db": "M\u1ED9t th\u00E0nh vi\u00EAn; th\u1EDDi \u0111i\u1EC3m \u0111\u1ED3ng \u00FD/duy\u1EC7t v\u00E0 quy\u1EC1n \u0111\u01B0\u1EE3c l\u01B0u, notice \u0111\u00FAng ng\u01B0\u1EDDi; kh\u00F4ng c\u1EA5p chat ri\u00EAng H1/G1.",
+    "fr": [
+      "FR-35",
+      "FR-36",
+      "FR-39"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "LopHocService.DeNghiAsync",
+      "LopHocService.PhanHoiLoiMoiAsync",
+      "LopHocService.DuyetAsync"
+    ],
+    "deps": [
+      "family_store",
+      "class_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-071",
+    "catalogOrder": 71,
+    "executionOrder": 30,
+    "dependencyIds": [
+      "IT-070",
+      "IT-057"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "TV-U16",
+        "cls": "LopHocService",
+        "method": "DeNghiAsync",
+        "table": 400
+      },
+      {
+        "id": "TV-U18",
+        "cls": "LopHocService",
+        "method": "PhanHoiLoiMoiAsync",
+        "table": 402
+      },
+      {
+        "id": "TV-U19",
+        "cls": "LopHocService",
+        "method": "DuyetAsync",
+        "table": 403
+      }
+    ],
+    "fixture": "F5",
+    "sqlOracle": "SELECT * FROM dbo.LienKetPhuHuynhHocSinh WHERE HocSinhId=@H1; SELECT * FROM dbo.ThanhVienLopHoc WHERE LopHocId=@C1; SELECT Id,GiaSuId,BenHocId,HocSinhLienKetId,TrangThai FROM dbo.LopHoc WHERE Id=@C1;",
+    "boundary": "LopHocService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt",
+    "baseline": "FR-35, FR-36, FR-39; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: TV-U16 LopHocService.DeNghiAsync (b\u1EA3ng 400); TV-U18 LopHocService.PhanHoiLoiMoiAsync (b\u1EA3ng 402); TV-U19 LopHocService.DuyetAsync (b\u1EA3ng 403)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service l\u1EDDi m\u1EDDi \u2192 \u0111\u1ED3ng \u00FD \u2192 duy\u1EC7t ghi \u0111\u1EE7 quy\u1EC1n",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #30.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-070, IT-057\nGh\u00E9p sau: LopHocService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F5 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nC1 H1/G1; P1 li\u00EAn k\u1EBFt H1; H1 m\u1EDDi P1; P1 \u0111\u1ED3ng \u00FD; G1 duy\u1EC7t Xem v\u00E0 kh\u00F4ng quy\u1EC1n n\u1ED9p.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-070, IT-057 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F5 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: C1 H1/G1; P1 li\u00EAn k\u1EBFt H1; H1 m\u1EDDi P1; P1 \u0111\u1ED3ng \u00FD; G1 duy\u1EC7t Xem v\u00E0 kh\u00F4ng quy\u1EC1n n\u1ED9p. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. \u0110\u1ED5i actor theo t\u1EEBng thao t\u00E1c, \u0111\u1ECDc Id/RV m\u1EDBi sau commit, kh\u00F4ng d\u00F9ng RV c\u1EE7a l\u1EDBp thay RV th\u00E0nh vi\u00EAn. \u0110i\u1EC3m v\u00E0o: LopHocService.DeNghiAsync; PhanHoiLoiMoiAsync; DuyetAsync. Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Tr\u01B0\u1EDBc \u0111\u1ED3ng \u00FD/duy\u1EC7t ch\u01B0a c\u00F3 quy\u1EC1n; sau duy\u1EC7t \u0111\u1EE7 quy\u1EC1n Xem \u0111\u00FAng C1.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT * FROM dbo.LienKetPhuHuynhHocSinh WHERE HocSinhId=@H1; SELECT * FROM dbo.ThanhVienLopHoc WHERE LopHocId=@C1; SELECT Id,GiaSuId,BenHocId,HocSinhLienKetId,TrangThai FROM dbo.LopHoc WHERE Id=@C1;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t th\u00E0nh vi\u00EAn; th\u1EDDi \u0111i\u1EC3m \u0111\u1ED3ng \u00FD/duy\u1EC7t v\u00E0 quy\u1EC1n \u0111\u01B0\u1EE3c l\u01B0u, notice \u0111\u00FAng ng\u01B0\u1EDDi; kh\u00F4ng c\u1EA5p chat ri\u00EAng H1/G1.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Tr\u01B0\u1EDBc \u0111\u1ED3ng \u00FD/duy\u1EC7t ch\u01B0a c\u00F3 quy\u1EC1n; sau duy\u1EC7t \u0111\u1EE7 quy\u1EC1n Xem \u0111\u00FAng C1.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t th\u00E0nh vi\u00EAn; th\u1EDDi \u0111i\u1EC3m \u0111\u1ED3ng \u00FD/duy\u1EC7t v\u00E0 quy\u1EC1n \u0111\u01B0\u1EE3c l\u01B0u, notice \u0111\u00FAng ng\u01B0\u1EDDi; kh\u00F4ng c\u1EA5p chat ri\u00EAng H1/G1."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "ef3c634e-5824-448e-97fc-9441a114e874",
+    "P": "cc816369-9645-493d-aad0-5ee6edc08ab6",
+    "G": "d0339cc6-f992-4c8e-96f2-7edb147d05f8",
+    "X": "ebe29f7b-8657-4f25-b562-6eb41e57c7a7",
+    "A": "8df64931-7637-4985-956c-5ae993cc47a2"
+  },
+  "subjects": {
+    "M1": 3967,
+    "M2": 3968
+  },
+  "exception": "Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.\r\n ---\u003E Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name \u0027LichSuQuyenThanhVien\u0027.\r\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask\u00602.InnerInvoke()\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n--- End of stack trace from previous location ---\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task\u0026 currentTaskSlot, Thread threadPoolThread)\r\n--- End of stack trace from previous location ---\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\nClientConnectionId:dd9ca449-8be9-4d7d-9f7a-c1d0147c397b\r\nError Number:208,State:1,Class:16\r\n   --- End of inner exception stack trace ---\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList\u00601 entries, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList\u00601 entriesToSave, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at EduConnect.Mvc.Areas.HocTap.Services.LopHocService.DuyetAsync(Guid member, String action, String permission, String version, Boolean choPhepNopBai) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Areas\\HocTap\\Services\\LopHocService.cs:line 195\r\n   at EduConnect.Mvc.Areas.HocTap.Services.LopHocService.DuyetAsync(Guid member, String action, String permission, String version, Boolean choPhepNopBai) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\Areas\\HocTap\\Services\\LopHocService.cs:line 196\r\n   at Cases.FamilyCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\FamilyCases.cs:line 20\r\n   at Cases.FamilyCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\FamilyCases.cs:line 20\r\n   at Cases.FamilyCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\FamilyCases.cs:line 20\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 275"
+}

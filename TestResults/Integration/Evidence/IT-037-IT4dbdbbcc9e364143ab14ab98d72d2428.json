@@ -1,0 +1,95 @@
+{
+  "caseId": "IT-037",
+  "runTag": "IT4dbdbbcc9e364143ab14ab98d72d2428",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "search_guest",
+    "group": 2,
+    "title": "Kh\u00E1ch xem h\u1ED3 s\u01A1 v\u00E0 nhu c\u1EA7u c\u00F4ng khai",
+    "stage": 3,
+    "entry": "GET /TimKiem/TimKiem/GiaSu; GET /TimKiem/TimKiem/NhuCau",
+    "input": "Kh\u00F4ng cookie; F1/F2 c\u00F3 m\u1ED9t nhu c\u1EA7u v\u00E0 m\u1ED9t h\u1ED3 s\u01A1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n c\u00F4ng khai.",
+    "action": "GET t\u1EEBng danh s\u00E1ch, theo redirect chi ti\u1EBFt n\u1EBFu c\u00F3; ki\u1EC3m d\u1EEF li\u1EC7u render v\u00E0 cookie/permission.",
+    "contract": "200; d\u1EEF li\u1EC7u c\u00F4ng khai \u0111\u00FAng; y\u00EAu c\u1EA7u g\u1EEDi li\u00EAn h\u1EC7/ghi d\u1EEF li\u1EC7u v\u1EABn \u0111\u00F2i \u0111\u0103ng nh\u1EADp.",
+    "db": "Kh\u00F4ng l\u1ED9 \u0111\u1ECBa ch\u1EC9 chi ti\u1EBFt, email ri\u00EAng ho\u1EB7c t\u1EC7p minh ch\u1EE9ng; kh\u00F4ng t\u1EA1o li\u00EAn h\u1EC7/l\u1EDBp khi ch\u1EC9 xem.",
+    "fr": [
+      "FR-08",
+      "FR-09"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "TimKiemService.TimKiemAsync"
+    ],
+    "deps": [
+      "search_store"
+    ],
+    "kind": "HTTP",
+    "routes": [
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "GiaSu",
+        "action": "GiaSu",
+        "verb": "GET",
+        "signature": "public Task\u003CIActionResult\u003E GiaSu(BoLocTimKiemViewModel f)",
+        "line": 19,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      },
+      {
+        "cls": "TimKiemController",
+        "area": "TimKiem",
+        "method": "NhuCau",
+        "action": "NhuCau",
+        "verb": "GET",
+        "signature": "public Task\u003CIActionResult\u003E NhuCau(BoLocTimKiemViewModel f)",
+        "line": 28,
+        "file": "Areas\\TimKiem\\Controllers\\TimKiemController.cs"
+      }
+    ],
+    "id": "IT-037",
+    "catalogOrder": 37,
+    "executionOrder": 61,
+    "dependencyIds": [
+      "IT-029"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "UC1.2-U02",
+        "cls": "TimKiemService",
+        "method": "TimKiemAsync",
+        "table": 50
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService \u2192 EF/SQL Server \u002B file sandbox",
+    "baseline": "FR-08, FR-09; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: UC1.2-U02 TimKiemService.TimKiemAsync (b\u1EA3ng 50)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Kh\u00E1ch xem h\u1ED3 s\u01A1 v\u00E0 nhu c\u1EA7u c\u00F4ng khai",
+    "strategy": "Bottom-up, BU3; th\u1EE9 t\u1EF1 ch\u1EA1y #61.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-029\nGh\u00E9p sau: HTTP \u2192 binding/validation/auth/antiforgery/filter \u2192 TimKiemService \u2192 EF/SQL Server \u002B file sandbox\nC\u0103n c\u1EE9: Sau Service\u2013DB v\u00E0 \u0111\u0103ng nh\u1EADp li\u00EAn quan, gh\u00E9p HTTP/MVC \u0111\u1EC3 ki\u1EC3m binding, cookie, antiforgery v\u00E0 chuy\u1EC3n k\u1EBFt qu\u1EA3 th\u00E0nh response. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nKh\u00F4ng cookie; F1/F2 c\u00F3 m\u1ED9t nhu c\u1EA7u v\u00E0 m\u1ED9t h\u1ED3 s\u01A1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n c\u00F4ng khai.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-029; t\u1EA1o fixture F2 m\u1EDBi v\u00E0 host test tr\u1ECF DB n\u00E0y; ch\u1EC9 t\u1EAFt hai worker khi ca kh\u00F4ng ki\u1EC3m worker.\n2. D\u00F9ng WebApplicationFactory/host th\u1EADt v\u00E0 HttpClient HTTPS ri\u00EAng,AllowAutoRedirect=false. Actor/cookie theo TC; n\u1EBFu c\u00F3 \u0111\u0103ng nh\u1EADp ph\u1EA3i qua Identity/cookie th\u1EADt, kh\u00F4ng fake authentication handler.\n3. GET form t\u01B0\u01A1ng \u1EE9ng c\u00F9ng client l\u1EA5y cookie CSRF v\u00E0 __RequestVerificationToken. Ch\u1EC9 c\u1ED1 \u00FD b\u1ECF token \u1EDF DL CSRF. Input: Kh\u00F4ng cookie; F1/F2 c\u00F3 m\u1ED9t nhu c\u1EA7u v\u00E0 m\u1ED9t h\u1ED3 s\u01A1 \u0111\u1EE7 \u0111i\u1EC1u ki\u1EC7n c\u00F4ng khai.\n4. GET t\u1EEBng danh s\u00E1ch, theo redirect chi ti\u1EBFt n\u1EBFu c\u00F3; ki\u1EC3m d\u1EEF li\u1EC7u render v\u00E0 cookie/permission. \u0110i\u1EC3m v\u00E0o: GET /TimKiem/TimKiem/GiaSu; GET /TimKiem/TimKiem/NhuCau. Nghi\u1EC7p v\u1EE5 d\u00F9ng AJAX; auth form gi\u1EEF form th\u01B0\u1EDDng; multipart \u0111\u00FAng t\u00EAn field khi c\u00F3 file.\n5. Ghi raw status,Content-Type,Location/body tr\u01B0\u1EDBc redirect r\u1ED3i assert contract: 200; d\u1EEF li\u1EC7u c\u00F4ng khai \u0111\u00FAng; y\u00EAu c\u1EA7u g\u1EEDi li\u00EAn h\u1EC7/ghi d\u1EEF li\u1EC7u v\u1EABn \u0111\u00F2i \u0111\u0103ng nh\u1EADp.\n6. \u0110\u1ECDc l\u1EA1i b\u1EB1ng context/connection \u0111\u1ED9c l\u1EADp; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert d\u1EEF li\u1EC7u li\u00EAn th\u00F4ng v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: Kh\u00F4ng l\u1ED9 \u0111\u1ECBa ch\u1EC9 chi ti\u1EBFt, email ri\u00EAng ho\u1EB7c t\u1EC7p minh ch\u1EE9ng; kh\u00F4ng t\u1EA1o li\u00EAn h\u1EC7/l\u1EDBp khi ch\u1EC9 xem.\n8. Ghi trace/request/test name v\u00E0 TRX,SQL tr\u01B0\u1EDBc\u2013sau,file hash. D\u1EEBng host/worker,\u0111\u1EE3i k\u1EBFt th\u00FAc scope r\u1ED3i reset fixture/sandbox; kh\u00F4ng ch\u00E9p k\u1EBFt qu\u1EA3 Pass t\u1EEB b\u1ED9 kh\u00E1c.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: 200; d\u1EEF li\u1EC7u c\u00F4ng khai \u0111\u00FAng; y\u00EAu c\u1EA7u g\u1EEDi li\u00EAn h\u1EC7/ghi d\u1EEF li\u1EC7u v\u1EABn \u0111\u00F2i \u0111\u0103ng nh\u1EADp.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng l\u1ED9 \u0111\u1ECBa ch\u1EC9 chi ti\u1EBFt, email ri\u00EAng ho\u1EB7c t\u1EC7p minh ch\u1EE9ng; kh\u00F4ng t\u1EA1o li\u00EAn h\u1EC7/l\u1EDBp khi ch\u1EC9 xem."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "13d09254-fa13-445d-b0f8-cf6dd47b7021",
+    "P": "dc7b5892-dd7d-4d90-9a5e-edad65a618b5",
+    "G": "6ac4af19-da8d-4510-b353-255de27e6837",
+    "X": "7d205e35-d389-4364-b6bb-8c521328a3ff",
+    "A": "f5c1e14c-9536-4469-a23f-d4aba2667861"
+  },
+  "subjects": {
+    "M1": 90,
+    "M2": 91
+  },
+  "http": {
+    "status": 401,
+    "location": null,
+    "body": "{\u0022ok\u0022:false,\u0022message\u0022:\u0022Phi\u00EAn \u0111\u00E3 h\u1EBFt h\u1EA1n. Vui l\u00F2ng \u0111\u0103ng nh\u1EADp l\u1EA1i.\u0022}"
+  },
+  "assertions": "Passed"
+}

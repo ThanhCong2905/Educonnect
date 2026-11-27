@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-179",
+  "runTag": "IT0730ec56238b4e71b599c5d99d071f6f",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "outbox_lease",
+    "group": 12,
+    "title": "Hai worker v\u00E0 lease h\u1EBFt h\u1EA1n kh\u00F4ng l\u00E0m m\u1EA5t s\u1EF1 ki\u1EC7n",
+    "stage": 4,
+    "entry": "Hai instance XuLySuKienWorker.XuLySuKienDenHanAsync",
+    "input": "M\u1ED9t event ChoXuLy, m\u1ED9t event DangXuLy c\u00F3 LeaseHetHanLuc \u0111\u00E3 qua, m\u1ED9t lease c\u00F2n h\u1EA1n; hai worker th\u1EADt.",
+    "action": "Ch\u1EA1y hai batch qua connection ri\u00EAng; thu EventId v\u00E0 tr\u1EA1ng th\u00E1i sau x\u1EED l\u00FD.",
+    "contract": "Event \u0111\u01B0\u1EE3c claim h\u1EE3p l\u1EC7 r\u1ED3i ho\u00E0n t\u1EA5t; lease h\u1EBFt h\u1EA1n \u0111\u01B0\u1EE3c ph\u1EE5c h\u1ED3i; lease c\u00F2n h\u1EA1n c\u1EE7a worker kh\u00E1c kh\u00F4ng b\u1ECB chi\u1EBFm.",
+    "db": "Kh\u00F4ng m\u1EA5t event ho\u1EB7c ghi HoanTat t\u1EEB lease kh\u00F4ng c\u00F2n s\u1EDF h\u1EEFu; kh\u00F4ng k\u1EBFt lu\u1EADn exactly-once m\u1EA1ng, m\u1ECDi replay mang c\u00F9ng EventId.",
+    "fr": [
+      "FR-25",
+      "FR-40"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "XuLySuKienWorker.XuLySuKienDenHanAsync"
+    ],
+    "deps": [
+      "outbox_commit"
+    ],
+    "kind": "ASYNC",
+    "routes": [],
+    "id": "IT-179",
+    "catalogOrder": 179,
+    "executionOrder": 179,
+    "dependencyIds": [
+      "IT-177"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "RT-U18",
+        "cls": "XuLySuKienWorker",
+        "method": "XuLySuKienDenHanAsync",
+        "table": 438
+      }
+    ],
+    "fixture": "F12",
+    "sqlOracle": "SELECT * FROM dbo.ThongBao WHERE NguoiNhanId=@ACTOR; SELECT * FROM dbo.SuKienChoXuLy WHERE Id=@EVENT; SELECT * FROM dbo.NhatKyAnToan WHERE MaYeuCau=@TRACE; SELECT * FROM dbo.PhienDangNhap WHERE TaiKhoanId=@ACTOR; V\u1EDBi deadline, \u0111\u1ECDc Q/N/R theo Id fixture, d\u00F9ng gi\u1EDD SQL th\u1EADt.",
+    "boundary": "Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5",
+    "baseline": "FR-25, FR-40; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: RT-U18 XuLySuKienWorker.XuLySuKienDenHanAsync (b\u1EA3ng 438)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Hai worker v\u00E0 lease h\u1EBFt h\u1EA1n kh\u00F4ng l\u00E0m m\u1EA5t s\u1EF1 ki\u1EC7n",
+    "strategy": "Bottom-up, BU4; th\u1EE9 t\u1EF1 ch\u1EA1y #179.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-177\nGh\u00E9p sau: Producer/SQL commit \u2192 worker/DI scope th\u1EADt \u2192 SQL claim/lease \u2192 SignalR/notification ho\u1EB7c thay \u0111\u1ED5i tr\u1EA1ng th\u00E1i nghi\u1EC7p v\u1EE5\nC\u0103n c\u1EE9: Sau producer v\u00E0 quy\u1EC1n \u0111\u00E3 ki\u1EC3m, gh\u00E9p consumer/worker/transport; t\u00E1ch l\u1ED7i commit kh\u1ECFi l\u1ED7i ph\u00E1t s\u1EF1 ki\u1EC7n v\u00E0 retry. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F12 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nM\u1ED9t event ChoXuLy, m\u1ED9t event DangXuLy c\u00F3 LeaseHetHanLuc \u0111\u00E3 qua, m\u1ED9t lease c\u00F2n h\u1EA1n; hai worker th\u1EADt.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y tr\u01B0\u1EDBc IT-177; t\u1EA1o fixture F12/nh\u00F3m li\u00EAn quan, sink/SignalR client v\u00E0 DB th\u1EADt t\u00E1ch bi\u1EC7t.\n2. Chu\u1EA9n b\u1ECB th\u1EDDi \u0111i\u1EC3m/lease/tr\u1EA1ng th\u00E1i b\u1EB1ng SQL v\u00E0 \u0111\u1ECDc T_SQL. \u0110i\u1EC1u ki\u1EC7n ri\u00EAng: M\u1ED9t event ChoXuLy, m\u1ED9t event DangXuLy c\u00F3 LeaseHetHanLuc \u0111\u00E3 qua, m\u1ED9t lease c\u00F2n h\u1EA1n; hai worker th\u1EADt.\n3. Gi\u1EEF worker,Service,SQL th\u1EADt; b\u1EADt \u0111\u00FAng hosted service c\u1EA7n ki\u1EC3m ho\u1EB7c g\u1ECDi batch public th\u1EADt. D\u00F9ng client/sink giao th\u1EE9c th\u1EADt, kh\u00F4ng mock hub \u0111\u1EC3 tuy\u00EAn b\u1ED1 \u0111\u00E3 ki\u1EC3m delivery.\n4. Ch\u1EA1y hai batch qua connection ri\u00EAng; thu EventId v\u00E0 tr\u1EA1ng th\u00E1i sau x\u1EED l\u00FD.\n5. Poll theo event/state v\u1EDBi deadline10s cho v\u00F2ng \u0111\u1EA7u, t\u1ED1i \u0111a5s audit, kh\u00F4ng d\u00F9ng sleep r\u1ED3i m\u1EB7c \u0111\u1ECBnh \u0111\u1EA1t; tr\u01B0\u1EDDng h\u1EE3p scanner timeout d\u00F9ng timeout30s c\u1EE7a protocol.\n6. Assert contract: Event \u0111\u01B0\u1EE3c claim h\u1EE3p l\u1EC7 r\u1ED3i ho\u00E0n t\u1EA5t; lease h\u1EBFt h\u1EA1n \u0111\u01B0\u1EE3c ph\u1EE5c h\u1ED3i; lease c\u00F2n h\u1EA1n c\u1EE7a worker kh\u00E1c kh\u00F4ng b\u1ECB chi\u1EBFm.\n7. \u0110\u1ECDc SQL b\u1EB1ng connection m\u1EDBi v\u00E0 \u0111\u1ED1i chi\u1EBFu EventId/recipient/target/lease/timestamps/sink: Kh\u00F4ng m\u1EA5t event ho\u1EB7c ghi HoanTat t\u1EEB lease kh\u00F4ng c\u00F2n s\u1EDF h\u1EEFu; kh\u00F4ng k\u1EBFt lu\u1EADn exactly-once m\u1EA1ng, m\u1ECDi replay mang c\u00F9ng EventId.\n8. L\u01B0u timeline commit/publish/ack,retry,SQL,trace,TRX; StopAsync v\u00E0 await worker tr\u01B0\u1EDBc cleanup. Kh\u00F4ng reset DB khi worker c\u00F2n ch\u1EA1y.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Event \u0111\u01B0\u1EE3c claim h\u1EE3p l\u1EC7 r\u1ED3i ho\u00E0n t\u1EA5t; lease h\u1EBFt h\u1EA1n \u0111\u01B0\u1EE3c ph\u1EE5c h\u1ED3i; lease c\u00F2n h\u1EA1n c\u1EE7a worker kh\u00E1c kh\u00F4ng b\u1ECB chi\u1EBFm.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: Kh\u00F4ng m\u1EA5t event ho\u1EB7c ghi HoanTat t\u1EEB lease kh\u00F4ng c\u00F2n s\u1EDF h\u1EEFu; kh\u00F4ng k\u1EBFt lu\u1EADn exactly-once m\u1EA1ng, m\u1ECDi replay mang c\u00F9ng EventId."
+  },
+  "sql": {
+    "sql": "UPDATE dbo.SuKienChoXuLy SET TrangThai=\u0027DangXuLy\u0027,LeaseId=NEWID(),LeaseHetHanLuc=DATEADD(second,-1,SYSDATETIMEOFFSET()) WHERE Id=@id",
+    "parameters": {
+      "@id": "34348b0c-f6f7-44b6-a2f5-a0f0ebfa77aa"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "19dd12b9-4eec-446f-9ea1-7e0317faacc8",
+    "P": "a6a6a428-2bf9-4b71-b00d-2eedd2fb336e",
+    "G": "7c452279-8875-43cb-9e8f-cad66b64f86b",
+    "X": "ce9bf949-ec0c-4189-aa09-34e9e7506c55",
+    "A": "86d2bc6a-d561-4537-ac2d-709034044c22"
+  },
+  "subjects": {
+    "M1": 4441,
+    "M2": 4442
+  },
+  "exception": "Xunit.Sdk.EqualException: Assert.Equal() Failure: Strings differ\r\n           \u2193 (pos 0)\r\nExpected: \u0022HoanTat\u0022\r\nActual:   \u0022ChoXuLy\u0022\r\n           \u2191 (pos 0)\r\n   at Xunit.Assert.Equal(ReadOnlySpan\u00601 expected, ReadOnlySpan\u00601 actual, Boolean ignoreCase, Boolean ignoreLineEndingDifferences, Boolean ignoreWhiteSpaceDifferences, Boolean ignoreAllWhiteSpace) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 965\r\n   at Xunit.Assert.Equal(String expected, String actual, Boolean ignoreCase, Boolean ignoreLineEndingDifferences, Boolean ignoreWhiteSpaceDifferences, Boolean ignoreAllWhiteSpace) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 1342\r\n   at Xunit.Assert.Equal(String expected, String actual) in /_/src/xunit.assert/Asserts/StringAsserts.cs:line 849\r\n   at Cases.RealtimeCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\RealtimeCases.cs:line 133\r\n   at Cases.RealtimeCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\RealtimeCases.cs:line 137\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 360"
+}

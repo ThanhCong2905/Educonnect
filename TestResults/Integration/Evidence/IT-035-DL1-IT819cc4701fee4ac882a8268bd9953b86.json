@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-035-DL1",
+  "runTag": "IT819cc4701fee4ac882a8268bd9953b86",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.HoSoGiaSu SET DangHienThi=0 WHERE Id=@id",
+    "parameters": {
+      "@id": "ff3ee8e8-250e-487a-95e6-77a79b75f9ce"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "13b0cd91-89ef-4f00-a813-3885668cb197",
+    "P": "cbed0139-bc62-412a-88f8-45e76dd930f9",
+    "G": "690c21f5-bfa8-469f-b211-55789e6a3391",
+    "X": "6e678bb1-c9c1-4887-b482-32c8b2cb0bbb",
+    "A": "e3eeec35-34d5-4fd9-802b-b317d97ce220"
+  },
+  "subjects": {
+    "M1": 3533,
+    "M2": 3534
+  }
+}

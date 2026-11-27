@@ -1,0 +1,71 @@
+{
+  "caseId": "IT-028",
+  "runTag": "IT0ae6c4fe641f48c0bfe35f901f906472",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "baseline": {
+    "key": "profile_store",
+    "group": 2,
+    "title": "Service l\u01B0u h\u1ED3 s\u01A1, m\u00F4n v\u00E0 minh ch\u1EE9ng trong c\u00F9ng giao d\u1ECBch",
+    "stage": 2,
+    "entry": "HoSoGiaSuService.CapNhatAsync(HoSoInput)",
+    "input": "F2: G1, tr\u00ECnh \u0111\u1ED9 \u0110\u1EA1i h\u1ECDc, kinh nghi\u1EC7m Ch\u01B0a c\u00F3; M1/M2, l\u1EDBp [8,9], ph\u00ED 100000 VND/Gio v\u00E0 0 VND/Buoi; hai minh ch\u1EE9ng d\u00F9ng chung \u0111\u01B0\u1EE3c khai b\u00E1o r\u00F5.",
+    "action": "G\u1ECDi Service th\u1EADt v\u1EDBi stream PDF h\u1EE3p l\u1EC7 v\u00E0 scanner sandbox; m\u1EDF scope SQL m\u1EDBi, t\u00EDnh hash t\u1EC7p \u0111\u00E3 l\u01B0u.",
+    "contract": "Service ho\u00E0n t\u1EA5t; gi\u1EEF li\u00EAn k\u1EBFt b\u1EB1ng ch\u1EE9ng theo \u0111\u00FAng t\u1EEBng m\u1EE5c.",
+    "db": "M\u1ED9t HoSoGiaSu, hai m\u00F4n; minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9/m\u00F4n c\u00F3 FK metadata/blob th\u1EADt; Ch\u01B0a c\u00F3 kinh nghi\u1EC7m kh\u00F4ng y\u00EAu c\u1EA7u minh ch\u1EE9ng kinh nghi\u1EC7m.",
+    "fr": [
+      "FR-02",
+      "FR-59"
+    ],
+    "criteria": "\u0110\u00FAng \u0111\u1EAFn; \u0110\u1EA7y \u0111\u1EE7",
+    "anchors": [
+      "HoSoGiaSuService.CapNhatAsync"
+    ],
+    "deps": [
+      "db_need",
+      "file_store"
+    ],
+    "kind": "SERVICE",
+    "routes": [],
+    "id": "IT-028",
+    "catalogOrder": 28,
+    "executionOrder": 19,
+    "dependencyIds": [
+      "IT-002",
+      "IT-124"
+    ],
+    "status": "Ch\u01B0a th\u1EF1c thi",
+    "designRefs": [
+      {
+        "id": "HS-U04",
+        "cls": "HoSoGiaSuService",
+        "method": "CapNhatAsync",
+        "table": 242
+      }
+    ],
+    "fixture": "F2",
+    "sqlOracle": "SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;",
+    "boundary": "HoSoGiaSuService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox",
+    "baseline": "FR-02, FR-59; SRS (3).docx.\nThi\u1EBFt k\u1EBF x\u1EED l\u00FD chi ti\u1EBFt (1).docx: HS-U04 HoSoGiaSuService.CapNhatAsync (b\u1EA3ng 242)\nNh\u00E1nh/kh\u1EDBp n\u1ED1i: Service l\u01B0u h\u1ED3 s\u01A1, m\u00F4n v\u00E0 minh ch\u1EE9ng trong c\u00F9ng giao d\u1ECBch",
+    "strategy": "Bottom-up, BU2; th\u1EE9 t\u1EF1 ch\u1EA1y #19.\nKi\u1EC3m tr\u01B0\u1EDBc: IT-002, IT-124\nGh\u00E9p sau: HoSoGiaSuService \u2192 EF Core SqlServer/SqlClient \u2192 SQL Server th\u1EADt \u002B file/scanner/mail sandbox\nC\u0103n c\u1EE9: Sau h\u1EE3p \u0111\u1ED3ng DB, gh\u00E9p Service/Identity/adapter v\u1EDBi provider th\u1EADt \u0111\u1EC3 ph\u00E1t hi\u1EC7n sai mapping, tham s\u1ED1, transaction v\u00E0 return/error. Kh\u00F4ng t\u00E1i s\u1EED d\u1EE5ng d\u1EEF li\u1EC7u \u0111\u00E3 sinh \u1EDF TC ti\u00EAn quy\u1EBFt; m\u1ED7i TC/DL fixture \u0111\u1ED9c l\u1EADp.",
+    "conditions": "Fixture F2 \u002B F0; to\u00E0n b\u1ED9 DL d\u00F9ng fixture ri\u00EAng.\nF2: G1, tr\u00ECnh \u0111\u1ED9 \u0110\u1EA1i h\u1ECDc, kinh nghi\u1EC7m Ch\u01B0a c\u00F3; M1/M2, l\u1EDBp [8,9], ph\u00ED 100000 VND/Gio v\u00E0 0 VND/Buoi; hai minh ch\u1EE9ng d\u00F9ng chung \u0111\u01B0\u1EE3c khai b\u00E1o r\u00F5.\nHuy=CancellationToken ri\u00EAng khi method c\u00F3 tham s\u1ED1. RV/stamp/Id l\u1EA5y t\u1EEB fixture th\u1EADt, kh\u00F4ng hard-code gi\u00E1 tr\u1ECB gi\u1EA3.",
+    "steps": "1. Ch\u1EA1y c\u00E1c TC ti\u00EAn quy\u1EBFt IT-002, IT-124 tr\u00EAn c\u00F9ng build/schema; t\u1EA1o fixture F2 m\u1EDBi, worker m\u1EB7c \u0111\u1ECBnh t\u1EAFt.\n2. D\u1EF1ng DI scope th\u1EADt, AppDbContext d\u00F9ng SqlServer provider/connection th\u1EADt. ClaimsPrincipal \u1EDF driver x\u00E1c \u0111\u1ECBnh actor fixture; gi\u1EEF current-user service/query quy\u1EC1n th\u1EADt.\n3. Bind \u0111\u1EA7y \u0111\u1EE7 \u0111\u1EA7u v\u00E0o: F2: G1, tr\u00ECnh \u0111\u1ED9 \u0110\u1EA1i h\u1ECDc, kinh nghi\u1EC7m Ch\u01B0a c\u00F3; M1/M2, l\u1EDBp [8,9], ph\u00ED 100000 VND/Gio v\u00E0 0 VND/Buoi; hai minh ch\u1EE9ng d\u00F9ng chung \u0111\u01B0\u1EE3c khai b\u00E1o r\u00F5. Ghi snapshot DB; file/stream ri\u00EAng n\u1EBFu c\u00F3.\n4. G\u1ECDi Service th\u1EADt v\u1EDBi stream PDF h\u1EE3p l\u1EC7 v\u00E0 scanner sandbox; m\u1EDF scope SQL m\u1EDBi, t\u00EDnh hash t\u1EC7p \u0111\u00E3 l\u01B0u. \u0110i\u1EC3m v\u00E0o: HoSoGiaSuService.CapNhatAsync(HoSoInput). Kh\u00F4ng mock Service/DbContext/procedure \u0111ang ki\u1EC3m.\n5. Assert return/KetQua/exception: Service ho\u00E0n t\u1EA5t; gi\u1EEF li\u00EAn k\u1EBFt b\u1EB1ng ch\u1EE9ng theo \u0111\u00FAng t\u1EEBng m\u1EE5c.\n6. M\u1EDF context AsNoTracking ho\u1EB7c connection m\u1EDBi sau commit/rollback; Oracle: SELECT Id,GiaSuId,TrangThaiDuyet,DangHienThi,RowVersion FROM dbo.HoSoGiaSu WHERE GiaSuId=@G1; SELECT * FROM dbo.HoSoGiaSuMonDay WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.TepDinhKem WHERE HoSoGiaSuId=@PROFILE; SELECT * FROM dbo.BienPhapQuanTri WHERE DoiTuongId=@PROFILE;\n7. Assert b\u1EA3ng con/ownership/l\u1ECBch s\u1EED/file/side effect v\u00E0 d\u1EEF li\u1EC7u kh\u00F4ng \u0111\u01B0\u1EE3c \u0111\u1ED5i: M\u1ED9t HoSoGiaSu, hai m\u00F4n; minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9/m\u00F4n c\u00F3 FK metadata/blob th\u1EADt; Ch\u01B0a c\u00F3 kinh nghi\u1EC7m kh\u00F4ng y\u00EAu c\u1EA7u minh ch\u1EE9ng kinh nghi\u1EC7m.\n8. L\u01B0u test name,exception/return key,SQL,hash/trace; dispose scope/transaction/stream. Reset DB fixture v\u00E0 sandbox; kh\u00F4ng d\u00F9ng rollback ngo\u00E0i test \u0111\u1EC3 k\u1EF3 v\u1ECDng h\u1EE7y commit c\u1EE7a service.",
+    "expected": "1. Ph\u1EA3n h\u1ED3i / h\u1EE3p \u0111\u1ED3ng: Service ho\u00E0n t\u1EA5t; gi\u1EEF li\u00EAn k\u1EBFt b\u1EB1ng ch\u1EE9ng theo \u0111\u00FAng t\u1EEBng m\u1EE5c.\n2. D\u1EEF li\u1EC7u v\u00E0 side effect: M\u1ED9t HoSoGiaSu, hai m\u00F4n; minh ch\u1EE9ng tr\u00ECnh \u0111\u1ED9/m\u00F4n c\u00F3 FK metadata/blob th\u1EADt; Ch\u01B0a c\u00F3 kinh nghi\u1EC7m kh\u00F4ng y\u00EAu c\u1EA7u minh ch\u1EE9ng kinh nghi\u1EC7m."
+  },
+  "sql": {
+    "sql": "DELETE dbo.TrangThaiThuDangNhap WHERE LoaiKhoa=\u0027DiaChiIp\u0027 AND GiaTriKhoa=\u0027unknown\u0027",
+    "parameters": null,
+    "rows": []
+  },
+  "actors": {
+    "H": "b78d434c-557b-433c-9b24-b83bf63a8f8b",
+    "P": "c5d8c78f-e464-4ea1-927d-5e9b673ebec5",
+    "G": "3fce0589-db85-431f-98ba-0c696e5f3f2b",
+    "X": "47e0666d-47d3-422a-9295-7a683eb14082",
+    "A": "6a8c32fa-e974-4b94-85bf-6c4213a93e4d"
+  },
+  "subjects": {
+    "M1": 2556,
+    "M2": 2557
+  },
+  "exception": "Xunit.Sdk.EqualException: Assert.Equal() Failure: Values differ\r\nExpected: 3\r\nActual:   1\r\n   at Xunit.Assert.Equal[T](T expected, T actual, IEqualityComparer\u00601 comparer) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 154\r\n   at Xunit.Assert.Equal[T](T expected, T actual) in /_/src/xunit.assert/Asserts/EqualityAsserts.cs:line 89\r\n   at Cases.ProfileCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ProfileCases.cs:line 73\r\n   at Cases.ProfileCases(Fixture f, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\ProfileCases.cs:line 74\r\n   at IntegrationTests.Run(String id, String key) in C:\\Kh\u00F3a lu\u1EADn TN\\EduConnect1\\tests\\IntegrationCurrent\\IntegrationTests.cs:line 281"
+}

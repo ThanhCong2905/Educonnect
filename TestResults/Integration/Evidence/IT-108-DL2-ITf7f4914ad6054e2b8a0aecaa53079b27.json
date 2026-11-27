@@ -1,0 +1,30 @@
+{
+  "caseId": "IT-108-DL2",
+  "runTag": "ITf7f4914ad6054e2b8a0aecaa53079b27",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.ThanhVienLopHoc SET MucQuyen=@p,ChoPhepNopBai=@s WHERE Id=@m",
+    "parameters": {
+      "@p": "ChinhSua",
+      "@s": true,
+      "@m": "351b5c2a-1bad-40e9-b70d-0cb35ff7f1a2"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "3e68b3dc-3842-48e0-a9d1-42beef8cea97",
+    "P": "64fc1a1c-a4c9-4132-9856-07defb694663",
+    "G": "6c0c2240-81cc-4ac7-bd84-5e0ab25ffd1d",
+    "X": "8251e202-9afe-4082-9fac-36dd35e15197",
+    "A": "c9bd152c-9cc2-4515-9d08-9e347c045a73"
+  },
+  "subjects": {
+    "M1": 2088,
+    "M2": 2089
+  },
+  "http": {
+    "status": 200,
+    "location": null,
+    "body": "{\u0022ok\u0022:true,\u0022message\u0022:\u0022\\u0110\\u00E3 l\\u01B0u b\\u00E0i n\\u1ED9p.\u0022,\u0022redirectUrl\u0022:\u0022/HocTap/BaiTap/ChiTiet/d9e57e64-a70a-4d0d-9c3b-b9ff3a022ded\u0022}"
+  }
+}

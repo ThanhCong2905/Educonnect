@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b6ee15fc-9dd5-4acf-a613-3d9c435b0edc" name="NGUYEN THI YEN@LAPTOP-3L2V1AFT 2026-11-26 20:28:43" runUser="LAPTOP-3L2V1AFT\NGUYEN THI YEN" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-26T20:28:43.6712660+07:00" queuing="2026-11-26T20:28:43.6712665+07:00" start="2026-11-26T20:28:37.1467377+07:00" finish="2026-11-26T20:28:43.6768174+07:00" />
+  <TestSettings name="default" id="13e7afbc-4d9f-4eff-9f1f-46072da78415">
+    <Deployment runDeploymentRoot="NGUYEN_THI_YEN_LAPTOP-3L2V1AFT_2026-11-26_20_28_43" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="b15361b4-7434-419c-b66a-21083ecda69d" testId="bb0de2f9-80e1-6675-f02a-49088e45af02" testName="IT-090 | Không đổi buổi có hoạt động thực tế về tương lai" computerName="LAPTOP-3L2V1AFT" duration="00:00:05.6742414" startTime="2026-11-26T20:28:43.5748523+07:00" endTime="2026-11-26T20:28:43.5749156+07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b15361b4-7434-419c-b66a-21083ecda69d">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: 422&#xD;
+Actual:   409</Message>
+          <StackTrace>   at Cases.ScheduleCases(Fixture f, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ScheduleCases.cs:line 50&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 309&#xD;
+   at IntegrationTests.Run(String id, String key) in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 330&#xD;
+   at IntegrationTests.IT_090() in C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs:line 92&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IT-090 | Không đổi buổi có hoạt động thực tế về tương lai" storage="c:\khóa luận tn\educonnect1\tests\integrationcurrent\bin\debug\net10.0\integrationcurrent.dll" id="bb0de2f9-80e1-6675-f02a-49088e45af02">
+      <Execution id="b15361b4-7434-419c-b66a-21083ecda69d" />
+      <TestMethod codeBase="C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\bin\Debug\net10.0\IntegrationCurrent.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IntegrationTests" name="IT_090" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bb0de2f9-80e1-6675-f02a-49088e45af02" executionId="b15361b4-7434-419c-b66a-21083ecda69d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Discovered:  IntegrationCurrent&#xD;
+[xUnit.net 00:00:00.15]   Starting:    IntegrationCurrent&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: C:\Kh�a lu?n TN\EduConnect1&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:05.88]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:05.89]       Expected: 422&#xD;
+[xUnit.net 00:00:05.89]       Actual:   409&#xD;
+[xUnit.net 00:00:05.89]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.89]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\ScheduleCases.cs(50,0): at Cases.ScheduleCases(Fixture f, String key)&#xD;
+[xUnit.net 00:00:05.89]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(309,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:05.89]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(330,0): at IntegrationTests.Run(String id, String key)&#xD;
+[xUnit.net 00:00:05.89]         C:\Khóa luận TN\EduConnect1\tests\IntegrationCurrent\IntegrationTests.cs(92,0): at IntegrationTests.IT_090()&#xD;
+[xUnit.net 00:00:05.89]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:05.89]   Finished:    IntegrationCurrent&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="LAPTOP-3L2V1AFT" outcome="Error" timestamp="2026-11-26T20:28:43.5713907+07:00">
+        <Text>[xUnit.net 00:00:05.88]     IT-090 | Không đổi buổi có hoạt động thực tế về tương lai [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,23 @@
+{
+  "caseId": "IT-064-DL0",
+  "runTag": "IT9a4cb3f96a2c4362baf293657578c361",
+  "database": "EduConnect_Verification_Integration_20261125_v2",
+  "sql": {
+    "sql": "UPDATE dbo.YeuCauKetNoiLopHoc SET MucTieu=N\u0027\u0110\u00E3 \u0111\u1ED5i\u0027 WHERE Id=@id",
+    "parameters": {
+      "@id": "4440e015-f66b-4546-9ed7-6b90202b6225"
+    },
+    "rows": []
+  },
+  "actors": {
+    "H": "76e2c37b-0339-44ce-98a1-095333adc4c8",
+    "P": "b0c0216b-723f-4854-baee-42cd3899c9c2",
+    "G": "300711cf-3129-4364-8025-7d4690a6fd07",
+    "X": "23ce4f44-2963-46d1-91a6-5caf0afee02b",
+    "A": "7a22ce3a-82ff-4334-aab0-c84ba1485fbf"
+  },
+  "subjects": {
+    "M1": 2796,
+    "M2": 2797
+  }
+}
