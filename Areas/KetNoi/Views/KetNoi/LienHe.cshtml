@@ -14,18 +14,18 @@
 <partial name="_ConnectionSnapshot"/><h1>Liên hệ & kết nối</h1>
 
 <partial name="_KetNoiTabs"/>
-<div class="heading"><h2>Yêu cầu liên hệ <span class="muted">(<span data-connection-count>@contacts.Count</span>)</span></h2></div>
-<div class="contact-grid" data-connection-list>
+<div class="connection-heading"><div><h2>Yêu cầu liên hệ <span class="muted">(<span data-connection-count>@contacts.Count</span>)</span></h2><p>Lời mời và các cuộc trao đổi của bạn.</p></div></div>
+<div class="connection-cards" data-connection-list>
 @foreach(var contact in contacts){
  var other=people.FirstOrDefault(x=>x.Id==(contact.GiaSuId==me.Id?contact.BenHocId:contact.GiaSuId));
  var sent=contact.NguoiGuiId==me.Id;
  var connected=classes.GetValueOrDefault(contact.Id);
  var pending=requests.FirstOrDefault(r=>r.LienHeId==contact.Id&&(r.TrangThai is "ChoGiaSu" or "ChoBenHoc")&&r.HetHanLuc>DateTimeOffset.UtcNow);
- <article class="card contact-card" id="@contact.Id" data-connection-card data-live-version="@Convert.ToBase64String(contact.RowVersion)" data-live-state="@contact.TrangThai" data-live-actionable="@(connected?.Id.ToString() ?? pending?.Id.ToString() ?? "new")">
+ <article class="card connection-card" id="@contact.Id" data-connection-card data-live-version="@Convert.ToBase64String(contact.RowVersion)" data-live-state="@contact.TrangThai" data-live-actionable="@(connected?.Id.ToString() ?? pending?.Id.ToString() ?? "new")">
   <div class="contact-card-top">
    <div class="contact-statuses">
-    <span class="contact-state @(contact.TrangThai=="ChapNhan"?"accepted":contact.TrangThai=="ChoPhanHoi"?"pending":"")">@(contact.TrangThai == "ChapNhan" ? "Đã chấp nhận liên hệ" : Rules.Label(contact.TrangThai))</span>
-    @if(connected!=null){<span class="contact-state contact-connected">Đã kết nối</span>}
+    <span class="state-tag" data-state="@contact.TrangThai">@(contact.TrangThai == "ChapNhan" ? "Đã chấp nhận liên hệ" : Rules.Label(contact.TrangThai))</span>
+    @if(connected!=null){<span class="state-tag" data-state="DaLienKet">Đã kết nối</span>}
    </div>
    <small>@(sent?"Bạn đã gửi":"Lời mời nhận được")</small>
   </div>
@@ -55,17 +55,18 @@
 @if(contacts.Count==0){<div class="empty"><h3>Chưa có liên hệ</h3><p>Tìm người phù hợp và gửi lời mời để bắt đầu trao đổi.</p><a class="btn btn-primary" href="/TimKiem/TimKiem/Index">Tìm kiếm</a></div>}
 </div>
 @if(me.LoaiNguoi!="GiaSu"){
-<div class="modal fade" id="connection-request-modal" tabindex="-1" aria-labelledby="connection-request-title" aria-hidden="true">
+<div class="modal fade request-composer" id="connection-request-modal" tabindex="-1" aria-labelledby="connection-request-title" aria-hidden="true">
  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
   <div class="modal-header"><h2 id="connection-request-title" class="modal-title fs-5">Gửi yêu cầu kết nối</h2><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
   <div class="modal-body">
-   <p class="muted">Trao đổi với <strong data-contact-recipient></strong> về nhu cầu và điều kiện học của bạn.</p>
+   <div class="request-recipient"><span class="recipient-icon"><img src="/images/ui/person-badge.svg" alt=""></span><div><small>Gửi đến gia sư</small><strong data-contact-recipient></strong></div></div>
    <form method="post" asp-action="GuiYeuCau">
     <input name="LienHeId" type="hidden">
     <label>Nhu cầu học<select class="form-select" name="NhuCauId" data-request-need required><option value="">Chọn nhu cầu của bạn</option>@foreach(var need in needs.Where(n=>n.TrangThai=="DangMo")){<option value="@need.Id" data-goal="@need.MucTieu">@string.Join(", ", subjects.Where(s=>need.CacMonHocId.Contains(s.Id)).Select(s=>s.TenMon)) · @need.KhoiLop · @Rules.Date(need.TaoLuc)</option>}</select></label>
-    <div class="soft" data-request-preview hidden><strong>Mục tiêu học tập</strong><p class="mb-0" data-request-goal></p></div>
-    <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" placeholder="Môn học, lịch mong muốn và những điều bạn muốn trao đổi"></textarea></label>
-    <div class="actions"><button class="btn btn-primary">Gửi yêu cầu</button><button class="btn quiet" type="button" data-bs-dismiss="modal">Để sau</button></div>
+    <div class="request-preview" data-request-preview hidden><strong>Mục tiêu học tập</strong><p data-request-goal></p></div>
+    <label>Lời nhắn<textarea class="form-control" name="LoiNhan" required maxlength="256" rows="3" placeholder="Mình muốn học theo nhu cầu này. Bạn xem giúp mình nhé."></textarea></label>
+    <p class="contact-help">Gia sư sẽ gửi lại điều kiện lớp học để bạn xác nhận.</p>
+    <div class="actions"><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Để sau</button><button class="btn btn-primary">Gửi yêu cầu</button></div>
    </form>
   </div>
  </div></div>

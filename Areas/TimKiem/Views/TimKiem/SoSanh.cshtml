@@ -1,3 +1,87 @@
 @model List<UngVienViewModel>
-@{ViewData["Title"]="So sánh đối tượng";}
-<h1>So sánh lựa chọn</h1><div class="table-responsive table-wrap"><table class="table table-hover align-middle"><thead><tr><th>Tiêu chí</th>@foreach(var n in Model){<th>@n.HoTen</th>}</tr></thead><tbody>@foreach(var criterion in new[]{"Môn học","Khối lớp","Hình thức","Khu vực","Học phí","Lịch rảnh","Mục tiêu"}){<tr><th>@criterion</th>@foreach(var n in Model){<td>@(criterion switch{"Môn học"=>n.LoaiNguoi=="GiaSu"?string.Join("; ",n.MonTheoHoSo.Select(d=>d.TenMon+" · "+d.PhamViDay)):n.TenMon,"Khối lớp"=>n.KhoiLop,"Hình thức"=>Rules.Label(n.HinhThucHoc),"Khu vực"=>n.KhuVuc,"Học phí"=>n.LoaiNguoi=="GiaSu"?string.Join("; ",n.MonTheoHoSo.Select(d=>d.TenMon+": "+Rules.Fee(d.HocPhi,d.DonVi))):Rules.Fee(n.HocPhiDuKien,n.DonViHocPhi),"Lịch rảnh"=>n.LoaiNguoi=="GiaSu"?"Thống nhất khi đề xuất lớp":string.Join(" · ",n.Slots.Select(s=>$"{(s.ThuTrongTuan==0?"CN":"T"+(s.ThuTrongTuan+1))} {s.GioBatDau:HH:mm}–{s.GioKetThuc:HH:mm}")),_=>n.MucTieu})</td>}</tr>}<tr><th>Chi tiết</th>@foreach(var n in Model){<td><a class="btn btn-outline-primary secondary" href="@(n.LoaiNguoi == "GiaSu" ? $"/NhuCau/HoSoGiaSu/ChiTiet?maHoSo={n.Id}" : $"/TimKiem/TimKiem/ChiTiet/{n.Id}")">Xem hồ sơ</a></td>}</tr></tbody></table></div>
+@{
+    ViewData["Title"] = "So sánh lựa chọn";
+    var tutors = Model.All(candidate => candidate.LoaiNguoi == "GiaSu");
+    var showRatings = tutors || User.IsInRole("GiaSu");
+    var bestRating = Model.Where(c => c.SoDanhGia > 0).Select(c => c.DiemDanhGia ?? 0).DefaultIfEmpty().Max();
+    var bestRatingText = bestRating.ToString("0.0");
+    var mostLearners = tutors ? Model.Max(c => c.SoBenHoc) : 0;
+    var bestMatch = Model.Max(c => c.MucPhuHop);
+    var mostReviews = Model.Max(c => c.SoDanhGia);
+    var highlightRating = bestRating > 0 && Model.Any(c => c.DiemDanhGia?.ToString("0.0") != bestRatingText);
+    var highlightLearners = mostLearners > 0 && Model.Any(c => c.SoBenHoc != mostLearners);
+    var highlightMatch = bestMatch > 0 && Model.Any(c => c.MucPhuHop != bestMatch);
+    var highlightReviews = mostReviews > 0 && Model.Any(c => c.SoDanhGia != mostReviews);
+    var criteria = tutors
+        ? new List<string> { "Đánh giá", "Bên học đã kết nối", "Trình độ", "Kinh nghiệm", "Môn và phạm vi dạy", "Học phí theo môn", "Hình thức", "Khu vực" }
+        : new List<string> { "Môn học", "Khối lớp", "Hình thức", "Khu vực", "Học phí", "Lịch rảnh", "Mục tiêu" };
+    if (!tutors && showRatings) criteria.Insert(0, "Đánh giá người đăng");
+    if (bestMatch > 0) criteria.Insert(0, "Phù hợp với bạn");
+}
+<div class="comparison-intro"><div><h1>So sánh @(tutors ? "gia sư" : "nhu cầu học")</h1><p>Đối chiếu từng tiêu chí để chọn người phù hợp với bạn.</p></div><span class="muted">@Model.Count lựa chọn</span></div>
+<div class="table-responsive table-wrap" tabindex="0" role="region" aria-label="Bảng so sánh lựa chọn">
+<table class="table comparison-table" style="--compare-count:@Model.Count">
+    <caption class="visually-hidden">So sánh @Model.Count @(tutors ? "gia sư" : "nhu cầu học") theo từng tiêu chí</caption>
+    <colgroup><col class="criterion-column">@foreach (var candidate in Model) { <col class="person-column"> }</colgroup>
+    <thead><tr><th scope="col">Tiêu chí</th>
+    @foreach (var candidate in Model)
+    {
+        var url = tutors ? $"/NhuCau/HoSoGiaSu/ChiTiet?maHoSo={candidate.Id}" : $"/TimKiem/TimKiem/ChiTiet/{candidate.Id}";
+        <th scope="col" data-comparison-id="@candidate.Id">
+            <div class="person"><partial name="_AnhDaiDien" model="new EduConnect.Mvc.ViewModels.AnhDaiDienViewModel(candidate.HoTen, candidate.AnhDaiDienUrl)" /><h2><a href="@url">@candidate.HoTen</a></h2></div>
+            <div class="comparison-badges">
+                @if (highlightRating && candidate.DiemDanhGia?.ToString("0.0") == bestRatingText && showRatings) { <span>Đánh giá cao nhất</span> }
+                @if (highlightReviews && candidate.SoDanhGia == mostReviews && showRatings) { <span>Được đánh giá nhiều nhất</span> }
+                @if (highlightLearners && candidate.SoBenHoc == mostLearners) { <span>Nhiều bên học nhất</span> }
+                @if (highlightMatch && candidate.MucPhuHop == bestMatch) { <span>Khớp nhu cầu nhất</span> }
+            </div>
+            <a class="btn btn-outline-primary" href="@url">@(tutors ? "Xem hồ sơ" : "Xem nhu cầu")</a>
+        </th>
+    }
+    </tr></thead>
+    <tbody>
+    @foreach (var criterion in criteria)
+    {
+        <tr><th scope="row">@criterion</th>
+        @foreach (var candidate in Model)
+        {
+            var strongest = criterion is "Đánh giá" or "Đánh giá người đăng" ? highlightRating && candidate.DiemDanhGia?.ToString("0.0") == bestRatingText || highlightReviews && candidate.SoDanhGia == mostReviews
+                : criterion == "Bên học đã kết nối" ? highlightLearners && candidate.SoBenHoc == mostLearners
+                : criterion == "Phù hợp với bạn" && highlightMatch && candidate.MucPhuHop == bestMatch;
+            <td class="@(strongest ? "comparison-best" : null)">
+            @switch (criterion)
+            {
+                case "Đánh giá":
+                case "Đánh giá người đăng":
+                    <partial name="_DiemDanhGiaThe" model="candidate" />
+                    break;
+                case "Bên học đã kết nối":
+                    <strong>@candidate.SoBenHoc</strong><small class="d-block muted">tài khoản bên học</small>
+                    break;
+                case "Phù hợp với bạn":
+                    @(candidate.LyDo.Count > 0 ? string.Join(" · ", candidate.LyDo) : "Chưa có tiêu chí trùng")
+                    break;
+                case "Trình độ": @(candidate.TrinhDo ?? "Chưa cập nhật") break;
+                case "Kinh nghiệm": @(candidate.KinhNghiem ?? "Chưa cập nhật") break;
+                case "Môn và phạm vi dạy":
+                    @foreach (var subject in candidate.MonTheoHoSo) { <div class="comparison-subject"><strong>@subject.TenMon</strong><small>@subject.PhamViDay</small></div> }
+                    break;
+                case "Học phí theo môn":
+                    @foreach (var subject in candidate.MonTheoHoSo) { <div class="comparison-subject"><strong>@subject.TenMon</strong><span class="price">@Rules.Fee(subject.HocPhi, subject.DonVi)</span></div> }
+                    break;
+                case "Môn học": @candidate.TenMon break;
+                case "Khối lớp": @(candidate.KhoiLop ?? "Chưa xác định") break;
+                case "Hình thức": @Rules.Label(candidate.HinhThucHoc) break;
+                case "Khu vực": @(string.Join(", ", new[] { candidate.PhuongXa, candidate.KhuVuc }.Where(v => !string.IsNullOrWhiteSpace(v))) is { Length: > 0 } location ? location : "Trao đổi khi liên hệ") break;
+                case "Học phí": <span class="price">@Rules.Fee(candidate.HocPhiDuKien, candidate.DonViHocPhi)</span> break;
+                case "Lịch rảnh": @string.Join(" · ", candidate.Slots.Select(s => $"{(s.ThuTrongTuan == 0 ? "CN" : "T" + (s.ThuTrongTuan + 1))} {s.GioBatDau:HH:mm}–{s.GioKetThuc:HH:mm}")) break;
+                case "Mục tiêu": <span class="pre">@candidate.MucTieu</span> break;
+            }
+            </td>
+        }
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+<p class="comparison-note">Nhãn nổi bật được đối chiếu trong @Model.Count lựa chọn này. Học phí giữ nguyên cách tính của từng môn.@if (mostLearners > 0) { <text> Số bên học là số tài khoản đã kết nối lớp, không phải số buổi dạy.</text> }</p>

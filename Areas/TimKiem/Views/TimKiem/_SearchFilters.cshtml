@@ -1,0 +1,81 @@
+@model SearchPage
+@{
+    var f = Model.Filter;
+    var needs = f.LoaiDoiTuong == "NhuCau";
+    var canMatch = User.IsInRole("GiaSu") || User.IsInRole("HocSinh") || User.IsInRole("PhuHuynh");
+    var matchOptions = new[] { "Trùng môn trở lên", "Trùng môn và khối lớp", "Trùng thêm khu vực" };
+}
+<div class="filter-primary">
+<fieldset class="filter-core">
+    <legend>Môn và lớp</legend>
+    <label>Môn học<select class="form-select" name="MonHocId" data-scope-subject>
+        <option value="">Tất cả môn</option>
+        @foreach (var subject in ((List<MonHoc>)ViewBag.Subjects).OrderBy(s => MonHocCatalog.ThuTuHienThi(s.TenMon)))
+        {
+            var range = PhamViMonHoc.Khoi(subject.TenMon);
+            <option value="@subject.Id" selected="@(f.MonHocId == subject.Id)" data-grade-from="@range.Tu" data-grade-to="@range.Den" data-integrated="@PhamViMonHoc.LaKhoaHocTuNhien(subject.TenMon).ToString().ToLowerInvariant()">@subject.TenMon</option>
+        }
+    </select></label>
+    <label>@(needs ? "Khối lớp" : "Lớp nhận dạy")<select class="form-select" name="KhoiLop" data-scope-grade>
+        <option value="">Tất cả lớp</option>
+        @for (var grade = 1; grade <= 12; grade++) { <option value="Lớp @grade" selected="@(f.KhoiLop == $"Lớp {grade}")">Lớp @grade</option> }
+    </select></label>
+</fieldset>
+<fieldset class="filter-location">
+    <legend>Hình thức và khu vực</legend>
+    <label>Hình thức<select class="form-select" name="HinhThucHoc">
+        <option value="">Tất cả</option><option value="TrucTuyen" selected="@(f.HinhThucHoc == "TrucTuyen")">Trực tuyến</option><option value="TrucTiep" selected="@(f.HinhThucHoc == "TrucTiep")">Trực tiếp</option>
+    </select></label>
+    <partial name="_KhuVucPicker" model="new EduConnect.Mvc.ViewModels.KhuVucPickerViewModel(f.KhuVuc, f.PhuongXa)" />
+</fieldset>
+<details class="filter-more">
+<summary><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 17h16M9 4v6M15 14v6"/></svg>Lọc thêm</summary>
+<div class="filter-advanced">
+<fieldset class="filter-group">
+    <legend>Đánh giá và độ phù hợp</legend>
+    @if (!needs || User.IsInRole("GiaSu"))
+    {
+        <label>Đánh giá tối thiểu<select class="form-select" name="SoSaoToiThieu">
+            <option value="">Tất cả đánh giá</option>
+            @for (var stars = 5; stars >= 1; stars--) { <option value="@stars" selected="@(f.SoSaoToiThieu == stars)">@(new string('★', stars)) · từ @stars sao</option> }
+        </select></label>
+    }
+    @if (canMatch)
+    {
+        <label>Phù hợp với bạn<select class="form-select" name="MucPhuHop">
+            <option value="">Tất cả</option>
+            @for (var level = 1; level <= 3; level++) { <option value="@level" selected="@(f.MucPhuHop == level)">@matchOptions[level - 1]</option> }
+        </select></label>
+    }
+    <label data-integrated-parts hidden>Phần kiến thức<select class="form-select" name="PhanKhoaHoc">
+        <option value="">Tất cả các phần</option>
+        @for (var part = 1; part <= 3; part++) { <option value="@part" selected="@(f.PhanKhoaHoc == part)">@PhamViMonHoc.TenPhan[part - 1]</option> }
+    </select></label>
+</fieldset>
+<fieldset class="filter-group">
+    <legend>Học phí@(needs ? "" : " và trình độ")</legend>
+    <label>Học phí tối đa<input class="form-control" name="HocPhiToiDa" type="number" min="0" step="1" value="@f.HocPhiToiDa" placeholder="Nhập số tiền"></label>
+    <label>Cách tính<select class="form-select" name="DonViHocPhi">
+        <option value="VND/Gio" selected="@(f.DonViHocPhi == "VND/Gio")">Đồng / giờ</option><option value="VND/Buoi" selected="@(f.DonViHocPhi == "VND/Buoi")">Đồng / buổi</option>
+    </select></label>
+    @if (!needs)
+    {
+        <label>Trình độ<select class="form-select" name="TrinhDo"><option value="">Tất cả trình độ</option>
+            @foreach (var degree in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.TrinhDo) { <option value="@degree" selected="@(f.TrinhDo == degree)">@degree</option> }
+        </select></label>
+    }
+</fieldset>
+@if (needs)
+{
+    <fieldset class="filter-group">
+        <legend>Thời gian học</legend>
+        <label>Ngày trong tuần<select class="form-select" name="ThuTrongTuan"><option value="">Tất cả các ngày</option>
+            @for (var day = 0; day < 7; day++) { <option value="@day" selected="@(f.ThuTrongTuan == day)">@(day == 0 ? "Chủ nhật" : "Thứ " + (day + 1))</option> }
+        </select></label>
+        <div class="filter-time"><label>Từ giờ<input class="form-control" type="time" name="GioBatDau" value="@f.GioBatDau?.ToString("HH:mm")"></label><label>Đến giờ<input class="form-control" type="time" name="GioKetThuc" value="@f.GioKetThuc?.ToString("HH:mm")"></label></div>
+        <span class="filter-time-error" data-search-time-error role="status" hidden>Giờ kết thúc phải sau giờ bắt đầu.</span>
+    </fieldset>
+}
+</div>
+</details>
+</div>

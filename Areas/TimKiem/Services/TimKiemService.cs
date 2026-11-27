@@ -7,7 +7,7 @@ using EduConnect.Mvc.Models;
 using Microsoft.EntityFrameworkCore;
 namespace EduConnect.Mvc.Areas.TimKiem.Services;
 
-public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService current)
+public sealed partial class TimKiemService(AppDbContext db, NguoiDungHienTaiService current)
 {
     private readonly HoSoCongKhaiQuery profiles = new(db);
     public IQueryable<HoSoGiaSu> HoSoCongKhai() => profiles.CongKhai();
@@ -117,7 +117,8 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         Rules.Check(f.Trang is >= 1 and <= 100000, "Trang không hợp lệ.");
         Rules.Check(f.HocPhiToiDa == null || (f.HocPhiToiDa >= 0 && f.HocPhiToiDa <= 9999999999999999m && decimal.Truncate(f.HocPhiToiDa.Value) == f.HocPhiToiDa), "Học phí tối đa phải là số VND nguyên không âm.", field: nameof(f.HocPhiToiDa));
         Rules.Check(f.DonViHocPhi is "VND/Gio" or "VND/Buoi", "Chọn đúng đơn vị học phí.");
-        Rules.Check(!needs || f.SapXep is not ("DanhGia" or "HocVien"), "Sắp xếp theo đánh giá và số bên học chỉ áp dụng danh sách gia sư.", field: nameof(f.SapXep));
+        Rules.Check(!needs || f.SapXep != "HocVien", "Sắp xếp theo số bên học chỉ áp dụng danh sách gia sư.", field: nameof(f.SapXep));
+        Rules.Check(!needs || f.SapXep != "DanhGia" || me?.LoaiNguoi == "GiaSu", "Đăng nhập bằng tài khoản Gia sư để sắp xếp theo đánh giá người đăng.", field: nameof(f.SapXep));
         var personal = f.MucPhuHop.HasValue || f.SapXep == "PhuHop";
         Rules.Check(!personal || me?.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh", "Đăng nhập để lọc theo độ phù hợp.", 403);
         Rules.Check(!needs || !f.SoSaoToiThieu.HasValue || me?.LoaiNguoi == "GiaSu",
@@ -214,6 +215,8 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
         var count = await n.CountAsync(huy);
         var sorted = f.SapXep switch
         {
+            "DanhGia" when me?.LoaiNguoi == "GiaSu" => n.OrderByDescending(x => publicReviews.Where(r => r.NguoiNhanId == x.ChuSoHuuId).Average(r => (decimal?)r.SoSao) ?? 0)
+                .ThenByDescending(x => publicReviews.Count(r => r.NguoiNhanId == x.ChuSoHuuId)).ThenByDescending(x => x.TaoLuc).ThenBy(x => x.Id),
             "HocPhiTang" => n.OrderBy(x => x.HocPhiDuKien).ThenBy(x => x.Id),
             "HocPhiGiam" => n.OrderByDescending(x => x.HocPhiDuKien).ThenBy(x => x.Id),
             "Ten" => n.OrderBy(x => x.HoTen).ThenBy(x => x.Id),
@@ -316,7 +319,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     public Task<KetQua<SoSanhViewModel>> SoSanhAsync(IReadOnlyList<Guid> maDoiTuong, Guid? maNguoiXem, CancellationToken huy)
         => KetQua<SoSanhViewModel>.ThucHienAsync(async () =>
         {
-            await current.NguoiXemAsync(maNguoiXem, huy);
+            var viewer = await current.NguoiXemAsync(maNguoiXem, huy);
             var ids = maDoiTuong.Distinct().ToList();
             Rules.Check(ids.Count is >= 2 and <= 3, "Chọn từ 2 đến 3 đối tượng để so sánh.");
             var rows = new List<UngVienViewModel>();
@@ -324,6 +327,10 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
                 rows.Add(await ChiTietAsync(id, huy));
             Rules.Check(rows.All(x => x is HoSoGiaSuCongKhaiViewModel) || rows.All(x => x is NhuCauCongKhaiViewModel),
                 "Chỉ so sánh các đối tượng cùng loại.");
+            if (viewer?.LoaiNguoi is "GiaSu" or "HocSinh" or "PhuHuynh")
+                GanDoPhuHop(rows, await DoPhuHopAsync(viewer, huy));
+            if (viewer?.LoaiNguoi == "GiaSu" && rows.All(x => x is NhuCauCongKhaiViewModel))
+                await DiemNguoiDangAsync(rows, huy);
             return new SoSanhViewModel
             {
                 MaDoiTuong = ids,
@@ -392,6 +399,7 @@ public sealed class TimKiemService(AppDbContext db, NguoiDungHienTaiService curr
     {
         foreach (var row in rows)
         {
+            row.MucPhuHop = matches.GetValueOrDefault(row.Id);
             switch (matches.GetValueOrDefault(row.Id))
             {
                 case 1: row.LyDo = ["Trùng môn"]; break;

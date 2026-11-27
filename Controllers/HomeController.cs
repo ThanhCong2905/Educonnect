@@ -29,6 +29,12 @@ public sealed class HomeController(TimKiemService search, ThongBaoService notice
         if(User.IsInRole("QuanTri")) return Redirect("/QuanTri/QuanTri/Index");
         var (items, has) = await search.GoiYAsync();
         ViewBag.HasNeed = has;
+        ViewBag.PersonalSuggestions = has;
+        if (!has)
+        {
+            var suggestions = await search.TimKiemAsync(new BoLocTimKiemViewModel { SapXep = "DanhGia" }, null, HttpContext.RequestAborted);
+            items = suggestions.DuLieu.Items.Take(6).ToList();
+        }
         ViewBag.Classes = await classes.LayAsync();
         return View(items);
     }

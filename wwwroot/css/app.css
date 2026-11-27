@@ -22,7 +22,7 @@
 }
 .person h3,.profile-hero h1{overflow-wrap:anywhere}
 .contact-grid>.contact-card{display:flex}
-.heading>div{min-width:0}.related-needs h2{overflow-wrap:anywhere}
+.heading>div{min-width:0}.heading :is(h1,h2,h3), main>h1{overflow-wrap:anywhere}.related-needs h2{overflow-wrap:anywhere}
 .contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.contact-card{display:flex;flex-direction:column;gap:16px;scroll-margin-top:24px}.contact-grid .contact-card{margin:0}.contact-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.contact-card h3{margin:0 0 4px}.contact-message{padding:16px;margin:0;border-radius:8px;background:#f7f8fa;font-size:15px}.contact-date{font-size:12px}.contact-card-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}.contact-card-footer p{font-size:13px;margin:0}.contact-card-footer .actions{margin-top:12px}.related-needs{margin-top:32px}.related-needs .heading{margin-bottom:20px}.related-needs .heading h2{margin:0}
 @media(max-width:850px){.contact-grid{grid-template-columns:1fr}.contact-card-top{flex-wrap:wrap}}
 [data-ajax-page]{position:relative}.ajax-loading>.ajax-status{position:absolute;top:8px;right:8px;z-index:2;margin:0;pointer-events:none;box-shadow:0 4px 16px #18223012}

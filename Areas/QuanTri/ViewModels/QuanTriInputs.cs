@@ -87,7 +87,12 @@ public sealed class QuanTriDashboard
     public List<DangKyTheoThang> DangKy { get; set; } = [];
     public List<BaoCaoTheoDoiTuong> PhanLoaiBaoCao { get; set; } = [];
     public Page<NhuCauHauKiemRow> CanXemXet { get; set; } = new();
+    public List<HoSoHangCho> HoSoCanDuyet { get; set; } = [];
+    public List<BaoCaoHangCho> BaoCaoCanXuLy { get; set; } = [];
 }
+
+public sealed record HoSoHangCho(Guid Id, string HoTen, string? TrinhDo, DateTimeOffset? GuiLuc);
+public sealed record BaoCaoHangCho(Guid Id, string LyDo, string NguoiGui, string? PhuTrach, string TrangThai, DateTimeOffset GuiLuc);
 
 public sealed record DangKyTheoThang(string Thang, int GiaSu, int HocSinh, int PhuHuynh);
 public sealed record BaoCaoTheoDoiTuong(string Loai, int SoLuong);

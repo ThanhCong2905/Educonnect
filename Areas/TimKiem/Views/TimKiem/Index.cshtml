@@ -1,48 +1,59 @@
 @model SearchPage
-@{var f=Model.Filter;var tutor=f.LoaiDoiTuong=="NhuCau";ViewData["Title"]=tutor?"Tìm nhu cầu học":"Tìm gia sư";ViewData["Compare"]=true;var searchAction=tutor?"NhuCau":"GiaSu";}
 @{
-    var sortingOptions = new List<(string Value, string Label)> { ("MoiNhat", "Mới nhất"), ("Ten", "Tên"), ("HocPhiTang", "Học phí tăng"), ("HocPhiGiam", "Học phí giảm") };
-    var canMatch = User.IsInRole("GiaSu") || User.IsInRole("HocSinh") || User.IsInRole("PhuHuynh");
-    var canFilterStars = !tutor || User.IsInRole("GiaSu");
-    var matchOptions = new[] { "Trùng môn trở lên", "Trùng môn và khối lớp", "Trùng môn, khối lớp và khu vực" };
-    if (canMatch) sortingOptions.Insert(0, ("PhuHop", "Phù hợp nhất"));
-    if (!tutor) sortingOptions.AddRange([("DanhGia", "Đánh giá cao nhất"), ("HocVien", "Nhiều bên học nhất")]);
+    var f = Model.Filter;
+    var needs = f.LoaiDoiTuong == "NhuCau";
+    var searchAction = needs ? "NhuCau" : "GiaSu";
+    ViewData["Title"] = needs ? "Tìm nhu cầu học" : "Tìm gia sư";
+    ViewData["Compare"] = true;
+    var sorting = new List<(string Value, string Label)> { ("MoiNhat", "Mới nhất"), ("Ten", "Tên"), ("HocPhiTang", "Học phí tăng"), ("HocPhiGiam", "Học phí giảm") };
+    if (User.IsInRole("GiaSu") || User.IsInRole("HocSinh") || User.IsInRole("PhuHuynh")) sorting.Insert(0, ("PhuHop", "Phù hợp nhất"));
+    if (!needs || User.IsInRole("GiaSu")) sorting.Add(("DanhGia", "Đánh giá cao nhất"));
+    if (!needs) sorting.Add(("HocVien", "Nhiều bên học nhất"));
 }
-<div id="search-content" data-ajax-page="search" data-search-kind="@f.LoaiDoiTuong">
-<h1>@(tutor?"Tìm nhu cầu học":"Tìm gia sư")</h1>
-<form method="get" asp-action="@searchAction" id="search-filters" data-subject-scope data-search-scope><input type="hidden" name="LoaiDoiTuong" value="@f.LoaiDoiTuong"><div class="searchbox search-keyword"><input class="form-control" name="TuKhoa" maxlength="100" value="@f.TuKhoa" aria-label="Từ khóa" placeholder="Tên hoặc môn học"><button class="btn btn-primary">Tìm kiếm</button></div>
-<details class="card search-filter-panel" open="@(f.MonHocId.HasValue || !string.IsNullOrEmpty(f.KhoiLop) || !string.IsNullOrEmpty(f.HinhThucHoc) || !string.IsNullOrEmpty(f.KhuVuc) || f.HocPhiToiDa.HasValue || f.TrinhDo != null || f.ThuTrongTuan.HasValue || f.MucPhuHop.HasValue || f.SoSaoToiThieu.HasValue)"><summary>Bộ lọc tìm kiếm</summary><div class="search-filter-body"><div class="search-basic-grid"><label>Môn học<select class="form-select" name="MonHocId" data-scope-subject><option value="">Tất cả môn</option>@foreach(var s in ((List<MonHoc>)ViewBag.Subjects).OrderBy(subject => MonHocCatalog.ThuTuHienThi(subject.TenMon))){var range = PhamViMonHoc.Khoi(s.TenMon);<option data-grade-from="@range.Tu" data-grade-to="@range.Den" data-integrated="@PhamViMonHoc.LaKhoaHocTuNhien(s.TenMon).ToString().ToLowerInvariant()" value="@s.Id" selected="@(f.MonHocId==s.Id)">@s.TenMon</option>}</select></label><label>@(tutor?"Khối lớp":"Phạm vi dạy")<select class="form-select" name="KhoiLop" data-scope-grade><option value="">Tất cả lớp</option>@for(var grade=1;grade<=12;grade++){<option value="Lớp @grade" selected="@(f.KhoiLop==$"Lớp {grade}")">Lớp @grade</option>}</select></label><label data-integrated-parts hidden>Phần kiến thức<select class="form-select" name="PhanKhoaHoc"><option value="">Tất cả các phần</option>@for (var part = 1; part <= 3; part++) { <option value="@part" selected="@(f.PhanKhoaHoc == part)">@PhamViMonHoc.TenPhan[part-1]</option> }</select></label><label>Hình thức<select class="form-select" name="HinhThucHoc"><option value="">Tất cả</option><option value="TrucTuyen" selected="@(f.HinhThucHoc=="TrucTuyen")">Trực tuyến</option><option value="TrucTiep" selected="@(f.HinhThucHoc=="TrucTiep")">Trực tiếp</option></select></label><partial name="_KhuVucPicker" model="new EduConnect.Mvc.ViewModels.KhuVucPickerViewModel(f.KhuVuc, f.PhuongXa)" />
-@if (canMatch)
-{
-    <label>Độ phù hợp
-        <select class="form-select" name="MucPhuHop">
-            <option value="">Tất cả</option>
-            @for (var level = 1; level <= matchOptions.Length; level++)
-            {
-                <option value="@level" selected="@(f.MucPhuHop == level)">@matchOptions[level - 1]</option>
-            }
-        </select>
-    </label>
-}
-@if (canFilterStars)
-{
-    <label>@(tutor ? "Đánh giá người đăng" : "Đánh giá gia sư")
-        <select class="form-select" name="SoSaoToiThieu">
-            <option value="">Tất cả</option>
-            @for (var stars = 5; stars >= 1; stars--)
-            {
-                <option value="@stars" selected="@(f.SoSaoToiThieu == stars)">Từ @stars sao</option>
-            }
-        </select>
-    </label>
-}
+<div id="search-content" class="search-page" data-ajax-page="search" data-search-kind="@f.LoaiDoiTuong">
+    <noscript><style>.search-filter-drawer{visibility:visible!important;position:static!important;transform:none!important;width:100%!important;height:auto!important}.search-filter-drawer form{overflow:visible!important}.search-filter-toggle,.filter-show-results,.search-filter-drawer .btn-close{display:none!important}.search-filter-footer{display:flex!important}</style></noscript>
+    <div class="search-page-heading">
+        <h1>@ViewData["Title"]</h1>
+        <div class="searchbox search-keyword">
+            <svg class="search-keyword-icon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+            <input class="form-control" type="search" name="TuKhoa" form="search-filters" maxlength="100" value="@f.TuKhoa" aria-label="Từ khóa" placeholder="@(needs ? "Tìm môn học, mục tiêu hoặc người đăng" : "Tìm theo tên gia sư hoặc môn học")">
+            <button class="btn btn-primary" form="search-filters">Tìm kiếm</button>
+        </div>
+    </div>
+    <div class="search-layout">
+        <aside class="offcanvas-lg offcanvas-end search-filter-drawer" id="search-filter-drawer" tabindex="-1" aria-labelledby="search-filter-title">
+            <div class="offcanvas-header"><h2 class="offcanvas-title" id="search-filter-title">Bộ lọc</h2><button class="btn-close" type="button" data-bs-dismiss="offcanvas" data-bs-target="#search-filter-drawer" aria-label="Đóng bộ lọc"></button></div>
+            <form method="get" asp-action="@searchAction" id="search-filters" data-subject-scope data-search-scope data-search-autoload>
+                <input type="hidden" name="LoaiDoiTuong" value="@f.LoaiDoiTuong">
+                <div class="search-filter-scroll"><partial name="_SearchFilters" model="Model" /></div>
+                <div class="search-filter-footer">
+                    <a class="btn btn-outline-primary" asp-action="@searchAction" data-search-clear>Xóa bộ lọc</a>
+                    <button class="btn btn-primary filter-show-results" type="button" data-bs-dismiss="offcanvas" data-bs-target="#search-filter-drawer">Xem <span data-search-total>@Model.Total</span> kết quả</button>
+                    <noscript><button class="btn btn-primary" type="submit">Áp dụng bộ lọc</button></noscript>
+                </div>
+            </form>
+        </aside>
+        <section class="search-results" aria-label="Kết quả tìm kiếm">
+            <div class="search-results-toolbar">
+                <h2><strong>@Model.Total</strong> @(needs ? "nhu cầu" : "gia sư")</h2>
+                <div class="search-result-controls">
+                    <a class="btn btn-outline-primary search-reset" asp-action="@searchAction">Xóa bộ lọc</a>
+                    <button class="btn btn-outline-primary search-filter-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#search-filter-drawer" aria-controls="search-filter-drawer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 4h18l-7 8v7l-4 2v-9z" /></svg>Bộ lọc</button>
+                    <label><span class="visually-hidden">Sắp xếp</span><select class="form-select" name="SapXep" form="search-filters" data-search-sort>
+                        @foreach (var option in sorting) { <option value="@option.Value" selected="@(f.SapXep == option.Value)">@option.Label</option> }
+                    </select></label>
+                </div>
+            </div>
+            @if (!needs && f.SapXep is "HocPhiTang" or "HocPhiGiam") { <p class="search-price-note">Theo mức phí thấp nhất trong các môn phù hợp, cùng đơn vị đã chọn.</p> }
+            <partial name="_ActiveFilters" model="f" />
+            <partial name="_CompareBar" />
+            <div class="cards">@foreach (var candidate in Model.Items) { <partial name="_Candidate" model="candidate" /> }</div>
+            @if (Model.Items.Count == 0) { <div class="empty"><h2>Chưa có kết quả phù hợp</h2><p>Thử bỏ bớt tiêu chí để xem thêm lựa chọn.</p><a class="btn btn-outline-primary" asp-action="@searchAction">Xóa bộ lọc</a></div> }
+            <nav class="pagination" aria-label="Phân trang">
+                @if (f.Trang > 1) { <a href="@Context.Request.Path@Context.Request.QueryString" data-page="@(f.Trang - 1)">← Trước</a> }
+                <span>Trang @f.Trang / @Math.Max(1, (int)Math.Ceiling(Model.Total / 9d))</span>
+                @if (f.Trang * 9 < Model.Total) { <a href="@Context.Request.Path@Context.Request.QueryString" data-page="@(f.Trang + 1)">Sau →</a> }
+            </nav>
+        </section>
+    </div>
 </div>
-<details class="search-advanced" open="@(f.HocPhiToiDa.HasValue||f.TrinhDo!=null||f.ThuTrongTuan.HasValue)"><summary>Bộ lọc nâng cao</summary><div class="search-advanced-grid"><label>Học phí tối đa (VND)<input class="form-control" type="number" name="HocPhiToiDa" min="0" step="1" value="@f.HocPhiToiDa"></label><label>Đơn vị học phí<select class="form-select" name="DonViHocPhi"><option value="VND/Gio" selected="@(f.DonViHocPhi=="VND/Gio")">VND / giờ</option><option value="VND/Buoi" selected="@(f.DonViHocPhi=="VND/Buoi")">VND / buổi</option></select></label>
-@if(!tutor){<label>Trình độ<select class="form-select" name="TrinhDo"><option value="">Tất cả trình độ</option>@foreach(var degree in EduConnect.Mvc.Areas.NhuCau.ViewModels.HoSoLuaChon.TrinhDo){<option value="@degree" selected="@(f.TrinhDo==degree)">@degree</option>}</select></label>}
-else{<label>Ngày trong tuần<select class="form-select" name="ThuTrongTuan"><option value="">Tất cả</option>@for(int d=0;d<7;d++){<option value="@d" selected="@(f.ThuTrongTuan==d)">@(d==0?"Chủ nhật":"Thứ "+(d+1))</option>}</select></label><label>Giờ bắt đầu<input class="form-control" type="time" name="GioBatDau" value="@f.GioBatDau?.ToString("HH:mm")"></label><label>Giờ kết thúc<input class="form-control" type="time" name="GioKetThuc" value="@f.GioKetThuc?.ToString("HH:mm")"></label>}
-</div></details><div class="actions"><button class="btn btn-primary" type="submit">Áp dụng bộ lọc</button><a class="btn btn-outline-primary" asp-action="@searchAction">Xóa bộ lọc</a></div></div></details></form>
-<div class="search-results-toolbar"><h2>@Model.Total @(tutor?"nhu cầu":"gia sư")</h2><label>Sắp xếp<select class="form-select" name="SapXep" form="search-filters" data-search-sort>@foreach(var s in sortingOptions){<option value="@s.Value" selected="@(f.SapXep==s.Value)">@s.Label</option>}</select></label></div>
-@if(!tutor&&(f.SapXep is "HocPhiTang" or "HocPhiGiam")){<p class="muted">Sắp xếp theo mức phí thấp nhất trong các môn phù hợp, cùng đơn vị đã chọn.</p>}
-<partial name="_ActiveFilters" model="Model.Filter"/><partial name="_CompareBar"/><div class="cards">@foreach(var n in Model.Items){<partial name="_Candidate" model="n"/>}</div>
-@if(Model.Items.Count==0){<div class="empty"><h2>Chưa có kết quả phù hợp</h2><a class="btn btn-outline-primary" asp-action="@searchAction">Xóa bộ lọc để tìm thêm</a></div>}
-<nav class="pagination" aria-label="Phân trang">@if(f.Trang>1){<a href="@Context.Request.Path@Context.Request.QueryString" data-page="@(f.Trang-1)">← Trước</a>}<span>Trang @f.Trang / @Math.Max(1,(int)Math.Ceiling(Model.Total/9d))</span>@if(f.Trang*9<Model.Total){<a href="@Context.Request.Path@Context.Request.QueryString" data-page="@(f.Trang+1)">Sau →</a>}</nav></div>

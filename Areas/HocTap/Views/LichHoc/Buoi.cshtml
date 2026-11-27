@@ -10,6 +10,7 @@
     var canManage = me.Id == c.GiaSuId && c.TrangThai == "DangHoatDong";
     var canChange = canManage && s.TrangThai == "DaLenLich" && s.BatDauLuc > DateTimeOffset.UtcNow && b?.TrangThai == "DuKien";
     var canRest = canManage && s.TrangThai == "DaLenLich" && b?.TrangThai is "DuKien" or "DangDienRa";
+    var editing = b?.GhiNhanLuc == null || !ViewData.ModelState.IsValid;
 }
 <div class="lesson-detail-header">
     <div><h1>@s.TieuDe</h1><p>@Rules.Date(s.BatDauLuc) – @s.KetThucLuc.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm")</p></div>
@@ -40,17 +41,21 @@
     @if (b?.GhiNhanLuc != null)
     {
         <h2 class="mt-3">Nội dung buổi học</h2><p class="pre">@b.NoiDungGiangDay</p>
+        <div class="attendance-summary"><span class="state-tag" data-state="@b.TrangThaiThamDuGiaSu">Gia sư · @Rules.Label(b.TrangThaiThamDuGiaSu)</span><span class="state-tag" data-state="@b.TrangThaiThamDuBenHoc">Bên học · @Rules.Label(b.TrangThaiThamDuBenHoc)</span></div>
         @if(!string.IsNullOrWhiteSpace(b.NhanXet)){<h3>@(b.KetQuaBuoiHoc=="KhongDienRa"?"Lý do không diễn ra":"Nhận xét")</h3><p class="pre">@b.NhanXet</p>}<small>Cập nhật @Rules.Date(b.CapNhatLuc)</small>
     }
 
 </article>
 @if (canManage && s.TrangThai == "DaLenLich" && s.KetThucLuc <= DateTimeOffset.UtcNow)
 {
-    <details class="card lesson-record" open>
-        <summary>@(b?.GhiNhanLuc == null ? "Ghi nhận buổi học" : "Sửa ghi nhận")</summary>
+    <section class="card lesson-record" data-record-editor data-editing="@editing.ToString().ToLowerInvariant()">
+        <div class="record-editor-heading"><div><h2>Ghi nhận buổi học</h2>@if(b?.GhiNhanLuc == null){<p>Cập nhật kết quả và tình hình tham dự.</p>}</div>
+        @if(b?.GhiNhanLuc != null){<button class="btn btn-outline-primary" type="button" data-record-edit aria-expanded="@editing.ToString().ToLowerInvariant()" aria-controls="lesson-record-fields" hidden="@editing">Chỉnh sửa</button>}</div>
+        <div id="lesson-record-fields" data-record-fields hidden="@(!editing)">
         <form data-lesson-record asp-action="GhiNhan" method="post" class="form-wide">
             <div asp-validation-summary="All" class="validation" role="alert"></div>
             <input asp-for="LichHocId" type="hidden"><input asp-for="RowVersion" type="hidden">
+            <fieldset class="record-edit-fields" disabled="@(!editing)">
             <fieldset class="lesson-outcome"><legend>Kết quả buổi học</legend>
                 <label><input type="radio" asp-for="KetQuaBuoiHoc" value="DaDienRa">Đã diễn ra</label>
                 <label><input type="radio" asp-for="KetQuaBuoiHoc" value="KhongDienRa">Không diễn ra</label>
@@ -67,27 +72,33 @@
             <label>Nội dung buổi học<textarea class="form-control" asp-for="NoiDung" maxlength="10000" rows="4"></textarea><span asp-validation-for="NoiDung"></span></label>
             <label><span data-record-comment-label>Nhận xét</span><textarea class="form-control" asp-for="NhanXet" maxlength="2000" rows="3"></textarea><span asp-validation-for="NhanXet"></span></label>
             <label class="check" data-record-rest><input asp-for="CanHocBu" type="checkbox">Cần học bù</label>
-            <button class="btn btn-primary justify-self-start">Lưu ghi nhận</button>
+            <div class="record-editor-actions">@if(b?.GhiNhanLuc != null){<button type="button" class="btn btn-outline-primary" data-record-cancel>Hủy chỉnh sửa</button>}<button class="btn btn-primary">Lưu ghi nhận</button></div>
+            </fieldset>
         </form>
-    </details>
+        </div>
+        <noscript><p>Bật JavaScript để chỉnh sửa ghi nhận.</p></noscript>
+    </section>
 }
 </div>
 @if (b != null) { @await Html.PartialAsync("_BuoiHoatDong", b) }
 @if (ViewBag.ScheduleHistory is List<LichSuDieuChinhLich> changes && changes.Count > 0)
 {
-    <details class="card"><summary>Lịch sử đổi lịch</summary><ul>
+    <details class="card lesson-history"><summary><span>Lịch sử đổi lịch</span><span class="history-count">@changes.Count lần</span></summary><div class="lesson-history-list">
         @foreach (var change in changes)
         {
-            <li><strong>@Rules.Date(change.ThayDoiLuc)</strong><p>Giờ cũ: @Rules.Date(change.BatDauCu) – @Rules.Date(change.KetThucCu)</p><p>Giờ mới: @Rules.Date(change.BatDauMoi) – @Rules.Date(change.KetThucMoi)</p><p>@change.LyDo</p></li>
+            <article class="lesson-history-entry"><header><h3>Điều chỉnh lịch học</h3><time datetime="@change.ThayDoiLuc.ToString("O")">@Rules.Date(change.ThayDoiLuc)</time></header><div class="schedule-change"><div><span>Lịch trước</span><strong>@Rules.Date(change.BatDauCu)</strong><small>Đến @Rules.Date(change.KetThucCu)</small></div><div><span>Lịch sau</span><strong>@Rules.Date(change.BatDauMoi)</strong><small>Đến @Rules.Date(change.KetThucMoi)</small></div></div>@if(!string.IsNullOrWhiteSpace(change.LyDo)){<p class="history-note pre">@change.LyDo</p>}</article>
         }
-    </ul></details>
+    </div></details>
 }
 @if (((List<LichSuGhiNhanBuoiHoc>)ViewBag.History).Count > 0)
 {
-    <details class="card"><summary>Lịch sử ghi nhận</summary>
+    <details class="card lesson-history"><summary><span>Lịch sử ghi nhận</span><span class="history-count">@(((List<LichSuGhiNhanBuoiHoc>)ViewBag.History).Count) phiên bản</span></summary><div class="lesson-history-list">
         @foreach (var old in (List<LichSuGhiNhanBuoiHoc>)ViewBag.History)
         {
-            <section class="border-top pt-3 mt-3"><h3>Phiên bản @old.PhienBan · @Rules.Date(old.ThayDoiLuc)</h3><p>@(old.KetQuaBuoiHoc == "DaDienRa" ? "Đã diễn ra" : "Không diễn ra")</p><p class="pre">@old.NoiDungGiangDay</p><p class="pre">@old.NhanXet</p></section>
+            <article class="lesson-history-entry"><header><div><h3>Phiên bản @old.PhienBan</h3><time datetime="@old.ThayDoiLuc.ToString("O")">@Rules.Date(old.ThayDoiLuc)</time></div><span class="state-tag" data-state="@old.KetQuaBuoiHoc">@(old.KetQuaBuoiHoc == "DaDienRa" ? "Đã diễn ra" : "Không diễn ra")</span></header>
+            <div class="attendance-summary"><span class="state-tag" data-state="@old.TrangThaiThamDuGiaSu">Gia sư · @Rules.Label(old.TrangThaiThamDuGiaSu)</span><span class="state-tag" data-state="@old.TrangThaiThamDuBenHoc">Bên học · @Rules.Label(old.TrangThaiThamDuBenHoc)</span></div>
+            @if(!string.IsNullOrWhiteSpace(old.NoiDungGiangDay)){<div class="history-content"><h4>Nội dung buổi học</h4><p class="pre">@old.NoiDungGiangDay</p></div>}
+            @if(!string.IsNullOrWhiteSpace(old.NhanXet)){<div class="history-content"><h4>@(old.KetQuaBuoiHoc=="KhongDienRa"?"Lý do không diễn ra":"Nhận xét")</h4><p class="pre">@old.NhanXet</p></div>}</article>
         }
-    </details>
+    </div></details>
 }

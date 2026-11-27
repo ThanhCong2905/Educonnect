@@ -13,9 +13,7 @@
         return catalog;
     }
 
-    document.addEventListener('change', async event => {
-        if (!event.target.matches('[data-province]')) return;
-        const province = event.target;
+    async function updateAreaPicker(province, selectedWard = '') {
         const group = province.closest('[data-area-picker]');
         const ward = group.querySelector('[data-ward]');
         const status = group.querySelector('[data-area-status]');
@@ -23,18 +21,27 @@
         ward.replaceChildren(new Option(selectedProvince ? 'Đang tải phường / xã…' : 'Chọn tỉnh / thành phố trước', ''));
         ward.disabled = true;
         status.textContent = '';
-        if (!selectedProvince) return;
+        if (!selectedProvince) return true;
 
         try {
             const data = await loadCatalog();
-            if (province.value !== selectedProvince) return;
+            if (province.value !== selectedProvince) return false;
             ward.replaceChildren(new Option(group.dataset.wardPlaceholder || 'Tất cả phường / xã', ''));
             for (const name of data.provinces[selectedProvince] ?? []) ward.add(new Option(name, name));
             ward.disabled = false;
+            if (selectedWard) ward.value = selectedWard;
+            return true;
         } catch {
-            if (province.value !== selectedProvince) return;
+            if (province.value !== selectedProvince) return false;
             ward.replaceChildren(new Option('Chưa tải được danh mục', ''));
             status.textContent = 'Chọn lại tỉnh / thành phố để tải danh sách phường / xã.';
+            return false;
         }
+    }
+
+    window.EduConnect = window.EduConnect || {};
+    window.EduConnect.updateAreaPicker = updateAreaPicker;
+    document.addEventListener('change', event => {
+        if (event.target.matches('[data-province]')) updateAreaPicker(event.target);
     });
 })();

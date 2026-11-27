@@ -4,6 +4,7 @@
  const requests=new Map(),drafts=new Map(),fileDrafts=new Map(),selected=new Set();
  const pageRegion=()=>document.querySelector('main>[data-ajax-page],main>section[data-ajax-page]');
  function status(root,message){
+  if(root.dataset.ajaxPage==='search'&&message==='Đang cập nhật…')return;
   let box=root.querySelector(':scope>.ajax-status');
   if(!message){box?.remove();return;}
   if(!box){box=document.createElement('p');box.className='ajax-status';box.setAttribute('role','status');root.prepend(box);}
@@ -22,7 +23,7 @@
    if(requests.get(key)!==controller)return null;
    const doc=new DOMParser().parseFromString(html,'text/html'),fresh=doc.getElementById(key);
    if(!fresh)throw new Error('Nội dung chưa sẵn sàng. Hãy tải lại trang.');
-   fresh.querySelectorAll('script').forEach(script=>script.remove());
+   fresh.querySelectorAll('script,noscript').forEach(element=>element.remove());
    return fresh;
   }catch(error){if(error.name!=='AbortError')status(root,error.message);return null;}
   finally{if(requests.get(key)===controller){requests.delete(key);root.removeAttribute('aria-busy');root.classList.remove('ajax-loading');if(root.querySelector(':scope>.ajax-status')?.textContent==='Đang cập nhật…')status(root,'');}}
@@ -38,11 +39,16 @@
   if(form)for(const id of selected){if(visible.has(id))continue;const input=document.createElement('input');input.type='checkbox';input.hidden=true;input.name='ids';input.value=id;input.checked=true;input.setAttribute('form','compare-form');input.dataset.compareHeld='true';form.append(input);}
  }
  function rememberDraft(root){const input=root.querySelector('.compose textarea');if(input&&root.dataset.chatId){drafts.set(root.dataset.chatId,input.value);const files=[...(root.querySelector('[data-chat-files]')?.files||[])];if(files.length)fileDrafts.set(root.dataset.chatId,files);else fileDrafts.delete(root.dataset.chatId);}}
+ function rememberNavigation(root,url,mode){
+  if(!mode)return;
+  const action=mode==='push'&&new URL(url,location.href).href===location.href?'replace':mode;
+  history[action+'State']({...history.state,eduRegion:root.id,eduCanGoBack:action==='push'||history.state?.eduCanGoBack===true},'',url);
+ }
  function replace(root,fresh,url,historyMode,scroll){
   const active=root.contains(document.activeElement)?document.activeElement:null;
   const focusName=active?.getAttribute('name'),focusId=active?.id;
   rememberDraft(root);rememberComparison(root);
-  if(historyMode)history[historyMode+'State']({...history.state,eduRegion:root.id,eduCanGoBack:historyMode==='push'||history.state?.eduCanGoBack===true},'',url);
+  rememberNavigation(root,url,historyMode);
   if(root.dataset.searchKind!==fresh.dataset.searchKind)selected.clear();
   root.replaceWith(fresh);restoreComparison(fresh);ui.init(fresh);initChat(fresh);
   const input=fresh.querySelector('.compose textarea');if(input&&drafts.has(fresh.dataset.chatId))input.value=drafts.get(fresh.dataset.chatId);
@@ -55,11 +61,59 @@
   if(fresh.dataset.ajaxPage==='search'&&heading){let announcement=document.querySelector('[data-ajax-announcement]');if(!announcement){announcement=document.createElement('div');announcement.className='visually-hidden';announcement.dataset.ajaxAnnouncement='';announcement.setAttribute('role','status');announcement.setAttribute('aria-live','polite');document.body.append(announcement);}announcement.textContent='Kết quả tìm kiếm: '+heading.textContent.trim();}
   if(scroll)fresh.querySelector('.search-results-toolbar,.chat-header')?.scrollIntoView({block:'start',behavior:ui.motionBehavior()});
  }
- async function navigate(root,url,{historyMode='push',scroll=false}={}){
+ function replaceSearchResults(root,fresh,url,historyMode){
+  const results=root.querySelector('.search-results'),incoming=fresh.querySelector('.search-results');
+  if(!results||!incoming)return false;
   rememberComparison(root);
-  const fresh=await load(root,url);if(fresh)replace(root,fresh,url,historyMode,scroll);
+  const active=document.activeElement,name=active?.name;
+  rememberNavigation(root,url,historyMode);
+  results.replaceWith(incoming);restoreComparison(root);ui.init(incoming);
+  const total=fresh.querySelector('[data-search-total]')?.textContent||'0';
+  root.querySelectorAll('[data-search-total]').forEach(element=>element.textContent=total);
+  let announcement=root.querySelector('[data-search-announcement]');
+  if(!announcement){announcement=document.createElement('p');announcement.className='visually-hidden';announcement.dataset.searchAnnouncement='';announcement.setAttribute('aria-live','polite');root.append(announcement);}
+  announcement.textContent=total+' kết quả tìm kiếm';
+  if(name&&!active?.isConnected)incoming.querySelector('[name="'+CSS.escape(name)+'"]')?.focus({preventScroll:true});
+  return true;
+ }
+ async function closeSearchFilters(root){
+  const drawer=root.querySelector('.search-filter-drawer.show,.search-filter-drawer.hiding');
+  if(!drawer||!window.bootstrap)return;
+  const instance=bootstrap.Offcanvas.getInstance(drawer);
+  if(!instance)return;
+  await new Promise(resolve=>{
+   drawer.addEventListener('hidden.bs.offcanvas',()=>{instance.dispose();resolve();},{once:true});
+   if(drawer.classList.contains('show'))instance.hide();
+  });
+ }
+ async function navigate(root,url,{historyMode='push',scroll=false,preserveFilters=false}={}){
+  rememberComparison(root);
+  const fresh=await load(root,url);
+  if(fresh&&!(preserveFilters&&replaceSearchResults(root,fresh,url,historyMode))){
+   await closeSearchFilters(root);
+   if(root.isConnected)replace(root,fresh,url,historyMode,scroll);
+  }
   return !!fresh;
  }
+ let searchTimer;
+ function updateSearch(form,delay=0){
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>{
+   if(!form.isConnected||!form.reportValidity())return;
+   const start=form.elements.namedItem('GioBatDau')?.value,end=form.elements.namedItem('GioKetThuc')?.value;
+   const invalid=!!(start&&end&&start>=end),error=form.querySelector('[data-search-time-error]');
+   if(error)error.hidden=!invalid;
+   if(!invalid)form.requestSubmit();
+  },delay);
+ }
+ document.addEventListener('change',event=>{
+  const control=event.target,form=control.form;
+  if(form?.hasAttribute('data-search-autoload')&&control.name)updateSearch(form);
+ });
+ document.addEventListener('input',event=>{
+  const control=event.target,form=control.form;
+  if(form?.hasAttribute('data-search-autoload')&&(control.type==='search'||control.type==='number'))updateSearch(form,450);
+ });
  const initial=pageRegion();if(initial)history.replaceState({...history.state,eduRegion:initial.id},'',location.href);
  document.addEventListener('submit',event=>{
   const form=event.target,root=form.closest('[data-ajax-page]');
@@ -68,9 +122,10 @@
   if(form.id==='compare-form')return;
   event.preventDefault();const url=ui.formUrl(form);url.search=new URLSearchParams(new FormData(form)).toString();
   if(root.dataset.ajaxPage==='search')url.searchParams.delete('Trang');
-  navigate(root,url.href,{scroll:root.dataset.ajaxPage==='search'});
+  clearTimeout(searchTimer);
+  navigate(root,url.href,{scroll:root.dataset.ajaxPage==='search'&&!form.hasAttribute('data-search-autoload'),preserveFilters:form.hasAttribute('data-search-autoload')});
  });
- document.addEventListener('click',event=>{
+ document.addEventListener('click',async event=>{
   const refresh=event.target.closest('[data-refresh-home]');
   if(refresh){const root=refresh.closest('[data-ajax-page]');if(root)navigate(root,location.href,{historyMode:null});return;}
   const link=event.target.closest('a');
@@ -80,7 +135,9 @@
   const search=root.dataset.ajaxPage==='search'&&!link.closest('.search-kind-tabs')&&(link.closest('.pagination,.active-filters')||(!target.search&&/\/TimKiem\/TimKiem(?:\/(?:Index|GiaSu|NhuCau))?$/i.test(target.pathname)));
   const chat=root.dataset.ajaxPage==='chat'&&link.closest('.conversation-list,.pagination');
   if(!search&&!chat)return;
-  event.preventDefault();navigate(root,target.href,{scroll:!!link.closest('.pagination')});
+  event.preventDefault();
+  await closeSearchFilters(root);
+  navigate(root,target.href,{scroll:!!link.closest('.pagination')});
  });
  window.addEventListener('popstate',event=>{const root=pageRegion();if(root&&event.state?.eduRegion===root.id)navigate(root,location.href,{historyMode:null});});
  document.addEventListener('change',event=>{if(event.target.matches('input[form="compare-form"]'))rememberComparison(event.target.closest('[data-ajax-page]'));});

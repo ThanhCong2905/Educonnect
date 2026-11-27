@@ -1,0 +1,56 @@
+const {chromium}=require('playwright');
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const signIn=require('./sign-in.cjs');
+const base=process.env.EDU_TEST_URL||'http://127.0.0.1:5299';
+assert.ok(/^http:\/\/(127\.0\.0\.1|localhost):/.test(base),'Use a local verification server');
+const lesson=JSON.parse(fs.readFileSync('.uc3-build/fixture.json'));
+const profile=JSON.parse(fs.readFileSync('tests/ProfileWorkflow/bin/Debug/net10.0/profile-results.json'));
+assert.ok(lesson.database.startsWith('EduConnect_Verification_')&&lesson.database===profile.database);
+const out='.codex-local/site-audit';fs.mkdirSync(out,{recursive:true});
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});
+ const page=await browser.newPage({viewport:{width:390,height:844}}),checks=[],errors=[];
+ page.on('pageerror',error=>errors.push(error.message));
+ const pass=name=>{checks.push(name);console.log('PASS',name);fs.writeFileSync(out+'/usability-results.json',JSON.stringify({base,checks,errors},null,2));};
+ const fits=()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1);
+ try{
+  await signIn(page,base,profile.admin);
+  await page.goto(base+'/QuanTri/HoSo/ChiTiet/'+profile.hid);
+  assert.ok(await fits());
+  await page.locator('main h1').evaluate(el=>el.textContent='Nguyễn Thị '+ 'TênHồSơRấtDài'.repeat(12));
+  assert.ok(await fits());await page.screenshot({path:out+'/admin-review-after.png'});
+  pass('Hồ sơ quản trị không tràn ngang với tên dài trên điện thoại');
+  await signIn(page,base,lesson.tutor);
+  const path='/HocTap/BaiTap/ChiTiet/'+lesson.assignment;
+  await page.goto(base+path);
+  assert.ok(await fits());assert.equal(await page.locator('a[href*="tab=assignments"]').count(),0);
+  assert.ok(await page.locator('.submission-card').count()>0);
+  pass('Bài tập có lịch sử rõ trạng thái, không liên kết tới tab đã bỏ');
+  const grading=page.locator('.assignment-grading');
+  if(await grading.getAttribute('open')===null)await grading.locator('summary').click();
+  const form=grading.locator('form');
+  await form.locator('[name=Diem]').fill('8.5');await form.locator('[name=NhanXet]').fill('Bài làm rõ ràng, cần kiểm tra lại phép tính cuối.');
+  const saved=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/BaiTap/Cham'));
+  await form.getByRole('button').click();assert.equal((await saved).status(),200);
+  await page.waitForLoadState('networkidle');
+  await page.locator('.submission-score strong').filter({hasText:/8[.,]5/}).first().waitFor();
+  assert.equal(await page.locator('.assignment-grading').getAttribute('open'),null);
+  assert.equal(await page.locator('.assignment-grading [name=Diem]').isVisible(),false);
+  pass('Lưu điểm thành công; biểu mẫu kết quả tự đóng để tránh sửa nhầm');
+  await page.locator('.assignment-grading summary').click();assert.ok(await page.locator('.assignment-grading [name=Diem]').isVisible());
+  assert.equal(Number(await page.locator('.assignment-grading [name=Diem]').inputValue()),8.5);
+  pass('Chọn chỉnh sửa mới mở kết quả và giữ đúng điểm đã lưu');
+  await page.locator('.assignment-grading summary').click();
+  for(const width of[390,768,1440]){await page.setViewportSize({width,height:900});assert.ok(await fits());}
+  await page.screenshot({path:out+'/assignment-desktop.png'});
+  await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/assignment-mobile.png',fullPage:true});
+  pass('Bài tập và kết quả cân đối trên điện thoại, máy tính bảng và máy tính');
+  await signIn(page,base,lesson.learner);
+  const linked=await page.goto(base+'/HocTap/LienKetTaiKhoan/Index');assert.equal(linked.status(),200);assert.ok(await fits());
+  pass('Liên kết tài khoản mở đúng trang từ đường dẫn đang dùng');
+  await page.goto(base+path);assert.equal(await page.locator('.assignment-grading').count(),0);
+  assert.ok(await page.locator('.submission-result').isVisible());assert.ok(await fits());
+  pass('Bên học xem được kết quả, không có biểu mẫu chấm của gia sư');
+  assert.deepEqual(errors,[]);pass('Không phát sinh lỗi JavaScript khi chấm và xem bài');
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

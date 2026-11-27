@@ -78,6 +78,7 @@ public sealed class SubjectScopeTests
     public async Task Search_distinguishes_chemistry_offered_at_different_grades_in_one_profile()
     {
         await using var db = ProposalRegressionTests.Open();
+        await using var transaction = await db.Database.BeginTransactionAsync();
         var seed = await ProposalRegressionTests.Seed(db);
         var profile = await db.Set<HoSoGiaSu>().SingleAsync(h => h.GiaSuId == seed.Tutor);
         profile.DuyetLuc = DateTimeOffset.UtcNow;
@@ -100,9 +101,13 @@ public sealed class SubjectScopeTests
         var svc = new TimKiemService(db, Current(db));
         async Task<bool> Finds(string keyword)
         {
-            var result = await svc.TimKiemAsync(new BoLocTimKiemViewModel { TuKhoa = keyword, SapXep = "HocPhiTang" }, null, default);
-            Assert.True(result.ThanhCong, result.ThongBao);
-            return result.DuLieu.Items.Any(x => x.Id == profile.Id);
+            for (var page = 1; ; page++)
+            {
+                var result = await svc.TimKiemAsync(new BoLocTimKiemViewModel { TuKhoa = keyword, SapXep = "HocPhiTang", Trang = page }, null, default);
+                Assert.True(result.ThanhCong, result.ThongBao);
+                if (result.DuLieu.Items.Any(x => x.Id == profile.Id)) return true;
+                if (page * 9 >= result.DuLieu.Total) return false;
+            }
         }
         Assert.True(await Finds("Hóa lớp 6"));
         Assert.False(await Finds("Hóa lớp 8"));

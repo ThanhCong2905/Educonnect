@@ -10,11 +10,7 @@
     var maximum = Math.Max(1, states.Max(state => Model.HoSoTheoTrangThai.GetValueOrDefault(state)));
 }
 <div class="admin-dashboard">
-    <h1>Tổng quan quản trị</h1>
-    @if (review || reports)
-    {
-        <h2>Việc cần xử lý</h2>
-    }
+    <div class="heading admin-overview-heading"><div><span class="admin-eyebrow">Quản trị EduConnect</span><h1>Tổng quan</h1></div><time datetime="@DateTimeOffset.UtcNow.ToString("O")">@DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(7)).ToString("dd/MM/yyyy")</time></div>
     <div class="admin-metrics">
         @if (review)
         {
@@ -46,7 +42,48 @@
     {
         <p class="empty">Các mục quản trị được hiển thị theo quyền của tài khoản.</p>
     }
+    @if (review || reports)
+    {
+        <section class="admin-workspace" aria-labelledby="admin-work-title">
+            <div class="heading"><h2 id="admin-work-title">Hàng chờ xử lý</h2><span class="muted">Yêu cầu cũ hiển thị trước</span></div>
+            <div class="admin-work-queues">
+                @if (review)
+                {
+                    <section class="card admin-queue" aria-labelledby="profile-queue-title">
+                        <div class="admin-panel-heading"><h3 id="profile-queue-title">Duyệt hồ sơ <span class="admin-count">@Model.HoSoChoDuyet</span></h3><a class="btn btn-outline-primary btn-sm" asp-controller="HoSo" asp-action="Index">Xem tất cả</a></div>
+                        @if (Model.HoSoCanDuyet.Count == 0) { <div class="admin-queue-empty"><img src="/images/ui/person-badge.svg" alt=""><strong>Không có hồ sơ chờ duyệt</strong></div> }
+                        else
+                        {
+                            <ol class="admin-work-list">
+                                @foreach (var item in Model.HoSoCanDuyet)
+                                {
+                                    <li><a class="admin-work-link" asp-controller="HoSo" asp-action="ChiTiet" asp-route-id="@item.Id"><span class="admin-work-icon" aria-hidden="true"><img src="/images/ui/person-badge.svg" alt=""></span><span class="admin-work-copy"><strong>@item.HoTen</strong><span>@item.TrinhDo</span><time datetime="@item.GuiLuc?.ToString("O")">@Rules.Date(item.GuiLuc)</time></span><span class="admin-work-arrow" aria-hidden="true">→</span></a></li>
+                                }
+                            </ol>
+                        }
+                    </section>
+                }
+                @if (reports)
+                {
+                    <section class="card admin-queue" aria-labelledby="report-queue-title">
+                        <div class="admin-panel-heading"><h3 id="report-queue-title">Báo cáo <span class="admin-count">@Model.BaoCaoChoXuLy</span></h3><a class="btn btn-outline-primary btn-sm" asp-controller="BaoCaoViPham" asp-action="Index" asp-route-quanTri="true" asp-route-state="ToiDangXuLy">Tôi phụ trách</a></div>
+                        @if (Model.BaoCaoCanXuLy.Count == 0) { <div class="admin-queue-empty"><img src="/images/ui/flag.svg" alt=""><strong>Không có báo cáo đang chờ</strong></div> }
+                        else
+                        {
+                            <ol class="admin-work-list">
+                                @foreach (var item in Model.BaoCaoCanXuLy)
+                                {
+                                    <li><a class="admin-work-link" asp-controller="BaoCaoViPham" asp-action="ChiTiet" asp-route-maBaoCao="@item.Id"><span class="admin-work-copy"><strong>@item.LyDo</strong><span>Người gửi: @item.NguoiGui</span><span>Phụ trách: @(item.PhuTrach ?? "Chưa tiếp nhận")</span><time datetime="@item.GuiLuc.ToString("O")">@Rules.Date(item.GuiLuc)</time></span><span class="admin-work-end"><span class="admin-state" data-state="@item.TrangThai">@Rules.Label(item.TrangThai)</span><span class="admin-work-arrow" aria-hidden="true">→</span></span></a></li>
+                                }
+                            </ol>
+                        }
+                    </section>
+                }
+            </div>
+        </section>
+    }
     @if (reports) { <partial name="_NhuCauCanXemXet" model="Model.CanXemXet" /> }
+    @if (accounts || reports) { <div class="heading admin-section-heading"><h2>Thống kê</h2><span class="muted">6 tháng gần nhất</span></div> }
     <div class="admin-charts">
         @if (accounts) { <partial name="_DangKyTheoThang" model="Model.DangKy" /> }
         @if (reports) { <partial name="_PhanLoaiBaoCao" model="Model.PhanLoaiBaoCao" /> }

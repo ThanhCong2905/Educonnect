@@ -1,24 +1,29 @@
 @model Page<HoSoGiaSu>
-@{ViewData["Title"]="Kiểm duyệt hồ sơ";var names=(Dictionary<Guid,string>)ViewBag.People;}
-<div class="heading"><h1>Kiểm duyệt hồ sơ gia sư</h1><span>@Model.Total hồ sơ</span></div>
-<form method="get" class="card">
+@{
+    ViewData["Title"] = "Kiểm duyệt hồ sơ";
+    var names = (Dictionary<Guid,string>)ViewBag.People;
+    var query = Context.Request.Query["q"].ToString();
+    var state = Context.Request.Query["state"].ToString();
+    if (state.Length == 0) state = "ChoDuyet";
+}
+<div class="heading admin-heading"><div><h1>Kiểm duyệt hồ sơ</h1><p class="muted mb-0">@Model.Total hồ sơ · @Rules.Label(state)</p></div></div>
+<form method="get" class="card admin-filter">
     <div class="row g-3 align-items-end">
-        <div class="col-md-6"><label>Tên gia sư<input name="q" value="@Context.Request.Query["q"]" maxlength="100" class="form-control"></label></div>
-        <div class="col-md-4"><label>Trạng thái<select name="state" class="form-select">@foreach(var s in new[]{"ChoDuyet","CanChinhSua","DaDuyet","TuChoi"}){<option value="@s" selected="@((Context.Request.Query["state"].ToString() is ""?"ChoDuyet":Context.Request.Query["state"].ToString())==s)">@Rules.Label(s)</option>}</select></label></div>
-        <div class="col-md-2"><button class="btn btn-primary">Tìm kiếm</button></div>
+        <div class="col-md-6"><label>Tên gia sư<input name="q" value="@query" maxlength="100" class="form-control" placeholder="Nhập tên để tìm hồ sơ"></label></div>
+        <div class="col-md-4"><label>Trạng thái<select name="state" class="form-select">@foreach(var s in new[]{"ChoDuyet","CanChinhSua","DaDuyet","TuChoi"}){<option value="@s" selected="@(state == s)">@Rules.Label(s)</option>}</select></label></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100">Tìm kiếm</button></div>
     </div>
 </form>
-<div class="cards">
+<div class="admin-profile-list" aria-label="Danh sách hồ sơ">
 @foreach(var h in Model.Items)
 {
-    <article class="card">
-        <span class="admin-state align-self-start" data-state="@h.TrangThaiDuyet">@Rules.Label(h.TrangThaiDuyet)</span>
-        <h2>@names.GetValueOrDefault(h.GiaSuId,"Gia sư")</h2>
-        <p>@h.TrinhDo · @h.KinhNghiem</p>
-        <p>Gửi duyệt @Rules.Date(h.GuiDuyetLuc)</p>
-        <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@h.Id">Xem hồ sơ</a>
+    <article class="card admin-profile-row">
+        <div class="admin-profile-person"><span class="admin-work-icon" aria-hidden="true"><img src="/images/ui/person-badge.svg" alt=""></span><div><h2>@names.GetValueOrDefault(h.GiaSuId,"Gia sư")</h2><p>@h.TrinhDo · @h.KinhNghiem</p></div></div>
+        <div class="admin-profile-date"><span>Gửi duyệt</span><time datetime="@h.GuiDuyetLuc?.ToString("O")">@Rules.Date(h.GuiDuyetLuc)</time></div>
+        <span class="admin-state" data-state="@h.TrangThaiDuyet">@Rules.Label(h.TrangThaiDuyet)</span>
+        <a class="btn @(h.TrangThaiDuyet == "ChoDuyet" ? "btn-primary" : "btn-outline-primary")" asp-action="ChiTiet" asp-route-id="@h.Id">@(h.TrangThaiDuyet == "ChoDuyet" ? "Duyệt hồ sơ" : "Xem hồ sơ")</a>
     </article>
 }
 </div>
-@if(Model.Items.Count==0){<div class="empty">Chưa có hồ sơ phù hợp.</div>}
+@if(Model.Items.Count==0){<div class="empty"><h2>@(query.Length > 0 ? "Không tìm thấy hồ sơ" : state == "ChoDuyet" ? "Đã xử lý hết hồ sơ đang chờ" : "Chưa có hồ sơ ở trạng thái này")</h2>@if(query.Length > 0){<a class="btn btn-outline-primary" asp-action="Index" asp-route-state="@state">Xóa từ khóa</a>}</div>}
 <partial name="_PhanTrang" model="new PhanTrangViewModel(Model.Trang,Model.Total)"/>

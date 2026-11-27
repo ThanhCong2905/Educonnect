@@ -6,7 +6,7 @@
     var me = await Current.HienTaiAsync();
     var people = await Current.DanhSachAsync();
 }
-<h1>Lớp học của tôi</h1>
+<div class="heading classroom-list-heading"><div><h1>Lớp học của tôi</h1><p class="muted">@Model.Count(lop => lop.TrangThai == "DangHoatDong") đang học · @Model.Count(lop => lop.TrangThai == "TamDung") tạm dừng · @Model.Count(lop => lop.TrangThai == "DaKetThuc") đã kết thúc</p></div></div>
 @if(invitations.Count > 0)
 {
     <section class="class-invitations" aria-label="Lời mời tham gia lớp">
@@ -14,20 +14,41 @@
         @foreach(var invitation in invitations)
         {
             <article class="card class-invitation">
-                <div><h3>@invitation.TenLop</h3><p class="muted">@invitation.NguoiMoi mời bạn tham gia.</p><span class="badge rounded-pill">@(invitation.TrangThaiLop != "DangHoatDong" ? "Lớp đã kết thúc" : invitation.DongYThamGiaLuc != null ? "Chờ gia sư duyệt" : "Chờ bạn phản hồi")</span></div>
+                <div><h3>@invitation.TenLop</h3><p class="muted">@invitation.NguoiMoi mời bạn tham gia.</p><span class="state-tag" data-state="@(invitation.TrangThaiLop != "DangHoatDong" ? "DaKetThuc" : "ChoPhanHoi")">@(invitation.TrangThaiLop != "DangHoatDong" ? "Lớp đã kết thúc" : invitation.DongYThamGiaLuc != null ? "Chờ gia sư duyệt" : "Chờ bạn phản hồi")</span></div>
                 <a data-modal class="btn btn-outline-primary" asp-action="LoiMoi" asp-route-id="@invitation.Id">Xem lời mời</a>
             </article>
         }
     </section>
 }
-<div class="cards">
+@if (Model.Count > 0)
+{
+    <nav class="classroom-filters" aria-label="Lọc lớp học">
+        <button type="button" data-class-filter="" aria-pressed="true">Tất cả <span>@Model.Count</span></button>
+        @foreach (var state in new[] { "DangHoatDong", "TamDung", "DaKetThuc" })
+        {
+            <button type="button" data-class-filter="@state" aria-pressed="false">@Rules.Label(state) <span>@Model.Count(lop => lop.TrangThai == state)</span></button>
+        }
+    </nav>
+}
+<div class="cards classroom-cards" data-class-list>
 @foreach(var lop in Model)
 {
     var partnerId = me.Id == lop.GiaSuId ? lop.BenHocId : lop.GiaSuId;
     var partner = people.FirstOrDefault(person => person.Id == partnerId);
-    <article class="card"><span class="badge rounded-pill">@Rules.Label(lop.TrangThai)</span><h2>@lop.TenLop</h2><p>@(me.Id == lop.GiaSuId ? "Bên học" : "Gia sư") · @partner?.HoTen</p><p>@lop.MucTieu</p><strong class="price">@Rules.Fee(lop.HocPhi,lop.DonViHocPhi)</strong><p>@Rules.Label(lop.HinhThucHoc) · @lop.SoBuoiTuan buổi / tuần</p><a class="btn btn-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Mở lớp học →</a></article>
+    <article class="card classroom-card" data-class-state="@lop.TrangThai">
+        <div class="classroom-card-top"><span class="classroom-symbol" aria-hidden="true"><img src="/images/ui/collection.svg" alt=""></span><span class="state-tag" data-state="@lop.TrangThai">@Rules.Label(lop.TrangThai)</span></div>
+        <h2 title="@lop.TenLop">@lop.TenLop</h2>
+        <p class="classroom-partner"><span>@(me.Id == lop.GiaSuId ? "Bên học" : "Gia sư")</span><strong>@partner?.HoTen</strong></p>
+        @if (!string.IsNullOrWhiteSpace(lop.MucTieu)) { <p class="classroom-goal">@lop.MucTieu</p> }
+        <div class="classroom-card-footer">
+            <div class="classroom-meta"><span>@Rules.Label(lop.HinhThucHoc)</span><span>@lop.SoBuoiTuan buổi / tuần</span></div>
+            <div class="classroom-price"><span>Học phí</span><strong>@Rules.Fee(lop.HocPhi,lop.DonViHocPhi)</strong></div>
+            <a class="btn btn-outline-primary" asp-action="ChiTiet" asp-route-id="@lop.Id">Vào lớp học <span aria-hidden="true">→</span></a>
+        </div>
+    </article>
 }
 </div>
+<p class="empty" data-class-empty hidden>Không có lớp ở trạng thái này.</p>
 @if(Model.Count == 0)
 {
     <div class="empty"><p>Các lớp bạn tham gia sẽ xuất hiện ở đây sau khi hoàn tất xác nhận.</p><a class="btn btn-primary" href="/TimKiem/TimKiem/Index">@(me.LoaiNguoi == "GiaSu" ? "Tìm nhu cầu học" : "Tìm gia sư")</a></div>

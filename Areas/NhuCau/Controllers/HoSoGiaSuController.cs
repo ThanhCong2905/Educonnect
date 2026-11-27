@@ -18,9 +18,12 @@ public sealed class HoSoGiaSuController(HoSoGiaSuService service, NhuCauService 
         var result = await service.LayHoSoAsync(maHoSo, viewer?.Id, HttpContext.RequestAborted);
         var profile = result.DuLieu;
         ViewData["PublicProfile"] = true;
+        ViewBag.PriceReferences = await search.HocPhiThamChieuAsync(maHoSo, HttpContext.RequestAborted);
         var contact = viewer == null ? null : await contacts.LienHeVoiAsync(profile.ChuSoHuuId);
         ViewBag.Contact = contact;
         ViewBag.ContactChat = contact?.TrangThai == "ChapNhan" ? await contacts.HoiThoaiAsync(contact.Id) : null;
+        if (viewer == null || viewer.LoaiNguoi is "HocSinh" or "PhuHuynh")
+            ViewBag.RelatedTutors = await search.GiaSuLienQuanAsync(maHoSo, HttpContext.RequestAborted);
         return View("~/Areas/TimKiem/Views/TimKiem/ChiTiet.cshtml", profile);
     }
 

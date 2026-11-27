@@ -1,6 +1,6 @@
 @model List<UngVienViewModel>
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Trang chủ";var me=await Current.HienTaiAsync();var cs=(List<LopHoc>)ViewBag.Classes;}
+@{ViewData["Title"]="Trang chủ";var me=await Current.HienTaiAsync();var cs=(List<LopHoc>)ViewBag.Classes;var personal=ViewBag.PersonalSuggestions is true;}
 <section class="study-hero">
     <div class="study-hero-content">
         <h1>Tìm kiếm</h1>
@@ -12,6 +12,6 @@
     <img src="~/images/home-study.webp" asp-append-version="true" width="1080" height="720" alt="" fetchpriority="high">
 </section>
 <section id="home-updates" data-ajax-page="home"><div class="heading"><h2>Hoạt động của bạn</h2><button class="btn quiet" type="button" data-refresh-home>Cập nhật</button></div><div class="stats"><article><small>Lớp học của bạn</small><strong>@cs.Count</strong></article><article><small>Lớp đang hoạt động</small><strong>@cs.Count(x=>x.TrangThai=="DangHoatDong")</strong></article><article><small>Bước tiếp theo</small><a href="@(me.LoaiNguoi=="GiaSu"?"/NhuCau/HoSoGiaSu/Sua":"/NhuCau/NhuCau/Tao")">@(me.LoaiNguoi=="GiaSu"?"Cập nhật hồ sơ dạy →":"Tạo nhu cầu mới →")</a></article></div>
-<div class="heading"><div><h2>@(me.LoaiNguoi=="GiaSu"?"Người học phù hợp":"Gia sư phù hợp")</h2></div><a asp-area="TimKiem" asp-controller="TimKiem" asp-action="@(me.LoaiNguoi == "GiaSu" ? "NhuCau" : "GiaSu")" asp-route-MucPhuHop="1" asp-route-SapXep="PhuHop">Xem tất cả →</a></div>
+<div class="heading"><div><h2>@(personal ? me.LoaiNguoi=="GiaSu"?"Người học phù hợp":"Gia sư phù hợp" : me.LoaiNguoi=="GiaSu"?"Khám phá nhu cầu học":"Gia sư để bạn tham khảo")</h2></div><a class="btn btn-outline-primary" asp-area="TimKiem" asp-controller="TimKiem" asp-action="@(me.LoaiNguoi == "GiaSu" ? "NhuCau" : "GiaSu")" asp-route-MucPhuHop="@(personal ? "1" : null)" asp-route-SapXep="@(personal ? "PhuHop" : "DanhGia")">Xem tất cả</a></div>
 
 <div class="cards">@foreach(var n in Model){<partial name="_Candidate" model="n"/>}</div>@if(Model.Count==0){<div class="empty">@(me.LoaiNguoi=="GiaSu"?"Chưa có nhu cầu học phù hợp.":"Chưa tìm thấy gia sư phù hợp.")</div>}</section>

@@ -1,0 +1,30 @@
+@model List<EduConnect.Mvc.Areas.TimKiem.ViewModels.GiaSuLienQuanViewModel>
+@{ var sourceId = (Guid)ViewData["SourceProfileId"]!; var references = ViewBag.PriceReferences as List<HocPhiThamChieuViewModel> ?? []; }
+<section class="tutor-alternatives" id="tutor-alternatives" aria-labelledby="alternatives-title">
+    <div class="alternatives-heading"><div><h2 id="alternatives-title">Gợi ý gia sư tương tự</h2><p>Đối chiếu học phí và đánh giá trước khi liên hệ.</p></div><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/GiaSu?MonHocId=@Model[0].MonHocId">Xem thêm @Model[0].TenMon</a></div>
+    <div class="alternatives-grid">
+    @foreach (var item in Model)
+    {
+        var url = Url.Action("ChiTiet", "HoSoGiaSu", new { area = "NhuCau", maHoSo = item.HoSo.Id });
+        <article class="card alternative-card" data-related-tutor="@item.HoSo.Id">
+            <div class="person"><partial name="_AnhDaiDien" model="new EduConnect.Mvc.ViewModels.AnhDaiDienViewModel(item.HoSo.HoTen, item.HoSo.AnhDaiDienUrl)" /><div><h3><a href="@url">@item.HoSo.HoTen</a></h3><small>@item.HoSo.TrinhDo · @item.HoSo.KinhNghiem</small></div></div>
+            <partial name="_DiemDanhGiaThe" model="item.HoSo" />
+            <div class="alternative-subject"><strong>@item.TenMon</strong><span>@item.PhamViDay</span></div>
+            <p class="alternative-location">@Rules.Label(item.HoSo.HinhThucHoc)@if(!string.IsNullOrWhiteSpace(item.HoSo.KhuVuc)){<text> · @item.HoSo.KhuVuc</text>}</p>
+            <strong class="price">@Rules.Fee(item.HocPhi, item.DonVi)</strong>
+            <div class="alternative-difference" data-price-difference="@item.ChenhLech" data-comparable="@item.ChenhLech.HasValue.ToString().ToLowerInvariant()">
+            @if (item.ChenhLech is decimal difference)
+            {
+                <span class="@(difference < 0 ? "lower" : difference > 0 ? "higher" : "same")">@(difference == 0 ? "Cùng mức phí" : (difference < 0 ? "Thấp hơn " : "Cao hơn ") + Rules.Fee(Math.Abs(difference), item.DonVi))</span>
+                <small>So với mức niêm yết @Rules.Fee(item.HocPhiGoc, item.DonVi) môn @item.TenMon của hồ sơ đang xem.</small>
+            }
+            else { <small>Cùng môn học; xem phạm vi và đơn vị phí trước khi so sánh.</small> }
+            </div>
+            <partial name="_HocPhiThamChieu" model="new DoiChieuHocPhiViewModel(references.FirstOrDefault(reference => reference.MonHocId == item.MonHocId && reference.DonVi == item.DonVi), item.HocPhi, item.DonVi)" />
+            <div class="alternative-matches"><span>Có chung môn @item.TenMon</span>@if(item.CungKhuVuc){<span>Cùng tỉnh/thành</span>}</div>
+            <div class="actions"><a class="btn btn-outline-primary" href="/TimKiem/TimKiem/SoSanh?ids=@sourceId&ids=@item.HoSo.Id">So sánh</a><a class="btn btn-primary" href="@url">Xem hồ sơ</a></div>
+        </article>
+    }
+    </div>
+    @if(Model.Any(item => item.DonVi == "VND/Buoi")) { <p class="alternative-price-note">Phí theo buổi có thể khác thời lượng. Khi liên hệ, hãy thống nhất số phút cho mỗi buổi học.</p> }
+</section>

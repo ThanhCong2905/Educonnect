@@ -29,7 +29,7 @@ public sealed class BaiTapController(BaiTapService service, LopHocService classe
                 return RedirectToAction("ChiTiet", "LopHoc", new
                 {
                     id = m.LopHocId,
-                    tab = "assignments"
+                    tab = "lessons"
                 });
             }
             catch (Exception ex) when (Rules.ErrorStatus(ex) < 500) { ModelState.AddModelError((ex as LoiNghiepVu)?.Truong ?? "", Rules.ErrorMessage(ex)); Response.StatusCode = Rules.ErrorStatus(ex); }

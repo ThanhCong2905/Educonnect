@@ -2,7 +2,7 @@
 @inject NguoiDungHienTaiService Current
 @{ViewData["Title"]=Model.TenLop;var me=await Current.HienTaiAsync();var tutor=me.Id==Model.GiaSuId;var active=Model.TrangThai=="DangHoatDong";var tab=(string)ViewBag.Tab;var schedules=(List<LichHoc>)ViewBag.Schedules;var records=(List<BuoiHoc>)ViewBag.Records;var tasks=(List<BaiTapGiao>)ViewBag.Tasks;ViewData["ClassTab"]=tab;}
 <div class="heading class-heading">
-    <div class="class-title"><h1>@Model.TenLop</h1><span class="badge rounded-pill">@Rules.Label(Model.TrangThai)</span></div>
+    <div class="class-title"><h1>@Model.TenLop</h1><span class="state-tag" data-state="@Model.TrangThai">@Rules.Label(Model.TrangThai)</span></div>
     <div class="dropdown class-menu">
         <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tùy chọn lớp">•••</button>
         <ul class="dropdown-menu dropdown-menu-end">

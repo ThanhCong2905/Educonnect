@@ -2,6 +2,7 @@
 @{
  var subjects=(List<MonHoc>)ViewBag.Subjects;
  var labels=new Dictionary<string,string?>{
+ ["PhanKhoaHoc"]=Model.PhanKhoaHoc is int part ? PhamViMonHoc.TenPhan[part-1] : null,
  ["MucPhuHop"]=Model.MucPhuHop switch { 1 => "Trùng môn trở lên", 2 => "Trùng môn và khối lớp", 3 => "Trùng môn, khối lớp và khu vực", _ => null },
  ["SoSaoToiThieu"]=Model.SoSaoToiThieu is int stars ? $"Từ {stars} sao" : null,
  ["PhuongXa"]=Model.PhuongXa,["TuKhoa"]=Model.TuKhoa,["MonHocId"]=Model.MonHocId.HasValue?subjects.FirstOrDefault(x=>x.Id==Model.MonHocId)?.TenMon??"Môn đã chọn":null,
@@ -14,7 +15,7 @@
 @if(labels.Any(x=>!string.IsNullOrWhiteSpace(x.Value))){
 <nav class="active-filters" aria-label="Bộ lọc đang áp dụng">
 @foreach(var filter in labels.Where(x=>!string.IsNullOrWhiteSpace(x.Value))){
- var query=QueryString.Create(Context.Request.Query.Where(x=>x.Key!=filter.Key&&x.Key!="Trang"&&(filter.Key!="KhuVuc"||x.Key!="PhuongXa")&&(filter.Key!="MucPhuHop"||x.Key!="SapXep"||Model.SapXep!="PhuHop")).SelectMany(x=>x.Value.Select(value=>new KeyValuePair<string,string?>(x.Key,value))));
+ var query=QueryString.Create(Context.Request.Query.Where(x=>x.Key!=filter.Key&&x.Key!="Trang"&&(filter.Key!="KhuVuc"||x.Key!="PhuongXa")&&(filter.Key!="MonHocId"||x.Key!="PhanKhoaHoc")&&(filter.Key!="MucPhuHop"||x.Key!="SapXep"||Model.SapXep!="PhuHop")).SelectMany(x=>x.Value.Select(value=>new KeyValuePair<string,string?>(x.Key,value))));
  <a href="@Context.Request.Path@query" aria-label="Bỏ bộ lọc @filter.Value">@filter.Value <span aria-hidden="true">×</span></a>
 }
 </nav>}

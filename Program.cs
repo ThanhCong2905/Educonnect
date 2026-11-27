@@ -105,6 +105,7 @@ app.UseRouting();
 app.UseSession();
 app.UseMiddleware<NhatKyAnToanMiddleware>();
 app.UseAuthentication();
+app.UseMiddleware<DieuHuongSauDangNhap>();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.Use(async (context, next) =>

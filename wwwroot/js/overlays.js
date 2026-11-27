@@ -49,23 +49,25 @@
       const item=document.createElement('li');
       if(input){
         const error=document.createElement('span');error.id='ui-error-'+Date.now()+'-'+index++;error.className='ui-field-error invalid-feedback d-block';error.textContent=messages.join(' ');input.classList.add('is-invalid');input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',((input.getAttribute('aria-describedby')||'')+' '+error.id).trim());
-        (input.closest('.chat-compose-row,.grade-picker') || input).insertAdjacentElement('afterend',error);
+        (input.closest('.chat-compose-row,.grade-picker,.time-control') || input).insertAdjacentElement('afterend',error);
+        const timeButton=input.closest('.time-control')?.querySelector('[data-time-open]');if(timeButton){timeButton.setAttribute('aria-invalid','true');timeButton.setAttribute('aria-describedby',error.id);}
       }else for(const message of messages){if(globalMessages.has(message))continue;globalMessages.add(message);const entry=document.createElement('li');entry.textContent=message;list.append(entry);}
     }
     if(list.childElementCount){summary.append(list);form.prepend(summary);summary.focus();}
-    else form.querySelector('[aria-invalid="true"]')?.focus();
+    else (form.querySelector('[data-time-open][aria-invalid="true"]')||form.querySelector('[aria-invalid="true"]'))?.focus();
   }
   async function open(url,title,source) {
     if(!modal)return;
     const target=new URL(url,location.href);if(target.origin!==location.origin)return;
-    trigger=source;request?.abort();request=new AbortController();
+    trigger=source;request?.abort();const controller=new AbortController();request=controller;
     document.getElementById('workspace-modal-title').textContent=title;
     content.replaceChildren();const loading=document.createElement('p');loading.className='modal-loading';loading.textContent='Đang tải…';content.append(loading);content.setAttribute('aria-busy','true');modal.show();
     try{
-      const response=await fetch(target,{headers:{'X-Requested-With':'XMLHttpRequest','X-Edu-Modal':'true'},signal:request.signal});
+      const response=await fetch(target,{headers:{'X-Requested-With':'XMLHttpRequest','X-Edu-Modal':'true'},signal:controller.signal});
       if(!response.ok){const problem=await response.json().catch(()=>({message:'Không thể mở nội dung. Hãy thử lại.'}));throw new Error(problem.message||'Không thể mở nội dung.');}
-      const html=await response.text();const template=document.createElement('template');template.innerHTML=html;
-      template.content.querySelectorAll('script').forEach(script=>script.remove());
+      const html=await response.text();if(request!==controller)return;
+      const template=document.createElement('template');template.innerHTML=html;
+      template.content.querySelectorAll('script,noscript').forEach(script=>script.remove());
       template.content.querySelectorAll('[data-page-back],a').forEach(link=>{
         if(link.hasAttribute('data-page-back')||link.hasAttribute('data-bs-dismiss')||/^(?:←\s*)?(?:Quay lại|Về lớp học|Về quản lý hồ sơ|Buổi học|Bài tập của lớp|Danh sách buổi học)(?:\s|$)/.test(link.textContent.trim()))link.remove();
       });
@@ -75,8 +77,16 @@
       window.EduConnect?.init(content);
       rememberForms(content);
       content.querySelector('input:not([type="hidden"]),select,textarea,button,a')?.focus();
-    }catch(error){if(error.name!=='AbortError'){content.textContent=error.message;}}
-    finally{content.removeAttribute('aria-busy');}
+    }catch(error){
+      if(error.name!=='AbortError'&&request===controller){
+        const message=document.createElement('p');message.setAttribute('role','alert');
+        message.textContent=error instanceof TypeError?'Không tải được biểu mẫu. Kiểm tra kết nối rồi thử lại.':error.message;
+        const retry=document.createElement('button');retry.type='button';retry.className='btn btn-outline-primary';retry.textContent='Thử lại';
+        retry.addEventListener('click',()=>open(target.href,title,source));
+        content.replaceChildren(message,retry);retry.focus();
+      }
+    }
+    finally{if(request===controller){request=null;content.removeAttribute('aria-busy');}}
   }
   document.addEventListener('click',event=>{
     const link=event.target.closest('a[data-modal]');

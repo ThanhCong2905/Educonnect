@@ -1,17 +1,17 @@
 @model Page<NhuCauHauKiemRow>
 <section class="card admin-panel admin-priority">
     <div class="admin-panel-heading">
-        <h2>Nhu cầu cần xem xét <span class="admin-priority-count">@Model.Total</span></h2>
+        <h2>Nhu cầu cần kiểm tra <span class="admin-priority-count">@Model.Total</span></h2>
         <a class="btn btn-outline-primary" asp-action="NhuCau" asp-route-canXemXet="true">Mở hậu kiểm</a>
     </div>
     @if (Model.Items.Count == 0)
     {
-        <p class="admin-empty">Chưa thấy dấu hiệu cần xem xét trong các nhu cầu đang mở.</p>
+        <p class="admin-empty">Không có nhu cầu được đánh dấu.</p>
     }
     else
     {
         <ul class="priority-list">
-            @foreach (var row in Model.Items)
+            @foreach (var row in Model.Items.Take(3))
             {
                 <li>
                     <div>

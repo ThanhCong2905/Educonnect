@@ -55,6 +55,27 @@ public sealed class ReviewOnceTests
     }
 
     [Fact]
+    public async Task Repeated_lesson_edits_preserve_history_when_comment_is_null_or_empty()
+    {
+        await using var db = ProposalRegressionTests.Open();
+        var seed = await Seed(db, ended: false);
+        var schedule = await db.Set<LichHoc>().Where(x => x.LopHocId == seed.Classroom && x.TieuDe == "Buổi đã học").Select(x => x.Id).SingleAsync();
+        foreach (var comment in new string?[] { null, null, "", "Đã hoàn thành bài luyện tập" })
+        {
+            var version = await db.Set<BuoiHoc>().AsNoTracking().Where(x => x.LichHocId == schedule).Select(x => x.RowVersion).SingleAsync();
+            await db.Database.ExecuteSqlInterpolatedAsync($"""
+                EXEC dbo.usp_GhiNhanBuoiHoc @LichHocId={schedule},@GiaSuId={seed.Tutor},@KetQuaBuoiHoc='DaDienRa',
+                    @NhanXet={comment},@TrangThaiGiaSu='CoMat',@TrangThaiBenHoc='CoMat',@NoiDung=N'Ôn tập',@RowVersionCu={version};
+                """);
+        }
+        var record = await db.Set<BuoiHoc>().AsNoTracking().SingleAsync(x => x.LichHocId == schedule);
+        var history = await db.Set<LichSuGhiNhanBuoiHoc>().Where(x => x.BuoiHocId == record.Id).ToListAsync();
+        Assert.Equal(4, history.Count);
+        Assert.Equal(3, history.Count(x => x.NhanXet == ""));
+        Assert.Equal("Đã hoàn thành bài luyện tập", record.NhanXet);
+    }
+
+    [Fact]
     public async Task Each_side_rates_once_and_second_submission_keeps_original()
     {
         await using var db = ProposalRegressionTests.Open();

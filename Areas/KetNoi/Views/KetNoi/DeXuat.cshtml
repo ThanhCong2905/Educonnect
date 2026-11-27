@@ -2,27 +2,25 @@
 
 @{ViewData["Title"]="Đề xuất lớp học";}
 
-<h1>Đề xuất lớp học</h1>
+<div class="proposal-intro"><h1>Đề xuất lớp học</h1><p>Thống nhất thông tin và lịch học trước khi bên học xác nhận.</p></div>
 
-<p>Bên nhận xem lại điều kiện trước khi xác nhận tạo lớp.</p>
-
-<form method="post" class="card form-wide" data-class-proposal>
+<form method="post" class="card form-wide proposal-form" data-class-proposal>
 <div asp-validation-summary="All" class="validation"></div>
 <input asp-for="Id" type="hidden"><input asp-for="LienHeId" type="hidden"><input asp-for="RowVersion" type="hidden">
 <fieldset>
 <legend>Thông tin lớp học</legend>
 
-<label>Tên người học<input class="form-control" asp-for="TenNguoiHoc" required maxlength="256"><span asp-validation-for="TenNguoiHoc"></span></label>
+<div class="proposal-fields"><label>Tên người học<input class="form-control" asp-for="TenNguoiHoc" required maxlength="256"><span asp-validation-for="TenNguoiHoc"></span></label>
 
 <label>Tên lớp<input class="form-control" asp-for="TenLop" required maxlength="256"><span asp-validation-for="TenLop"></span></label>
 
-<label>Mục tiêu<textarea class="form-control" asp-for="MucTieu" required maxlength="2000"></textarea><span asp-validation-for="MucTieu"></span></label>
+<label class="full-width">Mục tiêu<textarea class="form-control" asp-for="MucTieu" required maxlength="2000" rows="3"></textarea><span asp-validation-for="MucTieu"></span></label></div>
 </fieldset>
 
 <fieldset>
 <legend>Điều kiện học</legend>
 
-<div class="row row-cols-1 row-cols-md-2 g-3 edu-form-grid">
+<div class="proposal-fields">
 <label>Môn học<select class="form-select" asp-for="MonHocId">@foreach(var s in (List<MonHoc>)ViewBag.Subjects){<option value="@s.Id">@s.TenMon</option>}</select><span asp-validation-for="MonHocId"></span></label>
 
 <label>Nhu cầu bên học<select class="form-select" asp-for="NhuCauId" data-proposal-need><option value="">Chưa gắn nhu cầu</option>@foreach(var need in (List<NhuCauHoc>)ViewBag.ProposalNeeds){<option value="@need.Id" selected="@(Model.NhuCauId==need.Id)" data-learner="@need.TenNguoiHoc" data-subject="@need.MonHocId" data-goal="@need.MucTieu" data-sessions="@need.SoBuoiTuan" data-mode="@need.HinhThucHoc" data-address="@need.DiaChiChiTiet">@need.KhoiLop · @need.MucTieu</option>}</select><span asp-validation-for="NhuCauId"></span></label>
@@ -46,9 +44,7 @@
 <fieldset>
 <legend>Lịch dự kiến hằng tuần</legend>
 
-<partial name="_Slots" model="Model.LichRanh"/></fieldset>
-
-<p class="muted">Số khung giờ phải bằng số buổi/tuần. Mỗi khung phải đúng thời lượng một buổi.</p>
+<partial name="_Slots" model="Model.LichRanh"/><p class="proposal-hint">Chọn đủ số buổi mỗi tuần, mỗi khung giờ đúng thời lượng đã nhập.</p></fieldset>
 
 
 <div class="actions"><button class="btn btn-primary">Gửi bên học xác nhận</button><a class="btn btn-outline-primary" asp-action="Index" data-page-back>Quay lại</a></div>

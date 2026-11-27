@@ -57,7 +57,7 @@
         }
         <partial name="_NeedSummary" model="Model" />
     }
-    @if (Model.LyDo.Count > 0) { <p class="match">@string.Join(" · ", Model.LyDo)</p> }
+    <div class="candidate-relevance">@if (Model.LyDo.Count > 0) { <p class="match">@string.Join(" · ", Model.LyDo)</p> }</div>
     @if(moderation!=null)
     {
         <details class="bg-light rounded-3 p-3 mb-3"><summary>@(moderation.DangAn?"Lý do ẩn nhu cầu":"Nhận xét kiểm duyệt gần nhất")</summary><p class="pre mt-2">@moderation.LyDo</p><small>@Rules.Date(moderation.ThoiDiem)</small>

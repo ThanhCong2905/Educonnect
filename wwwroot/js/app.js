@@ -6,6 +6,7 @@ window.EduConnect.init = (root) => {
     if(event.target.id!=='connection-request-modal')return;
     const modal=event.target,button=event.relatedTarget,form=modal.querySelector('form');
     form.reset();form.querySelectorAll('.ui-field-error,.ui-error-summary').forEach(node=>node.remove());
+    const needPreview=form.querySelector('[data-request-preview]');if(needPreview)needPreview.hidden=true;
     form.querySelectorAll('.is-invalid').forEach(input=>{input.classList.remove('is-invalid');input.removeAttribute('aria-invalid');input.setAttribute('aria-describedby',(input.getAttribute('aria-describedby')||'').split(' ').filter(id=>!id.startsWith('ui-error-')).join(' '));});
     form.querySelector('[name="LienHeId"]').value=button?.dataset.contactId||'';
     modal.querySelector('[data-contact-recipient]').textContent=button?.dataset.contactName||'gia sư';
@@ -30,7 +31,6 @@ window.EduConnect.init = (root) => {
     document.addEventListener('click',event=>{if(sidebar?.classList.contains('open')&&!sidebar.contains(event.target)&&!toggle?.contains(event.target))close();});
     sidebar?.addEventListener('focusout',()=>setTimeout(()=>{if(sidebar.classList.contains('open')&&!sidebar.contains(document.activeElement)&&document.activeElement!==toggle)close();},0));
   }
-  $('[data-search-sort]')?.addEventListener('change', event => event.target.form.requestSubmit());
   function reindex(list, prefix) {
     $$(':scope > div', list).forEach((row, i) => {
       $$('[name]', row).forEach(input => {
@@ -89,6 +89,17 @@ window.EduConnect.init = (root) => {
       $('#compare-status').textContent = 'Chọn từ 2 đến 3 mục để so sánh.';
     }
   });
+  const classes = $('[data-class-list]');
+  if (classes) $$('[data-class-filter]').forEach(button => button.addEventListener('click', () => {
+    const state = button.dataset.classFilter;
+    let count = 0;
+    $$('[data-class-state]', classes).forEach(card => {
+      card.hidden = !!state && card.dataset.classState !== state;
+      if (!card.hidden) count++;
+    });
+    $$('[data-class-filter]').forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
+    $('[data-class-empty]').hidden = count > 0;
+  }));
   const stream = $('.chat-stream');
   if (stream && !new URLSearchParams(location.search).has('page')) stream.scrollTop = stream.scrollHeight;
   window.EduConnect.initScheduling?.(root);

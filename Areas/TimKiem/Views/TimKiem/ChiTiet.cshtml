@@ -5,6 +5,7 @@
     ViewData["Title"] = tutor ? "Hồ sơ gia sư" : "Chi tiết nhu cầu";
     var related = (ViewBag.Related as List<UngVienViewModel> ?? []).Where(item => item.Id != Model.Id).ToList();
     var authenticated = User.Identity?.IsAuthenticated == true;
+    var priceReferences = ViewBag.PriceReferences as List<HocPhiThamChieuViewModel> ?? [];
     var canSeeReviews = tutor || User.IsInRole("GiaSu") ||
         User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == Model.ChuSoHuuId.ToString() ||
         User.HasClaim("EduConnect.AdminPermission", "XuLyBaoCao");
@@ -39,16 +40,20 @@
 @if (tutor)
 {
     <dl class="profile-summary" aria-label="Thông tin tóm tắt">
-        <div><dt>Đánh giá</dt><dd>@(Model.DiemDanhGia?.ToString("0.0") ?? "Chưa có") <small>@(Model.SoDanhGia > 0 ? $"/ 5 từ {Model.SoDanhGia} lượt" : "")</small></dd></div>
+        <div><dt>Đánh giá</dt><dd><partial name="_DiemDanhGiaThe" model="Model" /></dd></div>
         <div><dt>Bên học đã kết nối</dt><dd>@Model.SoBenHoc <small>tài khoản</small></dd></div>
         <div><dt>Kinh nghiệm giảng dạy</dt><dd>@(string.IsNullOrWhiteSpace(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)</dd></div>
     </dl>
+}
+@if(tutor && !preview)
+{
+    <nav class="profile-section-nav" aria-label="Nội dung hồ sơ"><a href="#profile-intro">Giới thiệu</a><a href="#profile-fees">Môn dạy & học phí</a><a href="#profile-reviews">Đánh giá</a>@if(ViewBag.RelatedTutors is List<GiaSuLienQuanViewModel> alternatives && alternatives.Count > 0){<a href="#tutor-alternatives">Gợi ý gia sư tương tự</a>}</nav>
 }
 <div class="split profile-layout">
     <section class="detail-content" aria-label="@(tutor ? "Thông tin gia sư" : "Thông tin nhu cầu học")">
         @if (tutor)
         {
-            <article class="card detail-section">
+            <article class="card detail-section" id="profile-intro">
                 <h2>Giới thiệu</h2>
                 @if (!string.IsNullOrWhiteSpace(Model.MoTa))
                 {
@@ -63,13 +68,14 @@
                     }
                 </dl>
             </article>
-            <article class="card detail-section public-profile-subjects">
+            <article class="card detail-section public-profile-subjects" id="profile-fees">
                 <h2>Môn dạy và học phí</h2>
                 @foreach (var subject in Model.MonTheoHoSo)
                 {
                     <div class="subject-fee">
                         <div><h3>@subject.TenMon</h3><p>@subject.PhamViDay</p></div>
-                        <strong class="price">@Rules.Fee(subject.HocPhi, subject.DonVi)</strong>
+                        <div class="subject-price-context"><strong class="price">@Rules.Fee(subject.HocPhi, subject.DonVi)</strong>
+                        @if(!preview){<partial name="_HocPhiThamChieu" model="new DoiChieuHocPhiViewModel(priceReferences.FirstOrDefault(reference => reference.MonHocId == subject.MonHocId && reference.DonVi == subject.DonVi), subject.HocPhi, subject.DonVi)" />}</div>
                     </div>
                 }
                 <p class="muted">Học phí lớp được hai bên thống nhất trong đề xuất.</p>
@@ -120,7 +126,7 @@
         }
         @if (!preview && canSeeReviews)
         {
-            <section class="card detail-section profile-reviews" aria-label="Đánh giá">
+            <section class="card detail-section profile-reviews" id="profile-reviews" aria-label="Đánh giá">
                 <h2>@(tutor ? "Đánh giá" : "Đánh giá người đăng")</h2>
                 <partial name="_DanhGiaTomTat" model="Model.ChuSoHuuId" />
             </section>
@@ -141,6 +147,11 @@
         <aside class="card profile-contact"><h2>Hồ sơ công khai</h2><a class="btn btn-outline-primary" href="/NhuCau/HoSoGiaSu/Sua">Về quản lý hồ sơ</a></aside>
     }
 </div>
+@if(tutor && !preview && ViewBag.RelatedTutors is List<GiaSuLienQuanViewModel> relatedTutors && relatedTutors.Count > 0)
+{
+    ViewData["SourceProfileId"] = Model.Id;
+    <partial name="_GiaSuLienQuan" model="relatedTutors" />
+}
 @if (!tutor && related.Count > 0)
 {
     <section class="related-needs">

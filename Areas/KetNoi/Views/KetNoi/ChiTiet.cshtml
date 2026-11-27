@@ -1,21 +1,62 @@
 @model YeuCauKetNoiLopHoc
 @inject NguoiDungHienTaiService Current
-@{ViewData["Title"]="Chi tiết yêu cầu kết nối";var me=await Current.HienTaiAsync();var people=await Current.DanhSachAsync();var senderId=Model.NguoiDeXuatId??Model.NguoiGuiId;var senderName=people.FirstOrDefault(person=>person.Id==senderId)?.HoTen;var active=(Model.TrangThai=="ChoGiaSu"||Model.TrangThai=="ChoBenHoc")&&Model.HetHanLuc>DateTimeOffset.UtcNow;}
-<h1>@(Model.TenLopDuKien??"Yêu cầu kết nối")</h1><article class="card form-wide"><span class="badge rounded-pill">@Rules.Label(Model.TrangThai)</span><p class="muted">Người gửi · @senderName</p><p>@Model.LoiNhan</p>@if(Model.TrangThai == "NhuCauDaKetNoi")
-{
-    <p class="muted">Nhu cầu này đã có lớp học. Đề nghị đã kết thúc.</p>
+@{
+    ViewData["Title"] = "Chi tiết yêu cầu kết nối";
+    var me = await Current.HienTaiAsync();
+    var people = await Current.DanhSachAsync();
+    var senderId = Model.NguoiDeXuatId ?? Model.NguoiGuiId;
+    var senderName = people.FirstOrDefault(person => person.Id == senderId)?.HoTen;
+    var active = (Model.TrangThai is "ChoGiaSu" or "ChoBenHoc") && Model.HetHanLuc > DateTimeOffset.UtcNow;
+    var state = !active && (Model.TrangThai is "ChoGiaSu" or "ChoBenHoc") ? "HetHan" : Model.TrangThai;
 }
-@if(Model.NguoiDeXuatId == null)
-{
-    @if(active){<p>Gia sư xem nhu cầu và chuẩn bị điều kiện lớp để bên học xác nhận.</p>}
-    @if(ViewBag.RequestNeed is NhuCauHoc need)
+<div class="request-detail">
+<article class="card">
+    <span class="state-tag" data-state="@state">@Rules.Label(state)</span>
+    <h1>@(Model.TenLopDuKien ?? "Yêu cầu kết nối")</h1>
+    <p class="request-sender">Người gửi · @senderName</p>
+    @if (!string.IsNullOrWhiteSpace(Model.LoiNhan)) { <p class="request-message pre">@Model.LoiNhan</p> }
+    @if (Model.TrangThai == "NhuCauDaKetNoi") { <p class="muted">Nhu cầu này đã có lớp học. Đề nghị đã kết thúc.</p> }
+    @if (Model.NguoiDeXuatId == null)
     {
-        <section class="soft"><h2>Nhu cầu đã gửi</h2><p>@need.KhoiLop · @Rules.Label(need.HinhThucHoc)</p><p>@need.MucTieu</p></section>
+        @if (ViewBag.RequestNeed is NhuCauHoc need)
+        {
+            <section class="request-preview"><h2>Nhu cầu đã gửi</h2><div class="request-slots"><span>@need.KhoiLop</span><span>@Rules.Label(need.HinhThucHoc)</span></div><p class="request-goal pre mt-3">@need.MucTieu</p></section>
+        }
+        @if (active) { <p class="request-expiry">Gia sư chuẩn bị đề xuất lớp để bên học xem và xác nhận.</p> }
     }
-    @if(Model.TrangThai != "NhuCauDaKetNoi"){<p class="muted">Hạn phản hồi: @Rules.Date(Model.HetHanLuc)</p>}
-}
-else
-{
-<dl><dt>Người học</dt><dd>@Model.TenNguoiHoc</dd><dt>Mục tiêu</dt><dd>@Model.MucTieu</dd><dt>Học phí</dt><dd>@Rules.Fee(Model.HocPhi,Model.DonViHocPhi)</dd><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd><dt>Địa điểm</dt><dd>@Model.DiaDiem</dd><dt>Số buổi / tuần</dt><dd>@Model.SoBuoiTuan</dd><dt>Thời lượng</dt><dd>@Model.ThoiLuongPhut phút</dd><dt>Ngày bắt đầu</dt><dd>@(Model.BatDauHocLuc==null?"Chưa có":Rules.Date(Model.BatDauHocLuc.Value))</dd>@if(Model.TrangThai != "NhuCauDaKetNoi"){<dt>Hạn xác nhận</dt><dd>@Rules.Date(Model.HetHanLuc)</dd>}</dl><h3>Lịch dự kiến</h3>@foreach(var s in (List<KhungGioDeXuat>)ViewBag.Slots){<p>@(s.ThuTrongTuan==0?"Chủ nhật":"Thứ "+(s.ThuTrongTuan+1)) · @s.GioBatDau – @s.GioKetThuc</p>}
-}
-@if(active){<div class="actions">@if(me.Id==Model.GiaSuId){<a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@Model.LienHeId" asp-route-id="@Model.Id">Chuẩn bị đề xuất lớp</a>}@if(Model.NguoiDeXuatId==Model.GiaSuId&&Model.BenHocId==me.Id){<form method="post" asp-action="ChapNhan"><input name="id" value="@Model.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden"><button class="btn btn-primary">Xác nhận điều kiện và tạo lớp</button></form>}<form method="post" asp-action="PhanHoi"><input name="id" value="@Model.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden">@{var sender=Model.NguoiDeXuatId??Model.NguoiGuiId;}<button class="btn btn-outline-primary" name="action" data-confirm="@(sender==me.Id?"Bạn muốn rút đề xuất này?":"Bạn muốn từ chối đề xuất này?")" value="@(sender==me.Id?"DaRut":"TuChoi")">@(sender==me.Id?"Rút yêu cầu":"Từ chối")</button></form></div>}</article>
+    else
+    {
+        <dl class="request-facts">
+            <div><dt>Người học</dt><dd>@Model.TenNguoiHoc</dd></div>
+            <div><dt>Học phí</dt><dd class="price">@Rules.Fee(Model.HocPhi, Model.DonViHocPhi)</dd></div>
+            <div><dt>Hình thức</dt><dd>@Rules.Label(Model.HinhThucHoc)</dd></div>
+            <div><dt>Địa điểm</dt><dd>@(string.IsNullOrWhiteSpace(Model.DiaDiem) ? (Model.HinhThucHoc == "TrucTuyen" ? "Học trực tuyến" : "Chưa thống nhất") : Model.DiaDiem)</dd></div>
+            <div><dt>Số buổi mỗi tuần</dt><dd>@Model.SoBuoiTuan buổi</dd></div>
+            <div><dt>Thời lượng một buổi</dt><dd>@Model.ThoiLuongPhut phút</dd></div>
+            <div><dt>Ngày bắt đầu</dt><dd>@(Model.BatDauHocLuc == null ? "Chưa thống nhất" : Rules.Date(Model.BatDauHocLuc.Value))</dd></div>
+        </dl>
+        <h2>Mục tiêu học tập</h2><p class="request-goal pre">@Model.MucTieu</p>
+        <h2>Lịch dự kiến</h2>
+        <div class="request-slots">
+            @foreach (var slot in (List<KhungGioDeXuat>)ViewBag.Slots)
+            { <span>@(slot.ThuTrongTuan == 0 ? "Chủ nhật" : "Thứ " + (slot.ThuTrongTuan + 1)) · @slot.GioBatDau.ToString("HH:mm") – @slot.GioKetThuc.ToString("HH:mm")</span> }
+        </div>
+    }
+    @if (Model.TrangThai != "NhuCauDaKetNoi") { <p class="request-expiry">Hạn phản hồi · @Rules.Date(Model.HetHanLuc)</p> }
+    @if (active)
+    {
+        <div class="actions">
+            <form method="post" asp-action="PhanHoi">
+                <input name="id" value="@Model.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden">
+                <button class="btn btn-outline-primary" name="action" data-confirm="@(senderId == me.Id ? "Bạn muốn rút đề xuất này?" : "Bạn muốn từ chối đề xuất này?")" value="@(senderId == me.Id ? "DaRut" : "TuChoi")">@(senderId == me.Id ? "Rút yêu cầu" : "Từ chối")</button>
+            </form>
+            @if (me.Id == Model.GiaSuId)
+            { <a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@Model.LienHeId" asp-route-id="@Model.Id">Chuẩn bị đề xuất lớp</a> }
+            @if (Model.NguoiDeXuatId == Model.GiaSuId && Model.BenHocId == me.Id)
+            {
+                <form method="post" asp-action="ChapNhan"><input name="id" value="@Model.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden"><button class="btn btn-primary">Xác nhận và tạo lớp</button></form>
+            }
+        </div>
+    }
+</article>
+</div>

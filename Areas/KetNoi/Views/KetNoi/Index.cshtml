@@ -3,33 +3,38 @@
     ViewData["Title"] = "Kết nối";
     var me = await Current.HienTaiAsync();
     var requests = (List<YeuCauKetNoiLopHoc>)ViewBag.Requests;
+    var people = await Current.DanhSachAsync();
 }
 <section id="connection-content">
     <partial name="_ConnectionSnapshot" />
     <h1>Liên hệ & kết nối</h1>
     <partial name="_KetNoiTabs" />
-    <h2>Đề xuất lớp học</h2>
-    <div class="stack" data-connection-list>
+    <div class="connection-heading"><div><h2>Đề xuất lớp học</h2><p>Xem điều kiện học và phản hồi các yêu cầu đang chờ.</p></div></div>
+    <div class="connection-cards" data-connection-list>
         @foreach (var request in requests)
         {
             var active = (request.TrangThai is "ChoGiaSu" or "ChoBenHoc") && request.HetHanLuc > DateTimeOffset.UtcNow;
-            <article class="card" id="@request.Id" data-connection-card
+            var other = people.FirstOrDefault(person => person.Id == (me.Id == request.GiaSuId ? request.BenHocId : request.GiaSuId));
+            var state = !active && (request.TrangThai is "ChoGiaSu" or "ChoBenHoc") ? "HetHan" : request.TrangThai;
+            <article class="card connection-card" id="@request.Id" data-connection-card
                      data-live-version="@Convert.ToBase64String(request.RowVersion)"
                      data-live-state="@request.TrangThai" data-live-actionable="@(active ? "true" : "false")">
-                <span class="badge rounded-pill">@Rules.Label(request.TrangThai)</span>
+                <div class="connection-card-top"><span class="state-tag" data-state="@state">@Rules.Label(state)</span><small>@((request.NguoiDeXuatId ?? request.NguoiGuiId) == me.Id ? "Bạn đã gửi" : "Yêu cầu nhận được")</small></div>
                 <h3>@(request.TenLopDuKien ?? "Đề xuất lớp học")</h3>
-                <p>@request.LoiNhan</p>
+                <div class="person"><span class="avatar" aria-hidden="true">@(other?.HoTen.FirstOrDefault().ToString() ?? "?")</span><div><h3>@other?.HoTen</h3><small>@Rules.Label(other?.LoaiNguoi)</small></div></div>
+                @if(request.NguoiDeXuatId != null){<dl class="connection-summary"><div><dt>Người học</dt><dd>@request.TenNguoiHoc</dd></div><div><dt>Học phí</dt><dd>@Rules.Fee(request.HocPhi, request.DonViHocPhi)</dd></div><div><dt>Hình thức</dt><dd>@Rules.Label(request.HinhThucHoc)</dd></div><div><dt>Lịch học</dt><dd>@request.SoBuoiTuan buổi/tuần · @request.ThoiLuongPhut phút/buổi</dd></div></dl>}
+                @if(!string.IsNullOrWhiteSpace(request.LoiNhan)){<p class="contact-message pre">@request.LoiNhan</p>}
                 @if (request.TrangThai != "NhuCauDaKetNoi")
                 {
-                    <small>Hạn xử lý: @Rules.Date(request.HetHanLuc)</small>
+                    <small class="contact-date">Hạn phản hồi: @Rules.Date(request.HetHanLuc)</small>
                 }
-                <div class="actions">
+                <div class="contact-card-footer"><div class="actions">
                     <a class="btn btn-outline-primary secondary" asp-action="ChiTiet" asp-route-id="@request.Id">Xem chi tiết</a>
                     @if (me.Id == request.GiaSuId && active)
                     {
                         <a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@request.LienHeId" asp-route-id="@request.Id">@(request.TrangThai == "ChoGiaSu" ? "Gửi đề xuất lớp" : "Sửa và gửi xác nhận lại")</a>
                     }
-                </div>
+                </div></div>
             </article>
         }
         @if (requests.Count == 0)

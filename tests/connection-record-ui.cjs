@@ -1,0 +1,76 @@
+const {chromium}=require('playwright');
+const fs=require('node:fs'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+const signIn=require('./sign-in.cjs');
+const ids=JSON.parse(fs.readFileSync('.uc3-build/fixture.json','utf8'));
+const base=process.env.EDU_TEST_URL||'http://127.0.0.1:5299';
+assert.ok(ids.database.startsWith('EduConnect_Verification_'));
+assert.ok(['127.0.0.1','localhost'].includes(new URL(base).hostname));
+const out='.codex-local/connection-record-ui';fs.mkdirSync(out,{recursive:true});
+const sql=q=>execFileSync('sqlcmd',['-S','lpc:CONGVJP','-d',ids.database,'-E','-C','-I','-b','-h','-1','-w','65535','-f','65001','-Q','SET NOCOUNT ON; '+q],{encoding:'utf8'}).trim();
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}}),checks=[],errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const pass=name=>{checks.push(name);fs.writeFileSync(out+'/results.json',JSON.stringify({checks,errors},null,2));console.log('PASS',name);};
+ const fits=async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+ const lesson=base+'/HocTap/LichHoc/Buoi/'+ids.past;
+ try{
+  await signIn(page,base,ids.tutor);await page.goto(lesson);
+  if(await page.locator('[data-record-edit]:visible').count())await page.locator('[data-record-edit]').click();
+  let form=page.locator('[data-lesson-record]');await form.locator('[name=KetQuaBuoiHoc][value=DaDienRa]').check();
+  await form.locator('[name=NoiDung]').fill('');await form.locator('[name=NhanXet]').fill('Giữ lại khi lưu lỗi');
+  await form.getByRole('button',{name:'Lưu ghi nhận',exact:true}).click();
+  await form.locator('[name=NoiDung][aria-invalid=true]').waitFor();assert.equal(await form.locator('[name=NhanXet]').inputValue(),'Giữ lại khi lưu lỗi');
+  pass('Lỗi ghi nhận giữ biểu mẫu mở, dữ liệu và thông báo đúng trường');
+  await form.locator('[name=NoiDung]').fill('Ôn tập và chữa bài về phương trình. Trao đổi các bước giải với người học.');await form.locator('[name=NhanXet]').fill('');
+  await form.locator('[name=TrangThaiGiaSu]').selectOption('CoMat');await form.locator('[name=TrangThaiBenHoc]').selectOption('CoMat');
+  await form.getByRole('button',{name:'Lưu ghi nhận',exact:true}).click();
+  await page.locator('[data-record-editor][data-editing=false]').waitFor();
+  assert.equal(await page.locator('[data-record-fields]').isVisible(),false);assert.equal(await page.locator('[name=NoiDung]').isDisabled(),true);
+  pass('Lưu thành công đóng và khóa các trường; nhận xét được để trống');
+  await page.locator('[data-record-edit]').click();assert.equal(await page.locator('[name=NoiDung]').isDisabled(),false);
+  await page.locator('[name=NoiDung]').fill('Thay đổi chưa lưu');
+  await page.getByRole('button',{name:'Hủy chỉnh sửa',exact:true}).click();await page.locator('[data-record-editor][data-editing=false]').waitFor();
+  assert.notEqual(await page.locator('[name=NoiDung]').inputValue(),'Thay đổi chưa lưu');pass('Chỉnh sửa mới mở trường; Hủy trở về dữ liệu đã lưu');
+  await page.locator('[data-record-edit]').click();form=page.locator('[data-lesson-record]');
+  await form.locator('[name=KetQuaBuoiHoc][value=KhongDienRa]').check();assert.equal(await form.locator('[name=NhanXet]').evaluate(n=>n.required),true);
+  assert.equal(await form.locator('[data-record-rest]').isVisible(),true);assert.equal(await form.locator('[data-record-comment-label]').innerText(),'Lý do không diễn ra');
+  await form.locator('[name=KetQuaBuoiHoc][value=DaDienRa]').check();assert.equal(await form.locator('[name=NhanXet]').evaluate(n=>n.required),false);
+  await form.locator('[name=NhanXet]').fill('Người học đã nắm được cách giải và tự hoàn thành bài luyện tập.');
+  await form.getByRole('button',{name:'Lưu ghi nhận',exact:true}).click();await page.locator('[data-record-editor][data-editing=false]').waitFor();
+  const history=page.locator('.lesson-history').filter({has:page.locator('summary',{hasText:'Lịch sử ghi nhận'})});await history.locator('summary').click();
+  assert.ok(await history.locator('.lesson-history-entry').count()>0);await history.getByText('Nội dung buổi học',{exact:true}).first().waitFor();await fits();
+  await page.screenshot({path:out+'/record-desktop.png',fullPage:true});pass('Lịch sử có từng phiên bản, ngày và nhãn kết quả; lý do chỉ hiện theo kết quả');
+  await page.setViewportSize({width:390,height:844});await fits();await page.screenshot({path:out+'/record-mobile.png',fullPage:true});pass('Ghi nhận và lịch sử không tràn khung điện thoại');
+  await signIn(page,base,ids.learner);await page.goto(lesson);assert.equal(await page.locator('[data-record-edit],[data-lesson-record]').count(),0);pass('Bên học xem ghi nhận và lịch sử, không có quyền chỉnh sửa');
+  await page.goto(base+'/HocTap/LopHoc/ChiTiet/'+ids.classroom);
+  const activeTag=page.locator('.class-title .state-tag');assert.equal(await activeTag.getAttribute('data-state'),'DangHoatDong');assert.equal(await activeTag.evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(237, 247, 241)');pass('Lớp đang hoạt động có nhãn xanh rõ ràng');
+
+  const connectionLearner=require('node:crypto').randomUUID();
+  sql(`DECLARE @email nvarchar(256)=REPLACE('${connectionLearner}','-','')+'@example.test';
+   INSERT dbo.AspNetUsers(Id,HoTen,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled,AccessFailedCount)
+   SELECT '${connectionLearner}',N'Người học kiểm thử giao diện',@email,UPPER(@email),@email,UPPER(@email),1,PasswordHash,CONVERT(varchar(36),NEWID()),CONVERT(varchar(36),NEWID()),0,0,1,0 FROM dbo.AspNetUsers WHERE Id='${ids.learner}';
+   INSERT dbo.AspNetUserRoles(UserId,RoleId) SELECT '${connectionLearner}',Id FROM dbo.AspNetRoles WHERE Name='HocSinh';
+   INSERT dbo.HocSinh(TaiKhoanId) VALUES('${connectionLearner}');
+   INSERT dbo.NhuCauHoc(Id,ChuSoHuuId,LoaiNhuCau,MonHocId,KhoiLop,MucTieu,SoBuoiTuan,HinhThucHoc,TrangThai)
+   VALUES(NEWID(),'${connectionLearner}','TimGiaSu',1,N'Lớp 12',N'Ôn tập kiến thức và luyện giải bài tập Toán',1,'TrucTuyen','DangMo');`);
+  await signIn(page,base,connectionLearner);
+  const chosen=JSON.parse(sql(`SELECT h.Id AS profile,h.GiaSuId AS tutor FROM HoSoGiaSu h WHERE h.GiaSuId='${ids.tutor}' AND h.TrangThaiDuyet='DaDuyet' AND h.DangHienThi=1 FOR JSON PATH, WITHOUT_ARRAY_WRAPPER`));
+  await page.goto(base+'/NhuCau/HoSoGiaSu/ChiTiet?maHoSo='+chosen.profile);const contactForm=page.locator('.profile-contact form');await contactForm.locator('[name=LoiNhan]').fill('Chào bạn, mình muốn trao đổi thêm về lịch học và cách học phù hợp.');
+  await fits();await contactForm.getByRole('button',{name:'Gửi lời mời liên hệ',exact:true}).click();await page.waitForURL(/KetNoi/);
+  const contact=sql(`SELECT TOP 1 Id FROM YeuCauLienHe WHERE GiaSuId='${chosen.tutor}' AND BenHocId='${connectionLearner}' AND TrangThai='ChoPhanHoi' ORDER BY GuiLuc DESC`);
+  assert.match(contact,/^[\da-f-]{36}$/i);pass('Gửi lời mời từ hồ sơ bằng biểu mẫu mới thành công');
+  await signIn(page,base,chosen.tutor);await page.goto(base+'/KetNoi/KetNoi/LienHe');await page.locator('[id="'+contact.toLowerCase()+'"] button[value=ChapNhan]').click();
+  await page.waitForLoadState('networkidle');await signIn(page,base,connectionLearner);await page.goto(base+'/KetNoi/KetNoi/LienHe');
+  await page.locator('[data-contact-id="'+contact.toLowerCase()+'"]').click();const modal=page.locator('#connection-request-modal');await modal.waitFor({state:'visible'});await page.waitForFunction(()=>getComputedStyle(document.getElementById('connection-request-modal')).opacity==='1');
+  const need=await modal.locator('[name=NhuCauId] option').nth(1).getAttribute('value');assert.ok(need);await modal.locator('[name=NhuCauId]').selectOption(need);assert.equal(await modal.locator('[data-request-preview]').isVisible(),true);
+  await modal.locator('[name=LoiNhan]').fill('Bạn xem giúp nhu cầu và gửi lại đề xuất lớp học nhé.');await page.screenshot({path:out+'/request-mobile.png',animations:'disabled'});
+  await modal.getByRole('button',{name:'Gửi yêu cầu',exact:true}).click();await modal.waitFor({state:'hidden'});
+  const request=sql(`SELECT TOP 1 Id FROM YeuCauKetNoiLopHoc WHERE LienHeId='${contact}' ORDER BY GuiLuc DESC`);assert.match(request,/^[\da-f-]{36}$/i);pass('Ngăn gửi nhu cầu có người nhận, xem trước mục tiêu và gửi đúng yêu cầu');
+  await page.goto(base+'/KetNoi/KetNoi/ChiTiet/'+request);await fits();assert.equal(await page.locator('.request-detail .state-tag').getAttribute('data-state'),'ChoGiaSu');
+  await signIn(page,base,chosen.tutor);await page.goto(base+'/KetNoi/KetNoi/DeXuat?contact='+contact+'&id='+request);await page.locator('[data-class-proposal]').waitFor();await fits();
+  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:out+'/proposal-desktop.png',fullPage:true});await fits();
+  await page.goto(base+'/KetNoi/KetNoi/Index');const tops=await page.locator('.connection-card').evaluateAll(ns=>ns.slice(0,2).map(n=>n.getBoundingClientRect().top));if(tops.length===2)assert.ok(Math.abs(tops[0]-tops[1])<2);await page.screenshot({path:out+'/connections-desktop.png',fullPage:true});pass('Danh sách, chi tiết và đề xuất chia nhóm rõ ràng trên máy tính và điện thoại');
+  await signIn(page,base,ids.learner);await page.goto(base+'/Home/ThongBao');const notice=page.locator('[data-kind=LichHoc]').first();await notice.waitFor();assert.notEqual(await notice.evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(242, 244, 247)');pass('Thông báo lịch học có nhãn loại màu riêng');
+  assert.deepEqual(errors,[]);pass('Không có lỗi JavaScript trong các luồng đã kiểm tra');
+ }catch(error){await page.screenshot({path:out+'/failure.png',fullPage:true});console.log(await page.locator('[data-lesson-record]').innerText().catch(()=>page.locator('main').innerText()));throw error;}finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

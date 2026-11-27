@@ -1,0 +1,12 @@
+@model EduConnect.Mvc.Areas.TimKiem.ViewModels.DoiChieuHocPhiViewModel
+<div class="price-benchmark" data-market-count="@(Model.ThamChieu?.SoHoSo ?? 0)" data-market-average="@(Model.ThamChieu?.DuSoLieu == true ? Model.ThamChieu.TrungBinh.ToString(System.Globalization.CultureInfo.InvariantCulture) : null)" data-listed-price="@Model.HocPhi?.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-market-difference="@Model.ChenhLech?.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+    @if(Model.ChenhLech is decimal difference)
+    {
+        <div class="benchmark-heading"><span>Trung bình EduConnect <span class="benchmark-info" tabindex="0" title="Trung bình cộng từ các hồ sơ công khai khác cùng môn, cùng đơn vị, phạm vi lớp có giao nhau và hình thức phù hợp. Mỗi hồ sơ tính một lần; bao gồm mức miễn phí nếu có.">ⓘ</span></span><strong>@Rules.Fee(Model.ThamChieu!.TrungBinh, Model.DonVi)</strong></div>
+        <div class="benchmark-result"><span class="@(difference < 0 ? "lower" : difference > 0 ? "higher" : "same")">@(difference == 0 ? "Bằng mức trung bình" : (difference < 0 ? "Thấp hơn " : "Cao hơn ") + Rules.Fee(Math.Abs(difference), Model.DonVi))</span><small>@Model.ThamChieu.SoHoSo hồ sơ tham chiếu</small></div>
+    }
+    else
+    {
+        <small>Chưa đủ dữ liệu tham chiếu@((Model.ThamChieu?.SoHoSo ?? 0) > 0 ? $" ({Model.ThamChieu!.SoHoSo} hồ sơ)" : "").</small>
+    }
+</div>

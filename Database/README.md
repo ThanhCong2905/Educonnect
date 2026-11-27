@@ -1,6 +1,6 @@
 # Database EduConnect
 
-Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 50 bảng và các nâng cấp đến script 28. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
+Ứng dụng dùng database chính `KLTN_Full_V2`, cấu hình tại `ConnectionStrings:EduConnect` trong `appsettings.json`. Bộ cài mới thống nhất là `00_EduConnect_Full.sql`, gồm 50 bảng và các nâng cấp đến script 29. `NguoiThamGia` là view đọc tài khoản và vai trò Identity.
 
 Database đã đến script 21 chạy `22_OptionalLessonComment.sql` để cho phép bỏ trống nhận xét của buổi đã diễn ra. Buổi không diễn ra vẫn phải có lý do. Bản cài mới đã có thay đổi này trong file 00.
 
@@ -19,6 +19,8 @@ Database đã đến script 26 chạy `27_PhamViMonHoc_ChinhSach.sql` trước k
 Database đã đến script 27 chạy `28_HinhThucNhuCau.sql` trước khi dùng code mới. Nhu cầu có thể chọn `TrucTuyen`, `TrucTiep` hoặc `CaHai`. Đề xuất và lớp học vẫn lưu một hình thức đã thống nhất. Bản nâng cấp giữ nguyên dữ liệu hiện có và số bảng.
 
 ## Cài mới
+
+Database đã đến script 28 chạy `29_LichSuGhiNhanNhanXetTuyChon.sql`. Lịch sử của buổi đã diễn ra cho phép nhận xét trống; buổi không diễn ra vẫn cần lý do. Trigger lưu phiên bản chuyển nhận xét NULL của bản cũ thành chuỗi rỗng, tránh lỗi khi sửa ghi nhận lần tiếp theo. Script không thêm bảng hoặc cột, không xóa lịch sử. File 00 đã gồm bản sửa này.
 
 ```powershell
 sqlcmd -S lpc:CONGVJP -d master -E -C -I -b -f 65001 -i Database\00_EduConnect_Full.sql

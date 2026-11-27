@@ -26,6 +26,19 @@ public sealed partial class QuanTriService(AppDbContext db, NguoiDungHienTaiServ
         {
             HoSoChoDuyet = hoSo.GetValueOrDefault("ChoDuyet"),
             HoSoTheoTrangThai = hoSo,
+            HoSoCanDuyet = duyetHoSo ? await (from profile in db.Set<HoSoGiaSu>().AsNoTracking()
+                join user in db.Users.AsNoTracking() on profile.GiaSuId equals user.Id
+                where profile.TrangThaiDuyet == "ChoDuyet"
+                orderby profile.GuiDuyetLuc, profile.Id
+                select new HoSoHangCho(profile.Id, user.HoTen, profile.TrinhDo, profile.GuiDuyetLuc)).Take(4).ToListAsync(huy) : [],
+            BaoCaoCanXuLy = xuLyBaoCao ? await (from report in db.Set<BaoCaoViPham>().AsNoTracking()
+                join sender in db.Users.AsNoTracking() on report.NguoiBaoCaoId equals sender.Id
+                join handler in db.Users.AsNoTracking() on report.NguoiXuLyId equals (Guid?)handler.Id into handlers
+                from handler in handlers.DefaultIfEmpty()
+                where report.TrangThai != "DaXuLy"
+                orderby report.GuiLuc, report.Id
+                select new BaoCaoHangCho(report.Id, report.LyDo, sender.HoTen,
+                    handler == null ? null : handler.HoTen, report.TrangThai, report.GuiLuc)).Take(4).ToListAsync(huy) : [],
             BaoCaoChoXuLy = xuLyBaoCao ? await db.Set<BaoCaoViPham>().CountAsync(x => x.TrangThai != "DaXuLy", huy) : 0,
             TaiKhoanBiKhoa = quanLyTaiKhoan ? await db.Users.CountAsync(x => x.TrangThai == "BiKhoa", huy) : 0,
             LopTamDung = quanLyTaiKhoan ? await db.Set<LopHoc>().CountAsync(x => x.TrangThai == "TamDung", huy) : 0,

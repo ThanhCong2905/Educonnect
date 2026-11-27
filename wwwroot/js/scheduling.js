@@ -17,8 +17,9 @@ window.EduConnect.initScheduling=(root=document)=>{
   if(list.dataset.ready)return;list.dataset.ready='true';
   const form=list.closest('form'),button=form.querySelector('[data-add-slot]');
   const feedback=document.createElement('p');feedback.className='muted';feedback.setAttribute('role','status');list.after(feedback);
-  function sync(){window.EduConnect.clearRowErrors(form,list,'LichRanh');reindex(list,'LichRanh');button.disabled=list.children.length>=35;feedback.textContent=list.children.length?list.children.length+' khung giờ · Các khung cùng ngày cần tránh trùng nhau.':'Chưa có khung giờ. Chọn “Thêm khung giờ” để bắt đầu.';}
+  function sync(){window.EduConnect.clearRowErrors(form,list,'LichRanh');reindex(list,'LichRanh');button.disabled=list.children.length>=35;feedback.textContent=list.children.length?list.children.length+' khung giờ · Các khung cùng ngày cần tránh trùng nhau.':'Chưa có khung giờ. Chọn “Thêm khung giờ” để bắt đầu.';list.dispatchEvent(new Event('edu:slots-changed',{bubbles:true}));}
   list.addEventListener('click',event=>{const remove=event.target.closest('[data-remove-row]');if(!remove)return;const next=remove.closest('.slot-row').nextElementSibling;remove.closest('.slot-row').remove();sync();(next?.querySelector('select')||button).focus();});
+  list.addEventListener('edu:slots-restored',sync);
   button.addEventListener('click',()=>{
    if(list.children.length>=35)return;
    const previous=list.lastElementChild;const day=previous?Number(previous.querySelector('select').value):0;

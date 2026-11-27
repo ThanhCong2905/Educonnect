@@ -83,7 +83,15 @@ public sealed class TaiKhoanController(TaiKhoanService accounts) : Controller
         {
             var error = await accounts.DangNhapAsync(model, HttpContext);
             if (error == null)
-                return Url.IsLocalUrl(model.ReturnUrl) ? LocalRedirect(model.ReturnUrl!) : RedirectToAction("Index", "Home");
+            {
+                if (Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    var destination = Url.Content(model.ReturnUrl!);
+                    DieuHuongSauDangNhap.GhiNhan(HttpContext, destination);
+                    return LocalRedirect(destination);
+                }
+                return RedirectToAction("Index", "Home");
+            }
             ModelState.AddModelError("", error);
         }
         ClearPassword();

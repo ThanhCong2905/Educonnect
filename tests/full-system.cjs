@@ -188,7 +188,26 @@ async function main() {
         INSERT BienPhapQuanTri(Id,LoaiDoiTuong,DoiTuongId,Loai,LyDo,NguoiApDungId,ApDungLuc) VALUES(NEWID(),'TinNhan','${hidden}','AnNoiDung',N'Kiểm thử ẩn tin','${admin.id}',SYSDATETIMEOFFSET());`);
         await check('Tin đã ẩn không xuất hiện, mốc tải cũ vẫn hoạt động',async()=>{const r=await student.c.get(base+`/HocTap/TinNhan/DuLieu?id=${room}`);assert.equal(r.status(),200);const data=await r.json();assert.ok(data.items.some(x=>x.id===visible));assert.ok(!data.items.some(x=>x.id===hidden));assert.equal((await student.c.get(base+`/HocTap/TinNhan/DuLieu?id=${room}&after=${hidden}`)).status(),200);});
         await check('Cấp quyền quản trị lưu lý do và thu hồi phiên',async()=>{const r=await post(admin.c,'/QuanTri/QuanTri/PhanQuyen',{TaiKhoanId:limited.id,ConcurrencyStamp:stamp(limited.id),Quyen:'QuanLyDanhMuc',LyDo:'Phân công phụ trách danh mục môn học.'});assert.equal(r.status(),302);assert.equal((await limited.c.get(base+'/QuanTri/QuanTri/XemNhatKy',{maxRedirects:0})).status(),302);await login(limited);assert.equal((await limited.c.get(base+'/QuanTri/QuanTri/MonHoc')).status(),200);assert.equal((await limited.c.get(base+'/QuanTri/QuanTri/XemNhatKy')).status(),403);assert.match(sql(`SELECT TOP 1 ChiTiet FROM NhatKyQuanTri WHERE HanhDong='PhanQuyenQuanTri' AND DoiTuongId='${limited.id}' ORDER BY ThoiDiem DESC`),/Phân công phụ trách/);});
-        await check('Không gỡ quyền quản lý tài khoản cuối cùng',async()=>{sql(`DELETE AspNetUserClaims WHERE ClaimType='EduConnect.AdminPermission' AND ClaimValue IN('QuanLyTaiKhoan','QuanLyQuyen') AND UserId<>'${admin.id}'`);const r=await post(admin.c,'/QuanTri/QuanTri/PhanQuyen',{TaiKhoanId:admin.id,ConcurrencyStamp:stamp(admin.id),Quyen:'XemNhatKy',LyDo:'Thử gỡ quyền quan trọng cuối cùng.'});assert.notEqual(r.status(),302);assert.equal(sql(`SELECT COUNT(*) FROM AspNetUserClaims WHERE UserId='${admin.id}' AND ClaimType='EduConnect.AdminPermission' AND ClaimValue='QuanLyQuyen'`),'1');});
+        await check('Không gỡ quyền quản lý tài khoản cuối cùng', async () => {
+            const snapshot = sql(`SELECT CONCAT(UserId,'|',ClaimValue) FROM AspNetUserClaims WHERE ClaimType='EduConnect.AdminPermission' AND ClaimValue IN('QuanLyTaiKhoan','QuanLyQuyen') AND UserId<>'${admin.id}'`);
+            const claims = snapshot ? snapshot.split(/\r?\n/).map(line => {
+                const [UserId, ClaimValue] = line.trim().split('|');
+                return {UserId, ClaimValue};
+            }) : [];
+            for (const claim of claims) {
+                assert.match(claim.UserId, /^[0-9a-f-]{36}$/i);
+                assert.ok(['QuanLyTaiKhoan', 'QuanLyQuyen'].includes(claim.ClaimValue));
+            }
+            try {
+                sql(`DELETE AspNetUserClaims WHERE ClaimType='EduConnect.AdminPermission' AND ClaimValue IN('QuanLyTaiKhoan','QuanLyQuyen') AND UserId<>'${admin.id}'`);
+                const r = await post(admin.c, '/QuanTri/QuanTri/PhanQuyen', {TaiKhoanId:admin.id, ConcurrencyStamp:stamp(admin.id), Quyen:'XemNhatKy', LyDo:'Thử gỡ quyền quan trọng cuối cùng.'});
+                assert.notEqual(r.status(), 302);
+                assert.equal(sql(`SELECT COUNT(*) FROM AspNetUserClaims WHERE UserId='${admin.id}' AND ClaimType='EduConnect.AdminPermission' AND ClaimValue='QuanLyQuyen'`), '1');
+            } finally {
+                for (const claim of claims)
+                    sql(`INSERT AspNetUserClaims(UserId,ClaimType,ClaimValue) SELECT '${claim.UserId}','EduConnect.AdminPermission','${claim.ClaimValue}' WHERE NOT EXISTS(SELECT 1 FROM AspNetUserClaims WHERE UserId='${claim.UserId}' AND ClaimType='EduConnect.AdminPermission' AND ClaimValue='${claim.ClaimValue}')`);
+            }
+        });
 
         const page=await admin.context.newPage();
         await page.goto(base+'/QuanTri/QuanTri/Index');await page.screenshot({path:output+'/admin-desktop.png',fullPage:true});

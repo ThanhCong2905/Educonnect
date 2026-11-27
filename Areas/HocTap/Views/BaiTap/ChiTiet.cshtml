@@ -13,26 +13,29 @@
     var input = ViewBag.NopInput as EduConnect.Mvc.Areas.HocTap.ViewModels.NopBaiViewModel ?? new() { BaiTapGiaoId = Model.Id };
     var gradeInput = ViewBag.ChamInput as EduConnect.Mvc.Areas.HocTap.ViewModels.ChamBaiViewModel;
 }
-<h1>@Model.TieuDe</h1>
+<div class="heading assignment-heading"><div><span class="muted">Bài tập · @c.TenLop</span><h1>@Model.TieuDe</h1></div>
 @if (ViewBag.ScheduleId != null)
 {
     <a class="btn btn-outline-primary" asp-controller="LichHoc" asp-action="Buoi" asp-route-id="@ViewBag.ScheduleId">← Buổi học</a>
 }
 else
 {
-    <a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="assignments">← Bài tập của lớp</a>
-    <p>Chưa gắn buổi</p>
-    @if (tutor && c.TrangThai == "DangHoatDong") { <a class="btn btn-outline-primary" data-modal asp-action="GanBuoi" asp-route-id="@Model.Id">Chọn buổi học</a> }
+    <div class="actions"><a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="ChiTiet" asp-route-id="@c.Id" asp-route-tab="lessons">Các buổi học</a>
+    @if (tutor && c.TrangThai == "DangHoatDong") { <a class="btn btn-outline-primary" data-modal asp-action="GanBuoi" asp-route-id="@Model.Id">Chọn buổi học</a> }</div>
 }
-<article class="card">
-    <p>Hạn nộp: @Rules.Date(Model.HanNopLuc)</p>
+</div>
+<div class="assignment-workspace">
+<article class="card assignment-content">
+    <h2>Đề bài</h2>
+    <p class="assignment-deadline"><span>Hạn nộp</span><strong>@Rules.Date(Model.HanNopLuc)</strong></p>
+    @if (ViewBag.ScheduleId == null) { <p class="muted">Bài tập này chưa gắn với buổi học.</p> }
     <p class="pre">@Model.NoiDung</p>
     @if (!string.IsNullOrWhiteSpace(Model.TieuChiCham)) { <p>Tiêu chí: @Model.TieuChiCham</p> }
     @foreach (var f in files.Where(x => x.BaiTapGiaoId == Model.Id)) { <partial name="_TepLienKet" model='new EduConnect.Mvc.ViewModels.TepLienKetViewModel(f, "Tai")' /> }
 </article>
 @if (!tutor && canSubmit && c.TrangThai == "DangHoatDong" && results.Count == 0)
 {
-    <form method="post" asp-action="Nop" enctype="multipart/form-data" class="card">
+    <form method="post" asp-action="Nop" enctype="multipart/form-data" class="card assignment-submit">
         <div asp-validation-summary="All" class="validation"></div>
         <input name="BaiTapGiaoId" value="@Model.Id" type="hidden">
         <input name="MaThaoTac" value="@input.MaThaoTac" type="hidden">
@@ -43,31 +46,41 @@ else
         <button class="btn btn-primary">Nộp bài · lần @(submissions.Count + 1)</button>
     </form>
 }
-<h2>Lịch sử nộp bài</h2>
+</div>
+<section class="assignment-history" aria-labelledby="submission-history-title">
+<div class="heading"><h2 id="submission-history-title">Lịch sử nộp bài</h2><span class="muted">@submissions.Count lần nộp</span></div>
+@if (submissions.Count == 0)
+{
+    <div class="empty"><h3>Chưa có bài nộp</h3><p>Bài làm và kết quả chấm sẽ xuất hiện tại đây.</p></div>
+}
 @foreach (var n in submissions)
 {
     var result = results.FirstOrDefault(x => x.BaiTapNopId == n.Id);
     var edited = gradeInput?.BaiTapNopId == n.Id ? gradeInput : null;
-    <article class="card">
-        <h3>Lần @n.LanNop · @(n.NopLuc > Model.HanNopLuc ? "Nộp muộn" : "Đã nộp")</h3>
-        <small>@Rules.Date(n.NopLuc)</small>
+    <article class="card submission-card">
+        <header class="submission-heading"><div><h3>Lần nộp @n.LanNop</h3><time datetime="@n.NopLuc.ToString("O")">@Rules.Date(n.NopLuc)</time></div>
+        <span class="submission-state" data-state="@(n.NopLuc > Model.HanNopLuc ? "late" : "submitted")">@(n.NopLuc > Model.HanNopLuc ? "Nộp muộn" : "Đúng hạn")</span></header>
         <p class="pre">@n.NoiDung</p>
         @foreach (var f in files.Where(x => x.BaiTapNopId == n.Id)) { <partial name="_TepLienKet" model='new EduConnect.Mvc.ViewModels.TepLienKetViewModel(f, "Tai")' /> }
         @if (result != null)
         {
-            <div class="alert alert-success notice success"><strong>@(result.Diem == null ? "Nhận xét không có điểm" : "Điểm: " + result.Diem)</strong><p class="pre">@result.NhanXet</p></div>
+            <div class="submission-result"><div class="submission-score"><span>@(result.Diem == null ? "Kết quả" : "Điểm")</span><strong>@(result.Diem?.ToString("0.##") ?? "Đã nhận xét")</strong>@if (result.Diem != null) { <small>/ 10</small> }</div><p class="pre">@result.NhanXet</p></div>
         }
         @if (tutor && c.TrangThai == "DangHoatDong" && n.Id == submissions.First().Id)
         {
+            <details class="assignment-grading" open="@(result == null || edited != null)">
+            <summary>@(result == null ? "Chấm bài" : "Chỉnh sửa kết quả")</summary>
             <form method="post" asp-action="Cham">
                 <div asp-validation-summary="All" class="validation"></div>
                 <input name="BaiTapGiaoId" value="@Model.Id" type="hidden">
                 <input name="BaiTapNopId" value="@n.Id" type="hidden">
                 <input name="RowVersion" value="@(edited != null ? edited.RowVersion : result == null ? "" : Convert.ToBase64String(result.RowVersion))" type="hidden">
-                <label>Điểm (không bắt buộc, 0–10)<input class="form-control" type="number" name="Diem" value="@((edited != null ? edited.Diem : result?.Diem)?.ToString(System.Globalization.CultureInfo.InvariantCulture))" min="0" max="10" step="0.01"></label>
+                <label>Điểm<input class="form-control" type="number" name="Diem" value="@((edited != null ? edited.Diem : result?.Diem)?.ToString(System.Globalization.CultureInfo.InvariantCulture))" min="0" max="10" step="0.01"><small>Từ 0 đến 10; có thể chỉ nhận xét.</small></label>
                 <label>Nhận xét<textarea class="form-control" name="NhanXet" required maxlength="2000">@(edited != null ? edited.NhanXet : result?.NhanXet)</textarea></label>
                 <button class="btn btn-primary">@(result == null ? "Lưu nhận xét và điểm" : "Cập nhật kết quả")</button>
             </form>
+            </details>
         }
     </article>
 }
+</section>

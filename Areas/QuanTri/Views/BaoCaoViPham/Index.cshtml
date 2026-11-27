@@ -20,7 +20,7 @@
     <h1>@ViewData["Title"]</h1>
     @if (admin)
     {
-        <nav class="report-queue" aria-label="Hàng chờ báo cáo">
+        <nav class="report-queue report-queue-tabs" aria-label="Hàng chờ báo cáo">
             <a class="btn @(state.Length == 0 ? "btn-primary" : "btn-outline-primary")" asp-action="Index"
                asp-route-quanTri="true" asp-route-q="@query" asp-route-nguoiGui="@reporterFilter" aria-current="@(state.Length == 0 ? "page" : null)">Tất cả</a>
             @foreach (var filter in filters)

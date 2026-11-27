@@ -13,7 +13,7 @@
         <span>@Rules.Label(Model.HinhThucHoc)</span>
     </div>
     <p class="candidate-goal">@Model.MucTieu</p>
-    @if (!string.IsNullOrWhiteSpace(Model.KhuVuc)) { <small>@string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value)))</small> }
+    <small class="candidate-location">@(string.IsNullOrWhiteSpace(Model.KhuVuc) ? Model.HinhThucHoc == "TrucTuyen" ? "Học trực tuyến" : "Trao đổi địa điểm khi liên hệ" : string.Join(", ", new[] { Model.PhuongXa, Model.KhuVuc }.Where(value => !string.IsNullOrWhiteSpace(value))))</small>
     <strong class="price">@Rules.Fee(Model.HocPhiDuKien, Model.DonViHocPhi)</strong>
     <p class="slot-text">@string.Join(" · ", Model.Slots.OrderBy(slot => slot.ThuTrongTuan).ThenBy(slot => slot.GioBatDau).Select(slot => $"{(slot.ThuTrongTuan == 0 ? "CN" : "T" + (slot.ThuTrongTuan + 1))} {slot.GioBatDau:HH:mm}–{slot.GioKetThuc:HH:mm}"))</p>
 </div>

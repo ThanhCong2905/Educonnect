@@ -19,7 +19,7 @@
         var isUnread=notice.DaDocLuc==null;
         <form method="post" action="/Home/Doc" class="notice-item @(isUnread?"notice-unread":"notice-read")">
             @Html.AntiForgeryToken()<input type="hidden" name="id" value="@notice.Id">
-            <div class="notice-top"><span class="notice-read-state"><span class="notice-dot" aria-hidden="true"></span>@(isUnread?"Chưa đọc":"Đã đọc")</span><time datetime="@notice.TaoLuc.ToString("O")">@Rules.Date(notice.TaoLuc)</time></div>
+            <div class="notice-top"><div class="notice-meta"><span class="state-tag notice-category" data-kind="@notice.LoaiThongBao">@Rules.Label(notice.LoaiThongBao)</span><span class="notice-read-state">@(isUnread?"Chưa đọc":"Đã đọc")</span></div><time datetime="@notice.TaoLuc.ToString("O")">@Rules.Date(notice.TaoLuc)</time></div>
             <h3>@notice.NoiDungTomTat</h3><button class="notice-open btn btn-outline-primary" type="submit">Xem chi tiết <span aria-hidden="true">→</span></button>
         </form>
     }
