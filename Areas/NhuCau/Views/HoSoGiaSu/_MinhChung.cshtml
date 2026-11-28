@@ -17,7 +17,6 @@
         @Html.ValidationMessage(fileField)
         @Html.ValidationMessage(idField)
     </label>
-    <button type="button" class="btn btn-outline-primary btn-sm mt-2" data-clear-evidence hidden>Bỏ tệp đã chọn</button>
     @if (Model != null)
     {
         <div class="profile-evidence-current" data-saved-evidence>
@@ -34,7 +33,7 @@
             {
                 <small class="muted">Chưa quét mã độc</small>
             }
+            <button type="button" class="upload-remove saved-evidence-remove" data-remove-saved-evidence aria-label="Bỏ tệp @Model.TenGoc" title="Bỏ tệp đã lưu khi lưu hồ sơ">×</button>
         </div>
-        <button type="button" class="btn btn-outline-primary btn-sm mt-2" data-remove-saved-evidence>Bỏ tệp đã lưu</button>
     }
 </div>

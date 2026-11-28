@@ -12,8 +12,8 @@
     list-style: none;
 }
 .sidebar nav .nav-group summary::-webkit-details-marker { display: none; }
-.sidebar nav .nav-group summary::after { content: '⌄'; margin-left: auto; font-size: 16px; }
-.sidebar nav .nav-group[open] summary::after { transform: rotate(180deg); }
+.sidebar nav .nav-group summary::after { content: ''; width: 7px; height: 7px; flex: 0 0 7px; margin-left: auto; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+.sidebar nav .nav-group[open] summary::after { transform: rotate(225deg); }
 .sidebar nav .nav-group summary:hover { background: var(--page); }
 .sidebar nav .nav-group.active > summary { color: var(--accent); }
 .nav-group-links { display: grid; gap: 4px; padding: 4px 0 8px 14px; }
@@ -27,12 +27,27 @@
 .avatar.avatar-tone-2 { background: #e2efe7; color: #2c624b; }
 .avatar.avatar-tone-3 { background: #f5ebda; color: #775518; }
 .account-menu { color: var(--ink); }
+.rating-unrated { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; }
+.rating-stars-empty { color: #8893a3; font-size: 21px; line-height: 1; letter-spacing: 1px; white-space: nowrap; }
 .account-menu:hover { color: var(--accent); }
 .account-menu-label, .person > :last-child { min-width: 0; }
 .account-menu .avatar, .person > .avatar { flex-shrink: 0; }
 .person .person-name, .person > div > h3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; text-wrap: balance; line-height: 1.3; }
 .account-menu .person-name { font-size: .94rem; line-height: 1.3; }
 .account-menu-label small { margin-top: .2rem; }
+.profile-evidence-current { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+.profile-evidence-current > a { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.saved-evidence-remove { border: 0; background: transparent; color: var(--accent); min-height: 36px; cursor: pointer; font-size: 20px; border-radius: 8px; }
+.saved-evidence-remove:hover { background: var(--subtle); }
+.saved-evidence-remove:focus-visible { outline: 2px solid var(--accent); }
+.upload-selected-file > .upload-remove { min-width: 36px; min-height: 36px; padding: 0; border: 0; background: transparent; font-size: 20px; }
+.upload-selected-file > .upload-remove:hover { background: var(--subtle); }
+.profile-edit-fields[disabled] [data-clear-all-evidence] { display: none; }
+.sidebar .account-menu { gap: 10px; padding-inline: 4px; }
+.sidebar .account-menu .avatar { width: 36px; height: 36px; flex-basis: 36px; font-size: 14px; }
+.sidebar .account-menu-label { flex: 1; text-align: left; }
+.sidebar .account-menu .person-name { display: block; font-size: 13px; white-space: nowrap; text-wrap: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar .account-menu-label small { font-size: 12px; }
 .account-details-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .65rem; margin-bottom: .85rem; }
 .account-details-heading h2 { margin: 0; }
 .account-details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.4rem; margin: 0; }

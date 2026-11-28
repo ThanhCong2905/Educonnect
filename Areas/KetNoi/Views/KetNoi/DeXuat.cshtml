@@ -23,7 +23,16 @@
 <div class="proposal-fields">
 <label>Môn học<select class="form-select" asp-for="MonHocId">@foreach(var s in (List<MonHoc>)ViewBag.Subjects){<option value="@s.Id">@s.TenMon</option>}</select><span asp-validation-for="MonHocId"></span></label>
 
-<label>Nhu cầu bên học<select class="form-select" asp-for="NhuCauId" data-proposal-need><option value="">Chưa gắn nhu cầu</option>@foreach(var need in (List<NhuCauHoc>)ViewBag.ProposalNeeds){<option value="@need.Id" selected="@(Model.NhuCauId==need.Id)" data-learner="@need.TenNguoiHoc" data-subject="@need.MonHocId" data-goal="@need.MucTieu" data-sessions="@need.SoBuoiTuan" data-mode="@need.HinhThucHoc" data-address="@need.DiaChiChiTiet">@need.KhoiLop · @need.MucTieu</option>}</select><span asp-validation-for="NhuCauId"></span></label>
+<label>Nhu cầu bên học
+<select class="form-select" asp-for="NhuCauId" data-proposal-need>
+    <option value="">Chưa gắn nhu cầu</option>
+    @foreach (var need in (List<NhuCauHoc>)ViewBag.ProposalNeeds)
+    {
+        var schedules = (Dictionary<Guid, List<SlotInput>>)ViewBag.ProposalSlots;
+        var slots = System.Text.Json.JsonSerializer.Serialize(schedules.GetValueOrDefault(need.Id) ?? []);
+        <option value="@need.Id" selected="@(Model.NhuCauId==need.Id)" data-learner="@need.TenNguoiHoc" data-subject="@need.MonHocId" data-goal="@need.MucTieu" data-sessions="@need.SoBuoiTuan" data-mode="@need.HinhThucHoc" data-address="@need.DiaChiChiTiet" data-slots="@slots">@need.KhoiLop · @need.MucTieu</option>
+    }
+</select><span asp-validation-for="NhuCauId"></span></label>
 
 <label>Số buổi / tuần<input class="form-control" asp-for="SoBuoiTuan" type="number" min="1" max="7"><span asp-validation-for="SoBuoiTuan"></span></label>
 

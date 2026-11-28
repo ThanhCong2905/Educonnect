@@ -22,7 +22,7 @@
         {
             <section class="request-preview"><h2>Nhu cầu đã gửi</h2><div class="request-slots"><span>@need.KhoiLop</span><span>@Rules.Label(need.HinhThucHoc)</span></div><p class="request-goal pre mt-3">@need.MucTieu</p></section>
         }
-        @if (active) { <p class="request-expiry">Gia sư chuẩn bị đề xuất lớp để bên học xem và xác nhận.</p> }
+        @if (active) { <p class="request-expiry">Gia sư gửi đề xuất lớp để bên học xem và xác nhận.</p> }
     }
     else
     {
@@ -51,7 +51,7 @@
                 <button class="btn btn-outline-primary" name="action" data-confirm="@(senderId == me.Id ? "Bạn muốn rút đề xuất này?" : "Bạn muốn từ chối đề xuất này?")" value="@(senderId == me.Id ? "DaRut" : "TuChoi")">@(senderId == me.Id ? "Rút yêu cầu" : "Từ chối")</button>
             </form>
             @if (me.Id == Model.GiaSuId)
-            { <a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@Model.LienHeId" asp-route-id="@Model.Id">Chuẩn bị đề xuất lớp</a> }
+            { <a data-modal class="btn btn-primary" asp-action="DeXuat" asp-route-contact="@Model.LienHeId" asp-route-id="@Model.Id">Đề xuất lớp</a> }
             @if (Model.NguoiDeXuatId == Model.GiaSuId && Model.BenHocId == me.Id)
             {
                 <form method="post" asp-action="ChapNhan"><input name="id" value="@Model.Id" type="hidden"><input name="rowVersion" value="@Convert.ToBase64String(Model.RowVersion)" type="hidden"><button class="btn btn-primary">Xác nhận và tạo lớp</button></form>

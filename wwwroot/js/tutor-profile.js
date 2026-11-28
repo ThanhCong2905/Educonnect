@@ -48,8 +48,9 @@
  document.addEventListener('change',event=>{
   if(event.target.matches('.profile-evidence-upload input[type="file"]')){
    const group=event.target.closest('.profile-evidence-upload');
-   group.querySelector('[data-evidence-filename]').textContent=event.target.files[0]?.name||'Chưa chọn tệp mới';
-   group.querySelector('[data-clear-evidence]').hidden=event.target.files.length===0;
+   group.querySelector('[data-evidence-filename]').textContent=event.target.files.length?'1 tệp đã chọn':'Chưa chọn tệp mới';
+   const saved=group.querySelector('[data-saved-evidence]');if(saved)saved.hidden=event.target.files.length>0;
+   event.target.form.querySelector('[data-clear-all-evidence]').hidden=![...event.target.form.querySelectorAll('.profile-evidence-upload input[type="file"]')].some(input=>input.files.length>0);
    updateEvidence(event.target.form);
   }
   if(event.target.matches('[data-subject-select]'))custom(event.target);
@@ -71,6 +72,19 @@
      input.dispatchEvent(new Event('change',{bubbles:true}));
     }
    }
+   const slots=JSON.parse(option.dataset.slots||'[]'),list=form.querySelector('[data-slot-list]'),add=form.querySelector('[data-add-slot]');
+   if(slots.length&&list&&add){
+    list.replaceChildren();add.disabled=false;
+    for(const slot of slots){
+     add.click();const row=list.lastElementChild;
+     for(const [property,value] of [['ThuTrongTuan',String(slot.ThuTrongTuan)],['GioBatDau',slot.GioBatDau.slice(0,5)],['GioKetThuc',slot.GioKetThuc.slice(0,5)]]){
+      const input=row.querySelector('[name$=".'+property+'"]');input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));
+     }
+    }
+    const lengths=slots.map(slot=>{const minutes=time=>Number(time.slice(0,2))*60+Number(time.slice(3,5));return minutes(slot.GioKetThuc)-minutes(slot.GioBatDau);});
+    if(lengths[0]>0&&lengths[0]<=480&&lengths.every(value=>value===lengths[0]))form.elements.ThoiLuongPhut.value=String(lengths[0]);
+    list.dispatchEvent(new Event('edu:slots-restored'));window.EduConnect.initTimePickers?.(form);
+   }
   }
  });
  document.addEventListener('click',event=>{
@@ -80,15 +94,15 @@
    const input=group.querySelector('input[type="hidden"]');
    input.value=input.value?'':group.dataset.currentEvidence;
    group.querySelector('[data-saved-evidence]').classList.toggle('is-pending-removal',!input.value);
-   savedButton.textContent=input.value?'Bỏ tệp đã lưu':'Hoàn tác bỏ tệp';
+   savedButton.textContent=input.value?'×':'↶';
+   savedButton.setAttribute('aria-label',input.value?'Bỏ tệp đã lưu':'Hoàn tác bỏ tệp');savedButton.title=input.value?'Bỏ tệp đã lưu khi lưu hồ sơ':'Hoàn tác bỏ tệp';
    updateEvidence(savedButton.form);
    input.dispatchEvent(new Event('change',{bubbles:true}));
    return;
   }
-  const button=event.target.closest('[data-clear-evidence]');
+  const button=event.target.closest('[data-clear-all-evidence]');
   if(!button)return;
-  const input=button.closest('.profile-evidence-upload').querySelector('input[type="file"]');
-  input.value='';input.dispatchEvent(new Event('change',{bubbles:true}));
+  button.form.querySelectorAll('.profile-evidence-upload input[type="file"]').forEach(input=>{input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));});
  });
  const allowed=new WeakSet();let pending;
  document.addEventListener('submit',event=>{

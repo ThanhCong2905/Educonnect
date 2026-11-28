@@ -30,7 +30,7 @@
 </fieldset>
 <details class="filter-more">
 <summary><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 17h16M9 4v6M15 14v6"/></svg>Lọc thêm</summary>
-<div class="filter-advanced">
+<div class="filter-advanced" data-columns="@(canMatch ? 3 : 2)">
 <fieldset class="filter-group">
     <legend>Đánh giá và độ phù hợp</legend>
     @if (!needs || User.IsInRole("GiaSu"))

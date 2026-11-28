@@ -141,6 +141,17 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
         return await (from subject in db.Set<MonHoc>() join taught in db.Set<HoSoGiaSuMonDay>() on subject.Id equals taught.MonHocId join profile in db.Set<HoSoGiaSu>() on taught.HoSoGiaSuId equals profile.Id where profile.GiaSuId == relation.GiaSuId && subject.DangSuDung select subject).AsNoTracking().ToListAsync();
     }
 
+    public async Task<Dictionary<Guid, List<SlotInput>>> LichNhuCauDeXuatAsync(Guid contact)
+    {
+        var needs = await NhuCauDeXuatAsync(contact);
+        var ids = needs.Select(need => need.Id).ToList();
+        var slots = await db.Set<KhungGioRanh>().AsNoTracking().Where(slot => ids.Contains(slot.NhuCauId))
+            .OrderBy(slot => (slot.ThuTrongTuan + 6) % 7).ThenBy(slot => slot.GioBatDau).ThenBy(slot => slot.Id)
+            .ToListAsync();
+        return slots.GroupBy(slot => slot.NhuCauId).ToDictionary(group => group.Key,
+            group => group.Select(slot => new SlotInput { ThuTrongTuan = slot.ThuTrongTuan, GioBatDau = slot.GioBatDau, GioKetThuc = slot.GioKetThuc }).ToList());
+    }
+
     public async Task<DeXuatLopViewModel> LayDeXuatAsync(Guid contact, Guid? id)
     {
         var viewer = await current.HienTaiAsync();
@@ -158,6 +169,12 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
         Rules.Check(r.TrangThai != "NhuCauDaKetNoi", "Nhu cầu đã được kết nối. Đề nghị này đã kết thúc.", 409);
         var slots = await db.Set<KhungGioDeXuat>().Where(x => x.YeuCauKetNoiId == id).Select(x => new SlotInput { ThuTrongTuan = x.ThuTrongTuan, GioBatDau = x.GioBatDau, GioKetThuc = x.GioKetThuc }).ToListAsync();
         var need = await db.Set<NhuCauHoc>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == r.NhuCauId);
+        if (slots.Count == 0 && r.NguoiDeXuatId == null && need != null)
+            slots = await db.Set<KhungGioRanh>().AsNoTracking().Where(slot => slot.NhuCauId == need.Id)
+                .OrderBy(slot => (slot.ThuTrongTuan + 6) % 7).ThenBy(slot => slot.GioBatDau).ThenBy(slot => slot.Id)
+                .Select(slot => new SlotInput { ThuTrongTuan = slot.ThuTrongTuan, GioBatDau = slot.GioBatDau, GioKetThuc = slot.GioKetThuc }).ToListAsync();
+        var duration = slots.Count > 0 ? (int)(slots[0].GioKetThuc - slots[0].GioBatDau).TotalMinutes : 0;
+        var sameDuration = duration is > 0 and <= 480 && slots.All(slot => (slot.GioKetThuc - slot.GioBatDau).TotalMinutes == duration);
         return new()
         {
             Id = id,
@@ -169,7 +186,7 @@ public sealed partial class KetNoiService(AppDbContext db, NguoiDungHienTaiServi
             MonHocId = r.MonHocId ?? need?.MonHocId ?? 1,
             MucTieu = r.MucTieu ?? need?.MucTieu ?? "",
             SoBuoiTuan = r.SoBuoiTuan ?? need?.SoBuoiTuan ?? 1,
-            ThoiLuongPhut = r.ThoiLuongPhut ?? 90,
+            ThoiLuongPhut = r.ThoiLuongPhut ?? (sameDuration ? duration : 90),
             BatDauHocLuc = r.BatDauHocLuc?.ToOffset(TimeSpan.FromHours(7)).DateTime ?? DateTime.Today.AddDays(2),
             HinhThucHoc = r.HinhThucHoc ?? (need?.HinhThucHoc == "CaHai" ? "" : need?.HinhThucHoc ?? "TrucTuyen"),
             DiaDiem = r.DiaDiem ?? need?.DiaChiChiTiet,

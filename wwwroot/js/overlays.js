@@ -135,7 +135,7 @@
       if(await window.EduConnect.afterAjaxSubmit?.(form,result,data))return;
       if(otherChanges && (inModal || result.redirectUrl))window.EduConnect.resetPageChanges();
       if(result.message)sessionStorage.setItem('educonnect:toast',result.message);
-      if(form.hasAttribute('data-follow-redirect') && result.redirectUrl){
+      if((form.hasAttribute('data-follow-redirect') || button?.hasAttribute('data-follow-redirect')) && result.redirectUrl){
         const redirect=new URL(result.redirectUrl,location.href);
         if(redirect.origin===location.origin){window.EduConnect.resetPageChanges();location.assign(redirect);return;}
       }

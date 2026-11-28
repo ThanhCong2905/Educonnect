@@ -18,8 +18,10 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiServ
             subjects.AddRange((await service.MonTenAsync()).Where(x => model.MonHocIds.Contains(x.Id)));
         ViewBag.Subjects = subjects.DistinctBy(x => x.Id).ToList();
     }
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string state = "DangMo")
     {
+        Rules.Check(state is "DangMo" or "DaDong" or "BanNhap", "Trạng thái nhu cầu không hợp lệ.");
+        ViewData["SelectedNeedState"] = state;
         if ((await current.HienTaiAsync()).LoaiNguoi == "GiaSu") return RedirectToAction("Sua", "HoSoGiaSu");
         ViewBag.Subjects = await service.MonTenAsync();
         ViewBag.Linked = await service.DaKetNoiAsync();
@@ -78,7 +80,7 @@ public sealed class NhuCauController(NhuCauService service, NguoiDungHienTaiServ
             if (result.ThanhCong)
             {
                 Success(vm.MaNhuCau.HasValue ? "Cập nhật nhu cầu thành công" : vm.BanNhap ? "Đã lưu nháp" : "Tạo nhu cầu thành công");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { state = vm.BanNhap ? "BanNhap" : "DangMo" });
             }
             ModelState.AddModelError(result.Truong ?? "", result.ThongBao!);
         }

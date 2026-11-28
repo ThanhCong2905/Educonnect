@@ -20,11 +20,17 @@
         <div class="col-md-6"><label>Giờ kết thúc<input class="form-control" id="batch-end" required type="time" value="@endTime.ToString("HH:mm")"></label></div>
     </div>
     <section class="schedule-section">
+        <div class="schedule-methods" aria-label="Cách thêm lịch">
+            <button type="button" data-schedule-mode="single" aria-pressed="true" aria-controls="schedule-single">Chọn ngày</button>
+            <button type="button" data-schedule-mode="repeat" aria-pressed="false" aria-controls="schedule-repeat">Lặp theo thứ</button>
+        </div>
+        <div id="schedule-single" data-single-panel>
         <div class="heading"><h2>Chọn ngày học</h2><label class="calendar-month-label">Tháng<input class="form-control" type="month" id="batch-month" value="@first.ToString("yyyy-MM")"></label></div>
-        <p class="muted">Chọn ngày để thêm buổi, chọn lại để bỏ.</p>
+        <p class="muted">Chọn ngày để thêm khung giờ bên trên. Đổi giờ để thêm buổi khác cùng ngày.</p>
         <div id="calendar" class="calendar" aria-label="Chọn ngày học"></div>
-        <details class="schedule-section">
-            <summary>Lặp theo thứ trong khoảng ngày</summary>
+        </div>
+        <section id="schedule-repeat" class="schedule-section" data-repeat-panel hidden>
+            <h2>Lặp theo thứ</h2>
             <fieldset>
                 <legend class="visually-hidden">Ngày lặp trong tuần</legend>
                 <div class="weekday-options">
@@ -39,7 +45,7 @@
                 </div>
                 <button type="button" id="apply-weekdays" class="btn btn-outline-primary mt-3">Thêm các buổi lặp</button>
             </fieldset>
-        </details>
+        </section>
         <p id="calendar-feedback" role="status" aria-live="polite"></p>
     </section>
     <section class="schedule-section">

@@ -45,5 +45,6 @@ else {<button class="btn @(Model.TrangThaiDuyet=="DaDuyet"?"btn-outline-primary"
 <button type="button" class="btn btn-outline-primary" data-add-subject>+ Thêm môn dạy</button>
 <template data-subject-template>@await Html.PartialAsync("_MonDayRow",new EduConnect.Mvc.Areas.NhuCau.ViewModels.MonDayInput{PhamViDay="Lớp 10–12"},new ViewDataDictionary(ViewData){["RowIndex"]="__index__"})</template>
 <p class="muted mt-3 profile-edit-help">Tối đa 5 tệp minh chứng, 10 MB/tệp. Chỉ bạn và quản trị kiểm duyệt được xem. Bấm Lưu hồ sơ để lưu các tệp đã chọn.</p>
+<button type="button" class="btn btn-outline-primary btn-sm mb-3" data-clear-all-evidence hidden>Bỏ chọn tất cả</button>
 @if(!locked){<div class="actions"><button class="btn btn-primary">Lưu hồ sơ</button>@if(Model.RowVersion!=null){<a class="btn btn-outline-primary" asp-action="Sua">Hủy chỉnh sửa</a>}</div>}
 </fieldset></form>

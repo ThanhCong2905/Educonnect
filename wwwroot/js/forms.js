@@ -11,8 +11,14 @@ window.EduConnect.initFilePickers=(root=document)=>{
   if(picker.hasAttribute('data-chat-files'))list=picker.form.querySelector('[data-chat-file-selection]');
   if(!list){list=document.createElement('ul');list.setAttribute('aria-label','Tệp đã chọn');(picker.closest('label')||picker).after(list);}
   list.classList.add('upload-selection');
+  let clearAll=picker.form?.querySelector('[data-clear-all-files]');
+  if(picker.form&&!picker.form.querySelector('[data-clear-all-evidence]')&&!clearAll){
+   clearAll=document.createElement('button');clearAll.type='button';clearAll.className='btn btn-outline-primary btn-sm mb-3';clearAll.dataset.clearAllFiles='';clearAll.textContent='Bỏ chọn tất cả';list.after(clearAll);
+   clearAll.addEventListener('click',()=>{picker.form.querySelectorAll('input[type="file"]').forEach(input=>{input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));});});
+  }
   function render(){
    list.replaceChildren();
+   if(clearAll)clearAll.hidden=![...picker.form.querySelectorAll('input[type="file"]')].some(input=>input.files.length>0);
    [...picker.files].forEach((file,index)=>{
     const row=document.createElement('li');row.className='upload-selected-file';
     const info=document.createElement('span');info.textContent=file.name+' · '+window.EduConnect.fileSize(file.size);

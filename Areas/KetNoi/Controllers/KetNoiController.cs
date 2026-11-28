@@ -58,6 +58,7 @@ public sealed class KetNoiController(KetNoiService service, NhuCauService needs)
     {
         ViewBag.Subjects = await service.MonDeXuatAsync(contact);
         ViewBag.ProposalNeeds = await service.NhuCauDeXuatAsync(contact);
+        ViewBag.ProposalSlots = await service.LichNhuCauDeXuatAsync(contact);
         var all = await service.LayAsync();
         var c = all.Contacts.Single(x => x.Id == contact);
         ViewBag.Learner = c.BenHocId;

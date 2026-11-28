@@ -1,4 +1,9 @@
 .class-heading { margin-bottom: 20px; }
+.schedule-methods { display: flex; gap: 8px; margin-bottom: 20px; }
+.schedule-methods button { flex: 1; padding: 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--muted); font-size: 14px; font-weight: 600; }
+.schedule-methods button[aria-pressed=true] { background: #fceef3; border-color: #dba4bb; color: var(--accent); }
+.schedule-methods button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.calendar-session-count { display: block; font-size: 10px; line-height: 1.3; }
 .classroom-list-heading h1 { margin-bottom: 8px; }
 .classroom-list-heading p { margin: 0; font-size: 14px; }
 .classroom-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
